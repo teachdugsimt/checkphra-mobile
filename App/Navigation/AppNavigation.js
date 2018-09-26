@@ -87,7 +87,8 @@ const UploadStack = StackNavigator(
           style={{ marginRight: 15 }}
           onPress={() => navigation.navigate("Auth")}
         />
-      )
+      ),
+      tabBarLabel: "ตรวจสอบพระ"
     })
   }
 )
@@ -119,7 +120,8 @@ const ProfileStack = StackNavigator(
           style={{ marginRight: 15 }}
           onPress={() => navigation.navigate("Auth")}
         />
-      )
+      ),
+      tabBarLabel: 'ข้อมูลส่วนตัว'
     })
   }
 );
@@ -153,7 +155,8 @@ const HistoryStack = StackNavigator(
           style={{ marginRight: 15 }}
           onPress={() => navigation.navigate("Auth")}
         />
-      )
+      ),
+      tabBarLabel: 'ประวัติการส่งตรวจพระ'
     })
   }
 );

@@ -16,17 +16,21 @@ class UploadScreen extends Component {
   //   super(props)
   //   this.state = {}
   // }
-  static navigationOptions = ({ navigation }) => {
-    const params = navigation.state.params || {};
+  // static navigationOptions = ({ navigation }) => {
+  //   const params = navigation.state.params || {};
 
-    return {
-      tabBarLabel: "ตรวจสอบพระ"
-    };
-  };
+  //   return {
+  //     tabBarLabel: "ตรวจสอบพระ"
+  //   };
+  // };
 
-  // getTypePhra = (name) => {
-  //   this.props.navigation.navigate("detail")
-  // }
+  getTypePhra = (name) => {
+    
+    console.log(name)
+    if(name == "เบญจภาคี"){
+      this.props.navigation.navigate("detail")
+    }
+  }
 
   render() {
     const items = [
@@ -62,7 +66,7 @@ class UploadScreen extends Component {
           items={items}
           renderItem={items => {
             return (
-              <TouchableOpacity onPress ={()=>this.props.navigation.navigate("detail")}>
+              <TouchableOpacity onPress ={()=>this.getTypePhra(items.name)}>
               <View
                 style={{
                   height: 90,

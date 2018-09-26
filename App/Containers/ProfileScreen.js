@@ -13,13 +13,7 @@ class ProfileScreen extends Component {
   //   super(props)
   //   this.state = {}
   // }
-  static navigationOptions = ({ navigation }) => {
-    const params = navigation.state.params || {};
 
-    return {
-      tabBarLabel: 'ข้อมูลส่วนตัว',
-    };
-  };
   render () {
     return (
       <LinearGradient

@@ -13,13 +13,7 @@ class HistoryScreen extends Component {
   //   super(props)
   //   this.state = {}
   // }
-  static navigationOptions = ({ navigation }) => {
-    const params = navigation.state.params || {};
 
-    return {
-      tabBarLabel: 'ประวัติการส่งตรวจพระ',
-    };
-  };
   render () {
     return (
       <LinearGradient

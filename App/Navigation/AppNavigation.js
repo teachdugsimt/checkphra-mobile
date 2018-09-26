@@ -5,6 +5,7 @@ import SigninScreen from "../Containers/SigninScreen";
 import LaunchScreen from "../Containers/LaunchScreen";
 import HistoryScreen from "../Containers/HistoryScreen";
 import DetailTypeScreen from "../Containers/DetailTypeScreen"
+import ChangePasswordScreen from "../Containers/ChangePasswordScreen"
 
 import styles from "./Styles/NavigationStyles";
 import React from "react";
@@ -96,7 +97,7 @@ const UploadStack = StackNavigator(
 const ProfileStack = StackNavigator(
   {
     profileScreen: { screen: ProfileScreen },
-   
+    change:{screen : ChangePasswordScreen}
   },
   {
     navigationOptions: ({ navigation }) => ({

@@ -6,6 +6,7 @@ import LaunchScreen from "../Containers/LaunchScreen";
 import HistoryScreen from "../Containers/HistoryScreen";
 import DetailTypeScreen from "../Containers/DetailTypeScreen"
 import ChangePasswordScreen from "../Containers/ChangePasswordScreen"
+import SendImageScreen from '../Containers/SendImageScreen'
 
 import styles from "./Styles/NavigationStyles";
 import React from "react";
@@ -64,7 +65,8 @@ const RegStack = StackNavigator(
 const UploadStack = StackNavigator(
   {
     uploadScreen: { screen: UploadScreen },
-    detail: { screen: DetailTypeScreen }
+    detail: { screen: DetailTypeScreen },
+    send:{screen : SendImageScreen}
   },
   {
     navigationOptions: ({ navigation }) => ({

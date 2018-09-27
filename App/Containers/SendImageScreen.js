@@ -1,0 +1,36 @@
+import React, { Component } from 'react'
+import { ScrollView, Text,View, TouchableOpacity} from 'react-native'
+import { connect } from 'react-redux'
+import LinearGradient from "react-native-linear-gradient";
+// Add Actions - replace 'Your' with whatever your reducer is called :)
+// import YourActions from '../Redux/YourRedux'
+
+// Styles
+import styles from './Styles/SendImageScreenStyle'
+
+class SendImageScreen extends Component {
+  // constructor (props) {
+  //   super(props)
+  //   this.state = {}
+  // }
+
+  render () {
+    return (
+      <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
+        
+      </LinearGradient>
+    )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SendImageScreen)

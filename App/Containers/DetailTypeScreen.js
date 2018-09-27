@@ -67,6 +67,7 @@ class DetailTypeScreen extends Component {
                     borderRadius: 15
                   }}
                 >
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate("send")}>
                   <Text
                     style={{
                       color: "white",
@@ -77,6 +78,7 @@ class DetailTypeScreen extends Component {
                   >
                     {items.name}
                   </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             );

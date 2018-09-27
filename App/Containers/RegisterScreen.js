@@ -42,7 +42,7 @@ class RegisterScreen extends Component {
               'Check Phra',
               'รหัสผ่านไม่ถูกต้อง ...',
               [
-                {text:'OK'},
+                {text:'ตกลง'},
               ],
               { cancelable: false }
             )
@@ -55,7 +55,7 @@ class RegisterScreen extends Component {
         'Check Phra',
         'กรุณากรอกข้อมูลให้ครบถ้วน...',
         [
-          {text:'OK'},
+          {text:'ตกลง'},
         ],
         { cancelable: false }
       )

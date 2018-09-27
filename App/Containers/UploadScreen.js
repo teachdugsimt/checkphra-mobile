@@ -30,6 +30,9 @@ class UploadScreen extends Component {
     if(name == "เบญจภาคี"){
       this.props.navigation.navigate("detail")
     }
+    else {
+      this.props.navigation.navigate("send")
+    }
   }
 
   render() {

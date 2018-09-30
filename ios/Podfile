@@ -8,6 +8,7 @@ target 'CheckPhra' do
   # Pods for CheckPhra
   pod 'Firebase/Core', '~> 5.9.0'
   pod 'Firebase/Auth'
+  pod 'FBSDKLoginKit'
 
   #target 'CheckPhra-tvOSTests' do
   #  inherit! :search_paths

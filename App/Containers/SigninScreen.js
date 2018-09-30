@@ -10,7 +10,8 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
 import LinearGradient from "react-native-linear-gradient";
 
-import firebase from 'react-native-firebase';
+// import { AccessToken, LoginManager } from 'react-native-fbsdk';
+// import firebase from 'react-native-firebase';
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -28,15 +29,36 @@ class SigninScreen extends Component {
     };
   }
 
-  fbLogin = () => {
-    firebase.auth()
-      .signInAnonymously()
-      .then(credential => {
-        if (credential) {
-          console.log('default app user ->', credential.user.toJSON());
-        }
-      });
-  }
+  // fbLogin = () => {
+  //   const facebookLogin = async () => {
+  //     try {
+  //       const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+
+  //       if (result.isCancelled) {
+  //         throw new Error('User cancelled request'); // Handle this however fits the flow of your app
+  //       }
+
+  //       console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+
+  //       // get the access token
+  //       const data = await AccessToken.getCurrentAccessToken();
+
+  //       if (!data) {
+  //         throw new Error('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
+  //       }
+
+  //       // create a new firebase credential with the token
+  //       const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+
+  //       // login with credential
+  //       const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+  //       console.info(JSON.stringify(currentUser.user.toJSON()))
+  //     } catch (e) {
+  //       console.error(e);
+  //     }
+  //   }
+  // }
 
   render() {
     // console.log(this.state.inputEmail)

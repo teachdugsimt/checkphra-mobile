@@ -33,8 +33,6 @@ class DetailTypeScreen extends Component {
             {"< กลับ"}
           </Text>
         </TouchableOpacity>
-       
-       
       )
     };
   };
@@ -52,35 +50,34 @@ class DetailTypeScreen extends Component {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <GridView
-          itemDimension={140}
+          itemDimension={150}
           items={items}
           renderItem={items => {
             return (
-              <View style={{ flex: 1, alignSelf: "center", marginTop: 20 }}>
-                <View
+              <TouchableOpacity onPress ={()=>this.getTypePhra(items.name)}>
+              <View
+                style={{
+                  height: 90,
+                  width: '100%',
+                  backgroundColor: Colors.button,
+                  justifyContent: "center",
+                  marginVertical: 5,
+                  borderRadius: 15,
+                  padding: 10
+                }}
+              >
+                <Text
                   style={{
-                    height: 90,
-                    width: 150,
-                    backgroundColor: Colors.button,
-                    justifyContent: "center",
-                    marginVertical: 5,
-                    borderRadius: 15
+                    color: "white",
+                    fontFamily: "Prompt-Regular",
+                    fontSize: 16,
+                    alignSelf: "center"
                   }}
                 >
-                <TouchableOpacity onPress={()=>this.props.navigation.navigate("send")}>
-                  <Text
-                    style={{
-                      color: "white",
-                      fontFamily: "Prompt-Regular",
-                      fontSize: 16,
-                      alignSelf: "center"
-                    }}
-                  >
-                    {items.name}
-                  </Text>
-                  </TouchableOpacity>
-                </View>
+                  {items.name}
+                </Text>
               </View>
+              </TouchableOpacity>
             );
           }}
         />

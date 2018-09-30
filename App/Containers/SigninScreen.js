@@ -102,7 +102,7 @@ class SigninScreen extends Component {
               width: 320,
               borderRadius: 10,
               alignSelf: "center",
-              top: 150
+              top: 130
             }}
           >
             <TextInput

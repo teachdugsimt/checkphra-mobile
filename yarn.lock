@@ -4620,6 +4620,10 @@ hyphenate-style-name@^1.0.1, hyphenate-style-name@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.2.tgz#31160a36930adaf1fc04c6074f7eb41465d4ec4b"
 
+i18n-js@^3.0.3:
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/i18n-js/-/i18n-js-3.0.11.tgz#f9e96bdb641c5b9d6be12759d7c422089987ef02"
+
 iconv-lite@0.4.19:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
@@ -6697,6 +6701,10 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
+opencollective-postinstall@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.0.tgz#5fe062f2706bb84150f7fb1af9f1277e46ec1388"
+
 opn@5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/opn/-/opn-5.2.0.tgz#71fdf934d6827d676cecbea1531f95d354641225"
@@ -7727,9 +7735,18 @@ react-native-drawer-layout@1.3.2:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
-react-native-i18n@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-i18n/-/react-native-i18n-1.0.0.tgz#0c407d9ebb846aae1aa5e05de6503008553f02fd"
+react-native-firebase@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-5.0.0.tgz#8cdc24e5f705146f5d031ca319f9310e0b4ce5f4"
+  dependencies:
+    opencollective-postinstall "^2.0.0"
+    prop-types "^15.6.2"
+
+react-native-i18n@2.0.12:
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/react-native-i18n/-/react-native-i18n-2.0.12.tgz#4a503cc73b2fe55e8518f6d4a1340d3b449d8d1a"
+  dependencies:
+    i18n-js "^3.0.3"
 
 react-native-iphone-x-helper@^1.0.2:
   version "1.1.0"
@@ -7744,6 +7761,13 @@ react-native-safe-area-view@0.11.0:
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.11.0.tgz#4f3dda43c2bace37965e7c6aef5fc83d4f19d174"
   dependencies:
     hoist-non-react-statics "^2.3.1"
+
+react-native-super-grid@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-super-grid/-/react-native-super-grid-2.4.3.tgz#ceeaa4515de7bdb2e3cc3f810009e1adbbadd40b"
+  dependencies:
+    lodash "^4.17.10"
+    prop-types "^15.6.0"
 
 "react-native-tab-view@github:react-navigation/react-native-tab-view":
   version "0.0.74"

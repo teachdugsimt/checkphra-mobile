@@ -25,7 +25,7 @@ class UploadScreen extends Component {
   // };
 
   getTypePhra = (name) => {
-    
+
     console.log(name)
     if(name == "เบญจภาคี"){
       this.props.navigation.navigate("detail")
@@ -73,11 +73,12 @@ class UploadScreen extends Component {
               <View
                 style={{
                   height: 90,
-                  width: 120,
+                  width: '100%',
                   backgroundColor: Colors.button,
                   justifyContent: "center",
                   marginVertical: 5,
-                  borderRadius: 15
+                  borderRadius: 15,
+                  padding: 10
                 }}
               >
                 <Text

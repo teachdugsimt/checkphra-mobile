@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "489273191976",
+    "firebase_url": "https://check-phra.firebaseio.com",
+    "project_id": "check-phra",
+    "storage_bucket": "check-phra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489273191976:android:436e0df94d9c7296",
+        "android_client_info": {
+          "package_name": "com.infiltech.checkphra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489273191976-lp4e285v81snccl3ah23uif2lpvuhfjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo9aEepZhR_G732sKLJHkRbBkNlG_ywHg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

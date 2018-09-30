@@ -9,6 +9,9 @@ import {
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
 import LinearGradient from "react-native-linear-gradient";
+
+import firebase from 'react-native-firebase';
+
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -25,7 +28,15 @@ class SigninScreen extends Component {
     };
   }
 
-
+  fbLogin = () => {
+    firebase.auth()
+      .signInAnonymously()
+      .then(credential => {
+        if (credential) {
+          console.log('default app user ->', credential.user.toJSON());
+        }
+      });
+  }
 
   render() {
     // console.log(this.state.inputEmail)
@@ -88,7 +99,7 @@ class SigninScreen extends Component {
                 marginLeft: 10,
                 lineHeight: 60
               }}
-              onChangeText={inputEmail => this.setState({ inputEmail})}
+              onChangeText={inputEmail => this.setState({ inputEmail })}
               value={this.state.inputEmail}
               placeholder="E-mail"
               underlineColorAndroid="rgba(0,0,0,0)"
@@ -112,9 +123,10 @@ class SigninScreen extends Component {
                 fontFamily: "Prompt-Regular",
                 fontSize: 16,
                 color: "white",
-                marginLeft: 10
+                marginLeft: 10,
+                lineHeight: 60
               }}
-              onChangeText={inputPass => this.setState({ inputPass})}
+              onChangeText={inputPass => this.setState({ inputPass })}
               value={this.state.inputPass}
               placeholder="Password"
               underlineColorAndroid="rgba(0,0,0,0)"
@@ -135,17 +147,17 @@ class SigninScreen extends Component {
               alignSelf: "center"
             }}
           >
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate("App")}>
-            <Text
-              style={{
-                fontFamily: "Prompt-Light",
-                fontSize: 18,
-                alignSelf: "center",
-                marginTop: 5,
-                color: "white"
-              }}
-            >
-              เข้าสู่ระบบ
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("App")}>
+              <Text
+                style={{
+                  fontFamily: "Prompt-Light",
+                  fontSize: 18,
+                  alignSelf: "center",
+                  marginTop: 5,
+                  color: "white"
+                }}
+              >
+                เข้าสู่ระบบ
             </Text>
             </TouchableOpacity>
           </View>
@@ -176,41 +188,44 @@ class SigninScreen extends Component {
           </TouchableOpacity>
         </View>
 
-        <View
-          style={{
-            backgroundColor: "red",
-            height: 45,
-            position: "absolute",
-            top: 510,
-            width: 300,
-            borderRadius: 10,
-            backgroundColor: "#104E8B",
-            alignSelf: "center"
-          }}
-        >
-          <Icon
-            name="facebook-square"
-            size={28}
-            color="white"
+          <View
             style={{
+              backgroundColor: "red",
+              height: 45,
               position: "absolute",
-              marginHorizontal: 20,
-              marginVertical: 8
-            }}
-          />
-          <Text
-            style={{
-              fontFamily: "Prompt-Regular",
-              fontSize: 18,
-              color: "white",
-              alignSelf: "center",
-              marginTop: 8,
-              marginLeft: 25
+              top: 510,
+              width: 300,
+              borderRadius: 10,
+              backgroundColor: "#104E8B",
+              alignSelf: "center"
             }}
           >
-            เข้าสู่ระบบโดยใช้ Facebook
+          <TouchableOpacity  onPress={() => this.fbLogin()}>
+            <Icon
+              name="facebook-square"
+              size={28}
+              color="white"
+              style={{
+                position: "absolute",
+                marginHorizontal: 20,
+                marginVertical: 8
+              }}
+            />
+            <Text
+              style={{
+                fontFamily: "Prompt-Regular",
+                fontSize: 18,
+                color: "white",
+                alignSelf: "center",
+                marginTop: 8,
+                marginLeft: 25
+              }}
+            >
+              เข้าสู่ระบบโดยใช้ Facebook
           </Text>
-        </View>
+          </TouchableOpacity>
+          </View>
+
         {/* </View> */}
       </LinearGradient>
     );

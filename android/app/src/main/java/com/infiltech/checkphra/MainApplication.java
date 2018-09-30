@@ -5,7 +5,7 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import io.invertase.firebase.RNFirebasePackage;
-import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 // import com.i18n.reactnativei18n.ReactNativeI18n;
@@ -32,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new RNI18nPackage(),
             new RNFirebasePackage(),
+            new RNFirebaseAuthPackage(),
             new LinearGradientPackage(),
             new ReactNativeConfigPackage(),
             // new ReactNativeI18n(),

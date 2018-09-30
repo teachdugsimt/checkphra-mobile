@@ -137,8 +137,7 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-i18n')
-    compile project(':react-native-firebase')
+    implementation project(':react-native-i18n')
     implementation (project(':react-native-firebase')) {
         exclude group: "com.android.support"
     }

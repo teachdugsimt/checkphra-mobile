@@ -38,7 +38,7 @@ class SigninScreen extends Component {
         {/* <View style={{ flex: 1}}> */}
         <View
           style={{
-            height: 50,
+            height: 80,
             // backgroundColor: "red",
             marginTop: 50,
             alignSelf: "center",
@@ -49,7 +49,8 @@ class SigninScreen extends Component {
             style={{
               fontSize: 50,
               color: "white",
-              fontFamily: "Prompt-Regular"
+              fontFamily: "Prompt-Regular",
+              // lineHeight: 50
             }}
           >
             Check Phra
@@ -84,7 +85,8 @@ class SigninScreen extends Component {
                 fontFamily: "Prompt-Regular",
                 fontSize: 16,
                 color: "white",
-                marginLeft: 10
+                marginLeft: 10,
+                lineHeight: 60
               }}
               onChangeText={inputEmail => this.setState({ inputEmail})}
               value={this.state.inputEmail}

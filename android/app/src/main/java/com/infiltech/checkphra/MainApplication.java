@@ -8,7 +8,7 @@ import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.i18n.reactnativei18n.ReactNativeI18n;
+// import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -32,10 +32,9 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new RNI18nPackage(),
             new RNFirebasePackage(),
-            new RNFirebasePackage(),
             new LinearGradientPackage(),
             new ReactNativeConfigPackage(),
-            new ReactNativeI18n(),
+            // new ReactNativeI18n(),
             new VectorIconsPackage()
       );
     }

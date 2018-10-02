@@ -63,13 +63,16 @@ const create = (baseURL = b) => {
     body.append('user_id', user_id)
 
     questions.forEach((element, i) => {
-      body.append('question[' + i + ']', element.id)
+      body.append('question[' + i + ']', element)
     })
+    // body.append('question', questions)
 
     console.log(body)
 
     return api.post('question/add', body, { headers: { 'Content-Type': 'multipart/form-data' } })
   }
+
+  const getHistory = (data) => api.get('question/list', data)
 
   // ------
   // STEP 3
@@ -88,7 +91,8 @@ const create = (baseURL = b) => {
     getQuestionType,
     getAmuletType,
 
-    addQuestion
+    addQuestion,
+    getHistory
   }
 }
 

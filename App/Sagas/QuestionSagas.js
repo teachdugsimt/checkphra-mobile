@@ -61,10 +61,35 @@ export function * addQuestion (api) {
 
   // success?
   if (response.ok) {
+    alert("ส่งพระตรวจ สำเร็จ!!")
+    yield put(QuestionActions.clearForm())
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     // yield put(QuestionActions.getQuestionTypeSuccess(response.data))
   } else {
+    alert(response.problem)
+    yield put(QuestionActions.clearForm())
     // yield put(QuestionActions.getQuestionTypeFailure())
+  }
+}
+
+
+export function * getHistory (api) {
+
+  // const q = yield select(question)
+  const a = yield select(auth)
+
+  const data = {
+    user_id: a.user_id
+  }
+
+  const response = yield call(api.getHistory, data)
+  console.log(response)
+
+  // success?
+  if (response.ok) {
+    yield put(QuestionActions.getHistorySuccess(response.data))
+  } else {
+    yield put(QuestionActions.getHistoryFailure())
   }
 }

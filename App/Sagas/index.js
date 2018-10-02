@@ -15,7 +15,7 @@ import { QuestionTypes } from '../Redux/QuestionRedux'
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { signin, signinWithCredential } from './AuthSagas'
-import { getAmuletType, getQuestionType, addQuestion } from './QuestionSagas'
+import { getAmuletType, getQuestionType, addQuestion, getHistory } from './QuestionSagas'
 
 /* ------------- API ------------- */
 
@@ -39,6 +39,8 @@ export default function * root () {
 
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
-    takeLatest(QuestionTypes.ADD_QUESTION, addQuestion, questionApi)
+    takeLatest(QuestionTypes.ADD_QUESTION, addQuestion, questionApi),
+
+    takeLatest(QuestionTypes.GET_HISTORY, getHistory, questionApi)
   ])
 }

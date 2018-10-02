@@ -138,6 +138,7 @@ class SendImageScreen extends Component {
                     point: element.point,
                     isChecked: !element.isChecked
                   })
+
                   this.props.setQuestions(qtype)
                   this.setState({ questionType: qtype })
                 }}

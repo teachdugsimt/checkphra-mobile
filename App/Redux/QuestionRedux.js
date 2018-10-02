@@ -20,7 +20,13 @@ const { Types, Creators } = createActions({
   setQuestions: ['questions'],
   setAmuletType: ['amuletType'],
 
-  addQuestion: null
+  addQuestion: null,
+
+  getHistory: null,
+  getHistorySuccess: ['history'],
+  getHistoryFailure: null,
+
+  clearForm: null
 })
 
 export const QuestionTypes = Types
@@ -35,6 +41,8 @@ export const INITIAL_STATE = Immutable({
   error: null,
   amuletType: [],
   questionType: [],
+
+  history: [],
 
   // -------- For Submittion
   images: [],
@@ -96,8 +104,31 @@ export const setImages = (state, { index, source }) => {
 }
 
 export const setQuestions = (state, { questions }) => {
-  return state.merge({ questions })
+  console.log(questions)
+  let q = []
+  questions.forEach(element => {
+    if (element.isChecked) {
+      q.push(element.id)
+    }
+  });
+  console.log(q)
+  return state.merge({ questions: q })
 }
+
+// successful api lookup
+export const historySuccess = (state, action) => {
+  const { history } = action
+  return state.merge({ history })
+}
+
+// Something went wrong somewhere.
+export const historyFailure = state => state
+
+export const clearForm = state => state.merge({
+  images: [],
+  questions: [],
+  amuletType: 0
+})
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -112,5 +143,10 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.SET_AMULET_TYPE]: setAmuletType,
   [Types.SET_IMAGES]: setImages,
-  [Types.SET_QUESTIONS]: setQuestions
+  [Types.SET_QUESTIONS]: setQuestions,
+
+  [Types.GET_HISTORY_SUCCESS]: historySuccess,
+  [Types.GET_HISTORY_FAILURE]: historyFailure,
+
+  [Types.CLEAR_FORM]: clearForm
 })

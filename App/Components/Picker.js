@@ -4,6 +4,9 @@ import { View, Text, TouchableOpacity, Image } from 'react-native'
 import styles from './Styles/PickerStyle'
 import Icon from "react-native-vector-icons/Entypo";
 import { Colors } from '../Themes'
+import { connect } from "react-redux";
+
+import QuestionActions from '../Redux/QuestionRedux'
 
 var ImagePicker = require('react-native-image-picker');
 var options = {
@@ -17,7 +20,7 @@ var options = {
   }
 };
 
-export default class Picker extends Component {
+class Picker extends Component {
   // // Prop type warnings
   // static propTypes = {
   //   someProperty: PropTypes.object,
@@ -57,6 +60,12 @@ export default class Picker extends Component {
         this.setState({
           avatarSource: source
         });
+
+        this.props.setImages(this.props.id, {
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName
+        })
       }
     });
   }
@@ -79,3 +88,18 @@ export default class Picker extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setImages: (index, source) => dispatch(QuestionActions.setImages(index, source))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Picker);

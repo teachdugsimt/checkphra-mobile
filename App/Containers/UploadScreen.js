@@ -5,7 +5,7 @@ import LinearGradient from "react-native-linear-gradient";
 import GridView from "react-native-super-grid";
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
+import QuestionActions from '../Redux/QuestionRedux'
 
 // Styles
 import styles from "./Styles/UploadScreenStyle";
@@ -24,31 +24,92 @@ class UploadScreen extends Component {
   //   };
   // };
 
-  getTypePhra = (name) => {
+  getTypePhra = (item) => {
 
-    console.log(name)
-    if(name == "เบญจภาคี"){
+    console.log(item)
+    if (item.name == "เบญจภาคี") {
       this.props.navigation.navigate("detail")
     }
     else {
+      this.props.setAmuletType(item.id)
       this.props.navigation.navigate("send")
     }
   }
 
   render() {
     const items = [
-      { name: "เบญจภาคี" },
-      { name: "หลวงปู่ทวด" },
-      { name: "หลวงปู่หมุน" },
-      { name: "พระกรุ" },
-      { name: "เหรียญปั้ม" },
-      { name: "เหรียญหล่อ" },
-      { name: "พระผง" },
-      { name: "พระกริ่ง" },
-      { name: "พระปิดตา" },
-      { name: "เครื่องราง" },
-      { name: "พระบูชา" },
-      { name: "อื่นๆ หรือ ไม่ทราบ" }
+      {
+        "id": 1,
+        "name": "เบญจภาคี",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 9,
+        "name": "หลวงปู่ทวด",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 10,
+        "name": "หลวงปู่หมุน",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 11,
+        "name": "พระกรุ",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 12,
+        "name": "เหรียญปั้ม",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 13,
+        "name": "เหรียญหล่อ",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 14,
+        "name": "พระผง",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 15,
+        "name": "พระกริ่ง",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 16,
+        "name": "พระปิดตา",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 17,
+        "name": "เครื่องราง",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 18,
+        "name": "พระบูชา",
+        "parent_id": null,
+        "image": null
+      },
+      {
+        "id": 19,
+        "name": "อื่นๆ หรือ ไม่ทราบ",
+        "parent_id": null,
+        "image": null
+      }
     ];
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
@@ -67,31 +128,31 @@ class UploadScreen extends Component {
         <GridView
           itemDimension={100}
           items={items}
-          renderItem={items => {
+          renderItem={item => {
             return (
-              <TouchableOpacity onPress ={()=>this.getTypePhra(items.name)}>
-              <View
-                style={{
-                  height: 90,
-                  width: '100%',
-                  backgroundColor: Colors.button,
-                  justifyContent: "center",
-                  marginVertical: 5,
-                  borderRadius: 15,
-                  padding: 10
-                }}
-              >
-                <Text
+              <TouchableOpacity onPress={() => this.getTypePhra(item)}>
+                <View
                   style={{
-                    color: "white",
-                    fontFamily: "Prompt-Regular",
-                    fontSize: 16,
-                    alignSelf: "center"
+                    height: 90,
+                    width: '100%',
+                    backgroundColor: Colors.button,
+                    justifyContent: "center",
+                    marginVertical: 5,
+                    borderRadius: 15,
+                    padding: 10
                   }}
                 >
-                  {items.name}
-                </Text>
-              </View>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontFamily: "Prompt-Regular",
+                      fontSize: 16,
+                      alignSelf: "center"
+                    }}
+                  >
+                    {item.name}
+                  </Text>
+                </View>
               </TouchableOpacity>
             );
           }}
@@ -106,7 +167,12 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    setAmuletType: (type) => {
+      console.log(type)
+      return dispatch(QuestionActions.setAmuletType(type))
+    }
+  };
 };
 
 export default connect(

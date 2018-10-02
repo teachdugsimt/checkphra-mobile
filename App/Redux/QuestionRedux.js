@@ -7,9 +7,20 @@ const { Types, Creators } = createActions({
   // questionRequest: ['data'],
   // questionSuccess: ['payload'],
   // questionFailure: null
+
+  getAmuletType: null,
+  getAmuletTypeSuccess: ['amuletType'],
+  getAmuletTypeFailure: null,
+
   getQuestionType: null,
   getQuestionTypeSuccess: ['questionType'],
-  getQuestionTypeFailure: null
+  getQuestionTypeFailure: null,
+
+  setImages: ['index', 'source'],
+  setQuestions: ['questions'],
+  setAmuletType: ['amuletType'],
+
+  addQuestion: null
 })
 
 export const QuestionTypes = Types
@@ -18,11 +29,17 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  // data: null,
-  // fetching: null,
+  data: null,
+  fetching: null,
   // payload: null,
-  // error: null
-  questionType: []
+  error: null,
+  amuletType: [],
+  questionType: [],
+
+  // -------- For Submittion
+  images: [],
+  questions: [],
+  amuletType: 0
 })
 
 /* ------------- Selectors ------------- */
@@ -34,23 +51,66 @@ export const QuestionSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, { data }) =>
+export const questionRequest = (state, { data }) =>
   state.merge({ fetching: true, data, questionType: [] })
 
 // successful api lookup
-export const success = (state, action) => {
+export const questionSuccess = (state, action) => {
   const { questionType } = action
   return state.merge({ fetching: false, error: null, questionType })
 }
 
 // Something went wrong somewhere.
-export const failure = state =>
+export const questionFailure = state =>
   state.merge({ fetching: false, error: true, questionType: [] })
+
+
+
+// request the data from an api
+export const amuletRequest = (state) => state
+
+// successful api lookup
+export const amuletSuccess = (state, action) => {
+  const { amuletType } = action
+  return state.merge({ amuletType })
+}
+
+// Something went wrong somewhere.
+export const amuletFailure = state => state
+
+export const setAmuletType = (state, { amuletType }) => {
+  console.log(amuletType)
+  return state.merge({ amuletType })
+}
+
+export const setImages = (state, { index, source }) => {
+  let images
+  if (state.images) {
+    images = [...state.images]
+  } else {
+    images = []
+  }
+
+  images[index] = source
+  return state.merge({ images })
+}
+
+export const setQuestions = (state, { questions }) => {
+  return state.merge({ questions })
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.GET_QUESTION_TYPE]: request,
-  [Types.GET_QUESTION_TYPE_SUCCESS]: success,
-  [Types.GET_QUESTION_TYPE_FAILURE]: failure
+  [Types.GET_QUESTION_TYPE]: questionRequest,
+  [Types.GET_QUESTION_TYPE_SUCCESS]: questionSuccess,
+  [Types.GET_QUESTION_TYPE_FAILURE]: questionFailure,
+
+  [Types.GET_AMULET_TYPE]: amuletRequest,
+  [Types.GET_AMULET_TYPE_SUCCESS]: amuletSuccess,
+  [Types.GET_AMULET_TYPE_FAILURE]: amuletFailure,
+
+  [Types.SET_AMULET_TYPE]: setAmuletType,
+  [Types.SET_IMAGES]: setImages,
+  [Types.SET_QUESTIONS]: setQuestions
 })

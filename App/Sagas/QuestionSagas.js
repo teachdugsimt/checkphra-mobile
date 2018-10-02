@@ -10,9 +10,29 @@
 *    you'll need to define a constant in that file.
 *************************************************************/
 
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import QuestionActions from '../Redux/QuestionRedux'
 // import { QuestionSelectors } from '../Redux/QuestionRedux'
+
+const question = state => state.question
+const auth = state => state.auth
+
+export function * getAmuletType (api) {
+  // get current data from Store
+  // const currentData = yield select(QuestionSelectors.getData)
+  // make the call to the api
+  const response = yield call(api.getAmuletType)
+  console.log(response)
+
+  // success?
+  if (response.ok) {
+    // You might need to change the response here - do this with a 'transform',
+    // located in ../Transforms/. Otherwise, just pass the data back from the api.
+    yield put(QuestionActions.getAmuletTypeSuccess(response.data))
+  } else {
+    yield put(QuestionActions.getAmuletTypeFailure())
+  }
+}
 
 export function * getQuestionType (api) {
   // get current data from Store
@@ -28,5 +48,23 @@ export function * getQuestionType (api) {
     yield put(QuestionActions.getQuestionTypeSuccess(response.data))
   } else {
     yield put(QuestionActions.getQuestionTypeFailure())
+  }
+}
+
+export function * addQuestion (api) {
+
+  const q = yield select(question)
+  const a = yield select(auth)
+
+  const response = yield call(api.addQuestion, q.images, q.questions, q.amuletType, a.user_id)
+  console.log(response)
+
+  // success?
+  if (response.ok) {
+    // You might need to change the response here - do this with a 'transform',
+    // located in ../Transforms/. Otherwise, just pass the data back from the api.
+    // yield put(QuestionActions.getQuestionTypeSuccess(response.data))
+  } else {
+    // yield put(QuestionActions.getQuestionTypeFailure())
   }
 }

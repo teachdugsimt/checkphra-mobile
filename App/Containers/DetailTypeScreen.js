@@ -5,7 +5,7 @@ import LinearGradient from "react-native-linear-gradient";
 import GridView from "react-native-super-grid";
 import { Colors } from "../Themes";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
+import QuestionActions from '../Redux/QuestionRedux'
 
 // Styles
 import styles from "./Styles/DetailTypeScreenStyle";
@@ -37,15 +37,55 @@ class DetailTypeScreen extends Component {
     };
   };
 
+  getTypePhra = (item) => {
+    this.props.setType(item.id)
+    this.props.navigation.navigate("send")
+  }
+
   render() {
     const items = [
-      { name: "พระสมเด็จ" },
-      { name: "นางพญา" },
-      { name: "พระคง" },
-      { name: "พระรอด" },
-      { name: "พระผงสุวรรณ" },
-      { name: "พระซุ้มกอ" },
-      { name: "พระกำแพงเม็ดขนุน" }
+      {
+        "id": 2,
+        "name": "พระสมเด็จ",
+        "parent_id": 1,
+        "image": null
+      },
+      {
+        "id": 3,
+        "name": "นางพญา",
+        "parent_id": 1,
+        "image": null
+      },
+      {
+        "id": 4,
+        "name": "พระคง",
+        "parent_id": 1,
+        "image": null
+      },
+      {
+        "id": 5,
+        "name": "พระรอด",
+        "parent_id": 1,
+        "image": null
+      },
+      {
+        "id": 6,
+        "name": "พระผงสุพรรณ",
+        "parent_id": 1,
+        "image": null
+      },
+      {
+        "id": 7,
+        "name": "พระซุ้มกอ",
+        "parent_id": 1,
+        "image": null
+      },
+      {
+        "id": 8,
+        "name": "พระกำแพงเม็ดขนุน",
+        "parent_id": 1,
+        "image": null
+      }
     ];
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
@@ -54,29 +94,29 @@ class DetailTypeScreen extends Component {
           items={items}
           renderItem={items => {
             return (
-              <TouchableOpacity onPress ={()=>this.getTypePhra(items.name)}>
-              <View
-                style={{
-                  height: 90,
-                  width: '100%',
-                  backgroundColor: Colors.button,
-                  justifyContent: "center",
-                  marginVertical: 5,
-                  borderRadius: 15,
-                  padding: 10
-                }}
-              >
-                <Text
+              <TouchableOpacity onPress={() => this.getTypePhra(items)}>
+                <View
                   style={{
-                    color: "white",
-                    fontFamily: "Prompt-Regular",
-                    fontSize: 16,
-                    alignSelf: "center"
+                    height: 90,
+                    width: '100%',
+                    backgroundColor: Colors.button,
+                    justifyContent: "center",
+                    marginVertical: 5,
+                    borderRadius: 15,
+                    padding: 10
                   }}
                 >
-                  {items.name}
-                </Text>
-              </View>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontFamily: "Prompt-Regular",
+                      fontSize: 16,
+                      alignSelf: "center"
+                    }}
+                  >
+                    {items.name}
+                  </Text>
+                </View>
               </TouchableOpacity>
             );
           }}
@@ -91,7 +131,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    setType: (type) => dispatch(QuestionActions.setType(type))
+  };
 };
 
 export default connect(

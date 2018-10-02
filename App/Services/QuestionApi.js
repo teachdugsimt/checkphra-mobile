@@ -23,7 +23,8 @@ const create = (baseURL = b) => {
     baseURL,
     // here are some default headers
     headers: {
-      'Cache-Control': 'no-cache'
+      'Cache-Control': 'no-cache',
+      'Content-Type': 'application/json',
     },
     // 10 second timeout...
     timeout: 10000
@@ -44,7 +45,31 @@ const create = (baseURL = b) => {
   // way at this level.
   //
 
+  const getAmuletType = () => api.get('type/list')
   const getQuestionType = () => api.get('manage-question/list')
+
+  const addQuestion = (images, questions, amuletType, user_id) => {
+
+    console.log(images)
+    console.log(questions)
+    console.log(amuletType)
+    console.log(user_id)
+
+    let body = new FormData()
+    images.forEach((element, i) => {
+      body.append('files[' + i + ']', element)
+    });
+    body.append('type', amuletType)
+    body.append('user_id', user_id)
+
+    questions.forEach((element, i) => {
+      body.append('question[' + i + ']', element.id)
+    })
+
+    console.log(body)
+
+    return api.post('question/add', body, { headers: { 'Content-Type': 'multipart/form-data' } })
+  }
 
   // ------
   // STEP 3
@@ -60,7 +85,10 @@ const create = (baseURL = b) => {
   //
   return {
     // a list of the API functions from step 2
-    getQuestionType
+    getQuestionType,
+    getAmuletType,
+
+    addQuestion
   }
 }
 

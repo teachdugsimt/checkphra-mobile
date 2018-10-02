@@ -43,7 +43,7 @@ class SendImageScreen extends Component {
         id: e.id,
         name: e.name,
         point: e.point,
-        isChecked: e.id == 1 ? true : false
+        isChecked: false
       })
     })
     return {
@@ -82,6 +82,10 @@ class SendImageScreen extends Component {
     });
   }
 
+  submit = () => {
+    this.props.addQuestion()
+  }
+
   render() {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
@@ -99,14 +103,14 @@ class SendImageScreen extends Component {
           </Text>
           </View>
           <View style={styles.uploadRow}>
-            <Picker title='หน้า' />
-            <Picker title='หลัง' />
-            <Picker title='ซ้าย' />
+            <Picker title='หน้า' id={0} />
+            <Picker title='หลัง' id={1} />
+            <Picker title='ซ้าย' id={2} />
           </View>
           <View style={styles.uploadRow}>
-            <Picker title='ขวา' />
-            <Picker title='ฐาน' />
-            <Picker title='อื่นๆ' />
+            <Picker title='ขวา' id={3} />
+            <Picker title='ฐาน' id={4} />
+            <Picker title='อื่นๆ' id={5} />
           </View>
           <Text
               style={{
@@ -134,6 +138,7 @@ class SendImageScreen extends Component {
                     point: element.point,
                     isChecked: !element.isChecked
                   })
+                  this.props.setQuestions(qtype)
                   this.setState({ questionType: qtype })
                 }}
                 isChecked={this.state.questionType[i].isChecked}
@@ -145,7 +150,7 @@ class SendImageScreen extends Component {
           }
           </View>
 
-          <RoundedButton text={"ส่งข้อมูล"} />
+          <RoundedButton text={"ส่งข้อมูล"} onPress={this.submit} />
 
         </ScrollView>
       </LinearGradient>
@@ -155,13 +160,16 @@ class SendImageScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    questionType: state.question.questionType
+    questionType: state.question.questionType,
+    images: state.question.images
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getQuestionType: () => dispatch(QuestionActions.getQuestionType())
+    getQuestionType: () => dispatch(QuestionActions.getQuestionType()),
+    setQuestions: (questions) => dispatch(QuestionActions.setQuestions(questions)),
+    addQuestion: () => dispatch(QuestionActions.addQuestion())
   }
 }
 

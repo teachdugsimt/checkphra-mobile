@@ -3,8 +3,8 @@ import { ScrollView, Text, View, TouchableOpacity, Dimensions } from 'react-nati
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
-
+import QuestionActions from '../Redux/QuestionRedux'
+import RoundedButton from '../Components/RoundedButton'
 // Styles
 import styles from './Styles/SendImageScreenStyle'
 
@@ -13,6 +13,7 @@ import { Colors } from '../Themes';
 import Icon from "react-native-vector-icons/Entypo";
 import Picker from '../Components/Picker';
 
+import CheckBox from 'react-native-check-box'
 
 const options = {
   title: 'Select Avatar',
@@ -28,7 +29,32 @@ const options = {
 class SendImageScreen extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      isChecked: false,
+      questionType: []
+    }
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+
+    let qtype = []
+    nextProps.questionType.forEach(e => {
+      qtype.push({
+        id: e.id,
+        name: e.name,
+        point: e.point,
+        isChecked: e.id == 1 ? true : false
+      })
+    })
+    return {
+      questionType: qtype
+    }
+  }
+
+  componentDidMount() {
+    this.props.getQuestionType()
+  }
+
 
   showImagePicker = () => {
     ImagePicker.showImagePicker(options, (response) => {
@@ -69,7 +95,7 @@ class SendImageScreen extends Component {
                 color: Colors.brownText
               }}
             >
-              ใส่ข้อมูล
+              ข้อมูลเพื่อส่งตรวจ
           </Text>
           </View>
           <View style={styles.uploadRow}>
@@ -82,6 +108,45 @@ class SendImageScreen extends Component {
             <Picker title='ฐาน' />
             <Picker title='อื่นๆ' />
           </View>
+          <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Prompt-Regular",
+                alignSelf: "center",
+                color: Colors.brownText,
+                marginTop: 10
+              }}
+            >
+              คำถามที่ต้องการ
+          </Text>
+          <View style={{ padding: 10 }}>
+          {
+            this.state.questionType.map((element, i) => {
+              return <CheckBox
+                key={i}
+                style={{ flex: 1, padding: 5 }}
+                onClick={() => {
+                  let index = this.state.questionType.findIndex(e => e.id == element.id)
+                  let qtype = [...this.state.questionType]
+                  qtype.splice(index, 1, {
+                    id: element.id,
+                    name: element.name,
+                    point: element.point,
+                    isChecked: !element.isChecked
+                  })
+                  this.setState({ questionType: qtype })
+                }}
+                isChecked={this.state.questionType[i].isChecked}
+                rightText={element.name}
+                rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 20 }}
+                checkBoxColor={Colors.brownText}
+              />
+            })
+          }
+          </View>
+
+          <RoundedButton text={"ส่งข้อมูล"} />
+
         </ScrollView>
       </LinearGradient>
     )
@@ -90,11 +155,13 @@ class SendImageScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    questionType: state.question.questionType
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getQuestionType: () => dispatch(QuestionActions.getQuestionType())
   }
 }
 

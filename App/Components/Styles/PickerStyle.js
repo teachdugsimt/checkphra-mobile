@@ -14,6 +14,7 @@ export default StyleSheet.create({
     borderColor: Colors.brownTextTran,
     borderRadius: 10,
     margin: 5,
+    overflow: 'hidden'
   },
   uploadBoxText: {
     fontFamily: 'Prompt-SemiBold',

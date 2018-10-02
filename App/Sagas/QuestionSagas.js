@@ -93,3 +93,23 @@ export function * getHistory (api) {
     yield put(QuestionActions.getHistoryFailure())
   }
 }
+
+export function * getAnswer (api, { qid }) {
+
+  // const q = yield select(question)
+  const a = yield select(auth)
+
+  const data = {
+    qid
+  }
+
+  const response = yield call(api.getAnswer, data)
+  console.log(response)
+
+  // success?
+  if (response.ok) {
+    yield put(QuestionActions.getAnswerSuccess(response.data))
+  } else {
+    yield put(QuestionActions.getHistoryFailure())
+  }
+}

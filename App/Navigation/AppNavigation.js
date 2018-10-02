@@ -4,6 +4,7 @@ import RegisterScreen from "../Containers/RegisterScreen";
 import SigninScreen from "../Containers/SigninScreen";
 import LaunchScreen from "../Containers/LaunchScreen";
 import HistoryScreen from "../Containers/HistoryScreen";
+import AnswerScreen from "../Containers/AnswerScreen";
 import DetailTypeScreen from "../Containers/DetailTypeScreen"
 import ChangePasswordScreen from "../Containers/ChangePasswordScreen"
 import SendImageScreen from '../Containers/SendImageScreen'
@@ -133,8 +134,8 @@ const ProfileStack = StackNavigator(
 
 const HistoryStack = StackNavigator(
   {
-    his: { screen: HistoryScreen }
-   
+    his: { screen: HistoryScreen },
+    answer: { screen: AnswerScreen }
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -167,11 +168,11 @@ const HistoryStack = StackNavigator(
 
 const DashStack = TabNavigator(
   {
-   
+
     upload : UploadStack,
     his : HistoryStack,
     profile : ProfileStack
-    
+
   },
   {
     initialRouteName: "upload",

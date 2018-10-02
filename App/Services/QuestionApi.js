@@ -73,7 +73,9 @@ const create = (baseURL = b) => {
   }
 
   const getHistory = (data) => api.get('question/list', data)
+  const getAnswer = (data) => api.get('answer/detail', data)
 
+  const getProfile = (data) => api.get('profile/index', data)
   // ------
   // STEP 3
   // ------
@@ -92,7 +94,10 @@ const create = (baseURL = b) => {
     getAmuletType,
 
     addQuestion,
-    getHistory
+    getHistory,
+    getAnswer,
+
+    getProfile
   }
 }
 

@@ -64,8 +64,33 @@ class ProfileScreen extends Component {
                 slothZa5555@gmail.com
               </Text>
             </View>
+
+            <View style={{ marginLeft: 20 }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: "Prompt-Regular",
+                  color: Colors.brownText,
+                  marginLeft: 20
+                }}
+              >
+                อีเมล :
+              </Text>
+            </View>
+            <View style={{ width: 250}}>
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontFamily: "Prompt-Regular",
+                  fontSize: 18,
+                  color: Colors.brownText
+                }}
+              >
+                slothZa5555@gmail.com
+              </Text>
+            </View>
           </View>
-       
+
         </View>
         <View style={{ height: 80}}>
           <Text

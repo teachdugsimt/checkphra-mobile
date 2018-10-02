@@ -26,7 +26,10 @@ const { Types, Creators } = createActions({
   getHistorySuccess: ['history'],
   getHistoryFailure: null,
 
-  clearForm: null
+  clearForm: null,
+
+  getAnswer: ['qid'],
+  getAnswerSuccess: ['answer']
 })
 
 export const QuestionTypes = Types
@@ -43,6 +46,7 @@ export const INITIAL_STATE = Immutable({
   questionType: [],
 
   history: [],
+  answer: null,
 
   // -------- For Submittion
   images: [],
@@ -130,6 +134,13 @@ export const clearForm = state => state.merge({
   amuletType: 0
 })
 
+
+export const answerSuccess = (state, action) => {
+
+  const { answer } = action
+  console.log(answer)
+  return state.merge({ answer })
+}
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -148,5 +159,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_HISTORY_SUCCESS]: historySuccess,
   [Types.GET_HISTORY_FAILURE]: historyFailure,
 
-  [Types.CLEAR_FORM]: clearForm
+  [Types.CLEAR_FORM]: clearForm,
+
+  [Types.GET_ANSWER_SUCCESS]: answerSuccess
 })

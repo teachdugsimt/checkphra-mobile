@@ -25,7 +25,8 @@ const colors = {
 
   mainTheme:'#FFA500',
   button:'#CC6633',
-  brownText:'#663300'
+  brownText:'#663300',
+  brownTextTran:'#66330099'
 }
 
 export default colors

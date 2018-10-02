@@ -3,6 +3,7 @@ package com.infiltech.checkphra;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 // import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -42,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImagePickerPackage(),
             new FBSDKPackage(mCallbackManager),
             new RNI18nPackage(),
             new RNFirebasePackage(),

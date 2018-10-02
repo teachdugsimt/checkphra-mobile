@@ -13,6 +13,8 @@ import LinearGradient from "react-native-linear-gradient";
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import firebase from 'react-native-firebase';
 
+import AuthActions from '../Redux/AuthRedux'
+
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -25,10 +27,25 @@ class SigninScreen extends Component {
     super(props);
     this.state = {
       inputEmail: "",
-      inputPass: ""
+      inputPass: "",
+      profile: null
     };
   }
 
+  // componentWillReceiveProps(newProps) {
+
+  // }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+
+    if (!prevState.profile && prevState.profile != nextProps.profile) {
+      nextProps.navigation.navigate('App')
+    }
+
+    return {
+      profile: nextProps.profile
+    }
+  }
 
   fbLogin = async () => {
     try {
@@ -53,12 +70,14 @@ class SigninScreen extends Component {
 
       // login with credential
       const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+      const currentUserJson = currentUser.user.toJSON()
 
-      console.info(JSON.stringify(currentUser.user.toJSON()))
+      this.props.setUserId(currentUserJson.uid)
+      this.props.signinWithCredential(currentUserJson)
+
     } catch (e) {
       console.error(e);
     }
-
   }
 
   render() {
@@ -256,11 +275,16 @@ class SigninScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    profile: state.auth.profile
+  };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    setUserId: (user_id) => dispatch(AuthActions.setUserId(user_id)),
+    signinWithCredential: (data) => dispatch(AuthActions.signinWithCredential(data))
+  };
 };
 
 export default connect(

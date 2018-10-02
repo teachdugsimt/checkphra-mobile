@@ -16,8 +16,11 @@ target 'CheckPhra' do
   #end
 
   # pod 'RNI18n', :path => '../node_modules/react-native-i18n'
-
+  pod 'React', :path => '../node_modules/react-native'
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
   target 'CheckPhraTests' do
     inherit! :search_paths

@@ -3,7 +3,7 @@ import { ScrollView, Text, View, TouchableOpacity} from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
+import QuestionActions from '../Redux/QuestionRedux'
 
 // Styles
 import styles from "./Styles/ProfileScreenStyle";
@@ -14,6 +14,10 @@ class ProfileScreen extends Component {
   //   super(props)
   //   this.state = {}
   // }
+
+  componentDidMount() {
+    this.props.getProfile()
+  }
 
   render() {
     return (
@@ -36,34 +40,11 @@ class ProfileScreen extends Component {
             ข้อมูลส่วนตัว
           </Text>
         </View>
-        <View style={{ height: 40}}>
+        <View style={{ height: 100, flexDirection: 'column'}}>
           <View
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
-            <View style={{ marginLeft: 20 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontFamily: "Prompt-Regular",
-                  color: Colors.brownText,
-                  marginLeft: 20
-                }}
-              >
-                ชื่อ :
-              </Text>
-            </View>
-            <View style={{ width: 250}}>
-              <Text
-                numberOfLines={1}
-                style={{
-                  fontFamily: "Prompt-Regular",
-                  fontSize: 18,
-                  color: Colors.brownText
-                }}
-              >
-                slothZa5555@gmail.com
-              </Text>
-            </View>
+
 
             <View style={{ marginLeft: 20 }}>
               <Text
@@ -86,7 +67,7 @@ class ProfileScreen extends Component {
                   color: Colors.brownText
                 }}
               >
-                slothZa5555@gmail.com
+                {this.props.profile && this.props.profile.email}
               </Text>
             </View>
           </View>
@@ -103,7 +84,7 @@ class ProfileScreen extends Component {
           >
             แต้มสะสม
           </Text>
-          <Text style = {{fontFamily:"Prompt-Regular",fontSize:25,color:Colors.brownText,alignSelf:'center'}}>500</Text>
+          <Text style = {{fontFamily:"Prompt-Regular",fontSize:25,color:Colors.brownText,alignSelf:'center'}}>{this.props.profile && this.props.profile.point}</Text>
         </View>
         <TouchableOpacity onPress ={()=> this.props.navigation.navigate("change")}>
         <Text
@@ -125,11 +106,16 @@ class ProfileScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    profile: state.question.profile,
+
+  };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    getProfile: () => dispatch(QuestionActions.getProfile())
+  };
 };
 
 export default connect(

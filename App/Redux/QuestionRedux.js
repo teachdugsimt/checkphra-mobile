@@ -26,6 +26,9 @@ const { Types, Creators } = createActions({
   getHistorySuccess: ['history'],
   getHistoryFailure: null,
 
+  getProfile: null,
+  getProfileSuccess: ['profile'],
+
   clearForm: null,
 
   getAnswer: ['qid'],
@@ -47,6 +50,8 @@ export const INITIAL_STATE = Immutable({
 
   history: [],
   answer: null,
+
+  profile: null,
 
   // -------- For Submittion
   images: [],
@@ -141,6 +146,13 @@ export const answerSuccess = (state, action) => {
   console.log(answer)
   return state.merge({ answer })
 }
+
+export const profileSuccess = (state, action) => {
+
+  const { profile } = action
+  console.log(profile)
+  return state.merge({ profile })
+}
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -161,5 +173,6 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.CLEAR_FORM]: clearForm,
 
-  [Types.GET_ANSWER_SUCCESS]: answerSuccess
+  [Types.GET_ANSWER_SUCCESS]: answerSuccess,
+  [Types.GET_PROFILE_SUCCESS]: profileSuccess
 })

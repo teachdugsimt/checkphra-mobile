@@ -113,3 +113,23 @@ export function * getAnswer (api, { qid }) {
     yield put(QuestionActions.getHistoryFailure())
   }
 }
+
+export function * getProfile (api) {
+
+  // const q = yield select(question)
+  const a = yield select(auth)
+
+  const data = {
+    user_id: a.user_id
+  }
+
+  const response = yield call(api.getProfile, data)
+  console.log(response)
+
+  // success?
+  if (response.ok) {
+    yield put(QuestionActions.getProfileSuccess(response.data))
+  } else {
+    yield put(QuestionActions.getHistoryFailure())
+  }
+}

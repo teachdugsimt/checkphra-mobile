@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'
 } else {
   // b = 'http://localhost:10000/web/index.php/v1/'
-  // b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
+  // b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
   b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
 }
 
@@ -75,7 +75,7 @@ const create = (baseURL = b) => {
   const getHistory = (data) => api.get('question/list', data)
   const getAnswer = (data) => api.get('answer/detail', data)
 
-  const getProfile = (data) => api.get('profile/index', data)
+  const getProfile = (data) => api.get('user/profile', data)
   // ------
   // STEP 3
   // ------

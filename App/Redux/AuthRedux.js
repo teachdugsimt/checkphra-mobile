@@ -1,6 +1,7 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 
+
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
@@ -9,7 +10,14 @@ const { Types, Creators } = createActions({
   signinSuccess: ['profile'],
   signinFailure: null,
 
-  setUserId: ['user_id']
+  setUserId: ['user_id'],
+
+  signup: ['id', 'password'],
+  signupSuccess: ['data'],
+  signupFailure: null,
+
+  
+
 })
 
 export const AuthTypes = Types
@@ -22,7 +30,10 @@ export const INITIAL_STATE = Immutable({
   fetching: null,
   profile: null,
   user_id: null,
-  error: null
+  error: null,
+
+  request: null,
+  dataRegister: [],
 })
 
 /* ------------- Selectors ------------- */
@@ -49,6 +60,15 @@ export const failure = state =>
 
 export const setUserId = (state, { user_id }) => state.merge({ user_id })
 
+
+
+export const startRequest = (state) => state.merge({ request: true })
+
+export const failureRequestSignup = (state) => state.merge({ request: false })
+
+export const successRequestSignup = (state, { data }) => {
+  return state.merge({ dataRegister: data, request: false })
+}
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -57,5 +77,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNIN_SUCCESS]: success,
   [Types.SIGNIN_FAILURE]: failure,
 
-  [Types.SET_USER_ID]: setUserId
+  [Types.SET_USER_ID]: setUserId,
+
+  [Types.SIGNUP]: startRequest,
+  [Types.SIGNUP_SUCCESS]: successRequestSignup,
+  [Types.SIGNUP_FAILURE]: failureRequestSignup,
 })

@@ -10,11 +10,14 @@
 *    you'll need to define a constant in that file.
 *************************************************************/
 
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import AuthActions from '../Redux/AuthRedux'
 // import { AuthSelectors } from '../Redux/AuthRedux'
 
-export function * signin (api, action) {
+// const auth = state => state.firebase.auth
+// const firebase = state => state.firebase
+
+export function* signin(api, action) {
   const { data } = action
   // get current data from Store
   // const currentData = yield select(AuthSelectors.getData)
@@ -34,7 +37,7 @@ export function * signin (api, action) {
   }
 }
 
-export function * signinWithCredential (api, action) {
+export function* signinWithCredential(api, action) {
   const { data } = action
   // get current data from Store
   // const currentData = yield select(AuthSelectors.getData)
@@ -63,3 +66,60 @@ export function * signinWithCredential (api, action) {
     yield put(AuthActions.signinFailure())
   }
 }
+
+export function* signup(api, { id, password }) {
+  console.log(id)
+  console.log(password)
+
+  const data = {
+    email: id,
+    password: password,
+  }
+
+  const response = yield call(api.signup, data)
+  console.log(response)
+
+  if (response.ok) {
+    yield put(AuthActions.signupSuccess(response.data))
+    // yield* signupAtFirebase(api, getFirebase, id, response.data.access_token)
+  } else {
+
+    if ((response.data.message).indexOf("has already been taken") != -1) {
+      yield put(AuthActions.signupFailure())
+      alert("อีเมลนี้ถูกใช้งานแล้ว")
+    } else if (response.problem == 'NETWORK_ERROR') {
+      yield put(AuthActions.signupFailure())
+      alert('การเชื่อมต่ออินเตอร์เน็ตผิดพลาด')
+    } else {
+      yield put(AuthActions.signupFailure())
+      alert('กรุณาตรวจสอบ อีเมลและรหัสผ่าน')
+    }
+
+  }
+}
+
+// function* signupAtFirebase(api, getFirebase, email, accessToken) {
+
+//   // yield getFirebase().createUser({
+//   //   email: email,
+//   //   password: accessToken
+//   // }).then(() => {
+//   //   console.log('sinup with firebase success')
+//   //   yield * step2Signup()
+//   // }).catch((error) => {
+//   //   console.log('sinup with firebase error')
+//   //   console.log(error.message)
+//   // })
+
+//   try {
+//     const result = yield call(getFirebase().createUser, { email, password: accessToken })
+//     console.log(result)
+//     // yield put(AuthActions.step2Signup())
+//     yield* step2Signup(api)
+//   } catch (error) {
+//     let message = JSON.parse(error.data.message)
+//     yield put(AuthActions.signupFailure(message))
+//     console.log("------ error --------")
+//     console.log(error.message)
+//   }
+// }

@@ -1,64 +1,114 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View,TextInput,TouchableOpacity, Alert} from "react-native";
+import { ScrollView, Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
 import { connect } from "react-redux";
+import { compose } from "redux"
 import LinearGradient from "react-native-linear-gradient";
+import AuthActions from '../Redux/AuthRedux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
+// import { firebaseConnect } from 'react-redux-firebase'
 
 // Styles
 import styles from "./Styles/RegisterScreenStyle";
 import { Colors } from "../Themes";
 
 class RegisterScreen extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      email:"",
-      pass:"",
-      pass2:""
+      email: "",
+      pass: "",
+      pass2: "",
+      chkMail: false,
     }
   }
 
-  getReg = () => {
-    if(this.state.email != "" && this.state.pass != "" && this.state.pass2 != ""){
-        let p1 = this.state.pass.split(" ")
-        let p2 = this.state.pass2.split(" ")
-        // console.log(p1)
-        // console.log(p2)
-        p1.forEach(e=> {
-          if(e == p2)
-          {
-            Alert.alert(
-              'Check Phra',
-              'สมัครสมาชิกเรียบร้อยแล้ว ...',
-              [
-                {text:'เข้าสู่ระบบ',onPress:()=>this.props.navigation.navigate("Auth")},
-              ],
-              { cancelable: false }
-            )
-          }
-          else {
-            Alert.alert(
-              'Check Phra',
-              'รหัสผ่านไม่ถูกต้อง ...',
-              [
-                {text:'ตกลง'},
-              ],
-              { cancelable: false }
-            )
-          }
-        })
-   
-    }
-    else {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.dataRegister != this.props.dataRegister) {
+      // console.log(nextProps.dataRegister)
+      // console.log(this.state.email)
+      // console.log(nextProps.dataRegister.access_token)
+      // this.signinWithFirebase(this.state.email, nextProps.dataRegister.access_token)
       Alert.alert(
         'Check Phra',
-        'กรุณากรอกข้อมูลให้ครบถ้วน...',
+        'สมัครสมาชิกเรียบร้อย',
         [
-          {text:'ตกลง'},
+          { text: 'ตกลง', onPress: () => { this.props.navigation.navigate('Auth') } }
         ],
         { cancelable: false }
       )
+    }
+  }
+
+  // signinWithFirebase(email, password) {
+  //   console.log('login to firebase ' + email + ' ' + password)
+  //   this.props.firebase.login({
+  //     email: email,
+  //     password: password
+  //   }).then((data) => {
+  //     // console.log(data)
+  //     // this.setState({error: data})
+  //   }).catch((error) => {
+  //     this.setState({ error: error, signining: false })
+  //   })
+  // }
+
+  getReg = () => {
+    if (this.state.chkMail == false) {
+      Alert.alert(
+        'Check Phra',
+        'กรุณากรอก E-mail ให้ถูกต้อง',
+        [
+          { text: 'ตกลง' }
+        ],
+        { cancelable: false }
+      )
+    }
+    else if (this.state.pass.length > 18 || this.state.pass.length < 6 || this.state.pass2.length > 18 || this.state.pass2.length < 6) {
+
+      Alert.alert(
+        'Check Phra',
+        'กรุณาใส่พาสเวิร์ดความยาว 6-18 ตัว (A-z,0-9)',
+        [
+          { text: 'ตกลง' }
+        ],
+        { cancelable: false }
+      )
+    } else if (this.state.pass != this.state.pass2) {
+      Alert.alert(
+        'Check Phra',
+        'กรุณาใส่พาสเวิร์ดและยืนยันพาสเวิร์ดให้ถูกต้อง',
+        [
+          { text: 'ตกลง' }
+        ],
+        { cancelable: false }
+      )
+    } else if (this.state.chkMail == true && this.state.pass.length > 5 && this.state.pass2.length > 5 && this.state.pass.length < 19 && this.state.pass.length < 19 && this.state.pass == this.state.pass2) {
+      console.log("success")
+      this.props.signup(this.state.email, this.state.pass)
+    } else {
+      Alert.alert(
+        'Check Phra',
+        'กรุณาใส่ข้อมูลให้ถูกต้อง',
+        [
+          { text: 'ตกลง' }
+        ],
+        { cancelable: false }
+      )
+    }
+  }
+
+  validate = (text) => {
+    // console.log(text);
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      // console.log("Email is Not Correct");
+      this.setState({ email: text, chkMail: false })
+      return false;
+    }
+    else {
+      this.setState({ email: text, chkMail: true })
+      // console.log("Email is Correct");
     }
   }
 
@@ -88,20 +138,21 @@ class RegisterScreen extends Component {
             marginBottom: 30
           }}
         >
-         <TextInput
-              style={{
-                fontFamily: "Prompt-Regular",
-                fontSize: 16,
-                color: "white",
-                marginLeft: 10
-              }}
-              onChangeText={email => this.setState({ email})}
-              value={this.state.email}
-              placeholder="E-mail"
-              underlineColorAndroid="rgba(0,0,0,0)"
-              placeholderTextColor="white"
+          <TextInput
+            style={{
+              fontFamily: "Prompt-Regular",
+              fontSize: 16,
+              color: "white",
+              marginLeft: 10
+            }}
+            // onChangeText={email => this.setState({ email })}
+            onChangeText={(text) => this.validate(text)}
+            value={this.state.email}
+            placeholder="E-mail"
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholderTextColor="white"
 
-            />
+          />
         </View>
         <View
           style={{
@@ -114,20 +165,20 @@ class RegisterScreen extends Component {
             marginBottom: 30
           }}
         >
-         <TextInput
-              style={{
-                fontFamily: "Prompt-Regular",
-                fontSize: 16,
-                color: "white",
-                marginLeft: 10
-              }}
-              onChangeText={pass => this.setState({pass})}
-              value={this.state.pass}
-              placeholder="Password"
-              underlineColorAndroid="rgba(0,0,0,0)"
-              placeholderTextColor="white"
-              secureTextEntry={true}
-            />
+          <TextInput
+            style={{
+              fontFamily: "Prompt-Regular",
+              fontSize: 16,
+              color: "white",
+              marginLeft: 10
+            }}
+            onChangeText={pass => this.setState({ pass })}
+            value={this.state.pass}
+            placeholder="Password"
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholderTextColor="white"
+            secureTextEntry={true}
+          />
         </View>
         <View
           style={{
@@ -140,22 +191,22 @@ class RegisterScreen extends Component {
             marginBottom: 50
           }}
         >
-         <TextInput
-              style={{
-                fontFamily: "Prompt-Regular",
-                fontSize: 16,
-                color: "white",
-                marginLeft: 10
-              }}
-              onChangeText={pass2 => this.setState({pass2})}
-              value={this.state.pass2}
-              placeholder="ยืนยัน Password"
-              underlineColorAndroid="rgba(0,0,0,0)"
-              placeholderTextColor="white"
-              secureTextEntry={true}
-            />
+          <TextInput
+            style={{
+              fontFamily: "Prompt-Regular",
+              fontSize: 16,
+              color: "white",
+              marginLeft: 10
+            }}
+            onChangeText={pass2 => this.setState({ pass2 })}
+            value={this.state.pass2}
+            placeholder="ยืนยัน Password"
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholderTextColor="white"
+            secureTextEntry={true}
+          />
         </View>
-       
+
         <View
           style={{
             height: 45,
@@ -165,35 +216,36 @@ class RegisterScreen extends Component {
             borderRadius: 15
           }}
         >
-       <TouchableOpacity onPress={this.getReg}>
-          <Text
-            style={{
-              fontFamily: "Prompt-Regular",
-              fontSize: 20,
-              alignSelf: "center",
-              color: "white",
-              marginTop:8
-            }}
-          >
-            สมัครสมาชิก
+          <TouchableOpacity onPress={this.getReg}>
+            <Text
+              style={{
+                fontFamily: "Prompt-Regular",
+                fontSize: 20,
+                alignSelf: "center",
+                color: "white",
+                marginTop: 8
+              }}
+            >
+              สมัครสมาชิก
           </Text>
-          </TouchableOpacity>   
+          </TouchableOpacity>
         </View>
-        
+
       </LinearGradient>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
+const mapStateToProps = (state) => ({
+  request: state.auth.request,
+  dataRegister: state.auth.dataRegister,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {};
-};
+const mapDispatchToProps = (dispatch) => ({
+  signup: (id, password) => dispatch(AuthActions.signup(id, password)),
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  // firebaseConnect(), // withFirebase can also be used
+  connect(mapStateToProps, mapDispatchToProps)
 )(RegisterScreen);

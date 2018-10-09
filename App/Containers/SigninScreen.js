@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -80,6 +81,55 @@ class SigninScreen extends Component {
     }
   }
 
+  getReg = () => {
+    if (this.state.chkMail == false) {
+      Alert.alert(
+        'Check Phra',
+        'กรุณากรอก E-mail ให้ถูกต้อง',
+        [
+          { text: 'ตกลง' }
+        ],
+        { cancelable: false }
+      )
+    }
+    else if (this.state.inputPass.length > 18 || this.state.inputPass.length < 6) {
+      Alert.alert(
+        'Check Phra',
+        'กรุณาใส่พาสเวิร์ดความยาว 6-18 ตัว (A-z,0-9)',
+        [
+          { text: 'ตกลง' }
+        ],
+        { cancelable: false }
+      )
+    } else if (this.state.chkMail == true && this.state.inputPass.length > 5 && this.state.inputPass.length < 19) {
+      console.log("success")
+      // this.props.signup(this.state.email, this.state.pass) // signin 
+    } else {
+      Alert.alert(
+        'Check Phra',
+        'กรุณาใส่ข้อมูลให้ถูกต้อง',
+        [
+          { text: 'ตกลง' }
+        ],
+        { cancelable: false }
+      )
+    }
+  }
+
+  validate = (text) => {
+    // console.log(text);
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      // console.log("Email is Not Correct");
+      this.setState({ inputEmail: text, chkMail: false })
+      return false;
+    }
+    else {
+      this.setState({ inputEmail: text, chkMail: true })
+      // console.log("Email is Correct");
+    }
+  }
+
   render() {
     // console.log(this.state.inputEmail)
     // console.log(this.state.inputPass)
@@ -141,7 +191,8 @@ class SigninScreen extends Component {
                 marginLeft: 10,
                 lineHeight: 60
               }}
-              onChangeText={inputEmail => this.setState({ inputEmail })}
+              numberOfLines={1}
+              onChangeText={(inputEmail) => this.validate(inputEmail)}
               value={this.state.inputEmail}
               placeholder="E-mail"
               underlineColorAndroid="rgba(0,0,0,0)"
@@ -168,6 +219,7 @@ class SigninScreen extends Component {
                 marginLeft: 10,
                 lineHeight: 60
               }}
+              numberOfLines={1}
               onChangeText={inputPass => this.setState({ inputPass })}
               value={this.state.inputPass}
               placeholder="Password"
@@ -189,7 +241,9 @@ class SigninScreen extends Component {
               alignSelf: "center"
             }}
           >
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("App")}>
+            {/* // change function to signin */}
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("App")}>  
+            {/* <TouchableOpacity onPress={this.getReg}> */}
               <Text
                 style={{
                   fontFamily: "Prompt-Light",
@@ -215,9 +269,7 @@ class SigninScreen extends Component {
             alignItems: "center"
           }}
         >
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Reg")}
-          >
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Reg")}>
             <Text
               style={{
                 textDecorationLine: "underline",

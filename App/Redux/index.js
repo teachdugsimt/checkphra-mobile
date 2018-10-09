@@ -3,14 +3,16 @@ import { persistReducer } from 'redux-persist'
 import configureStore from './CreateStore'
 import rootSaga from '../Sagas/'
 import ReduxPersist from '../Config/ReduxPersist'
+// import { firebaseReducer } from 'react-redux-firebase'
 
 /* ------------- Assemble The Reducers ------------- */
 export const reducers = combineReducers({
   nav: require('./NavigationRedux').reducer,
+  // firebase: firebaseReducer,
   github: require('./GithubRedux').reducer,
   search: require('./SearchRedux').reducer,
   auth: require('./AuthRedux').reducer,
-  question: require('./QuestionRedux').reducer
+  question: require('./QuestionRedux').reducer,
 })
 
 export default () => {

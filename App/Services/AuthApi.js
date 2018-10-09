@@ -46,6 +46,11 @@ const create = (baseURL = b) => {
 
   const signin = (data) => api.post('user/signin', data)
 
+  const signup = (data) => api.post('user/signup', data)
+
+  const savedata = (data) => api.post('user/create-check-phra-user', data)
+
+  const senddataRealTime = (data) => api.get('user/real-time-list', data)
   // ------
   // STEP 3
   // ------
@@ -60,7 +65,10 @@ const create = (baseURL = b) => {
   //
   return {
     // a list of the API functions from step 2
-    signin
+    signin,
+    signup,
+    savedata,
+    senddataRealTime
   }
 }
 

@@ -8,6 +8,7 @@ import AnswerScreen from "../Containers/AnswerScreen";
 import DetailTypeScreen from "../Containers/DetailTypeScreen"
 import ChangePasswordScreen from "../Containers/ChangePasswordScreen"
 import SendImageScreen from '../Containers/SendImageScreen'
+import Promotion from '../Containers/Promotion'
 
 import styles from "./Styles/NavigationStyles";
 import React from "react";
@@ -67,7 +68,7 @@ const UploadStack = StackNavigator(
   {
     uploadScreen: { screen: UploadScreen },
     detail: { screen: DetailTypeScreen },
-    send:{screen : SendImageScreen}
+    send: { screen: SendImageScreen }
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -100,7 +101,7 @@ const UploadStack = StackNavigator(
 const ProfileStack = StackNavigator(
   {
     profileScreen: { screen: ProfileScreen },
-    change:{screen : ChangePasswordScreen}
+    change: { screen: ChangePasswordScreen }
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -130,7 +131,37 @@ const ProfileStack = StackNavigator(
   }
 );
 
-
+const PromotionStack = StackNavigator(
+  {
+    promotion: { screen: Promotion },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <Text
+          style={{
+            fontSize: 25,
+            fontFamily: "Prompt-Regular",
+            color: Colors.brownText,
+            marginLeft: 30
+          }}
+        >
+          Check Phra
+      </Text>
+      ),
+      headerRight: (
+        <Icon
+          name="log-out"
+          size={20}
+          color={Colors.brownText}
+          style={{ marginRight: 15 }}
+          onPress={() => navigation.navigate("Auth")}
+        />
+      ),
+      tabBarLabel: 'โปรโมชั่น'
+    })
+  }
+)
 
 const HistoryStack = StackNavigator(
   {
@@ -169,9 +200,10 @@ const HistoryStack = StackNavigator(
 const DashStack = TabNavigator(
   {
 
-    upload : UploadStack,
-    his : HistoryStack,
-    profile : ProfileStack
+    upload: UploadStack,
+    his: HistoryStack,
+    profile: ProfileStack,
+    pro: PromotionStack,
 
   },
   {
@@ -188,6 +220,10 @@ const DashStack = TabNavigator(
         }
         if (routeName == "his") {
           iconName = `history${focused ? "" : ""}`;
+        }
+        if(routeName == "pro"){
+          iconName = `gift${focused ? "" : ""}`;
+          //gift, money, credit-card
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       }
@@ -209,15 +245,12 @@ const DashStack = TabNavigator(
   }
 );
 
-
-
-
 // Manifest of possible screens
 const PrimaryNav = SwitchNavigator(
   {
     Auth: AuthStack,
     Reg: RegStack,
-    App: DashStack
+    App: DashStack,
   },
   {
     // Default config for all screens

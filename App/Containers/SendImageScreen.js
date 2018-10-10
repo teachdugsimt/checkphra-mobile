@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, View, TouchableOpacity, Dimensions } from 'react-native'
+import { ScrollView, Text, View, TouchableOpacity, Dimensions, TextInput, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -31,7 +31,8 @@ class SendImageScreen extends Component {
     super(props)
     this.state = {
       isChecked: false,
-      questionType: []
+      questionType: [],
+      message: '',
     }
   }
 
@@ -83,10 +84,49 @@ class SendImageScreen extends Component {
   }
 
   submit = () => {
-    this.props.addQuestion()
+    //set message and send
+    let chk = []
+    let cnt = 0
+    this.state.questionType.map((e, i) => {
+      if (e.isChecked == true) {
+        chk.push(1)
+        cnt = cnt + e.point
+      } else if (e.isChecked == false) {
+        chk.push(0)
+      }
+    })
+
+    let chk2 = chk.indexOf(1)
+    if (chk2 == -1 && this.state.message == '' && !this.state.message) {
+      Alert.alert(
+        'Check Phra',
+        'โปรดเลือกคำถามอย่างน้อย 1 ข้อ',
+        [
+          { text: 'ตกลง' }
+        ],
+        { cancelable: false }
+      )
+    } else if (chk2 != -1 || this.state.message != '') {
+      if (this.props.profile.point < cnt) {
+        Alert.alert(
+          'Check Phra',
+          'point ของท่านไม่พอ กรุณาเติม point',
+          [
+            { text: 'ตกลง', onPress: () => { this.props.navigation.navigate('Pro') } }
+          ],
+          { cancelable: false }
+        )
+      } else {
+        this.props.addQuestion()
+      }
+    }
+
+
   }
 
   render() {
+    const point = [5, 5, 3, 3, 15]
+    // console.log(this.props.profile)
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }}>
@@ -113,45 +153,53 @@ class SendImageScreen extends Component {
             <Picker title='อื่นๆ' id={5} />
           </View>
           <Text
-              style={{
-                fontSize: 20,
-                fontFamily: "Prompt-Regular",
-                alignSelf: "center",
-                color: Colors.brownText,
-                marginTop: 10
-              }}
-            >
-              คำถามที่ต้องการ
+            style={{
+              fontSize: 20,
+              fontFamily: "Prompt-Regular",
+              alignSelf: "center",
+              color: Colors.brownText,
+              marginTop: 10
+            }}
+          >
+            คำถามที่ต้องการ
           </Text>
           <View style={{ padding: 10 }}>
-          {
-            this.state.questionType.map((element, i) => {
-              return <CheckBox
-                key={i}
-                style={{ flex: 1, padding: 5 }}
-                onClick={() => {
-                  let index = this.state.questionType.findIndex(e => e.id == element.id)
-                  let qtype = [...this.state.questionType]
-                  qtype.splice(index, 1, {
-                    id: element.id,
-                    name: element.name,
-                    point: element.point,
-                    isChecked: !element.isChecked
-                  })
+            {
+              this.state.questionType.map((element, i) => {
+                return <CheckBox
+                  key={i}
+                  style={{ flex: 1, padding: 5 }}
+                  onClick={() => {
+                    let index = this.state.questionType.findIndex(e => e.id == element.id)
+                    let qtype = [...this.state.questionType]
+                    qtype.splice(index, 1, {
+                      id: element.id,
+                      name: element.name,
+                      point: element.point,
+                      isChecked: !element.isChecked
+                    })
 
-                  this.props.setQuestions(qtype)
-                  this.setState({ questionType: qtype })
-                }}
-                isChecked={this.state.questionType[i].isChecked}
-                rightText={element.name}
-                rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 20 }}
-                checkBoxColor={Colors.brownText}
-              />
-            })
-          }
+                    this.props.setQuestions(qtype)
+                    this.setState({ questionType: qtype })
+                  }}
+                  isChecked={this.state.questionType[i].isChecked}
+                  rightText={element.name + " ( " + point[i] + " point )"}
+                  rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 20 }}
+                  checkBoxColor={Colors.brownText}
+                />
+              })
+            }
+            <TextInput
+              value={this.state.message}
+              onChangeText={(text) => { this.setState({ message: text }) }}
+              placeholder={'อื่นๆ โปรดระบุคำถาม ( x point )'}
+              placeholderTextColor={Colors.brownText}
+            />
           </View>
 
-          <RoundedButton text={"ส่งข้อมูล"} onPress={this.submit} />
+          <RoundedButton text={"ส่งข้อมูล"} onPress={this.submit}
+          // fetching={this.props.fetching} 
+          />
 
         </ScrollView>
       </LinearGradient>
@@ -162,7 +210,9 @@ class SendImageScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     questionType: state.question.questionType,
-    images: state.question.images
+    images: state.question.images,
+    profile: state.question.profile,
+    // fetching: state.question.fetching,
   }
 }
 
@@ -170,8 +220,19 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getQuestionType: () => dispatch(QuestionActions.getQuestionType()),
     setQuestions: (questions) => dispatch(QuestionActions.setQuestions(questions)),
-    addQuestion: () => dispatch(QuestionActions.addQuestion())
+    addQuestion: () => dispatch(QuestionActions.addQuestion()),
+    deleteImage: (index) => dispatch(QuestionActions.deleteImage(index)),
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SendImageScreen)
+
+
+
+//   < Icon
+// style = {{ margin: 3 }}
+// name = "squared-cross"
+// size = { 24}
+// color = { 'red'}
+// onPress = {() => { console.log("Press close button") }}
+// />

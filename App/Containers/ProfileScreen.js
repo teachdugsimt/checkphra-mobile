@@ -20,6 +20,7 @@ class ProfileScreen extends Component {
   }
 
   render() {
+    console.log(this.props.profile)
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <View

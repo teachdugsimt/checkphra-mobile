@@ -17,7 +17,7 @@ import QuestionActions from '../Redux/QuestionRedux'
 const question = state => state.question
 const auth = state => state.auth
 
-export function * getAmuletType (api) {
+export function* getAmuletType(api) {
   // get current data from Store
   // const currentData = yield select(QuestionSelectors.getData)
   // make the call to the api
@@ -34,7 +34,7 @@ export function * getAmuletType (api) {
   }
 }
 
-export function * getQuestionType (api) {
+export function* getQuestionType(api) {
   // get current data from Store
   // const currentData = yield select(QuestionSelectors.getData)
   // make the call to the api
@@ -51,7 +51,7 @@ export function * getQuestionType (api) {
   }
 }
 
-export function * addQuestion (api) {
+export function* addQuestion(api) {
 
   const q = yield select(question)
   const a = yield select(auth)
@@ -67,14 +67,19 @@ export function * addQuestion (api) {
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     // yield put(QuestionActions.getQuestionTypeSuccess(response.data))
   } else {
-    alert(response.problem)
-    yield put(QuestionActions.clearForm())
+    if (response.data.message == "There is not enough money for the transaction.") {
+      alert('คุณมี point ไม่พอ กรุณาเติม point')
+      yield put(QuestionActions.clearForm())
+    } else {
+      alert(response.problem)
+      yield put(QuestionActions.clearForm())
+    }
     // yield put(QuestionActions.getQuestionTypeFailure())
   }
 }
 
 
-export function * getHistory (api) {
+export function* getHistory(api) {
 
   // const q = yield select(question)
   const a = yield select(auth)
@@ -94,7 +99,7 @@ export function * getHistory (api) {
   }
 }
 
-export function * getAnswer (api, { qid }) {
+export function* getAnswer(api, { qid }) {
 
   // const q = yield select(question)
   const a = yield select(auth)
@@ -114,7 +119,7 @@ export function * getAnswer (api, { qid }) {
   }
 }
 
-export function * getProfile (api) {
+export function* getProfile(api) {
 
   // const q = yield select(question)
   const a = yield select(auth)

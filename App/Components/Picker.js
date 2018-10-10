@@ -12,7 +12,7 @@ var ImagePicker = require('react-native-image-picker');
 var options = {
   title: 'Select Avatar',
   customButtons: [
-    {name: 'fb', title: 'Choose Photo from Facebook'},
+    { name: 'fb', title: 'Choose Photo from Facebook' },
   ],
   storageOptions: {
     skipBackup: true,
@@ -37,6 +37,10 @@ class Picker extends Component {
   // static defaultProps = {
   //   someSetting: false
   // }
+
+  componentWillMount(){
+    this.props.clearImage()
+  }
 
   pick = () => {
     ImagePicker.showImagePicker(options, (response) => {
@@ -69,8 +73,8 @@ class Picker extends Component {
       }
     });
   }
-
   render() {
+    console.log(this.props.images)
     return (
       <View style={styles.container}>
         <TouchableOpacity style={{ flex: 1 }} onPress={this.pick}>
@@ -81,21 +85,35 @@ class Picker extends Component {
               color={Colors.brownTextTran}
             />
             <Text style={styles.uploadBoxText}>{this.props.title}</Text>
-            <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%'}} />
+            <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%' }} />
           </View>
         </TouchableOpacity>
+
+        {this.props.images[this.props.id] && < Icon
+          style={{ margin: 3 }}
+          name="squared-cross"
+          size={24}
+          color={'red'}
+          onPress={() => { this.props.deleteImage(this.props.id) }}
+        />
+        }
+       {/* จัดเลย์เอ้า และ รีเรนเดอร์ */}
       </View>
     )
   }
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    images: state.question.images,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setImages: (index, source) => dispatch(QuestionActions.setImages(index, source))
+    setImages: (index, source) => dispatch(QuestionActions.setImages(index, source)),
+    deleteImage: (index) => dispatch(QuestionActions.deleteImage(index)),
+    clearImage: () => dispatch(QuestionActions.clearImage()),
   };
 };
 
@@ -103,3 +121,12 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Picker);
+
+
+//   < Icon
+// style = {{ margin: 3 }}
+// name = "squared-cross"
+// size = { 24}
+// color = { 'red'}
+// onPress = {() => { console.log("Press close button") }}
+// />

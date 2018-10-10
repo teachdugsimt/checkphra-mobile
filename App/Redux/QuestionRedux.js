@@ -32,7 +32,10 @@ const { Types, Creators } = createActions({
   clearForm: null,
 
   getAnswer: ['qid'],
-  getAnswerSuccess: ['answer']
+  getAnswerSuccess: ['answer'],
+
+  deleteImage: ['index'],
+  clearImage: null,
 })
 
 export const QuestionTypes = Types
@@ -56,7 +59,8 @@ export const INITIAL_STATE = Immutable({
   // -------- For Submittion
   images: [],
   questions: [],
-  amuletType: 0
+  amuletType: 0,
+
 })
 
 /* ------------- Selectors ------------- */
@@ -153,6 +157,15 @@ export const profileSuccess = (state, action) => {
   console.log(profile)
   return state.merge({ profile })
 }
+
+export const deleteImage = (state, { index }) => {
+  let tmp = [...state.images]
+  tmp[index] = undefined
+  return state.merge({ images: tmp })
+}
+
+export const clearImage = (state) => state.merge({ images: [] })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -174,5 +187,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_FORM]: clearForm,
 
   [Types.GET_ANSWER_SUCCESS]: answerSuccess,
-  [Types.GET_PROFILE_SUCCESS]: profileSuccess
+  [Types.GET_PROFILE_SUCCESS]: profileSuccess,
+
+  [Types.DELETE_IMAGE]: deleteImage,
+  [Types.CLEAR_IMAGE]: clearImage,
 })

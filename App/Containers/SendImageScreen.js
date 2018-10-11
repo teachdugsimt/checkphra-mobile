@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/Entypo";
 import Picker from '../Components/Picker';
 
 import CheckBox from 'react-native-check-box'
-
+import * as Progress from 'react-native-progress';
 const options = {
   title: 'Select Avatar',
   customButtons: [
@@ -56,6 +56,9 @@ class SendImageScreen extends Component {
     this.props.getQuestionType()
   }
 
+  componentWillUnmount() {
+    this.props.clearImage()
+  }
 
   showImagePicker = () => {
     ImagePicker.showImagePicker(options, (response) => {
@@ -72,13 +75,19 @@ class SendImageScreen extends Component {
       }
       else {
         let source = { uri: response.uri };
-
+        console.log(response)
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         this.setState({
           avatarSource: source
         });
+
+        this.props.setImages(this.props.id, {
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName
+        })
       }
     });
   }
@@ -126,7 +135,11 @@ class SendImageScreen extends Component {
 
   render() {
     const point = [5, 5, 3, 3, 15]
-    // console.log(this.props.profile)
+    console.log(this.props.profile.point)
+    let color = '#1ABC9C'
+    if (!this.props.request) {
+      color = 'transparent'
+    }
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }}>
@@ -198,7 +211,7 @@ class SendImageScreen extends Component {
           </View>
 
           <RoundedButton text={"ส่งข้อมูล"} onPress={this.submit}
-          // fetching={this.props.fetching} 
+            fetching={this.props.request}
           />
 
         </ScrollView>
@@ -213,6 +226,7 @@ const mapStateToProps = (state) => {
     images: state.question.images,
     profile: state.question.profile,
     // fetching: state.question.fetching,
+    request: state.question.request,
   }
 }
 
@@ -221,7 +235,10 @@ const mapDispatchToProps = (dispatch) => {
     getQuestionType: () => dispatch(QuestionActions.getQuestionType()),
     setQuestions: (questions) => dispatch(QuestionActions.setQuestions(questions)),
     addQuestion: () => dispatch(QuestionActions.addQuestion()),
-    deleteImage: (index) => dispatch(QuestionActions.deleteImage(index)),
+
+    // deleteImage: (index) => dispatch(QuestionActions.deleteImage(index)),
+    // setImages: (index, source) => dispatch(QuestionActions.setImages(index, source)),
+    clearImage: () => dispatch(QuestionActions.clearImage()),
   }
 }
 

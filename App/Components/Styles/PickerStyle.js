@@ -19,6 +19,6 @@ export default StyleSheet.create({
   uploadBoxText: {
     fontFamily: 'Prompt-SemiBold',
     fontSize: 25,
-    color: Colors.brownTextTran
+    color: Colors.brownTextTran,
   },
 })

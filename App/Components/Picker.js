@@ -7,6 +7,7 @@ import { Colors } from '../Themes'
 import { connect } from "react-redux";
 
 import QuestionActions from '../Redux/QuestionRedux'
+import { database } from 'react-native-firebase';
 
 var ImagePicker = require('react-native-image-picker');
 var options = {
@@ -29,7 +30,9 @@ class Picker extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      avatarSource: null
+      avatarSource: null,
+      // checkData: this.props.id,
+      // Imagine: null
     }
   }
   //
@@ -38,8 +41,19 @@ class Picker extends Component {
   //   someSetting: false
   // }
 
-  componentWillMount(){
-    this.props.clearImage()
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.imgaes != this.props.images) {
+
+      if (nextProps.images[this.props.id]) {
+        console.log('ADD IMAGE SUCCESS')
+
+      }
+    }
+
+  }
+
+  componentWillMount() {
+    // this.props.clearImage()
   }
 
   pick = () => {
@@ -64,6 +78,7 @@ class Picker extends Component {
         this.setState({
           avatarSource: source
         });
+        // this.props.setUri(source, this.props.id)
 
         this.props.setImages(this.props.id, {
           uri: response.uri,
@@ -74,6 +89,10 @@ class Picker extends Component {
     });
   }
   render() {
+
+    if (this.props.images[this.props.id]) {
+      // console.log(this.props.images[this.props.id].uri)
+    }
     console.log(this.props.images)
     return (
       <View style={styles.container}>
@@ -84,20 +103,22 @@ class Picker extends Component {
               size={40}
               color={Colors.brownTextTran}
             />
-            <Text style={styles.uploadBoxText}>{this.props.title}</Text>
-            <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%' }} />
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.uploadBoxText}>{this.props.title}</Text>
+              {this.props.images[this.props.id] && < Icon
+                style={{ marginLeft: 33 }}
+                name="squared-cross"
+                size={24}
+                color={'red'}
+                onPress={() => { this.props.deleteImage(this.props.id) }}
+              />
+              }
+            </View>
+
+            <Image source={this.state.avatarSource && this.props.images[this.props.id] ? this.state.avatarSource : ''} style={{ width: '100%', height: '100%' }} />
           </View>
         </TouchableOpacity>
 
-        {this.props.images[this.props.id] && < Icon
-          style={{ margin: 3 }}
-          name="squared-cross"
-          size={24}
-          color={'red'}
-          onPress={() => { this.props.deleteImage(this.props.id) }}
-        />
-        }
-       {/* จัดเลย์เอ้า และ รีเรนเดอร์ */}
       </View>
     )
   }
@@ -106,6 +127,7 @@ class Picker extends Component {
 const mapStateToProps = state => {
   return {
     images: state.question.images,
+    uri: state.question.uri,
   };
 };
 
@@ -114,6 +136,7 @@ const mapDispatchToProps = dispatch => {
     setImages: (index, source) => dispatch(QuestionActions.setImages(index, source)),
     deleteImage: (index) => dispatch(QuestionActions.deleteImage(index)),
     clearImage: () => dispatch(QuestionActions.clearImage()),
+    // setUri: (data, index) => dispatch(QuestionActions.setUri(data, index)),
   };
 };
 

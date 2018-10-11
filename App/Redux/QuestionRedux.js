@@ -36,6 +36,7 @@ const { Types, Creators } = createActions({
 
   deleteImage: ['index'],
   clearImage: null,
+  setUri: ['data', 'index'],
 })
 
 export const QuestionTypes = Types
@@ -60,6 +61,8 @@ export const INITIAL_STATE = Immutable({
   images: [],
   questions: [],
   amuletType: 0,
+  uri: {},
+  request: null,
 
 })
 
@@ -85,7 +88,7 @@ export const questionSuccess = (state, action) => {
 export const questionFailure = state =>
   state.merge({ fetching: false, error: true, questionType: [] })
 
-
+export const requestAddQuestion = (state) => state.merge({ request: true })
 
 // request the data from an api
 export const amuletRequest = (state) => state
@@ -102,18 +105,6 @@ export const amuletFailure = state => state
 export const setAmuletType = (state, { amuletType }) => {
   console.log(amuletType)
   return state.merge({ amuletType })
-}
-
-export const setImages = (state, { index, source }) => {
-  let images
-  if (state.images) {
-    images = [...state.images]
-  } else {
-    images = []
-  }
-
-  images[index] = source
-  return state.merge({ images })
 }
 
 export const setQuestions = (state, { questions }) => {
@@ -140,7 +131,8 @@ export const historyFailure = state => state
 export const clearForm = state => state.merge({
   images: [],
   questions: [],
-  amuletType: 0
+  amuletType: 0,
+  request: false,
 })
 
 
@@ -158,14 +150,50 @@ export const profileSuccess = (state, action) => {
   return state.merge({ profile })
 }
 
+// export const deleteImage = (state, { index }) => {
+//   let tmp = [...state.images]
+//   tmp[index] = undefined
+//   let tmp2 = [...state.uri]
+//   tmp2[index] = undefined
+//   return state.merge({ images: tmp, uri: tmp2 })
+// }
+
+// export const clearImage = (state) => state.merge({ images: [], uri: [] })
+
+export const clearImage = (state) => state.merge({ images: [] })
+
 export const deleteImage = (state, { index }) => {
   let tmp = [...state.images]
   tmp[index] = undefined
   return state.merge({ images: tmp })
 }
 
-export const clearImage = (state) => state.merge({ images: [] })
 
+
+export const setImages = (state, { index, source }) => {
+  let images
+  if (state.images) {
+    images = [...state.images]
+  } else {
+    images = []
+  }
+
+  images[index] = source
+  return state.merge({ images })
+}
+
+
+export const setUri = (state, { data, index }) =>{
+  let tmp
+  if (state.tmp) {
+    tmp = [...state.tmp]
+  } else {
+    tmp = []
+  }
+
+  tmp[index] = data
+  return state.merge({ uri: tmp})
+}
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -191,4 +219,7 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.DELETE_IMAGE]: deleteImage,
   [Types.CLEAR_IMAGE]: clearImage,
+  [Types.SET_URI]: setUri,
+
+  [Types.ADD_QUESTION]: requestAddQuestion,
 })

@@ -45,11 +45,10 @@ class Picker extends Component {
     if (nextProps.imgaes != this.props.images) {
 
       if (nextProps.images[this.props.id]) {
-        console.log('ADD IMAGE SUCCESS')
+        // console.log('ADD IMAGE SUCCESS')
 
       }
     }
-
   }
 
   componentWillMount() {
@@ -93,7 +92,7 @@ class Picker extends Component {
     if (this.props.images[this.props.id]) {
       // console.log(this.props.images[this.props.id].uri)
     }
-    console.log(this.props.images)
+    // console.log(this.props.images)
     return (
       <View style={styles.container}>
         <TouchableOpacity style={{ flex: 1 }} onPress={this.pick}>

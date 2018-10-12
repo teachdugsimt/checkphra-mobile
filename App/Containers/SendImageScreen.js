@@ -33,12 +33,15 @@ class SendImageScreen extends Component {
       isChecked: false,
       questionType: [],
       message: '',
+      fetch: null
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-
     let qtype = []
+    let checkFecth = null
+    // console.log("HERE DATA")
+    // console.log(nextProps)
     nextProps.questionType.forEach(e => {
       qtype.push({
         id: e.id,
@@ -47,8 +50,16 @@ class SendImageScreen extends Component {
         isChecked: false
       })
     })
+    //  images , request => change
+    if(nextProps.request){
+      if(nextProps.images.length != 0){
+        checkFecth = true
+      }
+    } 
+
     return {
-      questionType: qtype
+      questionType: qtype,
+      fetch: checkFecth
     }
   }
 
@@ -58,7 +69,24 @@ class SendImageScreen extends Component {
 
   componentWillUnmount() {
     this.props.clearImage()
+    // this.setState({ fetch: null })
   }
+
+  // componentWillReceiveProps(newProps) {
+  //   if(newProps.request != this.props.request){
+  //     console.log('TEST REQUEST')
+  //     // this.props.navigation.navigate('his')
+  //   }
+  //   if(newProps.images != this.props.images){
+  //     console.log('TEST IMAGES')
+  //   }
+  //   if(newProps.profile != this.props.profile){
+  //     console.log('TEST PROFILE')
+  //   }
+  //   if(newProps.questionType != this.props.questionType){
+  //     console.log('TEST QUESTION TYPE')
+  //   }
+  // }
 
   showImagePicker = () => {
     ImagePicker.showImagePicker(options, (response) => {
@@ -96,6 +124,10 @@ class SendImageScreen extends Component {
     //set message and send
     let chk = []
     let cnt = 0
+    let chkImage = this.props.images.filter(e => e != undefined)
+
+
+
     this.state.questionType.map((e, i) => {
       if (e.isChecked == true) {
         chk.push(1)
@@ -106,7 +138,17 @@ class SendImageScreen extends Component {
     })
 
     let chk2 = chk.indexOf(1)
-    if (chk2 == -1 && this.state.message == '' && !this.state.message) {
+
+    if (chkImage.length == 0) {
+      Alert.alert(
+        'Check Phra',
+        'กรุณาทำการเลือกรูป',
+        [
+          { text: 'ตกลง' }
+        ],
+        { cancelable: false }
+      )
+    } else if (chk2 == -1 && this.state.message == '' && !this.state.message) {
       Alert.alert(
         'Check Phra',
         'โปรดเลือกคำถามอย่างน้อย 1 ข้อ',
@@ -121,12 +163,13 @@ class SendImageScreen extends Component {
           'Check Phra',
           'point ของท่านไม่พอ กรุณาเติม point',
           [
-            { text: 'ตกลง', onPress: () => { this.props.navigation.navigate('Pro') } }
+            { text: 'ตกลง', onPress: () => { this.props.navigation.navigate('pro') } }
           ],
           { cancelable: false }
         )
       } else {
         this.props.addQuestion()
+        
       }
     }
 
@@ -135,11 +178,12 @@ class SendImageScreen extends Component {
 
   render() {
     const point = [5, 5, 3, 3, 15]
-    console.log(this.props.profile.point)
-    let color = '#1ABC9C'
-    if (!this.props.request) {
-      color = 'transparent'
+    // console.log(this.props.profile)
+    if(this.state.fetch == true){
+      this.props.navigation.goBack()
+      this.props.navigation.navigate('his')
     }
+    // console.log(this.props.request)
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }}>
@@ -243,13 +287,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SendImageScreen)
-
-
-
-//   < Icon
-// style = {{ margin: 3 }}
-// name = "squared-cross"
-// size = { 24}
-// color = { 'red'}
-// onPress = {() => { console.log("Press close button") }}
-// />

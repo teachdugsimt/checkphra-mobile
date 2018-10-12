@@ -19,6 +19,10 @@ class ProfileScreen extends Component {
     this.props.getProfile()
   }
 
+  // onRefresh(){
+  //   this.props.getProfile()
+  // }
+
   render() {
     console.log(this.props.profile)
     return (

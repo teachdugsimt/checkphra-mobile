@@ -62,8 +62,9 @@ export const INITIAL_STATE = Immutable({
   questions: [],
   amuletType: 0,
   uri: {},
-  request: null,
 
+  request: null,  // for addQuestion
+  request2: null,  //for get History
 })
 
 /* ------------- Selectors ------------- */
@@ -108,25 +109,27 @@ export const setAmuletType = (state, { amuletType }) => {
 }
 
 export const setQuestions = (state, { questions }) => {
-  console.log(questions)
+  // console.log(questions)
   let q = []
   questions.forEach(element => {
     if (element.isChecked) {
       q.push(element.id)
     }
   });
-  console.log(q)
+  // console.log(q)
   return state.merge({ questions: q })
 }
+
+export const requestGetHistory = (state) => state.merge({ request2: true })
 
 // successful api lookup
 export const historySuccess = (state, action) => {
   const { history } = action
-  return state.merge({ history })
+  return state.merge({ history, request2: false })
 }
 
 // Something went wrong somewhere.
-export const historyFailure = state => state
+export const historyFailure = state => state.merge({ request2: false})
 
 export const clearForm = state => state.merge({
   images: [],
@@ -209,6 +212,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_IMAGES]: setImages,
   [Types.SET_QUESTIONS]: setQuestions,
 
+  [Types.GET_HISTORY]: requestGetHistory,
   [Types.GET_HISTORY_SUCCESS]: historySuccess,
   [Types.GET_HISTORY_FAILURE]: historyFailure,
 

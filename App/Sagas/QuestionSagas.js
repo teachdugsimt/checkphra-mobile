@@ -9,6 +9,7 @@
 *  - This template uses the api declared in sagas/index.js, so
 *    you'll need to define a constant in that file.
 *************************************************************/
+import { Alert } from 'react-native'
 
 import { call, put, select } from 'redux-saga/effects'
 import QuestionActions from '../Redux/QuestionRedux'
@@ -61,9 +62,17 @@ export function* addQuestion(api) {
 
   // success?
   if (response.ok) {
-    alert("ส่งพระตรวจ สำเร็จ!!")
+    // alert("ส่งพระตรวจ สำเร็จ!!")
+    Alert.alert(
+      'Check Phra',
+      'ส่งพระตรวจ สำเร็จ!!',
+      [
+        { text: 'ตกลง' }
+      ],
+      { cancelable: false }
+    )
     yield put(QuestionActions.clearForm())
-    yield put (QuestionActions.clearImage())
+    yield put(QuestionActions.clearImage())
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     // yield put(QuestionActions.getQuestionTypeSuccess(response.data))
@@ -73,9 +82,9 @@ export function* addQuestion(api) {
     //   yield put(QuestionActions.clearForm())
     //   yield put (QuestionActions.clearImage())
     // } else {
-      alert(response.problem)
-      yield put(QuestionActions.clearForm())
-      yield put (QuestionActions.clearImage())
+    alert(response.problem)
+    yield put(QuestionActions.clearForm())
+    yield put(QuestionActions.clearImage())
     // }
 
     // yield put(QuestionActions.getQuestionTypeFailure())

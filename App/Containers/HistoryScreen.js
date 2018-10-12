@@ -14,7 +14,8 @@ class HistoryScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      refreshing: false
+      refreshing: false,
+      fetch: null,
     }
   }
 
@@ -29,7 +30,47 @@ class HistoryScreen extends Component {
     this.props.navigation.navigate('answer')
   }
 
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.history != this.props.history) {
+  //       // this.props.getHistory()
+  //       if(newProps.request2 == this.props.request2){
+  //         this.onRefresh()
+  //       }
+  //   }
+  // }
+
+  onRefresh() {
+    this.props.getHistory()
+  }
+
+  static getDerivedStateFromProps(newProps, PrevState) {
+    let checkRequest = null
+    console.log(newProps)
+    // if (newProps.request2) {
+    //   if (newProps.images.length == 0) {
+    //     console.log('HERE SET FETCH')
+    //     checkRequest = true
+    //   }
+    // }
+
+    // if(newProps.request2){   // REQUESTING
+    //   if(newProps.images.length == 0){
+    //     checkRequest = true
+    //   }
+    // }
+    if(newProps.images.length == 0){  
+      checkRequest = true
+    }
+    return {
+      fetch: checkRequest
+    }
+  }
+
   render() {
+    if(this.state.fetch == true){
+      this.props.getHistory()
+      console.log('READY TO GET PROPS')
+    }
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -37,8 +78,21 @@ class HistoryScreen extends Component {
         <FlatList
           refreshControl={
             <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={() => this.props.getHistory()}
+              // refreshing={this.state.refreshing}
+              // onRefresh={() => this.props.getHistory()}
+
+              refreshing={this.props.request2}
+              // refreshing={this.state.fetch}
+              onRefresh={this.onRefresh.bind(this)}
+              // onRefresh={() =>{
+              //   if(this.state.fetch){
+              //     this.props.getHistory()
+              //   } else if(this.props.request2){
+              //     this.props.getHistory()
+              //   } else if(this.state.fetch != this.props.request2){
+              //     this.props.getHistory()
+              //   }
+              // }}
             />
           }
           data={this.props.history}
@@ -100,7 +154,9 @@ class HistoryScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     history: state.question.history,
-    answer: state.question.answer
+    answer: state.question.answer,
+    request2: state.question.request2,
+    images: state.question.images,
   }
 }
 

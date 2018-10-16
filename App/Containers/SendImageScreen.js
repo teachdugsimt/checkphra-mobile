@@ -72,22 +72,6 @@ class SendImageScreen extends Component {
     // this.setState({ fetch: null })
   }
 
-  // componentWillReceiveProps(newProps) {
-  //   if(newProps.request != this.props.request){
-  //     console.log('TEST REQUEST')
-  //     // this.props.navigation.navigate('his')
-  //   }
-  //   if(newProps.images != this.props.images){
-  //     console.log('TEST IMAGES')
-  //   }
-  //   if(newProps.profile != this.props.profile){
-  //     console.log('TEST PROFILE')
-  //   }
-  //   if(newProps.questionType != this.props.questionType){
-  //     console.log('TEST QUESTION TYPE')
-  //   }
-  // }
-
   showImagePicker = () => {
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
@@ -106,7 +90,6 @@ class SendImageScreen extends Component {
         console.log(response)
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
         this.setState({
           avatarSource: source
         });
@@ -178,12 +161,12 @@ class SendImageScreen extends Component {
 
   render() {
     const point = [5, 5, 3, 3, 15]
-    // console.log(this.props.profile)
+
     if(this.state.fetch == true){
       this.props.navigation.goBack()
       this.props.navigation.navigate('his')
     }
-    // console.log(this.props.request)
+
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }}>

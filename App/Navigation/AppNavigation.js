@@ -64,7 +64,7 @@ const RegStack = StackNavigator(
   }
 );
 
-const UploadStack = StackNavigator(
+const UploadStack = StackNavigator(  // main upload
   {
     uploadScreen: { screen: UploadScreen },
     detail: { screen: DetailTypeScreen },
@@ -98,7 +98,7 @@ const UploadStack = StackNavigator(
   }
 )
 
-const ProfileStack = StackNavigator(
+const ProfileStack = StackNavigator(   // main pro
   {
     profileScreen: { screen: ProfileScreen },
     change: { screen: ChangePasswordScreen }
@@ -131,7 +131,7 @@ const ProfileStack = StackNavigator(
   }
 );
 
-const PromotionStack = StackNavigator(
+const PromotionStack = StackNavigator(  // main pro
   {
     promotion: { screen: Promotion },
   },
@@ -163,7 +163,7 @@ const PromotionStack = StackNavigator(
   }
 )
 
-const HistoryStack = StackNavigator(
+const HistoryStack = StackNavigator(  // mmain his
   {
     his: { screen: HistoryScreen },
     answer: { screen: AnswerScreen }
@@ -199,7 +199,6 @@ const HistoryStack = StackNavigator(
 
 const DashStack = TabNavigator(
   {
-
     upload: UploadStack,
     his: HistoryStack,
     profile: ProfileStack,

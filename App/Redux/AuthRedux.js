@@ -6,7 +6,7 @@ import Immutable from 'seamless-immutable'
 
 const { Types, Creators } = createActions({
   signinWithCredential: ['data'],
-  signinRequest: ['data'],
+  signinRequest: ['email', 'password'],
   signinSuccess: ['profile'],
   signinFailure: null,
 
@@ -15,10 +15,6 @@ const { Types, Creators } = createActions({
   signup: ['id', 'password'],
   signupSuccess: ['data'],
   signupFailure: null,
-
-  step2Signup: ['email', 'userid'],
-  step2SignupSuccess: ['data'],
-  step2SignupFailure: ['error'],
 
 })
 
@@ -47,8 +43,10 @@ export const AuthSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, { data }) =>
-  state.merge({ fetching: true, data, profile: null })
+export const request = (state, { email, password }) => {
+  let data = { email, password }
+  return state.merge({ fetching: true, data, profile: null })
+}
 
 // successful api lookup
 export const success = (state, action) => {

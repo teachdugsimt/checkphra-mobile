@@ -18,11 +18,15 @@ import AuthActions from '../Redux/AuthRedux'
 // const auth = state => state.auth   // go to firebase to signup and get access token
 
 export function* signin(api, action) {
-  const { data } = action
+  const { email, password } = action
+
   // get current data from Store
   // const currentData = yield select(AuthSelectors.getData)
   // make the call to the api
 
+
+  let data = { email, password }
+  console.log(data)
   console.log('start signin')
 
   const response = yield call(api.signin, data)
@@ -31,8 +35,14 @@ export function* signin(api, action) {
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
+
+    console.log("SIGNIN COMPLETE")
+    console.log(response.data)
     yield put(AuthActions.signinSuccess(response.data))
+
   } else {
+    console.log("SIGNIN FAIL")
+    console.log(response)
     yield put(AuthActions.signinFailure())
   }
 }
@@ -143,5 +153,4 @@ export function* signup(api, getFirebase, { id, password }) {
 //     }
 
 //   }
-//   //console.log('create user')
 // }

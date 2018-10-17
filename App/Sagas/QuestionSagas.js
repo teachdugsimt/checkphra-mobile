@@ -151,3 +151,20 @@ export function* getProfile(api) {
     yield put(QuestionActions.getHistoryFailure())
   }
 }
+
+export function* deleteQuestion(api, qid ) {
+  const aut = yield select(auth)
+  const data = {
+    q_id: qid.q_id,
+    user_id: aut.user_id,
+  }
+
+  const response = yield call(api.cancelQuestion, data)
+  console.log(response)
+  if (response.ok) {
+    yield put(QuestionActions.deleteQuestionSuccess(response.data))
+  } else {
+    yield put(QuestionActions.deleteQuestionFailure())
+    alert('ยกเลิกรายการตรจพระล้มเหลว')
+  }
+}

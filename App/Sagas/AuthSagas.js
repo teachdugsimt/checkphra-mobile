@@ -14,8 +14,8 @@ import { call, put, select } from 'redux-saga/effects'
 import AuthActions from '../Redux/AuthRedux'
 // import { AuthSelectors } from '../Redux/AuthRedux'
 
-// const auth = state => state.firebase.auth
 // const firebase = state => state.firebase
+// const auth = state => state.auth   // go to firebase to signup and get access token
 
 export function* signin(api, action) {
   const { email, password } = action
@@ -77,7 +77,7 @@ export function* signinWithCredential(api, action) {
   }
 }
 
-export function* signup(api, { id, password }) {
+export function* signup(api, getFirebase, { id, password }) {
   console.log(id)
   console.log(password)
 
@@ -91,6 +91,7 @@ export function* signup(api, { id, password }) {
 
   if (response.ok) {
     yield put(AuthActions.signupSuccess(response.data))
+
     // yield* signupAtFirebase(api, getFirebase, id, response.data.access_token)
   } else {
 
@@ -110,26 +111,46 @@ export function* signup(api, { id, password }) {
 
 // function* signupAtFirebase(api, getFirebase, email, accessToken) {
 
-//   // yield getFirebase().createUser({
-//   //   email: email,
-//   //   password: accessToken
-//   // }).then(() => {
-//   //   console.log('sinup with firebase success')
-//   //   yield * step2Signup()
-//   // }).catch((error) => {
-//   //   console.log('sinup with firebase error')
-//   //   console.log(error.message)
-//   // })
-
 //   try {
-//     const result = yield call(getFirebase().createUser, { email, password: accessToken })
+//     const result = yield call(getFirebase().login, { email, password: accessToken })
 //     console.log(result)
 //     // yield put(AuthActions.step2Signup())
 //     yield* step2Signup(api)
 //   } catch (error) {
 //     let message = JSON.parse(error.data.message)
-//     yield put(AuthActions.signupFailure(message))
-//     console.log("------ error --------")
-//     console.log(error.message)
+//     if ((message).indexOf("has already been taken") != -1) {
+//       yield put(AuthActions.signupFailure())
+//       alert("อีเมลนี้ถูกใช้งานแล้ว")
+//     } else if (message == 'NETWORK_ERROR') {
+//       yield put(AuthActions.signupFailure())
+//       alert('การเชื่อมต่ออินเตอร์เน็ตผิดพลาด')
+//     } else {
+//       yield put(AuthActions.signupFailure())
+//       alert('กรุณาตรวจสอบ อีเมลและรหัสผ่าน')
+//     }
+//   }
+
+// }
+
+// export function* step2Signup(api) {
+
+//   const fb = yield select(firebase)   //เลือก firebase จาก Redux มาใช้
+
+//   if (!fb.auth.isEmpty) {
+//     const data = {
+//       email: fb.auth.email,
+//       access_token: fb.auth.uid
+//     }
+//     const response = yield call(api.savedata, data)
+//     if (response.ok) {
+//       yield console.log('SEND_API')
+//       yield put(AuthActions.signupSuccess(response.data))
+
+//     } else {
+//       let message = JSON.parse(response.data.message)
+//       yield put(AuthActions.signupFailure())
+//       alert(message)
+//     }
+
 //   }
 // }

@@ -20,6 +20,7 @@ class ChangePasswordScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: "",
       oldPass: "",
       newPass: "",
       confrimPass: ""
@@ -50,8 +51,8 @@ class ChangePasswordScreen extends Component {
           "Check Phra",
           "รหัสผ่านไม่ถูกต้อง ...",
           [
-            { text: "ตกลง"},
-            
+            { text: "ตกลง" },
+
           ],
           { cancelable: false }
         );
@@ -62,8 +63,8 @@ class ChangePasswordScreen extends Component {
         "Check Phra",
         "กรุณากรอกข้อมูลให้ครบถ้วน...",
         [
-          { text: "ตกลง"},
-          
+          { text: "ตกลง" },
+
         ],
         { cancelable: false }
       );
@@ -94,116 +95,153 @@ class ChangePasswordScreen extends Component {
   render() {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
-        <View
-          style={{
-            position: "absolute",
-            borderColor: "white",
-            height: 50,
-            borderWidth: 1,
-            width: 320,
-            borderRadius: 10,
-            alignSelf: "center",
-            top: 50
-          }}
-        >
-          <TextInput
-            style={{
-              fontFamily: "Prompt-Regular",
-              fontSize: 16,
-              color: "white",
-              marginLeft: 10
-            }}
-            onChangeText={oldPass => this.setState({ oldPass })}
-            value={this.state.oldPass}
-            placeholder="รหัสผ่านเก่า"
-            underlineColorAndroid="rgba(0,0,0,0)"
-            placeholderTextColor="white"
-            secureTextEntry={true}
-          />
-        </View>
 
-        <View
-          style={{
-            position: "absolute",
-            borderColor: "white",
-            height: 50,
-            borderWidth: 1,
-            width: 320,
-            borderRadius: 10,
-            alignSelf: "center",
-            top: 120
-          }}
-        >
-          <TextInput
+        <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'space-between', marginTop: 20 }}>
+          <View
             style={{
-              fontFamily: "Prompt-Regular",
-              fontSize: 16,
-              color: "white",
-              marginLeft: 10
+              borderColor: "white",
+              borderWidth: 1,
+              height: 50,
+              width: 320,
+              borderRadius: 10,
+              alignSelf: "center",
+              marginTop: 20,
             }}
-            onChangeText={newPass => this.setState({ newPass })}
-            value={this.state.newPass}
-            placeholder="รหัสผ่านใหม่"
-            underlineColorAndroid="rgba(0,0,0,0)"
-            placeholderTextColor="white"
-            secureTextEntry={true}
-          />
-        </View>
-        <View
-          style={{
-            position: "absolute",
-            borderColor: "white",
-            height: 50,
-            borderWidth: 1,
-            width: 320,
-            borderRadius: 10,
-            alignSelf: "center",
-            top: 190
-          }}
-        >
-          <TextInput
-            style={{
-              fontFamily: "Prompt-Regular",
-              fontSize: 16,
-              color: "white",
-              marginLeft: 10
-            }}
-            onChangeText={confrimPass => this.setState({ confrimPass })}
-            value={this.state.confrimPass}
-            placeholder="ยืนยันรหัสผ่านใหม่"
-            underlineColorAndroid="rgba(0,0,0,0)"
-            placeholderTextColor="white"
-            secureTextEntry={true}
-          />
-        </View>
-
-        <View
-          style={{
-            borderColor: Colors.button,
-            height: 40,
-            borderWidth: 1,
-            backgroundColor: Colors.button,
-            position: "absolute",
-            top: 280,
-            width: 150,
-            borderRadius: 20,
-            alignSelf: "center"
-          }}
-        >
-          <TouchableOpacity onPress={this.confrimPassword}>
-            <Text
+          >
+            <TextInput
               style={{
-                fontFamily: "Prompt-Light",
-                fontSize: 18,
-                alignSelf: "center",
-                marginTop: 5,
-                color: "white"
+                fontFamily: "Prompt-Regular",
+                fontSize: 16,
+                color: "white",
+                marginLeft: 10
               }}
-            >
-              ตกลง
+              onChangeText={email => this.setState({ email })}
+              value={this.state.email}
+              placeholder="อีเมล"
+              underlineColorAndroid="rgba(0,0,0,0)"
+              placeholderTextColor="white"
+              secureTextEntry={false}
+            />
+          </View>
+
+          <View
+            style={{
+              // position: "absolute",
+              borderColor: "white",
+              height: 50,
+              borderWidth: 1,
+              width: 320,
+              borderRadius: 10,
+              alignSelf: "center",
+              // top: 50
+              marginTop: 20,
+            }}
+          >
+            <TextInput
+              style={{
+                fontFamily: "Prompt-Regular",
+                fontSize: 16,
+                color: "white",
+                marginLeft: 10
+              }}
+              onChangeText={oldPass => this.setState({ oldPass })}
+              value={this.state.oldPass}
+              placeholder="รหัสผ่านเก่า"
+              underlineColorAndroid="rgba(0,0,0,0)"
+              placeholderTextColor="white"
+              secureTextEntry={true}
+            />
+          </View>
+
+          <View
+            style={{
+              // position: "absolute",
+              borderColor: "white",
+              height: 50,
+              borderWidth: 1,
+              width: 320,
+              borderRadius: 10,
+              alignSelf: "center",
+              // top: 120
+              marginTop: 20,
+            }}
+          >
+            <TextInput
+              style={{
+                fontFamily: "Prompt-Regular",
+                fontSize: 16,
+                color: "white",
+                marginLeft: 10
+              }}
+              onChangeText={newPass => this.setState({ newPass })}
+              value={this.state.newPass}
+              placeholder="รหัสผ่านใหม่"
+              underlineColorAndroid="rgba(0,0,0,0)"
+              placeholderTextColor="white"
+              secureTextEntry={true}
+            />
+          </View>
+
+          <View
+            style={{
+              // position: "absolute",
+              borderColor: "white",
+              height: 50,
+              borderWidth: 1,
+              width: 320,
+              borderRadius: 10,
+              alignSelf: "center",
+              // top: 190
+              marginTop: 20,
+            }}
+          >
+            <TextInput
+              style={{
+                fontFamily: "Prompt-Regular",
+                fontSize: 16,
+                color: "white",
+                marginLeft: 10
+              }}
+              onChangeText={confrimPass => this.setState({ confrimPass })}
+              value={this.state.confrimPass}
+              placeholder="ยืนยันรหัสผ่านใหม่"
+              underlineColorAndroid="rgba(0,0,0,0)"
+              placeholderTextColor="white"
+              secureTextEntry={true}
+            />
+          </View>
+
+          <View
+            style={{
+              borderColor: Colors.button,
+              height: 40,
+              borderWidth: 1,
+              backgroundColor: Colors.button,
+              // position: "absolute",
+              // top: 280,
+              width: 150,
+              borderRadius: 20,
+              alignSelf: "center",
+              marginTop: 20,
+            }}
+          >
+            <TouchableOpacity onPress={this.confrimPassword}>
+              <Text
+                style={{
+                  fontFamily: "Prompt-Light",
+                  fontSize: 18,
+                  alignSelf: "center",
+                  marginTop: 5,
+                  color: "white"
+                }}
+              >
+                ตกลง
             </Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
+
         </View>
+
       </LinearGradient>
     );
   }

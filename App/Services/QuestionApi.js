@@ -76,6 +76,7 @@ const create = (baseURL = b) => {
   const getAnswer = (data) => api.get('answer/detail', data)
 
   const getProfile = (data) => api.get('user/profile', data)
+  const cancelQuestion = (data) => api.get('question/cancel', data)
   // ------
   // STEP 3
   // ------
@@ -97,7 +98,8 @@ const create = (baseURL = b) => {
     getHistory,
     getAnswer,
 
-    getProfile
+    getProfile,
+    cancelQuestion
   }
 }
 

@@ -27,7 +27,7 @@ export const INITIAL_STATE = Immutable({
   data: null,
   fetching: null,
   profile: null,
-  user_id: null,
+  user_id: null,  // access token login facebook
   error: null,
 
   request: null,

@@ -135,7 +135,8 @@ export const clearForm = state => state.merge({
   images: [],
   questions: [],
   amuletType: 0,
-  request: false,
+  request: null,
+  request2: null,
 })
 
 

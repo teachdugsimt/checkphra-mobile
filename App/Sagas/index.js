@@ -9,6 +9,7 @@ import { StartupTypes } from '../Redux/StartupRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
 import { AuthTypes } from '../Redux/AuthRedux'
 import { QuestionTypes } from '../Redux/QuestionRedux'
+import { PromotionTypes } from '../Redux/PromotionRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -16,6 +17,7 @@ import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { signin, signinWithCredential, signup } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile } from './QuestionSagas'
+import { getPromotion } from './PromotionSagas'
 
 /* ------------- API ------------- */
 
@@ -23,6 +25,7 @@ import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, get
 // to the sagas which need it.
 const authApi = API.Auth.create()
 const questionApi = API.Question.create()
+const promotionApi = API.Promotion.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -45,7 +48,9 @@ export default function * root () {
     takeLatest(QuestionTypes.GET_HISTORY, getHistory, questionApi),
     takeLatest(QuestionTypes.GET_ANSWER, getAnswer, questionApi),
 
-    takeLatest(QuestionTypes.GET_PROFILE, getProfile, questionApi)
+    takeLatest(QuestionTypes.GET_PROFILE, getProfile, questionApi),
+
+    takeLatest(PromotionTypes.PROMOTION_REQUEST, getPromotion, promotionApi),
 
   ])
 }

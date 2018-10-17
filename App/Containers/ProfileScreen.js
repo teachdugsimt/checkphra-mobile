@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, TouchableOpacity} from "react-native";
+import { ScrollView, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import QuestionActions from '../Redux/QuestionRedux'
-
+import Icon from "react-native-vector-icons/Entypo";
+import Icon2 from "react-native-vector-icons/Ionicons";
+import { Colors } from "../Themes";
 // Styles
 import styles from "./Styles/ProfileScreenStyle";
-import { Colors } from "../Themes";
 
 class ProfileScreen extends Component {
   // constructor (props) {
@@ -27,84 +28,80 @@ class ProfileScreen extends Component {
     console.log(this.props.profile)
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
-        <View
-          style={{
-            height: 50,
-            marginTop: 20,
-            marginLeft: 20,
-            justifyContent: "center"
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 25,
-              fontFamily: "Prompt-Regular",
-              color: Colors.brownText
-            }}
-          >
-            ข้อมูลส่วนตัว
-          </Text>
-        </View>
-        <View style={{ height: 100, flexDirection: 'column'}}>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
-          >
 
+        <View style={{ flex: 0.4, height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center', }}>
 
-            <View style={{ marginLeft: 20 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontFamily: "Prompt-Regular",
-                  color: Colors.brownText,
-                  marginLeft: 20
-                }}
-              >
-                อีเมล :
-              </Text>
+          <View style={{ height: 40, width: 40, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignSelf: 'center'
+          , backgroundColor: 'lightgrey', borderRadius: 20, marginRight: 10 }}>
+            <Icon
+              name="camera"
+              size={30}
+              color={Colors.brownText}
+              style={{}}
+              onPress={() => { }}
+            />
+          </View>
+
+          <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text>{this.props.profile.firstname + " " + this.props.profile.lastname} </Text>
             </View>
-            <View style={{ width: 250}}>
-              <Text
-                numberOfLines={1}
-                style={{
-                  fontFamily: "Prompt-Regular",
-                  fontSize: 18,
-                  color: Colors.brownText
-                }}
-              >
-                {this.props.profile && this.props.profile.email}
-              </Text>
+          <Text style={{ marginTop:5, color: 'orange'}}>Check Phra Account</Text>
+            <View style={{ flexDirection: 'row', marginTop: 5 }}>
+              <Icon
+                name="mail"
+                size={18}
+                color={Colors.brownText}
+                style={{ marginRight: 10 }}
+                onPress={() => { }}
+              />
+              <Text> {this.props.profile.email}</Text>
             </View>
           </View>
 
         </View>
-        <View style={{ height: 80}}>
-          <Text
-            style={{
-              fontSize: 25,
-              fontFamily: "Prompt-Regular",
-              color: Colors.brownText,
-              marginLeft: 20
-            }}
-          >
-            แต้มสะสม
-          </Text>
-          <Text style = {{fontFamily:"Prompt-Regular",fontSize:25,color:Colors.brownText,alignSelf:'center'}}>{this.props.profile && this.props.profile.point}</Text>
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 0.2, marginTop: 20, backgroundColor: 'white' }}>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', height: '100%', marginHorizontal: 10 }}>
+            <Icon2
+              name="ios-ribbon"
+              size={18}
+              color={Colors.brownText}
+              style={{ marginRight: 10 }}
+              onPress={() => { }}
+            />
+            <Text>แต้มสะสม</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', height: '100%', marginHorizontal: 10 }}>
+            <Text>{this.props.profile.point}</Text>
+            <Text style={{ color: 'orange' }}> point</Text>
+          </View>
         </View>
-        <TouchableOpacity onPress ={()=> this.props.navigation.navigate("change")}>
-        <Text
-            style={{
-              color: "#FF0000",
-              fontFamily: "Prompt-Regular",
-              fontSize: 16,
-              marginLeft: 20,
-              marginVertical: 20,
-              textDecorationLine: "underline"
-            }}
-          >
-            เปลี่ยนรหัสผ่าน
+
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', marginTop: 20 }} onPress={() => this.props.navigation.navigate("change")}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
+            <Icon2
+              name="ios-lock"
+              size={18}
+              color={Colors.brownText}
+              style={{ marginRight: 10 }}
+              onPress={() => { }}
+            />
+            <Text
+              style={{
+                color: "#FF0000",
+                fontFamily: "Prompt-Regular",
+                fontSize: 16,
+                textDecorationLine: "underline"
+              }}
+            >
+              เปลี่ยนรหัสผ่าน
           </Text>
-          </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+
       </LinearGradient>
     );
   }

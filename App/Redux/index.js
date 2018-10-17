@@ -13,6 +13,7 @@ export const reducers = combineReducers({
   search: require('./SearchRedux').reducer,
   auth: require('./AuthRedux').reducer,
   question: require('./QuestionRedux').reducer,
+  promotion: require('./PromotionRedux').reducer,
 })
 
 export default () => {

@@ -136,7 +136,7 @@ class SigninScreen extends Component {
   }
 
   login = () => {
-
+    this.props.signin(this.state.inputEmail, this.state.inputPass)
   }
 
   render() {
@@ -261,7 +261,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setUserId: (user_id) => dispatch(AuthActions.setUserId(user_id)),
-    signinWithCredential: (data) => dispatch(AuthActions.signinWithCredential(data))
+    signinWithCredential: (data) => dispatch(AuthActions.signinWithCredential(data)),
+    signin: (email, password) => dispatch(AuthActions.signinRequest(email, password))
   };
 };
 

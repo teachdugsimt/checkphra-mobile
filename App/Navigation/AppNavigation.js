@@ -2,13 +2,14 @@ import ProfileScreen from "../Containers/ProfileScreen";
 import UploadScreen from "../Containers/UploadScreen";
 import RegisterScreen from "../Containers/RegisterScreen";
 import SigninScreen from "../Containers/SigninScreen";
-import LaunchScreen from "../Containers/LaunchScreen";
+// import LaunchScreen from "../Containers/LaunchScreen";
 import HistoryScreen from "../Containers/HistoryScreen";
 import AnswerScreen from "../Containers/AnswerScreen";
 import DetailTypeScreen from "../Containers/DetailTypeScreen"
 import ChangePasswordScreen from "../Containers/ChangePasswordScreen"
 import SendImageScreen from '../Containers/SendImageScreen'
 import Promotion from '../Containers/Promotion'
+import CheckListScreen from '../Containers/CheckListScreen'
 
 import styles from "./Styles/NavigationStyles";
 import React from "react";
@@ -16,7 +17,7 @@ import { TouchableOpacity, View, Text, Image } from "react-native";
 import { Colors } from "../Themes";
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/FontAwesome";
-import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator } from "react-navigation";
+import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator } from 'react-navigation';
 
 const AuthStack = StackNavigator(
   {
@@ -66,33 +67,35 @@ const RegStack = StackNavigator(
 
 const UploadStack = StackNavigator(  // main upload
   {
-    uploadScreen: { screen: UploadScreen },
-    detail: { screen: DetailTypeScreen },
+    uploadScreen: {
+      screen: UploadScreen,
+      navigationOptions: {
+        title: 'ตรวจสอบพระ',
+      }
+    },
+    detail: {
+      screen: DetailTypeScreen,
+      navigationOptions: {
+        // headerTintColor: Colors.headerTitleColor
+      }
+    },
     send: { screen: SendImageScreen }
   },
   {
     navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <Text
-          style={{
-            fontSize: 25,
-            fontFamily: "Prompt-Regular",
-            color: Colors.brownText,
-            marginLeft: 30
-          }}
-        >
-          Check Phra
-        </Text>
-      ),
-      headerRight: (
-        <Icon
-          name="log-out"
-          size={20}
-          color={Colors.brownText}
-          style={{ marginRight: 15 }}
-          onPress={() => navigation.navigate("Auth")}
-        />
-      ),
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: 'กลับ',
+      headerBackTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Regular'
+      },
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Light'
+      },
       tabBarLabel: "ตรวจสอบพระ"
     })
   }
@@ -100,32 +103,25 @@ const UploadStack = StackNavigator(  // main upload
 
 const ProfileStack = StackNavigator(   // main pro
   {
-    profileScreen: { screen: ProfileScreen },
-    change: { screen: ChangePasswordScreen }
+    profileScreen: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        title: 'ข้อมูลส่วนตัว'
+      }
+    },
+    change: {
+      screen: ChangePasswordScreen
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <Text
-          style={{
-            fontSize: 25,
-            fontFamily: "Prompt-Regular",
-            color: Colors.brownText,
-            marginLeft: 30
-          }}
-        >
-          Check Phra
-        </Text>
-      ),
-      headerRight: (
-        <Icon
-          name="log-out"
-          size={20}
-          color={Colors.brownText}
-          style={{ marginRight: 15 }}
-          onPress={() => navigation.navigate("Auth")}
-        />
-      ),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Light'
+      },
       tabBarLabel: 'ข้อมูลส่วนตัว'
     })
   }
@@ -133,31 +129,28 @@ const ProfileStack = StackNavigator(   // main pro
 
 const PromotionStack = StackNavigator(  // main pro
   {
-    promotion: { screen: Promotion },
+    promotion: {
+      screen: Promotion,
+      navigationOptions: {
+        title: 'โปรโมชั่น'
+      }
+    },
   },
   {
     navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <Text
-          style={{
-            fontSize: 25,
-            fontFamily: "Prompt-Regular",
-            color: Colors.brownText,
-            marginLeft: 30
-          }}
-        >
-          Check Phra
-      </Text>
-      ),
-      headerRight: (
-        <Icon
-          name="log-out"
-          size={20}
-          color={Colors.brownText}
-          style={{ marginRight: 15 }}
-          onPress={() => navigation.navigate("Auth")}
-        />
-      ),
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: 'กลับ',
+      headerBackTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Regular'
+      },
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Light'
+      },
       tabBarLabel: 'โปรโมชั่น'
     })
   }
@@ -165,33 +158,30 @@ const PromotionStack = StackNavigator(  // main pro
 
 const HistoryStack = StackNavigator(  // mmain his
   {
-    his: { screen: HistoryScreen },
+    his: {
+      screen: HistoryScreen,
+      navigationOptions: {
+        title: 'ประวัติการส่งตรวจ'
+      }
+    },
     answer: { screen: AnswerScreen }
   },
   {
     navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <Text
-          style={{
-            fontSize: 25,
-            fontFamily: "Prompt-Regular",
-            color: Colors.brownText,
-            marginLeft: 30
-          }}
-        >
-          Check Phra
-        </Text>
-      ),
-      headerRight: (
-        <Icon
-          name="log-out"
-          size={20}
-          color={Colors.brownText}
-          style={{ marginRight: 15 }}
-          onPress={() => navigation.navigate("Auth")}
-        />
-      ),
-      tabBarLabel: 'ประวัติการส่งตรวจพระ'
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: 'กลับ',
+      headerBackTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Regular'
+      },
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Light'
+      },
+      tabBarLabel: 'ประวัติ'
     })
   }
 );
@@ -203,7 +193,6 @@ const DashStack = TabNavigator(
     his: HistoryStack,
     profile: ProfileStack,
     pro: PromotionStack,
-
   },
   {
     initialRouteName: "upload",
@@ -220,7 +209,7 @@ const DashStack = TabNavigator(
         if (routeName == "his") {
           iconName = `history${focused ? "" : ""}`;
         }
-        if(routeName == "pro"){
+        if (routeName == "pro") {
           iconName = `gift${focused ? "" : ""}`;
           //gift, money, credit-card
         }
@@ -228,10 +217,11 @@ const DashStack = TabNavigator(
       }
     }),
     tabBarOptions: {
-      activeTintColor: Colors.brownText,
-      inactiveTintColor: "gray",
+      activeTintColor: Colors.activeTab,
+      inactiveTintColor: Colors.inactiveTab,
       style: {
-        height: 60
+        height: 60,
+        backgroundColor: Colors.tabBar,
       },
       labelStyle: {
         fontSize: 14,
@@ -244,12 +234,66 @@ const DashStack = TabNavigator(
   }
 );
 
+
+const CheckListStack = StackNavigator({
+  check: {
+    screen: CheckListScreen,
+    navigationOptions: {
+      title: 'พระรอตรวจ'
+    }
+  }
+}, {
+    navigationOptions: ({ navigation }) => ({
+      tabBarLabel: 'พระรอตรวจ',
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
+    })
+  })
+
+const ExpertStack = TabNavigator({
+  checklist: CheckListStack,
+  profile: ProfileStack,
+}, {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName == "checklist") {
+          iconName = `list-ul${focused ? "" : ""}`;
+        }
+        if (routeName == "profile") {
+          iconName = `user-circle${focused ? "" : "-o"}`;
+        }
+        return <Icon2 name={iconName} size={25} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: Colors.activeTab,
+      inactiveTintColor: Colors.inactiveTab,
+      style: {
+        height: 60,
+        backgroundColor: Colors.tabBar,
+      },
+      labelStyle: {
+        fontSize: 15,
+        fontFamily: "Prompt-Regular",
+        // marginBottom: 5
+      }
+    }
+  })
+
 // Manifest of possible screens
 const PrimaryNav = SwitchNavigator(
   {
     Auth: AuthStack,
     Reg: RegStack,
     App: DashStack,
+    ExpertApp: ExpertStack
   },
   {
     // Default config for all screens

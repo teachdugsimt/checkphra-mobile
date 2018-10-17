@@ -31,8 +31,10 @@ class ProfileScreen extends Component {
 
         <View style={{ flex: 0.4, height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center', }}>
 
-          <View style={{ height: 40, width: 40, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignSelf: 'center'
-          , backgroundColor: 'lightgrey', borderRadius: 20, marginRight: 10 }}>
+          <View style={{
+            height: 40, width: 40, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignSelf: 'center'
+            , backgroundColor: 'lightgrey', borderRadius: 20, marginRight: 10
+          }}>
             <Icon
               name="camera"
               size={30}
@@ -44,9 +46,11 @@ class ProfileScreen extends Component {
 
           <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
             <View style={{ flexDirection: 'row' }}>
-              <Text>{this.props.profile.firstname + " " + this.props.profile.lastname} </Text>
+              {this.props.profile &&
+                <Text>{this.props.profile.firstname + " " + this.props.profile.lastname} </Text>
+              }
             </View>
-          <Text style={{ marginTop:5, color: 'orange'}}>Check Phra Account</Text>
+            <Text style={{ marginTop: 5, color: 'orange' }}>Check Phra Account</Text>
             <View style={{ flexDirection: 'row', marginTop: 5 }}>
               <Icon
                 name="mail"
@@ -55,7 +59,9 @@ class ProfileScreen extends Component {
                 style={{ marginRight: 10 }}
                 onPress={() => { }}
               />
-              <Text> {this.props.profile.email}</Text>
+              {this.props.profile &&
+                <Text> {this.props.profile.email}</Text>
+              }
             </View>
           </View>
 
@@ -75,7 +81,9 @@ class ProfileScreen extends Component {
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center', height: '100%', marginHorizontal: 10 }}>
-            <Text>{this.props.profile.point}</Text>
+            {this.props.profile &&
+              <Text>{this.props.profile.point}</Text>
+            }
             <Text style={{ color: 'orange' }}> point</Text>
           </View>
         </View>

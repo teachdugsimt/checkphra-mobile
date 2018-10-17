@@ -38,6 +38,15 @@ class SigninScreen extends Component {
     };
   }
 
+  componentDidMount() {
+    if (this.props.profile) {
+      if (this.props.profile.role == 'expert') {
+        this.props.navigation.navigate('ExpertApp')
+      } else {
+        this.props.navigation.navigate('App')
+      }
+    }
+  }
   // componentWillReceiveProps(newProps) {
 
   // }
@@ -45,7 +54,11 @@ class SigninScreen extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
 
     if (!prevState.profile && prevState.profile != nextProps.profile) {
-      nextProps.navigation.navigate('App')
+      if (nextProps.profile.role == 'expert') {
+        nextProps.navigation.navigate('ExpertApp')
+      } else {
+        nextProps.navigation.navigate('App')
+      }
     }
 
     return {

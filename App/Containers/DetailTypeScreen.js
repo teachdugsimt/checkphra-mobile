@@ -16,26 +16,26 @@ class DetailTypeScreen extends Component {
   //   this.state = {}
   // }
 
-  static navigationOptions = ({ navigation }) => {
-    const params = navigation.state.params || {};
+  // static navigationOptions = ({ navigation }) => {
+  //   const params = navigation.state.params || {};
 
-    return {
-      headerLeft: (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text
-            style={{
-              marginLeft: 20,
-              fontSize: 18,
-              fontFamily: "Prompt-SemiBold",
-              color: Colors.brownText
-            }}
-          >
-            {"< กลับ"}
-          </Text>
-        </TouchableOpacity>
-      )
-    };
-  };
+  //   return {
+  //     headerLeft: (
+  //       <TouchableOpacity onPress={() => navigation.goBack()}>
+  //         <Text
+  //           style={{
+  //             marginLeft: 20,
+  //             fontSize: 18,
+  //             fontFamily: "Prompt-SemiBold",
+  //             color: Colors.brownText
+  //           }}
+  //         >
+  //           {"< กลับ"}
+  //         </Text>
+  //       </TouchableOpacity>
+  //     )
+  //   };
+  // };
 
   getTypePhra = (item) => {
     this.props.setType(item.id)

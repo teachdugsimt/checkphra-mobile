@@ -16,8 +16,6 @@ const { Types, Creators } = createActions({
   signupSuccess: ['data'],
   signupFailure: null,
 
-  
-
 })
 
 export const AuthTypes = Types

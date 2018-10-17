@@ -26,7 +26,8 @@ const colors = {
   mainTheme:'#FFA500',
   button:'#CC6633',
   brownText:'#663300',
-  brownTextTran:'#66330099'
+  brownTextTran:'#66330099',
+  riceWater: 'rgba(255,255,255, 0.35)'
 }
 
 export default colors

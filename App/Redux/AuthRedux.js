@@ -16,7 +16,9 @@ const { Types, Creators } = createActions({
   signupSuccess: ['data'],
   signupFailure: null,
 
-  
+  step2Signup: ['email', 'userid'],
+  step2SignupSuccess: ['data'],
+  step2SignupFailure: ['error'],
 
 })
 
@@ -29,7 +31,7 @@ export const INITIAL_STATE = Immutable({
   data: null,
   fetching: null,
   profile: null,
-  user_id: null,
+  user_id: null,  // access token login facebook
   error: null,
 
   request: null,

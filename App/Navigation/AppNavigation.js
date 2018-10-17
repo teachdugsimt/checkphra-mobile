@@ -9,6 +9,12 @@ import DetailTypeScreen from "../Containers/DetailTypeScreen"
 import ChangePasswordScreen from "../Containers/ChangePasswordScreen"
 import SendImageScreen from '../Containers/SendImageScreen'
 import Promotion from '../Containers/Promotion'
+import HistoryPoint from '../Containers/HistoryPoint'
+// import { connect } from "react-redux";
+
+import Banking from '../Containers/Payment/Banking'
+import Promptpay from '../Containers/Payment/Promptpay'
+import Creditcard from '../Containers/Payment/Creditcard'
 
 import styles from "./Styles/NavigationStyles";
 import React from "react";
@@ -101,7 +107,8 @@ const UploadStack = StackNavigator(  // main upload
 const ProfileStack = StackNavigator(   // main pro
   {
     profileScreen: { screen: ProfileScreen },
-    change: { screen: ChangePasswordScreen }
+    change: { screen: ChangePasswordScreen },
+    historyAddPoint: { screen: HistoryPoint },
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -134,6 +141,9 @@ const ProfileStack = StackNavigator(   // main pro
 const PromotionStack = StackNavigator(  // main pro
   {
     promotion: { screen: Promotion },
+    banking: { screen: Banking },
+    promptpay: { screen: Promptpay },
+    creditcard: { screen: Creditcard },
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -262,3 +272,14 @@ const PrimaryNav = SwitchNavigator(
 );
 
 export default PrimaryNav;
+
+// const mapStateToProps = state => {
+//   return {
+//     profile: state.question.profile,
+//   };
+// }
+
+// export default connect( mapStateToProps )(PrimaryNav);
+
+
+

@@ -37,6 +37,10 @@ const { Types, Creators } = createActions({
   deleteImage: ['index'],
   clearImage: null,
   setUri: ['data', 'index'],
+
+  deleteQuestion: ['q_id'],
+  deleteQuestionSuccess: ['data'],
+  deleteQuestionFailure: null,
 })
 
 export const QuestionTypes = Types
@@ -63,8 +67,11 @@ export const INITIAL_STATE = Immutable({
   amuletType: 0,
   uri: {},
 
-  request: null,  // for addQuestion
+  request: null,  // for add Question
   request2: null,  //for get History
+  request3: null,  // for cancel Question
+
+  dataDeleteq: []
 })
 
 /* ------------- Selectors ------------- */
@@ -129,7 +136,7 @@ export const historySuccess = (state, action) => {
 }
 
 // Something went wrong somewhere.
-export const historyFailure = state => state.merge({ request2: false})
+export const historyFailure = state => state.merge({ request2: false })
 
 export const clearForm = state => state.merge({
   images: [],
@@ -187,7 +194,7 @@ export const setImages = (state, { index, source }) => {
 }
 
 
-export const setUri = (state, { data, index }) =>{
+export const setUri = (state, { data, index }) => {
   let tmp
   if (state.tmp) {
     tmp = [...state.tmp]
@@ -196,8 +203,16 @@ export const setUri = (state, { data, index }) =>{
   }
 
   tmp[index] = data
-  return state.merge({ uri: tmp})
+  return state.merge({ uri: tmp })
 }
+
+export const requestDeleteQuestion = state => state.merge({ request3: true })
+
+export const deleteQuestionSuccess = (state, { data }) => {
+  return state.merge({ dataDeleteq: data, request3: false })
+}
+
+export const deleteQuestionFailure = state => state.merge({ request3: false})
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -227,4 +242,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_URI]: setUri,
 
   [Types.ADD_QUESTION]: requestAddQuestion,
+
+  [Types.DELETE_QUESTION]: requestDeleteQuestion,
+  [Types.DELETE_QUESTION_SUCCESS]: deleteQuestionSuccess,
+  [Types.DELETE_QUESTION_FAILURE]: deleteQuestionFailure,
 })

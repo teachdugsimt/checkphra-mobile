@@ -16,7 +16,7 @@ import { PromotionTypes } from '../Redux/PromotionRedux'
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { signin, signinWithCredential, signup } from './AuthSagas'
-import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile } from './QuestionSagas'
+import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion } from './PromotionSagas'
 
 /* ------------- API ------------- */
@@ -49,6 +49,7 @@ export default function * root () {
     takeLatest(QuestionTypes.GET_ANSWER, getAnswer, questionApi),
 
     takeLatest(QuestionTypes.GET_PROFILE, getProfile, questionApi),
+    takeLatest(QuestionTypes.DELETE_QUESTION, deleteQuestion, questionApi),
 
     takeLatest(PromotionTypes.PROMOTION_REQUEST, getPromotion, promotionApi),
 

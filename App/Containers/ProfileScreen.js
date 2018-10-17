@@ -1,19 +1,23 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, TouchableOpacity } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity, FlatList, RefreshControl } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import QuestionActions from '../Redux/QuestionRedux'
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/Ionicons";
+import Icon3 from "react-native-vector-icons/FontAwesome";
 import { Colors } from "../Themes";
-// Styles
-import styles from "./Styles/ProfileScreenStyle";
 
 class ProfileScreen extends Component {
+
   // constructor (props) {
   //   super(props)
-  //   this.state = {}
+  //   this.state = {
+  //     data: [
+  //       { name: 'เปลี่ยนรหัสผ่าน', key: 0, }
+  //     ]
+  //   }
   // }
 
   componentDidMount() {
@@ -24,15 +28,34 @@ class ProfileScreen extends Component {
   //   this.props.getProfile()
   // }
 
+  // _renderItem = ({ item, index }) => {
+  //   return (
+  //     <TouchableOpacity style={{ height: 110 }} onPress={() => this._pressTranferProduct(item)}>
+  //       <View style={{ height: 110, backgroundColor: 'white', marginTop: 1 }}>
+  //         <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: Metrics.baseMargin }}>
+  //           <Text style={{ fontWeight: 'bold' }}>xxxxxxxxxxxxx</Text>
+  //           <Text style={{ fontWeight: 'bold', color: Colors.mainTheme }}>xxxx ชิ้น</Text>
+  //         </View>
+  //         <View style={{ flex: 3, padding: Metrics.baseMargin }}>
+  //           <ImageList data={item.products} showSubDetail={false} />
+  //         </View>
+  //       </View>
+  //     </TouchableOpacity>
+  //   )
+  // }
+
   render() {
-    console.log(this.props.profile)
+    // let data = []
+    // console.log(this.props.profile)
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
 
         <View style={{ flex: 0.4, height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center', }}>
 
-          <View style={{ height: 40, width: 40, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignSelf: 'center'
-          , backgroundColor: 'lightgrey', borderRadius: 20, marginRight: 10 }}>
+          <View style={{
+            height: 40, width: 40, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignSelf: 'center'
+            , backgroundColor: 'lightgrey', borderRadius: 20, marginRight: 10
+          }}>
             <Icon
               name="camera"
               size={30}
@@ -46,7 +69,7 @@ class ProfileScreen extends Component {
             <View style={{ flexDirection: 'row' }}>
               <Text>{this.props.profile.firstname + " " + this.props.profile.lastname} </Text>
             </View>
-          <Text style={{ marginTop:5, color: 'orange'}}>Check Phra Account</Text>
+            <Text style={{ marginTop: 5, color: 'orange' }}>Check Phra Account</Text>
             <View style={{ flexDirection: 'row', marginTop: 5 }}>
               <Icon
                 name="mail"
@@ -61,9 +84,9 @@ class ProfileScreen extends Component {
 
         </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 0.2, marginTop: 20, backgroundColor: 'white' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 0.12, marginTop: 20, backgroundColor: 'white' }}>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', height: '100%', marginHorizontal: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
             <Icon2
               name="ios-ribbon"
               size={18}
@@ -71,16 +94,64 @@ class ProfileScreen extends Component {
               style={{ marginRight: 10 }}
               onPress={() => { }}
             />
-            <Text>แต้มสะสม</Text>
+            <Text style={{ fontSize: 16 }}>แต้มสะสม</Text>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', height: '100%', marginHorizontal: 10 }}>
-            <Text>{this.props.profile.point}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
+            <Text style={{ fontWeight: 'bold' }}>{this.props.profile.point}</Text>
             <Text style={{ color: 'orange' }}> point</Text>
           </View>
         </View>
 
-        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', marginTop: 20 }} onPress={() => this.props.navigation.navigate("change")}>
+        {/* <FlatList
+           data={data}
+           renderItem={this._renderItem}
+        /> */}
+
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', marginTop: 20, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("pro")}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
+            <Icon2
+              name="ios-add-circle-outline"
+              size={18}
+              color={Colors.brownText}
+              style={{ marginRight: 10 }}
+              onPress={() => { }}
+            />
+            <Text
+              style={{
+                color: "orange",
+                fontFamily: "Prompt-Regular",
+                fontSize: 16,
+                fontWeight: 'bold'
+              }}
+            >
+              เติม point
+          </Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("historyAddPoint")}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
+            <Icon3
+              name="history"
+              //ios-hourglass, ios-timer, ios-time
+              size={18}
+              color={Colors.brownText}
+              style={{ marginRight: 10 }}
+              onPress={() => { }}
+            />
+            <Text
+              style={{
+                fontFamily: "Prompt-Regular",
+                fontSize: 16,
+              }}
+            >
+              ประวัติการเติมเงิน
+          </Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("change")}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
             <Icon2
               name="ios-lock"
@@ -91,10 +162,8 @@ class ProfileScreen extends Component {
             />
             <Text
               style={{
-                color: "#FF0000",
                 fontFamily: "Prompt-Regular",
                 fontSize: 16,
-                textDecorationLine: "underline"
               }}
             >
               เปลี่ยนรหัสผ่าน

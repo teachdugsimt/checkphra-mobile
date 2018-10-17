@@ -4,14 +4,16 @@ import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 import RoundedButton from '../Components/RoundedButton'
 import { Colors } from '../Themes';
-import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import PromotionActions from '../Redux/PromotionRedux'
-
+import Icon2 from "react-native-vector-icons/FontAwesome";
+//cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
 });
 
 class Promotion extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
@@ -22,16 +24,6 @@ class Promotion extends Component {
     static getDerivedStateFromProps(newProps, prevState) {
         let plist = newProps.promotion
         console.log(newProps)
-        // newProps.promotion.forEach(e=>{
-        //     plist.push({
-        //         name: e.detail,
-        //         point: e.point,
-        //         price: e.price,
-        //         startDate: e.start_date? e.start_date: 'ไม่จำกัดเวลา',
-        //         endDate: e.end_date? e.end_date: 'ไม่จำกัดเวลา',
-        //     })
-        // })
-        // console.log(plist)
         return {
             listPromotion: plist
         }
@@ -39,6 +31,21 @@ class Promotion extends Component {
 
     _PressPromotion(item) {
         this.popupDialog.show()
+    }
+
+    _Banking = () => {
+        this.props.navigation.navigate("banking")
+        this.popupDialog.dismiss()
+    }
+
+    _Promptpay = () => {
+        this.props.navigation.navigate("promptpay")
+        this.popupDialog.dismiss()
+    }
+
+    _Creditcard = () => {
+        this.props.navigation.navigate("creditcard")
+        this.popupDialog.dismiss()
     }
 
     _renderItem = ({ item, index }) => {
@@ -53,11 +60,28 @@ class Promotion extends Component {
                             <Text style={{ fontWeight: 'bold', color: 'brown', textAlign: 'right' }}>{item.price} ฿</Text>
                         </View>
                     </View>
-                    <View style={{ flex: 3, padding: 20 }}>
-                        <Text style={{ fontWeight: 'bold', color: 'brown' }}>โอนผ่านบัญชีธนาคาร</Text>
-                        <Text style={{ fontWeight: 'bold', color: 'brown' }}>Promptpay</Text>
-                        <Text style={{ fontWeight: 'bold', color: 'brown' }}>Credit Card</Text>
-                        {/* <Text style={{ fontWeight: 'bold', color: 'brown' }}>{item.price} ฿</Text> */}
+                    <View style={{ flex: 1, padding: 20, flexDirection: 'row' }}>
+                        <Icon2
+                            name="cc-mastercard"
+                            size={26}
+                            color={Colors.brownText}
+                            style={{}} />
+                        <Icon2
+                            name="cc-visa"
+                            size={26}
+                            color={Colors.brownText}
+                            style={{ paddingLeft: 5 }} />
+                        <Icon2
+                            name="cc-paypal"
+                            size={26}
+                            color={Colors.brownText}
+                            style={{ paddingLeft: 5 }} />
+                        <Icon2
+                            name="credit-card-alt"
+                            size={26}
+                            color={Colors.brownText}
+                            style={{ paddingLeft: 5 }} />
+
                     </View>
                 </View>
             </TouchableOpacity>
@@ -88,11 +112,49 @@ class Promotion extends Component {
                     renderItem={this._renderItem}
                 />
                 <PopupDialog
+                    dialogTitle={<DialogTitle title="กรุณาเลือกวิธีการชำระเงิน" titleTextStyle={{ fontSize: 18 }} />}
                     ref={(popupDialog) => { this.popupDialog = popupDialog; }}
                     dialogAnimation={slideAnimation}
+                    width={0.7}
+                    height={0.30}
+                    onDismissed={() => { this.setState({}) }}
                 >
-                    <View>
-                        <Text>Hello World</Text>
+                    <View style={{}}>
+                        <TouchableOpacity onPress={this._Banking} style={{
+                            height: 42, flexDirection: 'row',
+                            borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center', borderTopColor: 'lightgrey', borderTopWidth: 1
+                        }}>
+                            <Icon2
+                                name="money"
+                                size={26}
+                                color={Colors.brownText}
+                                style={{ marginHorizontal: 10 }} />
+                            <Text style={{ fontSize: 16 }}>โอนผ่านบัญชีธนาคาร</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={this._Promptpay} style={{
+                            height: 42, flexDirection: 'row',
+                            borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center'
+                        }}>
+                            <Icon2
+                                name="mobile-phone"
+                                size={26}
+                                color={Colors.brownText}
+                                style={{ marginHorizontal: 10 }} />
+                            <Text style={{ fontSize: 16 }}>โอนผ่าน Promptpay</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={this._Creditcard} style={{
+                            height: 42, flexDirection: 'row',
+                            borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center'
+                        }}>
+                            <Icon2
+                                name="credit-card"
+                                size={26}
+                                color={Colors.brownText}
+                                style={{ marginHorizontal: 10 }} />
+                            <Text style={{ fontSize: 16 }}>บัตรเครดิต</Text>
+                        </TouchableOpacity>
                     </View>
                 </PopupDialog>
             </LinearGradient>
@@ -104,6 +166,7 @@ const mapStateToProps = (state) => {
     return {
         promotion: state.promotion.data,
         fetching: state.promotion.fetching,
+        profile: state.question.profile,
     }
 }
 

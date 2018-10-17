@@ -9,6 +9,7 @@ import 'moment/locale/th'
 // Styles
 import styles from './Styles/HistoryScreenStyle'
 import { Colors } from '../Themes';
+import Icon2 from "react-native-vector-icons/FontAwesome";
 
 class HistoryScreen extends Component {
   constructor(props) {
@@ -37,16 +38,16 @@ class HistoryScreen extends Component {
   static getDerivedStateFromProps(newProps, PrevState) {
     // let checkRequest = null
     console.log(newProps)
-    if(newProps.request2 == false && newProps.amulet != 0){
+    if (newProps.request2 == false && newProps.amulet != 0) {
       checkRequest = true
-    } else if(newProps.amulet == 0){
+    } else if (newProps.amulet == 0) {
       checkRequest = false
     }
 
-    if(newProps.request2 == null){
+    if (newProps.request2 == null) {
       checkRequest = false
     }
-  
+
     return {
       fetch: checkRequest,
     }
@@ -56,6 +57,7 @@ class HistoryScreen extends Component {
     if (this.state.fetch == true) {
       this.props.getHistory()
     }
+    console.log(this.props.history)
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -112,6 +114,15 @@ class HistoryScreen extends Component {
                     height: 30,
                     backgroundColor: color
                   }}>{status}</Text>
+                  <Icon2
+                    name="remove"
+                    size={26}
+                    color={'red'}
+                    style={{ marginHorizontal: 10 }}
+                    onPress={() => {
+                      this.props.deleteQuestion(item.id)
+                      this.props.getHistory()
+                    }} />
                 </View>
               </TouchableOpacity>
             )
@@ -130,13 +141,16 @@ const mapStateToProps = (state) => {
     request2: state.question.request2,
     images: state.question.images,
     amulet: state.question.amuletType,
+    // access_id: state.auth.user_id,
+
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getHistory: () => dispatch(QuestionActions.getHistory()),
-    getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid))
+    getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
+    deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
   }
 }
 

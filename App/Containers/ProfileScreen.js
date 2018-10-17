@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, TouchableOpacity, FlatList, RefreshControl } from "react-native";
+import { Image, Text, View, TouchableOpacity, Dimensions, RefreshControl } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -7,7 +7,9 @@ import QuestionActions from '../Redux/QuestionRedux'
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon3 from "react-native-vector-icons/FontAwesome";
-import { Colors } from "../Themes";
+import { Colors, Images } from "../Themes";
+
+let { width } = Dimensions.get('window')
 
 class ProfileScreen extends Component {
 
@@ -49,7 +51,12 @@ class ProfileScreen extends Component {
     // console.log(this.props.profile)
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
-
+        <Image source={Images.watermarkbg} style={{
+          position: 'absolute',
+          right: 0, bottom: 0,
+          width: width,
+          height: width * 95.7 / 100
+        }} resizeMode='contain' />
         <View style={{ flex: 0.4, height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center', }}>
 
           <View style={{

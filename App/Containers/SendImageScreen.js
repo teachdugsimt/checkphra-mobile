@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, View, TouchableOpacity, Dimensions, TextInput, Alert } from 'react-native'
+import { ScrollView, Text, View, Image, TouchableOpacity, Dimensions, TextInput, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -9,7 +9,7 @@ import RoundedButton from '../Components/RoundedButton'
 import styles from './Styles/SendImageScreenStyle'
 
 import ImagePicker from 'react-native-image-picker'
-import { Colors } from '../Themes';
+import { Colors, Images } from '../Themes';
 import Icon from "react-native-vector-icons/Entypo";
 import Picker from '../Components/Picker';
 
@@ -25,6 +25,8 @@ const options = {
     path: 'images'
   }
 };
+
+let { width } = Dimensions.get('window')
 
 class SendImageScreen extends Component {
   constructor(props) {
@@ -51,11 +53,11 @@ class SendImageScreen extends Component {
       })
     })
     //  images , request => change
-    if(nextProps.request){
-      if(nextProps.images.length != 0){
+    if (nextProps.request) {
+      if (nextProps.images.length != 0) {
         checkFecth = true
       }
-    } 
+    }
 
     return {
       questionType: qtype,
@@ -152,7 +154,7 @@ class SendImageScreen extends Component {
         )
       } else {
         this.props.addQuestion()
-        
+
       }
     }
 
@@ -162,13 +164,19 @@ class SendImageScreen extends Component {
   render() {
     const point = [5, 5, 3, 3, 15]
 
-    if(this.state.fetch == true){
+    if (this.state.fetch == true) {
       this.props.navigation.goBack()
       this.props.navigation.navigate('his')
     }
 
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
+        <Image source={Images.watermarkbg} style={{
+          position: 'absolute',
+          right: 0, bottom: 0,
+          width: width,
+          height: width * 95.7 / 100
+        }} resizeMode='contain' />
         <ScrollView style={{ flex: 1 }}>
           <View style={{ height: 60, justifyContent: "center" }}>
             <Text

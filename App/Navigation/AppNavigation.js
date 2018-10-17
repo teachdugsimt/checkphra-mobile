@@ -100,7 +100,7 @@ const UploadStack = StackNavigator(  // main upload
       },
       headerTitleStyle: {
         color: Colors.headerTitleColor,
-        fontFamily: 'Prompt-Light'
+        fontFamily: 'Prompt-Regular'
       },
       tabBarLabel: "ตรวจสอบพระ"
     })
@@ -127,7 +127,7 @@ const ProfileStack = StackNavigator(   // main pro
       },
       headerTitleStyle: {
         color: Colors.headerTitleColor,
-        fontFamily: 'Prompt-Light'
+        fontFamily: 'Prompt-Regular'
       },
       tabBarLabel: 'ข้อมูลส่วนตัว'
     })
@@ -159,7 +159,7 @@ const PromotionStack = StackNavigator(  // main pro
       },
       headerTitleStyle: {
         color: Colors.headerTitleColor,
-        fontFamily: 'Prompt-Light'
+        fontFamily: 'Prompt-Regular'
       },
       tabBarLabel: 'โปรโมชั่น'
     })
@@ -189,7 +189,7 @@ const HistoryStack = StackNavigator(  // mmain his
       },
       headerTitleStyle: {
         color: Colors.headerTitleColor,
-        fontFamily: 'Prompt-Light'
+        fontFamily: 'Prompt-Regular'
       },
       tabBarLabel: 'ประวัติ'
     })

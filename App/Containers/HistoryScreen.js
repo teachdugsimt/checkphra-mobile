@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, View, FlatList, Image, TouchableOpacity, RefreshControl } from 'react-native'
+import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -8,8 +8,10 @@ import moment from 'moment'
 import 'moment/locale/th'
 // Styles
 import styles from './Styles/HistoryScreenStyle'
-import { Colors } from '../Themes';
+import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
+
+let { width } = Dimensions.get('window')
 
 class HistoryScreen extends Component {
   constructor(props) {
@@ -62,6 +64,12 @@ class HistoryScreen extends Component {
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
       >
+        <Image source={Images.watermarkbg} style={{
+          position: 'absolute',
+          right: 0, bottom: 0,
+          width: width,
+          height: width * 95.7 / 100
+        }} resizeMode='contain' />
         <FlatList
           refreshControl={
             <RefreshControl

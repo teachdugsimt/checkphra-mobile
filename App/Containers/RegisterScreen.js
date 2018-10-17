@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
+import { Image, Dimensions, Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
 import { connect } from "react-redux";
 import { compose } from "redux"
 import LinearGradient from "react-native-linear-gradient";
@@ -10,7 +10,9 @@ import AuthActions from '../Redux/AuthRedux'
 
 // Styles
 import styles from "./Styles/RegisterScreenStyle";
-import { Colors } from "../Themes";
+import { Colors, Images } from "../Themes";
+
+let { width } = Dimensions.get('window')
 
 class RegisterScreen extends Component {
   constructor(props) {
@@ -115,6 +117,12 @@ class RegisterScreen extends Component {
   render() {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
+        <Image source={Images.watermarkbg} style={{
+          position: 'absolute',
+          right: 0, bottom: 0,
+          width: width,
+          height: width * 95.7 / 100
+        }} resizeMode='contain' />
         <Text
           style={{
             alignSelf: "center",

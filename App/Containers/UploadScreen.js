@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, TouchableOpacity } from "react-native";
+import { Image, Text, View, TouchableOpacity, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import GridView from "react-native-super-grid";
@@ -9,7 +9,9 @@ import QuestionActions from '../Redux/QuestionRedux'
 
 // Styles
 import styles from "./Styles/UploadScreenStyle";
-import { Colors } from "../Themes";
+import { Colors, Images } from "../Themes";
+
+let { width } = Dimensions.get('window')
 
 class UploadScreen extends Component {
   // constructor (props) {
@@ -113,6 +115,12 @@ class UploadScreen extends Component {
     ];
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
+        <Image source={Images.watermarkbg} style={{
+          position: 'absolute',
+          right: 0, bottom: 0,
+          width: width,
+          height: width * 95.7 / 100
+        }} resizeMode='contain' />
         <View style={{ height: 60, justifyContent: "center" }}>
           <Text
             style={{

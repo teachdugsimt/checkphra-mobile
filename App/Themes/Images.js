@@ -20,7 +20,10 @@ const images = {
   hamburger: require('../Images/Icons/hamburger.png'),
   backButton: require('../Images/Icons/back-button.png'),
   closeButton: require('../Images/Icons/close-button.png'),
-  watermarkbg: require('../Images/watermarkbg.png')
+  watermarkbg: require('../Images/watermarkbg.png'),
+  ktb: require('../Images/ktb.png'),
+  scb: require('../Images/scb.png'),
+  kbank: require('../Images/kbank.png'),
 }
 
 export default images

@@ -11,23 +11,31 @@
 *************************************************************/
 
 import { call, put, select } from 'redux-saga/effects'
-import PromotionActions from '../Redux/PromotionRedux'
-// import { PromotionSelectors } from '../Redux/PromotionRedux'
-// const auth = state => state.auth
+import PaymentActions from '../Redux/PaymentRedux'
+// import { PaymentSelectors } from '../Redux/PaymentRedux'
+const auth = state => state.auth
 
-export function* getPromotion(api) {
-  // get current data from Store
-  // const currentData = yield select(PromotionSelectors.getData)
-  // make the call to the api
-  const response = yield call(api.getPromotion)
+export function* paymentRequest(api, { money, type }) {
+  console.log(money)
+  console.log(type)
+  console.log('MONEY AND TYPE')
+
+  const aut = yield select(auth)
+
+  const data = {
+    user_id: aut.user_id,
+    price: money,
+    type: type,
+  }
+
+  const response = yield call(api.payment, data)
   console.log(response)
-  // success?
+  console.log('PAYMENT')
+
   if (response.ok) {
-    yield put(PromotionActions.promotionSuccess(response.data))
+    yield put(PaymentActions.paymentSuccess(response.data))
   } else {
-    yield put(PromotionActions.promotionFailure())
+    yield put(PaymentActions.paymentFailure())
+    alert('เติมเงินล้มเหลว กรุณาทำรายการใหม่')
   }
 }
-
-
-

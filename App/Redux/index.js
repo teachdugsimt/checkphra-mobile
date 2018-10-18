@@ -14,6 +14,7 @@ export const reducers = combineReducers({
   auth: require('./AuthRedux').reducer,
   question: require('./QuestionRedux').reducer,
   promotion: require('./PromotionRedux').reducer,
+  payment: require('./PaymentRedux').reducer,
 })
 
 export default () => {

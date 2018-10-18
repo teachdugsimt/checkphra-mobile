@@ -144,7 +144,12 @@ const PromotionStack = StackNavigator(  // main pro
     },
     banking: { screen: Banking },
     promptpay: { screen: Promptpay },
-    creditcard: { screen: Creditcard },
+    creditcard: {
+      screen: Creditcard,
+      navigationOptions: {
+        title: 'กรอกบัตรเครดิต'
+      }
+    },
   },
   {
     navigationOptions: ({ navigation }) => ({

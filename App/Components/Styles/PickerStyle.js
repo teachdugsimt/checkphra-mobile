@@ -10,7 +10,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 3,
-    borderStyle: 'dashed',
+    // borderStyle: 'dashed',
     borderColor: Colors.brownTextTran,
     borderRadius: 10,
     margin: 5,

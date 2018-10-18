@@ -97,6 +97,18 @@ class DetailTypeScreen extends Component {
           width: width,
           height: width * 95.7 / 100
         }} resizeMode='contain' />
+        <View style={{ height: 60, justifyContent: "center" }}>
+          <Text
+            style={{
+              fontSize: 23,
+              fontFamily: "Prompt-Regular",
+              alignSelf: "center",
+              color: Colors.brownText
+            }}
+          >
+            กรุณาเลือกประเภทพระ
+          </Text>
+        </View>
         <GridView
           itemDimension={150}
           items={items}
@@ -105,18 +117,17 @@ class DetailTypeScreen extends Component {
               <TouchableOpacity onPress={() => this.getTypePhra(items)}>
                 <View
                   style={{
-                    height: 90,
+                    height: 100,
                     width: '100%',
-                    backgroundColor: Colors.button,
+                    backgroundColor: Colors.milk,
                     justifyContent: "center",
-                    marginVertical: 5,
-                    borderRadius: 15,
-                    padding: 10
+                    borderRadius: 8,
+                    // padding: 10
                   }}
                 >
                   <Text
                     style={{
-                      color: "white",
+                      color: Colors.brownText,
                       fontFamily: "Prompt-Regular",
                       fontSize: 16,
                       alignSelf: "center"

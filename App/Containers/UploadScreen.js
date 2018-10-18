@@ -141,18 +141,17 @@ class UploadScreen extends Component {
               <TouchableOpacity onPress={() => this.getTypePhra(item)}>
                 <View
                   style={{
-                    height: 90,
+                    height: 100,
                     width: '100%',
-                    backgroundColor: Colors.button,
+                    backgroundColor: Colors.milk,
                     justifyContent: "center",
-                    marginVertical: 5,
-                    borderRadius: 15,
-                    padding: 10
+                    borderRadius: 8,
+                    // padding: 10
                   }}
                 >
                   <Text
                     style={{
-                      color: "white",
+                      color: Colors.brownText,
                       fontFamily: "Prompt-Regular",
                       fontSize: 16,
                       alignSelf: "center"

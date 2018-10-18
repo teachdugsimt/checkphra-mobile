@@ -41,8 +41,12 @@ class Banking extends Component {
     }
 
     saveAndLinkData = () => {
-        this.props.paymentBanking(this.state.money, this.state.type)
-        console.log('COME HERE')
+        let data = {
+            money: this.state.money,
+            type: this.state.type
+        }
+        this.props.paymentBanking(data)
+        this.props.navigation.goBack()
         this.props.navigation.navigate("historyAddPoint")
     }
 
@@ -100,7 +104,7 @@ class Banking extends Component {
                             title={`ตกลง`}
                             onPress={this._pressButton}  // can use
                             // onPress={() => this._pressButton}  // can use
-                            // fetching={this.props.fetching}
+                            fetching={this.props.fetching}
                         />
                     </View>
                 </View>
@@ -115,14 +119,14 @@ const mapStateToProps = (state) => {
         // fetching: state.promotion.fetching,
         // profile: state.question.profile,
 
-        // fetching: state.payment.fetching,
+        fetching: state.payment.fetching,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // getPromotion: () => dispatch(PromotionActions.promotionRequest()),
-        paymentBanking: (money, type) => dispatch(PaymentActions.paymentRequest(money, type))
+        // paymentBanking: (money, type) => dispatch(PaymentActions.paymentRequest(money, type)),
+        paymentBanking: (data) => dispatch(PaymentActions.paymentRequest(data))
     }
 }
 

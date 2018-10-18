@@ -31,10 +31,13 @@ const create = (baseURL = b) => {
 
   const payment = (data) => api.post('payment-history/add', data)
 
+  const getHistoryPoint = (data) => api.get('payment-history/list', data)
+
   return {
     // a list of the API functions from step 2
     getPromotion,
-    payment
+    payment,
+    getHistoryPoint
   }
 }
 

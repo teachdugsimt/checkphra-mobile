@@ -14,21 +14,21 @@ import { call, put, select } from 'redux-saga/effects'
 import PaymentActions from '../Redux/PaymentRedux'
 // import { PaymentSelectors } from '../Redux/PaymentRedux'
 const auth = state => state.auth
+// const pay = state => state.payment
 
-export function* paymentRequest(api, { money, type }) {
-  console.log(money)
-  console.log(type)
-  console.log('MONEY AND TYPE')
+export function* paymentRequest(api, { data }) {
 
   const aut = yield select(auth)
 
-  const data = {
+  if (!aut.user_id) { return }
+
+  const data2 = {
     user_id: aut.user_id,
-    price: money,
-    type: type,
+    price: data.money,
+    type: data.type,
   }
 
-  const response = yield call(api.payment, data)
+  const response = yield call(api.payment, data2)
   console.log(response)
   console.log('PAYMENT')
 
@@ -38,4 +38,26 @@ export function* paymentRequest(api, { money, type }) {
     yield put(PaymentActions.paymentFailure())
     alert('เติมเงินล้มเหลว กรุณาทำรายการใหม่')
   }
+}
+
+export function* historyAddpointRequest(api, { page }) {
+  const aut = yield select(auth)
+  console.log(page)
+  if (!aut.user_id) { return }
+
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getHistoryPoint, data)
+  console.log(response)
+  console.log('HISTORY ADD POINT')
+  if (response.ok) {
+    yield put(PaymentActions.historyAddpointSuccess(response.data))
+  } else {
+    yield put(PaymentActions.historyAddpointFailure())
+    alert('ร้องขอประวัติล้มเหลว')
+  }
+
 }

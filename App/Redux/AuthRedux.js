@@ -16,6 +16,7 @@ const { Types, Creators } = createActions({
   signupSuccess: ['data'],
   signupFailure: null,
 
+  signout: null
 })
 
 export const AuthTypes = Types
@@ -51,7 +52,7 @@ export const request = (state, { email, password }) => {
 // successful api lookup
 export const success = (state, action) => {
   const { profile } = action
-  return state.merge({ fetching: false, error: null, profile })
+  return state.merge({ fetching: false, error: null, profile, user_id: profile.user_id })
 }
 
 // Something went wrong somewhere.
@@ -69,6 +70,9 @@ export const failureRequestSignup = (state) => state.merge({ request: false })
 export const successRequestSignup = (state, { data }) => {
   return state.merge({ dataRegister: data, request: false })
 }
+
+export const signout = state => INITIAL_STATE
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -82,4 +86,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNUP]: startRequest,
   [Types.SIGNUP_SUCCESS]: successRequestSignup,
   [Types.SIGNUP_FAILURE]: failureRequestSignup,
+
+  [Types.SIGNOUT]: signout
 })

@@ -66,6 +66,7 @@ class SendImageScreen extends Component {
   }
 
   componentDidMount() {
+    this.props.getProfile()
     this.props.getQuestionType()
   }
 
@@ -164,10 +165,10 @@ class SendImageScreen extends Component {
   render() {
     const point = [5, 5, 3, 3, 15]
 
-    if (this.state.fetch == true) {
-      this.props.navigation.goBack()
-      this.props.navigation.navigate('his')
-    }
+    // if (this.state.fetch == true) {
+    // this.props.navigation.goBack()
+    // this.props.navigation.navigate('his')
+    // }
 
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
@@ -245,9 +246,11 @@ class SendImageScreen extends Component {
             />
           </View>
 
-          <RoundedButton text={"ส่งข้อมูล"} onPress={this.submit}
-            fetching={this.props.request}
-          />
+          <View style={{ width: '80%', marginVertical: 20, alignSelf: 'center' }}>
+            <RoundedButton title='ส่งข้อมูล' onPress={this.submit}
+              fetching={this.props.request}
+            />
+          </View>
 
         </ScrollView>
       </LinearGradient>
@@ -268,6 +271,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getQuestionType: () => dispatch(QuestionActions.getQuestionType()),
+    getProfile: () => dispatch(QuestionActions.getProfile()),
     setQuestions: (questions) => dispatch(QuestionActions.setQuestions(questions)),
     addQuestion: () => dispatch(QuestionActions.addQuestion()),
 

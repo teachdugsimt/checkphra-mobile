@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import QuestionActions from '../Redux/QuestionRedux'
+import AuthActions from '../Redux/AuthRedux'
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon3 from "react-native-vector-icons/FontAwesome";
@@ -45,6 +46,13 @@ class ProfileScreen extends Component {
   //     </TouchableOpacity>
   //   )
   // }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
+    if (!nextProps.profile) {
+      this.props.navigation.navigate("Auth")
+    }
+  }
 
   render() {
     // let data = []
@@ -95,74 +103,80 @@ class ProfileScreen extends Component {
 
         </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 0.12, marginTop: 20, backgroundColor: 'white' }}>
+        {this.props.profile && this.props.profile.role != 'expert' &&
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 0.12, marginTop: 20, backgroundColor: 'white' }}>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
-            <Icon2
-              name="ios-ribbon"
-              size={18}
-              color={Colors.brownText}
-              style={{ marginRight: 10 }}
-              onPress={() => { }}
-            />
-            <Text style={{ fontSize: 16 }}>แต้มสะสม</Text>
-          </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
+              <Icon2
+                name="ios-ribbon"
+                size={18}
+                color={Colors.brownText}
+                style={{ marginRight: 10 }}
+                onPress={() => { }}
+              />
+              <Text style={{ fontSize: 16 }}>แต้มสะสม</Text>
+            </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
-            <Text style={{ fontWeight: 'bold' }}>{this.props.profile ? this.props.profile.point : '-'}</Text>
-            <Text style={{ color: 'orange' }}> point</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
+              <Text style={{ fontWeight: 'bold' }}>{this.props.profile ? this.props.profile.point : '-'}</Text>
+              <Text style={{ color: 'orange' }}> point</Text>
+            </View>
           </View>
-        </View>
+        }
 
         {/* <FlatList
            data={data}
            renderItem={this._renderItem}
         /> */}
 
-        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', marginTop: 20, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("pro")}>
-          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
-            <Icon2
-              name="ios-add-circle-outline"
-              size={18}
-              color={Colors.brownText}
-              style={{ marginRight: 10 }}
-              onPress={() => { }}
-            />
-            <Text
-              style={{
-                color: "orange",
-                fontFamily: "Prompt-Regular",
-                fontSize: 16,
-                fontWeight: 'bold'
-              }}
-            >
-              เติม point
+        {this.props.profile && this.props.profile.role != 'expert' &&
+          <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', marginTop: 20, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("pro")}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
+              <Icon2
+                name="ios-add-circle-outline"
+                size={18}
+                color={Colors.brownText}
+                style={{ marginRight: 10 }}
+                onPress={() => { }}
+              />
+              <Text
+                style={{
+                  color: "orange",
+                  fontFamily: "Prompt-Regular",
+                  fontSize: 16,
+                  fontWeight: 'bold'
+                }}
+              >
+                เติม point
           </Text>
-          </View>
-        </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        }
 
-        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("historyAddPoint")}>
-          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
-            <Icon3
-              name="history"
-              //ios-hourglass, ios-timer, ios-time
-              size={18}
-              color={Colors.brownText}
-              style={{ marginRight: 10 }}
-              onPress={() => { }}
-            />
-            <Text
-              style={{
-                fontFamily: "Prompt-Regular",
-                fontSize: 16,
-              }}
-            >
-              ประวัติการเติมเงิน
+        {this.props.profile && this.props.profile.role != 'expert' &&
+          <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("historyAddPoint")}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
+              <Icon3
+                name="history"
+                //ios-hourglass, ios-timer, ios-time
+                size={18}
+                color={Colors.brownText}
+                style={{ marginRight: 10 }}
+                onPress={() => { }}
+              />
+              <Text
+                style={{
+                  fontFamily: "Prompt-Regular",
+                  fontSize: 16,
+                }}
+              >
+                ประวัติการเติมเงิน
           </Text>
-          </View>
-        </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        }
 
-        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("change")}>
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', marginTop: 20, borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("change")}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
             <Icon2
               name="ios-lock"
@@ -182,6 +196,26 @@ class ProfileScreen extends Component {
           </View>
         </TouchableOpacity>
 
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.signout()}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
+            <Icon2
+              name="ios-lock"
+              size={18}
+              color={Colors.brownText}
+              style={{ marginRight: 10 }}
+              onPress={() => { }}
+            />
+            <Text
+              style={{
+                fontFamily: "Prompt-Regular",
+                fontSize: 16,
+              }}
+            >
+              ออกจากระบบ
+          </Text>
+          </View>
+        </TouchableOpacity>
+
       </LinearGradient>
     );
   }
@@ -196,7 +230,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProfile: () => dispatch(QuestionActions.getProfile())
+    getProfile: () => dispatch(QuestionActions.getProfile()),
+    signout: () => dispatch(AuthActions.signout())
   };
 };
 

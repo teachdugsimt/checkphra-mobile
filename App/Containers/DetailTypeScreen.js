@@ -40,6 +40,7 @@ class DetailTypeScreen extends Component {
   // };
 
   getTypePhra = (item) => {
+    // console.log(item)
     this.props.setType(item.id)
     this.props.navigation.navigate("send")
   }
@@ -151,7 +152,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setType: (type) => dispatch(QuestionActions.setType(type))
+    setType: (type) => {
+      return dispatch(QuestionActions.setAmuletType(type))
+    }
   };
 };
 

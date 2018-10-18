@@ -35,7 +35,7 @@ class Creditcard extends Component {
           height: width * 95.7 / 100
         }} resizeMode='contain' />
         <View style={{ marginTop: Metrics.doubleBaseMargin }}>
-          <CreditCardInput onChange={this._onChange} requireName={true} />
+          <CreditCardInput onChange={this._onChange} requiresName={true} />
         </View>
       </LinearGradient>
     )

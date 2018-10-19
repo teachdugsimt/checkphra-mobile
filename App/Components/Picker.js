@@ -134,7 +134,7 @@ const mapDispatchToProps = dispatch => {
   return {
     setImages: (index, source) => dispatch(QuestionActions.setImages(index, source)),
     deleteImage: (index) => dispatch(QuestionActions.deleteImage(index)),
-    clearImage: () => dispatch(QuestionActions.clearImage()),
+    // clearImage: () => dispatch(QuestionActions.clearImage()),
     // setUri: (data, index) => dispatch(QuestionActions.setUri(data, index)),
   };
 };

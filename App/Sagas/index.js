@@ -19,7 +19,7 @@ import { getUserAvatar } from './GithubSagas'
 import { signin, signinWithCredential, signup } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion } from './PromotionSagas'
-import { paymentRequest, historyAddpointRequest } from './PaymentSagas'
+import { paymentRequest, historyAddpointRequest, sendSlipRequest } from './PaymentSagas'
 
 /* ------------- API ------------- */
 
@@ -57,5 +57,8 @@ export default function * root () {
 
     takeLatest(PaymentTypes.PAYMENT_REQUEST, paymentRequest, promotionApi),
     takeLatest(PaymentTypes.HISTORY_ADDPOINT_REQUEST, historyAddpointRequest, promotionApi), 
+
+    takeLatest(PaymentTypes.SEND_SLIP_REQUEST, sendSlipRequest, promotionApi),
+    // takeLatest(PaymentTypes.SEND_SLIP_REQUEST, sendSlipRequest, questionApi),
   ])
 }

@@ -32,14 +32,14 @@ class HistoryPoint extends Component {
         };
     };
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             history_data: []
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.getHistory(1)
     }
 
@@ -51,32 +51,42 @@ class HistoryPoint extends Component {
         }
     }
 
+    _nextPage = (data) => {
+        this.props.setDetailPoint(data)
+        this.props.navigation.navigate("detailPoint")
+    }
+
+    onRefresh = () => {
+        this.props.getHistory(1)
+    }
 
     _renderItem = ({ item, index }) => {
         return (
-            <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
-                <View style={{ justifyContent: 'center' }}>
-                    <Icon2
-                        name="ios-ribbon"
-                        size={26}
-                        color={Colors.brownText}
-                        style={{ marginLeft: 15 }} />
-                </View>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, width: '85%' }}>
-
-                    <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
-                        <Text style={{ fontSize: 16 }}>เติม point</Text>
-                        <Text style={{ fontSize: 16 }}>{item.date}</Text>
+            <TouchableOpacity onPress={() => this._nextPage(item)}>
+                <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
+                    <View style={{ justifyContent: 'center' }}>
+                        <Icon2
+                            name="ios-ribbon"
+                            size={26}
+                            color={Colors.brownText}
+                            style={{ marginLeft: 15 }} />
                     </View>
 
-                    <View style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
-                        <Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold' }}>{item.price} ฿</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, width: '85%' }}>
+
+                        <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+                            <Text style={{ fontSize: 16 }}>เติม point</Text>
+                            <Text style={{ fontSize: 16 }}>{item.date.slice(0, 10)}</Text>
+                        </View>
+
+                        <View style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
+                            <Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold' }}>{item.price} ฿</Text>
+                        </View>
+
                     </View>
 
                 </View>
-
-            </View>
+            </TouchableOpacity>
         )
     }
 
@@ -91,6 +101,12 @@ class HistoryPoint extends Component {
                 <FlatList
                     data={this.state.history_data}
                     renderItem={this._renderItem}
+                    refreshControl={
+                        <RefreshControl
+                          refreshing={this.props.request == true}
+                          onRefresh={this.onRefresh.bind(this)}
+                        />
+                      }
                 />
             </View>
         )
@@ -101,12 +117,14 @@ const mapStateToProps = state => {
     return {
         data_history: state.payment.data_history,
         profile: state.question.profile,
+        request: state.payment.request
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         getHistory: (page) => dispatch(PaymentActions.historyAddpointRequest(page)),
+        setDetailPoint: (data) => dispatch(PaymentActions.setDetailPoint(data)),
     };
 };
 

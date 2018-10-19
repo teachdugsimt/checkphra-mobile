@@ -12,6 +12,14 @@ const { Types, Creators } = createActions({
   historyAddpointRequest: ['page'],
   historyAddpointSuccess: ['data_history'],
   historyAddpointFailure: null,
+
+  sendSlipRequest: ['item'],
+  sendSlipSuccess: ['data'],
+  sendSlipFailure: null,
+
+  setDetailPoint: ['data'],
+  setImage: ['data'],
+  deleteImage: null,
 })
 
 export const PaymentTypes = Types
@@ -23,9 +31,14 @@ export const INITIAL_STATE = Immutable({
   data: null,       // data when add point
   fetching: null,  // for plus money
 
-  request: null,
-  data_history: null
-  
+  request: null,   // history  point
+  data_history: null,  // for history point
+
+  request2: null,
+  data_slip: null,
+
+  data_point: [],  // tmp data for detailPoint
+  img_slip: null,  // slip image
 })
 
 /* ------------- Selectors ------------- */
@@ -37,7 +50,7 @@ export const PaymentSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state) =>{
+export const request = (state) => {
   return state.merge({ fetching: true })
 }
 
@@ -51,25 +64,43 @@ export const success = (state, action) => {
 export const failure = state =>
   state.merge({ fetching: false, data: null })
 
-export const historyAddpointRequest = state =>{
+export const historyAddpointRequest = state => {
   return state.merge({ request: true })
 }
 
-export const historyAddpointSuccess = (state, data ) => {
-  if(!state.data_history){
+export const historyAddpointSuccess = (state, data) => {
+  if (!state.data_history) {
     history = data.data_history
   } else {
     history = [...state.data_history, data.data_history]
   }
   // console.log(history)
   // console.log('REDUX')
-  return state.merge({ request: false, data_history: history})
+  return state.merge({ request: false, data_history: history })
 }
 
-export const historyAddpointFailure = state =>{
+export const historyAddpointFailure = state => {
   return state.merge({ request: false })
 }
 
+export const setDetailPoint = (state, { data }) => {
+  return state.merge({ data_point: data })
+}
+
+
+export const setImage = (state, { data }) => {
+  console.log('REDUX')
+  console.log(data)
+  return state.merge({ img_slip: data })
+}
+
+export const deleteImage = state => state.merge({ img_slip: null })
+
+export const sendSlipRequest = state => state.merge({ request2: true })
+export const sendSlipSuccess = (state, { data }) => {
+  return state.merge({ request2: false, data_slip: data })
+}
+export const sendSlipFailure = state => state.merge({ request2: false })
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -81,4 +112,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.HISTORY_ADDPOINT_SUCCESS]: historyAddpointSuccess,
   [Types.HISTORY_ADDPOINT_FAILURE]: historyAddpointFailure,
 
+  [Types.SEND_SLIP_REQUEST]: sendSlipRequest,
+  [Types.SEND_SLIP_SUCCESS]: sendSlipSuccess,
+  [Types.SEND_SLIP_FAILURE]: sendSlipFailure,
+
+  [Types.SET_DETAIL_POINT]: setDetailPoint,
+  [Types.SET_IMAGE]: setImage,
+  [Types.DELETE_IMAGE]: deleteImage,
 })

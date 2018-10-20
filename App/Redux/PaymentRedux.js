@@ -68,15 +68,21 @@ export const historyAddpointRequest = state => {
   return state.merge({ request: true })
 }
 
-export const historyAddpointSuccess = (state, data) => {
-  if (!state.data_history) {
-    history = data.data_history
-  } else {
-    history = [...state.data_history, data.data_history]
-  }
+// export const historyAddpointSuccess = (state, data) => {
+//   if (!state.data_history) {
+//     history = data.data_history
+//   } else {
+//     history = [...state.data_history, data.data_history]
+//   }
+//   // console.log(history)
+//   // console.log('REDUX')
+//   return state.merge({ request: false, data_history: history })
+// }
+export const historyAddpointSuccess = (state, data ) => {
+  console.log(data.data_history)
   // console.log(history)
   // console.log('REDUX')
-  return state.merge({ request: false, data_history: history })
+  return state.merge({ request: false, data_history: data.data_history })
 }
 
 export const historyAddpointFailure = state => {

@@ -139,7 +139,9 @@ class DetailPoint extends Component {
         } else if (this.props.item.type == 3) {
             type = 'ตัดเงินผ่านบัตรเครดิต'
         }
-
+        console.log(this.props.item)
+        console.log(status)
+        console.log('Detail point')
         return (
             <View style={{}}>
 
@@ -162,7 +164,7 @@ class DetailPoint extends Component {
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{type}</Text>
                 </View>
 
-               <View style={{ justifyContent: 'flex-start', alignItems: 'center', marginTop: 10 }}>
+                {this.props.item.status == 0 && status == 'รออนุมัติ' && <View style={{ justifyContent: 'flex-start', alignItems: 'center', marginTop: 10 }}>
                     <Text style={{ fontSize: 16 }}>กรุณาอัพโหลดสลิปการโอนเงิน</Text>
 
                     <TouchableOpacity style={{}} onPress={this.pick}>
@@ -202,7 +204,7 @@ class DetailPoint extends Component {
                         <RoundedButton title='ตกลง' onPress={() => this._pressButtonOk()}
                             fetching={this.props.request2} />
                     </View>
-                </View>
+                </View>}
 
             </View>
         )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl } from 'react-native'
+import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -126,11 +126,25 @@ class HistoryScreen extends Component {
                     name="remove"
                     size={26}
                     color={'red'}
-                    style={{ marginHorizontal: 10 }}
+                    style={{ marginRight: 10, }}
                     onPress={() => {
-                      this.props.deleteQuestion(item.id)
-                      this.props.getHistory()
-                    }} />
+                      Alert.alert(
+                        'Check Phra',
+                        'คุณต้องการยกเลิกคำถามนี้ ?',
+                        [
+                          {
+                            text: 'ตกลง', onPress: () => {
+                              this.props.deleteQuestion(item.id)
+                              this.props.getHistory()
+                            }
+                          },
+                          { text: 'ยกเลิก', onPress: () => { } }
+                        ]
+                      )
+
+                    }}
+
+                  />
                 </View>
               </TouchableOpacity>
             )

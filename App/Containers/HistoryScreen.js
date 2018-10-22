@@ -33,7 +33,7 @@ class HistoryScreen extends Component {
     this.props.navigation.navigate('answer')
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.props.getHistory()
   }
 
@@ -73,7 +73,7 @@ class HistoryScreen extends Component {
         <FlatList
           refreshControl={
             <RefreshControl
-              refreshing={this.props.request2 == true}
+              refreshing={this.props.request_question == true || this.props.request2 == true}
               onRefresh={this.onRefresh.bind(this)}
             />
           }
@@ -91,7 +91,7 @@ class HistoryScreen extends Component {
                 if (item.status == 'success') {
                   this.goToAnswer(item.id)
                 } else {
-                  alert('ยังไม่มีผลการตรวจ')
+                  alert('ยังไม่มีผลการตรวจ55555')
                 }
               }
               }>
@@ -163,6 +163,7 @@ const mapStateToProps = (state) => {
     request2: state.question.request2,
     images: state.question.images,
     amulet: state.question.amuletType,
+    request_question: state.question.request,
     // access_id: state.auth.user_id,
 
   }

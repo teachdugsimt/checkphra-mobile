@@ -155,7 +155,8 @@ class SendImageScreen extends Component {
         )
       } else {
         this.props.addQuestion()
-
+        this.props.navigation.goBack()
+        this.props.navigation.navigate('his')
       }
     }
 
@@ -166,8 +167,8 @@ class SendImageScreen extends Component {
     const point = [5, 5, 3, 3, 15]
 
     // if (this.state.fetch == true) {
-    // this.props.navigation.goBack()
-    // this.props.navigation.navigate('his')
+    //   this.props.navigation.goBack()
+    //   this.props.navigation.navigate('his')
     // }
 
     return (

@@ -12,6 +12,7 @@ import Promotion from '../Containers/Promotion'
 import CheckListScreen from '../Containers/CheckListScreen'
 import HistoryPoint from '../Containers/HistoryPoint'
 import DetailPoint from '../Containers/DetailPoint'
+import CheckPhraScreen from '../Containers/CheckPhraScreen'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -252,13 +253,14 @@ const DashStack = TabNavigator(
 );
 
 
-const CheckListStack = StackNavigator({
+const CheckListStack = StackNavigator({ // **********************FOR EXPERT & ADMIN *************************
   check: {
     screen: CheckListScreen,
     navigationOptions: {
       title: 'พระรอตรวจ'
     }
-  }
+  },
+  check2: { screen: CheckPhraScreen }
 }, {
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: 'พระรอตรวจ',
@@ -299,8 +301,10 @@ const ExpertStack = TabNavigator({
       labelStyle: {
         fontSize: 15,
         fontFamily: "Prompt-Regular",
-        // marginBottom: 5
-      }
+        marginBottom: 5,
+        // tabBarComponent: TabBarBottom,
+        // tabBarPosition: "bottom"
+      },
     }
   })
 

@@ -11,6 +11,7 @@ import { AuthTypes } from '../Redux/AuthRedux'
 import { QuestionTypes } from '../Redux/QuestionRedux'
 import { PromotionTypes } from '../Redux/PromotionRedux'
 import { PaymentTypes } from '../Redux/PaymentRedux'
+import { ExpertTypes } from '../Redux/ExpertRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -20,6 +21,7 @@ import { signin, signinWithCredential, signup } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest } from './PaymentSagas'
+import { expertRequest } from './ExpertSagas'
 
 /* ------------- API ------------- */
 
@@ -52,6 +54,7 @@ export default function * root () {
 
     takeLatest(QuestionTypes.GET_PROFILE, getProfile, questionApi),
     takeLatest(QuestionTypes.DELETE_QUESTION, deleteQuestion, questionApi),
+    takeLatest(ExpertTypes.EXPERT_REQUEST, expertRequest, questionApi),
 
     takeLatest(PromotionTypes.PROMOTION_REQUEST, getPromotion, promotionApi),
 
@@ -59,6 +62,5 @@ export default function * root () {
     takeLatest(PaymentTypes.HISTORY_ADDPOINT_REQUEST, historyAddpointRequest, promotionApi), 
 
     takeLatest(PaymentTypes.SEND_SLIP_REQUEST, sendSlipRequest, promotionApi),
-    // takeLatest(PaymentTypes.SEND_SLIP_REQUEST, sendSlipRequest, questionApi),
   ])
 }

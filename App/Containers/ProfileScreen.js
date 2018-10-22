@@ -127,7 +127,9 @@ class ProfileScreen extends Component {
               }
             </View>
             <Text style={{ marginTop: 5, color: 'orange' }}>Check Phra Account</Text>
+
             <View style={{ flexDirection: 'row', marginTop: 5 }}>
+
               <Icon
                 name="mail"
                 size={18}
@@ -138,12 +140,40 @@ class ProfileScreen extends Component {
               {this.props.profile &&
                 <Text> {this.props.profile.email}</Text>
               }
+
             </View>
+
+            <View style={{ flexDirection: 'row', marginTop: 5 }}>
+              {this.props.profile && this.props.profile.role != 'user' &&
+                <Icon
+                  name="round-brush"
+                  size={18}
+                  color={Colors.brownText}
+                  style={{ marginRight: 10 }}
+                />
+              }
+              {this.props.profile && this.props.profile.role != 'user' &&
+                <Text style={{ marginLeft: 3 }}>{this.props.profile.display_name}</Text>}
+            </View>
+
+            <View style={{ flexDirection: 'row', marginTop: 5 }}>
+              {this.props.profile && this.props.profile.role != 'user' &&
+                <Icon2
+                  name="ios-contact"
+                  size={20}
+                  color={Colors.brownText}
+                  style={{ marginRight: 10 }}
+                />
+              }
+              {this.props.profile && this.props.profile.role != 'user' &&
+                <Text style={{ marginLeft: 5, color: 'orange' }}>{this.props.profile.role}</Text>}
+            </View>
+
           </View>
 
         </View>
 
-        {this.props.profile && this.props.profile.role != 'expert' &&
+        {this.props.profile && this.props.profile.role != 'expert' && this.props.profile.role != 'admin' &&
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 0.13, marginTop: 20, backgroundColor: 'white' }}>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
@@ -164,7 +194,7 @@ class ProfileScreen extends Component {
           </View>
         }
 
-        {this.props.profile && this.props.profile.role != 'expert' &&
+        {this.props.profile && this.props.profile.role != 'expert' && this.props.profile.role != 'admin' &&
           <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', marginTop: 20, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("pro")}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
               <Icon2
@@ -188,7 +218,7 @@ class ProfileScreen extends Component {
           </TouchableOpacity>
         }
 
-        {this.props.profile && this.props.profile.role != 'expert' &&
+        {this.props.profile && this.props.profile.role != 'expert' && this.props.profile.role != 'admin' &&
           <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("historyAddPoint")}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
               <Icon3

@@ -48,6 +48,8 @@
     "react-native-firebase": "^5.0.0",
     "react-native-i18n": "^2.0.15",
     "react-native-image-picker": "^0.26.10",
+    "react-native-image-slider": "^2.0.3",
+    "react-native-image-zoom-viewer": "^2.2.23",
     "react-native-linear-gradient": "^2.4.2",
     "react-native-popup-dialog": "^0.15.1",
     "react-native-progress": "^3.5.0",

@@ -21,7 +21,8 @@ const create = (baseURL = b) => {
     baseURL,
     // here are some default headers
     headers: {
-      'Cache-Control': 'no-cache'
+      'Cache-Control': 'no-cache',
+      'Content-Type': 'application/json',
     },
     // 10 second timeout...
     timeout: 10000
@@ -29,9 +30,18 @@ const create = (baseURL = b) => {
 
   const getPromotion = () => api.get('promotion/list')
 
+  const payment = (data) => api.post('payment-history/add', data)
+
+  const getHistoryPoint = (data) => api.get('payment-history/list', data)
+
+  const sendSlip = (data) => api.post('transfer/add', data)
+
   return {
     // a list of the API functions from step 2
     getPromotion,
+    payment,
+    getHistoryPoint,
+    sendSlip,
   }
 }
 

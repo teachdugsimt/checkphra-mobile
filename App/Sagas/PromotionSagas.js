@@ -10,9 +10,10 @@
 *    you'll need to define a constant in that file.
 *************************************************************/
 
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import PromotionActions from '../Redux/PromotionRedux'
 // import { PromotionSelectors } from '../Redux/PromotionRedux'
+// const auth = state => state.auth
 
 export function* getPromotion(api) {
   // get current data from Store
@@ -27,3 +28,6 @@ export function* getPromotion(api) {
     yield put(PromotionActions.promotionFailure())
   }
 }
+
+
+

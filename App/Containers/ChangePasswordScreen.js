@@ -31,7 +31,7 @@ class ChangePasswordScreen extends Component {
     if (
       this.state.oldPass != "" &&
       this.state.newPass != "" &&
-      this.state.confrimPass != ""
+      this.state.confrimPass != "" && this.state.email != ""
     ) {
       if (this.state.newPass == this.state.confrimPass) {
         console.log(this.state.newPass)

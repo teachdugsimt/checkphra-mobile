@@ -50,11 +50,6 @@ const create = (baseURL = b) => {
 
   const addQuestion = (images, questions, amuletType, user_id) => {
 
-    console.log(images)
-    console.log(questions)
-    console.log(amuletType)
-    console.log(user_id)
-
     let body = new FormData()
     images.forEach((element, i) => {
       body.append('files[' + i + ']', element)
@@ -68,6 +63,7 @@ const create = (baseURL = b) => {
     // body.append('question', questions)
 
     console.log(body)
+    // console.log('HERE ADD QUESTION BODY')
 
     return api.post('question/add', body, { headers: { 'Content-Type': 'multipart/form-data' } })
   }
@@ -77,18 +73,24 @@ const create = (baseURL = b) => {
 
   const getProfile = (data) => api.get('user/profile', data)
   const cancelQuestion = (data) => api.get('question/cancel', data)
-  // ------
-  // STEP 3
-  // ------
-  //
-  // Return back a collection of functions that we would consider our
-  // interface.  Most of the time it'll be just the list of all the
-  // methods in step 2.
-  //
-  // Notice we're not returning back the `api` created in step 1?  That's
-  // because it is scoped privately.  This is one way to create truly
-  // private scoped goodies in JavaScript.
-  //
+
+  // const moneyTransfer = (user_id, price, bank, date, file, types) => {
+  //   let body = new FormData()
+
+  //   body.append('user_id', user_id)
+  //   body.append('price', price)
+  //   body.append('bank', bank)
+  //   body.append('date', date)
+  //   // file.forEach((element, i)=>{
+  //   //   body.append('file', element)
+  //   // })
+  //   body.append('file', file)
+  //   body.append('types', types)
+
+  //   return api.post('transfer/add', body, { headers: { 'Content-Type': 'multipart/from-data'}})
+  // }
+ 
+
   return {
     // a list of the API functions from step 2
     getQuestionType,
@@ -99,7 +101,9 @@ const create = (baseURL = b) => {
     getAnswer,
 
     getProfile,
-    cancelQuestion
+    cancelQuestion,
+
+    // moneyTransfer
   }
 }
 

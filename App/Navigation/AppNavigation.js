@@ -11,7 +11,7 @@ import SendImageScreen from '../Containers/SendImageScreen'
 import Promotion from '../Containers/Promotion'
 import CheckListScreen from '../Containers/CheckListScreen'
 import HistoryPoint from '../Containers/HistoryPoint'
-// import { connect } from "react-redux";
+import DetailPoint from '../Containers/DetailPoint'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -23,6 +23,7 @@ import { TouchableOpacity, View, Text, Image } from "react-native";
 import { Colors } from "../Themes";
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/FontAwesome";
+
 import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator } from 'react-navigation';
 
 const AuthStack = StackNavigator(
@@ -119,6 +120,7 @@ const ProfileStack = StackNavigator(   // main pro
       screen: ChangePasswordScreen
     },
     historyAddPoint: { screen: HistoryPoint },
+    detailPoint: { screen: DetailPoint },
   },
   {
     navigationOptions: ({ navigation }) => ({

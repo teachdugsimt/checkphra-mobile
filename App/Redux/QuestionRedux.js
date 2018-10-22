@@ -41,6 +41,8 @@ const { Types, Creators } = createActions({
   deleteQuestion: ['q_id'],
   deleteQuestionSuccess: ['data'],
   deleteQuestionFailure: null,
+
+  clearProfile: null,
 })
 
 export const QuestionTypes = Types
@@ -212,7 +214,9 @@ export const deleteQuestionSuccess = (state, { data }) => {
   return state.merge({ dataDeleteq: data, request3: false })
 }
 
-export const deleteQuestionFailure = state => state.merge({ request3: false})
+export const deleteQuestionFailure = state => state.merge({ request3: false })
+
+export const clearProfile = state => state.merge({ profile: null })
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -246,4 +250,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.DELETE_QUESTION]: requestDeleteQuestion,
   [Types.DELETE_QUESTION_SUCCESS]: deleteQuestionSuccess,
   [Types.DELETE_QUESTION_FAILURE]: deleteQuestionFailure,
+
+  [Types.CLEAR_PROFILE]: clearProfile
 })

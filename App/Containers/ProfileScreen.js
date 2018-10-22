@@ -49,7 +49,7 @@ class ProfileScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps)
-    if (!nextProps.profile) {
+    if (nextProps.profile == null) {
       this.props.navigation.navigate("Auth")
     }
   }
@@ -196,7 +196,10 @@ class ProfileScreen extends Component {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.signout()}>
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => {
+          this.props.signout()
+          this.props.signout2()
+        }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
             <Icon2
               name="ios-lock"
@@ -231,7 +234,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getProfile: () => dispatch(QuestionActions.getProfile()),
-    signout: () => dispatch(AuthActions.signout())
+    signout: () => dispatch(AuthActions.signout()),
+    signout2: () => dispatch(QuestionActions.clearProfile())
   };
 };
 

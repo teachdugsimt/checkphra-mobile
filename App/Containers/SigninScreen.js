@@ -91,6 +91,7 @@ class SigninScreen extends Component {
       const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
       const currentUserJson = currentUser.user.toJSON()
 
+      console.log(currentUserJson.uid)
       this.props.setUserId(currentUserJson.uid)
       this.props.signinWithCredential(currentUserJson)
 

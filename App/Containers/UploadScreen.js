@@ -170,7 +170,9 @@ class UploadScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    auth: state.auth
+  };
 };
 
 const mapDispatchToProps = dispatch => {

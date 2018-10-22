@@ -263,6 +263,8 @@ const mapStateToProps = (state) => {
     questionType: state.question.questionType,
     images: state.question.images,
     profile: state.question.profile,
+    p: state.auth.profile,
+    auth: state.auth,
     // fetching: state.question.fetching,
     request: state.question.request,
   }

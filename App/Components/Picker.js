@@ -78,11 +78,13 @@ class Picker extends Component {
           avatarSource: source
         });
         // this.props.setUri(source, this.props.id)
-
+        console.log(response)
         this.props.setImages(this.props.id, {
           uri: response.uri,
           type: response.type,
-          name: response.fileName
+          name: response.fileName,
+          size: response.fileSize,
+          path: response.path
         })
       }
     });

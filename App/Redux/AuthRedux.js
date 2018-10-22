@@ -59,7 +59,10 @@ export const success = (state, action) => {
 export const failure = state =>
   state.merge({ fetching: false, error: true, profile: null })
 
-export const setUserId = (state, { user_id }) => state.merge({ user_id })
+export const setUserId = (state, { user_id }) => {
+  console.log(user_id)
+  return state.merge({ user_id })
+}
 
 
 

@@ -56,10 +56,10 @@ class HistoryScreen extends Component {
   }
 
   render() {
-    if (this.state.fetch == true) {
-      this.props.getHistory()
-    }
-    console.log(this.props.history)
+    // if (this.state.fetch == true) {
+    // this.props.getHistory()
+    // }
+    // console.log(this.props.history)
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}

@@ -37,12 +37,18 @@ const create = (baseURL = b) => {
 
   const sendSlip = (data) => api.post('transfer/add', data)
 
+  const getVerify = (data) => api.get('transfer/list', data)
+
+  const acceptPoint = (data) => api.get('transfer/accept', data)
+
   return {
     // a list of the API functions from step 2
     getPromotion,
     payment,
     getHistoryPoint,
     sendSlip,
+    getVerify,
+    acceptPoint
   }
 }
 

@@ -21,7 +21,7 @@ import { signin, signinWithCredential, signup } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest } from './PaymentSagas'
-import { expertRequest } from './ExpertSagas'
+import { expertRequest, getProfileRequest, acceptRequest } from './ExpertSagas'
 
 /* ------------- API ------------- */
 
@@ -62,5 +62,7 @@ export default function * root () {
     takeLatest(PaymentTypes.HISTORY_ADDPOINT_REQUEST, historyAddpointRequest, promotionApi), 
 
     takeLatest(PaymentTypes.SEND_SLIP_REQUEST, sendSlipRequest, promotionApi),
+    takeLatest(ExpertTypes.GET_PROFILE_REQUEST, getProfileRequest, promotionApi),
+    takeLatest(ExpertTypes.ACCEPT_REQUEST, acceptRequest, promotionApi),
   ])
 }

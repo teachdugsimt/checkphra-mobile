@@ -8,6 +8,8 @@ const { Types, Creators } = createActions({
   promotionSuccess: ['data'],
   promotionFailure: null,
 
+  setMoney: ['data'],
+
 })
 
 export const PromotionTypes = Types
@@ -21,7 +23,7 @@ export const INITIAL_STATE = Immutable({
   data: [],
   error: null,
 
-
+  money: null,
 })
 
 /* ------------- Selectors ------------- */
@@ -46,6 +48,10 @@ export const success = (state, { data }) => {
 export const failure = state =>
   state.merge({ fetching: false })
 
+export const setMoney = (state, { data }) =>{
+  return state.merge({ money: data })
+}
+
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -53,5 +59,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.PROMOTION_REQUEST]: request,
   [Types.PROMOTION_SUCCESS]: success,
   [Types.PROMOTION_FAILURE]: failure,
+
+  [Types.SET_MONEY]: setMoney,
 
 })

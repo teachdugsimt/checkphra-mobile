@@ -15,7 +15,7 @@ class Promptpay extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      money: 0,
+      money: this.props.money,
       type: 'promptpay',
     }
   }
@@ -31,21 +31,19 @@ class Promptpay extends Component {
   }
 
   _pressButton = () => {
-    if (this.state.money == 0) {
-      alert('กรุณาใส่จำนวนเงินที่ต้องการเติม')
-    } else {
-      Alert.alert(
-        'Check Phra',
-        'กรุณาแจ้งสลิปในหน้าประวัติการเติมเงิน',
-        [
-          { text: 'ตกลง', onPress: this.saveAndLinkData }
-        ],
-        { cancelable: false }
-      )
-    }
+    Alert.alert(
+      'Check Phra',
+      'กรุณาแจ้งสลิปในหน้าประวัติการเติมเงิน',
+      [
+        { text: 'ตกลง', onPress: this.saveAndLinkData }
+      ],
+      { cancelable: false }
+    )
+
   }
 
   render() {
+    console.log(this.props.money)
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -56,23 +54,23 @@ class Promptpay extends Component {
         }} resizeMode='contain' />
         <View style={{ marginTop: Metrics.doubleBaseMargin }}>
           <Text style={{ fontSize: 16, alignSelf: 'center' }}>รหัส Promptpay</Text>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center' }} >092-981-8252</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }} >092-981-8252</Text>
 
-          <TextInput
+          {/* <TextInput
             value={this.state.money}
             onChangeText={(text) => { this.setState({ money: text }) }}
             keyboardType={'numeric'}
             numberOfLines={1}
             style={{ margin: 5, borderRadius: 12, width: '65%', alignSelf: 'center' }}
-            placeholder={'กรุณาใส่จำนวนเงินที่ต้องการเติม'} />
+            placeholder={'กรุณาใส่จำนวนเงินที่ต้องการเติม'} /> */}
 
-          <View style={{ width: '65%', alignSelf: 'center' }}>
+          <View style={{ width: '65%', alignSelf: 'center', marginTop: 10 }}>
             <RoundedButton
               style={{ marginHorizontal: 10 }}
               title={`ตกลง`}
               onPress={this._pressButton}  // can use
-            // onPress={() => this._pressButton}  // can use
-            fetching={this.props.fetching}
+              // onPress={() => this._pressButton}  // can use
+              fetching={this.props.fetching}
             />
           </View>
         </View>
@@ -87,6 +85,7 @@ const mapStateToProps = (state) => {
     // fetching: state.promotion.fetching,
     // profile: state.question.profile,
     fetching: state.payment.fetching,
+    money: state.promotion.money,
   }
 }
 

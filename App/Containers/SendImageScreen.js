@@ -239,12 +239,12 @@ class SendImageScreen extends Component {
                 />
               })
             }
-            <TextInput
+            {/* <TextInput
               value={this.state.message}
               onChangeText={(text) => { this.setState({ message: text }) }}
               placeholder={'อื่นๆ โปรดระบุคำถาม ( x point )'}
               placeholderTextColor={Colors.brownText}
-            />
+            /> */}
           </View>
 
           <View style={{ width: '80%', marginVertical: 20, alignSelf: 'center' }}>

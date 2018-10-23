@@ -36,6 +36,7 @@ class AnswerScreen extends Component {
   };
 
   render() {
+    
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -52,15 +53,15 @@ class AnswerScreen extends Component {
         {
           this.props.answer && this.props.answer.images &&
           this.props.answer.images.map(element => {
-            return <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element}}
-            style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
+            return <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
+              style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
           })
         }
         <View style={{ marginHorizontal: 20 }}>
-        {
-          this.props.answer && this.props.answer.answer &&
-          this.props.answer.answer.map(element => {
-            return (
+          {
+            this.props.answer && this.props.answer.answer &&
+            this.props.answer.answer.map(element => {
+              return (
                 <Text style={{
                   fontFamily: 'Prompt-Regular',
                   fontSize: 13,
@@ -68,9 +69,9 @@ class AnswerScreen extends Component {
                   fontFamily: 'Prompt-SemiBold',
                   fontSize: 18,
                 }}>{element.result}</Text></Text>
-            )
-          })
-        }
+              )
+            })
+          }
         </View>
 
       </LinearGradient>

@@ -20,6 +20,9 @@ const { Types, Creators } = createActions({
   setDetailPoint: ['data'],
   setImage: ['data'],
   deleteImage: null,
+
+  setForm: ['data'],
+
 })
 
 export const PaymentTypes = Types
@@ -39,6 +42,8 @@ export const INITIAL_STATE = Immutable({
 
   data_point: [],  // tmp data for detailPoint
   img_slip: null,  // slip image
+
+  form: null,
 })
 
 /* ------------- Selectors ------------- */
@@ -78,7 +83,7 @@ export const historyAddpointRequest = state => {
 //   // console.log('REDUX')
 //   return state.merge({ request: false, data_history: history })
 // }
-export const historyAddpointSuccess = (state, data ) => {
+export const historyAddpointSuccess = (state, data) => {
   console.log(data.data_history)
   // console.log(history)
   // console.log('REDUX')
@@ -107,6 +112,8 @@ export const sendSlipSuccess = (state, { data }) => {
   return state.merge({ request2: false, data_slip: data })
 }
 export const sendSlipFailure = state => state.merge({ request2: false })
+
+export const setForm = (state, { data }) => state.merge({ form: data })
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -125,4 +132,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_DETAIL_POINT]: setDetailPoint,
   [Types.SET_IMAGE]: setImage,
   [Types.DELETE_IMAGE]: deleteImage,
+  [Types.SET_FORM]: setForm,
 })

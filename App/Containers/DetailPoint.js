@@ -129,7 +129,7 @@ class DetailPoint extends Component {
     render() {
         let status = this.props.item.status == 0 ? 'รออนุมัติ' : 'เสร็จสมบูรณ์'
         let status_color = this.props.item.status == 0 ? 'orange' : 'green'
-        let product = this.props.item.price + " point"
+        let product = this.props.item.price
         let time = this.props.item.date.slice(11, this.props.item.date.length - 3)
         let type = ''
         if (this.props.item.type == 1) {
@@ -150,8 +150,8 @@ class DetailPoint extends Component {
                 </View>
 
                 <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 16, marginLeft: 10 }}>สินค้า</Text>
-                    <Text style={{ fontSize: 16, marginRight: 10 }}>{product}</Text>
+                    <Text style={{ fontSize: 16, marginLeft: 10 }}>ราคาที่ต้องชำระ</Text>
+                    <Text style={{ fontSize: 16, marginRight: 10 }}>{product} ฿</Text>
                 </View>
 
                 <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>

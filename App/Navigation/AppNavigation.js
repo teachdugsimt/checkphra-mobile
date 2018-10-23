@@ -13,6 +13,8 @@ import CheckListScreen from '../Containers/CheckListScreen'
 import HistoryPoint from '../Containers/HistoryPoint'
 import DetailPoint from '../Containers/DetailPoint'
 import CheckPhraScreen from '../Containers/CheckPhraScreen'
+import VerifyPoint from '../Containers/VerifyPoint'
+import VerifyPoint2 from '../Containers/VerifyPoint2'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -274,9 +276,71 @@ const CheckListStack = StackNavigator({ // **********************FOR EXPERT & AD
     })
   })
 
-const ExpertStack = TabNavigator({
+const VerifyStack = StackNavigator({ // **********************FOR ADMIN *************************
+  check: {
+    screen: VerifyPoint,
+    navigationOptions: {
+      title: 'อนุมัติการเติมเงิน'
+    }
+  },
+  check2: {
+    screen: VerifyPoint2,
+    navigationOptions: {
+      title: 'รายละเอียดการอนุมัติ'
+    }
+  }
+}, {
+    navigationOptions: ({ navigation }) => ({
+      tabBarLabel: 'อนุมัติ POINT',
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
+    })
+  })
+
+const AdminStack = TabNavigator({  // *************** MAIN ADMIN *************************
   checklist: CheckListStack,
   profile: ProfileStack,
+  verify: VerifyStack,
+}, {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName == "checklist") {
+          iconName = `list-ul${focused ? "" : ""}`;
+        }
+        if (routeName == "profile") {
+          iconName = `user-circle${focused ? "" : "-o"}`;
+        }
+        return <Icon2 name={iconName} size={25} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: Colors.activeTab,
+      inactiveTintColor: Colors.inactiveTab,
+      style: {
+        height: 60,
+        backgroundColor: Colors.tabBar,
+      },
+      labelStyle: {
+        fontSize: 15,
+        fontFamily: "Prompt-Regular",
+        marginBottom: 5,
+        // tabBarComponent: TabBarBottom,
+        // tabBarPosition: "bottom"
+      },
+    }
+  })
+
+const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *************************
+  checklist: CheckListStack,
+  profile: ProfileStack,
+  // verify: VerifyStack,
 }, {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
@@ -314,7 +378,8 @@ const PrimaryNav = SwitchNavigator(
     Auth: AuthStack,
     Reg: RegStack,
     App: DashStack,
-    ExpertApp: ExpertStack
+    ExpertApp: ExpertStack,
+    AdminApp: AdminStack,
   },
   {
     // Default config for all screens
@@ -328,13 +393,6 @@ const PrimaryNav = SwitchNavigator(
 
 export default PrimaryNav;
 
-// const mapStateToProps = state => {
-//   return {
-//     profile: state.question.profile,
-//   };
-// }
-
-// export default connect( mapStateToProps )(PrimaryNav);
 
 
 

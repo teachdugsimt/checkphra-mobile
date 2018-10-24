@@ -9,6 +9,7 @@ import RoundedButton2 from '../../Components/RoundedButton2'
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import PaymentActions from '../../Redux/PaymentRedux'
 import Icon3 from "react-native-vector-icons/Entypo";
+import moment from 'moment'
 const { width } = Dimensions.get('window')
 var ImagePicker = require('react-native-image-picker');
 var options = {
@@ -42,6 +43,11 @@ class Promptpay extends Component {
 
 
   _pressButtonOk = () => {
+    let day = new Date()
+    let f = moment(day).format()
+    let time1 = f.slice(0, 10)
+    let time2 = f.slice(11, 19)
+    let full = time1+" "+time2
     if (!this.state.avatarSource) {
       alert('กรุณาเลือกรูปภาพ')
     } else {
@@ -58,7 +64,7 @@ class Promptpay extends Component {
                   user_id: this.props.user_id,
                   price: this.props.money,
                   bank: this.state.bank,
-                  date: '2018-10-19 16:30:00',
+                  date: full,
                   file: this.props.image,
                   type: this.state.type,
                 }
@@ -111,6 +117,7 @@ class Promptpay extends Component {
 
   render() {
     console.log(this.props.money)
+   
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{

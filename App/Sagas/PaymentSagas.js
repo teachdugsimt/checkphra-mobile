@@ -11,9 +11,10 @@
 *************************************************************/
 
 import { call, put, select } from 'redux-saga/effects'
-import PaymentActions from '../Redux/PaymentRedux'
+import PaymentActions, { creditRequest } from '../Redux/PaymentRedux'
 // import { PaymentSelectors } from '../Redux/PaymentRedux'
 const auth = state => state.auth
+const money = state => state.promotion
 const slip = state => state.payment.data_point
 // const pay = state => state.payment
 
@@ -64,7 +65,7 @@ export function* historyAddpointRequest(api, { page }) {
 }
 
 export function* sendSlipRequest(api, { item }) {
-  
+
   const sl = yield select(slip)
 
   let body = new FormData()
@@ -74,7 +75,7 @@ export function* sendSlipRequest(api, { item }) {
   body.append('bank', item.bank)
   body.append('date', item.date)
   body.append('file', item.file)
-  body.append('type', sl.type)
+  body.append('type', item.type)
 
   const response = yield call(api.sendSlip, body)
 
@@ -85,5 +86,28 @@ export function* sendSlipRequest(api, { item }) {
   } else {
     alert('แจ้งโอนเงินล้มเหลว')
     yield put(PaymentActions.sendSlipFailure())
+  }
+}
+
+export function* cardRequest(api, { token }) {
+  const aut = yield select(auth)
+  const mo = yield select(money)
+
+  const data = {
+    user_id: aut.user_id,
+    amount: mo.money * 100,
+    currency: 'thb',
+    omiseToken: token,
+  }
+  console.log(data)
+  const response = yield call(api.creditCard, data)
+  console.log(response)
+
+  if (response.ok) {
+    alert('เติมเงินสำเร็จ')
+    yield put(PaymentActions.cardSuccess(response.data))
+  } else {
+    alert('เติมเงินล้มเหลว')
+    yield put(PaymentActions.cardFailure())
   }
 }

@@ -23,6 +23,9 @@ const { Types, Creators } = createActions({
 
   setForm: ['data'],
 
+  cardRequest: ['token'],
+  cardSuccess: ['data'],
+  cardFailure: null,
 })
 
 export const PaymentTypes = Types
@@ -37,13 +40,16 @@ export const INITIAL_STATE = Immutable({
   request: null,   // history  point
   data_history: null,  // for history point
 
-  request2: null,
+  request2: null,   // send slip
   data_slip: null,
 
   data_point: [],  // tmp data for detailPoint
   img_slip: null,  // slip image
 
   form: null,
+
+  data_credit: [],
+  request3: null,
 })
 
 /* ------------- Selectors ------------- */
@@ -114,6 +120,10 @@ export const sendSlipSuccess = (state, { data }) => {
 export const sendSlipFailure = state => state.merge({ request2: false })
 
 export const setForm = (state, { data }) => state.merge({ form: data })
+
+export const creditRequest = (state) => state.merge({ request3: true })
+export const creditSuccess = (state, { data }) => state.merge({ request3: false, data_credit: data })
+export const creditFailure = state => state.merge({ request3: false })
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -133,4 +143,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_IMAGE]: setImage,
   [Types.DELETE_IMAGE]: deleteImage,
   [Types.SET_FORM]: setForm,
+
+  [Types.CARD_REQUEST]: creditRequest,
+  [Types.CARD_SUCCESS]: creditSuccess,
+  [Types.CARD_FAILURE]: creditFailure
 })

@@ -24,6 +24,11 @@ const images = {
   ktb: require('../Images/ktb.png'),
   scb: require('../Images/scb.png'),
   kbank: require('../Images/kbank.png'),
+  capture1: require('../Images/Capture1.png'),
+  capture2: require('../Images/Capture2.png'),
+  capture3: require('../Images/Capture3.png'),
+  capture4: require('../Images/Capture4.png'),
+  capture5: require('../Images/Capture5.png'),
 }
 
 export default images

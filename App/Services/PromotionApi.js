@@ -41,6 +41,8 @@ const create = (baseURL = b) => {
 
   const acceptPoint = (data) => api.get('transfer/accept', data)
 
+  const creditCard = (data) => api.post('payment-history/checkout', data)
+
   return {
     // a list of the API functions from step 2
     getPromotion,
@@ -48,7 +50,8 @@ const create = (baseURL = b) => {
     getHistoryPoint,
     sendSlip,
     getVerify,
-    acceptPoint
+    acceptPoint,
+    creditCard
   }
 }
 

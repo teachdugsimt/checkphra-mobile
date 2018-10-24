@@ -118,27 +118,38 @@ class Picker extends Component {
       <View style={styles.container}>
         <TouchableOpacity style={{ flex: 1 }} onPress={this.pick}>
           <View style={styles.uploadBox}>
-            <Icon
-              name="camera"
-              size={40}
-              color={Colors.brownTextTran}
-            />
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flex: 4, justifyContent: 'center', alignItems: 'center' }}>
+              {this.state.avatarSource && this.props.images[this.props.id] &&
+
+                <Image source={this.state.avatarSource} style={{ width: 110, height: 65 }} resizeMode='contain' />
+
+              }
+              {!(this.state.avatarSource && this.props.images[this.props.id]) &&
+                <Icon
+                  name="camera"
+                  size={40}
+                  color={Colors.brownTextTran}
+                />
+              }
+            </View>
+            <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={styles.uploadBoxText}>{this.props.title}</Text>
-              {this.props.images[this.props.id] && < Icon
-                style={{ marginLeft: 33 }}
-                name="squared-cross"
-                size={24}
-                color={'red'}
-                onPress={() => { this.props.deleteImage(this.props.id) }}
-              />
+              {this.props.images[this.props.id] &&
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
+                  <Icon
+                    style={{ marginRight: 8 }}
+                    name="squared-cross"
+                    size={22}
+                    color={Colors.brownText}
+                    onPress={() => { this.props.deleteImage(this.props.id) }}
+                  />
+                </View>
               }
             </View>
 
-            <Image source={this.state.avatarSource && this.props.images[this.props.id] ? this.state.avatarSource : ''} style={{ width: '100%', height: '100%' }} />
+
           </View>
         </TouchableOpacity>
-
       </View>
     )
   }

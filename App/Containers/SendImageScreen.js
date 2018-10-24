@@ -161,8 +161,8 @@ class SendImageScreen extends Component {
         )
       } else {
         this.props.addQuestion()
-        this.props.navigation.goBack()
-        this.props.navigation.navigate('his')
+        // this.props.navigation.goBack()
+        // this.props.navigation.navigate('his')
       }
     }
 
@@ -189,13 +189,13 @@ class SendImageScreen extends Component {
           <View style={{ height: 60, justifyContent: "center" }}>
             <Text
               style={{
-                fontSize: 25,
+                fontSize: 20,
                 fontFamily: "Prompt-Regular",
                 alignSelf: "center",
                 color: Colors.brownText
               }}
             >
-              ข้อมูลเพื่อส่งตรวจ
+              เลือกรูป
           </Text>
           </View>
           <View style={styles.uploadRow}>
@@ -232,13 +232,13 @@ class SendImageScreen extends Component {
                       id: element.id,
                       name: element.name,
                       point: element.point,
-                      isChecked: !element.isChecked
+                      isChecked: i > 0 ? !element.isChecked : true
                     })
 
                     this.props.setQuestions(qtype)
                     this.setState({ questionType: qtype })
                   }}
-                  isChecked={this.state.questionType[i].isChecked}
+                  isChecked={i > 0 ? this.state.questionType[i].isChecked : true}
                   rightText={element.name + " ( " + point[i] + " point )"}
                   rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 20 }}
                   checkBoxColor={Colors.brownText}

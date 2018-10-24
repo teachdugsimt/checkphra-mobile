@@ -17,8 +17,10 @@ export default StyleSheet.create({
     overflow: 'hidden'
   },
   uploadBoxText: {
+    flex: 1,
+    textAlign: 'center',
     fontFamily: 'Prompt-SemiBold',
-    fontSize: 25,
+    fontSize: 22,
     color: Colors.brownTextTran,
   },
 })

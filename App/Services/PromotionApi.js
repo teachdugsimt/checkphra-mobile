@@ -6,8 +6,8 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   // b = 'http://localhost:10000/web/index.php/v1/'
   // b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
-  // b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
-  b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
+  b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
+  // b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
 }
 
 const create = (baseURL = b) => {

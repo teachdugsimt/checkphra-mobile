@@ -89,7 +89,12 @@ const UploadStack = StackNavigator(  // main upload
         // headerTintColor: Colors.headerTitleColor
       }
     },
-    send: { screen: SendImageScreen }
+    send: {
+      screen: SendImageScreen,
+      navigationOptions: {
+        title: 'เลือกรูปและคำถาม',
+      }
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({

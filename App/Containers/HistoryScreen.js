@@ -12,13 +12,14 @@ import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 
 let { width } = Dimensions.get('window')
-
+let check = false
 class HistoryScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
       refreshing: false,
       fetch: null,
+      data_history: null
     }
   }
 
@@ -38,28 +39,50 @@ class HistoryScreen extends Component {
   }
 
   static getDerivedStateFromProps(newProps, PrevState) {
-    // let checkRequest = null
+    
+    let hlist = newProps.history
     console.log(newProps)
-    if (newProps.request2 == false && newProps.amulet != 0) {
-      checkRequest = true
-    } else if (newProps.amulet == 0) {
-      checkRequest = false
+    console.log(PrevState)
+
+    if (!PrevState.data_history) {
+      newProps.getHistory()
+      return {
+        data_history: hlist
+      }
     }
 
-    if (newProps.request2 == null) {
-      checkRequest = false
+    if (PrevState.data_history != null) {
+      if (newProps.request2) {
+        // check = true
+        console.log('FETCHING')
+        newProps.getHistory()
+        return {
+          data_history: hlist
+        }
+      } 
+      // else if (newProps.history[0].id != PrevState.data_history[0].id) {{
+      //     newProps.getHistory()
+      //     console.log('FETCH COMPLETE')
+      //   }
+      // }
+      // else if (newProps.history[0].id != PrevState.data_history[0].id) {
+      //   console.log('FETCH COMPLETE')
+      //   newProps.getHistory()
+      // }
     }
+
+    // if(check == true){
+
+    //   console.log('FETCH COMPLETE')
+    // }
 
     return {
-      fetch: checkRequest,
+      data_history: hlist
     }
   }
 
   render() {
-    // if (this.state.fetch == true) {
-    // this.props.getHistory()
-    // }
-    // console.log(this.props.history)
+
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -149,6 +172,7 @@ class HistoryScreen extends Component {
               </TouchableOpacity>
             )
           }}
+          ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มีประวัติการส่งตรวจ</Text>}
         />
       </LinearGradient>
 

@@ -8,6 +8,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import { Colors } from "../Themes";
 import PaymentActions from '../Redux/PaymentRedux'
+
+let check = true
 class HistoryPoint extends Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -35,8 +37,13 @@ class HistoryPoint extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            history_data: []
+            history_data: null,
+            fetch: null,
         }
+    }
+
+    componentWillUnmount() {
+        this.props.navigation.goBack()
     }
 
     componentDidMount() {
@@ -46,8 +53,36 @@ class HistoryPoint extends Component {
     static getDerivedStateFromProps(newProps, prevState) {
         let list = newProps.data_history
         console.log(newProps)
+        console.log(prevState)
+        if (!prevState.history_data) {
+            newProps.getHistory()
+            // console.log('refresh state')
+        }
+
+        if (prevState.history_data != null) {
+            if (newProps.request) {
+                // console.log('WHILE FETCH')
+                newProps.getHistory()
+                return {
+                    fetch: newProps.request ? true : false,
+                }
+            } else if (newProps.data_history[0].id != prevState.history_data[0].id && !newProps.request && check == true) {
+                check = false
+                // console.log('HAHAHAHAHAHAHAHHAHAH')
+                newProps.setDetailPoint(newProps.data_history[0])
+                newProps.navigation.navigate("detailPoint")
+                return {
+                    history_data: list,
+                    fetch: newProps.request ? true : false,
+                }
+
+            }
+        } else {
+            check = true
+        }
+        
         return {
-            history_data: list
+            history_data: list,
         }
     }
 
@@ -91,7 +126,7 @@ class HistoryPoint extends Component {
     }
 
     render() {
-        console.log(this.state.history_data)
+
         let data = [{ name: 'เติม point ', value: 100, day: '11-11-2018', key: 0 },
         { name: 'เติม point ', value: 1500, day: '11-11-2018', key: 1 },
         { name: 'เติม point ', value: 700000, day: '11-11-2018', key: 2 },
@@ -103,10 +138,10 @@ class HistoryPoint extends Component {
                     renderItem={this._renderItem}
                     refreshControl={
                         <RefreshControl
-                          refreshing={this.props.request == true}
-                          onRefresh={this.onRefresh.bind(this)}
+                            refreshing={this.props.request == true}
+                            onRefresh={this.onRefresh.bind(this)}
                         />
-                      }
+                    }
                 />
             </View>
         )

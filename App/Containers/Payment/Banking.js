@@ -35,7 +35,7 @@ class Banking extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            money: 0,
+            money: this.props.money,
             type: 'transfer',
         }
     }
@@ -51,18 +51,15 @@ class Banking extends Component {
     }
 
     _pressButton = () => {
-        if (this.state.money == 0) {
-            alert('กรุณาใส่จำนวนเงินที่ต้องการเติม')
-        } else {
-            Alert.alert(
-                'Check Phra',
-                'กรุณาแจ้งสลิปในหน้าประวัติการเติมเงิน',
-                [
-                    { text: 'ตกลง', onPress: this.saveAndLinkData }
-                ],
-                { cancelable: false }
-            )
-        }
+        Alert.alert(
+            'Check Phra',
+            'กรุณาแจ้งสลิปในหน้าประวัติการเติมเงิน',
+            [
+                { text: 'ตกลง', onPress: this.saveAndLinkData }
+            ],
+            { cancelable: false }
+        )
+
     }
 
     _changeText = (text) => {
@@ -70,6 +67,7 @@ class Banking extends Component {
     }
 
     render() {
+        console.log(this.props.money)
         const img = [Images.ktb, Images.scb, Images.kbank]
         return (
             <View style={{ flex: 1 }}>
@@ -88,7 +86,7 @@ class Banking extends Component {
                 </View>
 
                 <View style={{}}>
-                    <View style={{ width: '65%', alignSelf: 'center' }}>
+                    {/* <View style={{ width: '65%', alignSelf: 'center' }}>
                         <TextInput
                             style={{ margin: 5, borderRadius: 12 }}
                             placeholder={'ใส่จำนวนเงินที่ต้องการเติม'}
@@ -96,7 +94,7 @@ class Banking extends Component {
                             keyboardType={'numeric'}
                             numberOfLines={1}
                             onChangeText={(text) => this._changeText(text)} />
-                    </View>
+                    </View> */}
 
                     <View style={{ width: '65%', alignSelf: 'center' }}>
                         <RoundedButton
@@ -120,6 +118,7 @@ const mapStateToProps = (state) => {
         // profile: state.question.profile,
 
         fetching: state.payment.fetching,
+        money: state.promotion.money,
     }
 }
 

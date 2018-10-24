@@ -6,7 +6,8 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   // b = 'http://localhost:10000/web/index.php/v1/'
   // b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
-  b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
+  // b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
+  b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
 }
 
 const create = (baseURL = b) => {
@@ -36,12 +37,18 @@ const create = (baseURL = b) => {
 
   const sendSlip = (data) => api.post('transfer/add', data)
 
+  const getVerify = (data) => api.get('transfer/list', data)
+
+  const acceptPoint = (data) => api.get('transfer/accept', data)
+
   return {
     // a list of the API functions from step 2
     getPromotion,
     payment,
     getHistoryPoint,
     sendSlip,
+    getVerify,
+    acceptPoint
   }
 }
 

@@ -6,8 +6,8 @@ if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'
 } else {
   // b = 'http://localhost:10000/web/index.php/v1/'
-  b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
-  // b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
+  // b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
+  b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
 }
 
 // our "constructor"
@@ -74,6 +74,8 @@ const create = (baseURL = b) => {
   const getProfile = (data) => api.get('user/profile', data)
   const cancelQuestion = (data) => api.get('question/cancel', data)
 
+  const addAnswer = (pack, q_id, user_id) => api.post('answer/check', { answer: pack, question_id: q_id, user_id })
+
   // const moneyTransfer = (user_id, price, bank, date, file, types) => {
   //   let body = new FormData()
 
@@ -89,7 +91,7 @@ const create = (baseURL = b) => {
 
   //   return api.post('transfer/add', body, { headers: { 'Content-Type': 'multipart/from-data'}})
   // }
- 
+
 
   return {
     // a list of the API functions from step 2
@@ -102,6 +104,8 @@ const create = (baseURL = b) => {
 
     getProfile,
     cancelQuestion,
+
+    addAnswer,
 
     // moneyTransfer
   }

@@ -66,7 +66,10 @@ class SigninScreen extends Component {
     if (!prevState.profile && prevState.profile != nextProps.profile) {
       if (nextProps.profile.role == 'expert') {
         nextProps.navigation.navigate('ExpertApp')
-      } else {
+      } else if(nextProps.profile.role == 'admin'){
+        nextProps.navigation.navigate('AdminApp')
+      } 
+      else {
         nextProps.navigation.navigate('App')
       }
     }

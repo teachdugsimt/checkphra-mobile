@@ -30,6 +30,8 @@ class Promotion extends Component {
     }
 
     _PressPromotion(item) {
+        // console.log(item)
+        this.props.setMoney(item.price)
         this.popupDialog.show()
     }
 
@@ -60,29 +62,7 @@ class Promotion extends Component {
                             <Text style={{ fontWeight: 'bold', color: 'brown', textAlign: 'right' }}>{item.price} ฿</Text>
                         </View>
                     </View>
-                    <View style={{ flex: 1, padding: 20, flexDirection: 'row' }}>
-                        <Icon2
-                            name="cc-mastercard"
-                            size={26}
-                            color={Colors.brownText}
-                            style={{}} />
-                        <Icon2
-                            name="cc-visa"
-                            size={26}
-                            color={Colors.brownText}
-                            style={{ paddingLeft: 5 }} />
-                        <Icon2
-                            name="cc-paypal"
-                            size={26}
-                            color={Colors.brownText}
-                            style={{ paddingLeft: 5 }} />
-                        <Icon2
-                            name="credit-card-alt"
-                            size={26}
-                            color={Colors.brownText}
-                            style={{ paddingLeft: 5 }} />
-
-                    </View>
+                    
                 </View>
             </TouchableOpacity>
         )
@@ -116,7 +96,7 @@ class Promotion extends Component {
                     ref={(popupDialog) => { this.popupDialog = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={0.7}
-                    height={0.30}
+                    height={0.26}
                     onDismissed={() => { this.setState({}) }}
                 >
                     <View style={{}}>
@@ -173,6 +153,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getPromotion: () => dispatch(PromotionActions.promotionRequest()),
+        setMoney: (m) => dispatch(PromotionActions.setMoney(m)),
     }
 }
 

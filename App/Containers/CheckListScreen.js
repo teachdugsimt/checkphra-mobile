@@ -9,7 +9,7 @@ import 'moment/locale/th'
 
 import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
-
+import ExpertActions from '../Redux/ExpertRedux'
 // Styles
 import styles from './Styles/CheckListScreenStyle'
 
@@ -28,6 +28,12 @@ class CheckListScreen extends Component {
   componentDidMount() {
     moment.locale('th')
     this.props.getHistory()
+  }
+
+  _gotoCheckphra = (item) => {
+    // console.log(item)
+    this.props.setDataPhra(item)
+    this.props.navigation.navigate('check2')
   }
 
   goToAnswer = (qid) => {
@@ -93,8 +99,10 @@ class CheckListScreen extends Component {
               <TouchableOpacity onPress={() => {
                 if (item.status == 'success') {
                   this.goToAnswer(item.id)
+                  // this._gotoCheckphra(item)
                 } else {
-                  alert('ยังไม่มีผลการตรวจ')
+                  this._gotoCheckphra(item)
+                  // alert('ยังไม่มีผลการตรวจ')
                 }
               }
               }>
@@ -143,6 +151,7 @@ const mapDispatchToProps = (dispatch) => {
     getHistory: () => dispatch(QuestionActions.getHistory()),
     getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
     deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
+    setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
   }
 }
 

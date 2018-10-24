@@ -69,7 +69,7 @@ export function* addQuestion(api) {
       [
         { text: 'ตกลง' }
       ],
-      { cancelable: false }
+      // { cancelable: false }
     )
     yield put(QuestionActions.clearForm())
     yield put(QuestionActions.clearImage())

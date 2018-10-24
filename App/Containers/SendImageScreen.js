@@ -97,11 +97,17 @@ class SendImageScreen extends Component {
           avatarSource: source
         });
 
-        this.props.setImages(this.props.id, {
+        const d = {
           uri: response.uri,
           type: response.type,
-          name: response.fileName
-        })
+          name: response.fileName,
+          tmp_name: response.path,
+          size: response.size
+        }
+
+        console.log(d)
+
+        this.props.setImages(this.props.id, d)
       }
     });
   }

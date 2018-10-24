@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-image-resizer')
 
     implementation project(':react-native-image-picker')
     implementation (project(':react-native-fbsdk')) {
@@ -157,6 +158,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:15.0.1"
     implementation "com.google.firebase:firebase-core:16.0.3"
     implementation "com.google.firebase:firebase-auth:16.0.3"
+    implementation "com.google.firebase:firebase-messaging:17.3.2"
+    implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // <-- Add this line if you wish to use badge on Android
 
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
 

@@ -50,6 +50,7 @@
 		4E61FF5634CE4DDCA2F6D1AA /* Prompt-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFDA423AB92A434581CF89C6 /* Prompt-Italic.ttf */; };
 		50F062A8178141B525C31DC6 /* libPods-CheckPhra.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D166400E7EFA6302F4DC085F /* libPods-CheckPhra.a */; };
 		54573B619F364AD3821766BE /* RNI18nTests.xctest in Frameworks */ = {isa = PBXBuildFile; fileRef = 823B30F2FA1B4611A1FAB2AE /* RNI18nTests.xctest */; };
+		55702F7721801C49006CCA1B /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55702F5521801BFD006CCA1B /* libRCTImageResizer.a */; };
 		55B549A92160C67C00E4F1F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55B549A82160C67C00E4F1F2 /* GoogleService-Info.plist */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		5FE4ADB715EE4FC89E45C221 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EAC2DF9FCAF34F7B9926A8E2 /* SimpleLineIcons.ttf */; };
@@ -324,6 +325,13 @@
 			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
 			remoteInfo = RNImagePicker;
 		};
+		55702F5421801BFD006CCA1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 55702F4621801BFD006CCA1B /* RCTImageResizer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5D72D2E81C16249000E22EC1;
+			remoteInfo = RCTImageResizer;
+		};
 		55B5496E2160C51000E4F1F2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2ED21ED7430944A6A5AEAE4B /* BVLinearGradient.xcodeproj */;
@@ -430,6 +438,8 @@
 		44CEE496840597E3892468E3 /* Pods-CheckPhra-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CheckPhra-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CheckPhra-tvOSTests/Pods-CheckPhra-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		5124819D014B4FAE8479F270 /* Prompt-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Prompt-SemiBold.ttf"; path = "../assets/Fonts/Prompt-SemiBold.ttf"; sourceTree = "<group>"; };
 		551DBEF62177D2E100F0A8DD /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
+		55702F4621801BFD006CCA1B /* RCTImageResizer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImageResizer.xcodeproj; path = "../node_modules/react-native-image-resizer/ios/RCTImageResizer.xcodeproj"; sourceTree = "<group>"; };
+		55B430E7217E3781000CC3CF /* CheckPhra.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CheckPhra.entitlements; path = CheckPhra/CheckPhra.entitlements; sourceTree = "<group>"; };
 		55B549A82160C67C00E4F1F2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "CheckPhra/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5F2F57ED150AD8E781A2F9A9 /* libPods-CheckPhraTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CheckPhraTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -490,6 +500,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55702F7721801C49006CCA1B /* libRCTImageResizer.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -657,6 +668,7 @@
 		13B07FAE1A68108700A75B9A /* CheckPhra */ = {
 			isa = PBXGroup;
 			children = (
+				55B430E7217E3781000CC3CF /* CheckPhra.entitlements */,
 				55B549A82160C67C00E4F1F2 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -708,6 +720,14 @@
 			isa = PBXGroup;
 			children = (
 				551DBF242177D2E200F0A8DD /* libRNImagePicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		55702F4721801BFD006CCA1B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				55702F5521801BFD006CCA1B /* libRCTImageResizer.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -793,6 +813,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				55702F4621801BFD006CCA1B /* RCTImageResizer.xcodeproj */,
 				551DBEF62177D2E100F0A8DD /* RNImagePicker.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -962,6 +983,11 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = EZH5YYP2L5;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1009,6 +1035,10 @@
 				{
 					ProductGroup = 00C302BC1ABCB91800DB3ED1 /* Products */;
 					ProjectRef = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
+				},
+				{
+					ProductGroup = 55702F4721801BFD006CCA1B /* Products */;
+					ProjectRef = 55702F4621801BFD006CCA1B /* RCTImageResizer.xcodeproj */;
 				},
 				{
 					ProductGroup = 78C398B11ACF4ADC00677621 /* Products */;
@@ -1295,6 +1325,13 @@
 			fileType = archive.ar;
 			path = libRNImagePicker.a;
 			remoteRef = 551DBF232177D2E200F0A8DD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		55702F5521801BFD006CCA1B /* libRCTImageResizer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTImageResizer.a;
+			remoteRef = 55702F5421801BFD006CCA1B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		55B5496F2160C51000E4F1F2 /* libBVLinearGradient.a */ = {
@@ -1783,6 +1820,7 @@
 			baseConfigurationReference = A0569D85ABE63CF884971EB0 /* Pods-CheckPhra.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CheckPhra/CheckPhra.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = EZH5YYP2L5;
@@ -1801,7 +1839,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.infiltech.checkphra;
+				PRODUCT_BUNDLE_IDENTIFIER = org.infiltech.checkphra;
 				PRODUCT_NAME = CheckPhra;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1812,6 +1850,7 @@
 			baseConfigurationReference = C4464B68935D19E845D34C65 /* Pods-CheckPhra.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CheckPhra/CheckPhra.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = EZH5YYP2L5;
 				HEADER_SEARCH_PATHS = (
@@ -1829,7 +1868,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.infiltech.checkphra;
+				PRODUCT_BUNDLE_IDENTIFIER = org.infiltech.checkphra;
 				PRODUCT_NAME = CheckPhra;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

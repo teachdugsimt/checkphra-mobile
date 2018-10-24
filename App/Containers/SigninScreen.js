@@ -26,6 +26,7 @@ import styles from "./Styles/SigninScreenStyle";
 import { Colors } from "../Themes";
 import RoundedButton from "../Components/RoundedButton";
 
+
 let { width } = Dimensions.get('window')
 
 class SigninScreen extends Component {
@@ -46,10 +47,19 @@ class SigninScreen extends Component {
         this.props.navigation.navigate('App')
       }
     }
-  }
-  // componentWillReceiveProps(newProps) {
 
-  // }
+    // this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((nn) => {
+    //   // Process your notification as required
+    //   // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+    //   console.log("display listener")
+    //   console.log(nn)
+    // });
+    // this.notificationListener = firebase.notifications().onNotification((nn) => {
+    //   // Process your notification as required
+    //   console.log("listener")
+    //   console.log(nn)
+    // });
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
 
@@ -90,6 +100,20 @@ class SigninScreen extends Component {
       // login with credential
       const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
       const currentUserJson = currentUser.user.toJSON()
+
+      // const fcmToken = await firebase.messaging().getToken();
+      // if (fcmToken) {
+      //   console.log(fcmToken)
+      // } else {
+      //   console.log('no token')
+      // }
+
+      // const enabled = await firebase.messaging().hasPermission();
+      // if (enabled) {
+      //   console.log('have permission')
+      // } else {
+      //   console.log('dont have permission')
+      // }
 
       console.log(currentUserJson.uid)
       this.props.setUserId(currentUserJson.uid)

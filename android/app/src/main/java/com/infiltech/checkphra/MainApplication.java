@@ -3,11 +3,16 @@ package com.infiltech.checkphra;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.imagepicker.ImagePickerPackage;
 // import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage; // <-- Add this line
+
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 // import com.i18n.reactnativei18n.ReactNativeI18n;
@@ -41,18 +46,18 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new ImagePickerPackage(),
-            new FBSDKPackage(mCallbackManager),
-            new RNI18nPackage(),
-            new RNFirebasePackage(),
-            new RNFirebaseAuthPackage(),
-            new LinearGradientPackage(),
-            new ReactNativeConfigPackage(),
-            // new ReactNativeI18n(),
-            new VectorIconsPackage()
-      );
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new ImageResizerPackage(), new ImagePickerPackage(),
+          new FBSDKPackage(mCallbackManager), //
+          new RNI18nPackage(), //
+          new RNFirebasePackage(), //
+          new RNFirebaseAuthPackage(), //
+          new RNFirebaseMessagingPackage(), //
+          new RNFirebaseNotificationsPackage(), //
+          new LinearGradientPackage(), //
+          new ReactNativeConfigPackage(), //
+          // new ReactNativeI18n(),
+          new VectorIconsPackage());
     }
 
     @Override

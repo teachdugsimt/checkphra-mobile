@@ -9,6 +9,8 @@ import { connect } from "react-redux";
 import QuestionActions from '../Redux/QuestionRedux'
 import { database } from 'react-native-firebase';
 
+import ImageResizer from 'react-native-image-resizer';
+
 var ImagePicker = require('react-native-image-picker');
 var options = {
   title: 'Select Avatar',
@@ -79,13 +81,30 @@ class Picker extends Component {
         });
         // this.props.setUri(source, this.props.id)
         console.log(response)
-        this.props.setImages(this.props.id, {
-          uri: response.uri,
-          type: response.type,
-          name: response.fileName,
-          size: response.fileSize,
-          path: response.path
-        })
+
+        ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 90, 0, null)
+          .then((response) => {
+            // response.uri is the URI of the new image that can now be displayed, uploaded...
+            // response.path is the path of the new image
+            // response.name is the name of the new image with the extension
+            // response.size is the size of the new image
+            this.props.setImages(this.props.id, {
+              uri: response.uri,
+              // type: response.type,
+              // name: response.fileName,
+              name: response.name,
+              // size: response.fileSize,
+              size: response.size,
+              tmp_name: response.path
+            })
+            console.log(response)
+          }).catch((err) => {
+            // Oops, something went wrong. Check that the filename is correct and
+            // inspect err to get more details.
+            console.log(err)
+          });
+
+
       }
     });
   }

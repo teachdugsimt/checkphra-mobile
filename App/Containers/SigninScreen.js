@@ -17,6 +17,7 @@ import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import firebase from 'react-native-firebase';
 import { Images, Metrics } from '../Themes'
 import AuthActions from '../Redux/AuthRedux'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -26,6 +27,10 @@ import styles from "./Styles/SigninScreenStyle";
 import { Colors } from "../Themes";
 import RoundedButton from "../Components/RoundedButton";
 
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
+// I18n.locale = "th";
 
 let { width } = Dimensions.get('window')
 
@@ -35,11 +40,13 @@ class SigninScreen extends Component {
     this.state = {
       inputEmail: "",
       inputPass: "",
-      profile: null
+      profile: null,
+      spinner: false
     };
   }
 
   componentDidMount() {
+    this.setState({ spinner: false })
     if (this.props.profile) {
       if (this.props.profile.role == 'expert') {
         this.props.navigation.navigate('ExpertApp')
@@ -63,19 +70,22 @@ class SigninScreen extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
 
+    let spinner = true
     if (!prevState.profile && prevState.profile != nextProps.profile) {
+      spinner = false
       if (nextProps.profile.role == 'expert') {
         nextProps.navigation.navigate('ExpertApp')
-      } else if(nextProps.profile.role == 'admin'){
+      } else if (nextProps.profile.role == 'admin') {
         nextProps.navigation.navigate('AdminApp')
-      } 
+      }
       else {
         nextProps.navigation.navigate('App')
       }
     }
 
     return {
-      profile: nextProps.profile
+      profile: nextProps.profile,
+      spinner
     }
   }
 
@@ -88,6 +98,7 @@ class SigninScreen extends Component {
         // throw new Error('User cancelled request'); // Handle this however fits the flow of your app
       }
 
+      this.setState({ spinner: true })
       console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
 
       // get the access token
@@ -121,6 +132,8 @@ class SigninScreen extends Component {
       console.log(currentUserJson.uid)
       this.props.setUserId(currentUserJson.uid)
       this.props.signinWithCredential(currentUserJson)
+
+
 
     } catch (e) {
       console.error(e);
@@ -177,6 +190,7 @@ class SigninScreen extends Component {
   }
 
   login = () => {
+    this.setState({ spinner: true })
     this.props.signin(this.state.inputEmail, this.state.inputPass)
   }
 
@@ -188,6 +202,11 @@ class SigninScreen extends Component {
         colors={["#FF8C00", "#FFA500", "#FFCC33"]}
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{ color: '#fff' }}
+        />
         <Image source={Images.watermarkbg} style={{
           position: 'absolute',
           right: 0, bottom: 0,
@@ -216,7 +235,7 @@ class SigninScreen extends Component {
                 numberOfLines={1}
                 onChangeText={(inputEmail) => this.validate(inputEmail)}
                 value={this.state.inputEmail}
-                placeholder="E-mail"
+                placeholder={I18n.t('email')}
                 underlineColorAndroid="rgba(0,0,0,0)"
                 placeholderTextColor="white"
               />
@@ -227,7 +246,7 @@ class SigninScreen extends Component {
                 numberOfLines={1}
                 onChangeText={inputPass => this.setState({ inputPass })}
                 value={this.state.inputPass}
-                placeholder="Password"
+                placeholder={I18n.t('password')}
                 underlineColorAndroid="rgba(0,0,0,0)"
                 placeholderTextColor="white"
                 secureTextEntry={true}
@@ -235,7 +254,7 @@ class SigninScreen extends Component {
             </View>
 
             <View style={{ marginTop: Metrics.doubleBaseMargin }}>
-              <RoundedButton title='เข้าสู่ระบบ' onPress={() => this.login()} />
+              <RoundedButton title={I18n.t('login')} onPress={() => this.login()} />
             </View>
 
 
@@ -265,8 +284,8 @@ class SigninScreen extends Component {
                     marginLeft: Metrics.baseMargin
                   }}
                 >
-                  เข้าสู่ระบบโดยใช้ Facebook
-          </Text>
+                  {I18n.t('loginWithFacebook')}
+                </Text>
               </TouchableOpacity>
             </View>
 
@@ -281,8 +300,8 @@ class SigninScreen extends Component {
                     fontSize: 18
                   }}
                 >
-                  สมัครสมาชิก
-            </Text>
+                  {I18n.t('register')}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

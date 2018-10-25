@@ -11,6 +11,11 @@ import QuestionActions from '../Redux/QuestionRedux'
 import styles from "./Styles/UploadScreenStyle";
 import { Colors, Images } from "../Themes";
 
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
+// I18n.locale = "th";
+
 let { width } = Dimensions.get('window')
 
 class UploadScreen extends Component {
@@ -29,7 +34,7 @@ class UploadScreen extends Component {
   getTypePhra = (item) => {
 
     console.log(item)
-    if (item.name == "เบญจภาคี") {
+    if (item.name == I18n.t('benjapakee')) {
       this.props.navigation.navigate("detail")
     }
     else {
@@ -42,73 +47,73 @@ class UploadScreen extends Component {
     const items = [
       {
         "id": 1,
-        "name": "เบญจภาคี",
+        "name": I18n.t('benjapakee'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 9,
-        "name": "หลวงปู่ทวด",
+        "name": I18n.t('luangPuTuad'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 10,
-        "name": "หลวงปู่หมุน",
+        "name": I18n.t('luangPuMoon'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 11,
-        "name": "พระกรุ",
+        "name": I18n.t('phraKru'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 12,
-        "name": "เหรียญปั้ม",
+        "name": I18n.t('pumpCoin'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 13,
-        "name": "เหรียญหล่อ",
+        "name": I18n.t('castingCoin'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 14,
-        "name": "พระผง",
+        "name": I18n.t('phraPhong'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 15,
-        "name": "พระกริ่ง",
+        "name": I18n.t('phraKring'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 16,
-        "name": "พระปิดตา",
+        "name": I18n.t('phraPidta'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 17,
-        "name": "เครื่องราง",
+        "name": I18n.t('amulet'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 18,
-        "name": "พระบูชา",
+        "name": I18n.t('phraBucha'),
         "parent_id": null,
         "image": null
       },
       {
         "id": 19,
-        "name": "อื่นๆ หรือ ไม่ทราบ",
+        "name": I18n.t('otherOrUnknown'),
         "parent_id": null,
         "image": null
       }
@@ -121,7 +126,7 @@ class UploadScreen extends Component {
           width: width,
           height: width * 95.7 / 100
         }} resizeMode='contain' />
-        <View style={{ height: 60, justifyContent: "center" }}>
+        {/* <View style={{ height: 60, justifyContent: "center" }}>
           <Text
             style={{
               fontSize: 23,
@@ -130,9 +135,9 @@ class UploadScreen extends Component {
               color: Colors.brownText
             }}
           >
-            กรุณาเลือกประเภทพระ
+            {I18n.t('selectAmuletType')}
           </Text>
-        </View>
+        </View> */}
         <GridView
           itemDimension={100}
           items={items}
@@ -146,7 +151,7 @@ class UploadScreen extends Component {
                     backgroundColor: Colors.milk,
                     justifyContent: "center",
                     borderRadius: 8,
-                    // padding: 10
+                    padding: 10
                   }}
                 >
                   <Text
@@ -154,7 +159,8 @@ class UploadScreen extends Component {
                       color: Colors.brownText,
                       fontFamily: "Prompt-Regular",
                       fontSize: 16,
-                      alignSelf: "center"
+                      alignSelf: "center",
+                      textAlign: 'center'
                     }}
                   >
                     {item.name}

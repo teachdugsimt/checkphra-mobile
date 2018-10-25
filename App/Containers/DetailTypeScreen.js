@@ -10,6 +10,11 @@ import QuestionActions from '../Redux/QuestionRedux'
 // Styles
 import styles from "./Styles/DetailTypeScreenStyle";
 
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
+// I18n.locale = "th";
+
 let { width } = Dimensions.get('window')
 
 class DetailTypeScreen extends Component {
@@ -49,43 +54,43 @@ class DetailTypeScreen extends Component {
     const items = [
       {
         "id": 2,
-        "name": "พระสมเด็จ",
+        "name": I18n.t('phraSomdej'),
         "parent_id": 1,
         "image": null
       },
       {
         "id": 3,
-        "name": "นางพญา",
+        "name": I18n.t('phraNangPaya'),
         "parent_id": 1,
         "image": null
       },
       {
         "id": 4,
-        "name": "พระคง",
+        "name": I18n.t('phraKhong'),
         "parent_id": 1,
         "image": null
       },
       {
         "id": 5,
-        "name": "พระรอด",
+        "name": I18n.t('phraRod'),
         "parent_id": 1,
         "image": null
       },
       {
         "id": 6,
-        "name": "พระผงสุพรรณ",
+        "name": I18n.t('phraPhongSuphan'),
         "parent_id": 1,
         "image": null
       },
       {
         "id": 7,
-        "name": "พระซุ้มกอ",
+        "name": I18n.t('phraSoomkor'),
         "parent_id": 1,
         "image": null
       },
       {
         "id": 8,
-        "name": "พระกำแพงเม็ดขนุน",
+        "name": I18n.t('phraKampaengMedKanun'),
         "parent_id": 1,
         "image": null
       }
@@ -98,7 +103,7 @@ class DetailTypeScreen extends Component {
           width: width,
           height: width * 95.7 / 100
         }} resizeMode='contain' />
-        <View style={{ height: 60, justifyContent: "center" }}>
+        {/* <View style={{ height: 60, justifyContent: "center" }}>
           <Text
             style={{
               fontSize: 23,
@@ -107,9 +112,9 @@ class DetailTypeScreen extends Component {
               color: Colors.brownText
             }}
           >
-            กรุณาเลือกประเภทพระ
+            {I18n.t('selectAmuletType')}
           </Text>
-        </View>
+        </View> */}
         <GridView
           itemDimension={150}
           items={items}
@@ -123,7 +128,7 @@ class DetailTypeScreen extends Component {
                     backgroundColor: Colors.milk,
                     justifyContent: "center",
                     borderRadius: 8,
-                    // padding: 10
+                    padding: 10
                   }}
                 >
                   <Text
@@ -131,7 +136,8 @@ class DetailTypeScreen extends Component {
                       color: Colors.brownText,
                       fontFamily: "Prompt-Regular",
                       fontSize: 16,
-                      alignSelf: "center"
+                      alignSelf: "center",
+                      textAlign: 'center'
                     }}
                   >
                     {items.name}

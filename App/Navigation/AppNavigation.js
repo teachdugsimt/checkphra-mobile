@@ -29,6 +29,11 @@ import Icon2 from "react-native-vector-icons/FontAwesome";
 
 import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator } from 'react-navigation';
 
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
+// I18n.locale = "th";
+
 const AuthStack = StackNavigator(
   {
     Signin: { screen: SigninScreen }
@@ -40,38 +45,43 @@ const AuthStack = StackNavigator(
 
 const RegStack = StackNavigator(
   {
-    reg: { screen: RegisterScreen }
+    reg: {
+      screen: RegisterScreen,
+      navigationOptions: {
+        title: I18n.t('register'),
+      }
+    }
   },
   {
     headerMode: "float",
-    navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <TouchableOpacity onPress={() => navigation.navigate("Auth")}>
-          <Text
-            style={{
-              marginLeft: 20,
-              fontSize: 18,
-              fontFamily: "Prompt-SemiBold",
-              color: Colors.brownText
-            }}
-          >
-            {"< กลับ"}
-          </Text>
-        </TouchableOpacity>
-      ),
-      headerRight: (
-        <Text
-          style={{
-            fontFamily: "Prompt-Regular",
-            fontSize: 25,
-            color: Colors.brownText,
-            marginRight: 30
-          }}
-        >
-          Check Phra
-        </Text>
-      )
-    })
+    // navigationOptions: ({ navigation }) => ({
+    //   headerLeft: (
+    //     <TouchableOpacity onPress={() => navigation.navigate("Auth")}>
+    //       <Text
+    //         style={{
+    //           marginLeft: 20,
+    //           fontSize: 18,
+    //           fontFamily: "Prompt-SemiBold",
+    //           color: Colors.brownText
+    //         }}
+    //       >
+    //         {"< กลับ"}
+    //       </Text>
+    //     </TouchableOpacity>
+    //   ),
+    //   headerRight: (
+    //     <Text
+    //       style={{
+    //         fontFamily: "Prompt-Regular",
+    //         fontSize: 25,
+    //         color: Colors.brownText,
+    //         marginRight: 30
+    //       }}
+    //     >
+    //       Check Phra
+    //     </Text>
+    //   )
+    // })
   }
 );
 
@@ -80,26 +90,27 @@ const UploadStack = StackNavigator(  // main upload
     uploadScreen: {
       screen: UploadScreen,
       navigationOptions: {
-        title: 'ตรวจสอบพระ',
+        title: I18n.t('selectAmuletType'),
       }
     },
     detail: {
       screen: DetailTypeScreen,
       navigationOptions: {
+        title: I18n.t('selectAmuletType'),
         // headerTintColor: Colors.headerTitleColor
       }
     },
     send: {
       screen: SendImageScreen,
       navigationOptions: {
-        title: 'เลือกรูปและคำถาม',
+        title: I18n.t('selectImagesAndQuestions'),
       }
     }
   },
   {
     navigationOptions: ({ navigation }) => ({
       headerTintColor: Colors.headerTitleColor,
-      headerBackTitle: 'กลับ',
+      headerBackTitle: I18n.t('back'),
       headerBackTitleStyle: {
         color: Colors.headerTitleColor,
         fontFamily: 'Prompt-Regular'
@@ -111,7 +122,7 @@ const UploadStack = StackNavigator(  // main upload
         color: Colors.headerTitleColor,
         fontFamily: 'Prompt-Regular'
       },
-      tabBarLabel: "ตรวจสอบพระ"
+      tabBarLabel: I18n.t('checkPhra')
     })
   }
 )
@@ -121,7 +132,7 @@ const ProfileStack = StackNavigator(   // main pro
     profileScreen: {
       screen: ProfileScreen,
       navigationOptions: {
-        title: 'ข้อมูลส่วนตัว'
+        title: I18n.t('profile')
       }
     },
     change: {
@@ -139,7 +150,7 @@ const ProfileStack = StackNavigator(   // main pro
         color: Colors.headerTitleColor,
         fontFamily: 'Prompt-Regular'
       },
-      tabBarLabel: 'ข้อมูลส่วนตัว'
+      tabBarLabel: I18n.t('profile')
     })
   }
 );
@@ -149,7 +160,7 @@ const PromotionStack = StackNavigator(  // main pro
     promotion: {
       screen: Promotion,
       navigationOptions: {
-        title: 'โปรโมชั่น'
+        title: I18n.t('package')
       }
     },
     banking: { screen: Banking },
@@ -164,7 +175,7 @@ const PromotionStack = StackNavigator(  // main pro
   {
     navigationOptions: ({ navigation }) => ({
       headerTintColor: Colors.headerTitleColor,
-      headerBackTitle: 'กลับ',
+      headerBackTitle: I18n.t('back'),
       headerBackTitleStyle: {
         color: Colors.headerTitleColor,
         fontFamily: 'Prompt-Regular'
@@ -176,7 +187,7 @@ const PromotionStack = StackNavigator(  // main pro
         color: Colors.headerTitleColor,
         fontFamily: 'Prompt-Regular'
       },
-      tabBarLabel: 'โปรโมชั่น'
+      tabBarLabel: I18n.t('package')
     })
   }
 )
@@ -186,7 +197,7 @@ const HistoryStack = StackNavigator(  // mmain his
     his: {
       screen: HistoryScreen,
       navigationOptions: {
-        title: 'ประวัติการส่งตรวจ'
+        title: I18n.t('history')
       }
     },
     answer: { screen: AnswerScreen }
@@ -194,7 +205,7 @@ const HistoryStack = StackNavigator(  // mmain his
   {
     navigationOptions: ({ navigation }) => ({
       headerTintColor: Colors.headerTitleColor,
-      headerBackTitle: 'กลับ',
+      headerBackTitle: I18n.t('Back'),
       headerBackTitleStyle: {
         color: Colors.headerTitleColor,
         fontFamily: 'Prompt-Regular'
@@ -206,7 +217,7 @@ const HistoryStack = StackNavigator(  // mmain his
         color: Colors.headerTitleColor,
         fontFamily: 'Prompt-Regular'
       },
-      tabBarLabel: 'ประวัติ'
+      tabBarLabel: I18n.t('history')
     })
   }
 );
@@ -264,13 +275,13 @@ const CheckListStack = StackNavigator({ // **********************FOR EXPERT & AD
   check: {
     screen: CheckListScreen,
     navigationOptions: {
-      title: 'พระรอตรวจ'
+      title: I18n.t('pendingList')
     }
   },
   check2: { screen: CheckPhraScreen }
 }, {
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: 'พระรอตรวจ',
+      tabBarLabel: I18n.t('pendingList'),
       headerStyle: {
         backgroundColor: Colors.tabBar,
       },
@@ -339,7 +350,9 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
         // tabBarComponent: TabBarBottom,
         // tabBarPosition: "bottom"
       },
-    }
+    },
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: "bottom"
   })
 
 const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *************************
@@ -372,9 +385,11 @@ const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *****
         fontFamily: "Prompt-Regular",
         marginBottom: 5,
         // tabBarComponent: TabBarBottom,
-        // tabBarPosition: "bottom"
       },
-    }
+      // tabBarPosition: "bottom"
+    },
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: "bottom"
   })
 
 // Manifest of possible screens

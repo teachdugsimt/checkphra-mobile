@@ -1,0 +1,67 @@
+export default {
+  email: 'E-mail',
+  password: 'Password',
+  login: 'Login',
+  loginWithFacebook: 'Login with Facebook',
+  register: 'Register',
+  logout: 'Logout',
+  changePassword: 'Change Password',
+  history: 'History',
+  profile: 'Profile',
+
+  checkPhra: 'Check Phra',
+  package: 'Package',
+
+  selectAmuletType: 'Select amulet type',
+  selectImagesAndQuestions: 'Select images and questions',
+
+  benjapakee: 'Benjapakee',
+  phraSomdej: 'Phra Somdej',
+  phraNangPaya: 'Phra NangPaya',
+  phraKhong: 'Phra Khong',
+  phraRod: 'Phra Rod',
+  phraPhongSuphan: 'Phra Phong Suphan',
+  phraSoomkor: 'Phra Soomkor',
+  phraKampaengMedKanun: 'Phra Kampaeng Med Kanun',
+
+  luangPuTuad: 'Luangpu Tuad',
+  luangPuMoon: 'Luangpu Moon',
+  phraKru: 'Phra Kru',
+  pumpCoin: 'Pump Coin',
+  castingCoin: 'Casting Coin',
+  phraPhong: 'Phra Phong',
+  phraKring: 'Phra Kring',
+  phraPidta: 'Phra Pidta',
+  amulet: 'Amulet',
+  phraBucha: 'Phra Bucha',
+  otherOrUnknown: 'Other / Unknown',
+
+  pickImage: 'Pick your Images',
+  frontSide: 'front',
+  backSide: 'back',
+  leftSide: 'left',
+  rightSide: 'right',
+  bottomSide: 'bottom',
+  otherSide: 'other',
+  selectQuestion: 'Select questions',
+
+  atLeast2Image: 'Please select at least 2 images',
+  atLeast1Question: 'Please select at least 1 question',
+  notEnoughCoin: 'Not enough coin',
+
+  result: 'Result',
+  back: 'Back',
+  coin: 'Coin',
+  addCoin: 'Add Coin',
+  purchaseHistory: 'Purchase History',
+  pendingList: 'Pending List',
+
+  success: 'Success',
+  pending: 'Pending',
+
+  ok: 'OK',
+  cancel: 'Cancel',
+  cantSeeResult: 'You can not see the result until status is success.',
+  doYouWantToCancelQuestion: 'Do you want to cancel this questions ?',
+  submit: 'Submit'
+}

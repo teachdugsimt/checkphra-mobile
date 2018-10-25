@@ -135,7 +135,7 @@ class Picker extends Component {
             <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={styles.uploadBoxText}>{this.props.title}</Text>
               {this.props.images[this.props.id] &&
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
+                <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'flex-end' }}>
                   <Icon
                     style={{ marginRight: 8 }}
                     name="squared-cross"

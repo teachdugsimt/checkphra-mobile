@@ -1,0 +1,67 @@
+export default {
+  email: 'อีเมล',
+  password: 'รหัสผ่าน',
+  login: 'เข้าสู่ระบบ',
+  loginWithFacebook: 'เข้าสู่ระบบด้วย Facebook',
+  register: 'สมัครสมาชิก',
+  logout: 'ออกจากระบบ',
+  changePassword: 'เปลี่ยนรหัสผ่าน',
+  history: 'ประวัติ',
+  profile: 'ข้อมูลส่วนตัว',
+
+  checkPhra: 'เช็คพระ',
+  package: 'แพ็กเกจ',
+
+  selectAmuletType: 'เลือกประเภทพระเครื่อง',
+  selectImagesAndQuestions: 'เลือกรูปและคำถาม',
+
+  benjapakee: 'เบญจภาคี',
+  phraSomdej: 'พระสมเด็จ',
+  phraNangPaya: 'พระนางพญา',
+  phraKhong: 'พระคง',
+  phraRod: 'พระรอด',
+  phraPhongSuphan: 'พระผงสุพรรณ',
+  phraSoomkor: 'พระซุ้มกอ',
+  phraKampaengMedKanun: 'พระกำแพงเม็ดขนุน',
+
+  luangPuTuad: 'หลวงปู่ทวด',
+  luangPuMoon: 'หลวงปู่หมุน',
+  phraKru: 'พระกรุ',
+  pumpCoin: 'เหรียญปั้ม',
+  castingCoin: 'เหรียญหล่อ',
+  phraPhong: 'พระผง',
+  phraKring: 'พระกริ่ง',
+  phraPidta: 'พระปิดตา',
+  amulet: 'เครื่องราง',
+  phraBucha: 'พระบูชา',
+  otherOrUnknown: 'อื่นๆ / ไม่ทราบ',
+
+  pickImage: 'เลือกรูป',
+  frontSide: 'หน้า',
+  backSide: 'หลัง',
+  leftSide: 'ซ้าย',
+  rightSide: 'ขวา',
+  bottomSide: 'ฐาน',
+  otherSide: 'อื่นๆ',
+  selectQuestion: 'เลือกคำถาม',
+
+  atLeast2Image: 'กรุณาเลือกรูปอย่างน้อย 2 รูป',
+  atLeast1Question: 'กรุณาเลือกคำถามอย่างน้อย 1 คำถาม',
+  notEnoughCoin: 'เหรียญของคุณไม่พอ',
+
+  result: 'ผลการตรวจพระ',
+  back: 'กลับ',
+  coin: 'เหรียญ',
+  addCoin: 'เติมเหรียญ',
+  purchaseHistory: 'ประวัติการเติมเหรียญ',
+  pendingList: 'พระรอตรวจ',
+
+  success: 'ตรวจแล้ว',
+  pending: 'รอตรวจ',
+
+  ok: 'ตกลง',
+  cancel: 'ยกเลิก',
+  cantSeeResult: 'คุณไม่สามารถดูผลการตรวจได้จนกว่าจะได้รับผลการตรวจ',
+  doYouWantToCancelQuestion: 'คุณต้องการยกเลิกคำถามนี้ ?',
+  submit: 'ส่งข้อมูล'
+}

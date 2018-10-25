@@ -11,6 +11,13 @@ import styles from './Styles/HistoryScreenStyle'
 import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 
+import { getLanguages } from 'react-native-i18n';
+
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
+// I18n.locale = "th";
+
 let { width } = Dimensions.get('window')
 let check = false
 class HistoryScreen extends Component {
@@ -24,7 +31,11 @@ class HistoryScreen extends Component {
   }
 
   componentDidMount() {
-    moment.locale('th')
+    getLanguages().then(languages => {
+      console.log(languages); // ['en-US', 'en']
+      moment.locale(languages)
+    });
+
     this.props.getHistory()
   }
 
@@ -39,7 +50,7 @@ class HistoryScreen extends Component {
   }
 
   static getDerivedStateFromProps(newProps, PrevState) {
-    
+
     let hlist = newProps.history
     console.log(newProps)
     console.log(PrevState)
@@ -59,7 +70,7 @@ class HistoryScreen extends Component {
         return {
           data_history: hlist
         }
-      } 
+      }
       // else if (newProps.history[0].id != PrevState.data_history[0].id) {{
       //     newProps.getHistory()
       //     console.log('FETCH COMPLETE')
@@ -103,10 +114,10 @@ class HistoryScreen extends Component {
           data={this.props.history}
           renderItem={({ item }) => {
             let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
-            let status = 'รอตรวจ'
+            let status = I18n.t('pending')
             let color = 'orange'
             if (item.status == 'success') {
-              status = 'ตรวจแล้ว'
+              status = I18n.t('success')
               color = 'green'
             }
             return (
@@ -114,7 +125,7 @@ class HistoryScreen extends Component {
                 if (item.status == 'success') {
                   this.goToAnswer(item.id)
                 } else {
-                  alert('ยังไม่มีผลการตรวจ55555')
+                  alert(I18n.t('cantSeeResult'))
                 }
               }
               }>
@@ -153,15 +164,15 @@ class HistoryScreen extends Component {
                     onPress={() => {
                       Alert.alert(
                         'Check Phra',
-                        'คุณต้องการยกเลิกคำถามนี้ ?',
+                        I18n.t('doYouWantToCancelQuestion'),
                         [
                           {
-                            text: 'ตกลง', onPress: () => {
+                            text: I18n.t('ok'), onPress: () => {
                               this.props.deleteQuestion(item.id)
                               this.props.getHistory()
                             }
                           },
-                          { text: 'ยกเลิก', onPress: () => { } }
+                          { text: I18n.t('cancel'), onPress: () => { } }
                         ]
                       )
 

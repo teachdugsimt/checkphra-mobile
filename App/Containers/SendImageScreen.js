@@ -15,6 +15,14 @@ import Picker from '../Components/Picker';
 
 import CheckBox from 'react-native-check-box'
 import * as Progress from 'react-native-progress';
+
+import Icon2 from "react-native-vector-icons/FontAwesome";
+
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
+// I18n.locale = "th";
+
 const options = {
   title: 'Select Avatar',
   customButtons: [
@@ -33,7 +41,7 @@ class SendImageScreen extends Component {
     super(props)
     this.state = {
       isChecked: false,
-      questionType: [],
+      questionType: [1],
       message: '',
       fetch: null
     }
@@ -131,21 +139,21 @@ class SendImageScreen extends Component {
 
     let chk2 = chk.indexOf(1)
 
-    if (chkImage.length == 0) {
+    if (chkImage.length < 2) {
       Alert.alert(
         'Check Phra',
-        'กรุณาทำการเลือกรูป',
+        I18n.t('atLeast2Image'),
         [
-          { text: 'ตกลง' }
+          { text: I18n.t('ok'), }
         ],
         { cancelable: false }
       )
     } else if (chk2 == -1 && this.state.message == '' && !this.state.message) {
       Alert.alert(
         'Check Phra',
-        'โปรดเลือกคำถามอย่างน้อย 1 ข้อ',
+        I18n.t('atLeast1Question'),
         [
-          { text: 'ตกลง' }
+          { text: I18n.t('ok'), }
         ],
         { cancelable: false }
       )
@@ -153,9 +161,9 @@ class SendImageScreen extends Component {
       if (this.props.profile.point < cnt) {
         Alert.alert(
           'Check Phra',
-          'point ของท่านไม่พอ กรุณาเติม point',
+          I18n.t('notEnoughPoint'),
           [
-            { text: 'ตกลง', onPress: () => { this.props.navigation.navigate('pro') } }
+            { text: I18n.t('addCoin'), onPress: () => { this.props.navigation.navigate('pro') } }
           ],
           { cancelable: false }
         )
@@ -195,18 +203,18 @@ class SendImageScreen extends Component {
                 color: Colors.brownText
               }}
             >
-              เลือกรูป
-          </Text>
+              {I18n.t('pickImage')}
+            </Text>
           </View>
           <View style={styles.uploadRow}>
-            <Picker title='หน้า' id={0} />
-            <Picker title='หลัง' id={1} />
-            <Picker title='ซ้าย' id={2} />
+            <Picker title={I18n.t('frontSide')} id={0} />
+            <Picker title={I18n.t('backSide')} id={1} />
+            <Picker title={I18n.t('leftSide')} id={2} />
           </View>
           <View style={styles.uploadRow}>
-            <Picker title='ขวา' id={3} />
-            <Picker title='ฐาน' id={4} />
-            <Picker title='อื่นๆ' id={5} />
+            <Picker title={I18n.t('rightSide')} id={3} />
+            <Picker title={I18n.t('bottomSide')} id={4} />
+            <Picker title={I18n.t('otherSide')} id={5} />
           </View>
           <Text
             style={{
@@ -217,7 +225,7 @@ class SendImageScreen extends Component {
               marginTop: 10
             }}
           >
-            คำถามที่ต้องการ
+            {I18n.t('selectQuestion')}
           </Text>
           <View style={{ padding: 10 }}>
             {
@@ -239,7 +247,7 @@ class SendImageScreen extends Component {
                     this.setState({ questionType: qtype })
                   }}
                   isChecked={i > 0 ? this.state.questionType[i].isChecked : true}
-                  rightText={element.name + " ( " + point[i] + " point )"}
+                  rightText={element.name + " ( ฿ " + point[i] + " )"}
                   rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 20 }}
                   checkBoxColor={Colors.brownText}
                 />
@@ -254,7 +262,7 @@ class SendImageScreen extends Component {
           </View>
 
           <View style={{ width: '80%', marginVertical: 20, alignSelf: 'center' }}>
-            <RoundedButton title='ส่งข้อมูล' onPress={this.submit}
+            <RoundedButton title={I18n.t('submit')} onPress={this.submit}
               fetching={this.props.request}
             />
           </View>

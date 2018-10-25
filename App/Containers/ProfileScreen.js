@@ -10,6 +10,11 @@ import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon3 from "react-native-vector-icons/FontAwesome";
 import { Colors, Images } from "../Themes";
 
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
+// I18n.locale = "th";
+
 let { width } = Dimensions.get('window')
 var ImagePicker = require('react-native-image-picker');
 var options = {
@@ -174,9 +179,9 @@ class ProfileScreen extends Component {
         </View>
 
         {this.props.profile && this.props.profile.role != 'expert' && this.props.profile.role != 'admin' &&
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 0.13, marginTop: 20, backgroundColor: 'white' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 0.2, marginTop: 20, backgroundColor: 'white' }}>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginVertical: 10 }}>
               <Icon2
                 name="ios-ribbon"
                 size={18}
@@ -184,12 +189,14 @@ class ProfileScreen extends Component {
                 style={{ marginRight: 10 }}
                 onPress={() => { }}
               />
-              <Text style={{ fontSize: 16 }}>แต้มสะสม</Text>
+              <Text style={{ fontSize: 16 }}>
+                {I18n.t('coin')}
+              </Text>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
               <Text style={{ fontWeight: 'bold' }}>{this.props.profile ? this.props.profile.point : '-'}</Text>
-              <Text style={{ color: 'orange' }}> point</Text>
+              <Text style={{ color: 'orange' }}></Text>
             </View>
           </View>
         }
@@ -212,8 +219,8 @@ class ProfileScreen extends Component {
                   fontWeight: 'bold'
                 }}
               >
-                เติม point
-          </Text>
+                {I18n.t('addCoin')}
+              </Text>
             </View>
           </TouchableOpacity>
         }
@@ -235,8 +242,8 @@ class ProfileScreen extends Component {
                   fontSize: 16,
                 }}
               >
-                ประวัติการเติมเงิน
-          </Text>
+                {I18n.t('purchaseHistory')}
+              </Text>
             </View>
           </TouchableOpacity>
         }
@@ -256,8 +263,8 @@ class ProfileScreen extends Component {
                 fontSize: 16,
               }}
             >
-              เปลี่ยนรหัสผ่าน
-          </Text>
+              {I18n.t('changePassword')}
+            </Text>
           </View>
         </TouchableOpacity>
 
@@ -279,8 +286,8 @@ class ProfileScreen extends Component {
                 fontSize: 16,
               }}
             >
-              ออกจากระบบ
-          </Text>
+              {I18n.t('logout')}
+            </Text>
           </View>
         </TouchableOpacity>
 

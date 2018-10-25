@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TouchableOpacity, Image, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, Image, View, Modal } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -7,7 +7,7 @@ import LinearGradient from "react-native-linear-gradient";
 // Styles
 import styles from './Styles/AnswerScreenStyle'
 import { Colors } from '../Themes';
-
+import ImageViewer from 'react-native-image-zoom-viewer';
 class AnswerScreen extends Component {
   // constructor (props) {
   //   super(props)
@@ -77,10 +77,35 @@ class AnswerScreen extends Component {
           })
         } */}
         {
-          data != null && data[0].images != null && 
-          data[0].images.map(element => {
-            return <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
-              style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
+          data != null && data[0].images != null &&
+          data[0].images.map((element, index) => {
+
+            return (
+
+              <View style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }}>
+                <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
+                  style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
+              </View>
+
+            //   // index > 2 && <View style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }}>
+            //   //     <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
+            //   //       style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
+            //   // </View>
+
+            )
+
+            // if (index < 3) {
+            //   return <View style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }}>
+            //     <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
+            //       style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
+            //   </View>
+            // } else {
+            //   return <View style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }}>
+            //     <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
+            //       style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
+            //   </View>
+            // }
+
           })
         }
         <View style={{ marginHorizontal: 20 }}>
@@ -99,7 +124,7 @@ class AnswerScreen extends Component {
             })
           } */}
           {
-            data != null && data[0].answer != null && 
+            data != null && data[0].answer != null &&
             data[0].answer.map(e => {
               return (
                 <Text style={{

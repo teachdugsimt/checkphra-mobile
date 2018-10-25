@@ -43,7 +43,7 @@ class SendImageScreen extends Component {
       isChecked: false,
       questionType: [1],
       message: '',
-      fetch: null
+      fetch: null,
     }
   }
 
@@ -129,6 +129,7 @@ class SendImageScreen extends Component {
 
 
     this.state.questionType.map((e, i) => {
+      console.log(e)
       if(e.name == "พระแท้/ไม่แท้"){
         chk.push(1)
       }
@@ -245,7 +246,7 @@ class SendImageScreen extends Component {
                       point: element.point,
                       isChecked: i > 0 ? !element.isChecked : true
                     })
-
+                    console.log(qtype)
                     this.props.setQuestions(qtype)
                     this.setState({ questionType: qtype })
                   }}

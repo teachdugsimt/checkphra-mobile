@@ -129,7 +129,7 @@ class SendImageScreen extends Component {
 
 
     this.state.questionType.map((e, i) => {
-      if(e.name == "พระแท้/ไม่แท้"){
+      if (e.name == "พระแท้/ไม่แท้") {
         chk.push(1)
       }
       if (e.isChecked == true) {
@@ -142,7 +142,7 @@ class SendImageScreen extends Component {
 
     let chk2 = chk.indexOf(1)
 
-    if (chkImage.length < 2) {
+    if (chkImage.length < 1) {
       Alert.alert(
         'Check Phra',
         I18n.t('atLeast2Image'),
@@ -151,7 +151,7 @@ class SendImageScreen extends Component {
         ],
         { cancelable: false }
       )
-    } else if (chk2 == -1 ) {
+    } else if (chk2 == -1) {
       Alert.alert(
         'Check Phra',
         I18n.t('atLeast1Question'),
@@ -160,7 +160,7 @@ class SendImageScreen extends Component {
         ],
         { cancelable: false }
       )
-    } else if (chk2 != -1 ) {
+    } else if (chk2 != -1) {
       if (this.props.profile.point < cnt) {
         Alert.alert(
           'Check Phra',
@@ -256,7 +256,7 @@ class SendImageScreen extends Component {
                 />
               })
             }
-            
+
           </View>
 
           <View style={{ width: '80%', marginVertical: 20, alignSelf: 'center' }}>

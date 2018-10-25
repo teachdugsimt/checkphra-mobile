@@ -3,6 +3,7 @@ package com.infiltech.checkphra;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.imagepicker.ImagePickerPackage;
 // import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -47,6 +48,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
+
             new ImageResizerPackage(), new ImagePickerPackage(),
           new FBSDKPackage(mCallbackManager), //
           new RNI18nPackage(), //

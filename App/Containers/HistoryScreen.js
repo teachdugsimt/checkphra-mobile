@@ -11,7 +11,7 @@ import styles from './Styles/HistoryScreenStyle'
 import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 
-import { getLanguages } from 'react-native-i18n';
+// import I18n, { getLanguages } from 'react-native-i18n';
 
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
@@ -31,10 +31,10 @@ class HistoryScreen extends Component {
   }
 
   componentDidMount() {
-    getLanguages().then(languages => {
-      console.log(languages); // ['en-US', 'en']
-      moment.locale(languages)
-    });
+    // getLanguages().then(languages => {
+    // console.log(languages); // ['en-US', 'en']
+    moment.locale('th')
+    // });
 
     this.props.getHistory()
   }

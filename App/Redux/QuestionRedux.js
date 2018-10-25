@@ -43,6 +43,8 @@ const { Types, Creators } = createActions({
   deleteQuestionFailure: null,
 
   clearProfile: null,
+
+  setStartQuestion: ['index', 'num']
 })
 
 export const QuestionTypes = Types
@@ -118,14 +120,35 @@ export const setAmuletType = (state, { amuletType }) => {
 }
 
 export const setQuestions = (state, { questions }) => {
-  // console.log(questions)
   let q = []
   questions.forEach(element => {
+    if (element.name == "พระแท้/ไม่แท้" && element.isChecked == false) {
+      q.push(element.id)
+    }
     if (element.isChecked) {
       q.push(element.id)
     }
+
   });
-  // console.log(q)
+  console.log(q)
+  console.log('REDUX')
+  return state.merge({ questions: q })
+}
+
+export const setStartQuestion = (state, { index, num }) => {
+  let chk = state.questions
+  console.log(chk)
+  console.log('REDUX2')
+  let q = []
+  if (chk.length == 0) {  // กรณีส่งโดยไม่ติ๊ก ผ่าน
+    console.log('SUCCESS')
+    q[index] = num
+  } else {    // กรณีส่งแล้วไม่ติ๊กข้อแรก
+    console.log('not have first')
+    q = chk
+    console.log(q)
+  }
+
   return state.merge({ questions: q })
 }
 
@@ -251,5 +274,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.DELETE_QUESTION_SUCCESS]: deleteQuestionSuccess,
   [Types.DELETE_QUESTION_FAILURE]: deleteQuestionFailure,
 
-  [Types.CLEAR_PROFILE]: clearProfile
+  [Types.CLEAR_PROFILE]: clearProfile,
+
+  [Types.SET_START_QUESTION]: setStartQuestion,
 })

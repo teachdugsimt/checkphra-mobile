@@ -76,6 +76,7 @@ class SendImageScreen extends Component {
   componentDidMount() {
     this.props.getProfile()
     this.props.getQuestionType()
+
   }
 
   componentWillUnmount() {
@@ -121,12 +122,13 @@ class SendImageScreen extends Component {
   }
 
   submit = () => {
+
     //set message and send
     let chk = []
     let cnt = 0
     let chkImage = this.props.images.filter(e => e != undefined)
 
-
+    this.props.setStart(0, 1)
 
     this.state.questionType.map((e, i) => {
       console.log(e)
@@ -246,7 +248,7 @@ class SendImageScreen extends Component {
                       point: element.point,
                       isChecked: i > 0 ? !element.isChecked : true
                     })
-                    console.log(qtype)
+                    // console.log(qtype)
                     this.props.setQuestions(qtype)
                     this.setState({ questionType: qtype })
                   }}
@@ -294,6 +296,7 @@ const mapDispatchToProps = (dispatch) => {
     // deleteImage: (index) => dispatch(QuestionActions.deleteImage(index)),
     // setImages: (index, source) => dispatch(QuestionActions.setImages(index, source)),
     clearImage: () => dispatch(QuestionActions.clearImage()),
+    setStart: (index, num) => dispatch(QuestionActions.setStartQuestion(index, num)),
   }
 }
 

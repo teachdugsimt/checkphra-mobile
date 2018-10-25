@@ -259,7 +259,7 @@ class CheckPhraScreen extends Component {
                             <Text style={{ marginTop: 14, fontSize: 16 }}>( {this.props.data.email} )</Text>
                         </View>
                         {this.props.data.question_list.map((e, i) => {
-                            if (e.question_detail == 'พระแท้/ไม่แท้') {
+                            if (e.question_detail == 'พระแท้/ไม่แท้' || e.question) {
                                 return (
                                     // <View>
                                     //     <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>

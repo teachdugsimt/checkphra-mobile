@@ -56,7 +56,8 @@ export function* addQuestion(api) {
 
   const q = yield select(question)
   const a = yield select(auth)
-
+  console.log(q.questions)
+  console.log('SAGA Q')
   const response = yield call(api.addQuestion, q.images, q.questions, q.amuletType, a.user_id)
   console.log(response)
 
@@ -152,7 +153,7 @@ export function* getProfile(api) {
   }
 }
 
-export function* deleteQuestion(api, qid ) {
+export function* deleteQuestion(api, qid) {
   const aut = yield select(auth)
   const data = {
     q_id: qid.q_id,

@@ -122,3 +122,11 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Creditcard)
 
+// 1. use MR.BLUE => นามแฝง
+// 2. login 7 day get free 100 point
+// 3. login at Wensday get 150 point free
+// 4. edit answer only admin and give point to user
+// 5. add contact to admin ( tel.no , chat box)
+
+
+//EDIT REQUEST HISTORY POINT

@@ -72,7 +72,7 @@ class CheckPhraScreen extends Component {
     if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false) {
       tmp.push('พระแท้')
     } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-      tmp.push('พระแท้เนื้อทอง')
+      tmp.push('พระแท้ย้อนยุค')
     } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true) {
       tmp.push('พระไม่แท้')
     }
@@ -288,7 +288,7 @@ class CheckPhraScreen extends Component {
                         })
                       }}
                       isChecked={this.state.checkTrue2}
-                      rightText={"พระแท้เนื้อทอง"}
+                      rightText={"พระแท้ย้อนยุค"}
                       rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
                       checkBoxColor={Colors.brownText}
                     />

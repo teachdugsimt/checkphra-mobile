@@ -75,17 +75,18 @@ class CheckPhraScreen extends Component {
             tmp.push('พระแท้เนื้อทอง')
         } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true) {
             tmp.push('พระไม่แท้')
-        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
-        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
-        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
-        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
-            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
-        } else {
-            // tmp.push(null)
         }
+        // else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
+        //     alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        // } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
+        //     alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        // } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
+        //     alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        // } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
+        //     alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        // } else {
+        //     // tmp.push(null)
+        // }
 
         if (this.state.answer2) {
             tmp.push(this.state.answer2)
@@ -103,14 +104,16 @@ class CheckPhraScreen extends Component {
             tmp.push(this.state.answer_other)
         }
 
-        if (tmp.length == 0) {
-            Alert.alert(
-                'Check Phra',
-                'กรุณาตอบคำถามอย่างน้อย1ข้อ',
-                [
-                    { text: 'ตกลง' }
-                ]
-            )
+        if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
+            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
+            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
+            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
+            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        } else if (tmp.length == 0) {
+            alert('กรุณาตอบคำถามอย่างน้อย1ข้อ')
         } else {
 
             this.state.question.map((e, i) => {
@@ -263,18 +266,43 @@ class CheckPhraScreen extends Component {
                                     //     <TextInput key={i} value={this.state.answer1} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
                                     //         onChangeText={(text) => this.setState({ answer1: text })} />
                                     // </View>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 5 }}>
+                                    <View style={{ marginLeft: 15 }}>
+                                        <Text style={{}}>{e.question_detail}</Text>
                                         <CheckBox
-                                            title='พระแท้'
-                                            checked={this.state.checkTrue1}
+                                            style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
+                                            onClick={() => {
+                                                this.setState({
+                                                    checkTrue1: !this.state.checkTrue1
+                                                })
+                                            }}
+                                            isChecked={this.state.checkTrue1}
+                                            rightText={"พระแท้"}
+                                            rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
+                                            checkBoxColor={Colors.brownText}
                                         />
                                         <CheckBox
-                                            title='พระแท้เนื้อทอง'
-                                            checked={this.state.checkTrue2}
+                                            style={{ flex: 1, marginLeft: 15 }}
+                                            onClick={() => {
+                                                this.setState({
+                                                    checkTrue2: !this.state.checkTrue2
+                                                })
+                                            }}
+                                            isChecked={this.state.checkTrue2}
+                                            rightText={"พระแท้เนื้อทอง"}
+                                            rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
+                                            checkBoxColor={Colors.brownText}
                                         />
                                         <CheckBox
-                                            title='พระไม่แท้'
-                                            checked={this.state.checkFalse}
+                                            style={{ flex: 1, marginLeft: 15, marginBottom: 5 }}
+                                            onClick={() => {
+                                                this.setState({
+                                                    checkFalse: !this.state.checkFalse
+                                                })
+                                            }}
+                                            isChecked={this.state.checkFalse}
+                                            rightText={"พระไม่แท้"}
+                                            rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
+                                            checkBoxColor={Colors.brownText}
                                         />
                                     </View>
                                 )

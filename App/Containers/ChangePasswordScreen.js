@@ -12,7 +12,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { Colors } from "../Themes";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
-
+import CheckBox from 'react-native-check-box'
 // Styles
 import styles from "./Styles/ChangePasswordScreenStyle";
 
@@ -23,7 +23,10 @@ class ChangePasswordScreen extends Component {
       email: "",
       oldPass: "",
       newPass: "",
-      confrimPass: ""
+      confrimPass: "",
+      checkTrue1: false,
+      checkTrue2: false,
+      checkFalse: false,
     };
   }
 
@@ -238,8 +241,11 @@ class ChangePasswordScreen extends Component {
                 ตกลง
             </Text>
             </TouchableOpacity>
-          </View>
 
+
+
+          </View>
+          
         </View>
 
       </LinearGradient>

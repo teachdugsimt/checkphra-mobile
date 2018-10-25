@@ -6,8 +6,8 @@ if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/core-profile/web/index.php/v1/'
 } else {
   // b = 'http://localhost:10000/web/index.php/v1/'
-  b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
-  // b = 'http://192.168.1.45/core-profile/web/index.php/v1/'
+  // b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
+  b = 'http://192.168.1.45/core-profile/web/index.php/v1/'
   // b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
 }
 

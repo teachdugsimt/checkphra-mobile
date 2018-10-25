@@ -16,6 +16,7 @@ import ExpertActions from '../Redux/ExpertRedux'
 import ImageViewer from 'react-native-image-zoom-viewer';
 // Styles
 // import styles from './Styles/CheckListScreenStyle'
+import CheckBox from 'react-native-check-box'
 const deviceWidth = Dimensions.get('window').width
 // const { height } = Dimensions.get('window')
 
@@ -33,6 +34,9 @@ class CheckPhraScreen extends Component {
             answer5: null,
             index: 0,
             modalVisible: false,
+            checkTrue1: false,
+            checkTrue2: false,
+            checkFalse: false,
         }
     }
 
@@ -62,21 +66,39 @@ class CheckPhraScreen extends Component {
 
         let tmp = []
         let pack = []
-        if (this.state.answer1) {
-            tmp.push(this.state.answer1)
+        // if (this.state.answer1) {
+        //     tmp.push(this.state.answer1)
+        // }
+        if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false) {
+            tmp.push('พระแท้')
+        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false) {
+            tmp.push('พระแท้เนื้อทอง')
+        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true) {
+            tmp.push('พระไม่แท้')
+        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
+            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
+            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
+            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
+            alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+        } else {
+            // tmp.push(null)
         }
+
         if (this.state.answer2) {
             tmp.push(this.state.answer2)
         }
         if (this.state.answer3) {
             tmp.push(this.state.answer3)
         }
-        if (this.state.answer4) {
-            tmp.push(this.state.answer4)
-        }
-        if (this.state.answer5) {
-            tmp.push(this.state.answer5)
-        }
+        // if (this.state.answer4) {
+        //     tmp.push(this.state.answer4)
+        // }
+        // if (this.state.answer5) {
+        //     tmp.push(this.state.answer5)
+        // }
         if (this.state.answer_other) {
             tmp.push(this.state.answer_other)
         }
@@ -198,11 +220,11 @@ class CheckPhraScreen extends Component {
                             this.setState({ modalVisible: true })
                         }}
                         index={this.state.index}
-                        // onSwipeDown={() => {
-                        //     console.log('onSwipeDown');
-                        //     this.setState({ modalVisible: false })
-                        // }}
-                        // enableSwipeDown={true}
+                    // onSwipeDown={() => {
+                    //     console.log('onSwipeDown');
+                    //     this.setState({ modalVisible: false })
+                    // }}
+                    // enableSwipeDown={true}
                     />
                     <Modal
                         visible={this.state.modalVisible}
@@ -236,10 +258,24 @@ class CheckPhraScreen extends Component {
                         {this.props.data.question_list.map((e, i) => {
                             if (e.question_detail == 'พระแท้/ไม่แท้') {
                                 return (
-                                    <View>
-                                        <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                                        <TextInput key={i} value={this.state.answer1} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer1: text })} />
+                                    // <View>
+                                    //     <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
+                                    //     <TextInput key={i} value={this.state.answer1} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
+                                    //         onChangeText={(text) => this.setState({ answer1: text })} />
+                                    // </View>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 5 }}>
+                                        <CheckBox
+                                            title='พระแท้'
+                                            checked={this.state.checkTrue1}
+                                        />
+                                        <CheckBox
+                                            title='พระแท้เนื้อทอง'
+                                            checked={this.state.checkTrue2}
+                                        />
+                                        <CheckBox
+                                            title='พระไม่แท้'
+                                            checked={this.state.checkFalse}
+                                        />
                                     </View>
                                 )
                             } else if (e.question_detail == 'ประเมินราคาพระ') {
@@ -250,7 +286,7 @@ class CheckPhraScreen extends Component {
                                             onChangeText={(text) => this.setState({ answer2: text })} />
                                     </View>
                                 )
-                            } else if (e.question_detail == 'ชื่อหลวงพ่อ') {
+                            } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง') {
                                 return (
                                     <View>
                                         <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
@@ -258,27 +294,30 @@ class CheckPhraScreen extends Component {
                                             onChangeText={(text) => this.setState({ answer3: text })} />
                                     </View>
                                 )
-                            } else if (e.question_detail == 'ชื่อวัด') {
+                            }
+                            // else if (e.question_detail == 'ชื่อวัด') {
+                            //     return (
+                            //         <View>
+                            //             <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
+                            //             <TextInput key={i} value={this.state.answer4} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
+                            //                 onChangeText={(text) => this.setState({ answer4: text })} />
+                            //         </View>
+                            //     )
+                            // } 
+                            // else if (e.question_detail == 'ปี พ.ศ. ที่สร้าง') {
+                            //     return (
+                            //         <View>
+                            //             <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
+                            //             <TextInput key={i} value={this.state.answer5} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
+                            //                 onChangeText={(text) => this.setState({ answer5: text })} />
+                            //         </View>
+                            //     )
+                            // } 
+                            else {
                                 return (
                                     <View>
                                         <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                                        <TextInput key={i} value={this.state.answer4} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer4: text })} />
-                                    </View>
-                                )
-                            } else if (e.question_detail == 'ปี พ.ศ. ที่สร้าง') {
-                                return (
-                                    <View>
-                                        <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                                        <TextInput key={i} value={this.state.answer5} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer5: text })} />
-                                    </View>
-                                )
-                            } else {
-                                return (
-                                    <View>
-                                        <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                                        <TextInput key={i} value={this.state.answer_other} placeholder={'อื่นๆ'} style={{ marginHorizontal: 15 }}
+                                        <TextInput key={i} value={this.state.answer_other} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
                                             onChangeText={(text) => this.setState({ answer_other: text })} />
                                     </View>
                                 )

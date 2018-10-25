@@ -129,6 +129,9 @@ class SendImageScreen extends Component {
 
 
     this.state.questionType.map((e, i) => {
+      if(e.name == "พระแท้/ไม่แท้"){
+        chk.push(1)
+      }
       if (e.isChecked == true) {
         chk.push(1)
         cnt = cnt + e.point
@@ -148,7 +151,7 @@ class SendImageScreen extends Component {
         ],
         { cancelable: false }
       )
-    } else if (chk2 == -1 && this.state.message == '' && !this.state.message) {
+    } else if (chk2 == -1 ) {
       Alert.alert(
         'Check Phra',
         I18n.t('atLeast1Question'),
@@ -157,7 +160,7 @@ class SendImageScreen extends Component {
         ],
         { cancelable: false }
       )
-    } else if (chk2 != -1 || this.state.message != '') {
+    } else if (chk2 != -1 ) {
       if (this.props.profile.point < cnt) {
         Alert.alert(
           'Check Phra',
@@ -253,12 +256,7 @@ class SendImageScreen extends Component {
                 />
               })
             }
-            {/* <TextInput
-              value={this.state.message}
-              onChangeText={(text) => { this.setState({ message: text }) }}
-              placeholder={'อื่นๆ โปรดระบุคำถาม ( x point )'}
-              placeholderTextColor={Colors.brownText}
-            /> */}
+            
           </View>
 
           <View style={{ width: '80%', marginVertical: 20, alignSelf: 'center' }}>

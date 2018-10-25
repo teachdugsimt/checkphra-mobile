@@ -43,8 +43,8 @@ class AnswerScreen extends Component {
     // console.log(data[0], 'data')  // can't
     // console.log(data.id)  // can't
 
-    let answer1 = this.props.answer.answer
-    let img = this.props.answer.images
+    // let answer1 = this.props.answer.answer
+    // let img = this.props.answer.images
     // console.log(answer1, 'answer') //can't
     // console.log(img, 'img')  // can't
 
@@ -69,20 +69,6 @@ class AnswerScreen extends Component {
           })
         }
         <View style={{ marginHorizontal: 20 }}>
-          {/* {
-            this.props.answer && this.props.answer.answer &&
-            this.props.answer.answer.map(element => {
-              return (
-                <Text style={{
-                  fontFamily: 'Prompt-Regular',
-                  fontSize: 13,
-                }}>{element.question} : <Text style={{
-                  fontFamily: 'Prompt-SemiBold',
-                  fontSize: 18,
-                }}>{element.result}</Text></Text>
-              )
-            })
-          } */}
           {
             this.props.answer && this.props.answer.answer &&
             this.props.answer.answer.map(element => {
@@ -97,6 +83,20 @@ class AnswerScreen extends Component {
               )
             })
           }
+          {/* {
+            this.props.answer && this.props.answer.answer &&
+            this.props.answer.answer.map(element => {
+              return (
+                <Text style={{
+                  fontFamily: 'Prompt-Regular',
+                  fontSize: 13,
+                }}>{element.question} : <Text style={{
+                  fontFamily: 'Prompt-SemiBold',
+                  fontSize: 18,
+                }}>{element.result}</Text></Text>
+              )
+            })
+          } */}
         </View>
 
       </LinearGradient>

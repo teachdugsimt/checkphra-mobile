@@ -1,4 +1,4 @@
-import I18n from 'react-native-i18n';
+import I18n, { getLanguages } from 'react-native-i18n';
 import en from './locales/en';
 import th from './locales/th';
 

@@ -278,10 +278,16 @@ const CheckListStack = StackNavigator({ // **********************FOR EXPERT & AD
       title: I18n.t('pendingList')
     }
   },
-  check2: { screen: CheckPhraScreen }
+  check2: {
+    screen: CheckPhraScreen,
+    navigationOptions: {
+      title: 'รายละเอียดส่งตรวจพระ'
+    }
+  }
 }, {
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: I18n.t('pendingList'),
+      headerTintColor: 'white',
       headerStyle: {
         backgroundColor: Colors.tabBar,
       },
@@ -307,7 +313,7 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
   }
 }, {
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: 'อนุมัติ POINT',
+      tabBarLabel: 'รายการเติมเงิน',
       headerStyle: {
         backgroundColor: Colors.tabBar,
       },
@@ -320,8 +326,8 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
 
 const AdminStack = TabNavigator({  // *************** MAIN ADMIN *************************
   checklist: CheckListStack,
-  profile: ProfileStack,
   verify: VerifyStack,
+  profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
@@ -332,6 +338,9 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
         }
         if (routeName == "profile") {
           iconName = `user-circle${focused ? "" : "-o"}`;
+        }
+        if (routeName == "verify") {
+          iconName = `money`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       },

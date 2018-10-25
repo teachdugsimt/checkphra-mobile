@@ -69,8 +69,8 @@ class HistoryPoint extends Component {
             } else if (newProps.data_history[0].id != prevState.history_data[0].id && !newProps.request && check == true) {
                 check = false
                 // console.log('HAHAHAHAHAHAHAHHAHAH')
-                newProps.setDetailPoint(newProps.data_history[0])
-                newProps.navigation.navigate("detailPoint")
+                // newProps.setDetailPoint(newProps.data_history[0])
+                // newProps.navigation.navigate("detailPoint")
                 return {
                     history_data: list,
                     fetch: newProps.request ? true : false,
@@ -80,7 +80,7 @@ class HistoryPoint extends Component {
         } else {
             check = true
         }
-        
+
         return {
             history_data: list,
         }
@@ -96,6 +96,8 @@ class HistoryPoint extends Component {
     }
 
     _renderItem = ({ item, index }) => {
+        // console.log(item)
+        let color = item.status == 0 ? 'orange' : 'green'
         return (
             <TouchableOpacity onPress={() => this._nextPage(item)}>
                 <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
@@ -115,7 +117,7 @@ class HistoryPoint extends Component {
                         </View>
 
                         <View style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
-                            <Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold' }}>{item.price} ฿</Text>
+                            <Text style={{ fontSize: 16, color: color, fontWeight: 'bold' }}>{item.price} ฿</Text>
                         </View>
 
                     </View>

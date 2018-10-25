@@ -181,7 +181,7 @@ class CheckPhraScreen extends Component {
         // console.log(img)
         let img2 = []
         this.props.data.images.map(e => {
-            img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + e })
+            img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
         })
 
         // console.log(this.props.data)

@@ -64,8 +64,6 @@ class HistoryScreen extends Component {
 
     if (PrevState.data_history != null) {
       if (newProps.request2) {
-        // check = true
-        console.log('FETCHING')
         newProps.getHistory()
         return {
           data_history: hlist

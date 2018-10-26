@@ -63,9 +63,12 @@ class Creditcard extends Component {
       console.log(statusCode)
     });
 
+    console.log('TOKEN DATA')
+    console.log(data);
+   
     this.props.checkCard(data.id)
     // Token_id = data.id
-    console.log("dataToken", data);
+    
     
     setTimeout(() => {
       this.props.navigation.goBack()

@@ -22,18 +22,7 @@ import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 I18n.currentLocale();
 // I18n.locale = "th";
-
-const options = {
-  title: 'Select Avatar',
-  customButtons: [
-    { name: 'fb', title: 'Choose Photo from Facebook' },
-  ],
-  storageOptions: {
-    skipBackup: true,
-    path: 'images'
-  }
-};
-
+let chk = true
 let { width } = Dimensions.get('window')
 
 class SendImageScreen extends Component {
@@ -44,81 +33,74 @@ class SendImageScreen extends Component {
       questionType: [1],
       message: '',
       fetch: null,
+      dataType: null,
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    let qtype = []
-    let checkFecth = null
-    // console.log("HERE DATA")
-    // console.log(nextProps)
-    nextProps.questionType.forEach(e => {
-      qtype.push({
-        id: e.id,
-        name: e.name,
-        point: e.point,
-        isChecked: false
-      })
-    })
-    //  images , request => change
-    if (nextProps.request) {
-      if (nextProps.images.length != 0) {
-        checkFecth = true
+    
+    console.log(nextProps)
+    console.log(prevState)
+    // if (nextProps.questionType && nextProps.questionType.length > 0 && prevState.check == true) {
+    //   nextProps.questionType.forEach(e => {
+    //     qtype.push({
+    //       id: e.id,
+    //       name: e.name,
+    //       point: e.point,
+    //       isChecked: false,
+    //       checkType: true,
+    //     })
+    //   })
+    //   return {
+    //     questionType: qtype,
+    //     check: false
+    //   }
+    // } 
+
+
+    if (nextProps.questionType && nextProps.questionType.length != 0) {
+      if (chk == true) {
+        let qtype = []
+        nextProps.questionType.forEach(e => {
+          qtype.push({
+            id: e.id,
+            name: e.name,
+            point: e.point,
+            isChecked: false,
+            checkType: true,
+          })
+        })
+        console.log(chk)
+        chk = false
+        return {
+          questionType: qtype,
+          dataType: nextProps.questionType
+        }
       }
-    }
+    } 
+   
+    //  images , request => change
+    // if (nextProps.request) {
+    //   if (nextProps.images.length != 0) {
+    //     checkFecth = true
+    //   }
+    // }
+
 
     return {
-      questionType: qtype,
-      fetch: checkFecth
+      // questionType: qtype,
     }
   }
 
   componentDidMount() {
     this.props.getProfile()
     this.props.getQuestionType()
-
   }
 
   componentWillUnmount() {
     this.props.clearImage()
+    chk = true
     // this.setState({ fetch: null })
-  }
-
-  showImagePicker = () => {
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        let source = { uri: response.uri };
-        console.log(response)
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-        this.setState({
-          avatarSource: source
-        });
-
-        const d = {
-          uri: response.uri,
-          type: response.type,
-          name: response.fileName,
-          tmp_name: response.path,
-          size: response.size
-        }
-
-        console.log(d)
-
-        this.props.setImages(this.props.id, d)
-      }
-    });
   }
 
   submit = () => {
@@ -131,7 +113,6 @@ class SendImageScreen extends Component {
     this.props.setStart(0, 1)
 
     this.state.questionType.map((e, i) => {
-      console.log(e)
       if (e.name == "พระแท้/ไม่แท้") {
         chk.push(1)
       }
@@ -175,8 +156,8 @@ class SendImageScreen extends Component {
         )
       } else {
         this.props.addQuestion()
-        // this.props.navigation.goBack()
-        // this.props.navigation.navigate('his')
+        this.props.navigation.goBack()
+        this.props.navigation.navigate('his')
       }
     }
 
@@ -184,8 +165,6 @@ class SendImageScreen extends Component {
   }
 
   render() {
-    const point = [5, 5, 3, 3, 15]
-
     // if (this.state.fetch == true) {
     //   this.props.navigation.goBack()
     //   this.props.navigation.navigate('his')
@@ -253,7 +232,7 @@ class SendImageScreen extends Component {
                     this.setState({ questionType: qtype })
                   }}
                   isChecked={i > 0 ? this.state.questionType[i].isChecked : true}
-                  rightText={element.name + " ( ฿ " + point[i] + " )"}
+                  rightText={element.name + " ( ฿ " + element.point + " )"}
                   rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 20 }}
                   checkBoxColor={Colors.brownText}
                 />

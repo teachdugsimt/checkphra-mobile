@@ -69,20 +69,10 @@ const RegStack = StackNavigator(
     //       </Text>
     //     </TouchableOpacity>
     //   ),
-    //   headerRight: (
-    //     <Text
-    //       style={{
-    //         fontFamily: "Prompt-Regular",
-    //         fontSize: 25,
-    //         color: Colors.brownText,
-    //         marginRight: 30
-    //       }}
-    //     >
-    //       Check Phra
-    //     </Text>
-    //   )
+
     // })
-  }
+  },
+
 );
 
 const UploadStack = StackNavigator(  // main upload
@@ -163,12 +153,20 @@ const PromotionStack = StackNavigator(  // main pro
         title: I18n.t('package')
       }
     },
-    banking: { screen: Banking },
-    promptpay: { screen: Promptpay },
+    banking: {
+      screen: Banking, navigationOptions: {
+        title: 'Banking'
+      }
+    },
+    promptpay: {
+      screen: Promptpay, navigationOptions: {
+        title: 'Promptpay'
+      }
+    },
     creditcard: {
       screen: Creditcard,
       navigationOptions: {
-        title: 'กรอกบัตรเครดิต'
+        title: 'Credit-Card'
       }
     },
   },

@@ -82,10 +82,12 @@ export function* sendSlipRequest(api, { item }) {
   console.log(response)
   if (response.ok) {
     yield put(PaymentActions.sendSlipSuccess(response.data))
+    yield put(PaymentActions.clearRequest())
     alert('แจ้งโอนเงินสำเร็จ')
   } else {
     alert('แจ้งโอนเงินล้มเหลว')
     yield put(PaymentActions.sendSlipFailure())
+    yield put(PaymentActions.clearRequest())
   }
 }
 

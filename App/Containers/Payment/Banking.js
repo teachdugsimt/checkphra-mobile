@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, View, TouchableOpacity, Dimensions, TextInput, FlatList, RefreshControl, Image, Alert } from 'react-native'
+import { ScrollView, Text, View, TouchableOpacity, Dimensions, TextInput, FlatList, RefreshControl, Image, Alert, Picker } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 import { Colors, Images } from '../../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import PaymentActions from '../../Redux/PaymentRedux'
 // import PromotionActions from '../../Redux/PromotionRedux'
-import RoundedButton2 from '../../Components/RoundedButton2'
+import RoundedButton from '../../Components/RoundedButton'
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import Icon3 from "react-native-vector-icons/Entypo";
 import moment from 'moment'
+import Spinner from 'react-native-loading-spinner-overlay';
+import { INITIAL_STATE } from '../../Redux/AuthRedux';
 var ImagePicker = require('react-native-image-picker');
 var options = {
     title: 'Select Avatar',
@@ -21,29 +23,31 @@ var options = {
         path: 'images'
     }
 };
+let { width } = Dimensions.get('window')
 
+let check = false
 class Banking extends Component {
-    static navigationOptions = ({ navigation }) => {
-        const params = navigation.state.params || {};
+    // static navigationOptions = ({ navigation }) => {
+    //     const params = navigation.state.params || {};
 
-        return {
-            headerLeft: (
-                <TouchableOpacity onPress={() => navigation.goBack()} style={{ flexDirection: 'row' }}>
-                    <Text
-                        style={{
-                            marginLeft: 20,
-                            fontSize: 18,
-                            fontFamily: "Prompt-SemiBold",
-                            color: Colors.brownText
-                        }}
-                    >
-                        {"< กลับ "}
-                    </Text>
-                    <Text style={{ marginLeft: 20, fontSize: 18, fontFamily: "Prompt-SemiBold", color: Colors.brownText }}>Bangking</Text>
-                </TouchableOpacity>
-            )
-        };
-    };
+    //     return {
+    //         headerLeft: (
+    //             <TouchableOpacity onPress={() => navigation.goBack()} style={{ flexDirection: 'row' }}>
+    //                 <Text
+    //                     style={{
+    //                         marginLeft: 20,
+    //                         fontSize: 18,
+    //                         fontFamily: "Prompt-SemiBold",
+    //                         color: Colors.brownText
+    //                     }}
+    //                 >
+    //                     {"< กลับ "}
+    //                 </Text>
+    //                 <Text style={{ marginLeft: 20, fontSize: 18, fontFamily: "Prompt-SemiBold", color: Colors.brownText }}>Bangking</Text>
+    //             </TouchableOpacity>
+    //         )
+    //     };
+    // };
 
     constructor(props) {
         super(props)
@@ -52,15 +56,40 @@ class Banking extends Component {
             type: 'transfer',
             bank: '',
             avatarSource: '',
+
+            spinner: false,
+
+            kbankBackground: null,
+            kbankBorder: null,
+
+            scbBackground: null,
+            scbBorder: null,
+
+            krungthepBackground: null,
+            krungthepBorder: null,
+
+            ktbBackground: null,
+            ktbBorder: null,
+
+            tmbBackground: null,
+            tmbBorder: null,
+
         }
     }
 
     componentWillMount() {
+        check = false
         this.props.deleteImage()
     }
 
     componentWillUnmount() {
         this.props.deleteImage()
+        this.props.navigation.goBack()
+    }
+
+    componentDidMount() {
+        check = false
+        this.setState({ spinner: false })
     }
 
     _pressButtonOk = () => {
@@ -73,7 +102,7 @@ class Banking extends Component {
             alert('กรุณาเลือกรูปภาพ')
         } else {
             if (!this.state.bank) {
-                alert('กรุณาระบุธนาคารที่ทำการโอนเงิน')
+                alert('กรุณาคลิกเลือกธนาคารที่ทำการโอนเงิน')
             } else {
                 Alert.alert(
                     'Check Phra',
@@ -91,10 +120,10 @@ class Banking extends Component {
                                 }
                                 this.props.sendSlip(item)
 
-                                setTimeout(() => {
-                                    this.props.navigation.goBack()
-                                    this.props.navigation.navigate("historyAddPoint")
-                                }, 3000);
+                                // setTimeout(() => {
+                                //     this.props.navigation.goBack()
+                                //     this.props.navigation.navigate("historyAddPoint")
+                                // }, 3000);
                             }
                         },
                         { text: 'cancel' }
@@ -105,6 +134,41 @@ class Banking extends Component {
             }
         }
 
+    }
+
+    static getDerivedStateFromProps(newProps, prevState) {
+
+        // console.log(newProps)
+        // console.log(prevState)
+        if (check == true && newProps.image == null && newProps.request2 == false) {
+            newProps.navigation.goBack()
+            newProps.navigation.navigate("historyAddPoint")
+        }
+
+        if (newProps.request2) {
+            let spinner = true
+            check = false
+            return {
+                spinner
+            }
+        } else if (newProps.request2 == false) {
+            let spinner = false
+            check = true
+            newProps.deleteImage()
+            return {
+                spinner,
+            }
+
+        } else {
+            let spinner = false
+            return {
+                spinner
+            }
+        }
+
+        return {
+
+        }
     }
 
     pick = () => {
@@ -137,49 +201,148 @@ class Banking extends Component {
         });
     }
 
+    _kbank = () => {
+        this.setState({
+            bank: 'ธนาคารกสิกร',
+            kbankBorder: 1,
+            kbankBackground: 'lightgrey',
+            scbBackground: null,
+            scbBorder: null,
+            krungthepBackground: null,
+            krungthepBorder: null,
+            ktbBackground: null,
+            ktbBorder: null,
+            tmbBackground: null,
+            tmbBorder: null,
+        })
+    }
+
+    _scb = () => {
+        this.setState({
+            bank: 'ธนาคารไทยพาณิชย์',
+            kbankBorder: null,
+            kbankBackground: null,
+            scbBackground: 'lightgrey',
+            scbBorder: 1,
+            krungthepBackground: null,
+            krungthepBorder: null,
+            ktbBackground: null,
+            ktbBorder: null,
+            tmbBackground: null,
+            tmbBorder: null,
+        })
+    }
+
+    _krungthep = () => {
+        this.setState({
+            bank: 'ธนาคารกรุงเทพ',
+            kbankBorder: null,
+            kbankBackground: null,
+            scbBackground: null,
+            scbBorder: null,
+            krungthepBackground: 'lightgrey',
+            krungthepBorder: 1,
+            ktbBackground: null,
+            ktbBorder: null,
+            tmbBackground: null,
+            tmbBorder: null,
+        })
+    }
+
+    _ktb = () => {
+        this.setState({
+            bank: 'ธนาคารกรุงไทย',
+            kbankBorder: null,
+            kbankBackground: null,
+            scbBackground: null,
+            scbBorder: null,
+            krungthepBackground: null,
+            krungthepBorder: null,
+            ktbBackground: 'lightgrey',
+            ktbBorder: 1,
+            tmbBackground: null,
+            tmbBorder: null,
+        })
+    }
+
+    _tmb = () => {
+        this.setState({
+            bank: 'ธนาคารทหารไทย',
+            kbankBorder: null,
+            kbankBackground: null,
+            scbBackground: null,
+            scbBorder: null,
+            krungthepBackground: null,
+            krungthepBorder: null,
+            ktbBackground: null,
+            ktbBorder: null,
+            tmbBackground: 'lightgrey',
+            tmbBorder: 1,
+        })
+    }
+
     _changeText = (text) => {
         this.setState({ money: text })
     }
 
     render() {
         let heightView = 60
-        let widthView = '50%'
+        let widthView = '60%'
         let heightImg = 60
         let widthImg = 60
-        console.log(this.props.money)
+
         const img = [Images.capture1, Images.capture2, Images.capture3, Images.capture4, Images.capture5]
         return (
-            <View style={{ flex: 1 }}>
-                <ScrollView>
+            <LinearGradient
+                colors={["#FF8C00", "#FFA500", "#FFCC33"]}
+                style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            >
+                <Image source={Images.watermarkbg} style={{
+                    position: 'absolute',
+                    right: 0, bottom: 0,
+                    width: width,
+                    height: width * 95.7 / 100
+                }} resizeMode='contain' />
+                <ScrollView style={{ flex: 1 }}>
                     <Text style={{ alignSelf: 'center', marginTop: 20, fontSize: 18, }}>เลือกบัญชีธนาคารและจำนวนเงินที่ต้องการเติม</Text>
                     <Text style={{ alignSelf: 'center', marginTop: 8, fontSize: 20, fontWeight: 'bold' }}>นาย ทดสอบ ทดสอบ</Text>
 
                     <View style={{ justifyContent: 'flex-start', alignItems: 'center', height: 330, width: '100%', marginTop: 15 }}>
 
-                        <View style={{ flexDirection: 'row', height: heightView, width: widthView }}>
+                        <TouchableOpacity
+                            onPress={this._kbank}
+                            style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.kbankBorder, backgroundColor: this.state.kbankBackground }}>
                             <Image source={img[0]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
                             <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>753-0-11694-0</Text>
-                        </View>
+                        </TouchableOpacity>
 
-                        <View style={{ flexDirection: 'row', height: heightView, width: widthView }}>
+                        <TouchableOpacity
+                            onPress={this._scb}
+                            style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.scbBorder, backgroundColor: this.state.scbBackground }}>
                             <Image source={img[1]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
                             <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>519-2-81889-8</Text>
-                        </View>
+                        </TouchableOpacity>
 
-                        <View style={{ flexDirection: 'row', height: heightView, width: widthView }}>
+                        <TouchableOpacity
+                            onPress={this._krungthep}
+                            style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.krungthepBorder, backgroundColor: this.state.krungthepBackground }}>
                             <Image source={img[2]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
                             <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>019-3-90118-2</Text>
-                        </View>
+                        </TouchableOpacity>
 
-                        <View style={{ flexDirection: 'row', height: heightView, width: widthView }}>
+                        <TouchableOpacity
+                            onPress={this._ktb}
+                            style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.ktbBorder, backgroundColor: this.state.ktbBackground }}>
                             <Image source={img[3]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
                             <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>019-3-90118-2</Text>
-                        </View>
+                        </TouchableOpacity>
 
-                        <View style={{ flexDirection: 'row', height: heightView, width: widthView }}>
+                        <TouchableOpacity
+                            onPress={this._tmb}
+                            style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.tmbBorder, backgroundColor: this.state.tmbBackground }}>
                             <Image source={img[4]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
                             <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>019-3-90118-2</Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
@@ -221,23 +384,23 @@ class Banking extends Component {
                     </View>
 
                     <View style={{ alignItems: 'center' }}>
-                        <TextInput
-                            style={{ width: '75%' }}
-                            value={this.state.bank}
-                            placeholder={'ธนาคารที่ทำการโอน เช่น กรุงไทย, ไทยพาณิชย์'}
-                            onChangeText={(text) => this.setState({ bank: text })} />
                         <View style={{ margin: 10, width: 200 }}>
-                            <RoundedButton2 text={'ตกลง'}
+                            <RoundedButton title={'ตกลง'}
                                 onPress={() => this._pressButtonOk()}
-                                fetching={this.props.request2} />
+                            // fetching={this.props.request2} 
+                            />
                         </View>
                     </View>
-
+                    <Spinner
+                        visible={this.state.spinner}
+                        textContent={'Loading...'}
+                        textStyle={{ color: '#fff' }}
+                    />
                     <View style={{ height: 30 }}>
                     </View>
 
                 </ScrollView>
-            </View>
+            </LinearGradient>
         )
     }
 }

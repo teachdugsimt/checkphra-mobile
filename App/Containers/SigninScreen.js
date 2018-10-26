@@ -50,7 +50,10 @@ class SigninScreen extends Component {
     if (this.props.profile) {
       if (this.props.profile.role == 'expert') {
         this.props.navigation.navigate('ExpertApp')
-      } else {
+      } else if (this.props.profile.role == 'admin') {
+        this.props.navigation.navigate('AdminApp')
+      }
+      else {
         this.props.navigation.navigate('App')
       }
     }
@@ -190,8 +193,13 @@ class SigninScreen extends Component {
   }
 
   login = () => {
-    this.setState({ spinner: true })
-    this.props.signin(this.state.inputEmail, this.state.inputPass)
+    if (!this.state.inputEmail || !this.state.inputPass) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วน")
+      this.setState({ spinner: false })
+    } else {
+      this.setState({ spinner: true })
+      this.props.signin(this.state.inputEmail, this.state.inputPass)
+    }
   }
 
   render() {

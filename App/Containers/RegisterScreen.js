@@ -114,6 +114,10 @@ class RegisterScreen extends Component {
     }
   }
 
+  goBack = () => {
+    this.props.navigation.navigate("Auth")
+  }
+
   render() {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
@@ -235,6 +239,31 @@ class RegisterScreen extends Component {
               }}
             >
               สมัครสมาชิก
+          </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            height: 45,
+            width: 160,
+            backgroundColor: Colors.button,
+            alignSelf: "center",
+            borderRadius: 15,
+            marginTop: 20
+          }}
+        >
+          <TouchableOpacity onPress={this.goBack}>
+            <Text
+              style={{
+                fontFamily: "Prompt-Regular",
+                fontSize: 20,
+                alignSelf: "center",
+                color: "white",
+                marginTop: 8
+              }}
+            >
+              กลับสู่หน้า signin
           </Text>
           </TouchableOpacity>
         </View>

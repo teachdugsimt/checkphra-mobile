@@ -69,9 +69,12 @@ class HistoryScreen extends Component {
           data_history: hlist
         }
       }
-      // else if (newProps.history[0].id != PrevState.data_history[0].id) {{
+      // if (newProps.history[0].id != PrevState.data_history[0].id) {{
       //     newProps.getHistory()
       //     console.log('FETCH COMPLETE')
+      //     return{
+      //       data_history: hlist
+      //     }
       //   }
       // }
       // else if (newProps.history[0].id != PrevState.data_history[0].id) {

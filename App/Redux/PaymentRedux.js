@@ -26,6 +26,8 @@ const { Types, Creators } = createActions({
   cardRequest: ['token'],
   cardSuccess: ['data'],
   cardFailure: null,
+
+  clearRequest: null,
 })
 
 export const PaymentTypes = Types
@@ -124,6 +126,9 @@ export const setForm = (state, { data }) => state.merge({ form: data })
 export const creditRequest = (state) => state.merge({ request3: true })
 export const creditSuccess = (state, { data }) => state.merge({ request3: false, data_credit: data })
 export const creditFailure = state => state.merge({ request3: false })
+
+
+export const clearRequest = state => state.merge({ request2: null })
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -143,6 +148,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_IMAGE]: setImage,
   [Types.DELETE_IMAGE]: deleteImage,
   [Types.SET_FORM]: setForm,
+  [Types.CLEAR_REQUEST]: clearRequest,
 
   [Types.CARD_REQUEST]: creditRequest,
   [Types.CARD_SUCCESS]: creditSuccess,

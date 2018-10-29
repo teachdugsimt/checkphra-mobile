@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, View, TouchableOpacity, Dimensions, TextInput, FlatList, RefreshControl } from 'react-native'
+import { ScrollView, Text, View, TouchableOpacity, Dimensions, TextInput, FlatList, RefreshControl, ImageBackground, Image } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 import RoundedButton from '../Components/RoundedButton'
-import { Colors } from '../Themes';
+import { Colors, Images } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import PromotionActions from '../Redux/PromotionRedux'
 import Icon2 from "react-native-vector-icons/FontAwesome";
@@ -12,6 +12,7 @@ const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
 });
 
+let { width, height } = Dimensions.get('window')
 class Promotion extends Component {
 
     constructor(props) {
@@ -51,18 +52,36 @@ class Promotion extends Component {
     }
 
     _renderItem = ({ item, index }) => {
+        let img = ''
+        if (item.point < 150) {
+            img = Images.coin2
+        } else if (item.point > 149 && item.point < 300) {
+            img = Images.coin1
+        } else if(item.point > 299){
+            img = Images.coin3
+        }
+        console.log(img)
         return (
             <TouchableOpacity style={{ height: 110 }} onPress={() => this._PressPromotion(item)}>
                 <View style={{ height: 110, backgroundColor: 'white', marginTop: 1 }}>
                     <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.detail}</Text>
+                        <View>
+                            <Text style={{ fontWeight: 'bold', fontSize: 18, color: Colors.brownText }}>{item.detail}</Text>
+                            <Image source={img} style={{
+                                width: width / 2,
+                                height: height / 8
+                            }} />
+                        </View>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', color: 'red', fontSize: 24, marginTop: 15 }}>{item.point} แต้ม</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: 'bold', color: 'orange', fontSize: 24, marginTop: 15 }}>{item.point}</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 15, color: Colors.brownText }}> แต้ม</Text>
+                            </View>
                             <Text style={{ fontWeight: 'bold', color: 'brown', textAlign: 'right' }}>{item.price} ฿</Text>
                         </View>
                     </View>
-                    
+
                 </View>
             </TouchableOpacity>
         )

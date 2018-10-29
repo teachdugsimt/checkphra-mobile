@@ -5,12 +5,14 @@ import LinearGradient from "react-native-linear-gradient";
 import { Colors, Images, Metrics } from '../../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import PaymentActions from '../../Redux/PaymentRedux'
-import RoundedButton2 from '../../Components/RoundedButton2'
+import RoundedButton from '../../Components/RoundedButton'
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import Omise from 'omise-react-native';
 Omise.config('pkey_test_4xmprhd0qqlcoi4mpca', '2015-11-17');
 // import { CreditCardInput } from "react-native-credit-card-input";
 import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
+import { STATUS_CODES } from 'http';
+import Spinner from 'react-native-loading-spinner-overlay';
 const { width } = Dimensions.get('window')
 
 let obj
@@ -25,7 +27,7 @@ class Creditcard extends Component {
       money: this.props.money,
       token: null,
       type: 'credit',
-      // card: null,
+      spinner: false,
     }
     obj = this
   }
@@ -36,11 +38,24 @@ class Creditcard extends Component {
     console.log(PrevState)
     console.log(newProps)
     let tmp = newProps.data_card
+    if (newProps.request3) {
+      return {
+        spinner: true
+      }
+    } else {
+      return {
+        spinner: false
+      }
+    }
 
     // if(newProps.data_card != PrevState.)
     return {
       // card: tmp
     }
+  }
+
+  componentDidMount() {
+    this.setState({ spinner: false })
   }
 
   _onChange = (form) => {
@@ -57,28 +72,38 @@ class Creditcard extends Component {
     this.setState({ form })
   }
 
+  // _checkCard = ({ status, response}) =>{
+  //   console.log(status)
+  //   console.log(response)
+  //   console.log('here FUNCTION')
+  // }
+
   async _onPressButton() {
     const data = await Omise.createToken(cardObj, function (statusCode, response) {
       console.log(response)
       console.log(statusCode)
+      if (response.ok == false) {
+        alert('กรุณาตรวจสอบข้อมูลบัตรเครดิต')
+      }
     });
+    // const data = await Omise.createToken(cardObj, (STATUS_CODES, response) => this._checkCard(STATUS_CODES, response));
 
     console.log('TOKEN DATA')
     console.log(data);
-   
-    this.props.checkCard(data.id)
-    // Token_id = data.id
-    
-    
-    setTimeout(() => {
-      this.props.navigation.goBack()
-      this.props.navigation.navigate("historyAddPoint")
-    }, 2000);
 
+    if (this.state.form.valid == true) {
+      this.props.checkCard(data.id)
+      setTimeout(() => {
+        this.props.navigation.goBack()
+        this.props.navigation.navigate("historyAddPoint")
+      }, 2000);
+    } else {
+      alert('กรุณาตรวจสอบข้อมูลบัตรเครดิต')
+    }
   }
 
   render() {
-    // console.log(this.state.form)
+    console.log(this.state.form)
     console.log(this.state.data)
 
     return (
@@ -93,15 +118,21 @@ class Creditcard extends Component {
           <CreditCardInput onChange={this._onChange} requiresName={true} />
         </View>
 
-        <View style={{ marginTop: 10, alignItems: 'center' }}>
-          <RoundedButton2
-            style={{ marginHorizontal: 10, width: 140 }}
-            text={'ตกลง'}
+        <View style={{ marginTop: 20, width: 140, alignSelf: 'center' }}>
+          <RoundedButton
+            style={{ marginHorizontal: 10 }}
+            title={'ตกลง'}
             onPress={() => { this._onPressButton() }}
             fetching={this.props.request}
           />
 
+          <Spinner
+            visible={this.state.spinner}
+            textContent={'Loading...'}
+            textStyle={{ color: '#fff' }}
+          />
         </View>
+
       </LinearGradient>
     )
   }

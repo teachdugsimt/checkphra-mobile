@@ -126,10 +126,20 @@ const ProfileStack = StackNavigator(   // main pro
       }
     },
     change: {
-      screen: ChangePasswordScreen
+      screen: ChangePasswordScreen, navigationOptions: {
+        title: 'Change Password'
+      }
     },
-    historyAddPoint: { screen: HistoryPoint },
-    detailPoint: { screen: DetailPoint },
+    historyAddPoint: {
+      screen: HistoryPoint, navigationOptions: {
+        title: 'Purchase History'
+      }
+    },
+    detailPoint: {
+      screen: DetailPoint, navigationOptions: {
+        title: 'Detail Purchase'
+      }
+    },
   },
   {
     navigationOptions: ({ navigation }) => ({

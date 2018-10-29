@@ -1,38 +1,38 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, TouchableOpacity, FlatList, RefreshControl } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity, FlatList, RefreshControl, Image } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import QuestionActions from '../Redux/QuestionRedux'
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon2 from "react-native-vector-icons/Ionicons";
-import { Colors } from "../Themes";
+import { Colors, Images } from "../Themes";
 import PaymentActions from '../Redux/PaymentRedux'
 
 let check = true
 class HistoryPoint extends Component {
 
-    static navigationOptions = ({ navigation }) => {
-        // const params = navigation.state.params || {};
+    // static navigationOptions = ({ navigation }) => {
+    //     // const params = navigation.state.params || {};
 
-        return {
-            headerLeft: (
-                <TouchableOpacity onPress={() => navigation.goBack()} style={{ flexDirection: 'row' }}>
-                    <Text
-                        style={{
-                            marginLeft: 20,
-                            fontSize: 18,
-                            fontFamily: "Prompt-SemiBold",
-                            color: Colors.brownText
-                        }}
-                    >
-                        {"< กลับ "}
-                    </Text>
-                    <Text style={{ marginLeft: 20, fontSize: 18, fontFamily: "Prompt-SemiBold", color: Colors.brownText }}>ประวัติการเติมเงิน</Text>
-                </TouchableOpacity>
-            )
-        };
-    };
+    //     return {
+    //         headerLeft: (
+    //             <TouchableOpacity onPress={() => navigation.goBack()} style={{ flexDirection: 'row' }}>
+    //                 <Text
+    //                     style={{
+    //                         marginLeft: 20,
+    //                         fontSize: 18,
+    //                         fontFamily: "Prompt-SemiBold",
+    //                         color: Colors.brownText
+    //                     }}
+    //                 >
+    //                     {"< กลับ "}
+    //                 </Text>
+    //                 <Text style={{ marginLeft: 20, fontSize: 18, fontFamily: "Prompt-SemiBold", color: Colors.brownText }}>ประวัติการเติมเงิน</Text>
+    //             </TouchableOpacity>
+    //         )
+    //     };
+    // };
 
     constructor(props) {
         super(props)
@@ -51,12 +51,15 @@ class HistoryPoint extends Component {
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
-        let list = newProps.data_history
+        // let list = newProps.data_history
         console.log(newProps)
         console.log(prevState)
         if (!prevState.history_data) {
             newProps.getHistory()
             // console.log('refresh state')
+            return {
+                history_data: newProps.data_history
+            }
         }
 
         if (prevState.history_data != null) {
@@ -65,10 +68,11 @@ class HistoryPoint extends Component {
                 newProps.getHistory()
                 return {
                     fetch: newProps.request ? true : false,
+                    
                 }
             } else if (newProps.data_history[0].id != prevState.history_data[0].id && !newProps.request && check == true) {
                 check = false
-                // console.log('HAHAHAHAHAHAHAHHAHAH')
+                // console.log('GO TO NEXT PAGE')
                 // newProps.setDetailPoint(newProps.data_history[0])
                 // newProps.navigation.navigate("detailPoint")
                 return {
@@ -82,7 +86,7 @@ class HistoryPoint extends Component {
         }
 
         return {
-            history_data: list,
+            // history_data: list,
         }
     }
 
@@ -102,11 +106,12 @@ class HistoryPoint extends Component {
             <TouchableOpacity onPress={() => this._nextPage(item)}>
                 <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
                     <View style={{ justifyContent: 'center' }}>
-                        <Icon2
+                        {/* <Icon2
                             name="ios-ribbon"
                             size={26}
                             color={Colors.brownText}
-                            style={{ marginLeft: 15 }} />
+                            style={{ marginLeft: 15 }} /> */}
+                        <Image source={Images.coin0} style={{ width: 25, height: 25, marginLeft: 10 }} />
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, width: '85%' }}>

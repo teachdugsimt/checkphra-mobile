@@ -101,6 +101,7 @@ class ProfileScreen extends Component {
   render() {
     // let data = []
     // console.log(this.props.profile)
+
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -109,7 +110,7 @@ class ProfileScreen extends Component {
           width: width,
           height: width * 95.7 / 100
         }} resizeMode='contain' />
-        <View style={{ flex: 0.4, height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center', }}>
+        <View style={{ flex: 0.5, height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center', }}>
 
           <TouchableOpacity style={{ flex: 1 }} onPress={this.pick}>
             <View style={{
@@ -131,7 +132,7 @@ class ProfileScreen extends Component {
                 <Text>{this.props.profile.firstname + " " + this.props.profile.lastname} </Text>
               }
             </View>
-            <Text style={{ marginTop: 5, color: 'orange' }}>Check Phra Account</Text>
+            {/* <Text style={{ marginTop: 5, color: 'orange' }}>Check Phra Account</Text> */}
 
             <View style={{ flexDirection: 'row', marginTop: 5 }}>
 
@@ -179,30 +180,30 @@ class ProfileScreen extends Component {
         </View>
 
         {this.props.profile && this.props.profile.role != 'expert' && this.props.profile.role != 'admin' &&
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 0.2, marginTop: 20, backgroundColor: 'white' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'lightgrey', borderBottomWidth: 1, marginTop: 20, backgroundColor: 'white' }}>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginVertical: 10 }}>
-              <Icon2
+              {/* <Icon2
                 name="ios-ribbon"
                 size={18}
                 color={Colors.brownText}
                 style={{ marginRight: 10 }}
                 onPress={() => { }}
-              />
+              /> */}
+              <Image source={Images.coin0} style={{ width: 19, height: 19, marginRight: 5 }} />
               <Text style={{ fontSize: 16 }}>
                 {I18n.t('coin')}
               </Text>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
-              <Text style={{ fontWeight: 'bold' }}>{this.props.profile ? this.props.profile.point : '-'}</Text>
-              <Text style={{ color: 'orange' }}></Text>
+              <Text style={{ fontWeight: 'bold', color: 'orange' }}>{this.props.profile ? this.props.profile.point : '-'}</Text>
             </View>
           </View>
         }
 
         {this.props.profile && this.props.profile.role != 'expert' && this.props.profile.role != 'admin' &&
-          <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', marginTop: 20, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("pro")}>
+          <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("pro")}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
               <Icon2
                 name="ios-add-circle-outline"

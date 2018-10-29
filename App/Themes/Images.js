@@ -29,6 +29,10 @@ const images = {
   capture3: require('../Images/Capture3.png'),
   capture4: require('../Images/Capture4.png'),
   capture5: require('../Images/Capture5.png'),
+  coin0: require('../Images/coin0.jpg'),
+  coin1: require('../Images/coin1.png'),
+  coin2: require('../Images/coin2.jpg'),
+  coin3: require('../Images/coin3.jpg'),
 }
 
 export default images

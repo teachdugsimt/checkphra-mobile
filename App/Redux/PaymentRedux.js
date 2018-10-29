@@ -51,7 +51,7 @@ export const INITIAL_STATE = Immutable({
   form: null,
 
   data_credit: [],
-  request3: null,
+  request3: null,   // credit card request
 })
 
 /* ------------- Selectors ------------- */

@@ -28,7 +28,7 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   fetch: null,            //add answer
 
-  data_answer: [],
+  data_answer: null, 
 
   data_phra: [],
 
@@ -38,7 +38,7 @@ export const INITIAL_STATE = Immutable({
   data_point: [],
 
   fetch3: null,   // accept transfer point
-  data_accept: []
+  data_accept: null
 })
 
 /* ------------- Selectors ------------- */

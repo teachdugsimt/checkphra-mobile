@@ -68,7 +68,7 @@ class HistoryPoint extends Component {
                 newProps.getHistory()
                 return {
                     fetch: newProps.request ? true : false,
-                    
+
                 }
             } else if (newProps.data_history[0].id != prevState.history_data[0].id && !newProps.request && check == true) {
                 check = false

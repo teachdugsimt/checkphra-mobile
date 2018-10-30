@@ -30,6 +30,24 @@ class VerifyPoint extends Component {
     static getDerivedStateFromProps(newProps, prevState) {
         let plist = newProps.data
         console.log(newProps)
+        console.log(prevState)
+        // if (prevState.verifyData == null || !prevState.verifyData || prevState.verifyData.length == 0) {
+        //     newProps.getVerify()
+        //     return {
+        //         verifyData: newProps.data
+        //     }
+        // }
+
+        if(newProps.data_accept != null){
+            let tmp = newProps.data.find(e=> e.id==newProps.data_accept.id)
+            if(newProps.data_accept.status != tmp.status){
+                newProps.getVerify()
+                return {
+                    verifyData: newProps.data
+                }
+            }
+        }
+
         return {
             verifyData: plist
         }
@@ -51,11 +69,7 @@ class VerifyPoint extends Component {
             <TouchableOpacity style={{ height: 60 }} onPress={() => this._PressList(item)}>
                 <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
                     <View style={{ justifyContent: 'center' }}>
-                        <Icon2
-                            name="ios-ribbon"
-                            size={26}
-                            color={Colors.brownText}
-                            style={{ marginLeft: 15 }} />
+                        <Image source={Images.coin0} style={{ width: 25, height: 25, marginLeft: 10 }} />
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, width: '85%' }}>
@@ -81,19 +95,23 @@ class VerifyPoint extends Component {
     }
 
     render() {
-        console.log(this.state.verifyData)
+        // console.log(this.state.verifyData)
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
                 <FlatList
                     refreshControl={
                         <RefreshControl
                             refreshing={this.props.request == true}
-                            onRefresh={this._reload}
+                            onRefresh={this._reload.bind(this)}
                         />
                     }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มีรายการเติมเงิน</Text>}
                     data={this.state.verifyData}
                     renderItem={this._renderItem}
+                    onEndReached={() =>{
+                        console.log('END OF LIST')
+                    }}
+                    onEndReachedThreshold={0.5}
                 />
             </LinearGradient>
         )
@@ -109,6 +127,8 @@ const mapStateToProps = (state) => {
         // fetching: state.expert.fetch,
         data: state.expert.data_verify,
         request: state.expert.fetch2,
+        data_accept: state.expert.data_accept,
+        request2: state.expert.fetch3,
     }
 }
 

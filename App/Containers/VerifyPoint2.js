@@ -10,8 +10,8 @@ import Icon3 from "react-native-vector-icons/Entypo";
 import { Colors } from "../Themes";
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ExpertActions from '../Redux/ExpertRedux'
-import RoundedButton2 from "../Components/RoundedButton2";
-
+import RoundedButton from "../Components/RoundedButton";
+import Spinner from 'react-native-loading-spinner-overlay';
 class VerifyPoint2 extends Component {
 
     constructor(props) {
@@ -19,7 +19,24 @@ class VerifyPoint2 extends Component {
         this.state = {
             modalVisible: false,
             index: 0,
+            spinner: false,
         }
+    }
+
+    static getDerivedStateFromProps(newProps, prevState) {
+        if (newProps.request) {
+            return {
+                spinner: true
+            }
+        } else {
+            return {
+                spinner: false
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.setState({ spinner: false })
     }
 
     _onPressVerify = () => {
@@ -31,7 +48,7 @@ class VerifyPoint2 extends Component {
                     text: 'ตกลง', onPress: () => {
                         this.props.addTransfer(this.props.item.id)
                         this.props.navigation.goBack()
-                        this.props.getVerify()
+                        // this.props.getVerify()
                     }
                 },
                 { text: 'ยกเลิก' }
@@ -46,10 +63,10 @@ class VerifyPoint2 extends Component {
         let product = this.props.item.price + " point"
         let time = this.props.item.date.slice(11, this.props.item.date.length - 3)
         let type = this.props.item.bank ? 'บัญชี ' + this.props.item.bank : 'credit-card'
-        // console.log(this.props.item.image)
+        console.log(this.props.item)
 
         let img2 = []
-        img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + this.props.item.image })
+        img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.props.item.image })
         // console.log(img2)
         return (
             <View style={{ flex: 1 }}>
@@ -71,8 +88,12 @@ class VerifyPoint2 extends Component {
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>ประเภทการทำรายการ</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{type}</Text>
                 </View>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                    <Text style={{ fontSize: 16, marginLeft: 10 }}>รหัสการทำรายการ</Text>
+                    <Text style={{ fontSize: 16, marginRight: 10 }}>{this.props.item.id}</Text>
+                </View>
 
-                <View style={{ flex: 0.5 }}>
+                <View style={{ flex: 0.65 }}>
                     <ImageViewer
                         saveToLocalByLongPress={false}
                         imageUrls={img2}
@@ -102,13 +123,21 @@ class VerifyPoint2 extends Component {
                 </View>
 
                 {status == 'รออนุมัติ' && this.props.item.status == 0 && <View style={{ alignItems: 'center', marginTop: 20 }}>
-                    <RoundedButton2
-                        style={{ marginHorizontal: 10, width: 140 }}
-                        text={'อนุมัติการเติมเงิน'}
-                        onPress={this._onPressVerify}
-                        fetching={this.props.request}
-                    />
+                    <View style={{ width: 170 }}>
+                        <RoundedButton
+                            style={{ marginHorizontal: 10 }}
+                            title={'อนุมัติการเติมเงิน'}
+                            onPress={this._onPressVerify}
+                            fetching={this.props.request}
+                        />
+                    </View>
                 </View>}
+
+                <Spinner
+                    visible={this.state.spinner}
+                    textContent={'Loading...'}
+                    textStyle={{ color: '#fff' }}
+                />
             </View>
         )
     }
@@ -124,7 +153,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addTransfer: (id) => dispatch(ExpertActions.acceptRequest(id)),
-        getVerify: () => dispatch(ExpertActions.getProfileRequest()),
+        // getVerify: () => dispatch(ExpertActions.getProfileRequest()),
     };
 };
 

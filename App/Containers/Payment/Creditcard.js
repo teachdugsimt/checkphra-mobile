@@ -11,7 +11,6 @@ import Omise from 'omise-react-native';
 Omise.config('pkey_test_4xmprhd0qqlcoi4mpca', '2015-11-17');
 // import { CreditCardInput } from "react-native-credit-card-input";
 import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
-import { STATUS_CODES } from 'http';
 import Spinner from 'react-native-loading-spinner-overlay';
 const { width } = Dimensions.get('window')
 
@@ -82,24 +81,24 @@ class Creditcard extends Component {
     const data = await Omise.createToken(cardObj, function (statusCode, response) {
       console.log(response)
       console.log(statusCode)
-      if (response.ok == false) {
-        alert('กรุณาตรวจสอบข้อมูลบัตรเครดิต')
-      }
+      // if (response.ok == false) {
+      //   alert('กรุณาตรวจสอบข้อมูลบัตรเครดิต')
+      // }
     });
     // const data = await Omise.createToken(cardObj, (STATUS_CODES, response) => this._checkCard(STATUS_CODES, response));
 
     console.log('TOKEN DATA')
     console.log(data);
 
-    if (this.state.form.valid == true) {
+    // if (this.state.form.valid == true) {
       this.props.checkCard(data.id)
       setTimeout(() => {
         this.props.navigation.goBack()
         this.props.navigation.navigate("historyAddPoint")
       }, 2000);
-    } else {
-      alert('กรุณาตรวจสอบข้อมูลบัตรเครดิต')
-    }
+    // } else {
+    //   alert('กรุณาตรวจสอบข้อมูลบัตรเครดิต')
+    // }
   }
 
   render() {

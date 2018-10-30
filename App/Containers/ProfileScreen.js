@@ -110,7 +110,10 @@ class ProfileScreen extends Component {
           width: width,
           height: width * 95.7 / 100
         }} resizeMode='contain' />
-        <View style={{ flex: 0.5, height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center', }}>
+        <View style={{
+          flex: this.props.profile && this.props.profile.role == 'user' ? 0.5 : 0.36
+          , height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center',
+        }}>
 
           <TouchableOpacity style={{ flex: 1 }} onPress={this.pick}>
             <View style={{

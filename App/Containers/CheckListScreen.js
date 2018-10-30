@@ -14,7 +14,7 @@ import ExpertActions from '../Redux/ExpertRedux'
 import styles from './Styles/CheckListScreenStyle'
 
 const { width } = Dimensions.get('window')
-
+let check = true
 class CheckListScreen extends Component {
 
   constructor(props) {
@@ -22,6 +22,7 @@ class CheckListScreen extends Component {
     this.state = {
       refreshing: false,
       fetch: null,
+      data_tmp: null
     }
   }
 
@@ -42,33 +43,39 @@ class CheckListScreen extends Component {
     this.props.navigation.navigate('answer')
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.props.getHistory()
   }
 
   static getDerivedStateFromProps(newProps, PrevState) {
-    // let checkRequest = null
+    let plist = newProps.history
     console.log(newProps)
-    if (newProps.request2 == false && newProps.amulet != 0) {
-      checkRequest = true
-    } else if (newProps.amulet == 0) {
-      checkRequest = false
-    }
+    console.log(PrevState)
+    // if (PrevState.data_tmp == null || !PrevState.data_tmp || PrevState.data_tmp.length == 0) {
+    //   newProps.getHistory()
+    //   return {
+    //     data_tmp: newProps.history
+    //   }
+    // }
 
-    if (newProps.request2 == null) {
-      checkRequest = false
+    if (newProps.data_answer != null) {
+      if (newProps.data_answer.q_id == newProps.history[0].id) {
+        newProps.getHistory()
+        return {
+          data_tmp: newProps.history
+        }
+      }
     }
 
     return {
-      fetch: checkRequest,
+      // fetch: checkRequest,
+      data_tmp: plist
     }
   }
 
   render() {
-    if (this.state.fetch == true) {
-      this.props.getHistory()
-    }
-    console.log(this.props.history)
+
+    // console.log(this.props.history)
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -142,7 +149,8 @@ const mapStateToProps = (state) => {
     images: state.question.images,
     amulet: state.question.amuletType,
     // access_id: state.auth.user_id,
-
+    request1: state.expert.fetch,
+    data_answer: state.expert.data_answer
   }
 }
 

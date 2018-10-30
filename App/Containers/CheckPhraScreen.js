@@ -19,7 +19,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import CheckBox from 'react-native-check-box'
 const deviceWidth = Dimensions.get('window').width
 // const { height } = Dimensions.get('window')
-
+const { width } = Dimensions.get('window')
 
 class CheckPhraScreen extends Component {
   constructor(props) {
@@ -272,7 +272,9 @@ class CheckPhraScreen extends Component {
                       style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
                       onClick={() => {
                         this.setState({
-                          checkTrue1: !this.state.checkTrue1
+                          checkTrue1: !this.state.checkTrue1,
+                          checkTrue2: false,
+                          checkFalse: false
                         })
                       }}
                       isChecked={this.state.checkTrue1}
@@ -284,7 +286,9 @@ class CheckPhraScreen extends Component {
                       style={{ flex: 1, marginLeft: 15 }}
                       onClick={() => {
                         this.setState({
-                          checkTrue2: !this.state.checkTrue2
+                          checkTrue2: !this.state.checkTrue2,
+                          checkTrue1: false,
+                          checkFalse: false
                         })
                       }}
                       isChecked={this.state.checkTrue2}
@@ -296,7 +300,9 @@ class CheckPhraScreen extends Component {
                       style={{ flex: 1, marginLeft: 15, marginBottom: 5 }}
                       onClick={() => {
                         this.setState({
-                          checkFalse: !this.state.checkFalse
+                          checkFalse: !this.state.checkFalse,
+                          checkTrue1: false,
+                          checkTrue2: false
                         })
                       }}
                       isChecked={this.state.checkFalse}
@@ -336,27 +342,34 @@ class CheckPhraScreen extends Component {
             })}
 
             <View style={{ width: '65%', alignSelf: 'center', marginTop: 10 }}>
-              <RoundedButton2
+              <RoundedButton
                 style={{ marginHorizontal: 10 }}
-                text={'ตกลง'}
+                title={'ตกลง'}
                 onPress={this._onPressButton}
                 fetching={this.props.fetching}
               />
             </View>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <RoundedButton2
-                style={{ marginHorizontal: 10, width: 140 }}
-                text={'ไม่ออกผล'}
-                onPress={this._onPressNotanswer}
-                fetching={this.props.fetching}
-              />
-              <RoundedButton2
-                style={{ marginHorizontal: 10, width: 140 }}
-                text={'ส่งให้ admin ตรวจ'}
-                onPress={this._onPressAdmin}
-                fetching={this.props.fetching}
-              />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: width, paddingTop: 15 }}>
+              <View style={{ width: width / 2.5 }}>
+                <RoundedButton
+                  style={{ marginHorizontal: 10 }}
+                  title={'ไม่ออกผล'}
+                  onPress={this._onPressNotanswer}
+                  fetching={this.props.fetching}
+                />
+              </View>
+              <View style={{ width: width / 2.5 }}>
+                <RoundedButton
+                  style={{ marginHorizontal: 10 }}
+                  title={'ส่งให้ admin ตรวจ'}
+                  onPress={this._onPressAdmin}
+                  fetching={this.props.fetching}
+                />
+              </View>
+            </View>
+
+            <View style={{ height: 40 }}>
             </View>
 
           </ScrollView>
@@ -385,71 +398,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckPhraScreen)
-
-
-
-
-
-
-{/* <View style={{ flex: 0.6 }}>
-          <ScrollView>
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>คำถาม </Text>
-              <Text style={{ marginTop: 14, fontSize: 16 }}>( {this.props.data.email} )</Text>
-            </View>
-            {this.props.data.question_list.map((e, i) => {
-              if (e.question_detail == 'พระแท้/ไม่แท้') {
-                return (
-                  <View>
-                      <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                      <TextInput key={i} value={this.state.answer1} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
-                          onChangeText={(text) => this.setState({ answer1: text })} />
-                  </View>
-                  <View style={{ marginLeft: 15 }}>
-                    <Text style={{}}>{e.question_detail}</Text>
-                    <CheckBox
-                      style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
-                      onClick={() => {
-                        this.setState({
-                          checkTrue1: !this.state.checkTrue1
-                        })
-                      }}
-                      isChecked={this.state.checkTrue1}
-                      rightText={"พระแท้"}
-                      rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
-                      checkBoxColor={Colors.brownText}
-                    />
-                    <CheckBox
-                      style={{ flex: 1, marginLeft: 15 }}
-                      onClick={() => {
-                        this.setState({
-                          checkTrue2: !this.state.checkTrue2
-                        })
-                      }}
-                      isChecked={this.state.checkTrue2}
-                      rightText={"พระแท้เนื้อทอง"}
-                      rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
-                      checkBoxColor={Colors.brownText}
-                    />
-                    {/* <Modal
-                      visible={this.state.modalVisible}
-                      transparent={true}
-                      onRequestClose={() => this.setState({ modalVisible: false })}>
-                      <ImageViewer
-                        saveToLocalByLongPress={false}
-                        imageUrls={img2}
-                        backgroundColor={'lightgrey'}
-                        // onClick={(e) => {
-                        //     console.log('Show modal')
-                        //     this.setState({ modalVisible: true })
-                        // }}
-                        index={this.state.index}
-                        onSwipeDown={() => {
-                          console.log('onSwipeDown');
-                          this.setState({ modalVisible: false })
-                        }}
-                        enableSwipeDown={true}
-                      />
-                    </Modal> */}
-
-                  // </View> */}

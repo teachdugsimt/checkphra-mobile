@@ -51,42 +51,40 @@ class HistoryPoint extends Component {
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
-        // let list = newProps.data_history
+        let plist = newProps.data_history
         console.log(newProps)
         console.log(prevState)
-        if (!prevState.history_data) {
+
+        // **************  newProps.data_slip.id != data_history.id  ***********//
+        // if (newProps.data_slip != null) {
+        //     let tmp = newProps.data_history.find(e => e.id == newProps.data_slip.id)
+        //     console.log(tmp)
+        //     console.log('HERE TMP POINT HISTORY')
+        //     if (tmp && tmp != undefined && tmp.id == newProps.data_slip.id) {
+        //         newProps.getHistory()
+        //         return {
+        //             history_data: newProps.data_history
+        //         }
+        //     }
+        // }
+        // *********************************************************************//
+
+        if(newProps.request2 == false && newProps.data_slip != null){
             newProps.getHistory()
-            // console.log('refresh state')
             return {
                 history_data: newProps.data_history
             }
         }
 
-        if (prevState.history_data != null) {
-            if (newProps.request) {
-                // console.log('WHILE FETCH')
-                newProps.getHistory()
-                return {
-                    fetch: newProps.request ? true : false,
-
-                }
-            } else if (newProps.data_history[0].id != prevState.history_data[0].id && !newProps.request && check == true) {
-                check = false
-                // console.log('GO TO NEXT PAGE')
-                // newProps.setDetailPoint(newProps.data_history[0])
-                // newProps.navigation.navigate("detailPoint")
-                return {
-                    history_data: list,
-                    fetch: newProps.request ? true : false,
-                }
-
+        if(newProps.request3 == false){
+            newProps.getHistory()
+            return {
+                history_data: newProps.data_history
             }
-        } else {
-            check = true
         }
 
         return {
-            // history_data: list,
+            history_data: plist,
         }
     }
 
@@ -159,7 +157,10 @@ const mapStateToProps = state => {
     return {
         data_history: state.payment.data_history,
         profile: state.question.profile,
-        request: state.payment.request
+        request: state.payment.request,
+        request2: state.payment.request2,
+        data_slip: state.payment.data_slip,
+        request3: state.payment.request3,
     };
 };
 

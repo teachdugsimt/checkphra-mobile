@@ -108,8 +108,10 @@ export function* cardRequest(api, { token }) {
   if (response.ok) {
     alert('เติมเงินสำเร็จ')
     yield put(PaymentActions.cardSuccess(response.data))
+    yield put(PaymentActions.clearCardRequest())
   } else {
     alert('เติมเงินล้มเหลว')
     yield put(PaymentActions.cardFailure())
+    yield put(PaymentActions.clearCardRequest())
   }
 }

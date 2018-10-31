@@ -8,9 +8,11 @@ const { Types, Creators } = createActions({
   expertSuccess: ['data'],
   expertFailure: null,
 
-  getProfileRequest: null,
+  getProfileRequest: ['page'],
   verifySuccess: ['data'],
   verifyFailure: null,
+  verifySuccess2: ['data'],
+  verifyFailure2: null,
 
   acceptRequest: ['id'],
   acceptSuccess: ['data'],
@@ -18,6 +20,8 @@ const { Types, Creators } = createActions({
 
   setDataPhra: ['data'],
   setDataPoint: ['data'],
+
+  clearAcceptRequest: null,
 })
 
 export const ExpertTypes = Types
@@ -28,7 +32,7 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   fetch: null,            //add answer
 
-  data_answer: null, 
+  data_answer: null,
 
   data_phra: [],
 
@@ -39,6 +43,7 @@ export const INITIAL_STATE = Immutable({
 
   fetch3: null,   // accept transfer point
   data_accept: null
+
 })
 
 /* ------------- Selectors ------------- */
@@ -60,10 +65,21 @@ export const setDataPhra = (state, { data }) => {
 }
 
 export const verifyRequest = state => state.merge({ fetch2: true })
+
 export const verifySuccess = (state, { data }) => {
   return state.merge({ fetch2: false, data_verify: data })
 }
+
 export const verifyFailure = state => state.merge({ fetch2: false })
+
+export const verifySuccess2 = (state, { data }) => {
+  let tmp = [...state.data_verify]
+  data.forEach(e => tmp.push(e))
+  return state.merge({ data_verify: tmp, fetch2: false })
+}
+
+export const verifyFailure2 = state => state.merge({ fetch2: false })
+
 
 export const setDataPoint = (state, { data }) => {
   return state.merge({ data_point: data })
@@ -72,6 +88,8 @@ export const setDataPoint = (state, { data }) => {
 export const acceptRequest = state => state.merge({ fetch3: true })
 export const acceptSuccess = (state, { data }) => state.merge({ fetch3: false, data_accept: data })
 export const acceptFailure = state => state.merge({ fetch3: false })
+
+export const clearAcceptRequest = state => state.merge({ fetch3: null })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -86,8 +104,12 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE_REQUEST]: verifyRequest,
   [Types.VERIFY_SUCCESS]: verifySuccess,
   [Types.VERIFY_FAILURE]: verifyFailure,
+  [Types.VERIFY_SUCCESS2]: verifySuccess2,
+  [Types.VERIFY_FAILURE2]: verifyFailure2,
 
   [Types.ACCEPT_REQUEST]: acceptRequest,
   [Types.ACCEPT_SUCCESS]: acceptSuccess,
-  [Types.ACCEPT_FAILURE]: acceptFailure
+  [Types.ACCEPT_FAILURE]: acceptFailure,
+
+  [Types.CLEAR_ACCEPT_REQUEST]: clearAcceptRequest,
 })

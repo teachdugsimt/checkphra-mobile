@@ -208,7 +208,8 @@ class CheckPhraScreen extends Component {
     this.props.data.images.map(e => {
       img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
     })
-
+    console.log(img2)
+    console.log('HERE IMG2')
     // console.log(this.props.data)
     return (
       <View style={{ flex: 1 }}>

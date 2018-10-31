@@ -21,6 +21,8 @@ const { Types, Creators } = createActions({
   setAmuletType: ['amuletType'],
 
   addQuestion: null,
+  addQuestionSuccess: ['data'],
+  addQuestionFailure: null,
 
   getHistory: null,
   getHistorySuccess: ['history'],
@@ -72,6 +74,8 @@ export const INITIAL_STATE = Immutable({
   uri: {},
 
   request: null,  // for add Question
+  data_question: null,  // response addQuestion
+
   request2: null,  //for get History
   request3: null,  // for cancel Question
 
@@ -101,6 +105,8 @@ export const questionFailure = state =>
   state.merge({ fetching: false, error: true, questionType: [] })
 
 export const requestAddQuestion = (state) => state.merge({ request: true })
+export const addQuestionSuccess = (state, { data }) => state.merge({ request: false, data_question: data })
+export const addQuestionFailure = state => state.merge({ request: false })
 
 // request the data from an api
 export const amuletRequest = (state) => state
@@ -269,6 +275,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_URI]: setUri,
 
   [Types.ADD_QUESTION]: requestAddQuestion,
+  [Types.ADD_QUESTION_SUCCESS]: addQuestionSuccess,
+  [Types.ADD_QUESTION_FAILURE]: addQuestionFailure,
 
   [Types.DELETE_QUESTION]: requestDeleteQuestion,
   [Types.DELETE_QUESTION_SUCCESS]: deleteQuestionSuccess,

@@ -1,135 +1,124 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TouchableOpacity, Image, View, Modal } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, Image, View, Modal, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import LinearGradient from "react-native-linear-gradient";
 // Styles
 import styles from './Styles/AnswerScreenStyle'
-import { Colors } from '../Themes';
+import { Colors, Images } from '../Themes';
 import ImageViewer from 'react-native-image-zoom-viewer';
+
+const { width, height } = Dimensions.get('window')
+
 class AnswerScreen extends Component {
-  // constructor (props) {
-  //   super(props)
-  //   this.state = {}
-  // }
 
-  static navigationOptions = ({ navigation }) => {
-    const params = navigation.state.params || {};
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: this.props.answer,
+      index: 0,
+      modalVisible: false,
+      img2: null,
+    }
+  }
 
-    return {
-      headerLeft: (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text
-            style={{
-              marginLeft: 20,
-              fontSize: 18,
-              fontFamily: "Prompt-SemiBold",
-              color: Colors.brownText
-            }}
-          >
-            {"< กลับ"}
-          </Text>
-        </TouchableOpacity>
-      )
-    };
-  };
+  static getDerivedStateFromProps(newProps, prevState) {
+    console.log(newProps)
+    console.log(prevState)
 
-  render() {
-    // console.log(this.props.answer.answer, 'answer')   // can't
-    let data = this.props.answer
-    // console.log(data, 'data')   //can
-    // data.forEach(e => console.log(e, 'element'))  // can't
-    // console.log(data[0])  // can't
-
-    //*************************** */
-
-    if (data != null) {
-      console.log(data[0])
-      console.log('HERE DATA1')
+    if (newProps.answer) {
+      if (newProps.answer != null && newProps.answer[0].images != null) {
+        let img2 = []
+        newProps.answer[0].images.map(e => {
+          img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+        })
+        console.log(img2)
+        console.log('IMG2 HERE')
+        return {
+          img2
+        }
+      }
     }
 
-    // console.log(data.id)  // can't
-    // console.log(this.props.answer)
-    // let answer1 = this.props.answer.answer
-    // let img = this.props.answer.images
-    // console.log(answer1, 'answer') //can't
-    // console.log(img, 'img')  // can't
+    return {
+
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.navigation.goBack()
+  }
+
+  render() {
+    let data = this.props.answer
+    // let img2 = []
+    // if (data != null && data[0].images != null) {
+    //   data[0].images.map(e => {
+    //     img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+    //   })
+    // }
 
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
       >
-        <Text style={{
-          fontFamily: 'Prompt-Regular',
-          fontSize: 25,
-          color: Colors.brownText,
-          textAlign: 'center',
-          margin: 20,
+        <Image source={Images.watermarkbg} style={{
+          position: 'absolute',
+          right: 0, bottom: 0,
+          width: width,
+          height: width * 95.7 / 100
+        }} resizeMode='contain' />
 
-        }}>ผลการตรวจพระ</Text>
+        {this.state.img2 != null && <View style={{ width: '100%', height: 230, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
+          <ImageViewer
+            saveToLocalByLongPress={false}
+            imageUrls={this.state.img2}
+            // imageUrls={img2}
+            backgroundColor={'lightgrey'}
+            onClick={(e) => {
+              console.log('Show modal')
+              this.setState({ modalVisible: true })
+            }}
+            index={this.state.index}
+          // onSwipeDown={() => {
+          //     console.log('onSwipeDown');
+          //     this.setState({ modalVisible: false })
+          // }}
+          // enableSwipeDown={true}
+          />
+          <Modal
+            visible={this.state.modalVisible}
+            transparent={true}
+            onRequestClose={() => this.setState({ modalVisible: false })}>
+            <ImageViewer
+              saveToLocalByLongPress={false}
+              imageUrls={this.state.img2}
+              // imageUrls={img2}
+              backgroundColor={'lightgrey'}
+              // onClick={(e) => {
+              //     console.log('Show modal')
+              //     this.setState({ modalVisible: true })
+              // }}
+              index={this.state.index}
+              onSwipeDown={() => {
+                console.log('onSwipeDown');
+                this.setState({ modalVisible: false })
+              }}
+              enableSwipeDown={true}
+            />
+          </Modal>
 
-        {/* {
-          this.props.answer && this.props.answer.images &&
-          this.props.answer.images.map(element => {
-            return <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
-              style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
-          })
-        } */}
-        {
-          data != null && data[0].images != null &&
-          data[0].images.map((element, index) => {
+        </View>}
 
-            return (
-
-              <View style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }}>
-                <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
-                  style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
-              </View>
-
-            //   // index > 2 && <View style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }}>
-            //   //     <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
-            //   //       style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
-            //   // </View>
-
-            )
-
-            // if (index < 3) {
-            //   return <View style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }}>
-            //     <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
-            //       style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
-            //   </View>
-            // } else {
-            //   return <View style={{ flexDirection: 'row', justifyContent: 'center', width: '100%' }}>
-            //     <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + element }}
-            //       style={{ width: 100, height: 100, margin: 20, borderRadius: 10 }} />
-            //   </View>
-            // }
-
-          })
-        }
-        <View style={{ marginHorizontal: 20 }}>
-          {/* {
-            this.props.answer && this.props.answer.answer &&
-            this.props.answer.answer.map(element => {
-              return (
-                <Text style={{
-                  fontFamily: 'Prompt-Regular',
-                  fontSize: 13,
-                }}>{element.question} : <Text style={{
-                  fontFamily: 'Prompt-SemiBold',
-                  fontSize: 18,
-                }}>{element.result}</Text></Text>
-              )
-            })
-          } */}
+        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
           {
             data != null && data[0].answer != null &&
             data[0].answer.map(e => {
               return (
                 <Text style={{
                   fontFamily: 'Prompt-Regular',
-                  fontSize: 15,
+                  fontSize: 16,
                 }}>{e.question} : <Text style={{
                   fontFamily: 'Prompt-SemiBold',
                   fontSize: 18,
@@ -152,6 +141,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+
   }
 }
 

@@ -16,14 +16,14 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 
 // Styles
 // import styles from './Styles/CheckListScreenStyle'
-const deviceWidth = Dimensions.get('window').width
-
+const { width, height } = Dimensions.get('window')
+let count = 1
 class VerifyPoint extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            verifyData: null
+            verifyData: null,
         }
     }
 
@@ -38,9 +38,9 @@ class VerifyPoint extends Component {
         //     }
         // }
 
-        if(newProps.data_accept != null){
-            let tmp = newProps.data.find(e=> e.id==newProps.data_accept.id)
-            if(newProps.data_accept.status != tmp.status){
+        if (newProps.data_accept != null && newProps.request2 != null) {
+            let tmp = newProps.data.find(e => e.id == newProps.data_accept.id)
+            if (tmp && tmp != undefined && newProps.data_accept.status != tmp.status) {
                 newProps.getVerify()
                 return {
                     verifyData: newProps.data
@@ -51,10 +51,6 @@ class VerifyPoint extends Component {
         return {
             verifyData: plist
         }
-    }
-
-    _reload = () => {
-        this.props.getVerify()
     }
 
     _PressList = (item) => {
@@ -75,8 +71,11 @@ class VerifyPoint extends Component {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, width: '85%' }}>
 
                         <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
-                            <Text style={{ fontSize: 16, color: color }}>{status}</Text>
-                            <Text style={{ fontSize: 16 }}>{item.date.slice(0, 10)}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 16 }}>( {item.id} ) </Text>
+                                <Text style={{ fontSize: 16, color: color }}>{status}</Text>
+                            </View>
+                            <Text style={{ fontSize: 16 }}>{item.date ? item.date.slice(0, 10) : 'Loading Data...'}</Text>
                         </View>
 
                         <View style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
@@ -91,7 +90,22 @@ class VerifyPoint extends Component {
     }
 
     componentDidMount() {
-        this.props.getVerify()
+        count = 1
+        this.props.getVerify(count)
+    }
+
+    componentWillUnmount() {
+        count = 1
+    }
+
+    _reload = () => {
+        count = 1
+        this.props.getVerify(count)
+    }
+
+    _onScrollEndList = () => {
+        count++
+        this.props.getVerify(count)
     }
 
     render() {
@@ -108,10 +122,8 @@ class VerifyPoint extends Component {
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มีรายการเติมเงิน</Text>}
                     data={this.state.verifyData}
                     renderItem={this._renderItem}
-                    onEndReached={() =>{
-                        console.log('END OF LIST')
-                    }}
-                    onEndReachedThreshold={0.5}
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={0.05}
                 />
             </LinearGradient>
         )
@@ -135,7 +147,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         // setAnswer: (pack, q_id) => dispatch(ExpertActions.expertRequest(pack, q_id))
-        getVerify: () => dispatch(ExpertActions.getProfileRequest()),
+        getVerify: (page) => dispatch(ExpertActions.getProfileRequest(page)),
         setDataPoint: (data) => dispatch(ExpertActions.setDataPoint(data)),
     }
 }

@@ -55,38 +55,28 @@ class HistoryScreen extends Component {
     console.log(newProps)
     console.log(PrevState)
 
-    if (!PrevState.data_history) {
+    // **************  newProps.data_slip.id != data_history.id  ***********//  not sure
+    // if (newProps.data_question != null){
+    //   let tmp = newProps.history.find(e=> e.id == newProps.data_question.id)
+    //   console.log(tmp)
+    //   console.log('HERE TMP DATA HISTORY SCREEN')
+    //   if(tmp && tmp != undefined && newProps.data_question.id == tmp.id){
+    //     newProps.getHistory()
+    //     return {
+    //       data_history: newProps.history
+    //     }
+    //   }
+    // }
+    // *********************************************************************//
+
+
+    //beta algorithm test version
+    if (newProps.request_question == false && newProps.data_question != null) {
       newProps.getHistory()
       return {
-        data_history: hlist
+        data_history: newProps.history
       }
     }
-
-    if (PrevState.data_history != null) {
-      if (newProps.request2) {
-        newProps.getHistory()
-        return {
-          data_history: hlist
-        }
-      }
-      // if (newProps.history[0].id != PrevState.data_history[0].id) {{
-      //     newProps.getHistory()
-      //     console.log('FETCH COMPLETE')
-      //     return{
-      //       data_history: hlist
-      //     }
-      //   }
-      // }
-      // else if (newProps.history[0].id != PrevState.data_history[0].id) {
-      //   console.log('FETCH COMPLETE')
-      //   newProps.getHistory()
-      // }
-    }
-
-    // if(check == true){
-
-    //   console.log('FETCH COMPLETE')
-    // }
 
     return {
       data_history: hlist
@@ -200,6 +190,7 @@ const mapStateToProps = (state) => {
     images: state.question.images,
     amulet: state.question.amuletType,
     request_question: state.question.request,
+    data_question: state.question.data_question,
     // access_id: state.auth.user_id,
 
   }

@@ -33,6 +33,7 @@ const images = {
   coin1: require('../Images/coin1.png'),
   coin2: require('../Images/coin2.jpg'),
   coin3: require('../Images/coin3.jpg'),
+  nonePic: require('../Images/none_1.png'),
 }
 
 export default images

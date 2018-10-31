@@ -38,21 +38,65 @@ export function* expertRequest(api, { pack, q_id }) {   //   for add ANSWER ONLY
   }
 }
 
+// export function* getProfileRequest(api, { page }) {
+//   console.log(page)
+//   console.log('PAGE SAGA')
+//   const aut = yield select(auth)
 
-export function* getProfileRequest(api) {
+//     if (!aut.user_id) { return }
+
+//     const data = {
+//       user_id: aut.user_id,
+//       page_number: page
+//     }
+
+//     const response = yield call(api.getVerify, data)
+
+//     if (response.ok) {
+//       yield put(ExpertActions.verifySuccess(response.data))
+//     } else {
+//       yield put(ExpertActions.verifyFailure())
+//     }
+  
+// }
+
+
+export function* getProfileRequest(api, { page }) {
+  console.log(page)
+  console.log('PAGE SAGA')
   const aut = yield select(auth)
-  if (!aut.user_id) { return }
 
-  const data = {
-    user_id: aut.user_id
-  }
+  if (page == 1) {
+    if (!aut.user_id) { return }
 
-  const response = yield call(api.getVerify, data)
+    const data = {
+      user_id: aut.user_id,
+      page_number: page
+    }
 
-  if (response.ok) {
-    yield put(ExpertActions.verifySuccess(response.data))
+    const response = yield call(api.getVerify, data)
+
+    if (response.ok) {
+      yield put(ExpertActions.verifySuccess(response.data))
+    } else {
+      yield put(ExpertActions.verifyFailure())
+    }
   } else {
-    yield put(ExpertActions.verifyFailure())
+    if (!aut.user_id) { return }
+
+    const data = {
+      user_id: aut.user_id,
+      page_number: page
+    }
+
+    const response = yield call(api.getVerify, data)
+
+    if (response.ok) {
+      yield put(ExpertActions.verifySuccess2(response.data))
+    } else {
+      yield put(ExpertActions.verifyFailure2())
+    }
+
   }
 }
 
@@ -66,16 +110,18 @@ export function* acceptRequest(api, { id }) {
     user_id: aut.user_id,
     transfer_id: id
   }
-  
+
   const response = yield call(api.acceptPoint, data)
   console.log(response)
 
   if (response.ok) {
     alert('อนุมัติสำเร็จ')
     yield put(ExpertActions.acceptSuccess(response.data))
+    yield put(ExpertActions.clearAcceptRequest())
   } else {
     alert('อนุมัติล้มเหลว')
     yield put(ExpertActions.acceptFailure())
+    yield put(ExpertActions.clearAcceptRequest())
   }
 
 }

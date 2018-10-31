@@ -140,6 +140,7 @@ class Promptpay extends Component {
 
   componentWillUnmount() {
     this.props.deleteImage()
+    this.props.navigation.goBack()
   }
 
   componentDidMount() {

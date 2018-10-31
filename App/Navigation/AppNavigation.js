@@ -208,7 +208,12 @@ const HistoryStack = StackNavigator(  // mmain his
         title: I18n.t('history')
       }
     },
-    answer: { screen: AnswerScreen }
+    answer: {
+      screen: AnswerScreen,
+      navigationOptions: {
+        title: 'Answer',
+      }
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({

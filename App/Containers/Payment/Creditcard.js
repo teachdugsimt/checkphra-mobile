@@ -53,6 +53,10 @@ class Creditcard extends Component {
     }
   }
 
+  componentWillUnmount(){
+    this.props.navigation.goBack()
+  }
+
   componentDidMount() {
     this.setState({ spinner: false })
   }
@@ -91,11 +95,37 @@ class Creditcard extends Component {
     console.log(data);
 
     // if (this.state.form.valid == true) {
-      this.props.checkCard(data.id)
-      setTimeout(() => {
-        this.props.navigation.goBack()
-        this.props.navigation.navigate("historyAddPoint")
-      }, 2000);
+    if (this.state.form.valid == true) {
+      Alert.alert(
+        'Check Phra',
+        'ยืนยันการทำรายการ?',
+        [
+          {
+            text: 'ตกลง', onPress: () => {
+              this.props.checkCard(data.id)
+              setTimeout(() => {
+                this.props.navigation.goBack()
+                this.props.navigation.navigate("historyAddPoint")
+              }, 2000);
+            }
+          },
+          { text: 'ยกเลิก' }
+        ]
+      )
+    } else {
+      Alert.alert(
+        'Check Phra',
+        'กรุณาตรวจสอบข้อมูล',
+        [
+          { text: 'ตกลง' }
+        ]
+      )
+    }
+    // this.props.checkCard(data.id)
+    // setTimeout(() => {
+    //   this.props.navigation.goBack()
+    //   this.props.navigation.navigate("historyAddPoint")
+    // }, 2000);
     // } else {
     //   alert('กรุณาตรวจสอบข้อมูลบัตรเครดิต')
     // }

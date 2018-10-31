@@ -59,7 +59,8 @@ class CheckListScreen extends Component {
     // }
 
     if (newProps.data_answer != null) {
-      if (newProps.data_answer.q_id == newProps.history[0].id) {
+      let tmp = newProps.history.find(e => e.id == newProps.data_answer.q_id)
+      if (tmp && tmp != undefined && newProps.data_answer.q_id == tmp.id) {
         newProps.getHistory()
         return {
           data_tmp: newProps.history
@@ -134,6 +135,7 @@ class CheckListScreen extends Component {
               </TouchableOpacity>
             )
           }}
+          ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มีรายการตรวจพระ</Text>}
         />
       </LinearGradient>
 

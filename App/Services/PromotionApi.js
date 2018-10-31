@@ -27,7 +27,7 @@ const create = (baseURL = b) => {
     timeout: 10000
   })
 
-  const getPromotion = () => api.get('promotion/list')
+  const getPromotion = () => api.get('package/list')
 
   const payment = (data) => api.post('payment-history/add', data)
 

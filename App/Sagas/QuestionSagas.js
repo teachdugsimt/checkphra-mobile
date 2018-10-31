@@ -72,23 +72,17 @@ export function* addQuestion(api) {
       ],
       // { cancelable: false }
     )
+    yield put(QuestionActions.addQuestionSuccess(response.data))
     yield put(QuestionActions.clearForm())
     yield put(QuestionActions.clearImage())
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    // yield put(QuestionActions.getQuestionTypeSuccess(response.data))
+    
   } else {
-    // if (response.data.message && response.data.message == "There is not enough money for the transaction.") {
-    //   alert('คุณมี point ไม่พอ กรุณาเติม point')
-    //   yield put(QuestionActions.clearForm())
-    //   yield put (QuestionActions.clearImage())
-    // } else {
+ 
     alert(response.problem)
+    yield put(QuestionActions.addQuestionFailure())
     yield put(QuestionActions.clearForm())
     yield put(QuestionActions.clearImage())
-    // }
-
-    // yield put(QuestionActions.getQuestionTypeFailure())
+    
   }
 }
 

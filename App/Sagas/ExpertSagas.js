@@ -62,8 +62,6 @@ export function* expertRequest(api, { pack, q_id }) {   //   for add ANSWER ONLY
 
 
 export function* getProfileRequest(api, { page }) {
-  console.log(page)
-  console.log('PAGE SAGA')
   const aut = yield select(auth)
 
   if (page == 1) {

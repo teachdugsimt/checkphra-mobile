@@ -19,9 +19,12 @@ const { Types, Creators } = createActions({
   acceptFailure: null,
 
   setDataPhra: ['data'],
-  setDataPoint: ['data'],
+  setDataPoint: ['data', 'index'],
 
   clearAcceptRequest: null,
+
+  setFullData: ['data'],
+  editFullData: ['id'],
 })
 
 export const ExpertTypes = Types
@@ -40,9 +43,12 @@ export const INITIAL_STATE = Immutable({
   data_verify: [],
 
   data_point: [],
+  index_row: null,
 
   fetch3: null,   // accept transfer point
-  data_accept: null
+  data_accept: null,
+
+  full_data: null,
 
 })
 
@@ -81,8 +87,8 @@ export const verifySuccess2 = (state, { data }) => {
 export const verifyFailure2 = state => state.merge({ fetch2: false })
 
 
-export const setDataPoint = (state, { data }) => {
-  return state.merge({ data_point: data })
+export const setDataPoint = (state, { data, index }) => {
+  return state.merge({ data_point: data, index_row: index })
 }
 
 export const acceptRequest = state => state.merge({ fetch3: true })
@@ -90,6 +96,30 @@ export const acceptSuccess = (state, { data }) => state.merge({ fetch3: false, d
 export const acceptFailure = state => state.merge({ fetch3: false })
 
 export const clearAcceptRequest = state => state.merge({ fetch3: null })
+
+export const setFullData = (state, { data }) => {
+  return state.merge({ full_data: data })
+}
+
+export const editFullData = (state, { id }) => {
+  let tmp = [...state.full_data]
+  let index = state.index_row
+  // console.log(tmp)
+  // console.log('TMP BEFORE CHANGE')
+
+  let data = {
+    id: id,
+    status: 10
+  }
+  tmp[index] = data
+  // if (tmp[index].id = id) {  // can't
+  //   tmp[index].status = 10
+  // }
+  // console.log(tmp)
+  // console.log('TMP AFTER CHANGE')
+  return state.merge({ full_data: tmp})
+
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -112,4 +142,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ACCEPT_FAILURE]: acceptFailure,
 
   [Types.CLEAR_ACCEPT_REQUEST]: clearAcceptRequest,
+  [Types.SET_FULL_DATA]: setFullData,
+  [Types.EDIT_FULL_DATA]: editFullData,
 })

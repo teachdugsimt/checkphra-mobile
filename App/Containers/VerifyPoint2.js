@@ -47,6 +47,7 @@ class VerifyPoint2 extends Component {
                 {
                     text: 'ตกลง', onPress: () => {
                         this.props.addTransfer(this.props.item.id)
+                        this.props.editFullData(this.props.item.id)
                         this.props.navigation.goBack()
                         // this.props.getVerify()
                     }
@@ -58,12 +59,13 @@ class VerifyPoint2 extends Component {
     }
 
     render() {
-        let status = this.props.item.status == 10 ? 'เสร็จสมบูรณ์' : 'รออนุมัติ'
-        let status_color = this.props.item.status == 0 ? 'orange' : 'green'
+        let tmp_chk = this.props.full_data.find(e => e.id == this.props.item.id)
+        let status = this.props.item.status == 10 || tmp_chk.status == 10 ? 'เสร็จสมบูรณ์' : 'รออนุมัติ'
+        let status_color = this.props.item.status == 10 || tmp_chk.status == 10 ? 'green' : 'orange'
         let product = this.props.item.price + " point"
         let time = this.props.item.date.slice(11, this.props.item.date.length - 3)
         let type = this.props.item.bank ? 'บัญชี ' + this.props.item.bank : 'credit-card'
-        console.log(this.props.item)
+        // console.log(this.props.item)
 
         let img2 = []
         img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.props.item.image })
@@ -122,7 +124,7 @@ class VerifyPoint2 extends Component {
                     </Modal>
                 </View>
 
-                {status == 'รออนุมัติ' && this.props.item.status == 0 && <View style={{ alignItems: 'center', marginTop: 20 }}>
+                {status == 'รออนุมัติ' && this.props.item.status == 0 && tmp_chk.status == 0 && <View style={{ alignItems: 'center', marginTop: 20 }}>
                     <View style={{ width: 170 }}>
                         <RoundedButton
                             style={{ marginHorizontal: 10 }}
@@ -147,6 +149,7 @@ const mapStateToProps = state => {
     return {
         item: state.expert.data_point,
         request: state.expert.fetch3,
+        full_data: state.expert.full_data,
     };
 };
 
@@ -154,6 +157,7 @@ const mapDispatchToProps = dispatch => {
     return {
         addTransfer: (id) => dispatch(ExpertActions.acceptRequest(id)),
         // getVerify: () => dispatch(ExpertActions.getProfileRequest()),
+        editFullData: (id) => dispatch(ExpertActions.editFullData(id)),
     };
 };
 

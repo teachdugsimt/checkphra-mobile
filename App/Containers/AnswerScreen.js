@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TouchableOpacity, Image, View, Modal, Dimensions } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, Image, View, Modal, Dimensions, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -8,9 +8,14 @@ import LinearGradient from "react-native-linear-gradient";
 import styles from './Styles/AnswerScreenStyle'
 import { Colors, Images } from '../Themes';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import { LoginButton, ShareDialog, ShareButton } from 'react-native-fbsdk';
 
 const { width, height } = Dimensions.get('window')
-
+let shareLinkContent = {
+  contentType: 'link',
+  contentUrl: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/cd65aea2a6-image-6c93cf2a-527e-4f60-82b4-b133f098510f.jpg',
+  contentDescription: 'Facebook sharing is easy!'
+}
 class AnswerScreen extends Component {
 
   constructor(props) {
@@ -20,7 +25,15 @@ class AnswerScreen extends Component {
       index: 0,
       modalVisible: false,
       img2: null,
+      shareLinkContent: shareLinkContent,
     }
+    const shareLinkContent = {
+      contentType: 'link',
+      // contentUrl: "https://facebook.com",
+      contentUrl: "https://s3-ap-southeast-1.amazonaws.com/checkphra/images/cd65aea2a6-image-6c93cf2a-527e-4f60-82b4-b133f098510f.jpg",
+      contentDescription: 'Facebook sharing is easy!',
+    };
+    // this.state = {shareLinkContent: shareLinkContent,};
   }
 
   static getDerivedStateFromProps(newProps, prevState) {
@@ -33,10 +46,16 @@ class AnswerScreen extends Component {
         newProps.answer[0].images.map(e => {
           img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
         })
-        console.log(img2)
-        console.log('IMG2 HERE')
+        // let shareLinkContent = {
+        //   contentType: 'link',
+        //   contentUrl: img2[0].url,
+        //   contentDescription: 'Facebook sharing is easy!',
+        // }
+        // console.log(shareLinkContent)
+        // console.log('HERE SHARING ')
         return {
-          img2
+          img2,
+          // shareLinkContent
         }
       }
     }
@@ -50,6 +69,29 @@ class AnswerScreen extends Component {
     this.props.navigation.goBack()
   }
 
+  shareLinkWithShareDialog() {
+    var tmp = this;
+    ShareDialog.canShow(shareLinkContent).then(
+      function (canShow) {
+        if (canShow) {
+          return ShareDialog.show(shareLinkContent);
+        }
+      }
+    ).then(
+      function (result) {
+        if (result.isCancelled) {
+          alert('Share operation was cancelled');
+        } else {
+          alert('Share was successful with postId: '
+            + result.postId);
+        }
+      },
+      function (error) {
+        alert('Share failed with error: ' + error.message);
+      }
+    );
+  }
+
   render() {
     let data = this.props.answer
     // let img2 = []
@@ -58,7 +100,11 @@ class AnswerScreen extends Component {
     //     img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
     //   })
     // }
-
+    // const shareLinkContent = {
+    //   contentType: 'link',
+    //   contentUrl: "https://facebook.com",
+    //   contentDescription: 'Facebook sharing is easy!',
+    // };
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -126,6 +172,29 @@ class AnswerScreen extends Component {
               )
             })
           }
+        </View>
+
+        <View style={{ alignItems: 'center' }} >
+          {/* <ShareButton /> */}
+          {/* <LoginButton
+            onLoginFinished={
+              (error, result) => {
+                if (error) {
+                  alert("Login failed with error: " + error.message);
+                } else if (result.isCancelled) {
+                  alert("Login was cancelled");
+                } else {
+                  alert("Login was successful with permissions: " + result.grantedPermissions)
+                }
+              }
+            }
+            onLogoutFinished={() => alert("User logged out")} /> */}
+
+          <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <Image source={Images.fb} style={{ width: 30, height: 30, marginTop: 8 }} />
+            <Text style={{ fontSize: 20, margin: 10, }}>Share link with ShareDialog</Text>
+          </TouchableOpacity>
+
         </View>
 
       </LinearGradient>

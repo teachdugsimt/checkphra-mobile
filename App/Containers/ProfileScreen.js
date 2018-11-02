@@ -8,14 +8,15 @@ import AuthActions from '../Redux/AuthRedux'
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon3 from "react-native-vector-icons/FontAwesome";
+import Icon4 from "react-native-vector-icons/MaterialIcons"
 import { Colors, Images } from "../Themes";
-
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 I18n.currentLocale();
 // I18n.locale = "th";
 
-let { width } = Dimensions.get('window')
+let { width, height } = Dimensions.get('window')
 var ImagePicker = require('react-native-image-picker');
 var options = {
   title: 'Select Avatar',
@@ -28,6 +29,9 @@ var options = {
   }
 };
 
+const slideAnimation = new SlideAnimation({
+  slideFrom: 'bottom',
+});
 
 class ProfileScreen extends Component {
 
@@ -98,6 +102,17 @@ class ProfileScreen extends Component {
     }
   }
 
+  _changeLanguage = () => {
+    this.popupDialog.show()
+  }
+
+  _thai = () => {
+    this.popupDialog.dismiss()
+  }
+
+  _english = () => {
+    this.popupDialog.dismiss()
+  }
   render() {
     // let data = []
     // console.log(this.props.profile)
@@ -252,7 +267,28 @@ class ProfileScreen extends Component {
           </TouchableOpacity>
         }
 
-        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', marginTop: 20, borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("change")}>
+
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', marginTop: 20, borderBottomWidth: 1 }} onPress={() => this._changeLanguage()}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 7, marginVertical: 10 }}>
+            <Icon4
+              name="language"
+              size={18}
+              color={Colors.brownText}
+              style={{ marginRight: 7 }}
+              onPress={() => { }}
+            />
+            <Text
+              style={{
+                fontFamily: "Prompt-Regular",
+                fontSize: 16,
+              }}
+            >
+              {I18n.t('changeLanguage')}
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("change")}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
             <Icon2
               name="ios-lock"
@@ -294,6 +330,33 @@ class ProfileScreen extends Component {
             </Text>
           </View>
         </TouchableOpacity>
+
+
+        <PopupDialog
+          dialogTitle={<DialogTitle title={I18n.t('selectLanguage')} titleTextStyle={{ fontSize: 18 }} />}
+          ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={0.7}
+          height={0.20}
+          onDismissed={() => { this.setState({}) }}
+        >
+          <View style={{}}>
+            <TouchableOpacity onPress={this._thai} style={{
+              height: 42, flexDirection: 'row',
+              borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center', borderTopColor: 'lightgrey', borderTopWidth: 1
+            }}>
+              <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('thai')}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={this._english} style={{
+              height: 42, flexDirection: 'row',
+              borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center'
+            }}>
+              <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('english')}</Text>
+            </TouchableOpacity>
+          </View>
+        </PopupDialog>
+
 
       </LinearGradient>
     );

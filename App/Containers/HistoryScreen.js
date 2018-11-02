@@ -17,7 +17,7 @@ import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 I18n.currentLocale();
 // I18n.locale = "th";
-
+let count = 1
 let { width } = Dimensions.get('window')
 let check = false
 class HistoryScreen extends Component {
@@ -35,8 +35,15 @@ class HistoryScreen extends Component {
     // console.log(languages); // ['en-US', 'en']
     moment.locale('th')
     // });
-
+    count = 1
     this.props.getHistory()
+  }
+  componentWillMount() {
+    count = 1
+  }
+
+  componentWillUnmount() {
+    count = 1
   }
 
   goToAnswer = (qid) => {
@@ -46,8 +53,10 @@ class HistoryScreen extends Component {
   }
 
   onRefresh = () => {
+    count = 1
     this.props.getHistory()
   }
+
 
   static getDerivedStateFromProps(newProps, PrevState) {
 
@@ -82,6 +91,10 @@ class HistoryScreen extends Component {
       data_history: hlist
     }
   }
+  _onScrollEndList = () => {
+    count++
+    this.props.getHistory(count)
+  }
 
   render() {
 
@@ -102,6 +115,8 @@ class HistoryScreen extends Component {
               onRefresh={this.onRefresh.bind(this)}
             />
           }
+          onEndReached={this._onScrollEndList}
+          onEndReachedThreshold={0.05}
           data={this.props.history}
           renderItem={({ item }) => {
             let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
@@ -198,7 +213,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getHistory: () => dispatch(QuestionActions.getHistory()),
+    getHistory: (count) => dispatch(QuestionActions.getHistory(count)),
     getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
     deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
   }

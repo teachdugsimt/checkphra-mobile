@@ -10,6 +10,7 @@ import { Colors, Images } from "../Themes";
 import PaymentActions from '../Redux/PaymentRedux'
 
 let check = true
+let count = 1
 class HistoryPoint extends Component {
 
     // static navigationOptions = ({ navigation }) => {
@@ -43,10 +44,12 @@ class HistoryPoint extends Component {
     }
 
     componentWillUnmount() {
+        count = 1
         this.props.navigation.goBack()
     }
 
     componentDidMount() {
+        count = 1
         this.props.getHistory(1)
     }
 
@@ -69,14 +72,14 @@ class HistoryPoint extends Component {
         // }
         // *********************************************************************//
 
-        if(newProps.request2 == false && newProps.data_slip != null){
+        if (newProps.request2 == false && newProps.data_slip != null) {
             newProps.getHistory()
             return {
                 history_data: newProps.data_history
             }
         }
 
-        if(newProps.request3 == false){
+        if (newProps.request3 == false) {
             newProps.getHistory()
             return {
                 history_data: newProps.data_history
@@ -94,7 +97,14 @@ class HistoryPoint extends Component {
     }
 
     onRefresh = () => {
-        this.props.getHistory(1)
+        count = 1
+        this.props.getHistory(count)
+    }
+
+    _onScrollEndList = () => {
+        console.log('END OF LIST AGAIN')
+        count++
+        this.props.getHistory(count)
     }
 
     _renderItem = ({ item, index }) => {
@@ -147,6 +157,9 @@ class HistoryPoint extends Component {
                             onRefresh={this.onRefresh.bind(this)}
                         />
                     }
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={0.05}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มีประวัติการซื้อเหรียญ</Text>}
                 />
             </View>
         )

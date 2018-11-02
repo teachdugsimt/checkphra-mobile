@@ -12,6 +12,8 @@ const { Types, Creators } = createActions({
   historyAddpointRequest: ['page'],
   historyAddpointSuccess: ['data_history'],
   historyAddpointFailure: null,
+  historyAddpointSuccess2: ['data'],
+  historyAddpointFailure2: null,
 
   sendSlipRequest: ['item'],
   sendSlipSuccess: ['data'],
@@ -82,16 +84,19 @@ export const historyAddpointRequest = state => {
   return state.merge({ request: true })
 }
 
-// export const historyAddpointSuccess = (state, data) => {
-//   if (!state.data_history) {
-//     history = data.data_history
-//   } else {
-//     history = [...state.data_history, data.data_history]
-//   }
-//   // console.log(history)
-//   // console.log('REDUX')
-//   return state.merge({ request: false, data_history: history })
-// }
+export const historyAddpointSuccess2 = (state, { data }) => {
+  let tmp = [...state.data_history]
+  // data.forEach(e => tmp.push(e))
+  data.forEach(e => {
+    if (tmp.find(b => b.id == e.id)) {
+      console.log('SAME VALUE')
+    } else { tmp.push(e) }
+  })
+  return state.merge({ data_history: tmp, request: false })
+}
+
+export const historyAddpointFailure2 = state => state.merge({ request: false })
+
 export const historyAddpointSuccess = (state, data) => {
   console.log(data.data_history)
   // console.log(history)
@@ -142,6 +147,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.HISTORY_ADDPOINT_REQUEST]: historyAddpointRequest,
   [Types.HISTORY_ADDPOINT_SUCCESS]: historyAddpointSuccess,
   [Types.HISTORY_ADDPOINT_FAILURE]: historyAddpointFailure,
+  [Types.HISTORY_ADDPOINT_SUCCESS2]: historyAddpointSuccess2,
+  [Types.HISTORY_ADDPOINT_FAILURE2]: historyAddpointFailure2,
 
   [Types.SEND_SLIP_REQUEST]: sendSlipRequest,
   [Types.SEND_SLIP_SUCCESS]: sendSlipSuccess,

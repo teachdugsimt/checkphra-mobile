@@ -44,16 +44,16 @@ const create = (baseURL = b) => {
   // way at this level.
   //
 
-  const getAmuletType = () => api.get('type/list')
+  const getAmuletType = (data) => api.get('type/list',data)
   const getQuestionType = () => api.get('manage-question/list')
 
-  const addQuestion = (images, questions, amuletType, user_id) => {
+  const addQuestion = (images, questions, amuletID, user_id) => {
 
     let body = new FormData()
     images.forEach((element, i) => {
       body.append('files[' + i + ']', element)
     });
-    body.append('type', amuletType)
+    body.append('type', amuletID)
     body.append('user_id', user_id)
 
     questions.forEach((element, i) => {

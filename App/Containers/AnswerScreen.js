@@ -11,11 +11,13 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { LoginButton, ShareDialog, ShareButton } from 'react-native-fbsdk';
 
 const { width, height } = Dimensions.get('window')
+
 let shareLinkContent = {
   contentType: 'link',
-  contentUrl: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/cd65aea2a6-image-6c93cf2a-527e-4f60-82b4-b133f098510f.jpg',
+  contentUrl: '',
   contentDescription: 'Facebook sharing is easy!'
 }
+
 class AnswerScreen extends Component {
 
   constructor(props) {
@@ -25,15 +27,7 @@ class AnswerScreen extends Component {
       index: 0,
       modalVisible: false,
       img2: null,
-      shareLinkContent: shareLinkContent,
     }
-    const shareLinkContent = {
-      contentType: 'link',
-      // contentUrl: "https://facebook.com",
-      contentUrl: "https://s3-ap-southeast-1.amazonaws.com/checkphra/images/cd65aea2a6-image-6c93cf2a-527e-4f60-82b4-b133f098510f.jpg",
-      contentDescription: 'Facebook sharing is easy!',
-    };
-    // this.state = {shareLinkContent: shareLinkContent,};
   }
 
   static getDerivedStateFromProps(newProps, prevState) {
@@ -46,16 +40,9 @@ class AnswerScreen extends Component {
         newProps.answer[0].images.map(e => {
           img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
         })
-        // let shareLinkContent = {
-        //   contentType: 'link',
-        //   contentUrl: img2[0].url,
-        //   contentDescription: 'Facebook sharing is easy!',
-        // }
-        // console.log(shareLinkContent)
-        // console.log('HERE SHARING ')
+        shareLinkContent.contentUrl = img2[0].url
         return {
           img2,
-          // shareLinkContent
         }
       }
     }
@@ -79,6 +66,8 @@ class AnswerScreen extends Component {
       }
     ).then(
       function (result) {
+        console.log(result)
+        console.log('HERE RESULT')
         if (result.isCancelled) {
           alert('Share operation was cancelled');
         } else {
@@ -94,17 +83,6 @@ class AnswerScreen extends Component {
 
   render() {
     let data = this.props.answer
-    // let img2 = []
-    // if (data != null && data[0].images != null) {
-    //   data[0].images.map(e => {
-    //     img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
-    //   })
-    // }
-    // const shareLinkContent = {
-    //   contentType: 'link',
-    //   contentUrl: "https://facebook.com",
-    //   contentDescription: 'Facebook sharing is easy!',
-    // };
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -190,9 +168,9 @@ class AnswerScreen extends Component {
             }
             onLogoutFinished={() => alert("User logged out")} /> */}
 
-          <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Image source={Images.fb} style={{ width: 30, height: 30, marginTop: 8 }} />
-            <Text style={{ fontSize: 20, margin: 10, }}>Share link with ShareDialog</Text>
+          <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#3F54C4', borderRadius: 5, marginTop: 20 }}>
+              <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
+            <Text style={{ fontSize: 20, margin: 10, color: 'white', fontWeight: 'bold' }}>Share</Text>
           </TouchableOpacity>
 
         </View>

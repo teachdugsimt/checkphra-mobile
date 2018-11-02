@@ -80,7 +80,11 @@ export const verifyFailure = state => state.merge({ fetch2: false })
 
 export const verifySuccess2 = (state, { data }) => {
   let tmp = [...state.data_verify]
-  data.forEach(e => tmp.push(e))
+  data.forEach(e => {
+    if (tmp.find(b => b.id == e.id)) {
+      console.log('SAME VALUE')
+    } else { tmp.push(e) }
+  })
   return state.merge({ data_verify: tmp, fetch2: false })
 }
 
@@ -117,7 +121,7 @@ export const editFullData = (state, { id }) => {
   // }
   // console.log(tmp)
   // console.log('TMP AFTER CHANGE')
-  return state.merge({ full_data: tmp})
+  return state.merge({ full_data: tmp })
 
 }
 

@@ -19,10 +19,14 @@ const question = state => state.question
 const auth = state => state.auth
 
 export function* getAmuletType(api) {
+  const aut = yield select(auth)
   // get current data from Store
   // const currentData = yield select(QuestionSelectors.getData)
   // make the call to the api
-  const response = yield call(api.getAmuletType)
+  const data = {
+    user_id: aut.user_id
+  }
+  const response = yield call(api.getAmuletType, data)
   console.log(response)
 
   // success?
@@ -58,7 +62,8 @@ export function* addQuestion(api) {
   const a = yield select(auth)
   console.log(q.questions)
   console.log('SAGA Q')
-  const response = yield call(api.addQuestion, q.images, q.questions, q.amuletType, a.user_id)
+
+  const response = yield call(api.addQuestion, q.images, q.questions, q.amuletID, a.user_id)
   console.log(response)
 
   // success?
@@ -75,35 +80,50 @@ export function* addQuestion(api) {
     yield put(QuestionActions.addQuestionSuccess(response.data))
     yield put(QuestionActions.clearForm())
     yield put(QuestionActions.clearImage())
-    
+
   } else {
- 
+
     alert(response.problem)
     yield put(QuestionActions.addQuestionFailure())
     yield put(QuestionActions.clearForm())
     yield put(QuestionActions.clearImage())
-    
+
   }
 }
 
 
-export function* getHistory(api) {
+export function* getHistory(api, { count }) {
+  if (count == 1) {
 
-  // const q = yield select(question)
-  const a = yield select(auth)
+    const a = yield select(auth)
 
-  const data = {
-    user_id: a.user_id
-  }
+    const data = {
+      user_id: a.user_id
+    }
 
-  const response = yield call(api.getHistory, data)
-  console.log(response)
+    const response = yield call(api.getHistory, data)
+    console.log(response)
 
-  // success?
-  if (response.ok) {
-    yield put(QuestionActions.getHistorySuccess(response.data))
+    if (response.ok) {
+      yield put(QuestionActions.getHistorySuccess(response.data))
+    } else {
+      yield put(QuestionActions.getHistoryFailure())
+    }
   } else {
-    yield put(QuestionActions.getHistoryFailure())
+    const a = yield select(auth)
+
+    const data = {
+      user_id: a.user_id
+    }
+
+    const response = yield call(api.getHistory, data)
+    console.log(response)
+    if (response.ok) {
+      yield put(QuestionActions.getHistorySuccess2(response.data))
+    } else {
+      yield put(QuestionActions.getHistoryFailure2())
+    }
+
   }
 }
 

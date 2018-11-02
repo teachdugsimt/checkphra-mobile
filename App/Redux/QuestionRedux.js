@@ -24,9 +24,11 @@ const { Types, Creators } = createActions({
   addQuestionSuccess: ['data'],
   addQuestionFailure: null,
 
-  getHistory: null,
+  getHistory: ['count'],
   getHistorySuccess: ['history'],
   getHistoryFailure: null,
+  getHistorySuccess2: ['history'],
+  getHistoryFailure2: null,
 
   getProfile: null,
   getProfileSuccess: ['profile'],
@@ -57,9 +59,10 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   data: null,
   fetching: null,
+  request_type: null,
   // payload: null,
   error: null,
-  amuletType: [],
+  amuletType: null,
   questionType: [],
 
   history: [],
@@ -70,7 +73,7 @@ export const INITIAL_STATE = Immutable({
   // -------- For Submittion
   images: [],
   questions: [],
-  amuletType: 0,
+  amuletID: 0,
   uri: {},
 
   request: null,  // for add Question
@@ -109,20 +112,20 @@ export const addQuestionSuccess = (state, { data }) => state.merge({ request: fa
 export const addQuestionFailure = state => state.merge({ request: false })
 
 // request the data from an api
-export const amuletRequest = (state) => state
+export const amuletRequest = (state) => state.merge({ request_type: true })
 
 // successful api lookup
 export const amuletSuccess = (state, action) => {
   const { amuletType } = action
-  return state.merge({ amuletType })
+  return state.merge({ amuletType, request_type: false })
 }
 
 // Something went wrong somewhere.
-export const amuletFailure = state => state
+export const amuletFailure = state => state.merge({ request_type: false })
 
 export const setAmuletType = (state, { amuletType }) => {
   console.log(amuletType)
-  return state.merge({ amuletType })
+  return state.merge({ amuletID: amuletType })
 }
 
 export const setQuestions = (state, { questions }) => {
@@ -169,10 +172,25 @@ export const historySuccess = (state, action) => {
 // Something went wrong somewhere.
 export const historyFailure = state => state.merge({ request2: false })
 
+export const historySuccess2 = (state, action) => {
+  const { history } = action
+  let tmp = [...state.history]
+  history.forEach(e => {
+    if (tmp.find(b => b.id == e.id)) {
+      console.log('SAME VALUE')
+    } else { tmp.push(e) }
+  })
+  // history.forEach(e => tmp.push(e))
+  return state.merge({ history: tmp, request2: false })
+}
+
+// Something went wrong somewhere.
+export const historyFailure2 = state => state.merge({ request2: false })
+
 export const clearForm = state => state.merge({
   images: [],
   questions: [],
-  amuletType: 0,
+  amuletID: 0,
   request: null,
   request2: null,
 })
@@ -264,6 +282,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_HISTORY]: requestGetHistory,
   [Types.GET_HISTORY_SUCCESS]: historySuccess,
   [Types.GET_HISTORY_FAILURE]: historyFailure,
+  [Types.GET_HISTORY_SUCCESS2]: historySuccess2,
+  [Types.GET_HISTORY_FAILURE2]: historyFailure2,
 
   [Types.CLEAR_FORM]: clearForm,
 

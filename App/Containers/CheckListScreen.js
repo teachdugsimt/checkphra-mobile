@@ -15,6 +15,7 @@ import styles from './Styles/CheckListScreenStyle'
 
 const { width } = Dimensions.get('window')
 let check = true
+let count = 1
 class CheckListScreen extends Component {
 
   constructor(props) {
@@ -31,6 +32,14 @@ class CheckListScreen extends Component {
     this.props.getHistory()
   }
 
+  componentWillMount() {
+    count = 1
+  }
+
+  componentWillUnmount() {
+    count = 1
+  }
+
   _gotoCheckphra = (item) => {
     // console.log(item)
     this.props.setDataPhra(item)
@@ -44,7 +53,8 @@ class CheckListScreen extends Component {
   }
 
   onRefresh = () => {
-    this.props.getHistory()
+    count = 1
+    this.props.getHistory(count)
   }
 
   static getDerivedStateFromProps(newProps, PrevState) {
@@ -72,6 +82,12 @@ class CheckListScreen extends Component {
       // fetch: checkRequest,
       data_tmp: plist
     }
+  }
+
+  _onScrollEndList = () => {
+    console.log('NED OF LIST AGAIN')
+    count++
+    this.props.getHistory(count)
   }
 
   render() {
@@ -136,6 +152,8 @@ class CheckListScreen extends Component {
             )
           }}
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มีรายการตรวจพระ</Text>}
+          onEndReached={this._onScrollEndList}
+          onEndReachedThreshold={0.05}
         />
       </LinearGradient>
 
@@ -158,7 +176,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getHistory: () => dispatch(QuestionActions.getHistory()),
+    getHistory: (count) => dispatch(QuestionActions.getHistory(count)),
     getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
     deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
     setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),

@@ -43,23 +43,44 @@ export function* paymentRequest(api, { data }) {
 }
 
 export function* historyAddpointRequest(api, { page }) {
-  const aut = yield select(auth)
-  // console.log(page)
-  if (!aut.user_id) { return }
+  if (page == 1) {
+    const aut = yield select(auth)
+    // console.log(page)
+    if (!aut.user_id) { return }
 
-  const data = {
-    user_id: aut.user_id,
-    page_number: page
-  }
+    const data = {
+      user_id: aut.user_id,
+      page_number: page
+    }
 
-  const response = yield call(api.getHistoryPoint, data)
-  // console.log(response)
-  // console.log('HISTORY ADD POINT')
-  if (response.ok) {
-    yield put(PaymentActions.historyAddpointSuccess(response.data))
+    const response = yield call(api.getHistoryPoint, data)
+    // console.log(response)
+    // console.log('HISTORY ADD POINT')
+    if (response.ok) {
+      yield put(PaymentActions.historyAddpointSuccess(response.data))
+    } else {
+      yield put(PaymentActions.historyAddpointFailure())
+      alert('ร้องขอประวัติล้มเหลว')
+    }
   } else {
-    yield put(PaymentActions.historyAddpointFailure())
-    alert('ร้องขอประวัติล้มเหลว')
+    const aut = yield select(auth)
+    // console.log(page)
+    if (!aut.user_id) { return }
+
+    const data = {
+      user_id: aut.user_id,
+      page_number: page
+    }
+
+    const response = yield call(api.getHistoryPoint, data)
+    // console.log(response)
+    // console.log('HISTORY ADD POINT')
+    if (response.ok) {
+      yield put(PaymentActions.historyAddpointSuccess2(response.data))
+    } else {
+      yield put(PaymentActions.historyAddpointFailure2())
+      alert('ร้องขอประวัติล้มเหลว')
+    }
   }
 
 }
@@ -76,6 +97,8 @@ export function* sendSlipRequest(api, { item }) {
   body.append('date', item.date)
   body.append('file', item.file)
   body.append('type', item.type)
+
+  console.log(body)
 
   const response = yield call(api.sendSlip, body)
 

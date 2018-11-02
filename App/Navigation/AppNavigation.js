@@ -127,17 +127,17 @@ const ProfileStack = StackNavigator(   // main pro
     },
     change: {
       screen: ChangePasswordScreen, navigationOptions: {
-        title: 'Change Password'
+        title: I18n.t('changePassword')
       }
     },
     historyAddPoint: {
       screen: HistoryPoint, navigationOptions: {
-        title: 'Purchase History'
+        title: I18n.t('purchaseHistory')
       }
     },
     detailPoint: {
       screen: DetailPoint, navigationOptions: {
-        title: 'Detail Purchase'
+        title: I18n.t('detailPurchase')
       }
     },
   },
@@ -165,18 +165,18 @@ const PromotionStack = StackNavigator(  // main pro
     },
     banking: {
       screen: Banking, navigationOptions: {
-        title: 'Banking'
+        title: I18n.t('banking')
       }
     },
     promptpay: {
       screen: Promptpay, navigationOptions: {
-        title: 'Promptpay'
+        title: I18n.t('promptpay')
       }
     },
     creditcard: {
       screen: Creditcard,
       navigationOptions: {
-        title: 'Credit-Card'
+        title: I18n.t('creditCard')
       }
     },
   },
@@ -211,7 +211,7 @@ const HistoryStack = StackNavigator(  // mmain his
     answer: {
       screen: AnswerScreen,
       navigationOptions: {
-        title: 'Answer',
+        title: I18n.t('result'),
       }
     }
   },
@@ -294,7 +294,7 @@ const CheckListStack = StackNavigator({ // **********************FOR EXPERT & AD
   check2: {
     screen: CheckPhraScreen,
     navigationOptions: {
-      title: 'รายละเอียดส่งตรวจพระ'
+      title: I18n.t('pending')
     }
   }
 }, {
@@ -315,13 +315,13 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
   check: {
     screen: VerifyPoint,
     navigationOptions: {
-      title: 'อนุมัติการเติมเงิน'
+      title: I18n.t('pendingCoin')
     }
   },
   check2: {
     screen: VerifyPoint2,
     navigationOptions: {
-      title: 'รายละเอียดการอนุมัติ'
+      title: I18n.t('detailCoin')
     }
   }
 }, {

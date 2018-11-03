@@ -88,10 +88,10 @@ class Picker extends Component {
             // response.path is the path of the new image
             // response.name is the name of the new image with the extension
             // response.size is the size of the new image
-
+            console.log(response)
             this.props.setImages(this.props.id, {
               uri: response.uri,
-              // type: response.type,
+              type: 'image/jpeg',
               // name: response.fileName,
               name: response.name,
               // size: response.fileSize,

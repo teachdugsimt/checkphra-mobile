@@ -88,7 +88,7 @@ class CheckListScreen extends Component {
   }
 
   _onScrollEndList = () => {
-    console.log('EED OF LIST AGAIN')
+    console.log('END OF LIST AGAIN')
     count++
     this.props.getHistory(count)
   }

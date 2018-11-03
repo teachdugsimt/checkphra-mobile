@@ -43,7 +43,9 @@ class UploadScreen extends Component {
 
     if (newProps.data_amulet != null && newProps.data_amulet != prevState.amuletType) {
       let item = []
-      newProps.data_amulet.map(e => {
+      const amuletTypes = newProps.data_amulet.filter(e => !e.parent_id)
+      // newProps.data_amulet.map(e => {
+      amuletTypes.map(e => {
         let name = ''
         if (e.name == 'เบญจภาคี' && e.id == 1) {
           name = I18n.t('benjapakee')
@@ -124,7 +126,7 @@ class UploadScreen extends Component {
   }
 
   getTypePhra = (item) => {
-    if (item.name == "เบญจภาคี") {
+    if (item.name == "เบญจภาคี" || item.name == "Benjapakee") {
       this.props.navigation.navigate("detail")
     }
     else {

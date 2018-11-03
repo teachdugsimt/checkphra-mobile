@@ -5,8 +5,8 @@ let b
 if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'
 } else {
-  // b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
-  b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
+  b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
+  // b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
 }
 
 // our "constructor"
@@ -24,6 +24,7 @@ const create = (baseURL = b) => {
     headers: {
       'Cache-Control': 'no-cache',
       'Content-Type': 'application/json',
+      // 'Content-Type': 'multipart/form-data'
     },
     // 10 second timeout...
     timeout: 10000
@@ -44,7 +45,7 @@ const create = (baseURL = b) => {
   // way at this level.
   //
 
-  const getAmuletType = (data) => api.get('type/list',data)
+  const getAmuletType = (data) => api.get('type/list', data)
   const getQuestionType = () => api.get('manage-question/list')
 
   const addQuestion = (images, questions, amuletID, user_id) => {
@@ -61,9 +62,9 @@ const create = (baseURL = b) => {
     })
     // body.append('question', questions)
 
-    console.log(body)
+    // console.log(body)
     // console.log('HERE ADD QUESTION BODY')
-
+    // api.setHeaders({ 'Content-Type': 'multipart/form-data' })
     return api.post('question/add', body, { headers: { 'Content-Type': 'multipart/form-data' } })
   }
 

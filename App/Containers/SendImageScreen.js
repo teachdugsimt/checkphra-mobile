@@ -20,7 +20,7 @@ import Icon2 from "react-native-vector-icons/FontAwesome";
 
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 // I18n.locale = "th";
 let chk = true
 let { width } = Dimensions.get('window')
@@ -169,7 +169,7 @@ class SendImageScreen extends Component {
     //   this.props.navigation.goBack()
     //   this.props.navigation.navigate('his')
     // }
-
+    I18n.locale = this.props.language
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -262,6 +262,7 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     // fetching: state.question.fetching,
     request: state.question.request,
+    language: state.auth.language,
   }
 }
 

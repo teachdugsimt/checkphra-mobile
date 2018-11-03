@@ -12,8 +12,9 @@ import Icon4 from "react-native-vector-icons/MaterialIcons"
 import { Colors, Images } from "../Themes";
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import I18n from '../I18n/i18n';
+import { getLanguages } from 'react-native-i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 // I18n.locale = "th";
 
 let { width, height } = Dimensions.get('window')
@@ -107,10 +108,12 @@ class ProfileScreen extends Component {
   }
 
   _thai = () => {
+    this.props.setLanguage('th')
     this.popupDialog.dismiss()
   }
 
   _english = () => {
+    this.props.setLanguage('en')
     this.popupDialog.dismiss()
   }
   render() {
@@ -201,13 +204,6 @@ class ProfileScreen extends Component {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'lightgrey', borderBottomWidth: 1, marginTop: 20, backgroundColor: 'white' }}>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginVertical: 10 }}>
-              {/* <Icon2
-                name="ios-ribbon"
-                size={18}
-                color={Colors.brownText}
-                style={{ marginRight: 10 }}
-                onPress={() => { }}
-              /> */}
               <Image source={Images.coin0} style={{ width: 19, height: 19, marginRight: 5 }} />
               <Text style={{ fontSize: 16 }}>
                 {I18n.t('coin')}
@@ -274,8 +270,9 @@ class ProfileScreen extends Component {
         }
 
 
-        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', marginTop: 20, borderBottomWidth: 1 }} onPress={() => this._changeLanguage()}>
-          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 7, marginVertical: 10 }}>
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-between', borderBottomColor: 'lightgrey', marginTop: 20, borderBottomWidth: 1 }} onPress={() => this._changeLanguage()}>
+          {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 7, marginVertical: 10 }}> */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, marginVertical: 10 }}>
             <Icon4
               name="language"
               size={18}
@@ -283,15 +280,25 @@ class ProfileScreen extends Component {
               style={{ marginRight: 7 }}
               onPress={() => { }}
             />
+            <Text style={{ fontFamily: "Prompt-Regular", fontSize: 16, }}>
+              {I18n.t('changeLanguage')}
+            </Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
             <Text
               style={{
                 fontFamily: "Prompt-Regular",
                 fontSize: 16,
+                fontWeight: 'bold',
+                color: Colors.brownText, marginHorizontal: 10
               }}
             >
-              {I18n.t('changeLanguage')}
+              {this.props.language}
             </Text>
           </View>
+
+          {/* </View> */}
         </TouchableOpacity>
 
         <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("change")}>
@@ -343,7 +350,7 @@ class ProfileScreen extends Component {
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           dialogAnimation={slideAnimation}
           width={0.7}
-          height={0.20}
+          height={height / 4.2}
           onDismissed={() => { this.setState({}) }}
         >
           <View style={{}}>
@@ -372,7 +379,7 @@ class ProfileScreen extends Component {
 const mapStateToProps = state => {
   return {
     profile: state.question.profile,
-
+    language: state.auth.language,
   };
 };
 
@@ -380,7 +387,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getProfile: () => dispatch(QuestionActions.getProfile()),
     signout: () => dispatch(AuthActions.signout()),
-    signout2: () => dispatch(QuestionActions.clearProfile())
+    signout2: () => dispatch(QuestionActions.clearProfile()),
+    setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
   };
 };
 

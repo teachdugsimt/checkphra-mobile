@@ -10,7 +10,8 @@ import Icon2 from "react-native-vector-icons/FontAwesome";
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale('th');
+// I18n.locale = 'th'  // true
 
 const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
@@ -61,7 +62,7 @@ class Promotion extends Component {
             img = Images.coin2
         } else if (item.point > 149 && item.point < 300) {
             img = Images.coin1
-        } else if(item.point > 299){
+        } else if (item.point > 299) {
             img = Images.coin3
         }
         console.log(img)
@@ -99,6 +100,7 @@ class Promotion extends Component {
         this.props.getPromotion()
     }
     render() {
+        I18n.locale = this.props.language
         // console.log('HERE PROMOTION')
         // console.log(this.props.promotion)
         return (
@@ -119,7 +121,7 @@ class Promotion extends Component {
                     ref={(popupDialog) => { this.popupDialog = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={0.7}
-                    height={0.26}
+                    height={height / 3.5}
                     onDismissed={() => { this.setState({}) }}
                 >
                     <View style={{}}>
@@ -170,6 +172,7 @@ const mapStateToProps = (state) => {
         promotion: state.promotion.data,
         fetching: state.promotion.fetching,
         profile: state.question.profile,
+        language: state.auth.language,
     }
 }
 

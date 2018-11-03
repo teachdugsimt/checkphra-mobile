@@ -13,7 +13,8 @@ import moment from 'moment'
 import Spinner from 'react-native-loading-spinner-overlay';
 import I18n from '../../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
+
 const { width } = Dimensions.get('window')
 var ImagePicker = require('react-native-image-picker');
 var options = {
@@ -256,6 +257,7 @@ class Promptpay extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language
     console.log(this.props.money)
     let heightView = 62
     let widthView = '15%'
@@ -390,6 +392,7 @@ const mapStateToProps = (state) => {
     user_id: state.auth.user_id,
     image: state.payment.img_slip,
     request2: state.payment.request2,
+    language: state.auth.language,
   }
 }
 

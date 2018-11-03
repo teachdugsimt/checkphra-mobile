@@ -14,7 +14,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { INITIAL_STATE } from '../../Redux/AuthRedux';
 import I18n from '../../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale("th");
+// I18n.currentLocale("th");
+
 var ImagePicker = require('react-native-image-picker');
 var options = {
     title: 'Select Avatar',
@@ -289,6 +290,7 @@ class Banking extends Component {
     }
 
     render() {
+        I18n.locale = this.props.language
         let heightView = 60
         let widthView = '50%'
         let heightImg = 60
@@ -414,6 +416,7 @@ const mapStateToProps = (state) => {
         user_id: state.auth.user_id,
         image: state.payment.img_slip,
         request2: state.payment.request2,
+        language: state.auth.language,
     }
 }
 

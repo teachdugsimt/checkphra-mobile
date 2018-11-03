@@ -29,7 +29,7 @@ import RoundedButton from "../Components/RoundedButton";
 
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 // I18n.locale = "th";
 
 let { width } = Dimensions.get('window')
@@ -213,6 +213,7 @@ class SigninScreen extends Component {
   // }
 
   render() {
+    I18n.locale = this.props.language
     // console.log(this.state.inputEmail)
     // console.log(this.state.inputPass)
     return (
@@ -335,6 +336,7 @@ const mapStateToProps = state => {
   return {
     profile: state.auth.profile,
     fetch: state.auth.fetching,
+    language: state.auth.language,
   };
 };
 

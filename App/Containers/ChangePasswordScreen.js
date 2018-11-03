@@ -19,7 +19,8 @@ import CheckBox from 'react-native-check-box'
 import styles from "./Styles/ChangePasswordScreenStyle";
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
+
 const { width } = Dimensions.get('window')
 class ChangePasswordScreen extends Component {
   constructor(props) {
@@ -101,6 +102,7 @@ class ChangePasswordScreen extends Component {
   // };
 
   render() {
+    I18n.locale = this.props.language
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -264,7 +266,9 @@ class ChangePasswordScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    language: state.auth.language,
+  };
 };
 
 const mapDispatchToProps = dispatch => {

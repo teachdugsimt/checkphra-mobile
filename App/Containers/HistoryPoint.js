@@ -10,7 +10,7 @@ import { Colors, Images } from "../Themes";
 import PaymentActions from '../Redux/PaymentRedux'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 
 let check = true
 let count = 1
@@ -144,7 +144,7 @@ class HistoryPoint extends Component {
     }
 
     render() {
-
+        I18n.locale = this.props.language
         let data = [{ name: 'เติม point ', value: 100, day: '11-11-2018', key: 0 },
         { name: 'เติม point ', value: 1500, day: '11-11-2018', key: 1 },
         { name: 'เติม point ', value: 700000, day: '11-11-2018', key: 2 },
@@ -177,6 +177,7 @@ const mapStateToProps = state => {
         request2: state.payment.request2,
         data_slip: state.payment.data_slip,
         request3: state.payment.request3,
+        language: state.auth.language,
     };
 };
 

@@ -15,7 +15,7 @@ import ExpertActions from '../Redux/ExpertRedux'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 // Styles
 // import styles from './Styles/CheckListScreenStyle'
 const { width, height } = Dimensions.get('window')
@@ -143,6 +143,7 @@ class VerifyPoint extends Component {
     }
 
     render() {
+        I18n.locale = this.props.language
         // console.log(this.state.verifyData)
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
@@ -176,6 +177,7 @@ const mapStateToProps = (state) => {
         data_accept: state.expert.data_accept,
         request2: state.expert.fetch3,
         data_fully: state.expert.full_data,
+        language: state.auth.language,
     }
 }
 

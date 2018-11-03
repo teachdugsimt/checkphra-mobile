@@ -17,6 +17,9 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 // Styles
 // import styles from './Styles/CheckListScreenStyle'
 import CheckBox from 'react-native-check-box'
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+
 const deviceWidth = Dimensions.get('window').width
 // const { height } = Dimensions.get('window')
 const { width } = Dimensions.get('window')
@@ -199,6 +202,7 @@ class CheckPhraScreen extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language
     let img = []
     this.props.data.images.map(e => {
       img.push(e)
@@ -389,6 +393,7 @@ const mapStateToProps = (state) => {
     data: state.expert.data_phra,
     questionType: state.question.questionType,
     fetching: state.expert.fetch,
+    language: state.auth.language,
   }
 }
 

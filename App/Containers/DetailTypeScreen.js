@@ -12,7 +12,7 @@ import styles from "./Styles/DetailTypeScreenStyle";
 
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 // I18n.locale = "th";
 
 let { width } = Dimensions.get('window')
@@ -51,6 +51,7 @@ class DetailTypeScreen extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language
     const items = [
       {
         "id": 2,
@@ -153,7 +154,9 @@ class DetailTypeScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    language: state.auth.language,
+  };
 };
 
 const mapDispatchToProps = dispatch => {

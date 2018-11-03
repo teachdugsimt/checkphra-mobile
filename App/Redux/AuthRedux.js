@@ -1,6 +1,6 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-
+import I18n from '../I18n/i18n'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -22,6 +22,7 @@ const { Types, Creators } = createActions({
 
   signout: null,
   // setPicture: ['data'],
+  setLanguage: ['language'],
 })
 
 export const AuthTypes = Types
@@ -41,6 +42,8 @@ export const INITIAL_STATE = Immutable({
 
   request2: null,  // create user check phra with access token form FIREBASE
   data_create: null,  // data create user
+
+  language: 'en',
 })
 
 /* ------------- Selectors ------------- */
@@ -90,6 +93,10 @@ export const createSuccess = (state, { data }) => {
 }
 export const createFailure = state => state.merge({ request2: false })
 
+export const setLanguage = (state, {language}) =>{
+  return state.merge({ language })
+}
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -108,5 +115,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CREATE_SUCCESS]: createSuccess,
   [Types.CREATE_FAILURE]: createFailure,
 
-  [Types.SIGNOUT]: signout
+  [Types.SIGNOUT]: signout,
+  [Types.SET_LANGUAGE]: setLanguage,
 })

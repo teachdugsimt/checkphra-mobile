@@ -14,7 +14,7 @@ import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-i
 import Spinner from 'react-native-loading-spinner-overlay';
 import I18n from '../../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 const { width } = Dimensions.get('window')
 
 let obj
@@ -137,7 +137,7 @@ class Creditcard extends Component {
   render() {
     console.log(this.state.form)
     console.log(this.state.data)
-
+    I18n.locale = this.props.language
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -176,6 +176,7 @@ const mapStateToProps = (state) => {
     token: state.payment.form,
     request: state.payment.request3,
     // data_card: state.payment.data_credit
+    language: state.auth.language,
   }
 }
 

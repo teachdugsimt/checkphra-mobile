@@ -14,7 +14,7 @@ import RoundedButton from "../Components/RoundedButton";
 import Spinner from 'react-native-loading-spinner-overlay';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 class VerifyPoint2 extends Component {
 
     constructor(props) {
@@ -62,6 +62,7 @@ class VerifyPoint2 extends Component {
     }
 
     render() {
+        I18n.locale = this.props.language
         let tmp_chk = this.props.full_data.find(e => e.id == this.props.item.id)
         let status = this.props.item.status == 10 || tmp_chk.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
         let status_color = this.props.item.status == 10 || tmp_chk.status == 10 ? 'green' : 'orange'
@@ -153,6 +154,7 @@ const mapStateToProps = state => {
         item: state.expert.data_point,
         request: state.expert.fetch3,
         full_data: state.expert.full_data,
+        language: state.auth.language,
     };
 };
 

@@ -14,7 +14,7 @@ import ExpertActions from '../Redux/ExpertRedux'
 import styles from './Styles/CheckListScreenStyle'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 
 const { width } = Dimensions.get('window')
 let check = true
@@ -94,7 +94,7 @@ class CheckListScreen extends Component {
   }
 
   render() {
-
+    I18n.locale = this.props.language
     // console.log(this.props.history)
     return (
       <LinearGradient
@@ -173,7 +173,8 @@ const mapStateToProps = (state) => {
     amulet: state.question.amuletType,
     // access_id: state.auth.user_id,
     request1: state.expert.fetch,
-    data_answer: state.expert.data_answer
+    data_answer: state.expert.data_answer,
+    language: state.auth.language,
   }
 }
 

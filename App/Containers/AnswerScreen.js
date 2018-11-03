@@ -9,7 +9,8 @@ import styles from './Styles/AnswerScreenStyle'
 import { Colors, Images } from '../Themes';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { LoginButton, ShareDialog, ShareButton } from 'react-native-fbsdk';
-
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
 const { width, height } = Dimensions.get('window')
 
 let shareLinkContent = {
@@ -83,6 +84,7 @@ class AnswerScreen extends Component {
 
   render() {
     let data = this.props.answer
+    I18n.locale = this.props.language
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -182,7 +184,8 @@ class AnswerScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    answer: state.question.answer
+    answer: state.question.answer,
+    language: state.auth.language,
   }
 }
 

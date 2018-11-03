@@ -12,6 +12,8 @@ import firebase from 'react-native-firebase';
 import styles from "./Styles/RegisterScreenStyle";
 import { Colors, Images } from "../Themes";
 import Spinner from 'react-native-loading-spinner-overlay';
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
 let { width } = Dimensions.get('window')
 
 class RegisterScreen extends Component {
@@ -137,6 +139,7 @@ class RegisterScreen extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -300,6 +303,7 @@ const mapStateToProps = (state) => ({
   request: state.auth.request,
   dataRegister: state.auth.dataRegister,
   request2: state.auth.request2,
+  language: state.auth.language,
 });
 
 const mapDispatchToProps = (dispatch) => ({

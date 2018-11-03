@@ -13,7 +13,7 @@ import PaymentActions from '../Redux/PaymentRedux'
 import RoundedButton from "../Components/RoundedButton";
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 
 class DetailPoint extends Component {
 
@@ -48,6 +48,7 @@ class DetailPoint extends Component {
     }
 
     render() {
+        I18n.locale = this.props.language
         let id = this.props.item.id
         let status = this.props.item.status == 0 ? I18n.t('waitVerify') : I18n.t('successVerify')
         let status_color = this.props.item.status == 0 ? 'orange' : 'green'
@@ -104,6 +105,7 @@ const mapStateToProps = state => {
         item: state.payment.data_point,
         image: state.payment.img_slip,
         request2: state.payment.request2,
+        language: state.auth.language,
     };
 };
 

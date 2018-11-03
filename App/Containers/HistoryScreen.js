@@ -15,7 +15,7 @@ import Icon2 from "react-native-vector-icons/FontAwesome";
 
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 // I18n.locale = "th";
 let count = 1
 let { width } = Dimensions.get('window')
@@ -97,7 +97,7 @@ class HistoryScreen extends Component {
   }
 
   render() {
-
+    I18n.locale = this.props.language
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -206,6 +206,7 @@ const mapStateToProps = (state) => {
     amulet: state.question.amuletType,
     request_question: state.question.request,
     data_question: state.question.data_question,
+    language: state.auth.language,
     // access_id: state.auth.user_id,
 
   }

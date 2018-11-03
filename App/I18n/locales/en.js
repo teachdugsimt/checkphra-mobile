@@ -49,6 +49,8 @@ export default {
   bottomSide: 'bottom',
   otherSide: 'other',
   selectQuestion: 'Select questions',
+  selectPayment: 'Select Payment',
+  selectBank: 'Please Select Bank',
 
   atLeast2Image: 'Please select at least 2 images',
   atLeast1Question: 'Please select at least 1 question',
@@ -69,6 +71,17 @@ export default {
 
   success: 'Success',
   pending: 'Pending',
+  nonePending: 'None History Pending',
+  nonePromotion: 'None Promotion',
+  priceProduct: 'Total price',
+  transactionTime: 'Transaction time',
+  transactionType: 'Transaction type',
+  transactionID: 'Transaction id',
+  waitVerify: 'Pending',
+  successVerify: 'Complete',
+  uploadSlip: 'Please upload slip',
+  submitTransaction: 'Do you want to submit ?',
+
 
   ok: 'OK',
   cancel: 'Cancel',

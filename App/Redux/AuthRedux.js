@@ -16,7 +16,11 @@ const { Types, Creators } = createActions({
   signupSuccess: ['data'],
   signupFailure: null,
 
-  signout: null, 
+  createUser: ['email', 'uid'],
+  createSuccess: ['data'],
+  createFailure: null,
+
+  signout: null,
   // setPicture: ['data'],
 })
 
@@ -34,6 +38,9 @@ export const INITIAL_STATE = Immutable({
 
   request: null,
   dataRegister: [],
+
+  request2: null,  // create user check phra with access token form FIREBASE
+  data_create: null,  // data create user
 })
 
 /* ------------- Selectors ------------- */
@@ -77,6 +84,12 @@ export const successRequestSignup = (state, { data }) => {
 
 export const signout = state => INITIAL_STATE
 
+export const createUser = state => state.merge({ request2: true })
+export const createSuccess = (state, { data }) => {
+  return state.merge({ request2: false, data_create: data })
+}
+export const createFailure = state => state.merge({ request2: false })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -90,6 +103,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNUP]: startRequest,
   [Types.SIGNUP_SUCCESS]: successRequestSignup,
   [Types.SIGNUP_FAILURE]: failureRequestSignup,
+
+  [Types.CREATE_USER]: createUser,
 
   [Types.SIGNOUT]: signout
 })

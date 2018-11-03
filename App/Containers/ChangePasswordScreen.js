@@ -5,17 +5,22 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  Alert
+  Alert,
+  Image,
+  Dimensions,
 } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
-import { Colors } from "../Themes";
+import { Colors, Images } from "../Themes";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import CheckBox from 'react-native-check-box'
 // Styles
 import styles from "./Styles/ChangePasswordScreenStyle";
-
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
+const { width } = Dimensions.get('window')
 class ChangePasswordScreen extends Component {
   constructor(props) {
     super(props);
@@ -98,7 +103,12 @@ class ChangePasswordScreen extends Component {
   render() {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
-
+        <Image source={Images.watermarkbg} style={{
+          position: 'absolute',
+          right: 0, bottom: 0,
+          width: width,
+          height: width * 95.7 / 100
+        }} resizeMode='contain' />
         <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'space-between', marginTop: 20 }}>
           <View
             style={{
@@ -238,14 +248,14 @@ class ChangePasswordScreen extends Component {
                   color: "white"
                 }}
               >
-                ตกลง
-            </Text>
+                {I18n.t('ok')}
+              </Text>
             </TouchableOpacity>
 
 
 
           </View>
-          
+
         </View>
 
       </LinearGradient>

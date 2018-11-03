@@ -8,6 +8,9 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import { Colors, Images } from "../Themes";
 import PaymentActions from '../Redux/PaymentRedux'
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
 
 let check = true
 let count = 1
@@ -125,7 +128,7 @@ class HistoryPoint extends Component {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, width: '85%' }}>
 
                         <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
-                            <Text style={{ fontSize: 16 }}>เติม point</Text>
+                            <Text style={{ fontSize: 16 }}>{I18n.t('addCoin')}</Text>
                             <Text style={{ fontSize: 16 }}>{item.date.slice(0, 10)}</Text>
                         </View>
 
@@ -159,7 +162,7 @@ class HistoryPoint extends Component {
                     }
                     onEndReached={this._onScrollEndList}
                     onEndReachedThreshold={0.05}
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มีประวัติการซื้อเหรียญ</Text>}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                 />
             </View>
         )

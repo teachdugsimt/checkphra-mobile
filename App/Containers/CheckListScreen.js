@@ -12,6 +12,9 @@ import Icon2 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
 // Styles
 import styles from './Styles/CheckListScreenStyle'
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
 
 const { width } = Dimensions.get('window')
 let check = true
@@ -85,7 +88,7 @@ class CheckListScreen extends Component {
   }
 
   _onScrollEndList = () => {
-    console.log('NED OF LIST AGAIN')
+    console.log('EED OF LIST AGAIN')
     count++
     this.props.getHistory(count)
   }
@@ -151,7 +154,7 @@ class CheckListScreen extends Component {
               </TouchableOpacity>
             )
           }}
-          ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มีรายการตรวจพระ</Text>}
+          ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
           onEndReached={this._onScrollEndList}
           onEndReachedThreshold={0.05}
         />

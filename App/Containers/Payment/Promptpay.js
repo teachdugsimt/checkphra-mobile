@@ -11,6 +11,9 @@ import PaymentActions from '../../Redux/PaymentRedux'
 import Icon3 from "react-native-vector-icons/Entypo";
 import moment from 'moment'
 import Spinner from 'react-native-loading-spinner-overlay';
+import I18n from '../../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
 const { width } = Dimensions.get('window')
 var ImagePicker = require('react-native-image-picker');
 var options = {
@@ -155,17 +158,17 @@ class Promptpay extends Component {
     let time2 = f.slice(11, 19)
     let full = time1 + " " + time2
     if (!this.state.avatarSource) {
-      alert('กรุณาเลือกรูปภาพ')
+      alert(I18n.t('uploadSlip'))
     } else {
       if (!this.state.bank) {
-        alert('กรุณาคลิกเลือกธนาคารที่ทำการโอนเงิน')
+        alert(I18n.t('selectBank'))
       } else {
         Alert.alert(
           'Check Phra',
-          'ยืนยันการทำรายการ?',
+          I18n.t('submitTransaction'),
           [
             {
-              text: 'ok', onPress: () => {
+              text: I18n.t('ok'), onPress: () => {
                 let item = {
                   user_id: this.props.user_id,
                   price: this.props.money,
@@ -182,7 +185,7 @@ class Promptpay extends Component {
                 // }, 3000);
               }
             },
-            { text: 'cancel' }
+            { text: I18n.t('cancel') }
           ],
           { cancelable: false }
         )
@@ -268,7 +271,7 @@ class Promptpay extends Component {
           height: width * 95.7 / 100
         }} resizeMode='contain' />
         <View style={{ marginTop: Metrics.doubleBaseMargin }}>
-          <Text style={{ fontSize: 16, alignSelf: 'center' }}>รหัส Promptpay</Text>
+          <Text style={{ fontSize: 16, alignSelf: 'center' }}>{I18n.t('promptpay')}</Text>
           <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }} >092-981-8252</Text>
 
 
@@ -316,12 +319,12 @@ class Promptpay extends Component {
 
 
           <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-            <Text style={{ fontSize: 16, alignSelf: 'center' }}>จำนวนเงินที่ต้องชำระ </Text>
+            <Text style={{ fontSize: 16, alignSelf: 'center' }}>{I18n.t('priceProduct')} </Text>
             <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'green', alignSelf: 'center' }}>{this.props.money}</Text>
           </View>
 
           <View style={{ justifyContent: 'flex-start', alignItems: 'center', marginTop: 10 }}>
-            <Text style={{ fontSize: 16 }}>กรุณาอัพโหลดสลิปการโอนเงิน</Text>
+            <Text style={{ fontSize: 16 }}>{I18n.t('uploadSlip')}</Text>
 
             <TouchableOpacity style={{}} onPress={this.pick}>
               <View style={{
@@ -336,7 +339,7 @@ class Promptpay extends Component {
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={{
                     fontFamily: 'Prompt-SemiBold', fontSize: 25, color: Colors.brownTextTran,
-                  }}>สลิป</Text>
+                  }}>Slip</Text>
 
                   {this.props.image && < Icon3
                     style={{ marginLeft: 40 }}

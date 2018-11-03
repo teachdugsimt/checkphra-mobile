@@ -8,6 +8,10 @@ import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dia
 import PromotionActions from '../Redux/PromotionRedux'
 import Icon2 from "react-native-vector-icons/FontAwesome";
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
+
 const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
 });
@@ -76,7 +80,7 @@ class Promotion extends Component {
                         <View>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ fontWeight: 'bold', color: 'orange', fontSize: 24, marginTop: 15 }}>{item.point}</Text>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 15, color: Colors.brownText }}> แต้ม</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 15, color: Colors.brownText }}> {I18n.t('coin')}</Text>
                             </View>
                             <Text style={{ fontWeight: 'bold', color: 'brown', textAlign: 'right' }}>{item.price} ฿</Text>
                         </View>
@@ -106,12 +110,12 @@ class Promotion extends Component {
                             onRefresh={this._reload}
                         />
                     }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มี Promotion</Text>}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePromotion')}</Text>}
                     data={this.state.listPromotion}
                     renderItem={this._renderItem}
                 />
                 <PopupDialog
-                    dialogTitle={<DialogTitle title="กรุณาเลือกวิธีการชำระเงิน" titleTextStyle={{ fontSize: 18 }} />}
+                    dialogTitle={<DialogTitle title={I18n.t('selectPayment')} titleTextStyle={{ fontSize: 18 }} />}
                     ref={(popupDialog) => { this.popupDialog = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={0.7}
@@ -128,7 +132,7 @@ class Promotion extends Component {
                                 size={26}
                                 color={Colors.brownText}
                                 style={{ marginHorizontal: 10 }} />
-                            <Text style={{ fontSize: 16 }}>โอนผ่านบัญชีธนาคาร</Text>
+                            <Text style={{ fontSize: 16 }}>{I18n.t('banking')}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={this._Promptpay} style={{
@@ -140,7 +144,7 @@ class Promotion extends Component {
                                 size={26}
                                 color={Colors.brownText}
                                 style={{ marginHorizontal: 10 }} />
-                            <Text style={{ fontSize: 16 }}>โอนผ่าน Promptpay</Text>
+                            <Text style={{ fontSize: 16 }}>{I18n.t('promptpay')}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={this._Creditcard} style={{
@@ -152,7 +156,7 @@ class Promotion extends Component {
                                 size={26}
                                 color={Colors.brownText}
                                 style={{ marginHorizontal: 10 }} />
-                            <Text style={{ fontSize: 16 }}>บัตรเครดิต</Text>
+                            <Text style={{ fontSize: 16 }}>{I18n.t('creditCard')}</Text>
                         </TouchableOpacity>
                     </View>
                 </PopupDialog>

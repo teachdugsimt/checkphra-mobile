@@ -78,9 +78,7 @@ export function* signinWithCredential(api, action) {
   }
 }
 
-export function* signup(api, getFirebase, { id, password }) {
-  console.log(id)
-  console.log(password)
+export function* signup(api, { id, password }) {
 
   const data = {
     email: id,

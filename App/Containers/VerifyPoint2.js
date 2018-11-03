@@ -12,6 +12,9 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import ExpertActions from '../Redux/ExpertRedux'
 import RoundedButton from "../Components/RoundedButton";
 import Spinner from 'react-native-loading-spinner-overlay';
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
 class VerifyPoint2 extends Component {
 
     constructor(props) {
@@ -60,7 +63,7 @@ class VerifyPoint2 extends Component {
 
     render() {
         let tmp_chk = this.props.full_data.find(e => e.id == this.props.item.id)
-        let status = this.props.item.status == 10 || tmp_chk.status == 10 ? 'เสร็จสมบูรณ์' : 'รออนุมัติ'
+        let status = this.props.item.status == 10 || tmp_chk.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
         let status_color = this.props.item.status == 10 || tmp_chk.status == 10 ? 'green' : 'orange'
         let product = this.props.item.price + " point"
         let time = this.props.item.date.slice(11, this.props.item.date.length - 3)
@@ -77,21 +80,21 @@ class VerifyPoint2 extends Component {
                 </View>
 
                 <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 16, marginLeft: 10 }}>ราคาที่ต้องชำระ</Text>
+                    <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('priceProduct')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{product} ฿</Text>
                 </View>
 
                 <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 16, marginLeft: 10 }}>เวลาที่ทำรายการ</Text>
+                    <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionTime')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{time}</Text>
                 </View>
 
                 <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 16, marginLeft: 10 }}>ประเภทการทำรายการ</Text>
+                    <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionType')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{type}</Text>
                 </View>
                 <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 16, marginLeft: 10 }}>รหัสการทำรายการ</Text>
+                    <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionID')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{this.props.item.id}</Text>
                 </View>
 

@@ -11,6 +11,9 @@ import { Colors } from "../Themes";
 import PaymentActions from '../Redux/PaymentRedux'
 // import Picker2 from '../Components/Picker2';
 import RoundedButton from "../Components/RoundedButton";
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
 
 class DetailPoint extends Component {
 
@@ -46,17 +49,17 @@ class DetailPoint extends Component {
 
     render() {
         let id = this.props.item.id
-        let status = this.props.item.status == 0 ? 'รออนุมัติ' : 'เสร็จสมบูรณ์'
+        let status = this.props.item.status == 0 ? I18n.t('waitVerify') : I18n.t('successVerify')
         let status_color = this.props.item.status == 0 ? 'orange' : 'green'
         let product = this.props.item.price
         let time = this.props.item.date.slice(11, this.props.item.date.length - 3)
         let type = ''
         if (this.props.item.type == 1) {
-            type = 'โอนเงินผ่านบัญชีธนาคาร'
+            type = I18n.t('banking')
         } else if (this.props.item.type == 2) {
-            type = 'โอนเงินผ่าน Promptpay'
+            type = I18n.t('promptpay')
         } else if (this.props.item.type == 3) {
-            type = 'ตัดเงินผ่านบัตรเครดิต'
+            type = I18n.t('creditCard')
         }
         console.log(this.props.item)
         console.log(status)
@@ -69,21 +72,21 @@ class DetailPoint extends Component {
                     </View>
 
                     <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, marginLeft: 10 }}>ราคาที่ต้องชำระ</Text>
+                        <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('priceProduct')}</Text>
                         <Text style={{ fontSize: 16, marginRight: 10 }}>{product} ฿</Text>
                     </View>
 
                     <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, marginLeft: 10 }}>เวลาที่ทำรายการ</Text>
+                        <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionTime')}</Text>
                         <Text style={{ fontSize: 16, marginRight: 10 }}>{time}</Text>
                     </View>
 
                     <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, marginLeft: 10 }}>ประเภทการทำรายการ</Text>
+                        <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionType')}</Text>
                         <Text style={{ fontSize: 16, marginRight: 10 }}>{type}</Text>
                     </View>
                     <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, marginLeft: 10 }}>หมายเลขการทำรายการ</Text>
+                        <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionID')}</Text>
                         <Text style={{ fontSize: 16, marginRight: 10 }}>{id}</Text>
                     </View>
 

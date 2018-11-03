@@ -13,7 +13,9 @@ import { Colors, Images, Metrics } from '../Themes';
 import Icon2 from "react-native-vector-icons/Ionicons";
 import ExpertActions from '../Redux/ExpertRedux'
 import ImageViewer from 'react-native-image-zoom-viewer';
-
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
 // Styles
 // import styles from './Styles/CheckListScreenStyle'
 const { width, height } = Dimensions.get('window')
@@ -151,7 +153,7 @@ class VerifyPoint extends Component {
                             onRefresh={this._reload.bind(this)}
                         />
                     }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มีรายการเติมเงิน</Text>}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                     data={this.state.verifyData}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}

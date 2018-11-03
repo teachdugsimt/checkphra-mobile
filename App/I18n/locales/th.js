@@ -49,6 +49,8 @@ export default {
   bottomSide: 'ฐาน',
   otherSide: 'อื่นๆ',
   selectQuestion: 'เลือกคำถาม',
+  selectPayment: 'กรุณาเลือกวิธีชำระเงิน',
+  selectBank: 'กรุณาเลือกธนาคารที่ท่านใช้',
 
   atLeast2Image: 'กรุณาเลือกรูปอย่างน้อย 2 รูป',
   atLeast1Question: 'กรุณาเลือกคำถามอย่างน้อย 1 คำถาม',
@@ -69,6 +71,16 @@ export default {
 
   success: 'ตรวจแล้ว',
   pending: 'รอตรวจ',
+  nonePending: 'ยังไม่มีประวัติการทำรายการ',
+  nonePromotion: 'ยังไม่มีโปรโมชั่น',
+  priceProduct: 'ราคาที่ต้องชำระ',
+  transactionTime: 'เวลาที่ทำรายการ',
+  transactionType: 'ประเภทการทำรายการ',
+  transactionID: 'หมายเลขการทำรายการ',
+  waitVerify: 'รออนุมัติ',
+  successVerify: 'เสร็จสมบูรณ์',
+  uploadSlip: 'กรุณาอัพโหลดสลิปการโอนเงิน',
+  submitTransaction: 'ยืนยันการทำรายการ ?',
 
   ok: 'ตกลง',
   cancel: 'ยกเลิก',

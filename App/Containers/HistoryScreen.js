@@ -189,7 +189,7 @@ class HistoryScreen extends Component {
               </TouchableOpacity>
             )
           }}
-          ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>ยังไม่มีประวัติการส่งตรวจ</Text>}
+          ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
         />
       </LinearGradient>
 

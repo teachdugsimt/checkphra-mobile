@@ -245,7 +245,13 @@ class ProfileScreen extends Component {
         }
 
         {this.props.profile && this.props.profile.role != 'expert' && this.props.profile.role != 'admin' &&
-          <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("historyAddPoint")}>
+          <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => {
+            if (this.props.profile && this.props.profile.type == 'gen') {
+              this.props.navigation.navigate("historyAddPoint")
+            } else {
+              alert('Your account is Facebook')
+            }
+          }}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
               <Icon3
                 name="history"

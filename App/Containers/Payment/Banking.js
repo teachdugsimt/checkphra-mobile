@@ -12,6 +12,9 @@ import Icon3 from "react-native-vector-icons/Entypo";
 import moment from 'moment'
 import Spinner from 'react-native-loading-spinner-overlay';
 import { INITIAL_STATE } from '../../Redux/AuthRedux';
+import I18n from '../../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale("th");
 var ImagePicker = require('react-native-image-picker');
 var options = {
     title: 'Select Avatar',
@@ -99,17 +102,17 @@ class Banking extends Component {
         let time2 = f.slice(11, 19)
         let full = time1 + " " + time2
         if (!this.state.avatarSource) {
-            alert('กรุณาเลือกรูปภาพ')
+            alert(I18n.t('uploadSlip'))
         } else {
             if (!this.state.bank) {
-                alert('กรุณาคลิกเลือกธนาคารที่ทำการโอนเงิน')
+                alert(I18n.t('selectBank'))
             } else {
                 Alert.alert(
                     'Check Phra',
-                    'ยืนยันการทำรายการ?',
+                    I18n.t('submitTransaction'),
                     [
                         {
-                            text: 'ok', onPress: () => {
+                            text: I18n.t('ok'), onPress: () => {
                                 let item = {
                                     user_id: this.props.user_id,
                                     price: this.props.money,
@@ -126,7 +129,7 @@ class Banking extends Component {
                                 // }, 3000);
                             }
                         },
-                        { text: 'cancel' }
+                        { text: I18n.t('cancel')}
                     ],
                     { cancelable: false }
                 )
@@ -287,7 +290,7 @@ class Banking extends Component {
 
     render() {
         let heightView = 60
-        let widthView = '60%'
+        let widthView = '50%'
         let heightImg = 60
         let widthImg = 60
 
@@ -303,8 +306,8 @@ class Banking extends Component {
                     width: width,
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
-                <ScrollView style={{ flex: 1 }}>
-                    <Text style={{ alignSelf: 'center', marginTop: 20, fontSize: 18, }}>เลือกบัญชีธนาคารและจำนวนเงินที่ต้องการเติม</Text>
+                <ScrollView style={{ flex: 1, width: width }}>
+                    <Text style={{ alignSelf: 'center', marginTop: 20, fontSize: 18, }}>{I18n.t('selectBank')}</Text>
                     <Text style={{ alignSelf: 'center', marginTop: 8, fontSize: 20, fontWeight: 'bold' }}>นาย ทดสอบ ทดสอบ</Text>
 
                     <View style={{ justifyContent: 'flex-start', alignItems: 'center', height: 330, width: '100%', marginTop: 15 }}>
@@ -346,12 +349,12 @@ class Banking extends Component {
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-                        <Text style={{ fontSize: 16, alignSelf: 'center' }}>จำนวนเงินที่ต้องชำระ </Text>
+                        <Text style={{ fontSize: 16, alignSelf: 'center' }}>{I18n.t('priceProduct')} </Text>
                         <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'green', alignSelf: 'center' }}>{this.props.money}</Text>
                     </View>
 
                     <View style={{ justifyContent: 'flex-start', alignItems: 'center', marginTop: 10 }}>
-                        <Text style={{ fontSize: 16 }}>กรุณาอัพโหลดสลิปการโอนเงิน</Text>
+                        <Text style={{ fontSize: 16 }}>{I18n.t('uploadSlip')}</Text>
 
                         <TouchableOpacity style={{}} onPress={this.pick}>
                             <View style={{
@@ -366,7 +369,7 @@ class Banking extends Component {
                                 <View style={{ flexDirection: 'row' }}>
                                     <Text style={{
                                         fontFamily: 'Prompt-SemiBold', fontSize: 25, color: Colors.brownTextTran,
-                                    }}>สลิป</Text>
+                                    }}>Slip</Text>
 
                                     {this.props.image && < Icon3
                                         style={{ marginLeft: 40 }}
@@ -385,7 +388,7 @@ class Banking extends Component {
 
                     <View style={{ alignItems: 'center' }}>
                         <View style={{ margin: 10, width: 200 }}>
-                            <RoundedButton title={'ตกลง'}
+                            <RoundedButton title={I18n.t('ok')}
                                 onPress={() => this._pressButtonOk()}
                             // fetching={this.props.request2} 
                             />

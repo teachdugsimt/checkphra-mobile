@@ -98,7 +98,8 @@ export function* getHistory(api, { count }) {
     const a = yield select(auth)
 
     const data = {
-      user_id: a.user_id
+      user_id: a.user_id,
+      pageNumber: count,
     }
 
     const response = yield call(api.getHistory, data)
@@ -113,7 +114,8 @@ export function* getHistory(api, { count }) {
     const a = yield select(auth)
 
     const data = {
-      user_id: a.user_id
+      user_id: a.user_id,
+      pageNumber: count
     }
 
     const response = yield call(api.getHistory, data)

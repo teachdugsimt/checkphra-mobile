@@ -12,6 +12,9 @@ Omise.config('pkey_test_4xmprhd0qqlcoi4mpca', '2015-11-17');
 // import { CreditCardInput } from "react-native-credit-card-input";
 import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
 import Spinner from 'react-native-loading-spinner-overlay';
+import I18n from '../../I18n/i18n';
+I18n.fallbacks = true;
+I18n.currentLocale();
 const { width } = Dimensions.get('window')
 
 let obj
@@ -53,7 +56,7 @@ class Creditcard extends Component {
     }
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.props.navigation.goBack()
   }
 
@@ -98,10 +101,10 @@ class Creditcard extends Component {
     if (this.state.form.valid == true) {
       Alert.alert(
         'Check Phra',
-        'ยืนยันการทำรายการ?',
+        I18n.t('submitTransaction'),
         [
           {
-            text: 'ตกลง', onPress: () => {
+            text: I18n.t('ok'), onPress: () => {
               this.props.checkCard(data.id)
               setTimeout(() => {
                 this.props.navigation.goBack()
@@ -109,7 +112,7 @@ class Creditcard extends Component {
               }, 2000);
             }
           },
-          { text: 'ยกเลิก' }
+          { text: I18n.t('cancel') }
         ]
       )
     } else {

@@ -24,6 +24,7 @@ class UploadScreen extends Component {
     this.state = {
       amuletType: null,
       item: null,
+      language: ''
     }
   }
   // static navigationOptions = ({ navigation }) => {
@@ -34,97 +35,117 @@ class UploadScreen extends Component {
   //   };
   // };
 
+  static rename = (amuletTypes) => {
+    let item = []
+
+    if (!amuletTypes) { return item }
+
+    amuletTypes.map(e => {
+      let name = ''
+      if (e.name == 'เบญจภาคี' && e.id == 1) {
+        name = I18n.t('benjapakee')
+      }
+      else if (e.name == 'พระสมเด็จ' && e.id == 2) {
+        name = I18n.t('phraSomdej')
+      }
+      else if (e.name == 'นางพญา' && e.id == 3) {
+        name = I18n.t('phraNangPaya')
+      }
+      else if (e.name == 'พระคง' && e.id == 4) {
+        name = I18n.t('phraKhong')
+      }
+      else if (e.name == 'พระรอด' && e.id == 5) {
+        name = I18n.t('phraRod')
+      }
+      else if (e.name == 'พระผงสุพรรณ' && e.id == 6) {
+        name = I18n.t('phraPhongSuphan')
+      }
+      else if (e.name == 'พระซุ้มกอ' && e.id == 7) {
+        name = I18n.t('phraSoomkor')
+      }
+      else if (e.name == 'พระกำแพงเม็ดขนุน' && e.id == 8) {
+        name = I18n.t('phraKampaengMedKanun')
+      }
+      else if (e.name == 'หลวงปู่ทวด' && e.id == 9) {
+        name = I18n.t('luangPuTuad')
+      }
+      else if (e.name == 'หลวงปู่หมุน' && e.id == 10) {
+        name = I18n.t('luangPuMoon')
+      }
+      else if (e.name == 'พระกรุ' && e.id == 11) {
+        name = I18n.t('phraKru')
+      }
+      else if (e.name == 'เหรียญปั้ม' && e.id == 12) {
+        name = I18n.t('pumpCoin')
+      }
+      else if (e.name == 'เหรียญหล่อ' && e.id == 13) {
+        name = I18n.t('castingCoin')
+      }
+      else if (e.name == 'พระผง' && e.id == 14) {
+        name = I18n.t('phraPhong')
+      }
+      else if (e.name == 'พระกริ่ง' && e.id == 15) {
+        name = I18n.t('phraKring')
+      }
+      else if (e.name == 'พระปิดตา' && e.id == 16) {
+        name = I18n.t('phraPidta')
+      }
+      else if (e.name == 'เครื่องราง' && e.id == 17) {
+        name = I18n.t('amulet')
+      }
+      else if (e.name == 'พระบูชา' && e.id == 18) {
+        name = I18n.t('phraBucha')
+      }
+      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ' && e.id == 19) {
+        name = I18n.t('otherOrUnknown')
+      }
+      item.push({
+        "id": e.id,
+        "name": name,
+        "parent_id": null,
+        "image": null
+      })
+    })
+
+    return item
+  }
 
   static getDerivedStateFromProps(newProps, prevState) {
     let tlist = newProps.data_amulet
 
+    I18n.locale = newProps.language
+
+    // console.log('-------------')
+    // console.log(newProps)
+    // console.log(prevState)
 
 
-    console.log(newProps)
-    console.log(prevState)
+    let item = []
+    if (newProps.language != prevState.language && prevState.amuletType) {
+      // console.log('okokokok')
+      amuletTypes = prevState.amuletType.filter(e => !e.parent_id)
+      item = UploadScreen.rename(amuletTypes)
+    }
 
     if (newProps.data_amulet != null && newProps.data_amulet != prevState.amuletType) {
-      let item = []
-      const amuletTypes = newProps.data_amulet.filter(e => !e.parent_id)
-      // newProps.data_amulet.map(e => {
-      amuletTypes.map(e => {
-        let name = ''
-        if (e.name == 'เบญจภาคี' && e.id == 1) {
-          name = I18n.t('benjapakee')
-        }
-        else if (e.name == 'พระสมเด็จ' && e.id == 2) {
-          name = I18n.t('phraSomdej')
-        }
-        else if (e.name == 'นางพญา' && e.id == 3) {
-          name = I18n.t('phraNangPaya')
-        }
-        else if (e.name == 'พระคง' && e.id == 4) {
-          name = I18n.t('phraKhong')
-        }
-        else if (e.name == 'พระรอด' && e.id == 5) {
-          name = I18n.t('phraRod')
-        }
-        else if (e.name == 'พระผงสุพรรณ' && e.id == 6) {
-          name = I18n.t('phraPhongSuphan')
-        }
-        else if (e.name == 'พระซุ้มกอ' && e.id == 7) {
-          name = I18n.t('phraSoomkor')
-        }
-        else if (e.name == 'พระกำแพงเม็ดขนุน' && e.id == 8) {
-          name = I18n.t('phraKampaengMedKanun')
-        }
-        else if (e.name == 'หลวงปู่ทวด' && e.id == 9) {
-          name = I18n.t('luangPuTuad')
-        }
-        else if (e.name == 'หลวงปู่หมุน' && e.id == 10) {
-          name = I18n.t('luangPuMoon')
-        }
-        else if (e.name == 'พระกรุ' && e.id == 11) {
-          name = I18n.t('phraKru')
-        }
-        else if (e.name == 'เหรียญปั้ม' && e.id == 12) {
-          name = I18n.t('pumpCoin')
-        }
-        else if (e.name == 'เหรียญหล่อ' && e.id == 13) {
-          name = I18n.t('castingCoin')
-        }
-        else if (e.name == 'พระผง' && e.id == 14) {
-          name = I18n.t('phraPhong')
-        }
-        else if (e.name == 'พระกริ่ง' && e.id == 15) {
-          name = I18n.t('phraKring')
-        }
-        else if (e.name == 'พระปิดตา' && e.id == 16) {
-          name = I18n.t('phraPidta')
-        }
-        else if (e.name == 'เครื่องราง' && e.id == 17) {
-          name = I18n.t('amulet')
-        }
-        else if (e.name == 'พระบูชา' && e.id == 18) {
-          name = I18n.t('phraBucha')
-        }
-        else if (e.name == 'อื่นๆ หรือ ไม่ทราบ' && e.id == 19) {
-          name = I18n.t('otherOrUnknown')
-        }
-        item.push({
-          "id": e.id,
-          "name": name,
-          "parent_id": null,
-          "image": null
-        })
-      })
-      return {
-        item: item,
-        amuletType: newProps.data_amulet
-      }
+      amuletTypes = newProps.data_amulet.filter(e => !e.parent_id)
+      item = UploadScreen.rename(amuletTypes)
     }
-
-
 
     return {
-      amuletType: tlist,
-      // item
+      item: item,
+      amuletType: newProps.data_amulet,
+      language: newProps.language
     }
+
+
+
+
+
+    // return {
+    //   amuletType: tlist,
+    //   language: newProps.language
+    // }
   }
 
   getTypePhra = (item) => {
@@ -139,7 +160,7 @@ class UploadScreen extends Component {
 
   componentDidMount() {
     this.props.getAmuletType()
-    this.props.setLanguage('en')
+    // this.props.setLanguage('en')
     this.props.clearDataQuestion()
   }
 

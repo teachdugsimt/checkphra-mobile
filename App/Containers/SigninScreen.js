@@ -47,13 +47,14 @@ class SigninScreen extends Component {
 
   componentDidMount() {
     this.setState({ spinner: false })
+    console.log(this.props.profile)
     if (this.props.profile) {
       if (this.props.profile.role == 'expert') {
         this.props.navigation.navigate('ExpertApp')
       } else if (this.props.profile.role == 'admin') {
         this.props.navigation.navigate('AdminApp')
       }
-      else {
+      else if (this.props.profile.role == 'user') {
         this.props.navigation.navigate('App')
       }
     }
@@ -76,17 +77,18 @@ class SigninScreen extends Component {
     let spinner = true
     if (!prevState.profile && prevState.profile != nextProps.profile) {
       spinner = false
+      console.log(nextProps.profile)
       if (nextProps.profile.role == 'expert') {
         nextProps.navigation.navigate('ExpertApp')
       } else if (nextProps.profile.role == 'admin') {
         nextProps.navigation.navigate('AdminApp')
       }
-      else {
+      else if (nextProps.profile.role == 'user') {
         nextProps.navigation.navigate('App')
       }
-    } 
+    }
 
-    if(nextProps.fetch == false){
+    if (nextProps.fetch == false) {
       spinner = false
     }
 
@@ -212,7 +214,9 @@ class SigninScreen extends Component {
   //   }
   // }
 
+
   render() {
+    console.log(this.props.language)
     I18n.locale = this.props.language
     // console.log(this.state.inputEmail)
     // console.log(this.state.inputPass)

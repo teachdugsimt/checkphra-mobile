@@ -33,8 +33,6 @@ import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 I18n.currentLocale();
 
-const auth = state => state.auth
-I18n.locale = auth.language
 
 const AuthStack = StackNavigator(
   {
@@ -434,6 +432,22 @@ const PrimaryNav = SwitchNavigator(
     }
   }
 );
+
+// const mapStateToProps = state => {
+//   return {
+//     language: state.auth.language,
+//   };
+// };
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//   };
+// };
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(PrimaryNav);
 
 export default PrimaryNav;
 

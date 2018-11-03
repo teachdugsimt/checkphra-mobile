@@ -2,6 +2,9 @@ import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import I18n from '../I18n/i18n'
 
+I18n.fallbacks = true;
+// I18n.currentLocale();
+
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
@@ -43,7 +46,7 @@ export const INITIAL_STATE = Immutable({
   request2: null,  // create user check phra with access token form FIREBASE
   data_create: null,  // data create user
 
-  language: 'en',
+  language: I18n.currentLocale(),
 })
 
 /* ------------- Selectors ------------- */
@@ -93,7 +96,7 @@ export const createSuccess = (state, { data }) => {
 }
 export const createFailure = state => state.merge({ request2: false })
 
-export const setLanguage = (state, {language}) =>{
+export const setLanguage = (state, { language }) => {
   return state.merge({ language })
 }
 

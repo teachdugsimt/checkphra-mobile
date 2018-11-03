@@ -31,7 +31,8 @@ import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator } from 'rea
 
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// console.log(I18n.locale)//
+// I18n.currentLocale();
 
 
 const AuthStack = StackNavigator(
@@ -79,9 +80,7 @@ const UploadStack = StackNavigator(  // main upload
   {
     uploadScreen: {
       screen: UploadScreen,
-      navigationOptions: {
-        title: I18n.t('selectAmuletType'),
-      }
+
     },
     detail: {
       screen: DetailTypeScreen,
@@ -427,8 +426,11 @@ const PrimaryNav = SwitchNavigator(
     // Default config for all screens
     headerMode: "none",
     initialRouteName: "Auth",
-    navigationOptions: {
-      headerStyle: styles.header
+    navigationOptions: ({ navigation }) => {
+
+      return {
+        headerStyle: styles.header
+      }
     }
   }
 );

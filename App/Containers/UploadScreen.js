@@ -19,6 +19,15 @@ I18n.fallbacks = true;
 let { width } = Dimensions.get('window')
 
 class UploadScreen extends Component {
+
+  static navigationOptions = ({ navigation, st }) => {
+    console.log(navigation)
+    console.log(st)
+    return {
+      title: I18n.t('selectAmuletType'),
+    }
+  }
+
   constructor(props) {
     super(props)
     this.state = {

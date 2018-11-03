@@ -4,6 +4,8 @@ import { addNavigationHelpers } from 'react-navigation'
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers'
 import { connect } from 'react-redux'
 import AppNavigation from './AppNavigation'
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
 
 class ReduxNavigation extends React.Component {
   componentWillMount() {
@@ -26,7 +28,10 @@ class ReduxNavigation extends React.Component {
   }
 
   render() {
-    return <AppNavigation navigation={addNavigationHelpers({ dispatch: this.props.dispatch, state: this.props.nav, lang: this.props.lang, addListener: createReduxBoundAddListener('root') })} />
+    // console.log('aaaaaaaaaa')
+    // console.log(this.props.lang)
+    // I18n.locale = this.props.lang
+    return <AppNavigation navigation={addNavigationHelpers({ dispatch: this.props.dispatch, lang: this.props.lang, state: this.props.nav, addListener: createReduxBoundAddListener('root') })} />
   }
 }
 

@@ -37,6 +37,7 @@ class HistoryScreen extends Component {
     // });
     count = 1
     this.props.getHistory()
+    this.props.clearDataQuestion()
   }
   componentWillMount() {
     count = 1
@@ -216,6 +217,7 @@ const mapDispatchToProps = (dispatch) => {
     getHistory: (count) => dispatch(QuestionActions.getHistory(count)),
     getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
     deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
+    clearDataQuestion: () => dispatch(QuestionActions.clearDataQuestion())
   }
 }
 

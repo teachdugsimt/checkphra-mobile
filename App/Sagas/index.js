@@ -17,7 +17,7 @@ import { ExpertTypes } from '../Redux/ExpertRedux'
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
-import { signin, signinWithCredential, signup } from './AuthSagas'
+import { signin, signinWithCredential, signup, createUser } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest } from './PaymentSagas'
@@ -44,6 +44,7 @@ export default function * root () {
     takeLatest(AuthTypes.SIGNIN_REQUEST, signin, authApi),
     takeLatest(AuthTypes.SIGNIN_WITH_CREDENTIAL, signinWithCredential, authApi),
     takeLatest(AuthTypes.SIGNUP, signup, authApi),
+    takeLatest(AuthTypes.CREATE_USER, createUser, authApi),
 
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),

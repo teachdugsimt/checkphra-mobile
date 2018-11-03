@@ -84,6 +84,10 @@ class SigninScreen extends Component {
       else {
         nextProps.navigation.navigate('App')
       }
+    } 
+
+    if(nextProps.fetch == false){
+      spinner = false
     }
 
     return {
@@ -165,6 +169,7 @@ class SigninScreen extends Component {
       )
     } else if (this.state.chkMail == true && this.state.inputPass.length > 5 && this.state.inputPass.length < 19) {
       console.log("success")
+      this.login()
       // this.props.signup(this.state.email, this.state.pass) // signin
     } else {
       Alert.alert(
@@ -193,14 +198,19 @@ class SigninScreen extends Component {
   }
 
   login = () => {
-    if (!this.state.inputEmail || !this.state.inputPass) {
-      alert("กรุณากรอกข้อมูลให้ครบถ้วน")
-      this.setState({ spinner: false })
-    } else {
-      this.setState({ spinner: true })
-      this.props.signin(this.state.inputEmail, this.state.inputPass)
-    }
+    this.setState({ spinner: true })
+    this.props.signin(this.state.inputEmail, this.state.inputPass)
   }
+
+  // login = () => {
+  //   if (!this.state.inputEmail || !this.state.inputPass) {
+  //     alert("กรุณากรอกข้อมูลให้ครบถ้วน")
+  //     this.setState({ spinner: false })
+  //   } else {
+  //     this.setState({ spinner: true })
+  //     this.props.signin(this.state.inputEmail, this.state.inputPass)
+  //   }
+  // }
 
   render() {
     // console.log(this.state.inputEmail)
@@ -262,7 +272,8 @@ class SigninScreen extends Component {
             </View>
 
             <View style={{ marginTop: Metrics.doubleBaseMargin }}>
-              <RoundedButton title={I18n.t('login')} onPress={() => this.login()} />
+              {/* <RoundedButton title={I18n.t('login')} onPress={() => this.login()} /> */}
+              <RoundedButton title={I18n.t('login')} onPress={() => this.getReg()} />
             </View>
 
 
@@ -322,7 +333,8 @@ class SigninScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    profile: state.auth.profile
+    profile: state.auth.profile,
+    fetch: state.auth.fetching,
   };
 };
 

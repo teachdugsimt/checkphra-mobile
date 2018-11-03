@@ -105,6 +105,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNUP_FAILURE]: failureRequestSignup,
 
   [Types.CREATE_USER]: createUser,
+  [Types.CREATE_SUCCESS]: createSuccess,
+  [Types.CREATE_FAILURE]: createFailure,
 
   [Types.SIGNOUT]: signout
 })

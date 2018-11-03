@@ -20,7 +20,7 @@ export default {
   selectAmuletType: 'Select amulet type',
   selectImagesAndQuestions: 'Select images and questions',
 
-  benjapakee: 'Benjapakee',
+  benjapakee: 'Benja pakee',
   phraSomdej: 'Phra Somdej',
   phraNangPaya: 'Phra NangPaya',
   phraKhong: 'Phra Khong',

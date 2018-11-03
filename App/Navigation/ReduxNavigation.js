@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import AppNavigation from './AppNavigation'
 
 class ReduxNavigation extends React.Component {
-  componentWillMount () {
+  componentWillMount() {
     if (Platform.OS === 'ios') return
     BackHandler.addEventListener('hardwareBackPress', () => {
       const { dispatch, nav } = this.props
@@ -20,17 +20,18 @@ class ReduxNavigation extends React.Component {
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (Platform.OS === 'ios') return
     BackHandler.removeEventListener('hardwareBackPress')
   }
 
-  render () {
-    return <AppNavigation navigation={addNavigationHelpers({ dispatch: this.props.dispatch, state: this.props.nav, addListener: createReduxBoundAddListener('root') })} />
+  render() {
+    return <AppNavigation navigation={addNavigationHelpers({ dispatch: this.props.dispatch, state: this.props.nav, lang: this.props.lang, addListener: createReduxBoundAddListener('root') })} />
   }
 }
 
-const mapStateToProps = state => ({ 
-  nav: state.nav
- })
+const mapStateToProps = state => ({
+  nav: state.nav,
+  lang: state.auth.language
+})
 export default connect(mapStateToProps)(ReduxNavigation)

@@ -294,7 +294,7 @@ class ProfileScreen extends Component {
                 color: Colors.brownText, marginHorizontal: 10
               }}
             >
-              {this.props.language}
+              {this.props.language.includes('th') ? 'ไทย' : 'English'}
             </Text>
           </View>
 

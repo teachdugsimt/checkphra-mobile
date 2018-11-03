@@ -17,6 +17,7 @@ import CheckBox from 'react-native-check-box'
 import * as Progress from 'react-native-progress';
 
 import Icon2 from "react-native-vector-icons/FontAwesome";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
@@ -34,11 +35,12 @@ class SendImageScreen extends Component {
       message: '',
       fetch: null,
       dataType: null,
+      questionData: null,
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    
+
     console.log(nextProps)
     console.log(prevState)
     // if (nextProps.questionType && nextProps.questionType.length > 0 && prevState.check == true) {
@@ -55,7 +57,7 @@ class SendImageScreen extends Component {
     //     questionType: qtype,
     //     check: false
     //   }
-    // } 
+    // }
 
 
     if (nextProps.questionType && nextProps.questionType.length != 0) {
@@ -77,8 +79,13 @@ class SendImageScreen extends Component {
           dataType: nextProps.questionType
         }
       }
-    } 
-   
+    }
+
+    if (nextProps.questionData != prevState.questionData) {
+      // nextProps.navigation.goBack()
+      nextProps.navigation.navigate('his')
+    }
+
     //  images , request => change
     // if (nextProps.request) {
     //   if (nextProps.images.length != 0) {
@@ -89,6 +96,7 @@ class SendImageScreen extends Component {
 
     return {
       // questionType: qtype,
+      // questionData: nextProps.questionData
     }
   }
 
@@ -156,8 +164,8 @@ class SendImageScreen extends Component {
         )
       } else {
         this.props.addQuestion()
-        this.props.navigation.goBack()
-        this.props.navigation.navigate('his')
+        // this.props.navigation.goBack()
+        // this.props.navigation.navigate('his')
       }
     }
 
@@ -170,8 +178,10 @@ class SendImageScreen extends Component {
     //   this.props.navigation.navigate('his')
     // }
     I18n.locale = this.props.language
+
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
+
         <Image source={Images.watermarkbg} style={{
           position: 'absolute',
           right: 0, bottom: 0,
@@ -248,6 +258,11 @@ class SendImageScreen extends Component {
           </View>
 
         </ScrollView>
+        <Spinner
+          visible={this.props.request}
+          textContent={'Uploading...'}
+          textStyle={{ color: '#fff' }}
+        />
       </LinearGradient>
     )
   }
@@ -256,6 +271,7 @@ class SendImageScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     questionType: state.question.questionType,
+    questionData: state.question.data_question,
     images: state.question.images,
     profile: state.question.profile,
     p: state.auth.profile,

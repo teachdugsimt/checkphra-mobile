@@ -38,6 +38,8 @@ class UploadScreen extends Component {
   static getDerivedStateFromProps(newProps, prevState) {
     let tlist = newProps.data_amulet
 
+
+
     console.log(newProps)
     console.log(prevState)
 
@@ -138,6 +140,7 @@ class UploadScreen extends Component {
   componentDidMount() {
     this.props.getAmuletType()
     this.props.setLanguage('en')
+    this.props.clearDataQuestion()
   }
 
   render() {
@@ -213,7 +216,8 @@ const mapDispatchToProps = dispatch => {
       return dispatch(QuestionActions.setAmuletType(type))
     },
     getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
-    setLanguage: (language) => dispatch(AuthActions.setLanguage(language))
+    setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
+    clearDataQuestion: () => dispatch(QuestionActions.clearDataQuestion())
   };
 };
 

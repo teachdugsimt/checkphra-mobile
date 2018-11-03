@@ -242,8 +242,8 @@ const DashStack = TabNavigator(
   {
     upload: UploadStack,
     his: HistoryStack,
-    profile: ProfileStack,
     pro: PromotionStack,
+    profile: ProfileStack,
   },
   {
     initialRouteName: "upload",

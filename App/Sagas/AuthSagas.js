@@ -108,48 +108,22 @@ export function* signup(api, { id, password }) {
   }
 }
 
-// function* signupAtFirebase(api, getFirebase, email, accessToken) {
+export function* createUser(api, { email, uid }) {
+  console.log(email)
+  console.log(uid)
+  console.log('SEND TO CREATE CHECK PHRA USER')
 
-//   try {
-//     const result = yield call(getFirebase().login, { email, password: accessToken })
-//     console.log(result)
-//     // yield put(AuthActions.step2Signup())
-//     yield* step2Signup(api)
-//   } catch (error) {
-//     let message = JSON.parse(error.data.message)
-//     if ((message).indexOf("has already been taken") != -1) {
-//       yield put(AuthActions.signupFailure())
-//       alert("อีเมลนี้ถูกใช้งานแล้ว")
-//     } else if (message == 'NETWORK_ERROR') {
-//       yield put(AuthActions.signupFailure())
-//       alert('การเชื่อมต่ออินเตอร์เน็ตผิดพลาด')
-//     } else {
-//       yield put(AuthActions.signupFailure())
-//       alert('กรุณาตรวจสอบ อีเมลและรหัสผ่าน')
-//     }
-//   }
+  const data = {
+    email: email,
+    access_token: uid,
+  }
 
-// }
+  const response = yield call(api.savedata, data)
+  console.log(response)
 
-// export function* step2Signup(api) {
-
-//   const fb = yield select(firebase)   //เลือก firebase จาก Redux มาใช้
-
-//   if (!fb.auth.isEmpty) {
-//     const data = {
-//       email: fb.auth.email,
-//       access_token: fb.auth.uid
-//     }
-//     const response = yield call(api.savedata, data)
-//     if (response.ok) {
-//       yield console.log('SEND_API')
-//       yield put(AuthActions.signupSuccess(response.data))
-
-//     } else {
-//       let message = JSON.parse(response.data.message)
-//       yield put(AuthActions.signupFailure())
-//       alert(message)
-//     }
-
-//   }
-// }
+  if(response.ok){
+    yield put(AuthActions.createSuccess(response.data))
+  } else {
+    yield put(AuthActions.createFailure())
+  }
+}

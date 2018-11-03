@@ -147,7 +147,7 @@ class ProfileScreen extends Component {
           <View style={{ flexDirection: 'column', justifyContent: 'center', flex: 2 }}>
             <View style={{ flexDirection: 'row' }}>
               {this.props.profile &&
-                <Text>{this.props.profile.firstname + " " + this.props.profile.lastname} </Text>
+                <Text>{(this.props.profile.firstname != null ? this.props.profile.firstname : 'User') + " " + (this.props.profile.lastname != null ? this.props.profile.lastname : 'CheckPhra')} </Text>
               }
             </View>
             {/* <Text style={{ marginTop: 5, color: 'orange' }}>Check Phra Account</Text> */}

@@ -11,7 +11,7 @@ import firebase from 'react-native-firebase';
 // Styles
 import styles from "./Styles/RegisterScreenStyle";
 import { Colors, Images } from "../Themes";
-
+import Spinner from 'react-native-loading-spinner-overlay';
 let { width } = Dimensions.get('window')
 
 class RegisterScreen extends Component {
@@ -24,50 +24,25 @@ class RegisterScreen extends Component {
       chkMail: false,
       uid: null,
       data_fire: null,
-      errorMessage: null
+      errorMessage: null,
+      spinner: false
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.dataRegister != this.props.dataRegister) {
-  //     // console.log(nextProps.dataRegister)
-  //     // console.log(this.state.email)
-  //     // console.log(nextProps.dataRegister.access_token)
-  //     // this.signinWithFirebase(this.state.email, nextProps.dataRegister.access_token)
-  //     Alert.alert(
-  //       'Check Phra',
-  //       'สมัครสมาชิกเรียบร้อย',
-  //       [
-  //         { text: 'ตกลง', onPress: () => { this.props.navigation.navigate('Auth') } }
-  //       ],
-  //       { cancelable: false }
-  //     )
-  //   }
-  // }
 
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
     console.log(prevState)
     if (newProps.dataRegister && newProps.dataRegister.length != 0) {
-
-      // const credential = firebase.auth().createUserWithEmailAndPassword(prevState.email, newProps.dataRegister.access_token)
-      //   .then(() => {
-      //     this.props.navigation.navigate('Auth')
-      //     console.log(credential)
-      //     console.log("HERE CREDENTIAL")
-      //   })
-      //   .catch(error => { return { errorMessage: error.message } })
-      // this.signupAtFirebase(prevState.email, newProps.dataRegister.access_token)
-
-      // const credential = firebase.auth().createUserWithEmailAndPassword(prevState.email, newProps.dataRegister.access_token);
-      // const currentUser = firebase.auth().signInAndRetrieveDataWithCredential(credential);
-      // const currentUserJson = currentUser.user.toJSON()
-
-      // console.log(currentUserJson)
-      // console.log('SUCCESS FIREBASE')
       return {
         uid: newProps.dataRegister.access_token,
         // data_fire: currentUserJson
+      }
+    }
+
+    if (newProps.request2 == false) {
+      return {
+        spinner: false
       }
     }
     return {
@@ -79,10 +54,9 @@ class RegisterScreen extends Component {
     if (uid && uid != null) {
       firebase.auth().createUserWithEmailAndPassword(email, uid)
         .then((response) => {
-          // console.log(credential)
           console.log(response.user._user.email)
           console.log(response.user._user.uid)
-          console.log("HERE RESPONSE")
+          this.props.createUser(response.user._user.email, response.user._user.uid)
           this.props.navigation.navigate('Auth')
         })
         .catch(error => this.setState({ errorMessage: error.message }))
@@ -124,6 +98,7 @@ class RegisterScreen extends Component {
       )
     } else if (this.state.chkMail == true && this.state.pass.length > 5 && this.state.pass2.length > 5 && this.state.pass.length < 19 && this.state.pass.length < 19 && this.state.pass == this.state.pass2) {
       console.log("success")
+      this.setState({ spinner: true })
       this.props.signup(this.state.email, this.state.pass)
       this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
       // this.signupAtFirebase(this.state.email, this.state.pass)
@@ -138,64 +113,6 @@ class RegisterScreen extends Component {
       )
     }
   }
-
-  // signinWithFirebase(email, password) {
-  //   console.log('login to firebase ' + email + ' ' + password)
-  //   this.props.firebase.login({
-  //     email: email,
-  //     password: password
-  //   }).then((data) => {
-  //     // console.log(data)
-  //     // this.setState({error: data})
-  //   }).catch((error) => {
-  //     this.setState({ error: error, signining: false })
-  //   })
-  // }
-
-  // getReg = () => {
-  //   if (this.state.chkMail == false) {
-  //     Alert.alert(
-  //       'Check Phra',
-  //       'กรุณากรอก E-mail ให้ถูกต้อง',
-  //       [
-  //         { text: 'ตกลง' }
-  //       ],
-  //       { cancelable: false }
-  //     )
-  //   }
-  //   else if (this.state.pass.length > 18 || this.state.pass.length < 6 || this.state.pass2.length > 18 || this.state.pass2.length < 6) {
-
-  //     Alert.alert(
-  //       'Check Phra',
-  //       'กรุณาใส่พาสเวิร์ดความยาว 6-18 ตัว (A-z,0-9)',
-  //       [
-  //         { text: 'ตกลง' }
-  //       ],
-  //       { cancelable: false }
-  //     )
-  //   } else if (this.state.pass != this.state.pass2) {
-  //     Alert.alert(
-  //       'Check Phra',
-  //       'กรุณาใส่พาสเวิร์ดและยืนยันพาสเวิร์ดให้ถูกต้อง',
-  //       [
-  //         { text: 'ตกลง' }
-  //       ],
-  //       { cancelable: false }
-  //     )
-  //   } else if (this.state.chkMail == true && this.state.pass.length > 5 && this.state.pass2.length > 5 && this.state.pass.length < 19 && this.state.pass.length < 19 && this.state.pass == this.state.pass2) {
-  //     console.log("success")
-  //     this.props.signup(this.state.email, this.state.pass)
-  //   } else {
-  //     Alert.alert(
-  //       'Check Phra',
-  //       'กรุณาใส่ข้อมูลให้ถูกต้อง',
-  //       [
-  //         { text: 'ตกลง' }
-  //       ],
-  //       { cancelable: false }
-  //     )
-  //   }
-  // }
 
   validate = (text) => {
     // console.log(text);
@@ -213,6 +130,10 @@ class RegisterScreen extends Component {
 
   goBack = () => {
     this.props.navigation.navigate("Auth")
+  }
+
+  componentDidMount() {
+    this.setState({ spinner: false })
   }
 
   render() {
@@ -363,6 +284,11 @@ class RegisterScreen extends Component {
               กลับสู่หน้า signin
           </Text>
           </TouchableOpacity>
+          <Spinner
+            visible={this.state.spinner}
+            textContent={'Loading...'}
+            textStyle={{ color: '#fff' }}
+          />
         </View>
 
       </LinearGradient>
@@ -373,10 +299,12 @@ class RegisterScreen extends Component {
 const mapStateToProps = (state) => ({
   request: state.auth.request,
   dataRegister: state.auth.dataRegister,
+  request2: state.auth.request2,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   signup: (id, password) => dispatch(AuthActions.signup(id, password)),
+  createUser: (email, uid) => dispatch(AuthActions.createUser(email, uid))
 });
 
 export default compose(

@@ -82,7 +82,7 @@ class HistoryScreen extends Component {
 
     //beta algorithm test version
     if (newProps.request_question == false && newProps.data_question != null) {
-      newProps.getHistory()
+      newProps.getHistory(1)
       return {
         data_history: newProps.history
       }

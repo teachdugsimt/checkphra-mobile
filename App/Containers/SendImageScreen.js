@@ -83,6 +83,10 @@ class SendImageScreen extends Component {
 
     if (nextProps.questionData != prevState.questionData) {
       // nextProps.navigation.goBack()
+      // Alert.alert(
+      //   'CheckPhra',
+      //   ''
+      // )
       nextProps.navigation.navigate('his')
     }
 

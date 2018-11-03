@@ -76,14 +76,14 @@ class HistoryPoint extends Component {
         // *********************************************************************//
 
         if (newProps.request2 == false && newProps.data_slip != null) {
-            newProps.getHistory()
+            newProps.getHistory(1)
             return {
                 history_data: newProps.data_history
             }
         }
 
         if (newProps.request3 == false) {
-            newProps.getHistory()
+            newProps.getHistory(1)
             return {
                 history_data: newProps.data_history
             }
@@ -105,6 +105,13 @@ class HistoryPoint extends Component {
     }
 
     _onScrollEndList = () => {
+        // if(this.state.history_data.length > 10){
+        //     console.log('END OF LIST AGAIN')
+        //     count++
+        //     this.props.getHistory(count)
+        // } else if(this.state.history_data.length < 11) {
+        //     count = 1
+        // }
         console.log('END OF LIST AGAIN')
         count++
         this.props.getHistory(count)

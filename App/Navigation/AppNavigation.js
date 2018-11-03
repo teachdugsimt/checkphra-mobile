@@ -31,8 +31,6 @@ import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator } from 'rea
 
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-// console.log(I18n.locale)//
-// I18n.currentLocale();
 
 
 const AuthStack = StackNavigator(

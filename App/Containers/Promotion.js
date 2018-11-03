@@ -101,6 +101,18 @@ class Promotion extends Component {
     }
     render() {
         I18n.locale = this.props.language
+        // const a = [
+        //     { id: 5, name: 'name5' },
+        //     { id: 1, name: 'name1' },
+        //     { id: 3, name: 'name3' },
+        //     { id: 2, name: 'name2' },
+        //     { id: 4, name: 'name4' }
+        // ]
+
+        // console.log(a)
+        // console.log('BEFORE')
+        // console.log(a.sort(function(a, b){return a.id-b.id}))
+        // console.log('AFTER')
         // console.log('HERE PROMOTION')
         // console.log(this.props.promotion)
         return (

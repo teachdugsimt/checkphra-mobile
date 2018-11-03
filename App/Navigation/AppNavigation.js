@@ -31,7 +31,7 @@ import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator } from 'rea
 
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
-I18n.currentLocale();
+// I18n.currentLocale();
 
 const auth = state => state.auth
 I18n.locale = auth.language

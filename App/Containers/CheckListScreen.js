@@ -74,7 +74,7 @@ class CheckListScreen extends Component {
     if (newProps.data_answer != null) {
       let tmp = newProps.history.find(e => e.id == newProps.data_answer.q_id)
       if (tmp && tmp != undefined && newProps.data_answer.q_id == tmp.id) {
-        newProps.getHistory()
+        newProps.getHistory(1)
         return {
           data_tmp: newProps.history
         }

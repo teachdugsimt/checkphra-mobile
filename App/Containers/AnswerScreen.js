@@ -16,7 +16,7 @@ const { width, height } = Dimensions.get('window')
 let shareLinkContent = {
   contentType: 'link',
   contentUrl: '',
-  contentDescription: 'Facebook sharing is easy!'
+  contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
 }
 
 class AnswerScreen extends Component {
@@ -29,7 +29,9 @@ class AnswerScreen extends Component {
       modalVisible: false,
       img2: null,
     }
+   
   }
+
 
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
@@ -41,7 +43,8 @@ class AnswerScreen extends Component {
         newProps.answer[0].images.map(e => {
           img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
         })
-        shareLinkContent.contentUrl = img2[0].url
+        // shareLinkContent.contentUrl = img2[0].url
+        shareLinkContent.contentUrl = 'www.checkphra.com'
         return {
           img2,
         }
@@ -171,7 +174,7 @@ class AnswerScreen extends Component {
             onLogoutFinished={() => alert("User logged out")} /> */}
 
           <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#3F54C4', borderRadius: 5, marginTop: 20 }}>
-              <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
+            <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
             <Text style={{ fontSize: 20, margin: 10, color: 'white', fontWeight: 'bold' }}>Share</Text>
           </TouchableOpacity>
 

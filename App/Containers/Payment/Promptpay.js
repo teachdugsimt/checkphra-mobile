@@ -272,114 +272,114 @@ class Promptpay extends Component {
           width: width,
           height: width * 95.7 / 100
         }} resizeMode='contain' />
-        <View style={{ marginTop: Metrics.doubleBaseMargin }}>
-          <Text style={{ fontSize: 16, alignSelf: 'center' }}>{I18n.t('promptpay')}</Text>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }} >092-981-8252</Text>
+
+        <ScrollView style={{ flex: 1 }}>
+          <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+            <Text style={{ fontSize: 16, alignSelf: 'center' }}>{I18n.t('promptpay')}</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }} >092-981-8252</Text>
 
 
 
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 60, width: '100%', marginTop: 15 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 60, width: '100%', marginTop: 15 }}>
 
-            <TouchableOpacity
-              onPress={this._kbank}
-              style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.kbankBorder, backgroundColor: this.state.kbankBackground }}>
-              <Image source={img[0]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this._kbank}
+                style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.kbankBorder, backgroundColor: this.state.kbankBackground }}>
+                <Image source={img[0]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={this._scb}
-              style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.scbBorder, backgroundColor: this.state.scbBackground }}>
-              <Image source={img[1]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this._scb}
+                style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.scbBorder, backgroundColor: this.state.scbBackground }}>
+                <Image source={img[1]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={this._krungthep}
-              style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.krungthepBorder, backgroundColor: this.state.krungthepBackground }}>
-              <Image source={img[2]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this._krungthep}
+                style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.krungthepBorder, backgroundColor: this.state.krungthepBackground }}>
+                <Image source={img[2]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
+              </TouchableOpacity>
 
-          </View>
-
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 60, width: '100%', marginTop: 15 }}>
-
-            <TouchableOpacity
-              onPress={this._ktb}
-              style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.ktbBorder, backgroundColor: this.state.ktbBackground }}>
-              <Image source={img[3]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={this._tmb}
-              style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.tmbBorder, backgroundColor: this.state.tmbBackground }}>
-              <Image source={img[4]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
-            </TouchableOpacity>
-
-          </View>
-
-
-
-
-          <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-            <Text style={{ fontSize: 16, alignSelf: 'center' }}>{I18n.t('priceProduct')} </Text>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'green', alignSelf: 'center' }}>{this.props.money}</Text>
-          </View>
-
-          <View style={{ justifyContent: 'flex-start', alignItems: 'center', marginTop: 10 }}>
-            <Text style={{ fontSize: 16 }}>{I18n.t('uploadSlip')}</Text>
-
-            <TouchableOpacity style={{}} onPress={this.pick}>
-              <View style={{
-                justifyContent: 'center', alignItems: 'center', borderWidth: 3,
-                borderColor: Colors.brownTextTran, borderRadius: 10, margin: 5, overflow: 'hidden', height: 150, width: 150
-              }}>
-                <Icon3
-                  name="camera"
-                  size={40}
-                  color={Colors.brownTextTran}
-                />
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{
-                    fontFamily: 'Prompt-SemiBold', fontSize: 25, color: Colors.brownTextTran,
-                  }}>Slip</Text>
-
-                  {this.props.image && < Icon3
-                    style={{ marginLeft: 40 }}
-                    name="squared-cross"
-                    size={24}
-                    color={'red'}
-                    onPress={() => { this.props.deleteImage() }}
-                  />}
-                </View>
-
-                <Image source={this.state.avatarSource && this.props.image ? this.state.avatarSource : ''} style={{ width: '100%', height: '100%' }} />
-              </View>
-            </TouchableOpacity>
-
-          </View>
-
-          <View style={{ alignItems: 'center' }}>
-            <View style={{ margin: 10, width: 200 }}>
-              <RoundedButton title={'ตกลง'}
-                onPress={() => this._pressButtonOk()}
-              // fetching={this.props.request2} 
-              />
             </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 60, width: '100%', marginTop: 15 }}>
+
+              <TouchableOpacity
+                onPress={this._ktb}
+                style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.ktbBorder, backgroundColor: this.state.ktbBackground }}>
+                <Image source={img[3]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={this._tmb}
+                style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.tmbBorder, backgroundColor: this.state.tmbBackground }}>
+                <Image source={img[4]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
+              </TouchableOpacity>
+
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+              <Text style={{ fontSize: 16, alignSelf: 'center' }}>{I18n.t('priceProduct')} </Text>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'green', alignSelf: 'center' }}>{this.props.money}</Text>
+            </View>
+
+            <View style={{ justifyContent: 'flex-start', alignItems: 'center', marginTop: 10 }}>
+              <Text style={{ fontSize: 16 }}>{I18n.t('uploadSlip')}</Text>
+
+              <TouchableOpacity style={{}} onPress={this.pick}>
+                <View style={{
+                  justifyContent: 'center', alignItems: 'center', borderWidth: 3,
+                  borderColor: Colors.brownTextTran, borderRadius: 10, margin: 5, overflow: 'hidden', height: 150, width: 150
+                }}>
+                  <Icon3
+                    name="camera"
+                    size={40}
+                    color={Colors.brownTextTran}
+                  />
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{
+                      fontFamily: 'Prompt-SemiBold', fontSize: 25, color: Colors.brownTextTran,
+                    }}>Slip</Text>
+
+                    {this.props.image && < Icon3
+                      style={{ marginLeft: 40 }}
+                      name="squared-cross"
+                      size={24}
+                      color={'red'}
+                      onPress={() => { this.props.deleteImage() }}
+                    />}
+                  </View>
+
+                  <Image source={this.state.avatarSource && this.props.image ? this.state.avatarSource : ''} style={{ width: '100%', height: '100%' }} />
+                </View>
+              </TouchableOpacity>
+
+            </View>
+
+            <View style={{ alignItems: 'center' }}>
+              <View style={{ margin: 10, width: 200 }}>
+                <RoundedButton title={'ตกลง'}
+                  onPress={() => this._pressButtonOk()}
+                // fetching={this.props.request2} 
+                />
+              </View>
+            </View>
+
+            <Spinner
+              visible={this.state.spinner}
+              textContent={'Loading...'}
+              textStyle={{ color: '#fff' }}
+            />
+
+            <View style={{ height: 30 }}>
+            </View>
+
+
+
           </View>
-
-          <Spinner
-            visible={this.state.spinner}
-            textContent={'Loading...'}
-            textStyle={{ color: '#fff' }}
-          />
-
-          <View style={{ height: 30 }}>
-          </View>
-
-
-
-        </View>
-      </LinearGradient>
+        </ScrollView>
+      </LinearGradient >
     )
   }
 }

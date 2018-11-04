@@ -241,13 +241,7 @@ class ProfileScreen extends Component {
         }
 
         {this.props.profile && this.props.profile.role != 'expert' && this.props.profile.role != 'admin' &&
-          <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => {
-            if (this.props.profile && this.props.profile.type == 'gen') {
-              this.props.navigation.navigate("historyAddPoint")
-            } else {
-              alert('Your account is Facebook')
-            }
-          }}>
+          <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => { this.props.navigation.navigate("historyAddPoint") }}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
               <Icon3
                 name="history"
@@ -301,7 +295,13 @@ class ProfileScreen extends Component {
           {/* </View> */}
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => this.props.navigation.navigate("change")}>
+        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => {
+          if (this.props.profile && this.props.profile.type == 'gen') {
+            this.props.navigation.navigate("change")
+          } else {
+            alert('Your account is Facebook')
+          }
+        }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
             <Icon2
               name="ios-lock"

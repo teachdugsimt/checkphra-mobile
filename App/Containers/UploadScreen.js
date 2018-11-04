@@ -149,7 +149,7 @@ class UploadScreen extends Component {
   }
 
   getTypePhra = (item) => {
-    if (item.name == "เบญจภาคี" || item.name == "Benjapakee") {
+    if (item.name == "เบญจภาคี" || item.name == "Benja pakee") {
       this.props.navigation.navigate("detail")
     }
     else {

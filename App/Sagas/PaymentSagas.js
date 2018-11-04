@@ -54,8 +54,8 @@ export function* historyAddpointRequest(api, { page }) {
     }
 
     const response = yield call(api.getHistoryPoint, data)
-    // console.log(response)
-    // console.log('HISTORY ADD POINT')
+    console.log(response)
+    console.log('HISTORY ADD POINT')
     if (response.ok) {
       yield put(PaymentActions.historyAddpointSuccess(response.data))
     } else {
@@ -73,8 +73,8 @@ export function* historyAddpointRequest(api, { page }) {
     }
 
     const response = yield call(api.getHistoryPoint, data)
-    // console.log(response)
-    // console.log('HISTORY ADD POINT')
+    console.log(response)
+    console.log('HISTORY ADD POINT')
     if (response.ok) {
       yield put(PaymentActions.historyAddpointSuccess2(response.data))
     } else {

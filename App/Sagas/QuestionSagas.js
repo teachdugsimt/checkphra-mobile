@@ -69,14 +69,14 @@ export function* addQuestion(api) {
   // success?
   if (response.ok) {
     // alert("ส่งพระตรวจ สำเร็จ!!")
-    Alert.alert(
-      'Check Phra',
-      'ส่งพระตรวจ สำเร็จ!!',
-      [
-        { text: 'ตกลง' }
-      ],
-      // { cancelable: false }
-    )
+    // Alert.alert(
+    //   'Check Phra',
+    //   'ส่งพระตรวจ สำเร็จ!!',
+    //   [
+    //     { text: 'ตกลง' }
+    //   ],
+    //   // { cancelable: false }
+    // )
     yield put(QuestionActions.addQuestionSuccess(response.data))
     yield put(QuestionActions.clearForm())
     yield put(QuestionActions.clearImage())

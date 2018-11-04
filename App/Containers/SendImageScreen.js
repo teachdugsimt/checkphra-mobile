@@ -24,6 +24,7 @@ I18n.fallbacks = true;
 // I18n.currentLocale();
 // I18n.locale = "th";
 let chk = true
+let chk2 = true
 let { width } = Dimensions.get('window')
 
 class SendImageScreen extends Component {
@@ -82,12 +83,25 @@ class SendImageScreen extends Component {
     }
 
     if (nextProps.questionData != prevState.questionData) {
-      // nextProps.navigation.goBack()
-      // Alert.alert(
-      //   'CheckPhra',
-      //   ''
-      // )
-      nextProps.navigation.navigate('his')
+      if (chk2 == true) {
+        Alert.alert(
+          'Check Phra',
+          'ส่งพระตรวจ สำเร็จ!!',
+          [
+            {
+              text: 'ตกลง', onPress: () => {
+                nextProps.navigation.goBack()
+                nextProps.navigation.navigate('his')
+              }
+            }
+          ],
+          { cancelable: false }
+        )
+      }
+      chk2 = false
+      return { 
+        questionData: nextProps.questionData
+      }
     }
 
     //  images , request => change
@@ -112,6 +126,7 @@ class SendImageScreen extends Component {
   componentWillUnmount() {
     this.props.clearImage()
     chk = true
+    chk2 = true
     // this.setState({ fetch: null })
   }
 
@@ -121,11 +136,12 @@ class SendImageScreen extends Component {
     let chk = []
     let cnt = 0
     let chkImage = this.props.images.filter(e => e != undefined)
-
+    console.log('CHECK IMG')
+    console.log(chkImage)
     this.props.setStart(0, 1)
 
     this.state.questionType.map((e, i) => {
-      if (e.name == "พระแท้/ไม่แท้") {
+      if (e.name == "พระแท้ / ไม่แท้") {
         chk.push(1)
       }
       if (e.isChecked == true) {
@@ -138,7 +154,7 @@ class SendImageScreen extends Component {
 
     let chk2 = chk.indexOf(1)
 
-    if (chkImage.length < 1) {
+    if (chkImage.length <= 1) {
       Alert.alert(
         'Check Phra',
         I18n.t('atLeast2Image'),

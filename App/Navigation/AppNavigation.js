@@ -372,6 +372,7 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
 const AdminStack = TabNavigator({  // *************** MAIN ADMIN *************************
   checklist: CheckListStack,
   verify: VerifyStack,
+  pub: PublishStack,
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({
@@ -386,6 +387,9 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
         }
         if (routeName == "verify") {
           iconName = `money`;
+        }
+        if(routeName == "pub"){
+          iconName = `newspaper-o${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       },
@@ -411,8 +415,8 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
 
 const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *************************
   checklist: CheckListStack,
+  pub: PublishStack,
   profile: ProfileStack,
-  // verify: VerifyStack,
 }, {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
@@ -423,6 +427,9 @@ const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *****
         }
         if (routeName == "profile") {
           iconName = `user-circle${focused ? "" : "-o"}`;
+        }
+        if(routeName == "pub"){
+          iconName = `newspaper-o${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       },

@@ -78,9 +78,18 @@ class SendImageScreen extends Component {
       if (chk == true) {
         let qtype = []
         nextProps.questionType.forEach(e => {
+          let name = ''
+          if(e.name == 'พระแท้ / ไม่แท้'){
+            name = I18n.t('trueFalse')
+          } else if(e.name == 'ราคาประเมินเช่าพระเครื่อง'){
+            name = I18n.t('pricePhra')
+          } else if(e.name == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง'){
+            name = I18n.t('detailPhra')
+          }
           qtype.push({
             id: e.id,
-            name: e.name,
+            // name: e.name,
+            name: name,
             point: e.point,
             isChecked: false,
             checkType: true,

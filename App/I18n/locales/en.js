@@ -40,6 +40,12 @@ export default {
   amulet: 'Amulet',
   phraBucha: 'Phra Bucha',
   otherOrUnknown: 'Other / Unknown',
+  trueFalse: 'Real amulet / Fake amulet',
+  pricePhra: 'Price amulet',
+  detailPhra: 'Priest name / Temple name / Year Buddhist era of creation',
+  realPhra: 'Real amulet',
+  realPhraOld: 'Real previous amulet',
+  fakePhra: 'Fake amulet',
 
   pickImage: 'Pick your Images',
   frontSide: 'front',
@@ -81,8 +87,13 @@ export default {
   successVerify: 'Complete',
   uploadSlip: 'Please upload slip',
   submitTransaction: 'Do you want to submit ?',
+  cannotAnswer: 'Do you can not answer ?',
+  sendAdmin: 'Do you want to send this question to admin ?',
+  verify: 'Verify',
+  noneAnswer: 'None answer',
+  sendToAdmin: 'Send to admin',
 
-
+  answerText: 'Please input answer',
   ok: 'OK',
   cancel: 'Cancel',
   cantSeeResult: 'You can not see the result until status is success.',

@@ -85,7 +85,7 @@ class VerifyPoint extends Component {
         if (this.props.data_fully != null) {
             tmp = this.props.data_fully.find(e => e.id == item.id)
             if (tmp) {
-                status = tmp.status == 10 ? 'อนุมัติแล้ว' : 'รออนุมัติ'
+                status = tmp.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
                 color = tmp.status == 10 ? 'green' : 'orange'
             }
         } else {

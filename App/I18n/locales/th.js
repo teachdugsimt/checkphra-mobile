@@ -40,6 +40,13 @@ export default {
   amulet: 'เครื่องราง',
   phraBucha: 'พระบูชา',
   otherOrUnknown: 'อื่นๆ / ไม่ทราบ',
+  trueFalse: 'พระแท้ / ไม่แท้',
+  pricePhra: 'ราคาประเมินเช่าพระเครื่อง',
+  detailPhra: 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง',
+  realPhra: 'พระแท้',
+  realPhraOld: 'พระแท้ย้อนยุค',
+  fakePhra: 'พระไม่แท้',
+
 
   pickImage: 'เลือกรูป',
   frontSide: 'หน้า',
@@ -81,7 +88,13 @@ export default {
   successVerify: 'เสร็จสมบูรณ์',
   uploadSlip: 'กรุณาอัพโหลดสลิปการโอนเงิน',
   submitTransaction: 'ยืนยันการทำรายการ ?',
+  cannotAnswer: 'คุณไม่สามารถตอบคำถามได้ ?',
+  sendAdmin: 'คุณต้องการส่งคำถามให้ admin ตรวจ ?',
+  verify: 'อนุมัติ',
+  noneAnswer: 'ไม่ออกผล',
+  sendToAdmin: 'ส่งให้ admin ตรวจ',
 
+  answerText: 'โปรดระบุคำตอบ',
   ok: 'ตกลง',
   cancel: 'ยกเลิก',
   cantSeeResult: 'คุณไม่สามารถดูผลการตรวจได้จนกว่าจะได้รับผลการตรวจ',

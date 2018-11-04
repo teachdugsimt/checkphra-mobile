@@ -45,17 +45,17 @@ class VerifyPoint2 extends Component {
     _onPressVerify = () => {
         Alert.alert(
             'Check Phra',
-            'คุณต้องการอนุมัติรายการนี้?',
+            I18n.t('submitTransaction'),
             [
                 {
-                    text: 'ตกลง', onPress: () => {
+                    text: I18n.t('ok'), onPress: () => {
                         this.props.addTransfer(this.props.item.id)
                         this.props.editFullData(this.props.item.id)
                         this.props.navigation.goBack()
                         // this.props.getVerify()
                     }
                 },
-                { text: 'ยกเลิก' }
+                { text: I18n.t('cancel') }
             ],
             { cancelable: false }
         )
@@ -132,7 +132,7 @@ class VerifyPoint2 extends Component {
                     <View style={{ width: 170 }}>
                         <RoundedButton
                             style={{ marginHorizontal: 10 }}
-                            title={'อนุมัติการเติมเงิน'}
+                            title={I18n.t('verify')}
                             onPress={this._onPressVerify}
                             fetching={this.props.request}
                         />

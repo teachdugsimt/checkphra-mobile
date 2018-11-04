@@ -65,13 +65,9 @@ class CheckPhraScreen extends Component {
   //   };
   // };
   _onPressButton = () => {
-
-
     let tmp = []
     let pack = []
-    // if (this.state.answer1) {
-    //     tmp.push(this.state.answer1)
-    // }
+
     if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false) {
       tmp.push('พระแท้')
     } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false) {
@@ -79,17 +75,6 @@ class CheckPhraScreen extends Component {
     } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true) {
       tmp.push('พระไม่แท้')
     }
-    // else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-    //     alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
-    // } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-    //     alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
-    // } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-    //     alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
-    // } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
-    //     alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
-    // } else {
-    //     // tmp.push(null)
-    // }
 
     if (this.state.answer2) {
       tmp.push(this.state.answer2)
@@ -97,12 +82,6 @@ class CheckPhraScreen extends Component {
     if (this.state.answer3) {
       tmp.push(this.state.answer3)
     }
-    // if (this.state.answer4) {
-    //     tmp.push(this.state.answer4)
-    // }
-    // if (this.state.answer5) {
-    //     tmp.push(this.state.answer5)
-    // }
     if (this.state.answer_other) {
       tmp.push(this.state.answer_other)
     }
@@ -149,10 +128,10 @@ class CheckPhraScreen extends Component {
     let pack = []
     Alert.alert(
       'Check Phra',
-      'คุณไม่สามารถตอบคำถามได้ ?',
+      I18n.t('cannotAnswer'),
       [
         {
-          text: 'ตกลง', onPress: () => {
+          text: I18n.t('ok'), onPress: () => {
             this.props.setAnswer(pack, this.props.data.id)
             this.setState({
               answer_other: null,
@@ -167,7 +146,7 @@ class CheckPhraScreen extends Component {
             this.props.navigation.goBack()
           }
         },
-        { text: 'ยกเลิก' }
+        { text: I18n.t('cancel') }
       ],
       { cancelable: false }
     )
@@ -177,10 +156,10 @@ class CheckPhraScreen extends Component {
     let pack = []
     Alert.alert(
       'Check Phra',
-      'คุณต้องการส่งคำถามให้ admin ตรวจ ?',
+      I18n.t('sendAdmin'),
       [
         {
-          text: 'ตกลง', onPress: () => {
+          text: I18n.t('ok'), onPress: () => {
             this.props.setAnswer(pack, this.props.data.id)
             this.setState({
               answer_other: null,
@@ -195,7 +174,7 @@ class CheckPhraScreen extends Component {
             this.props.navigation.goBack()
           }
         },
-        { text: 'ยกเลิก' }
+        { text: I18n.t('cancel') }
       ],
       { cancelable: false }
     )
@@ -264,15 +243,10 @@ class CheckPhraScreen extends Component {
               <Text style={{ marginTop: 14, fontSize: 16 }}>( {this.props.data.email} )</Text>
             </View>
             {this.props.data.question_list.map((e, i) => {
-              if (e.question_detail == 'พระแท้/ไม่แท้') {
+              if (e.question_detail == 'พระแท้ / ไม่แท้') {
                 return (
-                  // <View>
-                  //     <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                  //     <TextInput key={i} value={this.state.answer1} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
-                  //         onChangeText={(text) => this.setState({ answer1: text })} />
-                  // </View>
                   <View style={{ marginLeft: 15 }}>
-                    <Text style={{}}>{e.question_detail}</Text>
+                    <Text style={{}}>{I18n.t('trueFalse')}</Text>
                     <CheckBox
                       style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
                       onClick={() => {
@@ -283,7 +257,7 @@ class CheckPhraScreen extends Component {
                         })
                       }}
                       isChecked={this.state.checkTrue1}
-                      rightText={"พระแท้"}
+                      rightText={I18n.t('realPhra')}
                       rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
                       checkBoxColor={Colors.brownText}
                     />
@@ -297,7 +271,7 @@ class CheckPhraScreen extends Component {
                         })
                       }}
                       isChecked={this.state.checkTrue2}
-                      rightText={"พระแท้ย้อนยุค"}
+                      rightText={I18n.t('realPhraOld')}
                       rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
                       checkBoxColor={Colors.brownText}
                     />
@@ -311,25 +285,25 @@ class CheckPhraScreen extends Component {
                         })
                       }}
                       isChecked={this.state.checkFalse}
-                      rightText={"พระไม่แท้"}
+                      rightText={I18n.t('fakePhra')}
                       rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
                       checkBoxColor={Colors.brownText}
                     />
                   </View>
                 )
-              } else if (e.question_detail == 'ประเมินราคาพระ') {
+              } else if (e.question_detail == 'ราคาประเมินเช่าพระเครื่อง') {
                 return (
                   <View>
-                    <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                    <TextInput key={i} value={this.state.answer2} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
+                    <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
+                    <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
                       onChangeText={(text) => this.setState({ answer2: text })} />
                   </View>
                 )
               } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง') {
                 return (
                   <View>
-                    <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                    <TextInput key={i} value={this.state.answer3} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
+                    <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
+                    <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
                       onChangeText={(text) => this.setState({ answer3: text })} />
                   </View>
                 )
@@ -338,7 +312,7 @@ class CheckPhraScreen extends Component {
                 return (
                   <View>
                     <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                    <TextInput key={i} value={this.state.answer_other} placeholder={'โปรดระบุคำตอบ'} style={{ marginHorizontal: 15 }}
+                    <TextInput key={i} value={this.state.answer_other} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
                       onChangeText={(text) => this.setState({ answer_other: text })} />
                   </View>
                 )
@@ -349,7 +323,7 @@ class CheckPhraScreen extends Component {
             <View style={{ width: '65%', alignSelf: 'center', marginTop: 10 }}>
               <RoundedButton
                 style={{ marginHorizontal: 10 }}
-                title={'ตกลง'}
+                title={I18n.t('ok')}
                 onPress={this._onPressButton}
                 fetching={this.props.fetching}
               />
@@ -359,7 +333,7 @@ class CheckPhraScreen extends Component {
               <View style={{ width: width / 2.5 }}>
                 <RoundedButton
                   style={{ marginHorizontal: 10 }}
-                  title={'ไม่ออกผล'}
+                  title={I18n.t('noneAnswer')}
                   onPress={this._onPressNotanswer}
                   fetching={this.props.fetching}
                 />
@@ -367,7 +341,7 @@ class CheckPhraScreen extends Component {
               <View style={{ width: width / 2.5 }}>
                 <RoundedButton
                   style={{ marginHorizontal: 10 }}
-                  title={'ส่งให้ admin ตรวจ'}
+                  title={I18n.t('sendToAdmin')}
                   onPress={this._onPressAdmin}
                   fetching={this.props.fetching}
                 />

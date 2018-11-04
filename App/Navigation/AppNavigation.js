@@ -30,6 +30,9 @@ import Icon2 from "react-native-vector-icons/FontAwesome";
 
 import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator, Header } from 'react-navigation';
 
+// import { fromLeft } from 'react-navigation-transitions';
+import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
+
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 
@@ -41,6 +44,7 @@ const AuthStack = StackNavigator(
     Signin: { screen: SigninScreen }
   },
   {
+    transitionConfig: getSlideFromRightTransition,
     headerMode: "none"
   }
 );
@@ -55,6 +59,7 @@ const RegStack = StackNavigator(
     }
   },
   {
+    transitionConfig: getSlideFromRightTransition,
     headerMode: "float",
     // navigationOptions: ({ navigation }) => ({
     //   headerLeft: (
@@ -98,6 +103,7 @@ const UploadStack = StackNavigator(  // main upload
     }
   },
   {
+    transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
       headerTintColor: Colors.headerTitleColor,
       headerBackTitle: I18n.t('back'),
@@ -142,6 +148,7 @@ const ProfileStack = StackNavigator(   // main pro
     },
   },
   {
+    transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: Colors.tabBar,
@@ -181,6 +188,7 @@ const PromotionStack = StackNavigator(  // main pro
     },
   },
   {
+    transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
       headerTintColor: Colors.headerTitleColor,
       headerBackTitle: I18n.t('back'),
@@ -216,6 +224,7 @@ const HistoryStack = StackNavigator(  // mmain his
     }
   },
   {
+    transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
       headerTintColor: Colors.headerTitleColor,
       headerBackTitle: I18n.t('Back'),
@@ -245,6 +254,7 @@ const PublishStack = StackNavigator(  // Publish stack
     },
   },
   {
+    transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
       headerTintColor: Colors.headerTitleColor,
       headerBackTitle: I18n.t('Back'),
@@ -291,7 +301,7 @@ const DashStack = TabNavigator(
           iconName = `gift${focused ? "" : ""}`;
           //gift, money, credit-card
         }
-        if(routeName == "pub"){
+        if (routeName == "pub") {
           iconName = `newspaper-o${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
@@ -330,6 +340,7 @@ const CheckListStack = StackNavigator({ // **********************FOR EXPERT & AD
     }
   }
 }, {
+    transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: I18n.t('pendingList'),
       headerTintColor: 'white',
@@ -357,6 +368,7 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
     }
   }
 }, {
+    transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: 'รายการเติมเงิน',
       headerStyle: {
@@ -388,7 +400,7 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
         if (routeName == "verify") {
           iconName = `money`;
         }
-        if(routeName == "pub"){
+        if (routeName == "pub") {
           iconName = `newspaper-o${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
@@ -428,7 +440,7 @@ const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *****
         if (routeName == "profile") {
           iconName = `user-circle${focused ? "" : "-o"}`;
         }
-        if(routeName == "pub"){
+        if (routeName == "pub") {
           iconName = `newspaper-o${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;

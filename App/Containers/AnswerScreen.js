@@ -29,7 +29,7 @@ class AnswerScreen extends Component {
       modalVisible: false,
       img2: null,
     }
-   
+
   }
 
 
@@ -44,7 +44,12 @@ class AnswerScreen extends Component {
           img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
         })
         // shareLinkContent.contentUrl = img2[0].url
-        shareLinkContent.contentUrl = 'www.checkphra.com'
+        shareLinkContent = {
+          contentType: 'link',
+          contentUrl: 'www.checkphra.com',
+          contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
+        }
+
         return {
           img2,
         }

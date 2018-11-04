@@ -20,6 +20,8 @@ export default {
   checkPassword: 'กรุณาใส่พาสเวิร์ดความยาว 6-18 ตัว (A-z,0-9)',
   validatePassword: 'กรุณาใส่พาสเวิร์ดและยืนยันพาสเวิร์ดให้ถูกต้อง',
   checkData: 'กรุณาใส่ข้อมูลให้ถูกต้อง',
+  publish: 'ข่าวสาร',
+  nonePublish: 'ยังไม่มีข่าวสาร',
 
   checkPhra: 'เช็คพระ',
   package: 'แพ็กเกจ',

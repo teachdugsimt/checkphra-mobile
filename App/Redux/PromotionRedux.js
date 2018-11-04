@@ -8,6 +8,10 @@ const { Types, Creators } = createActions({
   promotionSuccess: ['data'],
   promotionFailure: null,
 
+  publishRequest: null,
+  publishSuccess: ['data'],
+  publishFailure: null,
+
   setMoney: ['data'],
 
 })
@@ -24,6 +28,9 @@ export const INITIAL_STATE = Immutable({
   error: null,
 
   money: null,
+
+  request: null,  //for publish
+  data_publish: null,
 })
 
 /* ------------- Selectors ------------- */
@@ -44,11 +51,14 @@ export const success = (state, { data }) => {
   return state.merge({ fetching: false, data })
 }
 
-// Something went wrong somewhere.
 export const failure = state =>
   state.merge({ fetching: false })
 
-export const setMoney = (state, { data }) =>{
+export const publishRequest = state => state.merge({ request: true })
+export const publishSuccess = (state, { data }) => state.merge({ request: false, data_publish: data })
+export const publishFailure = state => state.merge({ request: false })
+
+export const setMoney = (state, { data }) => {
   return state.merge({ money: data })
 }
 
@@ -59,6 +69,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.PROMOTION_REQUEST]: request,
   [Types.PROMOTION_SUCCESS]: success,
   [Types.PROMOTION_FAILURE]: failure,
+
+  [Types.PUBLISH_REQUEST]: publishRequest,
+  [Types.PUBLISH_SUCCESS]: publishSuccess,
+  [Types.PUBLISH_FAILURE]: publishFailure,
 
   [Types.SET_MONEY]: setMoney,
 

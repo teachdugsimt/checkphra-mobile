@@ -15,6 +15,7 @@ import DetailPoint from '../Containers/DetailPoint'
 import CheckPhraScreen from '../Containers/CheckPhraScreen'
 import VerifyPoint from '../Containers/VerifyPoint'
 import VerifyPoint2 from '../Containers/VerifyPoint2'
+import Publish from '../Containers/Publish'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -234,11 +235,40 @@ const HistoryStack = StackNavigator(  // mmain his
   }
 );
 
+const PublishStack = StackNavigator(  // Publish stack
+  {
+    pub: {
+      screen: Publish,
+      navigationOptions: {
+        title: I18n.t('publish')
+      }
+    },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
+      headerBackTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Regular'
+      },
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Regular'
+      },
+      tabBarLabel: I18n.t('publish')
+    })
+  }
+);
 
 const DashStack = TabNavigator(
   {
     upload: UploadStack,
     his: HistoryStack,
+    pub: PublishStack,
     pro: PromotionStack,
     profile: ProfileStack,
   },
@@ -260,6 +290,9 @@ const DashStack = TabNavigator(
         if (routeName == "pro") {
           iconName = `gift${focused ? "" : ""}`;
           //gift, money, credit-card
+        }
+        if(routeName == "pub"){
+          iconName = `newspaper-o${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       }

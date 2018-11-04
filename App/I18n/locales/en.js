@@ -20,6 +20,8 @@ export default {
   checkPassword: 'Please input 6-18 character or (A-z,0-9)',
   validatePassword: 'Please input password and check your password',
   checkData: 'Please check your data',
+  publish: 'Publish',
+  nonePublish: 'None Publish',
 
   checkPhra: 'Check Phra',
   package: 'Package',

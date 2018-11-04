@@ -11,7 +11,7 @@
 *************************************************************/
 
 import { call, put, select } from 'redux-saga/effects'
-import PromotionActions from '../Redux/PromotionRedux'
+import PromotionActions, { publishRequest } from '../Redux/PromotionRedux'
 // import { PromotionSelectors } from '../Redux/PromotionRedux'
 // const auth = state => state.auth
 
@@ -26,6 +26,17 @@ export function* getPromotion(api) {
     yield put(PromotionActions.promotionSuccess(response.data))
   } else {
     yield put(PromotionActions.promotionFailure())
+  }
+}
+
+export function* getPublish(api){
+  const response = yield call(api.getPublish)
+  console.log(response)
+  console.log('PUBLISH DATA')
+  if(response.ok){
+    yield put(PromotionActions.publishSuccess(response.data))
+  } else {
+    yield put(PromotionActions.publishFailure())
   }
 }
 

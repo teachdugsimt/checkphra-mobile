@@ -19,7 +19,7 @@ import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { signin, signinWithCredential, signup, createUser } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
-import { getPromotion } from './PromotionSagas'
+import { getPromotion, getPublish } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest } from './PaymentSagas'
 import { expertRequest, getProfileRequest, acceptRequest } from './ExpertSagas'
 
@@ -65,6 +65,7 @@ export default function * root () {
     takeLatest(PaymentTypes.SEND_SLIP_REQUEST, sendSlipRequest, promotionApi),
     takeLatest(ExpertTypes.GET_PROFILE_REQUEST, getProfileRequest, promotionApi),
     takeLatest(ExpertTypes.ACCEPT_REQUEST, acceptRequest, promotionApi),
-    takeLatest(PaymentTypes.CARD_REQUEST, cardRequest, promotionApi)
+    takeLatest(PaymentTypes.CARD_REQUEST, cardRequest, promotionApi),
+    takeLatest(PromotionTypes.PUBLISH_REQUEST, getPublish, promotionApi)
   ])
 }

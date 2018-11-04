@@ -41,6 +41,8 @@ const create = (baseURL = b) => {
 
   const creditCard = (data) => api.post('payment-history/checkout', data)
 
+  const getPublish = () => api.get('publish/list')
+
   return {
     // a list of the API functions from step 2
     getPromotion,
@@ -49,7 +51,8 @@ const create = (baseURL = b) => {
     sendSlip,
     getVerify,
     acceptPoint,
-    creditCard
+    creditCard,
+    getPublish
   }
 }
 

@@ -13,6 +13,13 @@ export default {
   answer: 'Answer',
   thai: 'Thai',
   english: 'English',
+  oldPassword: 'Old password',
+  newPassword: 'New password',
+  confirmPassword: 'Confirm new password',
+  checkEmail: 'Please check your email',
+  checkPassword: 'Please input 6-18 character or (A-z,0-9)',
+  validatePassword: 'Please input password and check your password',
+  checkData: 'Please check your data',
 
   checkPhra: 'Check Phra',
   package: 'Package',
@@ -93,6 +100,7 @@ export default {
   noneAnswer: 'None answer',
   sendToAdmin: 'Send to admin',
 
+  question: 'Question',
   answerText: 'Please input answer',
   ok: 'OK',
   cancel: 'Cancel',

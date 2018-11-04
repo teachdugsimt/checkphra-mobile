@@ -122,8 +122,10 @@ export function* createUser(api, { email, uid }) {
   console.log(response)
 
   if (response.ok) {
+    alert('Register complete')
     yield put(AuthActions.createSuccess(response.data))
   } else {
+    alert('Register Failure')
     yield put(AuthActions.createFailure())
   }
 }

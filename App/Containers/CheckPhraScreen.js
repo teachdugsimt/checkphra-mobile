@@ -239,7 +239,7 @@ class CheckPhraScreen extends Component {
         <View style={{ flex: 0.6 }}>
           <ScrollView>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>คำถาม </Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question')} </Text>
               <Text style={{ marginTop: 14, fontSize: 16 }}>( {this.props.data.email} )</Text>
             </View>
             {this.props.data.question_list.map((e, i) => {

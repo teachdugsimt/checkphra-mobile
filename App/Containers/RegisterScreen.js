@@ -64,6 +64,8 @@ class RegisterScreen extends Component {
         .catch(error => this.setState({ errorMessage: error.message }))
     } else {
       console.log('NONE UID')
+      this.setState({ spinner: false })
+      alert('Failure, please register again')
     }
 
   }
@@ -72,9 +74,9 @@ class RegisterScreen extends Component {
     if (this.state.chkMail == false) {
       Alert.alert(
         'Check Phra',
-        'กรุณากรอก E-mail ให้ถูกต้อง',
+        I18n.t('checkEmail'),
         [
-          { text: 'ตกลง' }
+          { text: I18n.t('ok') }
         ],
         { cancelable: false }
       )
@@ -83,18 +85,18 @@ class RegisterScreen extends Component {
 
       Alert.alert(
         'Check Phra',
-        'กรุณาใส่พาสเวิร์ดความยาว 6-18 ตัว (A-z,0-9)',
+        I18n.t('checkPassword'),
         [
-          { text: 'ตกลง' }
+          { text: I18n.t('ok') }
         ],
         { cancelable: false }
       )
     } else if (this.state.pass != this.state.pass2) {
       Alert.alert(
         'Check Phra',
-        'กรุณาใส่พาสเวิร์ดและยืนยันพาสเวิร์ดให้ถูกต้อง',
+        I18n.t('validatePassword'),
         [
-          { text: 'ตกลง' }
+          { text: I18n.t('ok') }
         ],
         { cancelable: false }
       )
@@ -104,16 +106,17 @@ class RegisterScreen extends Component {
       this.props.signup(this.state.email, this.state.pass)
       this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
       // this.signupAtFirebase(this.state.email, this.state.pass)
-    } else {
-      Alert.alert(
-        'Check Phra',
-        'กรุณาใส่ข้อมูลให้ถูกต้อง',
-        [
-          { text: 'ตกลง' }
-        ],
-        { cancelable: false }
-      )
-    }
+    } 
+    // else {
+    //   Alert.alert(
+    //     'Check Phra',
+    //     I18n.t('checkData'),
+    //     [
+    //       { text: I18n.t('ok') }
+    //     ],
+    //     { cancelable: false }
+    //   )
+    // }
   }
 
   validate = (text) => {
@@ -158,7 +161,7 @@ class RegisterScreen extends Component {
             color: Colors.brownText
           }}
         >
-          สมัครสมาชิก
+          {I18n.t('register')}
         </Text>
         <View
           style={{
@@ -233,7 +236,7 @@ class RegisterScreen extends Component {
             }}
             onChangeText={pass2 => this.setState({ pass2 })}
             value={this.state.pass2}
-            placeholder="ยืนยัน Password"
+            placeholder="Confirm Password"
             underlineColorAndroid="rgba(0,0,0,0)"
             placeholderTextColor="white"
             secureTextEntry={true}
@@ -259,8 +262,8 @@ class RegisterScreen extends Component {
                 marginTop: 8
               }}
             >
-              สมัครสมาชิก
-          </Text>
+              {I18n.t('register')}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -284,7 +287,7 @@ class RegisterScreen extends Component {
                 marginTop: 8
               }}
             >
-              กลับสู่หน้า signin
+              Back to signin
           </Text>
           </TouchableOpacity>
           <Spinner

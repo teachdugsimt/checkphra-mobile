@@ -132,7 +132,7 @@ class ChangePasswordScreen extends Component {
               }}
               onChangeText={email => this.setState({ email })}
               value={this.state.email}
-              placeholder="อีเมล"
+              placeholder={I18n.t('email')}
               underlineColorAndroid="rgba(0,0,0,0)"
               placeholderTextColor="white"
               secureTextEntry={false}
@@ -161,7 +161,7 @@ class ChangePasswordScreen extends Component {
               }}
               onChangeText={oldPass => this.setState({ oldPass })}
               value={this.state.oldPass}
-              placeholder="รหัสผ่านเก่า"
+              placeholder={I18n.t('oldPassword')}
               underlineColorAndroid="rgba(0,0,0,0)"
               placeholderTextColor="white"
               secureTextEntry={true}
@@ -190,7 +190,7 @@ class ChangePasswordScreen extends Component {
               }}
               onChangeText={newPass => this.setState({ newPass })}
               value={this.state.newPass}
-              placeholder="รหัสผ่านใหม่"
+              placeholder={I18n.t('newPassword')}
               underlineColorAndroid="rgba(0,0,0,0)"
               placeholderTextColor="white"
               secureTextEntry={true}
@@ -219,7 +219,7 @@ class ChangePasswordScreen extends Component {
               }}
               onChangeText={confrimPass => this.setState({ confrimPass })}
               value={this.state.confrimPass}
-              placeholder="ยืนยันรหัสผ่านใหม่"
+              placeholder={I18n.t('confirmPassword')}
               underlineColorAndroid="rgba(0,0,0,0)"
               placeholderTextColor="white"
               secureTextEntry={true}

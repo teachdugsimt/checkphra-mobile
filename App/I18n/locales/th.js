@@ -13,6 +13,13 @@ export default {
   answer: 'ผลตรวจ',
   thai: 'ไทย',
   english: 'อังกฤษ',
+  oldPassword: 'รหัสผ่านเก่า',
+  newPassword: 'รหัสผ่านใหม่',
+  confirmPassword: 'ยืนยันรหัสผ่านใหม่',
+  checkEmail: 'กรุณากรอกอีเมลให้ถูกต้อง',
+  checkPassword: 'กรุณาใส่พาสเวิร์ดความยาว 6-18 ตัว (A-z,0-9)',
+  validatePassword: 'กรุณาใส่พาสเวิร์ดและยืนยันพาสเวิร์ดให้ถูกต้อง',
+  checkData: 'กรุณาใส่ข้อมูลให้ถูกต้อง',
 
   checkPhra: 'เช็คพระ',
   package: 'แพ็กเกจ',
@@ -94,6 +101,7 @@ export default {
   noneAnswer: 'ไม่ออกผล',
   sendToAdmin: 'ส่งให้ admin ตรวจ',
 
+  question: 'คำถาม',
   answerText: 'โปรดระบุคำตอบ',
   ok: 'ตกลง',
   cancel: 'ยกเลิก',

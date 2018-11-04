@@ -31,12 +31,11 @@ class ReduxNavigation extends React.Component {
     // console.log('aaaaaaaaaa')
     // console.log(this.props.lang)
     // I18n.locale = this.props.lang
-    return <AppNavigation navigation={addNavigationHelpers({ dispatch: this.props.dispatch, lang: this.props.lang, state: this.props.nav, addListener: createReduxBoundAddListener('root') })} />
+    return <AppNavigation navigation={addNavigationHelpers({ dispatch: this.props.dispatch, state: this.props.nav, addListener: createReduxBoundAddListener('root') })} />
   }
 }
 
 const mapStateToProps = state => ({
   nav: state.nav,
-  lang: state.auth.language
 })
 export default connect(mapStateToProps)(ReduxNavigation)

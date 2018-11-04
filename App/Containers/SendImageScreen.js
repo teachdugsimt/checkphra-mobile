@@ -36,6 +36,7 @@ class SendImageScreen extends Component {
       fetch: null,
       dataType: null,
       questionData: null,
+      language: ''
     }
   }
 
@@ -59,6 +60,18 @@ class SendImageScreen extends Component {
     //   }
     // }
 
+    // I18n.locale = nextProps.language
+    // if (I18n.locale != nextProps.language) {
+
+    // nextProps.navigation.setParams({ title: I18n.t('selectImagesAndQuestions') })
+    // }
+
+
+    // if (nextProps.language != prevState.language) {
+    //   console.log('change langgggg')
+    //   nextProps.navigation.setParams({ title: I18n.t('selectImagesAndQuestions') })
+    // }
+
 
     if (nextProps.questionType && nextProps.questionType.length != 0) {
       if (chk == true) {
@@ -76,7 +89,8 @@ class SendImageScreen extends Component {
         chk = false
         return {
           questionType: qtype,
-          dataType: nextProps.questionType
+          dataType: nextProps.questionType,
+          language: nextProps.language
         }
       }
     }

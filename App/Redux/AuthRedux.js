@@ -11,7 +11,7 @@ const { Types, Creators } = createActions({
   signinWithCredential: ['data'],
   signinRequest: ['email', 'password'],
   signinSuccess: ['profile'],
-  signinFailure: null,
+  signinFailure: ['error'],
 
   setUserId: ['user_id'],
 
@@ -26,6 +26,7 @@ const { Types, Creators } = createActions({
   signout: null,
   // setPicture: ['data'],
   setLanguage: ['language'],
+  clearError: null,
 })
 
 export const AuthTypes = Types
@@ -60,18 +61,21 @@ export const AuthSelectors = {
 // request the data from an api
 export const request = (state, { email, password }) => {
   let data = { email, password }
-  return state.merge({ fetching: true, data, profile: null })
+  return state.merge({ fetching: true, data, profile: null, error: null })
 }
 
 // successful api lookup
 export const success = (state, action) => {
   const { profile } = action
+  // console.log('ccccc')
   return state.merge({ fetching: false, error: null, profile, user_id: profile.user_id })
 }
 
 // Something went wrong somewhere.
-export const failure = state =>
-  state.merge({ fetching: false, error: true, profile: null })
+export const failure = (state, { error }) => {
+  // console.log('bbbbb')
+  return state.merge({ fetching: false, error, profile: null })
+}
 
 export const setUserId = (state, { user_id }) => {
   console.log(user_id)
@@ -95,6 +99,8 @@ export const createSuccess = (state, { data }) => {
   return state.merge({ request2: false, data_create: data })
 }
 export const createFailure = state => state.merge({ request2: false })
+
+export const clearError = state => state.merge({ error: null })
 
 export const setLanguage = (state, { language }) => {
   return state.merge({ language })
@@ -120,4 +126,6 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.SIGNOUT]: signout,
   [Types.SET_LANGUAGE]: setLanguage,
+
+  [Types.CLEAR_ERROR]: clearError,
 })

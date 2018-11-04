@@ -43,8 +43,8 @@ export function* signin(api, action) {
   } else {
     console.log("SIGNIN FAIL")
     console.log(response)
-    alert(response.data.message)
-    yield put(AuthActions.signinFailure())
+    // alert(response.data.message)
+    yield put(AuthActions.signinFailure(response.data.message))
   }
 }
 
@@ -121,7 +121,7 @@ export function* createUser(api, { email, uid }) {
   const response = yield call(api.savedata, data)
   console.log(response)
 
-  if(response.ok){
+  if (response.ok) {
     yield put(AuthActions.createSuccess(response.data))
   } else {
     yield put(AuthActions.createFailure())

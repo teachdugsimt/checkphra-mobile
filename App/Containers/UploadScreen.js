@@ -20,9 +20,10 @@ let { width } = Dimensions.get('window')
 
 class UploadScreen extends Component {
 
-  static navigationOptions = ({ navigation, st }) => {
-    console.log(navigation)
-    console.log(st)
+  static navigationOptions = ({ navigation }) => {
+    // console.log(navigation)
+    // console.log(I18n.locale)
+
     return {
       title: I18n.t('selectAmuletType'),
     }
@@ -119,32 +120,33 @@ class UploadScreen extends Component {
     return item
   }
 
-  static getDerivedStateFromProps(newProps, prevState) {
-    let tlist = newProps.data_amulet
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let tlist = nextProps.data_amulet
 
-    I18n.locale = newProps.language
+    I18n.locale = nextProps.language
+
 
     // console.log('-------------')
-    // console.log(newProps)
+    // console.log(nextProps)
     // console.log(prevState)
 
 
-    let item = []
-    if (newProps.language != prevState.language && prevState.amuletType) {
-      // console.log('okokokok')
+    let item = prevState.item
+    if (nextProps.language != prevState.language && prevState.amuletType) {
+      nextProps.navigation.setParams({ title: I18n.t('selectAmuletType') })
       amuletTypes = prevState.amuletType.filter(e => !e.parent_id)
       item = UploadScreen.rename(amuletTypes)
     }
 
-    if (newProps.data_amulet != null && newProps.data_amulet != prevState.amuletType) {
-      amuletTypes = newProps.data_amulet.filter(e => !e.parent_id)
+    if (nextProps.data_amulet != null && nextProps.data_amulet != prevState.amuletType) {
+      amuletTypes = nextProps.data_amulet.filter(e => !e.parent_id)
       item = UploadScreen.rename(amuletTypes)
     }
 
     return {
       item: item,
-      amuletType: newProps.data_amulet,
-      language: newProps.language
+      amuletType: nextProps.data_amulet,
+      language: nextProps.language
     }
 
 
@@ -169,12 +171,14 @@ class UploadScreen extends Component {
 
   componentDidMount() {
     this.props.getAmuletType()
-    // this.props.setLanguage('en')
+
+    // this.props.setLanguage(I18n.locale)
     this.props.clearDataQuestion()
   }
 
   render() {
-    I18n.locale = this.props.language
+    // I18n.locale = this.props.language
+
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -197,7 +201,7 @@ class UploadScreen extends Component {
         </View> */}
         <GridView
           itemDimension={100}
-          items={this.state.item ? this.state.item : ''}
+          items={this.state.item ? this.state.item : []}
           renderItem={item => {
             return (
               <TouchableOpacity onPress={() => this.getTypePhra(item)}>
@@ -246,7 +250,7 @@ const mapDispatchToProps = dispatch => {
       return dispatch(QuestionActions.setAmuletType(type))
     },
     getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
-    setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
+    // setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
     clearDataQuestion: () => dispatch(QuestionActions.clearDataQuestion())
   };
 };

@@ -28,6 +28,7 @@ import { Colors } from "../Themes";
 import RoundedButton from "../Components/RoundedButton";
 
 import I18n from '../I18n/i18n';
+
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // I18n.locale = "th";
@@ -41,13 +42,17 @@ class SigninScreen extends Component {
       inputEmail: "",
       inputPass: "",
       profile: null,
-      spinner: false
+      spinner: false,
+      // language: I18n.currentLocale()
     };
   }
 
   componentDidMount() {
-    this.setState({ spinner: false })
-    console.log(this.props.profile)
+    // this.setState({ spinner: false })
+    // console.log(this.props.profile)
+
+    console.log(this.props)
+
     if (this.props.profile) {
       if (this.props.profile.role == 'expert') {
         this.props.navigation.navigate('ExpertApp')
@@ -74,10 +79,15 @@ class SigninScreen extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
 
-    let spinner = true
+    // console.log(prevState.spinner)
+    // let spinner = false
+    if (!prevState.profile && nextProps.error && !nextProps.requestData) {
+      nextProps.clearError()
+    }
+
     if (!prevState.profile && prevState.profile != nextProps.profile) {
-      spinner = false
-      console.log(nextProps.profile)
+      // spinner = false
+      // console.log(nextProps.profile)
       if (nextProps.profile.role == 'expert') {
         nextProps.navigation.navigate('ExpertApp')
       } else if (nextProps.profile.role == 'admin') {
@@ -88,13 +98,9 @@ class SigninScreen extends Component {
       }
     }
 
-    if (nextProps.fetch == false) {
-      spinner = false
-    }
-
     return {
       profile: nextProps.profile,
-      spinner
+      spinner: nextProps.fetch ? nextProps.fetch : false
     }
   }
 
@@ -102,6 +108,7 @@ class SigninScreen extends Component {
     try {
       const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
 
+      console.log(result)
       if (result.isCancelled) {
         return
         // throw new Error('User cancelled request'); // Handle this however fits the flow of your app
@@ -122,6 +129,8 @@ class SigninScreen extends Component {
 
       // login with credential
       const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+      this.setState({ spinner: false })
       const currentUserJson = currentUser.user.toJSON()
 
       // const fcmToken = await firebase.messaging().getToken();
@@ -145,6 +154,7 @@ class SigninScreen extends Component {
 
 
     } catch (e) {
+      this.setState({ spinner: false })
       console.error(e);
     }
   }
@@ -216,8 +226,8 @@ class SigninScreen extends Component {
 
 
   render() {
-    console.log(this.props.language)
-    I18n.locale = this.props.language
+    // console.log(this.state.spinner)
+    // I18n.locale = this.props.language
     // console.log(this.state.inputEmail)
     // console.log(this.state.inputPass)
     return (
@@ -226,7 +236,7 @@ class SigninScreen extends Component {
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
         <Spinner
-          visible={this.state.spinner}
+          visible={this.props.fetch || this.state.spinner}
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
         />
@@ -252,6 +262,7 @@ class SigninScreen extends Component {
 
 
           <View>
+            <Text style={{ textAlign: 'center', color: 'red' }}>{this.props.error}</Text>
             <View style={styles.inputBg}>
               <TextInput
                 style={styles.input}
@@ -339,8 +350,10 @@ class SigninScreen extends Component {
 const mapStateToProps = state => {
   return {
     profile: state.auth.profile,
+    requestData: state.auth.data,
     fetch: state.auth.fetching,
     language: state.auth.language,
+    error: state.auth.error
   };
 };
 
@@ -348,7 +361,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setUserId: (user_id) => dispatch(AuthActions.setUserId(user_id)),
     signinWithCredential: (data) => dispatch(AuthActions.signinWithCredential(data)),
-    signin: (email, password) => dispatch(AuthActions.signinRequest(email, password))
+    signin: (email, password) => dispatch(AuthActions.signinRequest(email, password)),
+    clearError: () => dispatch(AuthActions.clearError())
+    // setLanguage: (language) => dispatch(AuthActions.setLanguage(language))
   };
 };
 

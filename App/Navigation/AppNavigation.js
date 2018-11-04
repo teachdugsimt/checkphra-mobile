@@ -27,10 +27,12 @@ import { Colors } from "../Themes";
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/FontAwesome";
 
-import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator } from 'react-navigation';
+import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator, Header } from 'react-navigation';
 
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
+
+import { connect } from "react-redux";
 
 
 const AuthStack = StackNavigator(
@@ -433,23 +435,23 @@ const PrimaryNav = SwitchNavigator(
   }
 );
 
-// const mapStateToProps = state => {
-//   return {
-//     language: state.auth.language,
-//   };
-// };
+const mapStateToProps = state => {
+  return {
+    // lang: state.auth.language,
+  };
+};
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//   };
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+  };
+};
 
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(PrimaryNav);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PrimaryNav);
 
-export default PrimaryNav;
+// export default PrimaryNav;
 
 
 

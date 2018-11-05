@@ -15,6 +15,7 @@ import { Colors, Images } from "../Themes";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import CheckBox from 'react-native-check-box'
+import AuthActions from '../Redux/AuthRedux'
 // Styles
 import styles from "./Styles/ChangePasswordScreenStyle";
 import I18n from '../I18n/i18n';
@@ -47,10 +48,13 @@ class ChangePasswordScreen extends Component {
         console.log(this.state.confrimPass)
         Alert.alert(
           "Check Phra",
-          "ยืนยันการเปลี่ยนรหัสผ่าน ...",
+          I18n.t('confirmChangePass'),
           [
-            { text: "ตกลง", onPress: () => this.props.navigation.goBack() },
-            { text: "ยกเลิก" }
+            { text: I18n.t('ok'), onPress: () => {
+              this.props.changePassword(this.state.email, this.state.oldPass, this.state.newPass)
+              this.props.navigation.goBack()
+            } },
+            { text: I18n.t('cancel') }
           ],
           { cancelable: false }
         );
@@ -58,9 +62,9 @@ class ChangePasswordScreen extends Component {
       else {
         Alert.alert(
           "Check Phra",
-          "รหัสผ่านไม่ถูกต้อง ...",
+          I18n.t('validatePassword'),
           [
-            { text: "ตกลง" },
+            { text: I18n.t('ok') },
 
           ],
           { cancelable: false }
@@ -70,9 +74,9 @@ class ChangePasswordScreen extends Component {
     else {
       Alert.alert(
         "Check Phra",
-        "กรุณากรอกข้อมูลให้ครบถ้วน...",
+        I18n.t('checkData'),
         [
-          { text: "ตกลง" },
+          { text: I18n.t('ok') },
 
         ],
         { cancelable: false }
@@ -272,7 +276,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    changePassword: (email, oldp, newp) => dispatch(AuthActions.changePassword(email, oldp, newp)),
+  };
 };
 
 export default connect(

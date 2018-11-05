@@ -17,11 +17,11 @@ import { ExpertTypes } from '../Redux/ExpertRedux'
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
-import { signin, signinWithCredential, signup, createUser } from './AuthSagas'
+import { signin, signinWithCredential, signup, createUser, changePassword, forgetPassword } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion, getPublish } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest } from './PaymentSagas'
-import { expertRequest, getProfileRequest, acceptRequest } from './ExpertSagas'
+import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer } from './ExpertSagas'
 
 /* ------------- API ------------- */
 
@@ -45,6 +45,8 @@ export default function * root () {
     takeLatest(AuthTypes.SIGNIN_WITH_CREDENTIAL, signinWithCredential, authApi),
     takeLatest(AuthTypes.SIGNUP, signup, authApi),
     takeLatest(AuthTypes.CREATE_USER, createUser, authApi),
+    takeLatest(AuthTypes.CHANGE_PASSWORD, changePassword, authApi),
+    takeLatest(AuthTypes.FORGET_PASSWORD, forgetPassword, authApi),
 
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
@@ -56,6 +58,8 @@ export default function * root () {
     takeLatest(QuestionTypes.GET_PROFILE, getProfile, questionApi),
     takeLatest(QuestionTypes.DELETE_QUESTION, deleteQuestion, questionApi),
     takeLatest(ExpertTypes.EXPERT_REQUEST, expertRequest, questionApi),
+    takeLatest(ExpertTypes.ANSWER_LIST, getAnswerAdmin, questionApi),
+    takeLatest(ExpertTypes.UPDATE_ANSWER, updateAnswer, questionApi),
 
     takeLatest(PromotionTypes.PROMOTION_REQUEST, getPromotion, promotionApi),
 

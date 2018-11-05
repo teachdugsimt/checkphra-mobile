@@ -5,8 +5,8 @@ let b
 if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/core-profile/web/index.php/v1/'
 } else {
-  b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
-  // b = 'http://192.168.1.45/core-profile/web/index.php/v1/'
+  // b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
+  b = 'http://192.168.1.45/core-profile/web/index.php/v1/'
 }
 
 // our "constructor"
@@ -50,6 +50,10 @@ const create = (baseURL = b) => {
   const savedata = (data) => api.post('user/create-check-phra-user', data)
 
   const senddataRealTime = (data) => api.get('user/real-time-list', data)
+
+  const changePassword = (data) => api.post('user/reset-password', data)
+
+  const forgetPassword = (data) => api.post('user/forgot-password', data)
   // ------
   // STEP 3
   // ------
@@ -67,7 +71,9 @@ const create = (baseURL = b) => {
     signin,
     signup,
     savedata,
-    senddataRealTime
+    senddataRealTime,
+    changePassword,
+    forgetPassword,
   }
 }
 

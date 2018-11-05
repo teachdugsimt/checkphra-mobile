@@ -38,28 +38,27 @@ export function* expertRequest(api, { pack, q_id }) {   //   for add ANSWER ONLY
   }
 }
 
-// export function* getProfileRequest(api, { page }) {
-//   console.log(page)
-//   console.log('PAGE SAGA')
-//   const aut = yield select(auth)
+export function* updateAnswer(api, { pack, q_id }) {   //   for UPDATE ANSWER ONLY!!!!!!!
+  const aut = yield select(auth)
+  if (!aut.user_id) { return }
 
-//     if (!aut.user_id) { return }
+  console.log(pack)
+  console.log(q_id)
+  console.log('SAGAS UPDATE')
 
-//     const data = {
-//       user_id: aut.user_id,
-//       page_number: page
-//     }
-
-//     const response = yield call(api.getVerify, data)
-
-//     if (response.ok) {
-//       yield put(ExpertActions.verifySuccess(response.data))
-//     } else {
-//       yield put(ExpertActions.verifyFailure())
-//     }
-  
-// }
-
+  const response = yield call(api.updateAnswer, pack, q_id, aut.user_id)
+  console.log(response)
+  // success?
+  if (response.ok) {
+    // You might need to change the response here - do this with a 'transform',
+    // located in ../Transforms/. Otherwise, just pass the data back from the api.
+    alert('Edit Complete')
+    yield put(ExpertActions.updateSuccess(response.data))
+  } else {
+    alert('Edit Failure')
+    yield put(ExpertActions.updateFailure())
+  }
+}
 
 export function* getProfileRequest(api, { page }) {
   const aut = yield select(auth)
@@ -122,4 +121,43 @@ export function* acceptRequest(api, { id }) {
     yield put(ExpertActions.clearAcceptRequest())
   }
 
+}
+
+export function* getAnswerAdmin(api, { page }) {
+  const aut = yield select(auth)
+  console.log('PAGE')
+  if (page == 1) {
+
+    const data = {
+      user_id: aut.user_id,
+      pageNumber: page,
+    }
+
+    const response = yield call(api.answerAdmin, data)
+    console.log(response)
+    console.log("ANSWER OF ADMIN")
+    if (response.ok) {
+      yield put(ExpertActions.answerSuccess(response.data))
+    } else {
+      yield put(ExpertActions.answerFailure())
+    }
+    
+  } 
+  else {
+
+    const data = {
+      user_id: aut.user_id,
+      pageNumber: page,
+    }
+
+    const response = yield call(api.answerAdmin, data)
+    console.log(response)
+    console.log("ANSWER OF ADMIN")
+    if (response.ok) {
+      yield put(ExpertActions.answerSuccess2(response.data))
+    } else {
+      yield put(ExpertActions.answerFailure2())
+    }
+
+  }
 }

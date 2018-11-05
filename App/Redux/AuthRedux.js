@@ -23,6 +23,14 @@ const { Types, Creators } = createActions({
   createSuccess: ['data'],
   createFailure: null,
 
+  changePassword: ['email', 'oldp', 'newp'],
+  changeSuccess: ['data'],
+  changeFailure: null,
+
+  forgetPassword: ['email'],
+  forgetSuccess: ['data'],
+  forgetFailure: null,
+
   signout: null,
   // setPicture: ['data'],
   setLanguage: ['language'],
@@ -48,6 +56,12 @@ export const INITIAL_STATE = Immutable({
   data_create: null,  // data create user
 
   language: I18n.currentLocale(),
+
+  request3: null, // change password request
+  data_changepass: null,
+
+  request4: null, // forget password
+  data_forget: null,
 })
 
 /* ------------- Selectors ------------- */
@@ -100,6 +114,14 @@ export const createSuccess = (state, { data }) => {
 }
 export const createFailure = state => state.merge({ request2: false })
 
+export const changePassword = state => state.merge({ request3: true })
+export const changeSuccess = (state, { data }) => state.merge({ request3: false, data_changepass: data })
+export const changeFailure = state => state.merge({ request3: false })
+
+export const forgetPassword = state => state.merge({ request4: true })
+export const forgetSuccess = (state, { data }) => state.merge({ request4: false, data_forget: data })
+export const forgetFailure = state => state.merge({ request4: false })
+
 export const clearError = state => state.merge({ error: null })
 
 export const setLanguage = (state, { language }) => {
@@ -123,6 +145,14 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CREATE_USER]: createUser,
   [Types.CREATE_SUCCESS]: createSuccess,
   [Types.CREATE_FAILURE]: createFailure,
+
+  [Types.CHANGE_PASSWORD]: changePassword,
+  [Types.CHANGE_SUCCESS]: changeSuccess,
+  [Types.CHANGE_FAILURE]: changeFailure,
+
+  [Types.FORGET_PASSWORD]: forgetPassword,
+  [Types.FORGET_SUCCESS]: forgetSuccess,
+  [Types.FORGET_FAILURE]: forgetFailure,
 
   [Types.SIGNOUT]: signout,
   [Types.SET_LANGUAGE]: setLanguage,

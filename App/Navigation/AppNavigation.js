@@ -16,6 +16,9 @@ import CheckPhraScreen from '../Containers/CheckPhraScreen'
 import VerifyPoint from '../Containers/VerifyPoint'
 import VerifyPoint2 from '../Containers/VerifyPoint2'
 import Publish from '../Containers/Publish'
+import ForgetPassword from '../Containers/ForgetPassword'
+import AnswerOfAdmin from '../Containers/AnswerOfAdmin'
+import AnswerOfAdmin2 from '../Containers/AnswerOfAdmin2'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -61,25 +64,22 @@ const RegStack = StackNavigator(
   {
     transitionConfig: getSlideFromRightTransition,
     headerMode: "float",
-    // navigationOptions: ({ navigation }) => ({
-    //   headerLeft: (
-    //     <TouchableOpacity onPress={() => navigation.navigate("Auth")}>
-    //       <Text
-    //         style={{
-    //           marginLeft: 20,
-    //           fontSize: 18,
-    //           fontFamily: "Prompt-SemiBold",
-    //           color: Colors.brownText
-    //         }}
-    //       >
-    //         {"< กลับ"}
-    //       </Text>
-    //     </TouchableOpacity>
-    //   ),
-
-    // })
   },
+);
 
+const ForgetStack = StackNavigator(
+  {
+    forget: {
+      screen: ForgetPassword,
+      navigationOptions: {
+        title: I18n.t('forgetPassword'),
+      }
+    }
+  },
+  {
+    transitionConfig: getSlideFromRightTransition,
+    headerMode: "float",
+  },
 );
 
 const UploadStack = StackNavigator(  // main upload
@@ -370,7 +370,7 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
 }, {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: 'รายการเติมเงิน',
+      tabBarLabel: 'Coin List',
       headerStyle: {
         backgroundColor: Colors.tabBar,
       },
@@ -381,10 +381,38 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
     })
   })
 
+  const AdminAnswerStack = StackNavigator({ // **********************FOR ADMIN *************************
+    answer: {
+      screen: AnswerOfAdmin,
+      navigationOptions: {
+        title: I18n.t('adminAnswer')
+      }
+    },
+    detail: {
+      screen: AnswerOfAdmin2,
+      navigationOptions: {
+        title: I18n.t('detailAnswer')
+      }
+    }
+  }, {
+      transitionConfig: getSlideFromRightTransition,
+      navigationOptions: ({ navigation }) => ({
+        tabBarLabel: 'Answered',
+        headerStyle: {
+          backgroundColor: Colors.tabBar,
+        },
+        headerTitleStyle: {
+          color: 'white',
+          fontFamily: 'Prompt-Regular'
+        },
+      })
+    })
+
 const AdminStack = TabNavigator({  // *************** MAIN ADMIN *************************
   checklist: CheckListStack,
   verify: VerifyStack,
   pub: PublishStack,
+  answeradmin: AdminAnswerStack,
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({
@@ -402,6 +430,9 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
         }
         if (routeName == "pub") {
           iconName = `newspaper-o${focused ? "" : ""}`;
+        }
+        if (routeName == "answeradmin") {
+          iconName = `folder-open${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       },
@@ -470,6 +501,7 @@ const PrimaryNav = SwitchNavigator(
   {
     Auth: AuthStack,
     Reg: RegStack,
+    Forget: ForgetStack,
     App: DashStack,
     ExpertApp: ExpertStack,
     AdminApp: AdminStack,

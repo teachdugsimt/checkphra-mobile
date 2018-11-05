@@ -87,15 +87,15 @@ class CheckPhraScreen extends Component {
     }
 
     if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-      alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+      alert('Please choose one answer in check box')
     } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-      alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+      alert('Please choose one answer in check box')
     } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-      alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+      alert('Please choose one answer in check box')
     } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
-      alert('กรุณาเช็คคำตอบเพียงข้อเดียว')
+      alert('Please choose one answer in check box')
     } else if (tmp.length == 0) {
-      alert('กรุณาตอบคำถามอย่างน้อย1ข้อ')
+      alert('Please answer one question')
     } else {
 
       this.state.question.map((e, i) => {
@@ -195,166 +195,176 @@ class CheckPhraScreen extends Component {
     console.log('HERE IMG2')
     // console.log(this.props.data)
     return (
-      <View style={{ flex: 1 }}>
+      <LinearGradient
+        colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
+      >
+        <Image source={Images.watermarkbg} style={{
+          position: 'absolute',
+          right: 0, bottom: 0,
+          width: width,
+          height: width * 95.7 / 100
+        }} resizeMode='contain' />
+        <View style={{ flex: 1 }}>
 
-        <View style={{ flex: 0.4, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
-          <ImageViewer
-            saveToLocalByLongPress={false}
-            imageUrls={img2}
-            backgroundColor={'lightgrey'}
-            onClick={(e) => {
-              console.log('Show modal')
-              this.setState({ modalVisible: true })
-            }}
-            index={this.state.index}
-          // onSwipeDown={() => {
-          //     console.log('onSwipeDown');
-          //     this.setState({ modalVisible: false })
-          // }}
-          // enableSwipeDown={true}
-          />
-          <Modal
-            visible={this.state.modalVisible}
-            transparent={true}
-            onRequestClose={() => this.setState({ modalVisible: false })}>
+          <View style={{ flex: 0.4, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
             <ImageViewer
               saveToLocalByLongPress={false}
               imageUrls={img2}
               backgroundColor={'lightgrey'}
-              // onClick={(e) => {
-              //     console.log('Show modal')
-              //     this.setState({ modalVisible: true })
-              // }}
-              index={this.state.index}
-              onSwipeDown={() => {
-                console.log('onSwipeDown');
-                this.setState({ modalVisible: false })
+              onClick={(e) => {
+                console.log('Show modal')
+                this.setState({ modalVisible: true })
               }}
-              enableSwipeDown={true}
+              index={this.state.index}
+            // onSwipeDown={() => {
+            //     console.log('onSwipeDown');
+            //     this.setState({ modalVisible: false })
+            // }}
+            // enableSwipeDown={true}
             />
-          </Modal>
-
-        </View>
-
-        <View style={{ flex: 0.6 }}>
-          <ScrollView>
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question')} </Text>
-              <Text style={{ marginTop: 14, fontSize: 16 }}>( {this.props.data.email} )</Text>
-            </View>
-            {this.props.data.question_list.map((e, i) => {
-              if (e.question_detail == 'พระแท้ / ไม่แท้') {
-                return (
-                  <View style={{ marginLeft: 15 }}>
-                    <Text style={{}}>{I18n.t('trueFalse')}</Text>
-                    <CheckBox
-                      style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
-                      onClick={() => {
-                        this.setState({
-                          checkTrue1: !this.state.checkTrue1,
-                          checkTrue2: false,
-                          checkFalse: false
-                        })
-                      }}
-                      isChecked={this.state.checkTrue1}
-                      rightText={I18n.t('realPhra')}
-                      rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
-                      checkBoxColor={Colors.brownText}
-                    />
-                    <CheckBox
-                      style={{ flex: 1, marginLeft: 15 }}
-                      onClick={() => {
-                        this.setState({
-                          checkTrue2: !this.state.checkTrue2,
-                          checkTrue1: false,
-                          checkFalse: false
-                        })
-                      }}
-                      isChecked={this.state.checkTrue2}
-                      rightText={I18n.t('realPhraOld')}
-                      rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
-                      checkBoxColor={Colors.brownText}
-                    />
-                    <CheckBox
-                      style={{ flex: 1, marginLeft: 15, marginBottom: 5 }}
-                      onClick={() => {
-                        this.setState({
-                          checkFalse: !this.state.checkFalse,
-                          checkTrue1: false,
-                          checkTrue2: false
-                        })
-                      }}
-                      isChecked={this.state.checkFalse}
-                      rightText={I18n.t('fakePhra')}
-                      rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
-                      checkBoxColor={Colors.brownText}
-                    />
-                  </View>
-                )
-              } else if (e.question_detail == 'ราคาประเมินเช่าพระเครื่อง') {
-                return (
-                  <View>
-                    <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
-                    <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                      onChangeText={(text) => this.setState({ answer2: text })} />
-                  </View>
-                )
-              } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง') {
-                return (
-                  <View>
-                    <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
-                    <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                      onChangeText={(text) => this.setState({ answer3: text })} />
-                  </View>
-                )
-              }
-              else {
-                return (
-                  <View>
-                    <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                    <TextInput key={i} value={this.state.answer_other} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                      onChangeText={(text) => this.setState({ answer_other: text })} />
-                  </View>
-                )
-              }
-
-            })}
-
-            <View style={{ width: '65%', alignSelf: 'center', marginTop: 10 }}>
-              <RoundedButton
-                style={{ marginHorizontal: 10 }}
-                title={I18n.t('ok')}
-                onPress={this._onPressButton}
-                fetching={this.props.fetching}
+            <Modal
+              visible={this.state.modalVisible}
+              transparent={true}
+              onRequestClose={() => this.setState({ modalVisible: false })}>
+              <ImageViewer
+                saveToLocalByLongPress={false}
+                imageUrls={img2}
+                backgroundColor={'lightgrey'}
+                // onClick={(e) => {
+                //     console.log('Show modal')
+                //     this.setState({ modalVisible: true })
+                // }}
+                index={this.state.index}
+                onSwipeDown={() => {
+                  console.log('onSwipeDown');
+                  this.setState({ modalVisible: false })
+                }}
+                enableSwipeDown={true}
               />
-            </View>
+            </Modal>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: width, paddingTop: 15 }}>
-              <View style={{ width: width / 2.5 }}>
+          </View>
+
+          <View style={{ flex: 0.6 }}>
+            <ScrollView>
+              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question')} </Text>
+                <Text style={{ marginTop: 14, fontSize: 16 }}>( {this.props.data.email} )</Text>
+              </View>
+              {this.props.data.question_list.map((e, i) => {
+                if (e.question_detail == 'พระแท้ / ไม่แท้' || e.question_detail == 'พระแท้/ไม่แท้') {
+                  return (
+                    <View style={{ marginLeft: 15 }}>
+                      <Text style={{}}>{I18n.t('trueFalse')}</Text>
+                      <CheckBox
+                        style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
+                        onClick={() => {
+                          this.setState({
+                            checkTrue1: !this.state.checkTrue1,
+                            checkTrue2: false,
+                            checkFalse: false
+                          })
+                        }}
+                        isChecked={this.state.checkTrue1}
+                        rightText={I18n.t('realPhra')}
+                        rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
+                        checkBoxColor={Colors.brownText}
+                      />
+                      <CheckBox
+                        style={{ flex: 1, marginLeft: 15 }}
+                        onClick={() => {
+                          this.setState({
+                            checkTrue2: !this.state.checkTrue2,
+                            checkTrue1: false,
+                            checkFalse: false
+                          })
+                        }}
+                        isChecked={this.state.checkTrue2}
+                        rightText={I18n.t('realPhraOld')}
+                        rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
+                        checkBoxColor={Colors.brownText}
+                      />
+                      <CheckBox
+                        style={{ flex: 1, marginLeft: 15, marginBottom: 5 }}
+                        onClick={() => {
+                          this.setState({
+                            checkFalse: !this.state.checkFalse,
+                            checkTrue1: false,
+                            checkTrue2: false
+                          })
+                        }}
+                        isChecked={this.state.checkFalse}
+                        rightText={I18n.t('fakePhra')}
+                        rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
+                        checkBoxColor={Colors.brownText}
+                      />
+                    </View>
+                  )
+                } else if (e.question_detail == 'ราคาประเมินเช่าพระเครื่อง' || e.question_detail == 'ประเมินราคาพระ') {
+                  return (
+                    <View>
+                      <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
+                      <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
+                        onChangeText={(text) => this.setState({ answer2: text })} />
+                    </View>
+                  )
+                } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
+                  return (
+                    <View>
+                      <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
+                      <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
+                        onChangeText={(text) => this.setState({ answer3: text })} />
+                    </View>
+                  )
+                }
+                else {
+                  return (
+                    <View>
+                      <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
+                      <TextInput key={i} value={this.state.answer_other} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
+                        onChangeText={(text) => this.setState({ answer_other: text })} />
+                    </View>
+                  )
+                }
+
+              })}
+
+              <View style={{ width: '65%', alignSelf: 'center', marginTop: 10 }}>
                 <RoundedButton
                   style={{ marginHorizontal: 10 }}
-                  title={I18n.t('noneAnswer')}
-                  onPress={this._onPressNotanswer}
+                  title={I18n.t('ok')}
+                  onPress={this._onPressButton}
                   fetching={this.props.fetching}
                 />
               </View>
-              <View style={{ width: width / 2.5 }}>
-                <RoundedButton
-                  style={{ marginHorizontal: 10 }}
-                  title={I18n.t('sendToAdmin')}
-                  onPress={this._onPressAdmin}
-                  fetching={this.props.fetching}
-                />
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: width, paddingTop: 15 }}>
+                <View style={{ width: width / 2.5 }}>
+                  <RoundedButton
+                    style={{ marginHorizontal: 10 }}
+                    title={I18n.t('noneAnswer')}
+                    onPress={this._onPressNotanswer}
+                    fetching={this.props.fetching}
+                  />
+                </View>
+                <View style={{ width: width / 2.5 }}>
+                  <RoundedButton
+                    style={{ marginHorizontal: 10 }}
+                    title={I18n.t('sendToAdmin')}
+                    onPress={this._onPressAdmin}
+                    fetching={this.props.fetching}
+                  />
+                </View>
               </View>
-            </View>
 
-            <View style={{ height: 40 }}>
-            </View>
+              <View style={{ height: 40 }}>
+              </View>
 
-          </ScrollView>
+            </ScrollView>
+          </View>
+
         </View>
-
-      </View>
+      </LinearGradient>
     )
   }
 }

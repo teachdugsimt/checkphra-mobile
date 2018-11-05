@@ -129,3 +129,47 @@ export function* createUser(api, { email, uid }) {
     yield put(AuthActions.createFailure())
   }
 }
+
+export function* changePassword(api, { email, oldp, newp }) {
+
+  console.log(email, oldp, newp)
+  console.log('HERE DATA CHANGE')
+  const data = {
+    email: email,
+    old_password: oldp,
+    new_password: newp
+  }
+  console.log(data)
+
+  const response = yield call(api.changePassword, data)
+  console.log(response)
+
+  if (response.ok) {
+    alert('Change Password Complete')
+    yield put(AuthActions.changeSuccess(response.data))
+  } else {
+    alert('Failure, Please check your data')
+    yield put(AuthActions.changeFailure())
+  }
+}
+
+export function* forgetPassword(api, { email }) {
+
+  console.log(email)
+  console.log('HERE DATA FORGET EMAIL')
+
+  const data = {
+    email: email
+  }
+
+  const response = yield call(api.forgetPassword, data)
+  console.log(response)
+
+  if (response.ok) {
+    alert('Password setup email has been sent.')
+    yield put(AuthActions.forgetSuccess(response.data))
+  } else {
+    alert('Failure, please try again')
+    yield put(AuthActions.forgetFailure())
+  }
+}

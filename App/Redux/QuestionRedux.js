@@ -133,7 +133,7 @@ export const setAmuletType = (state, { amuletType }) => {
 export const setQuestions = (state, { questions }) => {
   let q = []
   questions.forEach(element => {
-    if (element.name == "พระแท้/ไม่แท้" && element.isChecked == false) {
+    if (element.name == "พระแท้ / ไม่แท้" && element.isChecked == false) {
       q.push(element.id)
     }
     if (element.isChecked) {

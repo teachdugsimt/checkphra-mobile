@@ -26,14 +26,13 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import styles from "./Styles/SigninScreenStyle";
 import { Colors } from "../Themes";
 import RoundedButton from "../Components/RoundedButton";
-
 import I18n from '../I18n/i18n';
 
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // I18n.locale = "th";
 
-let { width } = Dimensions.get('window')
+let { width, height } = Dimensions.get('window')
 
 class SigninScreen extends Component {
   constructor(props) {
@@ -43,6 +42,7 @@ class SigninScreen extends Component {
       inputPass: "",
       profile: null,
       spinner: false,
+      forget_email: ""
       // language: I18n.currentLocale()
     };
   }
@@ -163,9 +163,9 @@ class SigninScreen extends Component {
     if (this.state.chkMail == false) {
       Alert.alert(
         'Check Phra',
-        'กรุณากรอก E-mail ให้ถูกต้อง',
+        I18n.t('checkEmail'),
         [
-          { text: 'ตกลง' }
+          { text: I18n.t('ok') }
         ],
         { cancelable: false }
       )
@@ -173,9 +173,9 @@ class SigninScreen extends Component {
     else if (this.state.inputPass.length > 18 || this.state.inputPass.length < 6) {
       Alert.alert(
         'Check Phra',
-        'กรุณาใส่พาสเวิร์ดความยาว 6-18 ตัว (A-z,0-9)',
+        I18n.t('checkPassword'),
         [
-          { text: 'ตกลง' }
+          { text: I18n.t('ok') }
         ],
         { cancelable: false }
       )
@@ -186,7 +186,7 @@ class SigninScreen extends Component {
     } else {
       Alert.alert(
         'Check Phra',
-        'กรุณาใส่ข้อมูลให้ถูกต้อง',
+        I18n.t('checkData'),
         [
           { text: 'ตกลง' }
         ],
@@ -226,6 +226,8 @@ class SigninScreen extends Component {
 
 
   render() {
+    I18n.locale = this.props.language ? this.props.language : 'en'
+    // console.log(this.props.language)
     // console.log(this.state.spinner)
     // I18n.locale = this.props.language
     // console.log(this.state.inputEmail)
@@ -258,8 +260,6 @@ class SigninScreen extends Component {
           }}>
             Check Phra
           </Text>
-
-
 
           <View>
             <Text style={{ textAlign: 'center', color: 'red' }}>{this.props.error}</Text>
@@ -338,6 +338,20 @@ class SigninScreen extends Component {
                   {I18n.t('register')}
                 </Text>
               </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Forget')} style={{ marginTop: 5 }}>
+                <Text
+                  style={{
+                    textDecorationLine: "underline",
+                    fontFamily: "Prompt-Regular",
+                    fontSize: 18
+                  }}
+                >
+                  {I18n.t('forgetPassword')}
+                </Text>
+              </TouchableOpacity>
+
+
             </View>
           </View>
         </View>

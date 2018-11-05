@@ -8,7 +8,7 @@ import PaymentActions from '../../Redux/PaymentRedux'
 import RoundedButton from '../../Components/RoundedButton'
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import Omise from 'omise-react-native';
-Omise.config('pkey_test_4xmprhd0qqlcoi4mpca', '2015-11-17');
+Omise.config('pkey_test_5dtotdvyulop403v93a', '2015-11-17');
 // import { CreditCardInput } from "react-native-credit-card-input";
 import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -39,20 +39,21 @@ class Creditcard extends Component {
   static getDerivedStateFromProps(newProps, PrevState) {
     console.log(PrevState)
     console.log(newProps)
-    let tmp = newProps.data_card
-    if (newProps.request3) {
-      return {
-        spinner: true
-      }
+
+    let spinner = false
+    if (newProps.request) {
+      spinner = true
     } else {
-      return {
-        spinner: false
-      }
+      spinner = false
     }
 
-    // if(newProps.data_card != PrevState.)
+    // if(newProps.request == false || newProps.request == null){
+    //   spinner = false
+    // }
+
+
     return {
-      // card: tmp
+      spinner
     }
   }
 
@@ -78,27 +79,23 @@ class Creditcard extends Component {
     this.setState({ form })
   }
 
-  // _checkCard = ({ status, response}) =>{
-  //   console.log(status)
-  //   console.log(response)
-  //   console.log('here FUNCTION')
-  // }
-
   async _onPressButton() {
+    this.setState({ spinner: true })
     const data = await Omise.createToken(cardObj, function (statusCode, response) {
-      console.log(response)
-      console.log(statusCode)
+      // console.log(response)
+      // console.log(statusCode)
       // if (response.ok == false) {
       //   alert('กรุณาตรวจสอบข้อมูลบัตรเครดิต')
       // }
+
     });
     // const data = await Omise.createToken(cardObj, (STATUS_CODES, response) => this._checkCard(STATUS_CODES, response));
-
+    // this.setState({ spinner: false})
     console.log('TOKEN DATA')
     console.log(data);
 
-    // if (this.state.form.valid == true) {
     if (this.state.form.valid == true) {
+      this.setState({ spinner: false })
       Alert.alert(
         'Check Phra',
         I18n.t('submitTransaction'),
@@ -106,38 +103,41 @@ class Creditcard extends Component {
           {
             text: I18n.t('ok'), onPress: () => {
               this.props.checkCard(data.id)
-              setTimeout(() => {
-                this.props.navigation.goBack()
-                this.props.navigation.navigate("historyAddPoint")
-              }, 2000);
+              this.props.navigation.goBack()
+              this.props.navigation.navigate("historyAddPoint")
             }
           },
           { text: I18n.t('cancel') }
-        ]
+        ],
+        {cancelable: false}
       )
-    } else {
+    } else if (this.state.form.valid == false) {
+      this.setState({ spinner: false })
       Alert.alert(
         'Check Phra',
-        'กรุณาตรวจสอบข้อมูล',
+        I18n.t('checkData'),
         [
-          { text: 'ตกลง' }
+          { text: I18n.t('ok') }
         ]
       )
     }
-    // this.props.checkCard(data.id)
-    // setTimeout(() => {
-    //   this.props.navigation.goBack()
-    //   this.props.navigation.navigate("historyAddPoint")
-    // }, 2000);
-    // } else {
-    //   alert('กรุณาตรวจสอบข้อมูลบัตรเครดิต')
-    // }
+
   }
 
   render() {
-    console.log(this.state.form)
-    console.log(this.state.data)
+
     I18n.locale = this.props.language
+
+    let status = null
+    let color = null
+    if (this.state.form && this.state.form.valid == false) {
+      status = I18n.t('checkData')
+      color = 'red'
+    } else if (this.state.form && this.state.form.valid == true) {
+      status = I18n.t('trueData')
+      color = 'green'
+    }
+   
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -150,20 +150,23 @@ class Creditcard extends Component {
           <CreditCardInput onChange={this._onChange} requiresName={true} />
         </View>
 
-        <View style={{ marginTop: 20, width: 140, alignSelf: 'center' }}>
+        {status && <Text style={{ fontSize: 18, color: color, alignSelf: 'center', marginVertical: 15 }}>{status}</Text>}
+
+        {status == I18n.t('trueData') && <View style={{ marginTop: 10, width: 140, alignSelf: 'center' }}>
           <RoundedButton
             style={{ marginHorizontal: 10 }}
-            title={'ตกลง'}
+            title={I18n.t('ok')}
             onPress={() => { this._onPressButton() }}
             fetching={this.props.request}
           />
+        </View>}
 
-          <Spinner
-            visible={this.state.spinner}
-            textContent={'Loading...'}
-            textStyle={{ color: '#fff' }}
-          />
-        </View>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{ color: '#fff' }}
+        />
+
 
       </LinearGradient>
     )

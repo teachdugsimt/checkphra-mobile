@@ -20,8 +20,14 @@ export default {
   checkPassword: 'กรุณาใส่พาสเวิร์ดความยาว 6-18 ตัว (A-z,0-9)',
   validatePassword: 'กรุณาใส่พาสเวิร์ดและยืนยันพาสเวิร์ดให้ถูกต้อง',
   checkData: 'กรุณาใส่ข้อมูลให้ถูกต้อง',
+  trueData: 'ข้อมูลถูกต้อง',
   publish: 'ข่าวสาร',
   nonePublish: 'ยังไม่มีข่าวสาร',
+  confirmChangePass: 'ยืนยันการเปลี่ยนรหัสผ่าน',
+  forgetPassword: 'ลืมรหัสผ่าน',
+  inputEmail: 'โปรดระบุอีเมล',
+  adminAnswer: 'คำตอบของ Admin',
+  detailAnswer: 'รายละเอียดคำตอบ',
 
   checkPhra: 'เช็คพระ',
   package: 'แพ็กเกจ',
@@ -84,6 +90,7 @@ export default {
   creditCard: 'บัตรเครดิต',
   pendingCoin: 'อนุมัติการเติมเงิน',
   detailCoin: 'รายละเอียดการอนุมัติ',
+  edit: 'แก้ไข',
 
   success: 'ตรวจแล้ว',
   pending: 'รอตรวจ',

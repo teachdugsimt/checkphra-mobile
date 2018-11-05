@@ -95,6 +95,9 @@ class ProfileScreen extends Component {
 
   }
 
+  componentWillUnmount(){
+    this.popupDialog.dismiss()
+  }
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps)

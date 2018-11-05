@@ -79,11 +79,11 @@ class SendImageScreen extends Component {
         let qtype = []
         nextProps.questionType.forEach(e => {
           let name = ''
-          if(e.name == 'พระแท้ / ไม่แท้'){
+          if (e.name == 'พระแท้ / ไม่แท้' || e.name == 'พระแท้/ไม่แท้') {
             name = I18n.t('trueFalse')
-          } else if(e.name == 'ราคาประเมินเช่าพระเครื่อง'){
+          } else if (e.name == 'ราคาประเมินเช่าพระเครื่อง' || e.name == 'ประเมินราคาพระ') {
             name = I18n.t('pricePhra')
-          } else if(e.name == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง'){
+          } else if (e.name == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.name == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
             name = I18n.t('detailPhra')
           }
           qtype.push({
@@ -105,39 +105,38 @@ class SendImageScreen extends Component {
       }
     }
 
-    if (nextProps.questionData != prevState.questionData) {
-      if (chk2 == true) {
-        Alert.alert(
-          'Check Phra',
-          'ส่งพระตรวจ สำเร็จ!!',
-          [
-            {
-              text: 'ตกลง', onPress: () => {
-                nextProps.navigation.goBack()
-                nextProps.navigation.navigate('his')
-              }
-            }
-          ],
-          { cancelable: false }
-        )
-      }
-      chk2 = false
-      return { 
-        questionData: nextProps.questionData
-      }
-    }
-
-    //  images , request => change
-    // if (nextProps.request) {
-    //   if (nextProps.images.length != 0) {
-    //     checkFecth = true
+    // if (prevState.questionData == null && nextProps.questionData) {
+    //   return {
+    //     questionData: nextProps.questionData
     //   }
     // }
+
+    let qdata = nextProps.questionData
+    if (nextProps.questionData != prevState.questionData && nextProps.request == false) {
+    
+        if (chk2 == true) {
+          Alert.alert(
+            'Check Phra',
+            'ส่งพระตรวจ สำเร็จ!!',
+            [
+              {
+                text: 'ตกลง', onPress: () => {
+                  nextProps.navigation.goBack()
+                  nextProps.navigation.navigate('his')
+                }
+              }
+            ],
+            { cancelable: false }
+          )
+        }
+        chk2 = false
+      
+    }
 
 
     return {
       // questionType: qtype,
-      // questionData: nextProps.questionData
+      questionData: qdata
     }
   }
 

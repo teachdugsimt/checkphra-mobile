@@ -46,7 +46,7 @@ class AnswerScreen extends Component {
         // shareLinkContent.contentUrl = img2[0].url
         shareLinkContent = {
           contentType: 'link',
-          contentUrl: 'www.checkphra.com',
+          contentUrl: 'https://check-phra.firebaseapp.com/#/signin',
           contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
         }
 

@@ -8,6 +8,10 @@ const { Types, Creators } = createActions({
   expertSuccess: ['data'],
   expertFailure: null,
 
+  updateAnswer: ['pack', 'q_id'],
+  updateSuccess: ['data'],
+  updateFailure: null,
+
   getProfileRequest: ['page'],
   verifySuccess: ['data'],
   verifyFailure: null,
@@ -18,12 +22,19 @@ const { Types, Creators } = createActions({
   acceptSuccess: ['data'],
   acceptFailure: null,
 
+  answerList: ['page'],
+  answerSuccess: ['data'],
+  answerFailure: null,
+  answerSuccess2: ['data'],
+  answerFailure2: null,
+
   setDataPhra: ['data'],
   setDataPoint: ['data', 'index'],
 
   clearAcceptRequest: null,
 
   setFullData: ['data'],
+  setAnswerDetail: ['data'],
   editFullData: ['id'],
 })
 
@@ -50,6 +61,14 @@ export const INITIAL_STATE = Immutable({
 
   full_data: null,
 
+  fetch4: null,  // for get answer admin 
+  data_answer: null,
+
+  fetch5: null, //for update answer
+  data_updateAnswer: null,
+
+  answer_detail: null,
+
 })
 
 /* ------------- Selectors ------------- */
@@ -64,6 +83,10 @@ export const requestAnswer = (state) => state.merge({ fetch: true })
 export const requestAnswerSuccess = (state, { data }) => state.merge({ fetch: false, data_answer: data })
 
 export const requestAnswerFailure = (state) => state.merge({ fetch: false })
+
+export const updateAnswer = state => state.merge({ fetch5: true })
+export const updateSuccess = (state, { data }) => state.merge({ fetch5: false, data_updateAnswer: data })
+export const updateFailure = state => state.merge({ fetch5: false })
 
 export const setDataPhra = (state, { data }) => {
   // console.log(data, 'REDUX')
@@ -99,6 +122,25 @@ export const acceptRequest = state => state.merge({ fetch3: true })
 export const acceptSuccess = (state, { data }) => state.merge({ fetch3: false, data_accept: data })
 export const acceptFailure = state => state.merge({ fetch3: false })
 
+
+
+export const answerList = state => state.merge({ fetch4: true })
+export const answerSuccess = (state, { data }) => state.merge({ fetch4: false, data_answer: data })
+export const answerFailure = state => state.merge({ fetch4: false })
+export const answerSuccess2 = (state, { data }) => {
+  let tmp = [...state.data_answer]
+  data.forEach(e => {
+    if (tmp.find(b => b.id == e.id)) {
+      console.log('SAME VALUE')
+    } else { tmp.push(e) }
+  })
+  return state.merge({ data_answer: tmp, fetch4: false })
+}
+export const answerFailure2 = state => state.merge({ fetch4: false })
+
+
+
+
 export const clearAcceptRequest = state => state.merge({ fetch3: null })
 
 export const setFullData = (state, { data }) => {
@@ -125,12 +167,20 @@ export const editFullData = (state, { id }) => {
 
 }
 
+export const setAnswerDetail = (state, { data }) => {
+  return state.merge({ answer_detail: data })
+}
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.EXPERT_REQUEST]: requestAnswer,
   [Types.EXPERT_SUCCESS]: requestAnswerSuccess,
   [Types.EXPERT_FAILURE]: requestAnswerFailure,
+
+  [Types.UPDATE_ANSWER]: updateAnswer,
+  [Types.UPDATE_SUCCESS]: updateSuccess,
+  [Types.UPDATE_FAILURE]: updateFailure,
 
   [Types.SET_DATA_PHRA]: setDataPhra,
   [Types.SET_DATA_POINT]: setDataPoint,
@@ -145,7 +195,14 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ACCEPT_SUCCESS]: acceptSuccess,
   [Types.ACCEPT_FAILURE]: acceptFailure,
 
+  [Types.ANSWER_LIST]: answerList,
+  [Types.ANSWER_SUCCESS]: answerSuccess,
+  [Types.ANSWER_FAILURE]: answerFailure,
+  [Types.ANSWER_SUCCESS2]: answerSuccess2,
+  [Types.ANSWER_FAILURE2]: answerFailure2,
+
   [Types.CLEAR_ACCEPT_REQUEST]: clearAcceptRequest,
   [Types.SET_FULL_DATA]: setFullData,
   [Types.EDIT_FULL_DATA]: editFullData,
+  [Types.SET_ANSWER_DETAIL]: setAnswerDetail,
 })

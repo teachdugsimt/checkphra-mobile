@@ -133,11 +133,14 @@ export const setAmuletType = (state, { amuletType }) => {
 export const setQuestions = (state, { questions }) => {
   let q = []
   questions.forEach(element => {
-    if (element.name == "พระแท้ / ไม่แท้"||element.name == "พระแท้/ไม่แท้"|| element.name == "Real amulet / Fake amulet" || element.name == "Real amulet/Fake amulet" && element.isChecked == false) {
+    if (element.name == "พระแท้ / ไม่แท้" || element.name == "พระแท้/ไม่แท้" || element.name == "Real amulet / Fake amulet" || element.name == "Real amulet/Fake amulet" && element.isChecked == false) {
       q.push(element.id)
-    }
-    if (element.isChecked) {
+    } else if (element.name == "พระแท้ / ไม่แท้" || element.name == "พระแท้/ไม่แท้" || element.name == "Real amulet / Fake amulet" || element.name == "Real amulet/Fake amulet" && element.isChecked) {
       q.push(element.id)
+    } else {
+      if (element.isChecked) {
+        q.push(element.id)
+      }
     }
 
   });

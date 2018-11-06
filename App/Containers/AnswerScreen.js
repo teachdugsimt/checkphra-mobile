@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TouchableOpacity, Image, View, Modal, Dimensions, TouchableHighlight, Alert } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, Image, View, Modal, Dimensions, TouchableHighlight, Alert, Linking } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -118,7 +118,21 @@ class AnswerScreen extends Component {
     );
   }
 
+  _goToURL() {
+    // const url = 'm.me/316834699141900'
+    // Linking.canOpenURL(url).then(supported => {
+    //   if (supported) {
+    //     Linking.openURL(url);
+    //   } else {
+    //     console.log('Don\'t know how to open URI: ' + url);
+    //   }
+    // });
 
+    // const url = 'https://m.me/316834699141900'
+    const url = 'https://www.messenger.com/t/316834699141900'
+    // const url = 'https://www.google.com'
+    Linking.openURL(url)
+  }
 
   render() {
     let data = this.props.answer
@@ -193,52 +207,65 @@ class AnswerScreen extends Component {
             })
           }
         </View> */}
+        <ScrollView style={{ flex: 1 }}>
+          <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+            {
+              data != null && data[0].answer != null &&
+              data[0].answer.map(e => {
+                if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
+                  return (
+                    <Text style={{
+                      fontFamily: 'Prompt-Regular',
+                      fontSize: 16,
+                    }}>{I18n.t('trueFalse')} : <Text style={{
+                      fontFamily: 'Prompt-SemiBold',
+                      fontSize: 18,
+                    }}>{e.result}</Text></Text>
+                  )
+                } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
+                  return (
+                    <Text style={{
+                      fontFamily: 'Prompt-Regular',
+                      fontSize: 16,
+                    }}>{I18n.t('pricePhra')} : <Text style={{
+                      fontFamily: 'Prompt-SemiBold',
+                      fontSize: 18,
+                    }}>{e.result}</Text></Text>
+                  )
+                } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
+                  return (
+                    <Text style={{
+                      fontFamily: 'Prompt-Regular',
+                      fontSize: 16,
+                    }}>{I18n.t('detailPhra')} : <Text style={{
+                      fontFamily: 'Prompt-SemiBold',
+                      fontSize: 18,
+                    }}>{e.result}</Text></Text>
+                  )
+                }
+              })
+            }
+          </View>
 
-        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
-          {
-            data != null && data[0].answer != null &&
-            data[0].answer.map(e => {
-              if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
-                return (
-                  <Text style={{
-                    fontFamily: 'Prompt-Regular',
-                    fontSize: 16,
-                  }}>{I18n.t('trueFalse')} : <Text style={{
-                    fontFamily: 'Prompt-SemiBold',
-                    fontSize: 18,
-                  }}>{e.result}</Text></Text>
-                )
-              } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
-                return (
-                  <Text style={{
-                    fontFamily: 'Prompt-Regular',
-                    fontSize: 16,
-                  }}>{I18n.t('pricePhra')} : <Text style={{
-                    fontFamily: 'Prompt-SemiBold',
-                    fontSize: 18,
-                  }}>{e.result}</Text></Text>
-                )
-              } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
-                return (
-                  <Text style={{
-                    fontFamily: 'Prompt-Regular',
-                    fontSize: 16,
-                  }}>{I18n.t('detailPhra')} : <Text style={{
-                    fontFamily: 'Prompt-SemiBold',
-                    fontSize: 18,
-                  }}>{e.result}</Text></Text>
-                )
-              }
-            })
-          }
-        </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 
-        {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View style={{ alignItems: 'center' }} >
-          <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#3F54C4', borderRadius: 5, marginTop: 20 }}>
-            <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
-            <Text style={{ fontSize: 20, margin: 10, color: 'white', fontWeight: 'bold' }}>Share</Text>
-          </TouchableOpacity>
-        </View>}
+            {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View style={{ alignItems: 'center' }} >
+              <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#3F54C4', borderRadius: 5, marginTop: 20 }}>
+                <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
+                <Text style={{ fontSize: 18, margin: 10, color: 'white', fontWeight: 'bold' }}>Share</Text>
+              </TouchableOpacity>
+            </View>}
+
+            <View style={{ alignItems: 'center', marginLeft: 15 }} >
+              <TouchableOpacity onPress={this._goToURL} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#3F54C4', borderRadius: 5, marginTop: 20 }}>
+                <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
+                <Text style={{ fontSize: 18, margin: 10, color: 'white', fontWeight: 'bold' }}>Messenger</Text>
+              </TouchableOpacity>
+            </View>
+
+          </View>
+
+        </ScrollView>
 
       </LinearGradient>
     )

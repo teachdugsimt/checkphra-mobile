@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TouchableOpacity, Image, View, Modal, Dimensions, TouchableHighlight } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, Image, View, Modal, Dimensions, TouchableHighlight, Alert } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -9,6 +9,7 @@ import styles from './Styles/AnswerScreenStyle'
 import { Colors, Images } from '../Themes';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { LoginButton, ShareDialog, ShareButton } from 'react-native-fbsdk';
+import PromotionActions from '../Redux/PromotionRedux'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 const { width, height } = Dimensions.get('window')
@@ -19,6 +20,8 @@ let shareLinkContent = {
   contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
 }
 
+let isShared = false
+
 class AnswerScreen extends Component {
 
   constructor(props) {
@@ -28,8 +31,8 @@ class AnswerScreen extends Component {
       index: 0,
       modalVisible: false,
       img2: null,
+      shared: false,
     }
-
   }
 
 
@@ -56,6 +59,7 @@ class AnswerScreen extends Component {
       }
     }
 
+
     return {
 
     }
@@ -63,11 +67,17 @@ class AnswerScreen extends Component {
 
   componentWillUnmount() {
     this.props.navigation.goBack()
+    if (isShared == true) {
+      this.props.sharedAnswer(this.props.answer[0].q_id)
+    }
+    isShared = false
+    // console.log(isShared)
+    // console.log('AND IS SHARED')
   }
 
-  shareLinkWithShareDialog() {
+  async shareLinkWithShareDialog() {
     var tmp = this;
-    ShareDialog.canShow(shareLinkContent).then(
+    await ShareDialog.canShow(shareLinkContent).then(
       function (canShow) {
         if (canShow) {
           return ShareDialog.show(shareLinkContent);
@@ -80,8 +90,26 @@ class AnswerScreen extends Component {
         if (result.isCancelled) {
           alert('Share operation was cancelled');
         } else {
-          alert('Share was successful with postId: '
-            + result.postId);
+          // alert('Share was successful with postId: '
+          //   + result.postId);
+          // alert('Share was successful');
+          if (isShared == false) {
+            alert(I18n.t('sharedSuccess'))
+            isShared = true
+          } else if (isShared == true) {
+            alert(I18n.t('sharedSuccess2'))
+          }
+          // Alert.alert(
+          //   'Check Phra',
+          //   I18n.t('sharedSuccess'),
+          //   [
+          //     { text: I18n.t('ok'), onPress: () => { 
+          //       // this.setState({ shared: true })
+          //      } }
+          //   ]
+          //   ,{cancelable: false}
+          // )
+
         }
       },
       function (error) {
@@ -90,9 +118,13 @@ class AnswerScreen extends Component {
     );
   }
 
+
+
   render() {
     let data = this.props.answer
     I18n.locale = this.props.language
+    // console.log(isShared)
+    // console.log('AND IS SHARED')
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -145,7 +177,7 @@ class AnswerScreen extends Component {
 
         </View>}
 
-        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+        {/* <View style={{ marginHorizontal: 20, marginTop: 20 }}>
           {
             data != null && data[0].answer != null &&
             data[0].answer.map(e => {
@@ -160,30 +192,53 @@ class AnswerScreen extends Component {
               )
             })
           }
+        </View> */}
+
+        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+          {
+            data != null && data[0].answer != null &&
+            data[0].answer.map(e => {
+              if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
+                return (
+                  <Text style={{
+                    fontFamily: 'Prompt-Regular',
+                    fontSize: 16,
+                  }}>{I18n.t('trueFalse')} : <Text style={{
+                    fontFamily: 'Prompt-SemiBold',
+                    fontSize: 18,
+                  }}>{e.result}</Text></Text>
+                )
+              } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
+                return (
+                  <Text style={{
+                    fontFamily: 'Prompt-Regular',
+                    fontSize: 16,
+                  }}>{I18n.t('pricePhra')} : <Text style={{
+                    fontFamily: 'Prompt-SemiBold',
+                    fontSize: 18,
+                  }}>{e.result}</Text></Text>
+                )
+              } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
+                return (
+                  <Text style={{
+                    fontFamily: 'Prompt-Regular',
+                    fontSize: 16,
+                  }}>{I18n.t('detailPhra')} : <Text style={{
+                    fontFamily: 'Prompt-SemiBold',
+                    fontSize: 18,
+                  }}>{e.result}</Text></Text>
+                )
+              }
+            })
+          }
         </View>
 
-        <View style={{ alignItems: 'center' }} >
-          {/* <ShareButton /> */}
-          {/* <LoginButton
-            onLoginFinished={
-              (error, result) => {
-                if (error) {
-                  alert("Login failed with error: " + error.message);
-                } else if (result.isCancelled) {
-                  alert("Login was cancelled");
-                } else {
-                  alert("Login was successful with permissions: " + result.grantedPermissions)
-                }
-              }
-            }
-            onLogoutFinished={() => alert("User logged out")} /> */}
-
+        {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View style={{ alignItems: 'center' }} >
           <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#3F54C4', borderRadius: 5, marginTop: 20 }}>
             <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
             <Text style={{ fontSize: 20, margin: 10, color: 'white', fontWeight: 'bold' }}>Share</Text>
           </TouchableOpacity>
-
-        </View>
+        </View>}
 
       </LinearGradient>
     )
@@ -199,7 +254,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    sharedAnswer: (qid) => dispatch(PromotionActions.sharedAnswer(qid)),
   }
 }
 

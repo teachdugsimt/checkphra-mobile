@@ -13,7 +13,7 @@
 import { call, put, select } from 'redux-saga/effects'
 import PromotionActions, { publishRequest } from '../Redux/PromotionRedux'
 // import { PromotionSelectors } from '../Redux/PromotionRedux'
-// const auth = state => state.auth
+const auth = state => state.auth
 
 export function* getPromotion(api) {
   // get current data from Store
@@ -29,14 +29,32 @@ export function* getPromotion(api) {
   }
 }
 
-export function* getPublish(api){
+export function* getPublish(api) {
   const response = yield call(api.getPublish)
   console.log(response)
   console.log('PUBLISH DATA')
-  if(response.ok){
+  if (response.ok) {
     yield put(PromotionActions.publishSuccess(response.data))
   } else {
     yield put(PromotionActions.publishFailure())
+  }
+}
+
+export function* sharedAnswer(api, { qid }) {
+  const aut = yield select(auth)
+  console.log(qid)
+  console.log('SHARED QID')
+  const data = {
+    user_id: aut.user_id,
+    qid
+  }
+
+  const response = yield call(api.sharedAnswer, data)
+  console.log(response)
+  if(response.ok){
+    yield put(PromotionActions.sharedSuccess(response.data))
+  } else {
+    yield put(PromotionActions.sharedFailure())
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Text, View, TouchableOpacity, Dimensions } from "react-native";
+import { Image, Text, View, TouchableOpacity, Dimensions, Alert } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import GridView from "react-native-super-grid";
@@ -170,10 +170,22 @@ class UploadScreen extends Component {
   }
 
   componentDidMount() {
+
     this.props.getAmuletType()
 
     // this.props.setLanguage(I18n.locale)
     this.props.clearDataQuestion()
+    if (this.props.profile) {
+      if (this.props.profile.count == 7 || (this.props.profile.count % 7) == 0) {
+        Alert.alert(
+          'Check Phra',
+          I18n.t('loginSuccess'),
+          [
+            { text: I18n.t('ok') }
+          ],
+        )
+      }
+    }
   }
 
   render() {
@@ -241,6 +253,7 @@ const mapStateToProps = state => {
     auth: state.auth,
     data_amulet: state.question.amuletType,
     language: state.auth.language,
+    profile: state.question.profile,
   };
 };
 

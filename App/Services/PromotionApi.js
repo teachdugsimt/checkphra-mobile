@@ -43,6 +43,8 @@ const create = (baseURL = b) => {
 
   const getPublish = () => api.get('publish/list')
 
+  const sharedAnswer = (data) => api.post('share-history/add', data)
+
   return {
     // a list of the API functions from step 2
     getPromotion,
@@ -52,7 +54,8 @@ const create = (baseURL = b) => {
     getVerify,
     acceptPoint,
     creditCard,
-    getPublish
+    getPublish,
+    sharedAnswer
   }
 }
 

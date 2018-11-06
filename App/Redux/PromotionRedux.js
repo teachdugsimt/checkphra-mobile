@@ -12,6 +12,10 @@ const { Types, Creators } = createActions({
   publishSuccess: ['data'],
   publishFailure: null,
 
+  sharedAnswer: ['qid'],
+  sharedSuccess: ['data'],
+  sharedFailure: null,
+
   setMoney: ['data'],
 
 })
@@ -31,6 +35,9 @@ export const INITIAL_STATE = Immutable({
 
   request: null,  //for publish
   data_publish: null,
+
+  request2: null, // shared answer
+  data_shared: null,
 })
 
 /* ------------- Selectors ------------- */
@@ -62,6 +69,9 @@ export const setMoney = (state, { data }) => {
   return state.merge({ money: data })
 }
 
+export const sharedAnswer = state => state.merge({ request2: true })
+export const sharedSuccess = (state, { data }) => state.merge({ request2: false, data_shared: data })
+export const sharedFailure = state => state.merge({ request2: false })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -73,6 +83,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.PUBLISH_REQUEST]: publishRequest,
   [Types.PUBLISH_SUCCESS]: publishSuccess,
   [Types.PUBLISH_FAILURE]: publishFailure,
+
+  [Types.SHARED_ANSWER]: sharedAnswer,
+  [Types.SHARED_SUCCESS]: sharedSuccess,
+  [Types.SHARED_FAILURE]: sharedFailure,
 
   [Types.SET_MONEY]: setMoney,
 

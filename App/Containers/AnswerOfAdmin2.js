@@ -15,6 +15,7 @@ import CheckBox from 'react-native-check-box'
 // Styles
 import styles from './Styles/CheckListScreenStyle'
 import I18n from '../I18n/i18n';
+import Spinner from 'react-native-loading-spinner-overlay';
 I18n.fallbacks = true;
 // I18n.currentLocale();
 
@@ -39,6 +40,7 @@ class AnswerOfAdmin2 extends Component {
             checkTrue1: false,
             checkTrue2: false,
             checkFalse: false,
+            spinner: false,
         }
     }
 
@@ -97,6 +99,10 @@ class AnswerOfAdmin2 extends Component {
             this.props.navigation.goBack()
         }
         // console.log(pack)
+    }
+
+    componentWillMount(){
+        this.setState({ spinner: false })
     }
 
     componentDidMount() {
@@ -280,6 +286,13 @@ class AnswerOfAdmin2 extends Component {
                         <View style={{ height: 40 }}>
                         </View>
 
+
+                        <Spinner
+                            visible={this.props.request || this.state.spinner}
+                            textContent={'Loading...'}
+                            textStyle={{ color: '#fff' }}
+                        />
+
                     </ScrollView>
                 </View>
 
@@ -294,6 +307,7 @@ const mapStateToProps = (state) => {
     return {
         data: state.expert.answer_detail,
         language: state.auth.language,
+        request: state.expert.fetch5,
     }
 }
 

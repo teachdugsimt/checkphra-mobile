@@ -120,18 +120,15 @@ class AnswerScreen extends Component {
 
   _goToURL() {
     // const url = 'm.me/316834699141900'
-    // Linking.canOpenURL(url).then(supported => {
-    //   if (supported) {
-    //     Linking.openURL(url);
-    //   } else {
-    //     console.log('Don\'t know how to open URI: ' + url);
-    //   }
-    // });
-
-    // const url = 'https://m.me/316834699141900'
-    const url = 'https://www.messenger.com/t/316834699141900'
-    // const url = 'https://www.google.com'
-    Linking.openURL(url)
+    const url = 'https://www.messenger.com/t/316834699141900'    // pc , mobile
+    // const url = 'https://m.me/316834699141900' // pc , mobile can't use
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log('Don\'t know how to open URI: ' + url);
+      }
+    });
   }
 
   render() {

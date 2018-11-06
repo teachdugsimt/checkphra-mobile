@@ -103,10 +103,15 @@ class RegisterScreen extends Component {
     } else if (this.state.chkMail == true && this.state.pass.length > 5 && this.state.pass2.length > 5 && this.state.pass.length < 19 && this.state.pass.length < 19 && this.state.pass == this.state.pass2) {
       console.log("success")
       this.setState({ spinner: true })
+      // setTimeout(function () {
+      //   this.props.signup(this.state.email, this.state.pass)
+      //   this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
+      // }, 3000);
       this.props.signup(this.state.email, this.state.pass)
       this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
+
       // this.signupAtFirebase(this.state.email, this.state.pass)
-    } 
+    }
     // else {
     //   Alert.alert(
     //     'Check Phra',

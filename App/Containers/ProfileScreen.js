@@ -84,6 +84,8 @@ class ProfileScreen extends Component {
         {
           text: 'ตกลง', onPress: () => {
             this.props.signout()
+            this.props.signout2()
+            this.props.clearAll()
             this.props.navigation.navigate('Auth')
           }
         },
@@ -95,7 +97,7 @@ class ProfileScreen extends Component {
 
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.popupDialog.dismiss()
   }
 
@@ -183,7 +185,7 @@ class ProfileScreen extends Component {
                 />
               }
               {this.props.profile && this.props.profile.role != 'user' &&
-                <Text style={{ marginLeft: 3 }}>{this.props.profile.display_name? this.props.profile.display_name: 'MR. Blue'}</Text>}
+                <Text style={{ marginLeft: 3 }}>{this.props.profile.display_name ? this.props.profile.display_name : 'MR. Blue'}</Text>}
             </View>
 
             <View style={{ flexDirection: 'row', marginTop: 5 }}>
@@ -325,8 +327,7 @@ class ProfileScreen extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => {
-          this.props.signout()
-          this.props.signout2()
+          this._onSignout()
         }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
             <Icon2
@@ -391,6 +392,7 @@ const mapDispatchToProps = dispatch => {
     getProfile: () => dispatch(QuestionActions.getProfile()),
     signout: () => dispatch(AuthActions.signout()),
     signout2: () => dispatch(QuestionActions.clearProfile()),
+    clearAll: () => dispatch(QuestionActions.clearAll()),
     setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
   };
 };

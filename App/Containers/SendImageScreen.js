@@ -160,7 +160,7 @@ class SendImageScreen extends Component {
     let chkImage = this.props.images.filter(e => e != undefined)
     console.log('CHECK IMG')
     console.log(chkImage)
-    // this.props.setStart(0, 1)
+    this.props.setStart(0, 1)
 
     this.state.questionType.map((e, i) => {
       console.log(e)

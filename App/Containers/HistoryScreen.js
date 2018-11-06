@@ -120,6 +120,7 @@ class HistoryScreen extends Component {
           onEndReachedThreshold={0.05}
           data={this.props.history}
           renderItem={({ item }) => {
+            // console.log(item)
             let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
             let status = I18n.t('pending')
             let color = 'orange'
@@ -187,68 +188,88 @@ class HistoryScreen extends Component {
               name = I18n.t('otherOrUnknown')
             }
 
-            return (
-              <TouchableOpacity onPress={() => {
-                if (item.status == 'success') {
-                  this.goToAnswer(item.id)
-                } else {
-                  alert(I18n.t('cantSeeResult'))
+            if (item.status != "delete") {
+              return (
+                <TouchableOpacity onPress={() => {
+                  if (item.status == 'success') {
+                    this.goToAnswer(item.id)
+                  } else {
+                    alert(I18n.t('cantSeeResult'))
+                  }
                 }
-              }
-              }>
-                <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 60, height: 60, margin: 10, borderRadius: 10 }} />
-                  <View style={{ flex: 1, padding: 10 }}>
-                    <Text style={{
+                }>
+                  <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 60, height: 60, margin: 10, borderRadius: 10 }} />
+                    <View style={{ flex: 1, padding: 10 }}>
+                      <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 18,
+                        color: Colors.brownText,
+                        // margin: 20
+                      }}>{name}</Text>
+                      <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 12,
+                        color: Colors.brownText,
+                        // margin: 20
+                      }}>{date}</Text>
+                    </View>
+                    {item.status == 'success' && <Text style={{
                       fontFamily: 'Prompt-SemiBold',
-                      fontSize: 18,
-                      color: Colors.brownText,
-                      // margin: 20
-                    }}>{name}</Text>
-                    <Text style={{
+                      fontSize: 15,
+                      color: 'white',
+                      marginVertical: 20,
+                      marginLeft: 20, 
+                      marginRight: 35,
+                      paddingHorizontal: 20,
+                      paddingTop: 5,
+                      borderRadius: 15,
+                      height: 30,
+                      backgroundColor: color
+                    }}>{status}</Text>
+                    }
+                    {item.status == 'pending' && <Text style={{
                       fontFamily: 'Prompt-SemiBold',
-                      fontSize: 12,
-                      color: Colors.brownText,
-                      // margin: 20
-                    }}>{date}</Text>
+                      fontSize: 15,
+                      color: 'white',
+                      marginVertical: 20,
+                      marginLeft: 20,
+                      marginRight: 10,
+                      paddingHorizontal: 20,
+                      paddingTop: 5,
+                      borderRadius: 15,
+                      height: 30,
+                      backgroundColor: color
+                    }}>{status}</Text>
+                    }
+
+                    {item.status == "pending" && <Icon2
+                      name="remove"
+                      size={26}
+                      color={'red'}
+                      style={{ marginRight: 10, }}
+                      onPress={() => {
+                        Alert.alert(
+                          'Check Phra',
+                          I18n.t('doYouWantToCancelQuestion'),
+                          [
+                            {
+                              text: I18n.t('ok'), onPress: () => {
+                                this.props.deleteQuestion(item.id)
+                                this.props.getHistory(1)
+                              }
+                            },
+                            { text: I18n.t('cancel'), onPress: () => { } }
+                          ]
+                        )
+
+                      }}
+
+                    />}
                   </View>
-                  <Text style={{
-                    fontFamily: 'Prompt-SemiBold',
-                    fontSize: 15,
-                    color: 'white',
-                    margin: 20,
-                    paddingHorizontal: 20,
-                    paddingTop: 5,
-                    borderRadius: 15,
-                    height: 30,
-                    backgroundColor: color
-                  }}>{status}</Text>
-                  <Icon2
-                    name="remove"
-                    size={26}
-                    color={'red'}
-                    style={{ marginRight: 10, }}
-                    onPress={() => {
-                      Alert.alert(
-                        'Check Phra',
-                        I18n.t('doYouWantToCancelQuestion'),
-                        [
-                          {
-                            text: I18n.t('ok'), onPress: () => {
-                              this.props.deleteQuestion(item.id)
-                              this.props.getHistory()
-                            }
-                          },
-                          { text: I18n.t('cancel'), onPress: () => { } }
-                        ]
-                      )
-
-                    }}
-
-                  />
-                </View>
-              </TouchableOpacity>
-            )
+                </TouchableOpacity>
+              )
+            }
           }}
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
         />

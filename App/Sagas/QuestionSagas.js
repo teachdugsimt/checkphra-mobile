@@ -179,9 +179,10 @@ export function* deleteQuestion(api, qid) {
   const response = yield call(api.cancelQuestion, data)
   console.log(response)
   if (response.ok) {
+    alert('Successfull')
     yield put(QuestionActions.deleteQuestionSuccess(response.data))
   } else {
     yield put(QuestionActions.deleteQuestionFailure())
-    alert('ยกเลิกรายการตรจพระล้มเหลว')
+    alert('Failure, Please try again')
   }
 }

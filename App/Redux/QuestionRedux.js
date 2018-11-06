@@ -51,6 +51,7 @@ const { Types, Creators } = createActions({
   setStartQuestion: ['index', 'num'],
 
   clearDataQuestion: null,
+  clearAll: null,
 })
 
 export const QuestionTypes = Types
@@ -272,6 +273,8 @@ export const deleteQuestionFailure = state => state.merge({ request3: false })
 
 export const clearProfile = state => state.merge({ profile: null })
 export const clearDataQuestion = state => state.merge({ data_question: null })
+
+export const clearAll = state => INITIAL_STATE
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -294,6 +297,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_HISTORY_FAILURE2]: historyFailure2,
 
   [Types.CLEAR_FORM]: clearForm,
+  [Types.CLEAR_ALL]:clearAll,
 
   [Types.GET_ANSWER_SUCCESS]: answerSuccess,
   [Types.GET_PROFILE_SUCCESS]: profileSuccess,

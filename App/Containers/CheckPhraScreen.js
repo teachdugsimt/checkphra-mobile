@@ -252,7 +252,7 @@ class CheckPhraScreen extends Component {
                 <Text style={{ marginTop: 14, fontSize: 16 }}>( {this.props.data.email} )</Text>
               </View>
               {this.props.data.question_list.map((e, i) => {
-                if (e.question_detail == 'พระแท้ / ไม่แท้' || e.question_detail == 'พระแท้/ไม่แท้') {
+                if (e.question_detail == 'พระแท้ / ไม่แท้' || e.question_detail == 'พระแท้/ไม่แท้' || e.question_detail == 'Real amulet / Fake amulet') {
                   return (
                     <View style={{ marginLeft: 15 }}>
                       <Text style={{}}>{I18n.t('trueFalse')}</Text>
@@ -300,7 +300,7 @@ class CheckPhraScreen extends Component {
                       />
                     </View>
                   )
-                } else if (e.question_detail == 'ราคาประเมินเช่าพระเครื่อง' || e.question_detail == 'ประเมินราคาพระ') {
+                } else if (e.question_detail == 'ราคาประเมินเช่าพระเครื่อง' || e.question_detail == 'ประเมินราคาพระ' || e.question_detail == 'Price amulet') {
                   return (
                     <View>
                       <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
@@ -308,7 +308,7 @@ class CheckPhraScreen extends Component {
                         onChangeText={(text) => this.setState({ answer2: text })} />
                     </View>
                   )
-                } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
+                } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation') {
                   return (
                     <View>
                       <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>

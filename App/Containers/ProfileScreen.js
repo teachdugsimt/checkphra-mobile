@@ -183,7 +183,7 @@ class ProfileScreen extends Component {
                 />
               }
               {this.props.profile && this.props.profile.role != 'user' &&
-                <Text style={{ marginLeft: 3 }}>{this.props.profile.display_name}</Text>}
+                <Text style={{ marginLeft: 3 }}>{this.props.profile.display_name? this.props.profile.display_name: 'MR. Blue'}</Text>}
             </View>
 
             <View style={{ flexDirection: 'row', marginTop: 5 }}>

@@ -133,7 +133,7 @@ export const setAmuletType = (state, { amuletType }) => {
 export const setQuestions = (state, { questions }) => {
   let q = []
   questions.forEach(element => {
-    if (element.name == "พระแท้ / ไม่แท้" && element.isChecked == false) {
+    if (element.name == "พระแท้ / ไม่แท้"||element.name == "พระแท้/ไม่แท้"|| element.name == "Real amulet / Fake amulet" || element.name == "Real amulet/Fake amulet" && element.isChecked == false) {
       q.push(element.id)
     }
     if (element.isChecked) {
@@ -150,6 +150,7 @@ export const setStartQuestion = (state, { index, num }) => {
   let chk = state.questions
   console.log(chk)
   console.log('REDUX2')
+
   let q = []
   if (chk.length == 0) {  // กรณีส่งโดยไม่ติ๊ก ผ่าน
     console.log('SUCCESS')
@@ -159,7 +160,8 @@ export const setStartQuestion = (state, { index, num }) => {
     q = chk
     console.log(q)
   }
-
+  // console.log(q)
+  // console.log('CHECK BOX BEFORE SEND TO SAGA')
   return state.merge({ questions: q })
 }
 

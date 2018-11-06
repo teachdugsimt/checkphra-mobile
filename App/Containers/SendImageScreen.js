@@ -113,24 +113,24 @@ class SendImageScreen extends Component {
 
     let qdata = nextProps.questionData
     if (nextProps.questionData != prevState.questionData && nextProps.request == false) {
-    
-        if (chk2 == true) {
-          Alert.alert(
-            'Check Phra',
-            'ส่งพระตรวจ สำเร็จ!!',
-            [
-              {
-                text: 'ตกลง', onPress: () => {
-                  nextProps.navigation.goBack()
-                  nextProps.navigation.navigate('his')
-                }
+
+      if (chk2 == true) {
+        Alert.alert(
+          'Check Phra',
+          'ส่งพระตรวจ สำเร็จ!!',
+          [
+            {
+              text: 'ตกลง', onPress: () => {
+                nextProps.navigation.goBack()
+                nextProps.navigation.navigate('his')
               }
-            ],
-            { cancelable: false }
-          )
-        }
-        chk2 = false
-      
+            }
+          ],
+          { cancelable: false }
+        )
+      }
+      chk2 = false
+
     }
 
 
@@ -163,16 +163,20 @@ class SendImageScreen extends Component {
     this.props.setStart(0, 1)
 
     this.state.questionType.map((e, i) => {
-      if (e.name == "พระแท้ / ไม่แท้") {
+      console.log(e)
+      if (e.name == I18n.t('trueFalse')) {
         chk.push(1)
-      }
-      if (e.isChecked == true) {
-        chk.push(1)
-        cnt = cnt + e.point
-      } else if (e.isChecked == false) {
-        chk.push(0)
+      } else {
+        if (e.isChecked == true) {
+          chk.push(1)
+          cnt = cnt + e.point
+        } else if (e.isChecked == false) {
+          chk.push(0)
+        }
       }
     })
+    console.log(chk)
+    console.log('HERE CHK ARRAY')
 
     let chk2 = chk.indexOf(1)
 

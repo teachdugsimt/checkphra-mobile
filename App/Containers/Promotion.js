@@ -35,6 +35,11 @@ class Promotion extends Component {
         }
     }
 
+
+    componentWillUnmount(){
+        this.popupDialog.dismiss()
+    }
+
     _PressPromotion(item) {
         // console.log(item)
         this.props.setMoney(item.price)
@@ -149,7 +154,7 @@ class Promotion extends Component {
                             <Text style={{ fontSize: 16 }}>{I18n.t('banking')}</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={this._Promptpay} style={{
+                        {/* <TouchableOpacity onPress={this._Promptpay} style={{
                             height: 42, flexDirection: 'row',
                             borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center'
                         }}>
@@ -159,7 +164,7 @@ class Promotion extends Component {
                                 color={Colors.brownText}
                                 style={{ marginHorizontal: 10 }} />
                             <Text style={{ fontSize: 16 }}>{I18n.t('promptpay')}</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                         <TouchableOpacity onPress={this._Creditcard} style={{
                             height: 42, flexDirection: 'row',

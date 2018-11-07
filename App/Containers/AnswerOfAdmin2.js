@@ -96,6 +96,7 @@ class AnswerOfAdmin2 extends Component {
                 index: 0,
                 modalVisible: false,
             })
+            // this.props.getAnswer(1)
             this.props.navigation.goBack()
         }
         // console.log(pack)
@@ -317,7 +318,8 @@ const mapDispatchToProps = (dispatch) => {
         //   getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
         //   deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
         //   setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
-        updateAnswer: (pack, q_id) => dispatch(ExpertActions.updateAnswer(pack, q_id))
+        updateAnswer: (pack, q_id) => dispatch(ExpertActions.updateAnswer(pack, q_id)),
+        getAnswer: (page) => dispatch(ExpertActions.answerList(page)),
     }
 }
 

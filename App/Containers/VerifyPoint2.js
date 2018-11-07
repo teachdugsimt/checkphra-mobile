@@ -68,8 +68,10 @@ class VerifyPoint2 extends Component {
         let status_color = this.props.item.status == 10 || tmp_chk.status == 10 ? 'green' : 'orange'
         let product = this.props.item.price + " point"
         let time = this.props.item.date.slice(11, this.props.item.date.length - 3)
-        let type = this.props.item.bank ? 'บัญชี ' + this.props.item.bank : 'credit-card'
-        // console.log(this.props.item)
+        let type = this.props.item.bank ? I18n.t('banking') : 'credit-card'
+        console.log(this.props.item)
+        console.log(tmp_chk)
+        console.log('*--------------------------------------*')
 
         let img2 = []
         img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.props.item.image })
@@ -128,7 +130,7 @@ class VerifyPoint2 extends Component {
                     </Modal>
                 </View>
 
-                {status == 'รออนุมัติ' && this.props.item.status == 0 && tmp_chk.status == 0 && <View style={{ alignItems: 'center', marginTop: 20 }}>
+                {status == I18n.t('waitVerify') && this.props.item.status == 0 && tmp_chk.status == 0 && <View style={{ alignItems: 'center', marginTop: 20 }}>
                     <View style={{ width: 170 }}>
                         <RoundedButton
                             style={{ marginHorizontal: 10 }}

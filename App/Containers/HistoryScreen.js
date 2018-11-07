@@ -10,7 +10,6 @@ import 'moment/locale/th'
 import styles from './Styles/HistoryScreenStyle'
 import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
-
 // import I18n, { getLanguages } from 'react-native-i18n';
 
 import I18n from '../I18n/i18n';
@@ -64,7 +63,7 @@ class HistoryScreen extends Component {
     let hlist = newProps.history
     console.log(newProps)
     console.log(PrevState)
-
+    newProps.getProfile()
     // **************  newProps.data_slip.id != data_history.id  ***********//  not sure
     // if (newProps.data_question != null){
     //   let tmp = newProps.history.find(e=> e.id == newProps.data_question.id)
@@ -83,6 +82,7 @@ class HistoryScreen extends Component {
     //beta algorithm test version
     if (newProps.request_question == false && newProps.data_question != null) {
       newProps.getHistory(1)
+      newProps.getProfile()
       return {
         data_history: newProps.history
       }
@@ -257,6 +257,7 @@ class HistoryScreen extends Component {
                               text: I18n.t('ok'), onPress: () => {
                                 this.props.deleteQuestion(item.id)
                                 this.props.getHistory(1)
+                                this.props.getProfile()
                               }
                             },
                             { text: I18n.t('cancel'), onPress: () => { } }
@@ -299,7 +300,8 @@ const mapDispatchToProps = (dispatch) => {
     getHistory: (count) => dispatch(QuestionActions.getHistory(count)),
     getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
     deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
-    clearDataQuestion: () => dispatch(QuestionActions.clearDataQuestion())
+    clearDataQuestion: () => dispatch(QuestionActions.clearDataQuestion()),
+    getProfile: () => dispatch(QuestionActions.getProfile()),
   }
 }
 

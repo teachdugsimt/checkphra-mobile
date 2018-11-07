@@ -27,7 +27,7 @@ class ChangePasswordScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      email: this.props.profile.email,
       oldPass: "",
       newPass: "",
       confrimPass: "",
@@ -107,6 +107,7 @@ class ChangePasswordScreen extends Component {
 
   render() {
     I18n.locale = this.props.language
+    console.log(this.props.profile)
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -116,7 +117,7 @@ class ChangePasswordScreen extends Component {
           height: width * 95.7 / 100
         }} resizeMode='contain' />
         <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'space-between', marginTop: 20 }}>
-          <View
+          {/* <View
             style={{
               borderColor: "white",
               borderWidth: 1,
@@ -141,7 +142,7 @@ class ChangePasswordScreen extends Component {
               placeholderTextColor="white"
               secureTextEntry={false}
             />
-          </View>
+          </View> */}
 
           <View
             style={{
@@ -272,6 +273,7 @@ class ChangePasswordScreen extends Component {
 const mapStateToProps = state => {
   return {
     language: state.auth.language,
+    profile: state.question.profile,
   };
 };
 

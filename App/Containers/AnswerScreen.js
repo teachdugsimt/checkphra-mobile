@@ -217,7 +217,7 @@ class AnswerScreen extends Component {
                     }}>{I18n.t('trueFalse')} : <Text style={{
                       fontFamily: 'Prompt-SemiBold',
                       fontSize: 18,
-                    }}>{e.result}</Text></Text>
+                    }}>{e.result ? e.result: I18n.t('noneAnswer')}</Text></Text>
                   )
                 } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
                   return (
@@ -227,7 +227,7 @@ class AnswerScreen extends Component {
                     }}>{I18n.t('pricePhra')} : <Text style={{
                       fontFamily: 'Prompt-SemiBold',
                       fontSize: 18,
-                    }}>{e.result}</Text></Text>
+                    }}>{e.result ? e.result: I18n.t('noneAnswer')}</Text></Text>
                   )
                 } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
                   return (
@@ -237,7 +237,7 @@ class AnswerScreen extends Component {
                     }}>{I18n.t('detailPhra')} : <Text style={{
                       fontFamily: 'Prompt-SemiBold',
                       fontSize: 18,
-                    }}>{e.result}</Text></Text>
+                    }}>{e.result ? e.result: '[ '+I18n.t('noneAnswer')+' ]'}</Text></Text>
                   )
                 }
               })

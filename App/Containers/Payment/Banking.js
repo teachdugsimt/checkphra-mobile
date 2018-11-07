@@ -130,7 +130,7 @@ class Banking extends Component {
                                 // }, 3000);
                             }
                         },
-                        { text: I18n.t('cancel')}
+                        { text: I18n.t('cancel') }
                     ],
                     { cancelable: false }
                 )
@@ -291,8 +291,8 @@ class Banking extends Component {
 
     render() {
         I18n.locale = this.props.language
-        let heightView = 60
-        let widthView = '50%'
+        let heightView = 63
+        let widthView = '15%'
         let heightImg = 60
         let widthImg = 60
 
@@ -309,44 +309,46 @@ class Banking extends Component {
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
                 <ScrollView style={{ flex: 1, width: width }}>
-                    <Text style={{ alignSelf: 'center', marginTop: 20, fontSize: 18, }}>{I18n.t('selectBank')}</Text>
-                    <Text style={{ alignSelf: 'center', marginTop: 8, fontSize: 20, fontWeight: 'bold' }}>นาย ทดสอบ ทดสอบ</Text>
+                    {/* <Text style={{ alignSelf: 'center', marginTop: 20, fontSize: 18, }}>{I18n.t('selectBank')}</Text> */}
+                    <Text style={{ alignSelf: 'center', marginTop: 8, fontSize: 20, fontWeight: 'bold' }}>บจก. ไทยเกรท อะมิวเล็ท</Text>
 
-                    <View style={{ justifyContent: 'flex-start', alignItems: 'center', height: 330, width: '100%', marginTop: 15 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', height: 60 }}>
+                        <Image source={img[0]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
+                        <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>048-3-35828-8</Text>
+                    </View>
+
+                    <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15, alignSelf: 'center' }}>{I18n.t('selectBank')}</Text>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', height: 60, width: '100%', marginTop: 15 }}>
 
                         <TouchableOpacity
                             onPress={this._kbank}
                             style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.kbankBorder, backgroundColor: this.state.kbankBackground }}>
                             <Image source={img[0]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
-                            <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>753-0-11694-0</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             onPress={this._scb}
                             style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.scbBorder, backgroundColor: this.state.scbBackground }}>
                             <Image source={img[1]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
-                            <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>519-2-81889-8</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             onPress={this._krungthep}
                             style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.krungthepBorder, backgroundColor: this.state.krungthepBackground }}>
                             <Image source={img[2]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
-                            <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>019-3-90118-2</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             onPress={this._ktb}
                             style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.ktbBorder, backgroundColor: this.state.ktbBackground }}>
                             <Image source={img[3]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
-                            <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>019-3-90118-2</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             onPress={this._tmb}
                             style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.tmbBorder, backgroundColor: this.state.tmbBackground }}>
                             <Image source={img[4]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
-                            <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>019-3-90118-2</Text>
                         </TouchableOpacity>
                     </View>
 

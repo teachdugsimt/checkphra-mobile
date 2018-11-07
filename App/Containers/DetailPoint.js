@@ -47,6 +47,15 @@ class DetailPoint extends Component {
     }
   }
 
+  componentDidMount(){
+    // this.props.navigation.goBack()
+  }
+
+  componentWillUnmount(){
+    // this.props.navigation.navigate('profileScreen')  //can't
+    // this.props.navigation.goBack()   // can't
+  }
+
   render() {
     I18n.locale = this.props.language
     let id = this.props.item.id
@@ -65,6 +74,7 @@ class DetailPoint extends Component {
     console.log(this.props.item)
     console.log(status)
     console.log('Detail point')
+    
     return (
       <View style={{}}>
         <ScrollView>

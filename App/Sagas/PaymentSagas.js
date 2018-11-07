@@ -13,11 +13,14 @@
 import { call, put, select } from 'redux-saga/effects'
 import PaymentActions, { creditRequest } from '../Redux/PaymentRedux'
 // import { PaymentSelectors } from '../Redux/PaymentRedux'
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+
 const auth = state => state.auth
 const money = state => state.promotion
 const slip = state => state.payment.data_point
 // const pay = state => state.payment
-
+I18n.locale = auth.language
 export function* paymentRequest(api, { data }) {
 
   const aut = yield select(auth)
@@ -38,7 +41,7 @@ export function* paymentRequest(api, { data }) {
     yield put(PaymentActions.paymentSuccess(response.data))
   } else {
     yield put(PaymentActions.paymentFailure())
-    alert('เติมเงินล้มเหลว กรุณาทำรายการใหม่')
+    alert(I18n.t('addCoinFailure'))
   }
 }
 
@@ -60,7 +63,7 @@ export function* historyAddpointRequest(api, { page }) {
       yield put(PaymentActions.historyAddpointSuccess(response.data))
     } else {
       yield put(PaymentActions.historyAddpointFailure())
-      alert('ร้องขอประวัติล้มเหลว')
+      alert(I18n.t('historyFailure'))
     }
   } else {
     const aut = yield select(auth)
@@ -79,7 +82,7 @@ export function* historyAddpointRequest(api, { page }) {
       yield put(PaymentActions.historyAddpointSuccess2(response.data))
     } else {
       yield put(PaymentActions.historyAddpointFailure2())
-      alert('ร้องขอประวัติล้มเหลว')
+      alert(I18n.t('historyFailure'))
     }
   }
 
@@ -106,9 +109,9 @@ export function* sendSlipRequest(api, { item }) {
   if (response.ok) {
     yield put(PaymentActions.sendSlipSuccess(response.data))
     yield put(PaymentActions.clearRequest())
-    alert('แจ้งโอนเงินสำเร็จ')
+    alert(I18n.t('addCoinSuccess'))
   } else {
-    alert('แจ้งโอนเงินล้มเหลว')
+    alert(I18n.t('addCoinFailure2'))
     yield put(PaymentActions.sendSlipFailure())
     yield put(PaymentActions.clearRequest())
   }
@@ -129,11 +132,11 @@ export function* cardRequest(api, { token }) {
   console.log(response)
 
   if (response.ok) {
-    alert('เติมเงินสำเร็จ')
+    alert(I18n.t('addCoinSuccess2'))
     yield put(PaymentActions.cardSuccess(response.data))
     yield put(PaymentActions.clearCardRequest())
   } else {
-    alert('เติมเงินล้มเหลว')
+    alert(I18n.t('addCoinFailure'))
     yield put(PaymentActions.cardFailure())
     yield put(PaymentActions.clearCardRequest())
   }

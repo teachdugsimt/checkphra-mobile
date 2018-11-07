@@ -26,11 +26,33 @@ class AnswerOfAdmin extends Component {
         this.state = {
             answerData: null,
             full_data: null,
+            tmp: null,
         }
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
         let plist = newProps.data_answer
+        // newProps.getAnswer(1)
+        let tmp = null
+        if (newProps.data_updateAnswer && prevState.tmp == null) {
+            if (check == true) {
+                newProps.getAnswer(1)
+                tmp = newProps.data_updateAnswer
+                check = false
+                return {
+                    tmp
+                }
+            }
+        }
+
+        if (prevState.tmp) {
+            if (prevState.tmp != newProps.data_updateAnswer) {
+                newProps.getAnswer(1)
+                return {
+                    tmp: newProps.data_updateAnswer
+                }
+            }
+        }
 
 
         return {
@@ -215,6 +237,7 @@ const mapStateToProps = (state) => {
         language: state.auth.language,
         request2: state.expert.fetch4,
         data_answer: state.expert.data_answer,
+        data_updateAnswer: state.expert.data_updateAnswer,
     }
 }
 

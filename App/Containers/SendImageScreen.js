@@ -115,6 +115,7 @@ class SendImageScreen extends Component {
     if (nextProps.questionData != prevState.questionData && nextProps.request == false) {
 
       if (chk2 == true) {
+        nextProps.getProfile()
         Alert.alert(
           'Check Phra',
           'ส่งพระตรวจ สำเร็จ!!',

@@ -9,13 +9,16 @@
 *  - This template uses the api declared in sagas/index.js, so
 *    you'll need to define a constant in that file.
 *************************************************************/
+import RoundedButton from "../Components/RoundedButton";
 
 import { call, put, select } from 'redux-saga/effects'
 import ExpertActions, { verifyRequest } from '../Redux/ExpertRedux'
 import { LinearGradient } from '../../node_modules/react-native-linear-gradient';
 // import { ExpertSelectors } from '../Redux/ExpertRedux'
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
 const auth = state => state.auth
-
+I18n.locale = auth.language
 export function* expertRequest(api, { pack, q_id }) {   //   for add ANSWER ONLY!!!!!!!
   const aut = yield select(auth)
   if (!aut.user_id) { return }
@@ -30,10 +33,10 @@ export function* expertRequest(api, { pack, q_id }) {   //   for add ANSWER ONLY
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    alert('ส่งคำตอบสำเร็จ')
+    alert(I18n.t('answerSuccess'))
     yield put(ExpertActions.expertSuccess(response.data))
   } else {
-    alert('ส่งผลตรวจล้มเหลว')
+    alert(I18n.t('answerFailure'))
     yield put(ExpertActions.expertFailure())
   }
 }
@@ -52,10 +55,10 @@ export function* updateAnswer(api, { pack, q_id }) {   //   for UPDATE ANSWER ON
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    alert('Edit Complete')
+    alert(I18n.t('editSuccess'))
     yield put(ExpertActions.updateSuccess(response.data))
   } else {
-    alert('Edit Failure')
+    alert(I18n.t('editFailure'))
     yield put(ExpertActions.updateFailure())
   }
 }
@@ -112,11 +115,11 @@ export function* acceptRequest(api, { id }) {
   console.log(response)
 
   if (response.ok) {
-    alert('อนุมัติสำเร็จ')
+    alert(I18n.t('verifySuccess'))
     yield put(ExpertActions.acceptSuccess(response.data))
     yield put(ExpertActions.clearAcceptRequest())
   } else {
-    alert('อนุมัติล้มเหลว')
+    alert(I18n.t('verifyFailure'))
     yield put(ExpertActions.acceptFailure())
     yield put(ExpertActions.clearAcceptRequest())
   }

@@ -8,6 +8,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import { Colors, Images } from "../Themes";
 import PaymentActions from '../Redux/PaymentRedux'
+import QuestionActions from '../Redux/QuestionRedux'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 // I18n.currentLocale();
@@ -48,12 +49,14 @@ class HistoryPoint extends Component {
 
     componentWillUnmount() {
         count = 1
+        this.props.getProfile()
         this.props.navigation.goBack()
     }
 
     componentDidMount() {
         count = 1
         this.props.getHistory(1)
+        this.props.getProfile()
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
@@ -77,6 +80,7 @@ class HistoryPoint extends Component {
 
         if (newProps.request2 == false && newProps.data_slip != null) {
             newProps.getHistory(1)
+            newProps.getProfile()
             return {
                 history_data: newProps.data_history
             }
@@ -84,6 +88,7 @@ class HistoryPoint extends Component {
 
         if (newProps.request3 == false) {
             newProps.getHistory(1)
+            newProps.getProfile()
             return {
                 history_data: newProps.data_history
             }
@@ -192,6 +197,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getHistory: (page) => dispatch(PaymentActions.historyAddpointRequest(page)),
         setDetailPoint: (data) => dispatch(PaymentActions.setDetailPoint(data)),
+        getProfile: () => dispatch(QuestionActions.getProfile()),
     };
 };
 

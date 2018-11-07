@@ -195,12 +195,20 @@ class CheckListScreen extends Component {
                 <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 60, height: 60, margin: 10, borderRadius: 10 }} />
                   <View style={{ flex: 1, padding: 10 }}>
-                    <Text style={{
-                      fontFamily: 'Prompt-SemiBold',
-                      fontSize: 18,
-                      color: Colors.brownText,
-                      // margin: 20
-                    }}>{name}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 18,
+                        color: Colors.brownText,
+                        // margin: 20
+                      }}>{name}</Text>
+                      <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 18,
+                        color: Colors.brownText,
+                        // margin: 20
+                      }}> ( {item.id} )</Text>
+                    </View>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
                       fontSize: 12,

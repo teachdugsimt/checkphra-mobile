@@ -139,6 +139,7 @@ class Promotion extends Component {
                     dialogAnimation={slideAnimation}
                     width={0.7}
                     height={height / 3.5}
+                    // height={150}
                     onDismissed={() => { this.setState({}) }}
                 >
                     <View style={{}}>

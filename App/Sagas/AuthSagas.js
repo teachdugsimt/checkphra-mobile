@@ -13,7 +13,10 @@
 import { call, put, select } from 'redux-saga/effects'
 import AuthActions from '../Redux/AuthRedux'
 // import { AuthSelectors } from '../Redux/AuthRedux'
-
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
+const auth = state => state.auth
+I18n.locale = auth.language
 // const firebase = state => state.firebase
 // const auth = state => state.auth   // go to firebase to signup and get access token
 
@@ -43,6 +46,7 @@ export function* signin(api, action) {
   } else {
     console.log("SIGNIN FAIL")
     console.log(response)
+    
     // alert(response.data.message)
     yield put(AuthActions.signinFailure(response.data.message))
   }
@@ -96,13 +100,13 @@ export function* signup(api, { id, password }) {
 
     if ((response.data.message).indexOf("has already been taken") != -1) {
       yield put(AuthActions.signupFailure())
-      alert("อีเมลนี้ถูกใช้งานแล้ว")
+      alert(I18n.t('emailUsed'))
     } else if (response.problem == 'NETWORK_ERROR') {
       yield put(AuthActions.signupFailure())
-      alert('การเชื่อมต่ออินเตอร์เน็ตผิดพลาด')
+      alert(I18n.t('networkError'))
     } else {
       yield put(AuthActions.signupFailure())
-      alert('กรุณาตรวจสอบ อีเมลและรหัสผ่าน')
+      alert(I18n.t('verifyData'))
     }
 
   }
@@ -122,10 +126,10 @@ export function* createUser(api, { email, uid }) {
   console.log(response)
 
   if (response.ok) {
-    alert('Register complete')
+    alert(I18n.t('registerComplete'))
     yield put(AuthActions.createSuccess(response.data))
   } else {
-    alert('Register Failure')
+    alert(I18n.t('registerFailure'))
     yield put(AuthActions.createFailure())
   }
 }
@@ -145,10 +149,10 @@ export function* changePassword(api, { email, oldp, newp }) {
   console.log(response)
 
   if (response.ok) {
-    alert('Change Password Complete')
+    alert(I18n.t('passSuccess'))
     yield put(AuthActions.changeSuccess(response.data))
   } else {
-    alert('Failure, Please check your data')
+    alert(I18n.t('passFailure'))
     yield put(AuthActions.changeFailure())
   }
 }
@@ -166,10 +170,10 @@ export function* forgetPassword(api, { email }) {
   console.log(response)
 
   if (response.ok) {
-    alert('Password setup email has been sent.')
+    alert(I18n.t('sendPass'))
     yield put(AuthActions.forgetSuccess(response.data))
   } else {
-    alert('Failure, please try again')
+    alert(I18n.t('sendPassFailure'))
     yield put(AuthActions.forgetFailure())
   }
 }

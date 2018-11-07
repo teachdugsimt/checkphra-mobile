@@ -35,6 +35,9 @@ const { Types, Creators } = createActions({
   // setPicture: ['data'],
   setLanguage: ['language'],
   clearError: null,
+
+  setCoin: ['coin'],
+
 })
 
 export const AuthTypes = Types
@@ -48,6 +51,7 @@ export const INITIAL_STATE = Immutable({
   profile: null,
   user_id: null,  // access token login facebook
   error: null,
+  coin: null,
 
   request: null,
   dataRegister: [],
@@ -128,6 +132,10 @@ export const setLanguage = (state, { language }) => {
   return state.merge({ language })
 }
 
+export const setCoin = (state, { coin }) => {
+  return state.merge({ coin })
+}
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -158,4 +166,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_LANGUAGE]: setLanguage,
 
   [Types.CLEAR_ERROR]: clearError,
+  [Types.SET_COIN]: setCoin,
 })

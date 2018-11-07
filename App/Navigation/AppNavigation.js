@@ -370,7 +370,7 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
 }, {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: 'Coin List',
+      tabBarLabel: I18n.t('pendingCoin'),
       headerStyle: {
         backgroundColor: Colors.tabBar,
       },
@@ -397,7 +397,7 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
   }, {
       transitionConfig: getSlideFromRightTransition,
       navigationOptions: ({ navigation }) => ({
-        tabBarLabel: 'Answered',
+        tabBarLabel: I18n.t('editAnswer'),
         headerStyle: {
           backgroundColor: Colors.tabBar,
         },

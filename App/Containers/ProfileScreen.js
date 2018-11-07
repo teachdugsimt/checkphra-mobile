@@ -42,6 +42,7 @@ class ProfileScreen extends Component {
       avatarSource: null,
       // checkData: this.props.id,
       // Imagine: null
+      point: null,
     }
   }
 
@@ -72,6 +73,30 @@ class ProfileScreen extends Component {
     });
   }
 
+  static getDerivedStateFromProps(newProps, prevState) {
+    console.log(newProps)
+    console.log(prevState)
+    // console.log('HAHAHA SUCCCCC')
+    if (newProps.profile && newProps.profile.point) {
+      if (newProps.profile.point != prevState.point) {
+        newProps.getProfile()
+        newProps.setCoin(newProps.profile.point)
+        // console.log('POINT CHANGE BY PROFILE')
+        return {
+          point: newProps.profile.point
+        }
+      }
+      // console.log('POINT CHANGE BY PROFILE 88888888888')
+      return {
+        point: newProps.profile.point
+      }
+    }
+
+    return {
+
+    }
+  }
+
   componentDidMount() {
     this.props.getProfile()
   }
@@ -79,10 +104,10 @@ class ProfileScreen extends Component {
   _onSignout = () => {
     Alert.alert(
       'Check Phra',
-      'คุณตองการออกจากระบบ ?',
+      I18n.t('wantLogout'),
       [
         {
-          text: 'ตกลง', onPress: () => {
+          text: I18n.t('ok'), onPress: () => {
             this.props.signout()
             this.props.signout2()
             this.props.clearAll()
@@ -90,7 +115,7 @@ class ProfileScreen extends Component {
           }
         },
         {
-          text: 'ยกเลิก', onPress: () => { }
+          text: I18n.t('cancel'), onPress: () => { }
         }
       ]
     )
@@ -124,7 +149,9 @@ class ProfileScreen extends Component {
   render() {
     // let data = []
     // console.log(this.props.profile)
-
+    I18n.locale = this.props.language
+    console.log(this.props.coin)  // can use instead this.props.profile.point
+    console.log('-----------------------------------------------------')
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -300,12 +327,8 @@ class ProfileScreen extends Component {
           {/* </View> */}
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => {
-          if (this.props.profile && this.props.profile.type == 'gen') {
-            this.props.navigation.navigate("change")
-          } else {
-            alert('Your account is Facebook')
-          }
+        {this.props.profile && this.props.profile.type == 'gen' && <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => {
+          this.props.navigation.navigate("change")
         }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10, marginVertical: 10 }}>
             <Icon2
@@ -324,7 +347,9 @@ class ProfileScreen extends Component {
               {I18n.t('changePassword')}
             </Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>}
+
+
 
         <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1 }} onPress={() => {
           this._onSignout()
@@ -384,6 +409,7 @@ const mapStateToProps = state => {
   return {
     profile: state.question.profile,
     language: state.auth.language,
+    coin: state.auth.coin,
   };
 };
 
@@ -394,6 +420,7 @@ const mapDispatchToProps = dispatch => {
     signout2: () => dispatch(QuestionActions.clearProfile()),
     clearAll: () => dispatch(QuestionActions.clearAll()),
     setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
+    setCoin: (coin) => dispatch(AuthActions.setCoin(coin)),
   };
 };
 

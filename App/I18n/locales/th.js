@@ -28,6 +28,24 @@ export default {
   inputEmail: 'โปรดระบุอีเมล',
   adminAnswer: 'คำตอบของ Admin',
   detailAnswer: 'รายละเอียดคำตอบ',
+  wantLogout: 'คุณต้องการออกจากระบบ ?',
+
+  emailUsed: 'อีเมลนี้ถูกใช้งานแล้ว',
+  networkError: 'การเชื่อมต่ออินเตอร์เน็ตผิดพลาด',
+  verifyData: 'กรุณาตรวจสอบ อีเมลและรหัสผ่าน',
+  registerComplete: 'สมัครสมาชิกสำเร็จ',
+  registerFailure: 'สมัครสมาชิกล้มเหลว โปรดลองอีกครั้ง',
+  passSuccess: 'เปลี่ยนรหัสผ่านสำเร็จ',
+  passFailure: 'เปลี่ยนรหัสผ่านล้มเหลว',
+  sendPass: 'รหัสผ่านถูกส่งไปที่อีเมลเรียบร้อย',
+  sendPassFailure: 'โปรดตรวจสอบอีเมล',
+  historyFailure: 'ร้องขอประวัติล้มเหลว',
+  addCoinSuccess: 'แจ้งโอนเงินสำเร็จ',
+  addCoinFailure2: 'แจ้งโอนเงินล้มเหลว',
+
+  addCoinSuccess2: 'เติมเงินสำเร็จ',
+  addCoinFailure: 'เติมเงินล้มเหลว กรุณาทำรายการใหม่',
+
 
   checkPhra: 'เช็คพระ',
   package: 'แพ็กเกจ',
@@ -88,7 +106,7 @@ export default {
   banking: 'บัญชีธนาคาร',
   promptpay: 'พร้อมเพย์',
   creditCard: 'บัตรเครดิต',
-  pendingCoin: 'อนุมัติการเติมเงิน',
+  pendingCoin: 'อนุมัติเหรียญ',
   detailCoin: 'รายละเอียดการอนุมัติ',
   edit: 'แก้ไข',
 
@@ -112,6 +130,13 @@ export default {
   sharedSuccess: 'แชร์สำเร็จ คุณได้รับ 2 coin',
   sharedSuccess2: 'แชร์สำเร็จ',
   loginSuccess: 'คุณ login ครบ 7 วัน รับฟรี 15 เหรียญ!!',
+  answerSuccess: 'ส่งคำตอบสำเร็จ',
+  answerFailure: 'ส่งคำตอบล้มเหลว',
+  editSuccess: 'แก้ไขสำเร็จ',
+  editFailure: 'แก้ไขล้มเหลว',
+  verifySuccess: 'อนุมัติสำเร็จ',
+  verifyFailure: 'อนุมัติล้มเหลว',
+  editAnswer: 'แก้ไขคำตอบ',
 
   question: 'คำถาม',
   answerText: 'โปรดระบุคำตอบ',

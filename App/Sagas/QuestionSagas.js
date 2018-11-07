@@ -14,9 +14,12 @@ import { Alert } from 'react-native'
 import { call, put, select } from 'redux-saga/effects'
 import QuestionActions from '../Redux/QuestionRedux'
 // import { QuestionSelectors } from '../Redux/QuestionRedux'
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
 
 const question = state => state.question
 const auth = state => state.auth
+I18n.locale = auth.language
 
 export function* getAmuletType(api) {
   const aut = yield select(auth)
@@ -179,10 +182,10 @@ export function* deleteQuestion(api, qid) {
   const response = yield call(api.cancelQuestion, data)
   console.log(response)
   if (response.ok) {
-    alert('Successfull')
+    alert(I18n.t('editSuccess'))
     yield put(QuestionActions.deleteQuestionSuccess(response.data))
   } else {
     yield put(QuestionActions.deleteQuestionFailure())
-    alert('Failure, Please try again')
+    alert(I18n.t('editFailure'))
   }
 }

@@ -278,7 +278,7 @@ const DashStack = TabNavigator(
   {
     upload: UploadStack,
     his: HistoryStack,
-    pub: PublishStack,
+    // pub: PublishStack,
     pro: PromotionStack,
     profile: ProfileStack,
   },
@@ -381,37 +381,37 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
     })
   })
 
-  const AdminAnswerStack = StackNavigator({ // **********************FOR ADMIN *************************
-    answer: {
-      screen: AnswerOfAdmin,
-      navigationOptions: {
-        title: I18n.t('adminAnswer')
-      }
-    },
-    detail: {
-      screen: AnswerOfAdmin2,
-      navigationOptions: {
-        title: I18n.t('detailAnswer')
-      }
+const AdminAnswerStack = StackNavigator({ // **********************FOR ADMIN *************************
+  answer: {
+    screen: AnswerOfAdmin,
+    navigationOptions: {
+      title: I18n.t('adminAnswer')
     }
-  }, {
-      transitionConfig: getSlideFromRightTransition,
-      navigationOptions: ({ navigation }) => ({
-        tabBarLabel: I18n.t('editAnswer'),
-        headerStyle: {
-          backgroundColor: Colors.tabBar,
-        },
-        headerTitleStyle: {
-          color: 'white',
-          fontFamily: 'Prompt-Regular'
-        },
-      })
+  },
+  detail: {
+    screen: AnswerOfAdmin2,
+    navigationOptions: {
+      title: I18n.t('detailAnswer')
+    }
+  }
+}, {
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      tabBarLabel: I18n.t('editAnswer'),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
     })
+  })
 
 const AdminStack = TabNavigator({  // *************** MAIN ADMIN *************************
   checklist: CheckListStack,
   verify: VerifyStack,
-  pub: PublishStack,
+  // pub: PublishStack,
   answeradmin: AdminAnswerStack,
   profile: ProfileStack,
 }, {
@@ -458,7 +458,7 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
 
 const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *************************
   checklist: CheckListStack,
-  pub: PublishStack,
+  // pub: PublishStack,
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({

@@ -1,7 +1,7 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import I18n from '../I18n/i18n'
-
+import moment from 'moment'
 I18n.fallbacks = true;
 // I18n.currentLocale();
 
@@ -71,8 +71,8 @@ export const INITIAL_STATE = Immutable({
   request4: null, // forget password
   data_forget: null,
 
-  // day: new Date(),
-  day: null,
+  day:moment(new Date()).format().slice(0, 10),
+  // day: null,
 })
 
 /* ------------- Selectors ------------- */

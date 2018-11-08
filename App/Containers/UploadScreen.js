@@ -149,7 +149,7 @@ class UploadScreen extends Component {
       return {
         modalVisible: true,
       }
-    }
+    } 
 
     // if (nextProps.data_publish && check_publish == true) {
     //   check_publish = false
@@ -210,10 +210,10 @@ class UploadScreen extends Component {
     this.props.clearDataQuestion()
     this.props.getPublish()
 
-    let day = new Date()
-    let f = moment(day).format()
-    let time1 = f.slice(0, 10)
-    this.props.setTime(time1)
+    // let day = new Date()
+    // let f = moment(day).format()
+    // let time1 = f.slice(0, 10)
+    // this.props.setTime(time1)
 
     // let day = new Date()
     // let f = moment(day).format()

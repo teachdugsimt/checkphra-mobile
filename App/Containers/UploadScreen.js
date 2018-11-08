@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Text, View, TouchableOpacity, Dimensions, Alert } from "react-native";
+import { Image, Text, View, TouchableOpacity, Dimensions, Alert, Modal } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import GridView from "react-native-super-grid";
@@ -7,7 +7,8 @@ import AuthActions from '../Redux/AuthRedux'
 import QuestionActions from '../Redux/QuestionRedux'
 import PromotionActions from '../Redux/PromotionRedux'
 // Styles
-// import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import styles from "./Styles/UploadScreenStyle";
 import { Colors, Images } from "../Themes";
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -15,11 +16,11 @@ import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // I18n.locale = "th";
-// const slideAnimation = new SlideAnimation({
-//   slideFrom: 'bottom',
-// });
+const slideAnimation = new SlideAnimation({
+  slideFrom: 'bottom',
+});
 let { width, height } = Dimensions.get('window')
-// let check_publish = true
+let check_publish = true
 class UploadScreen extends Component {
 
   static navigationOptions = ({ navigation }) => {
@@ -38,6 +39,8 @@ class UploadScreen extends Component {
       item: null,
       language: '',
       kawsod: null,
+      index: 0,
+      modalVisible: false,
       // spinnner: false,
     }
   }
@@ -134,16 +137,6 @@ class UploadScreen extends Component {
     console.log(nextProps)
     console.log(prevState)
 
-    // if (nextProps.data_publish && check_publish == true) {
-    //   check_publish = false
-    //   Alert.alert(
-    //     'Check Phra',
-    //     nextProps.data_publish[0].topic + "\n" + nextProps.data_publish[0].content,
-    //     [
-    //       { text: I18n.t('ok') }
-    //     ]
-    //   )
-    // }
 
     let item = prevState.item
     if (nextProps.language != prevState.language && prevState.amuletType) {
@@ -161,20 +154,16 @@ class UploadScreen extends Component {
       item: item,
       amuletType: nextProps.data_amulet,
       language: nextProps.language,
-      kawsod: nextProps.data_publish
+      kawsod: nextProps.data_publish,
     }
-    // return {
-    //   amuletType: tlist,
-    //   language: newProps.language
-    // }
   }
 
   componentWillMount() {
-    // check_publish = true
+    check_publish = true
   }
 
   componentWillUnmount() {
-    // check_publish = true
+    check_publish = true
   }
 
   getTypePhra = (item) => {
@@ -210,7 +199,15 @@ class UploadScreen extends Component {
 
   render() {
     // I18n.locale = this.props.language
+    if (this.state.kawsod && check_publish == true && this.popupDialog != undefined) {
+      check_publish = false
+      this.popupDialog.show()
+    }
 
+    // let img2 = []
+    // if (this.props.data_publish && this.props.data_publish[0].image) {
+    //   img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.props.data_publish[0].image })
+    // }
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -263,25 +260,38 @@ class UploadScreen extends Component {
             );
           }}
         />
-        {/* <PopupDialog
-          dialogTitle={<DialogTitle title={I18n.t('publish')} titleTextStyle={{ fontSize: 18 }} />}
+        <PopupDialog
+          // dialogTitle={<DialogTitle title={I18n.t('publish')} titleTextStyle={{ fontSize: 20, fontWeight: 'bold', color: Colors.brownText }} />}
+          dialogTitle={<View style={{ backgroundColor: '#F5B041', marginTop: 15, marginBottom: 15, justifyContent: 'center', borderRadius: 10, borderBottomColor: Colors.tabBar, borderBottomWidth: 2, }}><Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.brownText, alignSelf: 'center' }}>{I18n.t('publish')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           dialogAnimation={slideAnimation}
-          width={0.7}
-          height={height / 3.5}
+          width={0.9}
+          height={height / 1.5}
           // height={150}
+          dialogStyle={{ backgroundColor: '#F5B041' }}
+          containerStyle={{ backgroundColor: Colors.tabBar }}
+          backgroundColor={Colors.tabBar}
           onDismissed={() => { this.setState({}) }}
         >
-          <View style={{}}>
-            <Text>55555555555555666666666666666666666688888888</Text>
-          </View>
-        </PopupDialog> */}
+          {this.state.kawsod == 'none' ? <View style={{ flex: 1 }}><Text style={{
+            alignSelf: 'center',
+            marginTop: 20, fontSize: 20, color: Colors.brownTextTran
+          }}>Don't have publish</Text>
+          </View> : <View style={{ flex: 1 }}>
+              <Text style={{ alignSelf: 'center', marginTop: 20, fontSize: 20, fontWeight: 'bold', marginHorizontal: 10 }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].topic ? this.props.data_publish[0].topic : '-'}</Text>
+
+              {this.props.data_publish && this.props.data_publish[0].image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.props.data_publish[0].image }}
+                style={{ width: height / 3, height: height / 3, marginTop: 10, marginHorizontal: 5, alignSelf: 'center', borderRadius: 10 }} />}
+
+              <Text style={{ fontSize: 17, marginTop: 15, alignSelf: 'center' }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].content}</Text>
+            </View>}
+        </PopupDialog>
         <Spinner
           visible={this.props.request_publish || this.props.request_amulet}
           textContent={'Uploading...'}
           textStyle={{ color: '#fff' }}
         />
-      </LinearGradient>
+      </LinearGradient >
     );
   }
 }

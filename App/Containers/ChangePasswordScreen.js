@@ -43,17 +43,28 @@ class ChangePasswordScreen extends Component {
       this.state.newPass != "" &&
       this.state.confrimPass != "" && this.state.email != ""
     ) {
-      if (this.state.newPass == this.state.confrimPass) {
+      if (this.state.newPass.length < 6 || this.state.confrimPass.length < 6) {
+        Alert.alert(
+          "Check Phra",
+          I18n.t('checkPassword'),
+          [
+            { text: I18n.t('ok') }
+          ]
+        )
+      }
+      else if (this.state.newPass == this.state.confrimPass) {
         console.log(this.state.newPass)
         console.log(this.state.confrimPass)
         Alert.alert(
           "Check Phra",
           I18n.t('confirmChangePass'),
           [
-            { text: I18n.t('ok'), onPress: () => {
-              this.props.changePassword(this.state.email, this.state.oldPass, this.state.newPass)
-              this.props.navigation.goBack()
-            } },
+            {
+              text: I18n.t('ok'), onPress: () => {
+                this.props.changePassword(this.state.email, this.state.oldPass, this.state.newPass)
+                this.props.navigation.goBack()
+              }
+            },
             { text: I18n.t('cancel') }
           ],
           { cancelable: false }

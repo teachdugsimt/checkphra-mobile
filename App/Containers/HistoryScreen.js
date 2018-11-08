@@ -54,7 +54,7 @@ class HistoryScreen extends Component {
 
   onRefresh = () => {
     count = 1
-    this.props.getHistory()
+    this.props.getHistory(count)
   }
 
 

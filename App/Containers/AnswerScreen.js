@@ -11,6 +11,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { LoginButton, ShareDialog, ShareButton } from 'react-native-fbsdk';
 import PromotionActions from '../Redux/PromotionRedux'
 import I18n from '../I18n/i18n';
+import QuestionActions from '../Redux/QuestionRedux'
 I18n.fallbacks = true;
 const { width, height } = Dimensions.get('window')
 
@@ -69,6 +70,7 @@ class AnswerScreen extends Component {
     this.props.navigation.goBack()
     if (isShared == true) {
       this.props.sharedAnswer(this.props.answer[0].q_id)
+      this.props.getProfile()
     }
     isShared = false
     // console.log(isShared)
@@ -163,6 +165,7 @@ class AnswerScreen extends Component {
           //     this.setState({ modalVisible: false })
           // }}
           // enableSwipeDown={true}
+          failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
           />
           <Modal
             visible={this.state.modalVisible}
@@ -183,6 +186,7 @@ class AnswerScreen extends Component {
                 this.setState({ modalVisible: false })
               }}
               enableSwipeDown={true}
+              failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
             />
           </Modal>
 
@@ -279,6 +283,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     sharedAnswer: (qid) => dispatch(PromotionActions.sharedAnswer(qid)),
+    getProfile: () => dispatch(QuestionActions.getProfile()),
   }
 }
 

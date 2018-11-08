@@ -182,10 +182,10 @@ export function* deleteQuestion(api, qid) {
   const response = yield call(api.cancelQuestion, data)
   console.log(response)
   if (response.ok) {
-    alert(I18n.t('editSuccess'))
+    alert(I18n.t('deleteSuccess'))
     yield put(QuestionActions.deleteQuestionSuccess(response.data))
   } else {
     yield put(QuestionActions.deleteQuestionFailure())
-    alert(I18n.t('editFailure'))
+    alert(I18n.t('deleteFailure'))
   }
 }

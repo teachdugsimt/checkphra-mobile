@@ -179,49 +179,57 @@ class SendImageScreen extends Component {
 
     let chk2 = chk.indexOf(1)
 
-    if (chkImage.length <= 1) {
+    if (this.props.profile.point == 0) {
       Alert.alert(
         'Check Phra',
-        I18n.t('atLeast2Image'),
+        I18n.t('notEnoughPoint'),
         [
-          { text: I18n.t('ok'), }
+          { text: I18n.t('addCoin'), onPress: () => { this.props.navigation.navigate('pro') } }
         ],
         { cancelable: false }
       )
-    } else if (chk2 == -1) {
-      Alert.alert(
-        'Check Phra',
-        I18n.t('atLeast1Question'),
-        [
-          { text: I18n.t('ok'), }
-        ],
-        { cancelable: false }
-      )
-    } else if (chk2 != -1) {
-      if (this.props.profile.point < cnt) {
+    } else {
+      if (chkImage.length <= 1) {
         Alert.alert(
           'Check Phra',
-          I18n.t('notEnoughPoint'),
+          I18n.t('atLeast2Image'),
           [
-            { text: I18n.t('addCoin'), onPress: () => { this.props.navigation.navigate('pro') } }
+            { text: I18n.t('ok'), }
           ],
           { cancelable: false }
         )
-      } else {
-        this.props.addQuestion()
-        // this.props.navigation.goBack()
-        // this.props.navigation.navigate('his')
+      } else if (chk2 == -1) {
+        Alert.alert(
+          'Check Phra',
+          I18n.t('atLeast1Question'),
+          [
+            { text: I18n.t('ok'), }
+          ],
+          { cancelable: false }
+        )
+      } else if (chk2 != -1) {
+        if (this.props.profile.point < cnt) {
+          Alert.alert(
+            'Check Phra',
+            I18n.t('notEnoughPoint'),
+            [
+              { text: I18n.t('addCoin'), onPress: () => { this.props.navigation.navigate('pro') } }
+            ],
+            { cancelable: false }
+          )
+        }
+        else {
+          this.props.addQuestion()
+          // this.props.navigation.goBack()
+          // this.props.navigation.navigate('his')
+        }
       }
     }
-
 
   }
 
   render() {
-    // if (this.state.fetch == true) {
-    //   this.props.navigation.goBack()
-    //   this.props.navigation.navigate('his')
-    // }
+    
     I18n.locale = this.props.language
 
     return (

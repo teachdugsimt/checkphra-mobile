@@ -32,7 +32,7 @@ export default {
 
   emailUsed: 'อีเมลนี้ถูกใช้งานแล้ว',
   networkError: 'การเชื่อมต่ออินเตอร์เน็ตผิดพลาด',
-  verifyData: 'กรุณาตรวจสอบ อีเมลและรหัสผ่าน',
+  verifyData: 'กรุณาตรวจสอบ อีเมลหรือรหัสผ่าน',
   registerComplete: 'สมัครสมาชิกสำเร็จ',
   registerFailure: 'สมัครสมาชิกล้มเหลว โปรดลองอีกครั้ง',
   passSuccess: 'เปลี่ยนรหัสผ่านสำเร็จ',
@@ -144,5 +144,15 @@ export default {
   cancel: 'ยกเลิก',
   cantSeeResult: 'คุณไม่สามารถดูผลการตรวจได้จนกว่าจะได้รับผลการตรวจ',
   doYouWantToCancelQuestion: 'คุณต้องการยกเลิกคำถามนี้ ?',
-  submit: 'ส่งข้อมูล'
+  deleteSuccess: 'ยกเลิกคำถามเสร็จสิ้น',
+  deleteFailure: 'ยกเลิกคำถามล้มเหลว',
+  submit: 'ส่งข้อมูล',
+
+  krungtepBanking: 'ธนาคารกรุงเทพ',
+  krungthaiBanking: 'ธนาคารกรุงไทย',
+  krugsriBanking: 'ธนาคารกรุงศรีอยุธยา',
+  kBanking: 'ธนาคารกสิกร',
+  tmbBanking: 'ธนาคารทหารไทย',
+  scbBanking: 'ธนาคารไทยพาณิชย์',
+  thanaBanking: 'ธนาคารธนชาต'
 }

@@ -216,6 +216,7 @@ class CheckPhraScreen extends Component {
                 this.setState({ modalVisible: true })
               }}
               index={this.state.index}
+              failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
             // onSwipeDown={() => {
             //     console.log('onSwipeDown');
             //     this.setState({ modalVisible: false })
@@ -240,6 +241,7 @@ class CheckPhraScreen extends Component {
                   this.setState({ modalVisible: false })
                 }}
                 enableSwipeDown={true}
+                failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
               />
             </Modal>
 

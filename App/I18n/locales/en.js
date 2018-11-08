@@ -94,7 +94,7 @@ export default {
 
   emailUsed: 'This email has useable',
   networkError: 'Network Error',
-  verifyData: 'Please check your email and password',
+  verifyData: 'Please check your email or password',
   registerComplete: 'Register Complete',
   registerFailure: 'Register failure please try again',
   passSuccess: 'Change Password Complete',
@@ -142,5 +142,15 @@ export default {
   cancel: 'Cancel',
   cantSeeResult: 'You can not see the result until status is success.',
   doYouWantToCancelQuestion: 'Do you want to cancel this questions ?',
-  submit: 'Submit'
+  deleteSuccess: 'Delete question successful',
+  deleteFailure: 'Delete question failure',
+  submit: 'Submit',
+
+  krungtepBanking: 'Bangkok Bank',
+  krungthaiBanking: 'Krungthai Bank',
+  krugsriBanking: 'Krungsri Bank',
+  kBanking: 'Kasikorn Bank',
+  tmbBanking: 'TMB Bank',
+  scbBanking: 'Scb Bank',
+  thanaBanking: 'Thanachart Bank'
 }

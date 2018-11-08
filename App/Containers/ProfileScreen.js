@@ -65,6 +65,11 @@ class ProfileScreen extends Component {
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
+        this.props.setImg({
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName
+        })
         this.setState({
           avatarSource: source
         });
@@ -161,23 +166,30 @@ class ProfileScreen extends Component {
           height: width * 95.7 / 100
         }} resizeMode='contain' />
         <View style={{
-          flex: this.props.profile && this.props.profile.role == 'user' ? 0.5 : 0.36
+          flex: this.props.profile && this.props.profile.role == 'user' ? 0.5 : 0.4
           , height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center',
         }}>
 
-          <TouchableOpacity style={{ flex: 1 }} onPress={this.pick}>
+          <View style={{ flex: 1 }} 
+          // onPress={this.pick}
+          >
             <View style={{
               flex: 1, justifyContent: 'center', alignItems: 'center',
               borderWidth: 3, borderColor: Colors.brownTextTran, borderRadius: 10, margin: 5, overflow: 'hidden'
             }}>
-              {!this.state.avatarSource && <Icon
+              {/* {!this.state.avatarSource && <Icon
                 name="camera"
                 size={40}
                 color={Colors.brownTextTran}
-              />}
-              <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%' }} />
+              />} */}
+               {/* <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%' }} /> */}
+               <Icon2
+                name="md-contact"
+                size={45}
+                color={Colors.brownTextTran}
+              />
             </View>
-          </TouchableOpacity>
+          </View>
 
           <View style={{ flexDirection: 'column', justifyContent: 'center', flex: 2 }}>
             <View style={{ flexDirection: 'row' }}>
@@ -410,6 +422,7 @@ const mapStateToProps = state => {
     profile: state.question.profile,
     language: state.auth.language,
     coin: state.auth.coin,
+    pic: state.auth.picProfile,
   };
 };
 
@@ -421,6 +434,7 @@ const mapDispatchToProps = dispatch => {
     clearAll: () => dispatch(QuestionActions.clearAll()),
     setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
     setCoin: (coin) => dispatch(AuthActions.setCoin(coin)),
+    setImg: (img) => dispatch(AuthActions.setImg(img)),
   };
 };
 

@@ -108,9 +108,9 @@ class RegisterScreen extends Component {
       //   this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
       // }, 3000);
       this.props.signup(this.state.email, this.state.pass)
-      this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
 
-      // this.signupAtFirebase(this.state.email, this.state.pass)
+      setTimeout(() => this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : ''), 3000);
+      // this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
     }
     // else {
     //   Alert.alert(
@@ -296,7 +296,7 @@ class RegisterScreen extends Component {
           </Text>
           </TouchableOpacity>
           <Spinner
-            visible={this.state.spinner}
+            visible={this.state.spinner || this.props.request3 || this.props.request2}
             textContent={'Loading...'}
             textStyle={{ color: '#fff' }}
           />
@@ -312,6 +312,7 @@ const mapStateToProps = (state) => ({
   dataRegister: state.auth.dataRegister,
   request2: state.auth.request2,
   language: state.auth.language,
+  request3: state.auth.fetching,
 });
 
 const mapDispatchToProps = (dispatch) => ({

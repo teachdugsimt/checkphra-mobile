@@ -37,7 +37,9 @@ const { Types, Creators } = createActions({
   clearError: null,
 
   setCoin: ['coin'],
+  clearRequest2: null,
 
+  setImg: ['data'],
 })
 
 export const AuthTypes = Types
@@ -52,6 +54,7 @@ export const INITIAL_STATE = Immutable({
   user_id: null,  // access token login facebook
   error: null,
   coin: null,
+  picProfile: null,
 
   request: null,
   dataRegister: [],
@@ -77,6 +80,8 @@ export const AuthSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+export const clearRequest2 = state => state.merge({ request2: null })
+
 export const request = (state, { email, password }) => {
   let data = { email, password }
   return state.merge({ fetching: true, data, profile: null, error: null })
@@ -136,6 +141,7 @@ export const setCoin = (state, { coin }) => {
   return state.merge({ coin })
 }
 
+export const setImg = (state, { data }) => state.merge({ picProfile: data })
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -167,4 +173,6 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.CLEAR_ERROR]: clearError,
   [Types.SET_COIN]: setCoin,
+  [Types.CLEAR_REQUEST2]: clearRequest2,
+  [Types.SET_IMG]: setImg,
 })

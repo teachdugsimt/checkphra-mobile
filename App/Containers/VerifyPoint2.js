@@ -68,9 +68,28 @@ class VerifyPoint2 extends Component {
         let status_color = this.props.item.status == 10 || tmp_chk.status == 10 ? 'green' : 'orange'
         let product = this.props.item.price + " point"
         let time = this.props.item.date.slice(11, this.props.item.date.length - 3)
-        let type = this.props.item.bank ? I18n.t('banking') : 'credit-card'
+
+        let bank55 = ''
+        if (this.props.item.bank == 'ธนาคารทหารไทย') {
+            bank55 = I18n.t('tmbBanking')
+        } else if (this.props.item.bank == 'ธนาคารธนชาต') {
+            bank55 = I18n.t('thanaBanking')
+        } else if (this.props.item.bank == 'ธนาคารไทยพาณิชย์') {
+            bank55 = I18n.t('scbBanking')
+        } else if (this.props.item.bank == 'ธนาคารกสิกรไทย') {
+            bank55 = I18n.t('kBanking')
+        } else if (this.props.item.bank == 'ธนาคารกรุงศรีอยุธยา') {
+            bank55 = I18n.t('krugsriBanking')
+        } else if (this.props.item.bank == 'ธนาคารกรุงไทย') {
+            bank55 = I18n.t('krungthaiBanking')
+        } else if (this.props.item.bank == 'ธนาคารกรุงเทพ') {
+            bank55 = I18n.t('krungtepBanking')
+        } else {
+            bank55 = this.props.item.bank
+        }
+        let type = this.props.item.bank ? bank55 : 'credit-card'
         console.log(this.props.item)
-        console.log(tmp_chk)
+        // console.log(tmp_chk)
         console.log('*--------------------------------------*')
 
         let img2 = []

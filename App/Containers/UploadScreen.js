@@ -4,20 +4,22 @@ import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import GridView from "react-native-super-grid";
 import AuthActions from '../Redux/AuthRedux'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
 import QuestionActions from '../Redux/QuestionRedux'
-
+import PromotionActions from '../Redux/PromotionRedux'
 // Styles
+// import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import styles from "./Styles/UploadScreenStyle";
 import { Colors, Images } from "../Themes";
-
+import Spinner from 'react-native-loading-spinner-overlay';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // I18n.locale = "th";
-
-let { width } = Dimensions.get('window')
-
+// const slideAnimation = new SlideAnimation({
+//   slideFrom: 'bottom',
+// });
+let { width, height } = Dimensions.get('window')
+// let check_publish = true
 class UploadScreen extends Component {
 
   static navigationOptions = ({ navigation }) => {
@@ -34,7 +36,9 @@ class UploadScreen extends Component {
     this.state = {
       amuletType: null,
       item: null,
-      language: ''
+      language: '',
+      kawsod: null,
+      // spinnner: false,
     }
   }
   // static navigationOptions = ({ navigation }) => {
@@ -127,9 +131,19 @@ class UploadScreen extends Component {
 
 
     // console.log('-------------')
-    // console.log(nextProps)
-    // console.log(prevState)
+    console.log(nextProps)
+    console.log(prevState)
 
+    // if (nextProps.data_publish && check_publish == true) {
+    //   check_publish = false
+    //   Alert.alert(
+    //     'Check Phra',
+    //     nextProps.data_publish[0].topic + "\n" + nextProps.data_publish[0].content,
+    //     [
+    //       { text: I18n.t('ok') }
+    //     ]
+    //   )
+    // }
 
     let item = prevState.item
     if (nextProps.language != prevState.language && prevState.amuletType) {
@@ -146,17 +160,21 @@ class UploadScreen extends Component {
     return {
       item: item,
       amuletType: nextProps.data_amulet,
-      language: nextProps.language
+      language: nextProps.language,
+      kawsod: nextProps.data_publish
     }
-
-
-
-
-
     // return {
     //   amuletType: tlist,
     //   language: newProps.language
     // }
+  }
+
+  componentWillMount() {
+    // check_publish = true
+  }
+
+  componentWillUnmount() {
+    // check_publish = true
   }
 
   getTypePhra = (item) => {
@@ -170,11 +188,13 @@ class UploadScreen extends Component {
   }
 
   componentDidMount() {
-
+    check_publish = true
     this.props.getAmuletType()
 
     // this.props.setLanguage(I18n.locale)
     this.props.clearDataQuestion()
+    this.props.getPublish()
+
     if (this.props.profile) {
       if (this.props.profile.count == 7 || (this.props.profile.count % 7) == 0) {
         Alert.alert(
@@ -243,6 +263,24 @@ class UploadScreen extends Component {
             );
           }}
         />
+        {/* <PopupDialog
+          dialogTitle={<DialogTitle title={I18n.t('publish')} titleTextStyle={{ fontSize: 18 }} />}
+          ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={0.7}
+          height={height / 3.5}
+          // height={150}
+          onDismissed={() => { this.setState({}) }}
+        >
+          <View style={{}}>
+            <Text>55555555555555666666666666666666666688888888</Text>
+          </View>
+        </PopupDialog> */}
+        <Spinner
+          visible={this.props.request_publish || this.props.request_amulet}
+          textContent={'Uploading...'}
+          textStyle={{ color: '#fff' }}
+        />
       </LinearGradient>
     );
   }
@@ -254,6 +292,10 @@ const mapStateToProps = state => {
     data_amulet: state.question.amuletType,
     language: state.auth.language,
     profile: state.question.profile,
+    data_publish: state.promotion.data_publish,
+    request_publish: state.promotion.request,
+    request_amulet: state.question.request_type,
+
   };
 };
 
@@ -264,7 +306,8 @@ const mapDispatchToProps = dispatch => {
     },
     getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
     // setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
-    clearDataQuestion: () => dispatch(QuestionActions.clearDataQuestion())
+    clearDataQuestion: () => dispatch(QuestionActions.clearDataQuestion()),
+    getPublish: () => dispatch(PromotionActions.publishRequest()),
   };
 };
 

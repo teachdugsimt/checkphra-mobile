@@ -128,9 +128,11 @@ export function* createUser(api, { email, uid }) {
   if (response.ok) {
     alert(I18n.t('registerComplete'))
     yield put(AuthActions.createSuccess(response.data))
+    yield put(AuthActions.clearRequest2())
   } else {
     alert(I18n.t('registerFailure'))
     yield put(AuthActions.createFailure())
+    yield put(AuthActions.clearRequest2())
   }
 }
 

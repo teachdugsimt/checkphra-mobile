@@ -11,6 +11,7 @@ import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
 // Styles
+import Spinner from 'react-native-loading-spinner-overlay';
 import styles from './Styles/CheckListScreenStyle'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
@@ -33,6 +34,7 @@ class CheckListScreen extends Component {
   componentDidMount() {
     moment.locale('th')
     this.props.getHistory()
+    this.props.getProfile()
   }
 
   componentWillMount() {
@@ -71,6 +73,7 @@ class CheckListScreen extends Component {
     //   }
     // }
 
+
     if (newProps.data_answer != null) {
       let tmp = newProps.history.find(e => e.id == newProps.data_answer.q_id)
       if (tmp && tmp != undefined && newProps.data_answer.q_id == tmp.id) {
@@ -78,6 +81,13 @@ class CheckListScreen extends Component {
         return {
           data_tmp: newProps.history
         }
+      }
+    }
+
+    if (newProps.request1 == false) {
+      newProps.getHistory(1)
+      return {
+        data_tmp: newProps.history
       }
     }
 
@@ -225,6 +235,11 @@ class CheckListScreen extends Component {
           onEndReached={this._onScrollEndList}
           onEndReachedThreshold={0.05}
         />
+        <Spinner
+          visible={this.props.request2}
+          textContent={'Loading...'}
+          textStyle={{ color: '#fff' }}
+        />
       </LinearGradient>
 
     )
@@ -251,6 +266,7 @@ const mapDispatchToProps = (dispatch) => {
     getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
     deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
     setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
+    getProfile: () => dispatch(QuestionActions.getProfile()),
   }
 }
 

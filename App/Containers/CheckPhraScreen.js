@@ -191,9 +191,10 @@ class CheckPhraScreen extends Component {
     this.props.data.images.map(e => {
       img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
     })
-    console.log(img2)
-    console.log('HERE IMG2')
+    
+    
     // console.log(this.props.data)
+    // console.log("*****************************************")
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -349,14 +350,16 @@ class CheckPhraScreen extends Component {
                     fetching={this.props.fetching}
                   />
                 </View>
-                <View style={{ width: width / 2.5 }}>
+
+                {this.props.profile.role != "admin" &&<View style={{ width: width / 2.5 }}>
                   <RoundedButton
                     style={{ marginHorizontal: 10 }}
                     title={I18n.t('sendToAdmin')}
                     onPress={this._onPressAdmin}
                     fetching={this.props.fetching}
                   />
-                </View>
+                </View>}
+
               </View>
 
               <View style={{ height: 40 }}>

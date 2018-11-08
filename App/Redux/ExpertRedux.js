@@ -36,6 +36,8 @@ const { Types, Creators } = createActions({
   setFullData: ['data'],
   setAnswerDetail: ['data'],
   editFullData: ['id'],
+
+  clearSendAnswer: null
 })
 
 export const ExpertTypes = Types
@@ -78,6 +80,8 @@ export const ExpertSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const clearSendAnswer = state => state.merge({ fetch: null })
 export const requestAnswer = (state) => state.merge({ fetch: true })
 // request the data from an api
 export const requestAnswerSuccess = (state, { data }) => state.merge({ fetch: false, data_answer: data })
@@ -205,4 +209,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_FULL_DATA]: setFullData,
   [Types.EDIT_FULL_DATA]: editFullData,
   [Types.SET_ANSWER_DETAIL]: setAnswerDetail,
+  [Types.CLEAR_SEND_ANSWER]: clearSendAnswer,
 })

@@ -35,9 +35,11 @@ export function* expertRequest(api, { pack, q_id }) {   //   for add ANSWER ONLY
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     alert(I18n.t('answerSuccess'))
     yield put(ExpertActions.expertSuccess(response.data))
+    yield put(ExpertActions.clearSendAnswer())
   } else {
     alert(I18n.t('answerFailure'))
     yield put(ExpertActions.expertFailure())
+    yield put(ExpertActions.clearSendAnswer())
   }
 }
 

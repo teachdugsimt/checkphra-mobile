@@ -292,7 +292,7 @@ class Banking extends Component {
     render() {
         I18n.locale = this.props.language
         let heightView = 63
-        let widthView = '15%'
+        let widthView = 63
         let heightImg = 60
         let widthImg = 60
 

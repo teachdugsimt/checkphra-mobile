@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Text, View, TouchableOpacity, Dimensions, Alert, Modal } from "react-native";
+import { Image, Text, View, TouchableOpacity, Dimensions, Alert, Modal, ScrollView } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import GridView from "react-native-super-grid";
@@ -7,7 +7,7 @@ import AuthActions from '../Redux/AuthRedux'
 import QuestionActions from '../Redux/QuestionRedux'
 import PromotionActions from '../Redux/PromotionRedux'
 // Styles
-import ImageViewer from 'react-native-image-zoom-viewer';
+import Icon from "react-native-vector-icons/FontAwesome";
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import styles from "./Styles/UploadScreenStyle";
 import { Colors, Images } from "../Themes";
@@ -39,8 +39,7 @@ class UploadScreen extends Component {
       item: null,
       language: '',
       kawsod: null,
-      index: 0,
-      modalVisible: false,
+      modalVisible: true,
       // spinnner: false,
     }
   }
@@ -137,6 +136,18 @@ class UploadScreen extends Component {
     console.log(nextProps)
     console.log(prevState)
 
+    // if (nextProps.data_publish && check_publish == true) {
+    //   check_publish = false
+    //   Alert.alert(
+    //     I18n.t('publish'),
+    //     nextProps.data_publish[0].topic + "\n"+ <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + nextProps.data_publish[0].image }}/>
+    //      + nextProps.data_publish[0].content,
+    //     [
+    //       { text: I18n.t('ok') }
+    //     ],
+    //     { cancelable: false }
+    //   )
+    // }
 
     let item = prevState.item
     if (nextProps.language != prevState.language && prevState.amuletType) {
@@ -199,15 +210,11 @@ class UploadScreen extends Component {
 
   render() {
     // I18n.locale = this.props.language
-    if (this.state.kawsod && check_publish == true && this.popupDialog != undefined) {
-      check_publish = false
-      this.popupDialog.show()
-    }
-
-    // let img2 = []
-    // if (this.props.data_publish && this.props.data_publish[0].image) {
-    //   img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.props.data_publish[0].image })
+    // if (this.state.kawsod && check_publish == true && this.popupDialog != undefined) {
+    //   check_publish = false
+    //   this.popupDialog.show()
     // }
+
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -260,7 +267,36 @@ class UploadScreen extends Component {
             );
           }}
         />
-        <PopupDialog
+
+
+        <Modal
+          visible={this.state.modalVisible}
+          transparent={true}
+          onRequestClose={() => this.setState({ modalVisible: false })} >
+          <View style={{ backgroundColor: 'lightgrey', justifyContent: 'center', alignItems: 'center', borderRadius: 15, borderWidth: 5, borderColor: '#B7950B', top: height / 5, marginHorizontal: 15, height: height / 1.8 }}>
+
+            <ScrollView style={{ flex: 1 }}>
+              <Icon
+                name="close"
+                size={25}
+                color={Colors.brownText}
+                style={{ marginTop: 10, marginLeft: 20, color: 'red', alignSelf: 'flex-end' }}
+                onPress={() => { this.setState({ modalVisible: false }) }}
+              />
+
+              <Text style={{ alignSelf: 'center', fontSize: 20, fontWeight: 'bold', marginHorizontal: 10 }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].topic ? this.props.data_publish[0].topic : '-'}</Text>
+
+              {this.props.data_publish && this.props.data_publish[0].image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.props.data_publish[0].image }}
+                style={{ width: height / 3, height: height / 3, marginTop: 10, marginHorizontal: 5, alignSelf: 'center', borderRadius: 10 }} />}
+              <Text style={{ fontSize: 17, marginVertical: 15, alignSelf: 'center', marginHorizontal: 10, }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].content}</Text>
+            </ScrollView>
+          </View>
+        </Modal>
+
+
+
+
+        {/* <PopupDialog
           // dialogTitle={<DialogTitle title={I18n.t('publish')} titleTextStyle={{ fontSize: 20, fontWeight: 'bold', color: Colors.brownText }} />}
           dialogTitle={<View style={{ backgroundColor: '#F5B041', marginTop: 15, marginBottom: 15, justifyContent: 'center', borderRadius: 10, borderBottomColor: Colors.tabBar, borderBottomWidth: 2, }}><Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.brownText, alignSelf: 'center' }}>{I18n.t('publish')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
@@ -285,10 +321,11 @@ class UploadScreen extends Component {
 
               <Text style={{ fontSize: 17, marginTop: 15, alignSelf: 'center' }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].content}</Text>
             </View>}
-        </PopupDialog>
+        </PopupDialog> */}
+
         <Spinner
           visible={this.props.request_publish || this.props.request_amulet}
-          textContent={'Uploading...'}
+          textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
         />
       </LinearGradient >

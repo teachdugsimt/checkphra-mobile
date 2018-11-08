@@ -212,7 +212,7 @@ class AnswerOfAdmin extends Component {
                                         color: 'white',
                                         margin: 20,
                                         paddingHorizontal: 20,
-                                        paddingTop: 5,
+                                        paddingTop: 2.5,
                                         borderRadius: 15,
                                         height: 30,
                                         backgroundColor: color

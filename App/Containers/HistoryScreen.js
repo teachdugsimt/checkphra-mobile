@@ -220,9 +220,9 @@ class HistoryScreen extends Component {
                       color: 'white',
                       marginVertical: 20,
                       marginLeft: 20, 
-                      marginRight: 35,
+                      marginRight: 40,
                       paddingHorizontal: 20,
-                      paddingTop: 5,
+                      paddingTop: 2.5,
                       borderRadius: 15,
                       height: 30,
                       backgroundColor: color
@@ -236,7 +236,7 @@ class HistoryScreen extends Component {
                       marginLeft: 20,
                       marginRight: 10,
                       paddingHorizontal: 20,
-                      paddingTop: 5,
+                      paddingTop: 2.5,
                       borderRadius: 15,
                       height: 30,
                       backgroundColor: color

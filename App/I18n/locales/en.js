@@ -144,6 +144,8 @@ export default {
   doYouWantToCancelQuestion: 'Do you want to cancel this questions ?',
   deleteSuccess: 'Delete question successful',
   deleteFailure: 'Delete question failure',
+  sendQuestionSuccess: 'Send question susscessful!!',
+  sendQuestionFailure: 'Send question Failure!!',
   submit: 'Submit',
 
   krungtepBanking: 'Bangkok Bank',
@@ -152,5 +154,7 @@ export default {
   kBanking: 'Kasikorn Bank',
   tmbBanking: 'TMB Bank',
   scbBanking: 'Scb Bank',
-  thanaBanking: 'Thanachart Bank'
+  thanaBanking: 'Thanachart Bank',
+
+  cantEdit: 'You can not edit this answer ( None answer )',
 }

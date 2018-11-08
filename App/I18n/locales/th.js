@@ -146,6 +146,8 @@ export default {
   doYouWantToCancelQuestion: 'คุณต้องการยกเลิกคำถามนี้ ?',
   deleteSuccess: 'ยกเลิกคำถามเสร็จสิ้น',
   deleteFailure: 'ยกเลิกคำถามล้มเหลว',
+  sendQuestionSuccess: 'ส่งพระตรวจ สำเร็จ!!',
+  sendQuestionFailure: 'ส่งตรวจพระ ล้มเหลว',
   submit: 'ส่งข้อมูล',
 
   krungtepBanking: 'ธนาคารกรุงเทพ',
@@ -154,5 +156,7 @@ export default {
   kBanking: 'ธนาคารกสิกร',
   tmbBanking: 'ธนาคารทหารไทย',
   scbBanking: 'ธนาคารไทยพาณิชย์',
-  thanaBanking: 'ธนาคารธนชาต'
+  thanaBanking: 'ธนาคารธนชาต',
+
+  cantEdit: 'คุณไม่สามารถแก้ไขคำตอบนี้ได้ ( ไม่ออกผล )',
 }

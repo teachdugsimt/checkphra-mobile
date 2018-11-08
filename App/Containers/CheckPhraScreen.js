@@ -40,6 +40,7 @@ class CheckPhraScreen extends Component {
       checkTrue1: false,
       checkTrue2: false,
       checkFalse: false,
+      editing: true,
     }
   }
 
@@ -265,7 +266,8 @@ class CheckPhraScreen extends Component {
                           this.setState({
                             checkTrue1: !this.state.checkTrue1,
                             checkTrue2: false,
-                            checkFalse: false
+                            checkFalse: false,
+                            editing: true,
                           })
                         }}
                         isChecked={this.state.checkTrue1}
@@ -279,7 +281,8 @@ class CheckPhraScreen extends Component {
                           this.setState({
                             checkTrue2: !this.state.checkTrue2,
                             checkTrue1: false,
-                            checkFalse: false
+                            checkFalse: false,
+                            editing: true,
                           })
                         }}
                         isChecked={this.state.checkTrue2}
@@ -293,7 +296,10 @@ class CheckPhraScreen extends Component {
                           this.setState({
                             checkFalse: !this.state.checkFalse,
                             checkTrue1: false,
-                            checkTrue2: false
+                            checkTrue2: false,
+                            editing: false,
+                            answer2: null,
+                            answer3: null,
                           })
                         }}
                         isChecked={this.state.checkFalse}
@@ -308,7 +314,7 @@ class CheckPhraScreen extends Component {
                     <View>
                       <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
                       <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer2: text })} />
+                        onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editing}/>
                     </View>
                   )
                 } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation') {
@@ -316,7 +322,7 @@ class CheckPhraScreen extends Component {
                     <View>
                       <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
                       <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer3: text })} />
+                        onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editing}/>
                     </View>
                   )
                 }

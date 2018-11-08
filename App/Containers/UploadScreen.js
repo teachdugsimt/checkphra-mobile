@@ -269,7 +269,7 @@ class UploadScreen extends Component {
         />
 
 
-        <Modal
+        {this.state.kawsod != null && this.state.kawsod && this.state.kawsod.length > 0 && <Modal
           visible={this.state.modalVisible}
           transparent={true}
           onRequestClose={() => this.setState({ modalVisible: false })} >
@@ -286,12 +286,12 @@ class UploadScreen extends Component {
 
               <Text style={{ alignSelf: 'center', fontSize: 20, fontWeight: 'bold', marginHorizontal: 10 }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].topic ? this.props.data_publish[0].topic : '-'}</Text>
 
-              {this.props.data_publish && this.props.data_publish[0].image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.props.data_publish[0].image }}
+              {this.state.kawsod && this.state.kawsod.length > 0 && this.state.kawsod[0] && this.state.kawsod[0].image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.state.kawsod[0].image }}
                 style={{ width: height / 3, height: height / 3, marginTop: 10, marginHorizontal: 5, alignSelf: 'center', borderRadius: 10 }} />}
-              <Text style={{ fontSize: 17, marginVertical: 15, alignSelf: 'center', marginHorizontal: 10, }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].content}</Text>
+              <Text style={{ fontSize: 17, marginVertical: 15, alignSelf: 'center', marginHorizontal: 10, }}>{this.state.kawsod && this.state.kawsod[0] && this.state.kawsod.length > 0 && this.state.kawsod[0].content}</Text>
             </ScrollView>
           </View>
-        </Modal>
+        </Modal>}
 
 
 

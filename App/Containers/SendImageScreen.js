@@ -118,10 +118,10 @@ class SendImageScreen extends Component {
         nextProps.getProfile()
         Alert.alert(
           'Check Phra',
-          'ส่งพระตรวจ สำเร็จ!!',
+          I18n.t('sendQuestionSuccess'),
           [
             {
-              text: 'ตกลง', onPress: () => {
+              text: I18n.t('ok'), onPress: () => {
                 nextProps.navigation.goBack()
                 nextProps.navigation.navigate('his')
               }
@@ -229,7 +229,7 @@ class SendImageScreen extends Component {
   }
 
   render() {
-    
+
     I18n.locale = this.props.language
 
     return (

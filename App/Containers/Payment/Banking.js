@@ -58,7 +58,7 @@ class Banking extends Component {
         this.state = {
             money: this.props.money,
             type: 'transfer',
-            bank: '',
+            bank: 'KBank',
             avatarSource: '',
 
             spinner: false,
@@ -317,9 +317,9 @@ class Banking extends Component {
                         <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15 }}>048-3-35828-8</Text>
                     </View>
 
-                    <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15, alignSelf: 'center' }}>{I18n.t('selectBank')}</Text>
+                    {/* <Text style={{ color: Colors.brownText, fontSize: 18, marginTop: 15, alignSelf: 'center' }}>{I18n.t('selectBank')}</Text> */}
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', height: 60, width: '100%', marginTop: 15 }}>
+                    {/* <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', height: 60, width: '100%', marginTop: 15 }}>
 
                         <TouchableOpacity
                             onPress={this._kbank}
@@ -350,7 +350,7 @@ class Banking extends Component {
                             style={{ flexDirection: 'row', height: heightView, width: widthView, borderWidth: this.state.tmbBorder, backgroundColor: this.state.tmbBackground }}>
                             <Image source={img[4]} style={{ height: heightImg, width: widthImg, marginRight: 10 }} />
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
 
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                         <Text style={{ fontSize: 16, alignSelf: 'center' }}>{I18n.t('priceProduct')} </Text>

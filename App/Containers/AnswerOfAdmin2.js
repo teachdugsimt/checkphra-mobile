@@ -41,6 +41,7 @@ class AnswerOfAdmin2 extends Component {
             checkTrue2: false,
             checkFalse: false,
             spinner: false,
+            editing: true,
         }
     }
 
@@ -102,7 +103,7 @@ class AnswerOfAdmin2 extends Component {
         // console.log(pack)
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.setState({ spinner: false })
     }
 
@@ -133,7 +134,15 @@ class AnswerOfAdmin2 extends Component {
         this.props.data.images.map(e => {
             img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
         })
+        let tmp1 = null
+        let tmp2 = null
 
+        if(this.props.data.answer[1]){
+            tmp1 = this.props.data.answer[1].result
+        }
+        if(this.props.data.answer[2]){
+            tmp2 = this.props.data.answer[2].result
+        }
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -207,7 +216,12 @@ class AnswerOfAdmin2 extends Component {
                                                 this.setState({
                                                     checkTrue1: !this.state.checkTrue1,
                                                     checkTrue2: false,
-                                                    checkFalse: false
+                                                    checkFalse: false,
+                                                    editing: true,
+                                                    answer2: tmp1,
+                                                    answer3: tmp2
+                                                    // answer2: this.props.data.answer != undefined && this.props.data.answer[1] != undefined && this.props.data.answer[1].result != undefined ? this.props.data[1].result : '',
+                                                    // answer3: this.props.data.answer != undefined && this.props.data.answer[2] != undefined && this.props.data.answer[2].result != undefined ? this.props.data[2].result : ''
                                                 })
                                             }}
                                             isChecked={this.state.checkTrue1}
@@ -221,7 +235,12 @@ class AnswerOfAdmin2 extends Component {
                                                 this.setState({
                                                     checkTrue2: !this.state.checkTrue2,
                                                     checkTrue1: false,
-                                                    checkFalse: false
+                                                    checkFalse: false,
+                                                    editing: true,
+                                                    answer2: tmp1,
+                                                    answer3: tmp2
+                                                    // answer2: this.props.data.answer != undefined && this.props.data.answer[1] != undefined && this.props.data.answer[1].result != undefined ? this.props.data[1].result : '',
+                                                    // answer3: this.props.data.answer != undefined && this.props.data.answer[2] != undefined && this.props.data.answer[2].result != undefined ? this.props.data[2].result : ''
                                                 })
                                             }}
                                             isChecked={this.state.checkTrue2}
@@ -235,7 +254,10 @@ class AnswerOfAdmin2 extends Component {
                                                 this.setState({
                                                     checkFalse: !this.state.checkFalse,
                                                     checkTrue1: false,
-                                                    checkTrue2: false
+                                                    checkTrue2: false,
+                                                    editing: false,
+                                                    answer2: "ไม่ออกผล",
+                                                    answer3: "ไม่ออกผล",
                                                 })
                                             }}
                                             isChecked={this.state.checkFalse}
@@ -251,7 +273,7 @@ class AnswerOfAdmin2 extends Component {
                                     <View>
                                         <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
                                         <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer2: text })} />
+                                            onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editing} />
                                     </View>
                                 )
                             } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
@@ -260,7 +282,7 @@ class AnswerOfAdmin2 extends Component {
                                     <View>
                                         <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
                                         <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer3: text })} />
+                                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editing} />
                                     </View>
                                 )
                             }

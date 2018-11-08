@@ -41,7 +41,7 @@ const create = (baseURL = b) => {
 
   const creditCard = (data) => api.post('payment-history/checkout', data)
 
-  const getPublish = () => api.get('publish/list')
+  const getPublish = (data) => api.get('publish/list', data)
 
   const sharedAnswer = (data) => api.post('share-history/add', data)
 

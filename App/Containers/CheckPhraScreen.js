@@ -44,6 +44,15 @@ class CheckPhraScreen extends Component {
     }
   }
 
+  static navigationOptions = ({ navigation }) => {
+    // console.log(navigation)
+    // console.log(I18n.locale)
+
+    return {
+      title: I18n.t('pending'),
+    }
+  }
+
   // static navigationOptions = ({ navigation }) => {
   //   // const params = navigation.state.params || {};
 

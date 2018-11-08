@@ -31,6 +31,15 @@ class Publish extends Component {
     }
   }
 
+  static navigationOptions = ({ navigation }) => {
+    // console.log(navigation)
+    // console.log(I18n.locale)
+
+    return {
+      title: I18n.t('publish'),
+    }
+  }
+
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
     console.log(prevState)

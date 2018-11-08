@@ -17,6 +17,15 @@ I18n.fallbacks = true;
 // I18n.currentLocale();
 class VerifyPoint2 extends Component {
 
+    static navigationOptions = ({ navigation }) => {
+        // console.log(navigation)
+        // console.log(I18n.locale)
+    
+        return {
+          title: I18n.t('ansdetailCoinwer'),
+        }
+      }
+    
     constructor(props) {
         super(props)
         this.state = {

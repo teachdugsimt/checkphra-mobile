@@ -30,7 +30,12 @@ export function* getPromotion(api) {
 }
 
 export function* getPublish(api) {
-  const response = yield call(api.getPublish)
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id
+  }
+  const response = yield call(api.getPublish, data)
+
   console.log(response)
   console.log('PUBLISH DATA')
   if (response.ok) {
@@ -51,7 +56,7 @@ export function* sharedAnswer(api, { qid }) {
 
   const response = yield call(api.sharedAnswer, data)
   console.log(response)
-  if(response.ok){
+  if (response.ok) {
     yield put(PromotionActions.sharedSuccess(response.data))
   } else {
     yield put(PromotionActions.sharedFailure())

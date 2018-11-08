@@ -29,6 +29,15 @@ class HistoryScreen extends Component {
     }
   }
 
+  static navigationOptions = ({ navigation }) => {
+    // console.log(navigation)
+    // console.log(I18n.locale)
+
+    return {
+      title: I18n.t('history'),
+    }
+  }
+
   componentDidMount() {
     // getLanguages().then(languages => {
     // console.log(languages); // ['en-US', 'en']

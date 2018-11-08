@@ -14,6 +14,7 @@ import { Colors, Images } from "../Themes";
 import Spinner from 'react-native-loading-spinner-overlay';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
+import moment from 'moment'
 // I18n.currentLocale();
 // I18n.locale = "th";
 const slideAnimation = new SlideAnimation({
@@ -21,6 +22,9 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let check_publish = true
+
+
+
 class UploadScreen extends Component {
 
   static navigationOptions = ({ navigation }) => {
@@ -129,12 +133,23 @@ class UploadScreen extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     let tlist = nextProps.data_amulet
 
-    I18n.locale = nextProps.language
+    let date_tmp = new Date()
+    let f1 = moment(date_tmp).format()
+    let time11 = f1.slice(0, 10)
 
+    I18n.locale = nextProps.language
 
     // console.log('-------------')
     console.log(nextProps)
     console.log(prevState)
+
+    
+    if (nextProps.day != time11) {
+      nextProps.setTime(time11)
+      return {
+        modalVisible: true,
+      }
+    }
 
     // if (nextProps.data_publish && check_publish == true) {
     //   check_publish = false
@@ -194,6 +209,19 @@ class UploadScreen extends Component {
     // this.props.setLanguage(I18n.locale)
     this.props.clearDataQuestion()
     this.props.getPublish()
+
+    let day = new Date()
+    let f = moment(day).format()
+    let time1 = f.slice(0, 10)
+    this.props.setTime(time1)
+
+    // let day = new Date()
+    // let f = moment(day).format()
+    // let time1 = f.slice(0, 10)
+    // let time2 = f.slice(11, 19)
+    // let full = time1 + " " + time2
+    // let dayuse = full.slice(8, 11)
+    // this.props.setTime(dayuse)
 
     if (this.props.profile) {
       if (this.props.profile.count == 7 || (this.props.profile.count % 7) == 0) {
@@ -275,12 +303,12 @@ class UploadScreen extends Component {
           onRequestClose={() => this.setState({ modalVisible: false })} >
           <View style={{ backgroundColor: 'lightgrey', justifyContent: 'center', alignItems: 'center', borderRadius: 15, borderWidth: 5, borderColor: '#B7950B', top: height / 5, marginHorizontal: 15, height: height / 1.8 }}>
 
-            <ScrollView style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1, width: '100%' }}>
               <Icon
                 name="close"
                 size={25}
                 color={Colors.brownText}
-                style={{ marginTop: 10, marginLeft: 20, color: 'red', alignSelf: 'flex-end' }}
+                style={{ marginTop: 10, marginRight: 15, color: 'red', alignSelf: 'flex-end' }}
                 onPress={() => { this.setState({ modalVisible: false }) }}
               />
 
@@ -342,7 +370,7 @@ const mapStateToProps = state => {
     data_publish: state.promotion.data_publish,
     request_publish: state.promotion.request,
     request_amulet: state.question.request_type,
-
+    day: state.auth.day,
   };
 };
 
@@ -355,6 +383,7 @@ const mapDispatchToProps = dispatch => {
     // setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
     clearDataQuestion: () => dispatch(QuestionActions.clearDataQuestion()),
     getPublish: () => dispatch(PromotionActions.publishRequest()),
+    setTime: (day) => dispatch(AuthActions.setTime(day)),
   };
 };
 

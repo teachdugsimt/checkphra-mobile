@@ -22,7 +22,14 @@ const { width, height } = Dimensions.get('window')
 let count = 1
 let check = true
 class VerifyPoint extends Component {
-
+    static navigationOptions = ({ navigation }) => {
+        // console.log(navigation)
+        // console.log(I18n.locale)
+    
+        return {
+          title: I18n.t('pendingCoin'),
+        }
+      }
     constructor(props) {
         super(props)
         this.state = {

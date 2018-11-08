@@ -27,6 +27,15 @@ class Promotion extends Component {
         }
     }
 
+    static navigationOptions = ({ navigation }) => {
+        // console.log(navigation)
+        // console.log(I18n.locale)
+    
+        return {
+          title: I18n.t('package'),
+        }
+      }
+
     static getDerivedStateFromProps(newProps, prevState) {
         let plist = newProps.promotion
         console.log(newProps)

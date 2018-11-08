@@ -33,6 +33,15 @@ I18n.fallbacks = true;
 let { width, height } = Dimensions.get('window')
 class ForgetPassword extends Component {
 
+    static navigationOptions = ({ navigation }) => {
+        // console.log(navigation)
+        // console.log(I18n.locale)
+    
+        return {
+          title: I18n.t('forgetPassword'),
+        }
+      }
+
     constructor(props) {
         super(props)
         this.state = {

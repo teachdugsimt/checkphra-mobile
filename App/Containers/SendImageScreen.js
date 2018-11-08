@@ -41,6 +41,16 @@ class SendImageScreen extends Component {
     }
   }
 
+  static navigationOptions = ({ navigation }) => {
+    // console.log(navigation)
+    // console.log(I18n.locale)
+
+    return {
+      title: I18n.t('selectImagesAndQuestions'),
+    }
+  }
+
+
   static getDerivedStateFromProps(nextProps, prevState) {
 
     console.log(nextProps)

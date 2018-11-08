@@ -30,7 +30,14 @@ class RegisterScreen extends Component {
       spinner: false
     }
   }
+  static navigationOptions = ({ navigation }) => {
+    // console.log(navigation)
+    // console.log(I18n.locale)
 
+    return {
+      title: I18n.t('register'),
+    }
+  }
 
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)

@@ -40,6 +40,7 @@ const { Types, Creators } = createActions({
   clearRequest2: null,
 
   setImg: ['data'],
+  setTime: ['day'],
 })
 
 export const AuthTypes = Types
@@ -69,6 +70,9 @@ export const INITIAL_STATE = Immutable({
 
   request4: null, // forget password
   data_forget: null,
+
+  // day: new Date(),
+  day: null,
 })
 
 /* ------------- Selectors ------------- */
@@ -142,6 +146,10 @@ export const setCoin = (state, { coin }) => {
 }
 
 export const setImg = (state, { data }) => state.merge({ picProfile: data })
+
+export const setTime = (state, { day }) => {
+  return state.merge({ day })
+}
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -175,4 +183,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_COIN]: setCoin,
   [Types.CLEAR_REQUEST2]: clearRequest2,
   [Types.SET_IMG]: setImg,
+  [Types.SET_TIME]: setTime,
 })

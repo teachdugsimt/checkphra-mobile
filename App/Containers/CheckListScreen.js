@@ -31,6 +31,15 @@ class CheckListScreen extends Component {
     }
   }
 
+  static navigationOptions = ({ navigation }) => {
+    // console.log(navigation)
+    // console.log(I18n.locale)
+
+    return {
+      title: I18n.t('pendingList'),
+    }
+  }
+
   componentDidMount() {
     moment.locale('th')
     this.props.getHistory()

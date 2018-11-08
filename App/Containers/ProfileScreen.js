@@ -35,7 +35,14 @@ const slideAnimation = new SlideAnimation({
 });
 
 class ProfileScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    // console.log(navigation)
+    // console.log(I18n.locale)
 
+    return {
+      title: I18n.t('profile'),
+    }
+  }
   constructor(props) {
     super(props)
     this.state = {

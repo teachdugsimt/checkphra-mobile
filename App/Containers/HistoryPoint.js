@@ -16,7 +16,14 @@ I18n.fallbacks = true;
 let check = true
 let count = 1
 class HistoryPoint extends Component {
-
+    static navigationOptions = ({ navigation }) => {
+        // console.log(navigation)
+        // console.log(I18n.locale)
+    
+        return {
+          title: I18n.t('purchaseHistory'),
+        }
+      }
     // static navigationOptions = ({ navigation }) => {
     //     // const params = navigation.state.params || {};
 

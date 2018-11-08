@@ -30,6 +30,15 @@ class AnswerOfAdmin extends Component {
         }
     }
 
+    static navigationOptions = ({ navigation }) => {
+        // console.log(navigation)
+        // console.log(I18n.locale)
+    
+        return {
+          title: I18n.t('adminAnswer'),
+        }
+      }
+
     static getDerivedStateFromProps(newProps, prevState) {
         let plist = newProps.data_answer
         // newProps.getAnswer(1)

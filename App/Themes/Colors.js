@@ -23,9 +23,21 @@ const colors = {
   banner: '#5F3E63',
   text: '#E0D7E5',
 
-  mainTheme:'#FFA500',
-  button:'#CC6633',
-  brownText:'#663300'
+  mainTheme: '#FFA500',
+  button: '#CC6633',
+  brownText: '#663300',
+  brownTextTran: '#66330099',
+  riceWater: 'rgba(255,255,255, 0.35)',
+  milk: 'rgba(255,255,255, 0.75)',
+
+  tabBar: '#7d571d',
+  activeTab: 'white',
+  inactiveTab: '#33230c',
+
+  startGradient: '#FF9933',
+  endGradient: '#FFCC33',
+
+  headerTitleColor: 'white'
 }
 
 export default colors

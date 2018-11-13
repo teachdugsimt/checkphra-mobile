@@ -19,7 +19,22 @@ const images = {
   chevronRight: require('../Images/Icons/chevron-right.png'),
   hamburger: require('../Images/Icons/hamburger.png'),
   backButton: require('../Images/Icons/back-button.png'),
-  closeButton: require('../Images/Icons/close-button.png')
+  closeButton: require('../Images/Icons/close-button.png'),
+  watermarkbg: require('../Images/watermarkbg.png'),
+  ktb: require('../Images/ktb.png'),
+  scb: require('../Images/scb.png'),
+  kbank: require('../Images/kbank.png'),
+  capture1: require('../Images/Capture1.png'),
+  capture2: require('../Images/Capture2.png'),
+  capture3: require('../Images/Capture3.png'),
+  capture4: require('../Images/Capture4.png'),
+  capture5: require('../Images/Capture5.png'),
+  coin0: require('../Images/coin0.jpg'),
+  coin1: require('../Images/coin1.png'),
+  coin2: require('../Images/coin2.jpg'),
+  coin3: require('../Images/coin3.jpg'),
+  nonePic: require('../Images/none_1.png'),
+  fb: require('../Images/fb_icon.png'),
 }
 
 export default images

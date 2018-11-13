@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "489273191976",
+    "firebase_url": "https://check-phra.firebaseio.com",
+    "project_id": "check-phra",
+    "storage_bucket": "check-phra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489273191976:android:436e0df94d9c7296",
+        "android_client_info": {
+          "package_name": "com.infiltech.checkphra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489273191976-9cqc66oor3q0liivq3up4pifb7pm9f3e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.infiltech.checkphra",
+            "certificate_hash": "2aa41367cda1e67c0ff5fc5e97a3aaff6646c4d4"
+          }
+        },
+        {
+          "client_id": "489273191976-lp4e285v81snccl3ah23uif2lpvuhfjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo9aEepZhR_G732sKLJHkRbBkNlG_ywHg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489273191976-lp4e285v81snccl3ah23uif2lpvuhfjp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "489273191976-etfv31ha11sdihfr5jgk679j83p223or.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.infiltech.checkphra"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

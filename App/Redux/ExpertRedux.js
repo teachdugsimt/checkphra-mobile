@@ -36,8 +36,11 @@ const { Types, Creators } = createActions({
   setFullData: ['data'],
   setAnswerDetail: ['data'],
   editFullData: ['id'],
+  // editFullData: ['id', 'status'],
 
-  clearSendAnswer: null
+  clearSendAnswer: null,
+  clearGetAnswer: null,
+  clearUpdateRequest: null
 })
 
 export const ExpertTypes = Types
@@ -87,6 +90,9 @@ export const requestAnswer = (state) => state.merge({ fetch: true })
 export const requestAnswerSuccess = (state, { data }) => state.merge({ fetch: false, data_answer: data })
 
 export const requestAnswerFailure = (state) => state.merge({ fetch: false })
+
+export const clearGetAnswer = state => state.merge({ fetch4: null })
+export const clearUpdateRequest = state => state.merge({ fetch5: null})
 
 export const updateAnswer = state => state.merge({ fetch5: true })
 export const updateSuccess = (state, { data }) => state.merge({ fetch5: false, data_updateAnswer: data })
@@ -154,22 +160,30 @@ export const setFullData = (state, { data }) => {
 export const editFullData = (state, { id }) => {
   let tmp = [...state.full_data]
   let index = state.index_row
-  // console.log(tmp)
-  // console.log('TMP BEFORE CHANGE')
-
+  // console.log(tmp[index])
+  // console.log('HERE TMP IN REDUX')
   let data = {
     id: id,
     status: 10
   }
   tmp[index] = data
-  // if (tmp[index].id = id) {  // can't
-  //   tmp[index].status = 10
-  // }
-  // console.log(tmp)
-  // console.log('TMP AFTER CHANGE')
   return state.merge({ full_data: tmp })
 
 }
+
+// export const editFullData = (state, { id, status }) => {
+//   let tmp = [...state.full_data]
+//   let index = state.index_row
+//   // console.log(tmp[index])
+//   // console.log('HERE TMP IN REDUX')
+//   let data = {
+//     id: id,
+//     status
+//   }
+//   tmp[index] = data
+//   return state.merge({ full_data: tmp })
+
+// }
 
 export const setAnswerDetail = (state, { data }) => {
   return state.merge({ answer_detail: data })
@@ -210,4 +224,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.EDIT_FULL_DATA]: editFullData,
   [Types.SET_ANSWER_DETAIL]: setAnswerDetail,
   [Types.CLEAR_SEND_ANSWER]: clearSendAnswer,
+  [Types.CLEAR_GET_ANSWER]: clearGetAnswer,
+  [Types.CLEAR_UPDATE_REQUEST]: clearUpdateRequest,
 })

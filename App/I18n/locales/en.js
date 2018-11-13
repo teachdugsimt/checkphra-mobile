@@ -30,6 +30,8 @@ export default {
   detailAnswer: 'Detail Answer',
   edit: 'EDIT',
   wantLogout: 'Do you want to log out ?',
+  haveCoin : 'You have ',
+  day: 'days ',
 
   checkPhra: 'Check Phra',
   package: 'Package',
@@ -128,6 +130,8 @@ export default {
   sharedSuccess: 'Share was success and get 2 coin',
   sharedSuccess2: 'Share was success',
   loginSuccess: 'You login 7 days get free 15 coin!!',
+  loginSuccess1: 'You login ',
+  loginSuccess2: 'get free ',
   answerSuccess: 'Send answer successful',
   answerFailure: 'Send answer failure',
   editSuccess: 'Edit answer successful',

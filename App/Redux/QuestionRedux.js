@@ -52,6 +52,7 @@ const { Types, Creators } = createActions({
 
   clearDataQuestion: null,
   clearAll: null,
+  clearGetHistory: null,
 })
 
 export const QuestionTypes = Types
@@ -170,7 +171,7 @@ export const setStartQuestion = (state, { index, num }) => {
 }
 
 export const requestGetHistory = (state) => state.merge({ request2: true })
-
+export const clearGetHistory = state => state.merge({ request2: null })
 // successful api lookup
 export const historySuccess = (state, action) => {
   const { history } = action
@@ -295,6 +296,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_HISTORY_FAILURE]: historyFailure,
   [Types.GET_HISTORY_SUCCESS2]: historySuccess2,
   [Types.GET_HISTORY_FAILURE2]: historyFailure2,
+  [Types.CLEAR_GET_HISTORY]: clearGetHistory,
 
   [Types.CLEAR_FORM]: clearForm,
   [Types.CLEAR_ALL]:clearAll,

@@ -65,10 +65,15 @@ class VerifyPoint extends Component {
             }
         }
 
+        // if(newProps.data_accept != null){
+        //     newProps.editFullData(newProps.data_accept.id, newProps.data_accept.status)
+        // }
+
         // if (newProps.data_accept != null && newProps.request2 != null) {
         //     let tmp = newProps.data.find(e => e.id == newProps.data_accept.id)
         //     if (tmp && tmp != undefined && newProps.data_accept.status != tmp.status) {
-        //         newProps.getVerify()
+        //         // newProps.editFullData(newProps.data_accept.id, newProps.data_accept.status)
+        //         // newProps.getVerify()
         //         return {
         //             verifyData: newProps.data
         //         }
@@ -194,6 +199,7 @@ const mapDispatchToProps = (dispatch) => {
         getVerify: (page) => dispatch(ExpertActions.getProfileRequest(page)),
         setDataPoint: (data, index) => dispatch(ExpertActions.setDataPoint(data, index)),
         setFullData: (data) => dispatch(ExpertActions.setFullData(data)),
+        // editFullData: (id, status) => dispatch(ExpertActions.editFullData(id, status)),
     }
 }
 

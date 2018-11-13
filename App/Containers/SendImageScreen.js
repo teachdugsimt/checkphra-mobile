@@ -305,7 +305,7 @@ class SendImageScreen extends Component {
                     this.setState({ questionType: qtype })
                   }}
                   isChecked={i > 0 ? this.state.questionType[i].isChecked : true}
-                  rightText={element.name + " ( ฿ " + element.point + " )"}
+                  rightText={element.name + " ( " + element.point + " ฿ )"}
                   rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 20 }}
                   checkBoxColor={Colors.brownText}
                 />

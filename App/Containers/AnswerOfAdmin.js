@@ -33,35 +33,56 @@ class AnswerOfAdmin extends Component {
     static navigationOptions = ({ navigation }) => {
         // console.log(navigation)
         // console.log(I18n.locale)
-    
+
         return {
-          title: I18n.t('adminAnswer'),
+            title: I18n.t('adminAnswer'),
         }
-      }
+    }
 
     static getDerivedStateFromProps(newProps, prevState) {
         let plist = newProps.data_answer
+        console.log(newProps)
+        console.log(prevState)
         // newProps.getAnswer(1)
         let tmp = null
+        // if (newProps.data_updateAnswer && prevState.tmp == null) {
+        //     if (check == true) {
+        //         newProps.getAnswer(1)
+        //         tmp = newProps.data_updateAnswer
+        //         check = false
+        //         return {
+        //             tmp
+        //         }
+        //     }
+        // }
+
         if (newProps.data_updateAnswer && prevState.tmp == null) {
-            if (check == true) {
-                newProps.getAnswer(1)
-                tmp = newProps.data_updateAnswer
-                check = false
-                return {
-                    tmp
+            newProps.getAnswer(1)
+            tmp = newProps.data_updateAnswer
+            check = false
+            return {
+                tmp
+            }
+        } else if (prevState.tmp != null) {
+            if (newProps.request3 == true || newProps.request3 == false) {
+                if (prevState.tmp != newProps.data_updateAnswer) {  // คำตอบที่แก้ไขไปแล้ว != คำตอบที่แก้ไขใหม่
+                    newProps.getAnswer(1)
+                    return {
+                        tmp: newProps.data_updateAnswer
+                    }
                 }
             }
         }
 
-        if (prevState.tmp) {
-            if (prevState.tmp != newProps.data_updateAnswer) {
-                newProps.getAnswer(1)
-                return {
-                    tmp: newProps.data_updateAnswer
-                }
-            }
-        }
+        // if (prevState.tmp != null) {
+
+        //     if (prevState.tmp != newProps.data_updateAnswer) {  // คำตอบที่แก้ไขไปแล้ว != คำตอบที่แก้ไขใหม่
+        //         newProps.getAnswer(1)
+        //         return {
+        //             tmp: newProps.data_updateAnswer
+        //         }
+        //     }
+        // }
 
 
         return {
@@ -197,6 +218,7 @@ class AnswerOfAdmin extends Component {
                                 if (count == item.answer.length) {
                                     alert(I18n.t('cantEdit'))
                                 } else {
+                                    // check = true
                                     this.props.setAnswerDetail(item)
                                     this.props.navigation.navigate('detail')
                                 }
@@ -258,7 +280,8 @@ class AnswerOfAdmin extends Component {
 const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
-        request2: state.expert.fetch4,
+        request2: state.expert.fetch4, //get history
+        request3: state.expert.fetch5, // send answer
         data_answer: state.expert.data_answer,
         data_updateAnswer: state.expert.data_updateAnswer,
     }

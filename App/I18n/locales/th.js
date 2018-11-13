@@ -29,6 +29,8 @@ export default {
   adminAnswer: 'คำตอบของ Admin',
   detailAnswer: 'รายละเอียดคำตอบ',
   wantLogout: 'คุณต้องการออกจากระบบ ?',
+  haveCoin : 'คุณมีเหรียญคงเหลือ',
+  day: 'วัน ',
 
   emailUsed: 'อีเมลนี้ถูกใช้งานแล้ว',
   networkError: 'การเชื่อมต่ออินเตอร์เน็ตผิดพลาด',
@@ -130,6 +132,8 @@ export default {
   sharedSuccess: 'แชร์สำเร็จ คุณได้รับ 2 coin',
   sharedSuccess2: 'แชร์สำเร็จ',
   loginSuccess: 'คุณ login ครบ 7 วัน รับฟรี 15 เหรียญ!!',
+  loginSuccess1: 'คุณ login ครบ ',
+  loginSuccess2: 'รับฟรี ',
   answerSuccess: 'ส่งคำตอบสำเร็จ',
   answerFailure: 'ส่งคำตอบล้มเหลว',
   editSuccess: 'แก้ไขสำเร็จ',

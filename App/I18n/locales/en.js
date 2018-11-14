@@ -83,7 +83,8 @@ export default {
 
   result: 'Result',
   back: 'Back',
-  coin: 'Coin',
+  coin: 'Coins',
+  coin2: 'Coins',
   addCoin: 'Add Coin',
   purchaseHistory: 'Purchase History',
   pendingList: 'Pending List',

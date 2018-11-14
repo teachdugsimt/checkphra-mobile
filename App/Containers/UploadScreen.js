@@ -143,30 +143,42 @@ class UploadScreen extends Component {
       }
     }
 
-    if (nextProps.data_login != null) {
-      if (nextProps.data_login.end_date == time11 && check_login == true) {
-        check_login = false
-        Alert.alert(
-          'Check Phra',
-          I18n.t('loginSuccess1') + nextProps.data_login.period_of_time + " " + I18n.t('day') + I18n.t('loginSuccess2') + nextProps.data_login.point + " " + I18n.t('coin'),
-          [
-            { text: I18n.t('ok') }
-          ],
-        )
+
+    //***************************** check PUBLISH of the day ************************************/
+    // if (nextProps.day == time11) {
+    //   return {
+    //     modalVisible: false
+    //   }
+    // } else if (nextProps.day != time11) {
+    //   nextProps.setTime(time11)
+    //   return {
+    //     modalVisible: true,
+    //   }
+    // }
+    //***************************** check PUBLISH of the day ************************************/
+
+
+    //************************ check alert login complete 7 days ******************************/
+    if (nextProps.data_login != null) { 
+      if (nextProps.data_login.end_date == time11) {   // ถ้าวันที่ 7 คือ วันนี้ ให้เช็คการแสดงการแจ้งเตือนว่าถ้าเป็นจริง ให้แจ้งเตือนนะ
+        if (nextProps.modal != undefined && nextProps.modal == true) {
+          nextProps.setModal(false)  // แล้วก้เซทเป็น เท็จเลยเพราะในวันที่ 7 เราต้องการให้มันแจ้งเตือนแค่ครั้งเดียวก็พอ
+          Alert.alert(
+            'Check Phra',
+            I18n.t('loginSuccess1') + nextProps.data_login.period_of_time + " " + I18n.t('day') + I18n.t('loginSuccess2') + nextProps.data_login.point + " " + I18n.t('coin'),
+            [
+              { text: I18n.t('ok'), onPress: () => { nextProps.setModal(false) } }
+            ],
+            { cancelable: false }
+          )
+        } else if(nextProps.modal == undefined){ // กรณีที่ modal ใน redux เป็น undeifined ให้เซทเปน true ก่อน
+          nextProps.setModal(true)
+        }
+      } else {  // ถ้าไม่ใช่วันนี้ เซทการแจ้งเตือนเป็นจริงไว้ก่อนรอถึงวันที่ 7 
+        nextProps.setModal(true)
       }
     }
-    // if (nextProps.data_publish && check_publish == true) {
-    //   check_publish = false
-    //   Alert.alert(
-    //     I18n.t('publish'),
-    //     nextProps.data_publish[0].topic + "\n"+ <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + nextProps.data_publish[0].image }}/>
-    //      + nextProps.data_publish[0].content,
-    //     [
-    //       { text: I18n.t('ok') }
-    //     ],
-    //     { cancelable: false }
-    //   )
-    // }
+    //************************ check alert login complete 7 days ******************************/
 
     let item = prevState.item
     if (nextProps.language != prevState.language && prevState.amuletType) {
@@ -190,12 +202,12 @@ class UploadScreen extends Component {
   }
 
   componentWillMount() {
-    check_publish = true
+    // check_publish = true
     // check_login = true
   }
 
   componentWillUnmount() {
-    check_publish = true
+    // check_publish = true
     // check_login = true
   }
 
@@ -218,6 +230,7 @@ class UploadScreen extends Component {
     this.props.clearDataQuestion()
     this.props.getPublish()
     this.props.getLoginPro()
+    // this.props.setModal(true)
     // if (this.props.profile) {
     //   if (this.props.profile.count == 7 || (this.props.profile.count % 7) == 0) {
     //     Alert.alert(
@@ -314,7 +327,9 @@ class UploadScreen extends Component {
         {this.state.kawsod != null && this.state.kawsod && this.state.kawsod.length > 0 && <Modal
           visible={this.state.modalVisible}
           transparent={true}
-          onRequestClose={() => this.setState({ modalVisible: false })} >
+          onRequestClose={() => this.setState({ modalVisible: false })}
+          onDismiss={() => { this.setState({ modalVisible: false }) }}
+        >
           <View style={{ backgroundColor: 'lightgrey', justifyContent: 'center', alignItems: 'center', borderRadius: 15, borderWidth: 5, borderColor: '#B7950B', top: height / 5, marginHorizontal: 15, height: height / 1.8 }}>
 
             <ScrollView style={{ flex: 1, width: '100%' }}>
@@ -323,8 +338,7 @@ class UploadScreen extends Component {
                 size={25}
                 color={Colors.brownText}
                 style={{ marginTop: 10, marginRight: 15, color: 'red', alignSelf: 'flex-end' }}
-                onPress={() => { this.setState({ modalVisible: false }) }}
-              />
+                onPress={() => { this.setState({ modalVisible: false }) }} />
 
               <Text style={{ alignSelf: 'center', fontSize: 20, fontWeight: 'bold', marginHorizontal: 10 }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].topic ? this.props.data_publish[0].topic : '-'}</Text>
 
@@ -357,6 +371,7 @@ const mapStateToProps = state => {
     day: state.auth.day,
     data_login: state.promotion.data_login,
     request_promotionlogin: state.promotion.request3,
+    modal: state.auth.modal,
   };
 };
 
@@ -372,6 +387,7 @@ const mapDispatchToProps = dispatch => {
     getPublish: () => dispatch(PromotionActions.publishRequest()),
     setTime: (day) => dispatch(AuthActions.setTime(day)),
     getLoginPro: () => dispatch(PromotionActions.getLoginPro()),
+    setModal: (check) => dispatch(AuthActions.setModal(check)),
   };
 };
 

@@ -101,6 +101,7 @@ export default {
   result: 'ผลการตรวจพระ',
   back: 'กลับ',
   coin: 'เหรียญ',
+  coin2: 'เหรียญ',
   addCoin: 'เติมเหรียญ',
   purchaseHistory: 'ประวัติการเติมเหรียญ',
   pendingList: 'พระรอตรวจ',

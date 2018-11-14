@@ -84,6 +84,7 @@ export function* signinWithCredential(api, action) {
 
 export function* signup(api, { id, password }) {
 
+  
   const data = {
     email: id,
     password: password,
@@ -91,21 +92,23 @@ export function* signup(api, { id, password }) {
 
   const response = yield call(api.signup, data)
   console.log(response)
-
   if (response.ok) {
     yield put(AuthActions.signupSuccess(response.data))
-
+    yield put(AuthActions.clearRequest())
     // yield* signupAtFirebase(api, getFirebase, id, response.data.access_token)
   } else {
 
     if ((response.data.message).indexOf("has already been taken") != -1) {
-      yield put(AuthActions.signupFailure())
+      yield put(AuthActions.signupFailure(response.problem))
+      yield put(AuthActions.clearRequest())
       alert(I18n.t('emailUsed'))
     } else if (response.problem == 'NETWORK_ERROR') {
-      yield put(AuthActions.signupFailure())
+      yield put(AuthActions.signupFailure(response.problem))
+      yield put(AuthActions.clearRequest())
       alert(I18n.t('networkError'))
     } else {
-      yield put(AuthActions.signupFailure())
+      yield put(AuthActions.signupFailure(response.problem))
+      yield put(AuthActions.clearRequest())
       alert(I18n.t('verifyData'))
     }
 
@@ -116,6 +119,8 @@ export function* createUser(api, { email, uid }) {
   console.log(email)
   console.log(uid)
   console.log('SEND TO CREATE CHECK PHRA USER')
+
+  if(!uid) { return }
 
   const data = {
     email: email,

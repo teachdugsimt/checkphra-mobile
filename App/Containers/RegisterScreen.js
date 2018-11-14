@@ -15,7 +15,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 let { width } = Dimensions.get('window')
-
+let checkRequest = true
 class RegisterScreen extends Component {
   constructor(props) {
     super(props)
@@ -42,6 +42,9 @@ class RegisterScreen extends Component {
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
     console.log(prevState)
+    let spinner = null
+    // let errorMessage = null
+    let errorMessage = newProps.error_signup
     if (newProps.dataRegister && newProps.dataRegister.length != 0) {
       return {
         uid: newProps.dataRegister.access_token,
@@ -49,13 +52,72 @@ class RegisterScreen extends Component {
       }
     }
 
-    if (newProps.request2 == false) {
-      return {
-        spinner: false
-      }
-    }
-    return {
+    // if (newProps.request == true || newProps.request2 == true) {
+    //   return {
+    //     spinner: true
+    //   }
+    // }
+    // if (newProps.request == false || newProps.request2 == false) {
+    //   return {
+    //     spinner: false
+    //   }
+    // }
 
+
+    // if( newProps.request == true || newProps.request2 == true){
+    //   spinner = false
+    // }
+    // if (newProps.request2 == false || newProps.error_signup != undefined) {
+    //   spinner = false
+    // }
+    // if(newProps.error_signup){
+    //   spinner = false
+    //   errorMessage = newProps.error_signup
+    // }
+
+    //*** เมื่อ error email used ค่าการรีเควสจะได้ตามนี้ [request = true, false, null]  ***/
+    //*** ซึ่งไม่ยุ่งกับ request2 เลย ทำให้ request2 = null ตลอดเวลา ดังนั้น เราต้องเช็คก่อนว่ามันเข้า request2 ไหม  ***/
+    // checkRequest = 0 ค่าเริ่มต้น
+    // checkRequest = 1 เข้ารีเควส 2 เป็นรูปแบบปกติ
+    // checkRequest = 2 ไม่เข้ารีเควส 2 error action
+    // if (newProps.request2 == true) {
+    //   checkRequest = true
+    // }
+
+    // if (newProps.request == false && newProps.request2 == null && newProps.error_signup != null) {
+    //   spinner = false
+    //   checkRequest = false
+    // }
+
+    // if (newProps.request2 == false) { // email SUCCESS and NORMAL ACTION
+    //   spinner = false
+    // }
+
+
+    // if (newProps.request2 == false && !newProps.error_signup) {
+    //   console.log('NORMAL CASE')
+    //   errorMessage = newProps.error_signup
+    //   spinner = false
+    // } else {
+    //   spinner = true
+    // }
+
+    // if (newProps.error_signup != null) {
+    //   console.log('ERROR LOGIN EMAIL USEABLE')
+    //   errorMessage = newProps.error_signup
+    //   spinner = false
+    // } else {
+    //   spinner = true
+    // }
+
+
+    // if (newProps.error_signup != null && checkRequest == false) {
+    //   spinner = false
+    // }
+
+    return {
+      spinner: spinner,
+      errorMessage
     }
   }
 
@@ -72,7 +134,7 @@ class RegisterScreen extends Component {
     } else {
       console.log('NONE UID')
       this.setState({ spinner: false })
-      alert('Failure, please register again')
+      // alert('Failure, please register again')
     }
 
   }
@@ -109,26 +171,11 @@ class RegisterScreen extends Component {
       )
     } else if (this.state.chkMail == true && this.state.pass.length > 5 && this.state.pass2.length > 5 && this.state.pass.length < 19 && this.state.pass.length < 19 && this.state.pass == this.state.pass2) {
       console.log("success")
-      this.setState({ spinner: true })
-      // setTimeout(function () {
-      //   this.props.signup(this.state.email, this.state.pass)
-      //   this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
-      // }, 3000);
+      // this.setState({ spinner: true })
       this.props.signup(this.state.email, this.state.pass)
-
       setTimeout(() => this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : ''), 3000);
-      // this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
+
     }
-    // else {
-    //   Alert.alert(
-    //     'Check Phra',
-    //     I18n.t('checkData'),
-    //     [
-    //       { text: I18n.t('ok') }
-    //     ],
-    //     { cancelable: false }
-    //   )
-    // }
   }
 
   validate = (text) => {
@@ -149,12 +196,31 @@ class RegisterScreen extends Component {
     this.props.navigation.navigate("Auth")
   }
 
+  componentWillUnmount() {
+    checkRequest = true
+  }
+
   componentDidMount() {
+    this.props.clearError()
     this.setState({ spinner: false })
+    checkRequest = true
   }
 
   render() {
     I18n.locale = this.props.language
+    // let check1
+    // if (this.props.request == true) {
+    //   check1 = true
+    // }
+    // else if (this.props.request2 == true) {
+    //   check1 = true
+    // }
+    // else if (this.props.request == null && this.props.request2 == null) {
+    //   check1 = false
+    // } else {
+    //   check = true
+    // }
+
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -303,10 +369,14 @@ class RegisterScreen extends Component {
           </Text>
           </TouchableOpacity>
           <Spinner
-            visible={this.state.spinner || this.props.request3 || this.props.request2}
+            // visible={this.state.spinner == true || this.props.request3 == true || this.props.request2 == true}
+            // visible={this.state.spinner == true}
+            visible={this.props.request == true || this.props.request2 == true}  // can use
+            // visible={check1}  // can use
             textContent={'Loading...'}
             textStyle={{ color: '#fff' }}
           />
+
         </View>
 
       </LinearGradient>
@@ -315,16 +385,18 @@ class RegisterScreen extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  request: state.auth.request,
+  request: state.auth.request,  // send email, pass to TUM and get access Token
   dataRegister: state.auth.dataRegister,
-  request2: state.auth.request2,
+  request2: state.auth.request2,  // createUser checkphra 
   language: state.auth.language,
-  request3: state.auth.fetching,
+  request3: state.auth.fetching,  // signin screen
+  error_signup: state.auth.error_signup,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   signup: (id, password) => dispatch(AuthActions.signup(id, password)),
-  createUser: (email, uid) => dispatch(AuthActions.createUser(email, uid))
+  createUser: (email, uid) => dispatch(AuthActions.createUser(email, uid)),
+  clearError: () => dispatch(AuthActions.clearError()),
 });
 
 export default compose(

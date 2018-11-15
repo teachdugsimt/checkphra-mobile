@@ -159,7 +159,7 @@ class UploadScreen extends Component {
 
 
     //************************ check alert login complete 7 days ******************************/
-    if (nextProps.data_login != null) { 
+    if (nextProps.data_login != null) {
       if (nextProps.data_login.end_date == time11) {   // ถ้าวันที่ 7 คือ วันนี้ ให้เช็คการแสดงการแจ้งเตือนว่าถ้าเป็นจริง ให้แจ้งเตือนนะ
         if (nextProps.modal != undefined && nextProps.modal == true) {
           nextProps.setModal(false)  // แล้วก้เซทเป็น เท็จเลยเพราะในวันที่ 7 เราต้องการให้มันแจ้งเตือนแค่ครั้งเดียวก็พอ
@@ -171,7 +171,7 @@ class UploadScreen extends Component {
             ],
             { cancelable: false }
           )
-        } else if(nextProps.modal == undefined){ // กรณีที่ modal ใน redux เป็น undeifined ให้เซทเปน true ก่อน
+        } else if (nextProps.modal == undefined) { // กรณีที่ modal ใน redux เป็น undeifined ให้เซทเปน true ก่อน
           nextProps.setModal(true)
         }
       } else {  // ถ้าไม่ใช่วันนี้ เซทการแจ้งเตือนเป็นจริงไว้ก่อนรอถึงวันที่ 7 
@@ -244,6 +244,13 @@ class UploadScreen extends Component {
     // }
   }
 
+  commaSeparateNumber(val) {
+    while (/(\d+)(\d{3})/.test(val.toString())) {
+      val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+    }
+    return val;
+  }
+
   render() {
     // I18n.locale = this.props.language
     // if (this.state.kawsod && check_publish == true && this.popupDialog != undefined) {
@@ -267,17 +274,17 @@ class UploadScreen extends Component {
               color: Colors.brownText
             }}
           >
-            {I18n.t('haveCoin')+" "}
+            {I18n.t('haveCoin') + " "}
           </Text>
           <Text
             style={{
               fontSize: 18,
               fontFamily: "Prompt-Regular",
-              color: '#84F316',
+              color: Colors.brownText,
               fontWeight: 'bold'
             }}
           >
-            {this.state.coin ? this.state.coin : 'Loading...'}
+            {this.state.coin ? this.commaSeparateNumber(this.state.coin) : 'Loading...'}
           </Text>
           <Text
             style={{

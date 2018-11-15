@@ -73,7 +73,7 @@ class Picker2 extends Component {
                 //     name: response.fileName
                 // })
 
-                ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 0, 0, null)
+                ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 90, 0, null)
                 .then((response) => {
                   // response.uri is the URI of the new image that can now be displayed, uploaded...
                   // response.path is the path of the new image

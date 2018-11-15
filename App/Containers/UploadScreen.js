@@ -267,7 +267,7 @@ class UploadScreen extends Component {
               color: Colors.brownText
             }}
           >
-            {I18n.t('haveCoin')}
+            {I18n.t('haveCoin')+" "}
           </Text>
           <Text
             style={{

@@ -18,7 +18,7 @@ const { width, height } = Dimensions.get('window')
 
 let shareLinkContent = {
   contentType: 'link',
-  contentUrl: '',
+  contentUrl: 'https://www.checkphra.com/',
   contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
 }
 
@@ -60,7 +60,7 @@ class AnswerScreen extends Component {
         // shareLinkContent.contentUrl = img2[0].url
         shareLinkContent = {
           contentType: 'link',
-          contentUrl: 'https://check-phra.firebaseapp.com/#/signin',
+          contentUrl: 'https://www.checkphra.com/',
           contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
         }
 

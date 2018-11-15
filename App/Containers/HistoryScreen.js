@@ -223,21 +223,7 @@ class HistoryScreen extends Component {
                         // margin: 20
                       }}>{date}</Text>
                     </View>
-                    {item.status == 'success' && <Text style={{
-                      fontFamily: 'Prompt-SemiBold',
-                      fontSize: 15,
-                      color: 'white',
-                      marginVertical: 20,
-                      marginLeft: 20, 
-                      marginRight: 40,
-                      paddingHorizontal: 20,
-                      paddingTop: 2.5,
-                      borderRadius: 15,
-                      height: 30,
-                      backgroundColor: color
-                    }}>{status}</Text>
-                    }
-                    {item.status == 'pending' && <Text style={{
+                    <Text style={{
                       fontFamily: 'Prompt-SemiBold',
                       fontSize: 15,
                       color: 'white',
@@ -250,9 +236,9 @@ class HistoryScreen extends Component {
                       height: 30,
                       backgroundColor: color
                     }}>{status}</Text>
-                    }
 
-                    {item.status == "pending" && <Icon2
+
+                    {/* {item.status == "pending" && <Icon2
                       name="remove"
                       size={26}
                       color={'red'}
@@ -275,7 +261,7 @@ class HistoryScreen extends Component {
 
                       }}
 
-                    />}
+                    />} */}
                   </View>
                 </TouchableOpacity>
               )

@@ -75,30 +75,20 @@ class CheckListScreen extends Component {
     let plist = newProps.history
     console.log(newProps)
     console.log(PrevState)
-    // if (PrevState.data_tmp == null || !PrevState.data_tmp || PrevState.data_tmp.length == 0) {
-    //   newProps.getHistory()
-    //   return {
-    //     data_tmp: newProps.history
-    //   }
-    // }
-
 
     if (newProps.data_answer != null) {
-      let tmp = newProps.history.find(e => e.id == newProps.data_answer.q_id)
-      if (tmp && tmp != undefined && newProps.data_answer.q_id == tmp.id) {
-        newProps.getHistory(1)
-        return {
-          data_tmp: newProps.history
+      if (newProps.request1 == false || newProps.request1 == true) {
+        let tmp = newProps.history.find(e => e.id == newProps.data_answer.q_id)
+        if (tmp && tmp != undefined && newProps.data_answer.q_id == tmp.id) {
+          newProps.getHistory(1)
+          return {
+            data_tmp: newProps.history
+          }
         }
       }
     }
 
-    if (newProps.request1 == false) {
-      newProps.getHistory(1)
-      return {
-        data_tmp: newProps.history
-      }
-    }
+
 
     return {
       // fetch: checkRequest,
@@ -114,7 +104,7 @@ class CheckListScreen extends Component {
 
   render() {
     I18n.locale = this.props.language
-    // console.log(this.props.history)
+    // console.log(JSON.parse(JSON.stringify(this.props.history)))
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -128,11 +118,11 @@ class CheckListScreen extends Component {
         <FlatList
           refreshControl={
             <RefreshControl
-              refreshing={this.props.request2 == true}
+              refreshing={this.props.request2 == true || this.props.request1 == true}
               onRefresh={this.onRefresh.bind(this)}
             />
           }
-          data={this.props.history}
+          data={JSON.parse(JSON.stringify(this.props.history))}
           renderItem={({ item }) => {
             let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
             let status = 'รอตรวจ'
@@ -244,11 +234,11 @@ class CheckListScreen extends Component {
           onEndReached={this._onScrollEndList}
           onEndReachedThreshold={0.05}
         />
-        <Spinner
+        {/* <Spinner
           visible={this.props.request2}
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
-        />
+        /> */}
       </LinearGradient>
 
     )
@@ -259,11 +249,11 @@ const mapStateToProps = (state) => {
   return {
     history: state.question.history,
     answer: state.question.answer,
-    request2: state.question.request2,
+    request2: state.question.request2,  // get history
     images: state.question.images,
     amulet: state.question.amuletType,
     // access_id: state.auth.user_id,
-    request1: state.expert.fetch,
+    request1: state.expert.fetch,   // send answer
     data_answer: state.expert.data_answer,
     language: state.auth.language,
   }

@@ -19,6 +19,7 @@ import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 const auth = state => state.auth
 I18n.locale = auth.language
+
 export function* expertRequest(api, { pack, q_id }) {   //   for add ANSWER ONLY!!!!!!!
   const aut = yield select(auth)
   if (!aut.user_id) { return }
@@ -59,9 +60,11 @@ export function* updateAnswer(api, { pack, q_id }) {   //   for UPDATE ANSWER ON
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     alert(I18n.t('editSuccess'))
     yield put(ExpertActions.updateSuccess(response.data))
+    yield put(ExpertActions.clearUpdateRequest())
   } else {
     alert(I18n.t('editFailure'))
     yield put(ExpertActions.updateFailure())
+    yield put(ExpertActions.clearUpdateRequest())
   }
 }
 
@@ -143,8 +146,10 @@ export function* getAnswerAdmin(api, { page }) {
     console.log("ANSWER OF ADMIN")
     if (response.ok) {
       yield put(ExpertActions.answerSuccess(response.data))
+      yield put(ExpertActions.clearGetAnswer())
     } else {
       yield put(ExpertActions.answerFailure())
+      yield put(ExpertActions.clearGetAnswer())
     }
     
   } 
@@ -160,8 +165,10 @@ export function* getAnswerAdmin(api, { page }) {
     console.log("ANSWER OF ADMIN")
     if (response.ok) {
       yield put(ExpertActions.answerSuccess2(response.data))
+      yield put(ExpertActions.clearGetAnswer())
     } else {
       yield put(ExpertActions.answerFailure2())
+      yield put(ExpertActions.clearGetAnswer())
     }
 
   }

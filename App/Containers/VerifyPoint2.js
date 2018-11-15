@@ -75,7 +75,7 @@ class VerifyPoint2 extends Component {
         let tmp_chk = this.props.full_data.find(e => e.id == this.props.item.id)
         let status = this.props.item.status == 10 || tmp_chk.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
         let status_color = this.props.item.status == 10 || tmp_chk.status == 10 ? 'green' : 'orange'
-        let product = this.props.item.price + " point"
+        let product = this.props.item.price
         let time = this.props.item.date.slice(11, this.props.item.date.length - 3)
 
         // let bank55 = ''

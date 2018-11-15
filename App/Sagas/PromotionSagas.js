@@ -11,7 +11,7 @@
 *************************************************************/
 
 import { call, put, select } from 'redux-saga/effects'
-import PromotionActions, { publishRequest } from '../Redux/PromotionRedux'
+import PromotionActions, { publishRequest, getLoginPro } from '../Redux/PromotionRedux'
 // import { PromotionSelectors } from '../Redux/PromotionRedux'
 const auth = state => state.auth
 
@@ -60,6 +60,22 @@ export function* sharedAnswer(api, { qid }) {
     yield put(PromotionActions.sharedSuccess(response.data))
   } else {
     yield put(PromotionActions.sharedFailure())
+  }
+}
+
+export function* getLoginPromotion(api){
+  const aut = yield select(auth)
+
+  const data ={
+    user_id: aut.user_id
+  }
+
+  const response = yield call(api.getPromotionCoin, data)
+  console.log(response)
+  if(response.ok){
+    yield put(PromotionActions.getLoginProSuccess(response.data))
+  } else {
+    yield put(PromotionActions.getLoginProFailure())
   }
 }
 

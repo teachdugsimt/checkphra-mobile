@@ -38,9 +38,12 @@ const { Types, Creators } = createActions({
 
   setCoin: ['coin'],
   clearRequest2: null,
+  clearRequest: null,
 
   setImg: ['data'],
   setTime: ['day'],
+  setModal: ['check'],
+  
 })
 
 export const AuthTypes = Types
@@ -54,6 +57,7 @@ export const INITIAL_STATE = Immutable({
   profile: null,
   user_id: null,  // access token login facebook
   error: null,
+  error_signup: null,
   coin: null,
   picProfile: null,
 
@@ -71,7 +75,10 @@ export const INITIAL_STATE = Immutable({
   request4: null, // forget password
   data_forget: null,
 
-  day:moment(new Date()).format().slice(0, 10),
+  day: moment(new Date()).format().slice(0, 10),
+  modal: true,
+
+
   // day: null,
 })
 
@@ -83,6 +90,9 @@ export const AuthSelectors = {
 
 /* ------------- Reducers ------------- */
 
+export const setModal = (state, { check }) => {
+  return state.merge({ modal: check })
+}
 // request the data from an api
 export const clearRequest2 = state => state.merge({ request2: null })
 
@@ -110,13 +120,15 @@ export const setUserId = (state, { user_id }) => {
 }
 
 
-
+export const clearRequest = state => state.merge({ request: null })
 export const startRequest = (state) => state.merge({ request: true })
 
-export const failureRequestSignup = (state) => state.merge({ request: false })
+export const failureRequestSignup = (state, error ) => {
+  return state.merge({ request: false, error_signup: error.type })
+}
 
 export const successRequestSignup = (state, { data }) => {
-  return state.merge({ dataRegister: data, request: false })
+  return state.merge({ dataRegister: data, request: false, error_signup: null })
 }
 
 export const signout = state => INITIAL_STATE
@@ -135,7 +147,7 @@ export const forgetPassword = state => state.merge({ request4: true })
 export const forgetSuccess = (state, { data }) => state.merge({ request4: false, data_forget: data })
 export const forgetFailure = state => state.merge({ request4: false })
 
-export const clearError = state => state.merge({ error: null })
+export const clearError = state => state.merge({ error: null, error_signup: null })
 
 export const setLanguage = (state, { language }) => {
   return state.merge({ language })
@@ -182,6 +194,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_ERROR]: clearError,
   [Types.SET_COIN]: setCoin,
   [Types.CLEAR_REQUEST2]: clearRequest2,
+  [Types.CLEAR_REQUEST]: clearRequest,
   [Types.SET_IMG]: setImg,
   [Types.SET_TIME]: setTime,
+  [Types.SET_MODAL]: setModal,
 })

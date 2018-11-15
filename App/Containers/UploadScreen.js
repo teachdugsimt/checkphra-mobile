@@ -22,7 +22,7 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let check_publish = true
-
+let check_login = true
 
 
 class UploadScreen extends Component {
@@ -30,7 +30,6 @@ class UploadScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     // console.log(navigation)
     // console.log(I18n.locale)
-
     return {
       title: I18n.t('selectAmuletType'),
     }
@@ -44,16 +43,10 @@ class UploadScreen extends Component {
       language: '',
       kawsod: null,
       modalVisible: true,
+      coin: null,
       // spinnner: false,
     }
   }
-  // static navigationOptions = ({ navigation }) => {
-  //   const params = navigation.state.params || {};
-
-  //   return {
-  //     tabBarLabel: "ตรวจสอบพระ"
-  //   };
-  // };
 
   static rename = (amuletTypes) => {
     let item = []
@@ -136,33 +129,56 @@ class UploadScreen extends Component {
     let date_tmp = new Date()
     let f1 = moment(date_tmp).format()
     let time11 = f1.slice(0, 10)
-
     I18n.locale = nextProps.language
 
     // console.log('-------------')
     console.log(nextProps)
     console.log(prevState)
 
-    
+
     if (nextProps.day != time11) {
       nextProps.setTime(time11)
       return {
         modalVisible: true,
       }
-    } 
+    }
 
-    // if (nextProps.data_publish && check_publish == true) {
-    //   check_publish = false
-    //   Alert.alert(
-    //     I18n.t('publish'),
-    //     nextProps.data_publish[0].topic + "\n"+ <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + nextProps.data_publish[0].image }}/>
-    //      + nextProps.data_publish[0].content,
-    //     [
-    //       { text: I18n.t('ok') }
-    //     ],
-    //     { cancelable: false }
-    //   )
+
+    //***************************** check PUBLISH of the day ************************************/
+    // if (nextProps.day == time11) {
+    //   return {
+    //     modalVisible: false
+    //   }
+    // } else if (nextProps.day != time11) {
+    //   nextProps.setTime(time11)
+    //   return {
+    //     modalVisible: true,
+    //   }
     // }
+    //***************************** check PUBLISH of the day ************************************/
+
+
+    //************************ check alert login complete 7 days ******************************/
+    if (nextProps.data_login != null) { 
+      if (nextProps.data_login.end_date == time11) {   // ถ้าวันที่ 7 คือ วันนี้ ให้เช็คการแสดงการแจ้งเตือนว่าถ้าเป็นจริง ให้แจ้งเตือนนะ
+        if (nextProps.modal != undefined && nextProps.modal == true) {
+          nextProps.setModal(false)  // แล้วก้เซทเป็น เท็จเลยเพราะในวันที่ 7 เราต้องการให้มันแจ้งเตือนแค่ครั้งเดียวก็พอ
+          Alert.alert(
+            'Check Phra',
+            I18n.t('loginSuccess1') + nextProps.data_login.period_of_time + " " + I18n.t('day') + I18n.t('loginSuccess2') + nextProps.data_login.point + " " + I18n.t('coin'),
+            [
+              { text: I18n.t('ok'), onPress: () => { nextProps.setModal(false) } }
+            ],
+            { cancelable: false }
+          )
+        } else if(nextProps.modal == undefined){ // กรณีที่ modal ใน redux เป็น undeifined ให้เซทเปน true ก่อน
+          nextProps.setModal(true)
+        }
+      } else {  // ถ้าไม่ใช่วันนี้ เซทการแจ้งเตือนเป็นจริงไว้ก่อนรอถึงวันที่ 7 
+        nextProps.setModal(true)
+      }
+    }
+    //************************ check alert login complete 7 days ******************************/
 
     let item = prevState.item
     if (nextProps.language != prevState.language && prevState.amuletType) {
@@ -181,15 +197,18 @@ class UploadScreen extends Component {
       amuletType: nextProps.data_amulet,
       language: nextProps.language,
       kawsod: nextProps.data_publish,
+      coin: nextProps.profile ? nextProps.profile.point : null
     }
   }
 
   componentWillMount() {
-    check_publish = true
+    // check_publish = true
+    // check_login = true
   }
 
   componentWillUnmount() {
-    check_publish = true
+    // check_publish = true
+    // check_login = true
   }
 
   getTypePhra = (item) => {
@@ -204,36 +223,25 @@ class UploadScreen extends Component {
 
   componentDidMount() {
     check_publish = true
+    // check_login = true
     this.props.getAmuletType()
-
+    this.props.getProfile()
     // this.props.setLanguage(I18n.locale)
     this.props.clearDataQuestion()
     this.props.getPublish()
-
-    // let day = new Date()
-    // let f = moment(day).format()
-    // let time1 = f.slice(0, 10)
-    // this.props.setTime(time1)
-
-    // let day = new Date()
-    // let f = moment(day).format()
-    // let time1 = f.slice(0, 10)
-    // let time2 = f.slice(11, 19)
-    // let full = time1 + " " + time2
-    // let dayuse = full.slice(8, 11)
-    // this.props.setTime(dayuse)
-
-    if (this.props.profile) {
-      if (this.props.profile.count == 7 || (this.props.profile.count % 7) == 0) {
-        Alert.alert(
-          'Check Phra',
-          I18n.t('loginSuccess'),
-          [
-            { text: I18n.t('ok') }
-          ],
-        )
-      }
-    }
+    this.props.getLoginPro()
+    // this.props.setModal(true)
+    // if (this.props.profile) {
+    //   if (this.props.profile.count == 7 || (this.props.profile.count % 7) == 0) {
+    //     Alert.alert(
+    //       'Check Phra',
+    //       I18n.t('loginSuccess'),
+    //       [
+    //         { text: I18n.t('ok') }
+    //       ],
+    //     )
+    //   }
+    // }
   }
 
   render() {
@@ -251,18 +259,37 @@ class UploadScreen extends Component {
           width: width,
           height: width * 95.7 / 100
         }} resizeMode='contain' />
-        {/* <View style={{ height: 60, justifyContent: "center" }}>
+        <View style={{ height: 35, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}>
           <Text
             style={{
-              fontSize: 23,
+              fontSize: 16,
               fontFamily: "Prompt-Regular",
-              alignSelf: "center",
               color: Colors.brownText
             }}
           >
-            {I18n.t('selectAmuletType')}
+            {I18n.t('haveCoin')+" "}
           </Text>
-        </View> */}
+          <Text
+            style={{
+              fontSize: 18,
+              fontFamily: "Prompt-Regular",
+              color: '#84F316',
+              fontWeight: 'bold'
+            }}
+          >
+            {this.state.coin ? this.state.coin : 'Loading...'}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: "Prompt-Regular",
+              color: Colors.brownText
+            }}
+          >
+            {" " + I18n.t('coin')}
+          </Text>
+        </View>
+
         <GridView
           itemDimension={100}
           items={this.state.item ? this.state.item : []}
@@ -300,7 +327,9 @@ class UploadScreen extends Component {
         {this.state.kawsod != null && this.state.kawsod && this.state.kawsod.length > 0 && <Modal
           visible={this.state.modalVisible}
           transparent={true}
-          onRequestClose={() => this.setState({ modalVisible: false })} >
+          onRequestClose={() => this.setState({ modalVisible: false })}
+          onDismiss={() => { this.setState({ modalVisible: false }) }}
+        >
           <View style={{ backgroundColor: 'lightgrey', justifyContent: 'center', alignItems: 'center', borderRadius: 15, borderWidth: 5, borderColor: '#B7950B', top: height / 5, marginHorizontal: 15, height: height / 1.8 }}>
 
             <ScrollView style={{ flex: 1, width: '100%' }}>
@@ -309,8 +338,7 @@ class UploadScreen extends Component {
                 size={25}
                 color={Colors.brownText}
                 style={{ marginTop: 10, marginRight: 15, color: 'red', alignSelf: 'flex-end' }}
-                onPress={() => { this.setState({ modalVisible: false }) }}
-              />
+                onPress={() => { this.setState({ modalVisible: false }) }} />
 
               <Text style={{ alignSelf: 'center', fontSize: 20, fontWeight: 'bold', marginHorizontal: 10 }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].topic ? this.props.data_publish[0].topic : '-'}</Text>
 
@@ -321,38 +349,8 @@ class UploadScreen extends Component {
           </View>
         </Modal>}
 
-
-
-
-        {/* <PopupDialog
-          // dialogTitle={<DialogTitle title={I18n.t('publish')} titleTextStyle={{ fontSize: 20, fontWeight: 'bold', color: Colors.brownText }} />}
-          dialogTitle={<View style={{ backgroundColor: '#F5B041', marginTop: 15, marginBottom: 15, justifyContent: 'center', borderRadius: 10, borderBottomColor: Colors.tabBar, borderBottomWidth: 2, }}><Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.brownText, alignSelf: 'center' }}>{I18n.t('publish')}</Text></View>}
-          ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-          dialogAnimation={slideAnimation}
-          width={0.9}
-          height={height / 1.5}
-          // height={150}
-          dialogStyle={{ backgroundColor: '#F5B041' }}
-          containerStyle={{ backgroundColor: Colors.tabBar }}
-          backgroundColor={Colors.tabBar}
-          onDismissed={() => { this.setState({}) }}
-        >
-          {this.state.kawsod == 'none' ? <View style={{ flex: 1 }}><Text style={{
-            alignSelf: 'center',
-            marginTop: 20, fontSize: 20, color: Colors.brownTextTran
-          }}>Don't have publish</Text>
-          </View> : <View style={{ flex: 1 }}>
-              <Text style={{ alignSelf: 'center', marginTop: 20, fontSize: 20, fontWeight: 'bold', marginHorizontal: 10 }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].topic ? this.props.data_publish[0].topic : '-'}</Text>
-
-              {this.props.data_publish && this.props.data_publish[0].image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.props.data_publish[0].image }}
-                style={{ width: height / 3, height: height / 3, marginTop: 10, marginHorizontal: 5, alignSelf: 'center', borderRadius: 10 }} />}
-
-              <Text style={{ fontSize: 17, marginTop: 15, alignSelf: 'center' }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].content}</Text>
-            </View>}
-        </PopupDialog> */}
-
         <Spinner
-          visible={this.props.request_publish || this.props.request_amulet}
+          visible={this.props.request_publish || this.props.request_amulet || this.props.request_promotionlogin}
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
         />
@@ -371,6 +369,9 @@ const mapStateToProps = state => {
     request_publish: state.promotion.request,
     request_amulet: state.question.request_type,
     day: state.auth.day,
+    data_login: state.promotion.data_login,
+    request_promotionlogin: state.promotion.request3,
+    modal: state.auth.modal,
   };
 };
 
@@ -380,10 +381,13 @@ const mapDispatchToProps = dispatch => {
       return dispatch(QuestionActions.setAmuletType(type))
     },
     getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
+    getProfile: () => dispatch(QuestionActions.getProfile()),
     // setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
     clearDataQuestion: () => dispatch(QuestionActions.clearDataQuestion()),
     getPublish: () => dispatch(PromotionActions.publishRequest()),
     setTime: (day) => dispatch(AuthActions.setTime(day)),
+    getLoginPro: () => dispatch(PromotionActions.getLoginPro()),
+    setModal: (check) => dispatch(AuthActions.setModal(check)),
   };
 };
 

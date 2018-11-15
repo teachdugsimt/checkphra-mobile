@@ -110,8 +110,10 @@ export function* getHistory(api, { count }) {
 
     if (response.ok) {
       yield put(QuestionActions.getHistorySuccess(response.data))
+      yield put(QuestionActions.clearGetHistory())
     } else {
       yield put(QuestionActions.getHistoryFailure())
+      yield put(QuestionActions.clearGetHistory())
     }
   } else {
     const a = yield select(auth)
@@ -125,8 +127,10 @@ export function* getHistory(api, { count }) {
     console.log(response)
     if (response.ok) {
       yield put(QuestionActions.getHistorySuccess2(response.data))
+      yield put(QuestionActions.clearGetHistory())
     } else {
       yield put(QuestionActions.getHistoryFailure2())
+      yield put(QuestionActions.clearGetHistory())
     }
 
   }

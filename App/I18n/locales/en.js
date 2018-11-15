@@ -30,7 +30,7 @@ export default {
   detailAnswer: 'Detail Answer',
   edit: 'EDIT',
   wantLogout: 'Do you want to log out ?',
-  haveCoin : 'You have ',
+  haveCoin : 'You have',
   day: 'days ',
 
   checkPhra: 'Check Phra',

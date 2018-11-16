@@ -118,6 +118,7 @@ class AnswerOfAdmin extends Component {
 
     render() {
         I18n.locale = this.props.language
+        // let data = this.props.data_answer ? JSON.parse(JSON.stringify(this.props.data_answer)) : null
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -136,10 +137,11 @@ class AnswerOfAdmin extends Component {
                             onRefresh={this.onRefresh.bind(this)}
                         />
                     }
-                    data={this.props.data_answer}
+                    data={this.props.data_answer && this.props.data_answer.length > 0 && JSON.parse(JSON.stringify(this.props.data_answer))}
+                    // data={data}
                     renderItem={({ item }) => {
                         let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
-                        let status = 'รอตรวจ'
+                        // let status = 'รอตรวจ'
                         let color = 'orange'
                         if (item.status == 'success') {
                             status = 'ตรวจแล้ว'

@@ -43,7 +43,7 @@ class CheckListScreen extends Component {
   componentDidMount() {
     moment.locale('th')
     this.props.getHistory()
-    this.props.getProfile()
+    // this.props.getProfile()
   }
 
   componentWillMount() {
@@ -105,6 +105,7 @@ class CheckListScreen extends Component {
   render() {
     I18n.locale = this.props.language
     // console.log(JSON.parse(JSON.stringify(this.props.history)))
+    // let data = this.props.history ? JSON.parse(JSON.stringify(this.props.history)) : null
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -122,7 +123,8 @@ class CheckListScreen extends Component {
               onRefresh={this.onRefresh.bind(this)}
             />
           }
-          data={JSON.parse(JSON.stringify(this.props.history))}
+          data={this.props.history && this.props.history.length > 0 && JSON.parse(JSON.stringify(this.props.history))}
+          // data={data}
           renderItem={({ item }) => {
             let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
             let status = 'รอตรวจ'

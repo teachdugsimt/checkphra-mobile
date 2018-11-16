@@ -366,7 +366,7 @@ class CheckPhraScreen extends Component {
                   />
                 </View>
 
-                {this.props.profile.role != "admin" && <View style={{ width: width / 2.5 }}>
+                {this.props.profile && this.props.profile.role != "admin" && <View style={{ width: width / 2.5 }}>
                   <RoundedButton
                     style={{ marginHorizontal: 10 }}
                     title={I18n.t('sendToAdmin')}

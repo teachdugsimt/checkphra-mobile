@@ -78,7 +78,7 @@ class Picker extends Component {
       }
       else {
         let source = { uri: response.uri };
-        console.log(response)
+        // console.log(response)
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
@@ -86,7 +86,7 @@ class Picker extends Component {
           avatarSource: source
         });
         // this.props.setUri(source, this.props.id)
-        console.log(response)
+        // console.log(response)
         this.setState({ spinner: true })
 
         ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 100, 0, null)
@@ -95,7 +95,7 @@ class Picker extends Component {
             // response.path is the path of the new image
             // response.name is the name of the new image with the extension
             // response.size is the size of the new image
-            console.log(response)
+            // console.log(response)
             this.setState({ spinner: false })
             this.props.setImages(this.props.id, {
               uri: response.uri,
@@ -106,7 +106,7 @@ class Picker extends Component {
               size: response.size,
               tmp_name: response.path
             })
-            console.log(response)
+            // console.log(response)
           }).catch((err) => {
             this.setState({ spinner: false })
             // Oops, something went wrong. Check that the filename is correct and

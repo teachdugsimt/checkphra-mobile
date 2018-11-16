@@ -37,7 +37,8 @@ class SendImageScreen extends Component {
       fetch: null,
       dataType: null,
       questionData: null,
-      language: ''
+      language: '',
+      spin: false
     }
   }
 
@@ -53,8 +54,7 @@ class SendImageScreen extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
 
-    console.log(nextProps)
-    console.log(prevState)
+    // console.log(prevState)
     // if (nextProps.questionType && nextProps.questionType.length > 0 && prevState.check == true) {
     //   nextProps.questionType.forEach(e => {
     //     qtype.push({
@@ -110,7 +110,8 @@ class SendImageScreen extends Component {
         return {
           questionType: qtype,
           dataType: nextProps.questionType,
-          language: nextProps.language
+          language: nextProps.language,
+          spin: nextProps.request ? nextProps.request : false
         }
       }
     }
@@ -122,7 +123,8 @@ class SendImageScreen extends Component {
     // }
 
     let qdata = nextProps.questionData
-    if (nextProps.questionData != prevState.questionData && (nextProps.request == false || nextProps.request == true)) {
+    if (nextProps.questionData != prevState.questionData
+      && (nextProps.request == false /*|| nextProps.request == true*/)) {
 
       // if (chk2 == true) {
       nextProps.getProfile()
@@ -140,14 +142,10 @@ class SendImageScreen extends Component {
         { cancelable: false }
       )
     }
-    // chk2 = false
-
-    // }
-
 
     return {
-      // questionType: qtype,
-      questionData: qdata
+      questionData: qdata,
+      spin: nextProps.request ? nextProps.request : false
     }
   }
 
@@ -323,11 +321,13 @@ class SendImageScreen extends Component {
           </View>
 
         </ScrollView>
+
         <Spinner
-          visible={this.props.request}
+          visible={this.state.spin}
           textContent={'Uploading...'}
           textStyle={{ color: '#fff' }}
         />
+
       </LinearGradient>
     )
   }

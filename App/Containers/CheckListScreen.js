@@ -201,8 +201,8 @@ class CheckListScreen extends Component {
                 }
               }
               }>
-                <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 60, height: 60, margin: 10, borderRadius: 10 }} />
+                <View style={{ height: 90, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 65, height: 65, margin: 10, borderRadius: 10 }} />
                   <View style={{ flex: 1, padding: 10 }}>
                     <View style={{ flexDirection: 'row' }}>
                       <Text style={{
@@ -218,6 +218,12 @@ class CheckListScreen extends Component {
                         // margin: 20
                       }}> ( {item.id} )</Text>
                     </View>
+                    <Text style={{
+                      fontFamily: 'Prompt-SemiBold',
+                      fontSize: 13,
+                      color: Colors.brownText,
+                      // margin: 20
+                    }}>{item.email}</Text>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
                       fontSize: 12,

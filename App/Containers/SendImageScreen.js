@@ -105,7 +105,7 @@ class SendImageScreen extends Component {
             checkType: true,
           })
         })
-        console.log(chk)
+        // console.log(chk)
         chk = false
         return {
           questionType: qtype,
@@ -122,27 +122,27 @@ class SendImageScreen extends Component {
     // }
 
     let qdata = nextProps.questionData
-    if (nextProps.questionData != prevState.questionData && nextProps.request == false) {
+    if (nextProps.questionData != prevState.questionData && (nextProps.request == false || nextProps.request == true)) {
 
-      if (chk2 == true) {
-        nextProps.getProfile()
-        Alert.alert(
-          'Check Phra',
-          I18n.t('sendQuestionSuccess'),
-          [
-            {
-              text: I18n.t('ok'), onPress: () => {
-                nextProps.navigation.goBack()
-                nextProps.navigation.navigate('his')
-              }
+      // if (chk2 == true) {
+      nextProps.getProfile()
+      Alert.alert(
+        'Check Phra',
+        I18n.t('sendQuestionSuccess'),
+        [
+          {
+            text: I18n.t('ok'), onPress: () => {
+              nextProps.navigation.goBack()
+              nextProps.navigation.navigate('his')
             }
-          ],
-          { cancelable: false }
-        )
-      }
-      chk2 = false
-
+          }
+        ],
+        { cancelable: false }
+      )
     }
+    // chk2 = false
+
+    // }
 
 
     return {
@@ -154,6 +154,8 @@ class SendImageScreen extends Component {
   componentDidMount() {
     this.props.getProfile()
     this.props.getQuestionType()
+    chk = true
+    chk2 = true
   }
 
   componentWillUnmount() {
@@ -169,12 +171,12 @@ class SendImageScreen extends Component {
     let chk = []
     let cnt = 0
     let chkImage = this.props.images.filter(e => e != undefined)
-    console.log('CHECK IMG')
-    console.log(chkImage)
+    // console.log('CHECK IMG')
+    // console.log(chkImage)
     this.props.setStart(0, 1)
 
     this.state.questionType.map((e, i) => {
-      console.log(e)
+      // console.log(e)
       if (e.name == I18n.t('trueFalse')) {
         chk.push(1)
       } else {
@@ -340,7 +342,7 @@ const mapStateToProps = (state) => {
     p: state.auth.profile,
     auth: state.auth,
     // fetching: state.question.fetching,
-    request: state.question.request,
+    request: state.question.request,   // for add quesiton only
     language: state.auth.language,
   }
 }

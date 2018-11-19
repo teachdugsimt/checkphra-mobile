@@ -441,7 +441,7 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
   checklist: CheckListStack,
   verify: VerifyStack,
   // pub: PublishStack,
-  bit: BitStack,
+  // bit: BitStack,
   answeradmin: AdminAnswerStack,
   profile: ProfileStack,
 }, {

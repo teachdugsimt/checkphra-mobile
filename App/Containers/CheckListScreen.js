@@ -43,7 +43,7 @@ class CheckListScreen extends Component {
   componentDidMount() {
     moment.locale('th')
     this.props.getHistory()
-    this.props.getProfile()
+    // this.props.getProfile()
   }
 
   componentWillMount() {
@@ -105,6 +105,7 @@ class CheckListScreen extends Component {
   render() {
     I18n.locale = this.props.language
     // console.log(JSON.parse(JSON.stringify(this.props.history)))
+    // let data = this.props.history ? JSON.parse(JSON.stringify(this.props.history)) : null
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -122,7 +123,8 @@ class CheckListScreen extends Component {
               onRefresh={this.onRefresh.bind(this)}
             />
           }
-          data={JSON.parse(JSON.stringify(this.props.history))}
+          data={this.props.history && this.props.history.length > 0 && JSON.parse(JSON.stringify(this.props.history))}
+          // data={data}
           renderItem={({ item }) => {
             let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
             let status = 'รอตรวจ'
@@ -201,8 +203,8 @@ class CheckListScreen extends Component {
                 }
               }
               }>
-                <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 60, height: 60, margin: 10, borderRadius: 10 }} />
+                <View style={{ height: 90, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 65, height: 65, margin: 10, borderRadius: 10 }} />
                   <View style={{ flex: 1, padding: 10 }}>
                     <View style={{ flexDirection: 'row' }}>
                       <Text style={{
@@ -218,6 +220,12 @@ class CheckListScreen extends Component {
                         // margin: 20
                       }}> ( {item.id} )</Text>
                     </View>
+                    <Text style={{
+                      fontFamily: 'Prompt-SemiBold',
+                      fontSize: 13,
+                      color: Colors.brownText,
+                      // margin: 20
+                    }}>{item.email}</Text>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
                       fontSize: 12,

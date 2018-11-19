@@ -201,8 +201,8 @@ class CheckPhraScreen extends Component {
     this.props.data.images.map(e => {
       img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
     })
-    
-    
+
+
     // console.log(this.props.data)
     // console.log("*****************************************")
     return (
@@ -260,14 +260,14 @@ class CheckPhraScreen extends Component {
 
           <View style={{ flex: 0.6 }}>
             <ScrollView>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question')} </Text>
-                <Text style={{ marginTop: 14, fontSize: 16 }}>( {this.props.data.email} )</Text>
+                <Text style={{ fontSize: 16 }}> {this.props.data.email} </Text>
               </View>
               {this.props.data.question_list.map((e, i) => {
                 if (e.question_detail == 'พระแท้ / ไม่แท้' || e.question_detail == 'พระแท้/ไม่แท้' || e.question_detail == 'Real amulet / Fake amulet') {
                   return (
-                    <View style={{ marginLeft: 15 }}>
+                    <View style={{ marginLeft: 15, marginTop: 10 }}>
                       <Text style={{}}>{I18n.t('trueFalse')}</Text>
                       <CheckBox
                         style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
@@ -323,7 +323,7 @@ class CheckPhraScreen extends Component {
                     <View>
                       <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
                       <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editing}/>
+                        onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editing} />
                     </View>
                   )
                 } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation') {
@@ -331,7 +331,7 @@ class CheckPhraScreen extends Component {
                     <View>
                       <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
                       <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editing}/>
+                        onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editing} />
                     </View>
                   )
                 }
@@ -366,7 +366,7 @@ class CheckPhraScreen extends Component {
                   />
                 </View>
 
-                {this.props.profile.role != "admin" &&<View style={{ width: width / 2.5 }}>
+                {this.props.profile && this.props.profile.role != "admin" && <View style={{ width: width / 2.5 }}>
                   <RoundedButton
                     style={{ marginHorizontal: 10 }}
                     title={I18n.t('sendToAdmin')}

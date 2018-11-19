@@ -21,7 +21,7 @@ import { signin, signinWithCredential, signup, createUser, changePassword, forge
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion, getPublish, sharedAnswer, getLoginPromotion } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest } from './PaymentSagas'
-import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer } from './ExpertSagas'
+import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint } from './ExpertSagas'
 
 /* ------------- API ------------- */
 
@@ -73,5 +73,6 @@ export default function * root () {
     takeLatest(PaymentTypes.CARD_REQUEST, cardRequest, promotionApi),
     takeLatest(PromotionTypes.PUBLISH_REQUEST, getPublish, promotionApi),
     takeLatest(PromotionTypes.GET_LOGIN_PRO, getLoginPromotion, promotionApi),
+    takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi),
   ])
 }

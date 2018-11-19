@@ -39,6 +39,7 @@ class CheckPhraScreen extends Component {
       modalVisible: false,
       checkTrue1: false,
       checkTrue2: false,
+      checkTrue3: false,
       checkFalse: false,
       editing: true,
     }
@@ -78,12 +79,14 @@ class CheckPhraScreen extends Component {
     let tmp = []
     let pack = []
 
-    if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false) {
+    if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false && this.state.checkTrue3 == false) {
       tmp.push('พระแท้')
-    } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false) {
+    } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false && this.state.checkTrue3 == false) {
       tmp.push('พระแท้ย้อนยุค')
-    } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true) {
+    } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true && this.state.checkTrue3 == false) {
       tmp.push('พระไม่แท้')
+    } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
+      tmp.push('พระแท้ไม่รู้ที่')
     }
 
     if (this.state.answer2) {
@@ -114,7 +117,7 @@ class CheckPhraScreen extends Component {
           result: tmp[i] ? tmp[i] : ''
         })
       })
-      this.props.setAnswer(pack, this.props.data.id)
+      this.props.setAnswer(pack, this.props.data.id, this.state.answer4)
       this.setState({
         answer_other: null,
         answer1: null,
@@ -217,7 +220,7 @@ class CheckPhraScreen extends Component {
         }} resizeMode='contain' />
         <View style={{ flex: 1 }}>
 
-          <View style={{ flex: 0.4, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
+          <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
             <ImageViewer
               saveToLocalByLongPress={false}
               imageUrls={img2}
@@ -258,7 +261,7 @@ class CheckPhraScreen extends Component {
 
           </View>
 
-          <View style={{ flex: 0.6 }}>
+          <View style={{ flex: 0.63 }}>
             <ScrollView>
               <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question')} </Text>
@@ -275,6 +278,7 @@ class CheckPhraScreen extends Component {
                           this.setState({
                             checkTrue1: !this.state.checkTrue1,
                             checkTrue2: false,
+                            checkTrue3: false,
                             checkFalse: false,
                             editing: true,
                           })
@@ -290,6 +294,7 @@ class CheckPhraScreen extends Component {
                           this.setState({
                             checkTrue2: !this.state.checkTrue2,
                             checkTrue1: false,
+                            checkTrue3: false,
                             checkFalse: false,
                             editing: true,
                           })
@@ -300,12 +305,29 @@ class CheckPhraScreen extends Component {
                         checkBoxColor={Colors.brownText}
                       />
                       <CheckBox
+                        style={{ flex: 1, marginLeft: 15 }}
+                        onClick={() => {
+                          this.setState({
+                            checkTrue3: !this.state.checkTrue3,
+                            checkTrue1: false,
+                            checkTrue2: false,
+                            checkFalse: false,
+                            editing: true,
+                          })
+                        }}
+                        isChecked={this.state.checkTrue3}
+                        rightText={I18n.t('realPhranowhere')}
+                        rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
+                        checkBoxColor={Colors.brownText}
+                      />
+                      <CheckBox
                         style={{ flex: 1, marginLeft: 15, marginBottom: 5 }}
                         onClick={() => {
                           this.setState({
                             checkFalse: !this.state.checkFalse,
                             checkTrue1: false,
                             checkTrue2: false,
+                            checkTrue3: false,
                             editing: false,
                             answer2: null,
                             answer3: null,
@@ -316,6 +338,11 @@ class CheckPhraScreen extends Component {
                         rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
                         checkBoxColor={Colors.brownText}
                       />
+
+                      <Text style={{ marginLeft: 15 }}>{I18n.t('reason')}</Text>
+                      <TextInput key={i} value={this.state.answer4} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
+                        onChangeText={(text) => this.setState({ answer4: text })} />
+
                     </View>
                   )
                 } else if (e.question_detail == 'ราคาประเมินเช่าพระเครื่อง' || e.question_detail == 'ประเมินราคาพระ' || e.question_detail == 'Price amulet') {
@@ -403,7 +430,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setAnswer: (pack, q_id) => dispatch(ExpertActions.expertRequest(pack, q_id))
+    setAnswer: (pack, q_id, argument) => dispatch(ExpertActions.expertRequest(pack, q_id, argument))
   }
 }
 

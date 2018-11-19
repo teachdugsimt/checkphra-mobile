@@ -23,7 +23,7 @@ const { width } = Dimensions.get('window')
 let check = true
 let count = 1
 
-class AnswerOfAdmin2 extends Component {
+class Bit2 extends Component {
 
     constructor(props) {
         super(props)
@@ -121,7 +121,7 @@ class AnswerOfAdmin2 extends Component {
 
     componentDidMount() {
         this.props.data.answer.map((e, i) => {
-            if (this.props.data.argument) {
+            if(this.props.data.argument){
                 this.setState({ answer4: this.props.data.argument })
             }
             if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
@@ -151,20 +151,15 @@ class AnswerOfAdmin2 extends Component {
         this.props.data.images.map(e => {
             img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
         })
-        // let tmp1 = null
-        // let tmp2 = null
+        let tmp1 = null
+        let tmp2 = null
 
-        // if (this.props.data.answer[1]) {
-        //     tmp1 = this.props.data.answer[1].result
-        // }
-        // if (this.props.data.answer[2]) {
-        //     tmp2 = this.props.data.answer[2].result
-        // }
-        let tmp1 = this.props.data.answer[1] ? this.props.data.answer[1].result : null
-        let tmp2 = this.props.data.answer[2] ? this.props.data.answer[2].result : null
-        console.log(tmp1)
-        console.log(tmp2)
-        console.log('*******************************************')
+        if (this.props.data.answer[1]) {
+            tmp1 = this.props.data.answer[1].result
+        }
+        if (this.props.data.answer[2]) {
+            tmp2 = this.props.data.answer[2].result
+        }
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -221,6 +216,7 @@ class AnswerOfAdmin2 extends Component {
                         </View>
                         {this.props.data.answer.map((e, i) => {
                             if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
+                                // }
                                 return (
 
                                     <View style={{ marginLeft: 15 }}>
@@ -229,13 +225,13 @@ class AnswerOfAdmin2 extends Component {
                                             style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
                                             onClick={() => {
                                                 this.setState({
-                                                    checkTrue1: !this.state.checkTrue1,
-                                                    checkTrue2: false,
-                                                    checkTrue3: false,
-                                                    checkFalse: false,
-                                                    editing: true,
-                                                    answer2: tmp1,
-                                                    answer3: tmp2
+                                                    // checkTrue1: !this.state.checkTrue1,
+                                                    // checkTrue2: false,
+                                                    // checkTrue3: false,
+                                                    // checkFalse: false,
+                                                    // editing: true,
+                                                    // answer2: tmp1,
+                                                    // answer3: tmp2
                                                 })
                                             }}
                                             isChecked={this.state.checkTrue1}
@@ -247,13 +243,13 @@ class AnswerOfAdmin2 extends Component {
                                             style={{ flex: 1, marginLeft: 15 }}
                                             onClick={() => {
                                                 this.setState({
-                                                    checkTrue2: !this.state.checkTrue2,
-                                                    checkTrue1: false,
-                                                    checkTrue3: false,
-                                                    checkFalse: false,
-                                                    editing: true,
-                                                    answer2: tmp1,
-                                                    answer3: tmp2
+                                                    // checkTrue2: !this.state.checkTrue2,
+                                                    // checkTrue1: false,
+                                                    // checkTrue3: false,
+                                                    // checkFalse: false,
+                                                    // editing: true,
+                                                    // answer2: tmp1,
+                                                    // answer3: tmp2
                                                 })
                                             }}
                                             isChecked={this.state.checkTrue2}
@@ -265,13 +261,13 @@ class AnswerOfAdmin2 extends Component {
                                             style={{ flex: 1, marginLeft: 15 }}
                                             onClick={() => {
                                                 this.setState({
-                                                    checkTrue3: !this.state.checkTrue3,
-                                                    checkTrue1: false,
-                                                    checkTrue2: false,
-                                                    checkFalse: false,
-                                                    editing: true,
-                                                    answer2: tmp1,
-                                                    answer3: tmp2
+                                                    // checkTrue3: !this.state.checkTrue3,
+                                                    // checkTrue1: false,
+                                                    // checkTrue2: false,
+                                                    // checkFalse: false,
+                                                    // editing: true,
+                                                    // answer2: tmp1,
+                                                    // answer3: tmp2
                                                 })
                                             }}
                                             isChecked={this.state.checkTrue3}
@@ -283,13 +279,13 @@ class AnswerOfAdmin2 extends Component {
                                             style={{ flex: 1, marginLeft: 15, marginBottom: 5 }}
                                             onClick={() => {
                                                 this.setState({
-                                                    checkFalse: !this.state.checkFalse,
-                                                    checkTrue1: false,
-                                                    checkTrue2: false,
-                                                    checkTrue3: false,
-                                                    editing: false,
-                                                    answer2: "ไม่ออกผล",
-                                                    answer3: "ไม่ออกผล",
+                                                    // checkFalse: !this.state.checkFalse,
+                                                    // checkTrue1: false,
+                                                    // checkTrue2: false,
+                                                    // checkTrue3: false,
+                                                    // editing: false,
+                                                    // answer2: "ไม่ออกผล",
+                                                    // answer3: "ไม่ออกผล",
                                                 })
                                             }}
                                             isChecked={this.state.checkFalse}
@@ -299,7 +295,7 @@ class AnswerOfAdmin2 extends Component {
                                         />
                                         <Text style={{ marginLeft: 15 }}>{I18n.t('reason')}</Text>
                                         <TextInput key={i} value={this.state.answer4} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer4: text })} />
+                                            onChangeText={(text) => this.setState({ answer4: text })} editable={false}/>
                                     </View>
                                 )
                             } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
@@ -308,7 +304,7 @@ class AnswerOfAdmin2 extends Component {
                                     <View>
                                         <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
                                         <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editing} />
+                                            onChangeText={(text) => this.setState({ answer2: text })} editable={false} />
                                     </View>
                                 )
                             } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
@@ -317,7 +313,7 @@ class AnswerOfAdmin2 extends Component {
                                     <View>
                                         <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
                                         <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editing} />
+                                            onChangeText={(text) => this.setState({ answer3: text })} editable={false} />
                                     </View>
                                 )
                             }
@@ -326,7 +322,7 @@ class AnswerOfAdmin2 extends Component {
                                     <View>
                                         <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
                                         <TextInput key={i} value={this.state.answer_other} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer_other: text })} />
+                                            onChangeText={(text) => this.setState({ answer_other: text })} editable={false}/>
                                     </View>
                                 )
                             }
@@ -375,9 +371,9 @@ const mapDispatchToProps = (dispatch) => {
         //   getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
         //   deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
         //   setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
-        updateAnswer: (pack, q_id, argument) => dispatch(ExpertActions.updateAnswer(pack, q_id, argument)),
+        updateAnswer: (pack, q_id) => dispatch(ExpertActions.updateAnswer(pack, q_id)),
         getAnswer: (page) => dispatch(ExpertActions.answerList(page)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AnswerOfAdmin2)
+export default connect(mapStateToProps, mapDispatchToProps)(Bit2)

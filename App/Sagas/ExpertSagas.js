@@ -12,7 +12,7 @@
 import RoundedButton from "../Components/RoundedButton";
 
 import { call, put, select } from 'redux-saga/effects'
-import ExpertActions, { verifyRequest } from '../Redux/ExpertRedux'
+import ExpertActions, { verifyRequest, cancelCoin } from '../Redux/ExpertRedux'
 import { LinearGradient } from '../../node_modules/react-native-linear-gradient';
 // import { ExpertSelectors } from '../Redux/ExpertRedux'
 import I18n from '../I18n/i18n';
@@ -20,15 +20,15 @@ I18n.fallbacks = true;
 const auth = state => state.auth
 I18n.locale = auth.language
 
-export function* expertRequest(api, { pack, q_id }) {   //   for add ANSWER ONLY!!!!!!!
+export function* expertRequest(api, { pack, q_id, argument }) {   //   for add ANSWER ONLY!!!!!!!
   const aut = yield select(auth)
   if (!aut.user_id) { return }
-
+  // console.log(argument)
   // console.log(pack)
   // console.log(q_id)
   // console.log('SAGAS')
 
-  const response = yield call(api.addAnswer, pack, q_id, aut.user_id)
+  const response = yield call(api.addAnswer, pack, q_id, aut.user_id, argument)
   console.log(response)
   // success?
   if (response.ok) {
@@ -44,15 +44,16 @@ export function* expertRequest(api, { pack, q_id }) {   //   for add ANSWER ONLY
   }
 }
 
-export function* updateAnswer(api, { pack, q_id }) {   //   for UPDATE ANSWER ONLY!!!!!!!
+export function* updateAnswer(api, { pack, q_id, argument }) {   //   for UPDATE ANSWER ONLY!!!!!!!
   const aut = yield select(auth)
   if (!aut.user_id) { return }
 
-  console.log(pack)
-  console.log(q_id)
+  // console.log(pack)
+  // console.log(q_id)
+  console.log(argument)
   console.log('SAGAS UPDATE')
 
-  const response = yield call(api.updateAnswer, pack, q_id, aut.user_id)
+  const response = yield call(api.updateAnswer, pack, q_id, aut.user_id, argument)
   console.log(response)
   // success?
   if (response.ok) {
@@ -151,8 +152,8 @@ export function* getAnswerAdmin(api, { page }) {
       yield put(ExpertActions.answerFailure())
       yield put(ExpertActions.clearGetAnswer())
     }
-    
-  } 
+
+  }
   else {
 
     const data = {
@@ -171,5 +172,24 @@ export function* getAnswerAdmin(api, { page }) {
       yield put(ExpertActions.clearGetAnswer())
     }
 
+  }
+}
+
+export function* cancelPoint(api, { id }) {
+  const aut = yield select(auth)
+  
+  const data = {
+    user_id: aut.user_id,
+    transfer_id: id
+  }
+
+  const response = yield call(api.cancelCoin, data)
+  console.log(response)
+  if (response.ok) {
+    yield put(ExpertActions.cancelCoinSuccess(response.data))
+    alert(I18n.t('cancelSucc'))
+  } else {
+    yield put(ExpertActions.cancelCoinFailure())
+    alert(I18n.t('cancelFail'))
   }
 }

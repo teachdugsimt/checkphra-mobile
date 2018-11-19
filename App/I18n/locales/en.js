@@ -65,6 +65,9 @@ export default {
   realPhra: 'Real amulet',
   realPhraOld: 'Real previous amulet',
   fakePhra: 'Fake amulet',
+  realPhranowhere: 'Real amulet unknow place',
+  reason: 'Reason',
+  checkBy: 'Check by',
 
   pickImage: 'Pick your Images',
   frontSide: 'front',
@@ -152,6 +155,9 @@ export default {
   sendQuestionSuccess: 'Send question susscessful!!',
   sendQuestionFailure: 'Send question Failure!!',
   submit: 'Submit',
+  cancelCoin: 'Do you want to cancel this list ?',
+  cancelSucc: 'cancel success!!',
+  cancelFail: 'cancel failure',
 
   krungtepBanking: 'Bangkok Bank',
   krungthaiBanking: 'Krungthai Bank',
@@ -162,4 +168,6 @@ export default {
   thanaBanking: 'Thanachart Bank',
 
   cantEdit: 'You can not edit this answer ( None answer )',
+
+  bitPrice: 'Hire Amulet',
 }

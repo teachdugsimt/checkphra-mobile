@@ -20,6 +20,7 @@ import Icon2 from "react-native-vector-icons/FontAwesome";
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import I18n from '../I18n/i18n';
+import { setTime } from '../Redux/AuthRedux';
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // I18n.locale = "th";
@@ -128,19 +129,23 @@ class SendImageScreen extends Component {
 
       // if (chk2 == true) {
       nextProps.getProfile()
-      Alert.alert(
-        'Check Phra',
-        I18n.t('sendQuestionSuccess'),
-        [
-          {
-            text: I18n.t('ok'), onPress: () => {
-              nextProps.navigation.goBack()
-              nextProps.navigation.navigate('his')
+
+      setTimeout(() => {
+        Alert.alert(
+          'Check Phra',
+          I18n.t('sendQuestionSuccess'),
+          [
+            {
+              text: I18n.t('ok'), onPress: () => {
+                nextProps.navigation.goBack()
+                nextProps.navigation.navigate('his')
+              }
             }
-          }
-        ],
-        { cancelable: false }
-      )
+          ],
+          { cancelable: false }
+        )
+      }, 1000)
+
     }
 
     return {

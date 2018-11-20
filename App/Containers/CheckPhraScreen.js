@@ -42,6 +42,13 @@ class CheckPhraScreen extends Component {
       checkTrue3: false,
       checkFalse: false,
       editing: true,
+
+      editans1: false,
+      editans2: true,
+      editans3: true,
+      checkNone1: false,
+      checkNone2: false,
+      checkNone3: false,
     }
   }
 
@@ -87,6 +94,13 @@ class CheckPhraScreen extends Component {
       tmp.push('พระไม่แท้')
     } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
       tmp.push('พระแท้ไม่รู้ที่')
+    }
+
+    if (this.state.checkNone2 == true) {
+      this.setState({ answer2: null })
+    }
+    if (this.state.checkNone3 == true) {
+      this.setState({ answer3: null })
     }
 
     if (this.state.answer2) {
@@ -205,7 +219,6 @@ class CheckPhraScreen extends Component {
       img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
     })
 
-
     // console.log(this.props.data)
     // console.log("*****************************************")
     return (
@@ -271,9 +284,33 @@ class CheckPhraScreen extends Component {
                 if (e.question_detail == 'พระแท้ / ไม่แท้' || e.question_detail == 'พระแท้/ไม่แท้' || e.question_detail == 'Real amulet / Fake amulet') {
                   return (
                     <View style={{ marginLeft: 15, marginTop: 10 }}>
-                      <Text style={{}}>{I18n.t('trueFalse')}</Text>
+
+                      <View style={{ flexDirection: 'row', marginRight: 10 }}>
+                        <Text style={{}}>1) {I18n.t('trueFalse')}</Text>
+                        {/* disable question 1 */}
+                        <CheckBox
+                          style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                          onClick={() => {
+                            this.setState({
+                              checkNone1: !this.state.checkNone1,
+                              checkTrue1: false,
+                              checkTrue2: false,
+                              checkTrue3: false,
+                              checkFalse: false,
+                              editans1: !this.state.editans1,
+                              // editing: !this.state.editing,
+                            })
+                          }}
+                          isChecked={this.state.checkNone1}
+                          rightText={I18n.t('noneAnswer')}
+                          rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                          checkBoxColor={Colors.brownText}
+                        />
+                        {/* disable question 1 */}
+                      </View>
+
                       <CheckBox
-                        style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
+                        style={{ flex: 1, marginLeft: 15, marginTop: -5 }}
                         onClick={() => {
                           this.setState({
                             checkTrue1: !this.state.checkTrue1,
@@ -283,6 +320,7 @@ class CheckPhraScreen extends Component {
                             editing: true,
                           })
                         }}
+                        disabled={this.state.editans1}
                         isChecked={this.state.checkTrue1}
                         rightText={I18n.t('realPhra')}
                         rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
@@ -299,6 +337,7 @@ class CheckPhraScreen extends Component {
                             editing: true,
                           })
                         }}
+                        disabled={this.state.editans1}
                         isChecked={this.state.checkTrue2}
                         rightText={I18n.t('realPhraOld')}
                         rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
@@ -315,6 +354,7 @@ class CheckPhraScreen extends Component {
                             editing: true,
                           })
                         }}
+                        disabled={this.state.editans1}
                         isChecked={this.state.checkTrue3}
                         rightText={I18n.t('realPhranowhere')}
                         rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
@@ -328,11 +368,16 @@ class CheckPhraScreen extends Component {
                             checkTrue1: false,
                             checkTrue2: false,
                             checkTrue3: false,
-                            editing: false,
+                            editing: !this.state.editing,  // ควบคุม checkBox2 - checkBox3
                             answer2: null,
                             answer3: null,
+                            checkNone2: true,  // check none 2
+                            checkNone3: true,  // check none 3
+                            editans2: false,  // ควบคุม textInput 2
+                            editans3: false  // ควบคุม textInput 3
                           })
                         }}
+                        disabled={this.state.editans1}
                         isChecked={this.state.checkFalse}
                         rightText={I18n.t('fakePhra')}
                         rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
@@ -348,17 +393,78 @@ class CheckPhraScreen extends Component {
                 } else if (e.question_detail == 'ราคาประเมินเช่าพระเครื่อง' || e.question_detail == 'ประเมินราคาพระ' || e.question_detail == 'Price amulet') {
                   return (
                     <View>
-                      <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
-                      <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editing} />
+                      <View style={{ flexDirection: 'row' }}>
+
+                        <Text style={{ marginLeft: 15 }}>2) {I18n.t('pricePhra')}</Text>
+                        {/* disable question 2 */}
+                        <CheckBox
+                          style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                          onClick={() => {
+                            this.setState({
+                              checkNone2: !this.state.checkNone2,
+                              editans2: !this.state.editans2,
+                            })
+                          }}
+                          disabled={!this.state.editing}
+                          isChecked={this.state.checkNone2}
+                          rightText={I18n.t('noneAnswer')}
+                          rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                          checkBoxColor={Colors.brownText}
+                        />
+                        {/* disable question 2 */}
+                      </View>
+
+                      <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
+                        // onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editing} />
+                        onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editans2} />
                     </View>
                   )
                 } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation') {
                   return (
                     <View>
-                      <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
-                      <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editing} />
+                      {this.props.language && this.props.language == 'th' && <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
+                        {/* disable question 3 */}
+                        <CheckBox
+                          style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                          onClick={() => {
+                            this.setState({
+                              checkNone3: !this.state.checkNone3,
+                              editans3: !this.state.editans3,
+                            })
+                          }}
+                          disabled={!this.state.editing}
+                          isChecked={this.state.checkNone3}
+                          rightText={I18n.t('noneAnswer')}
+                          rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                          checkBoxColor={Colors.brownText}
+                        />
+                        {/* disable question 3 */}
+                      </View>}
+
+                      {this.props.language && this.props.language == 'en' && <View style={{  }}>
+                        <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
+                        {/* disable question 3 */}
+                        <CheckBox
+                          style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                          onClick={() => {
+                            this.setState({
+                              checkNone3: !this.state.checkNone3,
+                              editans3: !this.state.editans3,
+                            })
+                          }}
+                          disabled={!this.state.editing}
+                          isChecked={this.state.checkNone3}
+                          rightText={I18n.t('noneAnswer')}
+                          rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                          checkBoxColor={Colors.brownText}
+                        />
+                        {/* disable question 3 */}
+                      </View>}
+
+
+                      <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
+                        onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} />
                     </View>
                   )
                 }
@@ -384,14 +490,14 @@ class CheckPhraScreen extends Component {
               </View>
 
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: width, paddingTop: 15 }}>
-                <View style={{ width: width / 2.5 }}>
+                {/* <View style={{ width: width / 2.5 }}>
                   <RoundedButton
                     style={{ marginHorizontal: 10 }}
                     title={I18n.t('noneAnswer')}
                     onPress={this._onPressNotanswer}
                     fetching={this.props.fetching}
                   />
-                </View>
+                </View> */}
 
                 {this.props.profile && this.props.profile.role != "admin" && <View style={{ width: width / 2.5 }}>
                   <RoundedButton

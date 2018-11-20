@@ -86,65 +86,79 @@ class CheckPhraScreen extends Component {
     let tmp = []
     let pack = []
 
-    if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false && this.state.checkTrue3 == false) {
-      tmp.push('พระแท้')
-    } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false && this.state.checkTrue3 == false) {
-      tmp.push('พระแท้ย้อนยุค')
-    } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true && this.state.checkTrue3 == false) {
-      tmp.push('พระไม่แท้')
-    } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
-      tmp.push('พระแท้ไม่รู้ที่')
-    }
-
-    if (this.state.checkNone2 == true) {
-      this.setState({ answer2: null })
-    }
-    if (this.state.checkNone3 == true) {
-      this.setState({ answer3: null })
-    }
-
-    if (this.state.answer2) {
-      tmp.push(this.state.answer2)
-    }
-    if (this.state.answer3) {
-      tmp.push(this.state.answer3)
-    }
-    if (this.state.answer_other) {
-      tmp.push(this.state.answer_other)
-    }
-
-    if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-      alert('Please choose one answer in check box')
-    } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-      alert('Please choose one answer in check box')
-    } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-      alert('Please choose one answer in check box')
-    } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
-      alert('Please choose one answer in check box')
-    } else if (tmp.length == 0) {
-      alert('Please answer one question')
+    if (this.state.checkNone1 == true && this.state.checkNone2 == true && this.state.checkNone3 == true) {
+      this._onPressNotanswer()
     } else {
+      // ตรวจสอบ กล่องเช็ค ว่าถ้าไม่ตอบแล้วต้องติ้ก กล่องเช็ค ไม่งั้นจะเด้งแจ้งเตือนนะ
+      if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkTrue3 == false && this.state.checkFalse == false && this.state.checkNone1 == false) {
+        alert('answer question 1')
+      } else if (this.state.checkNone2 == false && !this.state.answer2) {
+        alert('answer question 2')
+      } else if (this.state.checkNone3 == false && !this.state.answer3) {
+        alert('answer question 3')
+      } else {
 
-      this.state.question.map((e, i) => {
-        pack.push({
-          id: e.id,
-          result: tmp[i] ? tmp[i] : ''
-        })
-      })
-      this.props.setAnswer(pack, this.props.data.id, this.state.answer4)
-      this.setState({
-        answer_other: null,
-        answer1: null,
-        answer2: null,
-        answer3: null,
-        answer4: null,
-        answer5: null,
-        index: 0,
-        modalVisible: false,
-      })
-      this.props.navigation.goBack()
+
+
+
+        if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false && this.state.checkTrue3 == false) {
+          tmp.push('พระแท้')
+        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false && this.state.checkTrue3 == false) {
+          tmp.push('พระแท้ย้อนยุค')
+        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true && this.state.checkTrue3 == false) {
+          tmp.push('พระไม่แท้')
+        } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
+          tmp.push('พระแท้ไม่รู้ที่')
+        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkTrue3 == false && this.state.checkFalse == false) {
+          tmp.push(null)
+        }
+
+
+        // if (this.state.checkNone2 == true) {
+        //   this.setState({ answer2: null })
+        // }
+        // if (this.state.checkNone3 == true) {
+        //   this.setState({ answer3: null })
+        // }
+
+        if (this.state.answer2) {
+          tmp.push(this.state.answer2)
+        }
+        if (this.state.answer3) {
+          tmp.push(this.state.answer3)
+        }
+        if (this.state.answer_other) {
+          tmp.push(this.state.answer_other)
+        }
+
+        if (tmp.length == 0) {
+          alert(I18n.t('atLeast'))
+        } else {
+
+          this.state.question.map((e, i) => {
+            pack.push({
+              id: e.id,
+              result: tmp[i] ? tmp[i] : ''
+            })
+          })
+          this.props.setAnswer(pack, this.props.data.id, this.state.answer4)
+          this.setState({
+            answer_other: null,
+            answer1: null,
+            answer2: null,
+            answer3: null,
+            answer4: null,
+            answer5: null,
+            index: 0,
+            modalVisible: false,
+          })
+          this.props.navigation.goBack()
+        }
+
+      }
+
+
     }
-    // console.log(pack)
   }
 
   _onPressImage = (obj) => {
@@ -159,7 +173,7 @@ class CheckPhraScreen extends Component {
       [
         {
           text: I18n.t('ok'), onPress: () => {
-            this.props.setAnswer(pack, this.props.data.id)
+            this.props.setAnswer(pack, this.props.data.id, this.state.answer4)
             this.setState({
               answer_other: null,
               answer1: null,
@@ -403,6 +417,7 @@ class CheckPhraScreen extends Component {
                             this.setState({
                               checkNone2: !this.state.checkNone2,
                               editans2: !this.state.editans2,
+                              answer2: null,
                             })
                           }}
                           disabled={!this.state.editing}
@@ -419,10 +434,10 @@ class CheckPhraScreen extends Component {
                         onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editans2} />
                     </View>
                   )
-                } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation') {
+                } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation') {
                   return (
                     <View>
-                      {this.props.language && this.props.language == 'th' && <View style={{ flexDirection: 'row' }}>
+                      {this.props.language && this.props.language == 'th' && <View><View style={{ flexDirection: 'row' }}>
                         <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
                         {/* disable question 3 */}
                         <CheckBox
@@ -431,6 +446,7 @@ class CheckPhraScreen extends Component {
                             this.setState({
                               checkNone3: !this.state.checkNone3,
                               editans3: !this.state.editans3,
+                              answer3: null,
                             })
                           }}
                           disabled={!this.state.editing}
@@ -440,9 +456,12 @@ class CheckPhraScreen extends Component {
                           checkBoxColor={Colors.brownText}
                         />
                         {/* disable question 3 */}
-                      </View>}
 
-                      {this.props.language && this.props.language == 'en' && <View style={{  }}>
+                      </View>
+                        <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
+                          onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} /></View>}
+
+                      {this.props.language && (this.props.language == 'en' || this.props.language == 'en-US') && <View style={{}}>
                         <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
                         {/* disable question 3 */}
                         <CheckBox
@@ -451,6 +470,7 @@ class CheckPhraScreen extends Component {
                             this.setState({
                               checkNone3: !this.state.checkNone3,
                               editans3: !this.state.editans3,
+                              answer3: null,
                             })
                           }}
                           disabled={!this.state.editing}
@@ -460,23 +480,22 @@ class CheckPhraScreen extends Component {
                           checkBoxColor={Colors.brownText}
                         />
                         {/* disable question 3 */}
+                        <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
+                          onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} />
                       </View>}
 
-
-                      <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
-                        onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} />
                     </View>
                   )
                 }
-                else {
-                  return (
-                    <View>
-                      <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                      <TextInput key={i} value={this.state.answer_other} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer_other: text })} />
-                    </View>
-                  )
-                }
+                // else {
+                //   return (
+                //     <View>
+                //       <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
+                //       <TextInput key={i} value={this.state.answer_other} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
+                //         onChangeText={(text) => this.setState({ answer_other: text })} />
+                //     </View>
+                //   )
+                // }
 
               })}
 

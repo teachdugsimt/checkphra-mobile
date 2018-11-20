@@ -158,6 +158,7 @@ export default {
   cancelCoin: 'Do you want to cancel this list ?',
   cancelSucc: 'cancel success!!',
   cancelFail: 'cancel failure',
+  atLeast: 'Please answer at least one question',
 
   krungtepBanking: 'Bangkok Bank',
   krungthaiBanking: 'Krungthai Bank',

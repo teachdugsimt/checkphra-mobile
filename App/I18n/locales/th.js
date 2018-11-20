@@ -159,6 +159,7 @@ export default {
   cancelCoin: 'คุณต้องการยกเลิกรายการนี้ ?',
   cancelSucc: 'ยกเลิกสำเร็จ',
   cancelFail: 'ยกเลิกล้มเหลว',
+  atLeast: 'โปรดตอบคำถามอย่างน้อย 1 ข้อ',
 
   krungtepBanking: 'ธนาคารกรุงเทพ',
   krungthaiBanking: 'ธนาคารกรุงไทย',

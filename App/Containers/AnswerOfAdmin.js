@@ -206,24 +206,24 @@ class AnswerOfAdmin extends Component {
                             name = I18n.t('otherOrUnknown')
                         }
 
-                        let count = 0
-                        item.answer.map(e => {
-                            if (e.result == 'ไม่ออกผล') {
-                                count++
-                            }
-                        })
+                        // let count = 0
+                        // item.answer.map(e => {
+                        //     if (e.result == 'ไม่ออกผล') {
+                        //         count++
+                        //     }
+                        // })
 
 
 
                         return (
                             <TouchableOpacity onPress={() => {
-                                if (count == item.answer.length) {
-                                    alert(I18n.t('cantEdit'))
-                                } else {
+                                // if (count == item.answer.length) {
+                                //     alert(I18n.t('cantEdit'))
+                                // } else {
                                     // check = true
                                     this.props.setAnswerDetail(item)
                                     this.props.navigation.navigate('detail')
-                                }
+                                // }
 
                             }
                             }>

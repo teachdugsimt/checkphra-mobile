@@ -43,6 +43,9 @@ class AnswerOfAdmin2 extends Component {
             checkFalse: false,
             spinner: false,
             editing: true,
+            checkans1: false,
+            checkans2: true,
+            checkans3: true,
         }
     }
 
@@ -67,6 +70,8 @@ class AnswerOfAdmin2 extends Component {
             tmp.push('พระไม่แท้')
         } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
             tmp.push('พระแท้ไม่รู้ที่')
+        } else if (this.state.checkTrue3 == false && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false){
+            tmp.push(null)
         }
 
         if (this.state.answer2) {
@@ -79,15 +84,8 @@ class AnswerOfAdmin2 extends Component {
             tmp.push(this.state.answer_other)
         }
 
-        if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-            alert('Please choose one answer in check box')
-        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-            alert('Please choose one answer in check box')
-        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-            alert('Please choose one answer in check box')
-        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
-            alert('Please choose one answer in check box')
-        } else if (tmp.length == 0) {
+       
+        if (tmp.length == 0) {
             alert('Please answer one question')
         } else {
 
@@ -125,19 +123,31 @@ class AnswerOfAdmin2 extends Component {
                 this.setState({ answer4: this.props.data.argument })
             }
             if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
-                if (e.result == 'พระแท้ย้อนยุค') {
-                    this.setState({ checkTrue1: false, checkTrue2: true, checkTrue3: false, checkFalse: false })
-                } else if (e.result == 'พระแท้') {
-                    this.setState({ checkTrue1: true, checkTrue2: false, checkTrue3: false, checkFalse: false })
-                } else if (e.result == 'พระไม่แท้') {
-                    this.setState({ checkTrue1: false, checkTrue2: false, checkTrue3: false, checkFalse: true })
-                } else if (e.result == 'พระแท้ไม่รู้ที่') {
-                    this.setState({ checkTrue1: false, checkTrue2: false, checkTrue3: true, checkFalse: false })
+                if (e.result == 'ไม่ออกผล'|| e.result == ''|| e.result == "" || !e.result ) {
+                    this.setState({ checkans1: true })
+                } else {
+                    if (e.result == 'พระแท้ย้อนยุค') {
+                        this.setState({ checkTrue1: false, checkTrue2: true, checkTrue3: false, checkFalse: false })
+                    } else if (e.result == 'พระแท้') {
+                        this.setState({ checkTrue1: true, checkTrue2: false, checkTrue3: false, checkFalse: false })
+                    } else if (e.result == 'พระไม่แท้') {
+                        this.setState({ checkTrue1: false, checkTrue2: false, checkTrue3: false, checkFalse: true })
+                    } else if (e.result == 'พระแท้ไม่รู้ที่') {
+                        this.setState({ checkTrue1: false, checkTrue2: false, checkTrue3: true, checkFalse: false })
+                    }
                 }
             } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
-                this.setState({ answer2: e.result })
+                if (e.result == 'ไม่ออกผล') {
+                    this.setState({ checkans2: false, answer2: 'ไม่ออกผล' })
+                } else {
+                    this.setState({ answer2: e.result })
+                }
             } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
-                this.setState({ answer3: e.result })
+                if (e.result == 'ไม่ออกผล') {
+                    this.setState({ checkans3: false, answer3: 'ไม่ออกผล' })
+                } else {
+                    this.setState({ answer3: e.result })
+                }
             }
         })
 
@@ -238,6 +248,7 @@ class AnswerOfAdmin2 extends Component {
                                                     answer3: tmp2
                                                 })
                                             }}
+                                            disabled={this.state.checkans1}
                                             isChecked={this.state.checkTrue1}
                                             rightText={I18n.t('realPhra')}
                                             rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
@@ -256,6 +267,7 @@ class AnswerOfAdmin2 extends Component {
                                                     answer3: tmp2
                                                 })
                                             }}
+                                            disabled={this.state.checkans1}
                                             isChecked={this.state.checkTrue2}
                                             rightText={I18n.t('realPhraOld')}
                                             rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
@@ -274,6 +286,7 @@ class AnswerOfAdmin2 extends Component {
                                                     answer3: tmp2
                                                 })
                                             }}
+                                            disabled={this.state.checkans1}
                                             isChecked={this.state.checkTrue3}
                                             rightText={I18n.t('realPhranowhere')}
                                             rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
@@ -292,6 +305,7 @@ class AnswerOfAdmin2 extends Component {
                                                     answer3: "ไม่ออกผล",
                                                 })
                                             }}
+                                            disabled={this.state.checkans1}
                                             isChecked={this.state.checkFalse}
                                             rightText={I18n.t('fakePhra')}
                                             rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
@@ -308,7 +322,7 @@ class AnswerOfAdmin2 extends Component {
                                     <View>
                                         <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
                                         <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editing} />
+                                            onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.checkans2} />
                                     </View>
                                 )
                             } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
@@ -317,7 +331,7 @@ class AnswerOfAdmin2 extends Component {
                                     <View>
                                         <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
                                         <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editing} />
+                                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.checkans3} />
                                     </View>
                                 )
                             }

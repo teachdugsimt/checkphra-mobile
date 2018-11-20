@@ -20,7 +20,7 @@ const { width } = Dimensions.get('window')
 let check = true
 let count = 1
 
-class AnswerOfAdmin extends Component {
+class Bit extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -35,7 +35,7 @@ class AnswerOfAdmin extends Component {
         // console.log(I18n.locale)
 
         return {
-            title: I18n.t('adminAnswer'),
+            title: I18n.t('bitPrice'),
         }
     }
 
@@ -142,7 +142,7 @@ class AnswerOfAdmin extends Component {
                     renderItem={({ item }) => {
                         let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
                         // let status = 'รอตรวจ'
-                        let color = 'orange'
+                        let color = 'green'
                         if (item.status == 'success') {
                             status = 'ตรวจแล้ว'
                             color = 'green'
@@ -206,24 +206,24 @@ class AnswerOfAdmin extends Component {
                             name = I18n.t('otherOrUnknown')
                         }
 
-                        // let count = 0
-                        // item.answer.map(e => {
-                        //     if (e.result == 'ไม่ออกผล') {
-                        //         count++
-                        //     }
-                        // })
+                        let count = 0
+                        item.answer.map(e => {
+                            if (e.result == 'ไม่ออกผล') {
+                                count++
+                            }
+                        })
 
 
 
                         return (
                             <TouchableOpacity onPress={() => {
-                                // if (count == item.answer.length) {
-                                //     alert(I18n.t('cantEdit'))
-                                // } else {
+                                if (count == item.answer.length) {
+                                    alert(I18n.t('cantEdit'))
+                                } else {
                                     // check = true
                                     this.props.setAnswerDetail(item)
-                                    this.props.navigation.navigate('detail')
-                                // }
+                                    this.props.navigation.navigate('bit2')
+                                }
 
                             }
                             }>
@@ -263,7 +263,7 @@ class AnswerOfAdmin extends Component {
                                         borderRadius: 15,
                                         height: 30,
                                         backgroundColor: color
-                                    }}>{I18n.t('edit')}</Text>
+                                    }}>{I18n.t('bitPrice')}</Text>
 
                                 </View>
                             </TouchableOpacity>
@@ -300,4 +300,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AnswerOfAdmin)
+export default connect(mapStateToProps, mapDispatchToProps)(Bit)

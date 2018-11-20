@@ -74,8 +74,8 @@ const create = (baseURL = b) => {
   const getProfile = (data) => api.get('user/profile', data)
   const cancelQuestion = (data) => api.get('question/cancel', data)
 
-  const addAnswer = (pack, q_id, user_id) => api.post('answer/check', { answer: pack, question_id: q_id, user_id })
-  const updateAnswer = (pack, q_id, user_id) => api.post('answer/update-answer', { answer: pack, qid: q_id, user_id })
+  const addAnswer = (pack, q_id, user_id, argument) => api.post('answer/check', { answer: pack, question_id: q_id, user_id, argument })
+  const updateAnswer = (pack, q_id, user_id, argument) => api.post('answer/update-answer', { answer: pack, qid: q_id, user_id, argument })
 
   // const moneyTransfer = (user_id, price, bank, date, file, types) => {
   //   let body = new FormData()

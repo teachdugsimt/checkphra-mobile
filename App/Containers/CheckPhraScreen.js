@@ -39,8 +39,16 @@ class CheckPhraScreen extends Component {
       modalVisible: false,
       checkTrue1: false,
       checkTrue2: false,
+      checkTrue3: false,
       checkFalse: false,
       editing: true,
+
+      editans1: false,
+      editans2: true,
+      editans3: true,
+      checkNone1: false,
+      checkNone2: false,
+      checkNone3: false,
     }
   }
 
@@ -78,56 +86,88 @@ class CheckPhraScreen extends Component {
     let tmp = []
     let pack = []
 
-    if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false) {
-      tmp.push('พระแท้')
-    } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-      tmp.push('พระแท้ย้อนยุค')
-    } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true) {
-      tmp.push('พระไม่แท้')
-    }
-
-    if (this.state.answer2) {
-      tmp.push(this.state.answer2)
-    }
-    if (this.state.answer3) {
-      tmp.push(this.state.answer3)
-    }
-    if (this.state.answer_other) {
-      tmp.push(this.state.answer_other)
-    }
-
-    if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-      alert('Please choose one answer in check box')
-    } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-      alert('Please choose one answer in check box')
-    } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-      alert('Please choose one answer in check box')
-    } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
-      alert('Please choose one answer in check box')
-    } else if (tmp.length == 0) {
-      alert('Please answer one question')
+    if (this.state.checkNone1 == true && this.state.checkNone2 == true && this.state.checkNone3 == true) {
+      this._onPressNotanswer()
     } else {
+      // console.log(this.props.data.question_list)
+      let qlist = this.props.data && this.props.data.question_list ? this.props.data.question_list.map(e => e.question) : []
+      console.log(qlist)
+      // ตรวจสอบ กล่องเช็ค ว่าถ้าไม่ตอบแล้วต้องติ้ก กล่องเช็ค ไม่งั้นจะเด้งแจ้งเตือนนะ
+      if (
+        this.state.checkTrue1 == false && this.state.checkTrue2 == false &&
+        this.state.checkTrue3 == false && this.state.checkFalse == false &&
+        this.state.checkNone1 == false && qlist.includes(1)) {
+        console.log('error 1')
+        alert(I18n.t('pleaseAnswerQuestion'))
+      } else if (this.state.checkNone2 == false && !this.state.answer2 && qlist.includes(2)) {
+        console.log('error 2')
+        alert(I18n.t('pleaseAnswerQuestion'))
+      } else if (this.state.checkNone3 == false && !this.state.answer3 && qlist.includes(3)) {
+        console.log('error 3')
+        alert(I18n.t('pleaseAnswerQuestion'))
+      } else {
 
-      this.state.question.map((e, i) => {
-        pack.push({
-          id: e.id,
-          result: tmp[i] ? tmp[i] : ''
-        })
-      })
-      this.props.setAnswer(pack, this.props.data.id)
-      this.setState({
-        answer_other: null,
-        answer1: null,
-        answer2: null,
-        answer3: null,
-        answer4: null,
-        answer5: null,
-        index: 0,
-        modalVisible: false,
-      })
-      this.props.navigation.goBack()
+
+
+
+        if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false && this.state.checkTrue3 == false) {
+          tmp.push('พระแท้')
+        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false && this.state.checkTrue3 == false) {
+          tmp.push('พระแท้ย้อนยุค')
+        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true && this.state.checkTrue3 == false) {
+          tmp.push('พระไม่แท้')
+        } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
+          tmp.push('พระแท้ไม่รู้ที่')
+        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkTrue3 == false && this.state.checkFalse == false) {
+          tmp.push(null)
+        }
+
+
+        // if (this.state.checkNone2 == true) {
+        //   this.setState({ answer2: null })
+        // }
+        // if (this.state.checkNone3 == true) {
+        //   this.setState({ answer3: null })
+        // }
+
+        if (this.state.answer2) {
+          tmp.push(this.state.answer2)
+        }
+        if (this.state.answer3) {
+          tmp.push(this.state.answer3)
+        }
+        if (this.state.answer_other) {
+          tmp.push(this.state.answer_other)
+        }
+
+        if (tmp.length == 0) {
+          alert(I18n.t('atLeast'))
+        } else {
+
+          this.state.question.map((e, i) => {
+            pack.push({
+              id: e.id,
+              result: tmp[i] ? tmp[i] : ''
+            })
+          })
+          this.props.setAnswer(pack, this.props.data.id, this.state.answer4)
+          this.setState({
+            answer_other: null,
+            answer1: null,
+            answer2: null,
+            answer3: null,
+            answer4: null,
+            answer5: null,
+            index: 0,
+            modalVisible: false,
+          })
+          this.props.navigation.goBack()
+        }
+
+      }
+
+
     }
-    // console.log(pack)
   }
 
   _onPressImage = (obj) => {
@@ -142,7 +182,7 @@ class CheckPhraScreen extends Component {
       [
         {
           text: I18n.t('ok'), onPress: () => {
-            this.props.setAnswer(pack, this.props.data.id)
+            this.props.setAnswer(pack, this.props.data.id, this.state.answer4)
             this.setState({
               answer_other: null,
               answer1: null,
@@ -201,8 +241,7 @@ class CheckPhraScreen extends Component {
     this.props.data.images.map(e => {
       img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
     })
-    
-    
+
     // console.log(this.props.data)
     // console.log("*****************************************")
     return (
@@ -217,7 +256,7 @@ class CheckPhraScreen extends Component {
         }} resizeMode='contain' />
         <View style={{ flex: 1 }}>
 
-          <View style={{ flex: 0.4, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
+          <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
             <ImageViewer
               saveToLocalByLongPress={false}
               imageUrls={img2}
@@ -258,27 +297,56 @@ class CheckPhraScreen extends Component {
 
           </View>
 
-          <View style={{ flex: 0.6 }}>
+          <View style={{ flex: 0.63 }}>
             <ScrollView>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question')} </Text>
-                <Text style={{ marginTop: 14, fontSize: 16 }}>( {this.props.data.email} )</Text>
+                <Text style={{ fontSize: 16 }}> {this.props.data.email} </Text>
               </View>
               {this.props.data.question_list.map((e, i) => {
-                if (e.question_detail == 'พระแท้ / ไม่แท้' || e.question_detail == 'พระแท้/ไม่แท้' || e.question_detail == 'Real amulet / Fake amulet') {
+                if (
+                  // e.question_detail == 'พระแท้ / ไม่แท้' || e.question_detail == 'พระแท้/ไม่แท้' || e.question_detail == 'Real amulet / Fake amulet'
+                  e.question == 1
+                ) {
                   return (
-                    <View style={{ marginLeft: 15 }}>
-                      <Text style={{}}>{I18n.t('trueFalse')}</Text>
+                    <View style={{ marginLeft: 15, marginTop: 10 }}>
+
+                      <View style={{ flexDirection: 'row', marginRight: 10 }}>
+                        <Text style={{}}>1) {I18n.t('trueFalse')}</Text>
+                        {/* disable question 1 */}
+                        <CheckBox
+                          style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                          onClick={() => {
+                            this.setState({
+                              checkNone1: !this.state.checkNone1,
+                              checkTrue1: false,
+                              checkTrue2: false,
+                              checkTrue3: false,
+                              checkFalse: false,
+                              editans1: !this.state.editans1,
+                              // editing: !this.state.editing,
+                            })
+                          }}
+                          isChecked={this.state.checkNone1}
+                          rightText={I18n.t('noneAnswer')}
+                          rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                          checkBoxColor={Colors.brownText}
+                        />
+                        {/* disable question 1 */}
+                      </View>
+
                       <CheckBox
-                        style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
+                        style={{ flex: 1, marginLeft: 15, marginTop: -5 }}
                         onClick={() => {
                           this.setState({
                             checkTrue1: !this.state.checkTrue1,
                             checkTrue2: false,
+                            checkTrue3: false,
                             checkFalse: false,
                             editing: true,
                           })
                         }}
+                        disabled={this.state.editans1}
                         isChecked={this.state.checkTrue1}
                         rightText={I18n.t('realPhra')}
                         rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
@@ -290,12 +358,31 @@ class CheckPhraScreen extends Component {
                           this.setState({
                             checkTrue2: !this.state.checkTrue2,
                             checkTrue1: false,
+                            checkTrue3: false,
                             checkFalse: false,
                             editing: true,
                           })
                         }}
+                        disabled={this.state.editans1}
                         isChecked={this.state.checkTrue2}
                         rightText={I18n.t('realPhraOld')}
+                        rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
+                        checkBoxColor={Colors.brownText}
+                      />
+                      <CheckBox
+                        style={{ flex: 1, marginLeft: 15 }}
+                        onClick={() => {
+                          this.setState({
+                            checkTrue3: !this.state.checkTrue3,
+                            checkTrue1: false,
+                            checkTrue2: false,
+                            checkFalse: false,
+                            editing: true,
+                          })
+                        }}
+                        disabled={this.state.editans1}
+                        isChecked={this.state.checkTrue3}
+                        rightText={I18n.t('realPhranowhere')}
                         rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
                         checkBoxColor={Colors.brownText}
                       />
@@ -306,44 +393,130 @@ class CheckPhraScreen extends Component {
                             checkFalse: !this.state.checkFalse,
                             checkTrue1: false,
                             checkTrue2: false,
-                            editing: false,
+                            checkTrue3: false,
+                            editing: !this.state.editing,  // ควบคุม checkBox2 - checkBox3
                             answer2: null,
                             answer3: null,
+                            checkNone2: true,  // check none 2
+                            checkNone3: true,  // check none 3
+                            editans2: false,  // ควบคุม textInput 2
+                            editans3: false  // ควบคุม textInput 3
                           })
                         }}
+                        disabled={this.state.editans1}
                         isChecked={this.state.checkFalse}
                         rightText={I18n.t('fakePhra')}
                         rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
                         checkBoxColor={Colors.brownText}
                       />
+
+                      <Text style={{ marginLeft: 15 }}>{I18n.t('reason')}</Text>
+                      <TextInput key={i} value={this.state.answer4} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
+                        onChangeText={(text) => this.setState({ answer4: text })} />
+
                     </View>
                   )
-                } else if (e.question_detail == 'ราคาประเมินเช่าพระเครื่อง' || e.question_detail == 'ประเมินราคาพระ' || e.question_detail == 'Price amulet') {
+                } else if (
+                  // e.question_detail == 'ราคาประเมินเช่าพระเครื่อง' || e.question_detail == 'ประเมินราคาพระ' || e.question_detail == 'Price amulet'
+                  e.question == 2
+                ) {
                   return (
                     <View>
-                      <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
-                      <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editing}/>
+                      <View style={{ flexDirection: 'row' }}>
+
+                        <Text style={{ marginLeft: 15 }}>2) {I18n.t('pricePhra')}</Text>
+                        {/* disable question 2 */}
+                        <CheckBox
+                          style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                          onClick={() => {
+                            this.setState({
+                              checkNone2: !this.state.checkNone2,
+                              editans2: !this.state.editans2,
+                              answer2: null,
+                            })
+                          }}
+                          disabled={!this.state.editing}
+                          isChecked={this.state.checkNone2}
+                          rightText={I18n.t('noneAnswer')}
+                          rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                          checkBoxColor={Colors.brownText}
+                        />
+                        {/* disable question 2 */}
+                      </View>
+
+                      <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
+                        // onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editing} />
+                        onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.editans2} />
                     </View>
                   )
-                } else if (e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation') {
+                } else if (
+                  // e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation'
+                  e.question == 3
+                ) {
                   return (
                     <View>
-                      <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
-                      <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editing}/>
+                      {
+                        // this.props.language && this.props.language == 'th' &&
+                        <View><View style={{ flexDirection: 'row' }}>
+                          <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
+                          {/* disable question 3 */}
+                          <CheckBox
+                            style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                            onClick={() => {
+                              this.setState({
+                                checkNone3: !this.state.checkNone3,
+                                editans3: !this.state.editans3,
+                                answer3: null,
+                              })
+                            }}
+                            disabled={!this.state.editing}
+                            isChecked={this.state.checkNone3}
+                            rightText={I18n.t('noneAnswer')}
+                            rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                            checkBoxColor={Colors.brownText}
+                          />
+                          {/* disable question 3 */}
+
+                        </View>
+                          <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
+                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} /></View>
+                      }
+
+                      {this.props.language && (this.props.language == 'en' || this.props.language == 'en-US') && <View style={{}}>
+                        <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
+                        {/* disable question 3 */}
+                        <CheckBox
+                          style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                          onClick={() => {
+                            this.setState({
+                              checkNone3: !this.state.checkNone3,
+                              editans3: !this.state.editans3,
+                              answer3: null,
+                            })
+                          }}
+                          disabled={!this.state.editing}
+                          isChecked={this.state.checkNone3}
+                          rightText={I18n.t('noneAnswer')}
+                          rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                          checkBoxColor={Colors.brownText}
+                        />
+                        {/* disable question 3 */}
+                        <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
+                          onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} />
+                      </View>}
+
                     </View>
                   )
                 }
-                else {
-                  return (
-                    <View>
-                      <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                      <TextInput key={i} value={this.state.answer_other} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer_other: text })} />
-                    </View>
-                  )
-                }
+                // else {
+                //   return (
+                //     <View>
+                //       <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
+                //       <TextInput key={i} value={this.state.answer_other} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
+                //         onChangeText={(text) => this.setState({ answer_other: text })} />
+                //     </View>
+                //   )
+                // }
 
               })}
 
@@ -357,16 +530,16 @@ class CheckPhraScreen extends Component {
               </View>
 
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: width, paddingTop: 15 }}>
-                <View style={{ width: width / 2.5 }}>
+                {/* <View style={{ width: width / 2.5 }}>
                   <RoundedButton
                     style={{ marginHorizontal: 10 }}
                     title={I18n.t('noneAnswer')}
                     onPress={this._onPressNotanswer}
                     fetching={this.props.fetching}
                   />
-                </View>
+                </View> */}
 
-                {this.props.profile.role != "admin" &&<View style={{ width: width / 2.5 }}>
+                {this.props.profile && this.props.profile.role != "admin" && <View style={{ width: width / 2.5 }}>
                   <RoundedButton
                     style={{ marginHorizontal: 10 }}
                     title={I18n.t('sendToAdmin')}
@@ -403,7 +576,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setAnswer: (pack, q_id) => dispatch(ExpertActions.expertRequest(pack, q_id))
+    setAnswer: (pack, q_id, argument) => dispatch(ExpertActions.expertRequest(pack, q_id, argument))
   }
 }
 

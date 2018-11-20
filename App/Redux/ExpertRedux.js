@@ -4,13 +4,17 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  expertRequest: ['pack', 'q_id'],
+  expertRequest: ['pack', 'q_id', 'argument'],
   expertSuccess: ['data'],
   expertFailure: null,
 
-  updateAnswer: ['pack', 'q_id'],
+  updateAnswer: ['pack', 'q_id', 'argument'],
   updateSuccess: ['data'],
   updateFailure: null,
+
+  cancelCoin: ['id'],
+  cancelCoinSuccess: ['data'],
+  cancelCoinFailure: null,
 
   getProfileRequest: ['page'],
   verifySuccess: ['data'],
@@ -72,6 +76,9 @@ export const INITIAL_STATE = Immutable({
   fetch5: null, //for update answer
   data_updateAnswer: null,
 
+  fetch6: null, //for cancel verify coin
+  data_cancel: null,
+
   answer_detail: null,
 
 })
@@ -92,7 +99,7 @@ export const requestAnswerSuccess = (state, { data }) => state.merge({ fetch: fa
 export const requestAnswerFailure = (state) => state.merge({ fetch: false })
 
 export const clearGetAnswer = state => state.merge({ fetch4: null })
-export const clearUpdateRequest = state => state.merge({ fetch5: null})
+export const clearUpdateRequest = state => state.merge({ fetch5: null })
 
 export const updateAnswer = state => state.merge({ fetch5: true })
 export const updateSuccess = (state, { data }) => state.merge({ fetch5: false, data_updateAnswer: data })
@@ -132,7 +139,9 @@ export const acceptRequest = state => state.merge({ fetch3: true })
 export const acceptSuccess = (state, { data }) => state.merge({ fetch3: false, data_accept: data })
 export const acceptFailure = state => state.merge({ fetch3: false })
 
-
+export const cancelCoin = state => state.merge({ fetch6: true })
+export const cancelCoinSuccess = (state, { data }) => state.merge({ fetch6: false, data_cancel: data })
+export const cancelCoinFailure = state => state.merge({ fetch6: false })
 
 export const answerList = state => state.merge({ fetch4: true })
 export const answerSuccess = (state, { data }) => state.merge({ fetch4: false, data_answer: data })
@@ -168,7 +177,6 @@ export const editFullData = (state, { id }) => {
   }
   tmp[index] = data
   return state.merge({ full_data: tmp })
-
 }
 
 // export const editFullData = (state, { id, status }) => {
@@ -199,6 +207,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.UPDATE_ANSWER]: updateAnswer,
   [Types.UPDATE_SUCCESS]: updateSuccess,
   [Types.UPDATE_FAILURE]: updateFailure,
+
+  [Types.CANCEL_COIN]: cancelCoin,
+  [Types.CANCEL_COIN_SUCCESS]: cancelCoinSuccess,
+  [Types.CANCEL_COIN_FAILURE]: cancelCoinFailure,
 
   [Types.SET_DATA_PHRA]: setDataPhra,
   [Types.SET_DATA_POINT]: setDataPoint,

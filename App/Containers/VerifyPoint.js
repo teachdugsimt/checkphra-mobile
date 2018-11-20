@@ -11,6 +11,7 @@ import 'moment/locale/th'
 import RoundedButton2 from "../Components/RoundedButton2";
 import { Colors, Images, Metrics } from '../Themes';
 import Icon2 from "react-native-vector-icons/Ionicons";
+import Icon3 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import I18n from '../I18n/i18n';
@@ -25,16 +26,17 @@ class VerifyPoint extends Component {
     static navigationOptions = ({ navigation }) => {
         // console.log(navigation)
         // console.log(I18n.locale)
-    
+
         return {
-          title: I18n.t('pendingCoin'),
+            title: I18n.t('pendingCoin'),
         }
-      }
+    }
     constructor(props) {
         super(props)
         this.state = {
             verifyData: null,
             full_data: null,
+            cancel: null,
         }
     }
 
@@ -65,6 +67,12 @@ class VerifyPoint extends Component {
             }
         }
 
+        let clist = newProps.data_cancel
+        if (newProps.data_cancel) {
+            if (newProps.data_cancel != prevState.cancel) {
+                newProps.getVerify(1)
+            }
+        }
         // if(newProps.data_accept != null){
         //     newProps.editFullData(newProps.data_accept.id, newProps.data_accept.status)
         // }
@@ -81,7 +89,8 @@ class VerifyPoint extends Component {
         // }
 
         return {
-            verifyData: plist
+            verifyData: plist,
+            cancel: clist,
         }
     }
 
@@ -124,9 +133,34 @@ class VerifyPoint extends Component {
                             <Text style={{ fontSize: 16 }}>{item.date && item.date != undefined ? item.date.slice(0, 10) : 'Loading...'}</Text>
                         </View>
 
-                        <View style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
-                            <Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold' }}>{item.price} ฿</Text>
-                        </View>
+                        {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}> */}
+                            { color == 'green' && <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}><Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold', marginRight: 25 }}>{item.price} ฿</Text></View>}
+                            { color == 'orange' && <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold', marginRight: 0 }}>{item.price} ฿</Text>
+                                <Icon3
+                                name="remove"
+                                size={24}
+                                color={'red'}
+                                style={{ marginLeft: 7, }}
+                                onPress={() => {
+                                    Alert.alert(
+                                        'Check Phra',
+                                        I18n.t('cancelCoin'),
+                                        [
+                                            {
+                                                text: I18n.t('ok'), onPress: () => {
+                                                    this.props.cancelCoin(item.id)
+                                                    // this.props.getVerify(1)
+                                                }
+                                            },
+                                            { text: I18n.t('cancel'), onPress: () => { } }
+                                        ]
+                                    )
+
+                                }}
+
+                            /></View>}
+                        {/* </View> */}
 
                     </View>
 
@@ -190,6 +224,7 @@ const mapStateToProps = (state) => {
         request2: state.expert.fetch3,
         data_fully: state.expert.full_data,
         language: state.auth.language,
+        data_cancel: state.expert.data_cancel,
     }
 }
 
@@ -200,6 +235,7 @@ const mapDispatchToProps = (dispatch) => {
         setDataPoint: (data, index) => dispatch(ExpertActions.setDataPoint(data, index)),
         setFullData: (data) => dispatch(ExpertActions.setFullData(data)),
         // editFullData: (id, status) => dispatch(ExpertActions.editFullData(id, status)),
+        cancelCoin: (id) => dispatch(ExpertActions.cancelCoin(id)),
     }
 }
 

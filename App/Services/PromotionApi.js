@@ -47,6 +47,8 @@ const create = (baseURL = b) => {
 
   const getPromotionCoin = (data) => api.get('promotion/list', data)
 
+  const cancelCoin = (data) => api.post('transfer/cancel', data)
+
   return {
     // a list of the API functions from step 2
     getPromotion,
@@ -58,7 +60,8 @@ const create = (baseURL = b) => {
     creditCard,
     getPublish,
     sharedAnswer,
-    getPromotionCoin
+    getPromotionCoin,
+    cancelCoin
   }
 }
 

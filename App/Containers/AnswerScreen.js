@@ -6,18 +6,19 @@ import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Styles
 import styles from './Styles/AnswerScreenStyle'
-import { Colors, Images } from '../Themes';
+import { Colors, Images, Metrics } from '../Themes';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { LoginButton, ShareDialog, ShareButton } from 'react-native-fbsdk';
 import PromotionActions from '../Redux/PromotionRedux'
 import I18n from '../I18n/i18n';
 import QuestionActions from '../Redux/QuestionRedux'
+import Icon from "react-native-vector-icons/FontAwesome";
 I18n.fallbacks = true;
 const { width, height } = Dimensions.get('window')
 
 let shareLinkContent = {
   contentType: 'link',
-  contentUrl: '',
+  contentUrl: 'https://www.checkphra.com/',
   contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
 }
 
@@ -59,7 +60,7 @@ class AnswerScreen extends Component {
         // shareLinkContent.contentUrl = img2[0].url
         shareLinkContent = {
           contentType: 'link',
-          contentUrl: 'https://check-phra.firebaseapp.com/#/signin',
+          contentUrl: 'https://www.checkphra.com/',
           contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
         }
 
@@ -169,12 +170,12 @@ class AnswerScreen extends Component {
               this.setState({ modalVisible: true })
             }}
             index={this.state.index}
-          // onSwipeDown={() => {
-          //     console.log('onSwipeDown');
-          //     this.setState({ modalVisible: false })
-          // }}
-          // enableSwipeDown={true}
-          failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
+            // onSwipeDown={() => {
+            //     console.log('onSwipeDown');
+            //     this.setState({ modalVisible: false })
+            // }}
+            // enableSwipeDown={true}
+            failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
           />
           <Modal
             visible={this.state.modalVisible}
@@ -218,19 +219,40 @@ class AnswerScreen extends Component {
           }
         </View> */}
         <ScrollView style={{ flex: 1 }}>
-          <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+
+          {this.props.answer && this.props.answer[0] && this.props.answer[0].personal && <Text style={{
+            alignSelf: 'center',
+            fontFamily: 'Prompt-Regular',
+            fontSize: 16,
+          }}>{I18n.t('checkBy')} : <Text style={{
+            fontFamily: 'Prompt-SemiBold',
+            fontSize: 16,
+          }}>{this.props.answer[0].personal.email}</Text></Text>}
+
+          <View style={{ marginHorizontal: 20, marginTop: 10 }}>
             {
               data != null && data[0].answer != null &&
               data[0].answer.map(e => {
                 if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
                   return (
-                    <Text style={{
-                      fontFamily: 'Prompt-Regular',
-                      fontSize: 16,
-                    }}>{I18n.t('trueFalse')} : <Text style={{
-                      fontFamily: 'Prompt-SemiBold',
-                      fontSize: 18,
-                    }}>{e.result ? e.result: I18n.t('noneAnswer')}</Text></Text>
+                    <View>
+                      <Text style={{
+                        fontFamily: 'Prompt-Regular',
+                        fontSize: 16,
+                      }}>{I18n.t('trueFalse')} : <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 18,
+                      }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
+
+                      <Text style={{
+                        fontFamily: 'Prompt-Regular',
+                        fontSize: 16,
+                      }}>{I18n.t('reason')} : <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 18,
+                      }}>{data[0].argument ? data[0].argument : I18n.t('noneAnswer')}</Text></Text>
+
+                    </View>
                   )
                 } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
                   return (
@@ -240,7 +262,7 @@ class AnswerScreen extends Component {
                     }}>{I18n.t('pricePhra')} : <Text style={{
                       fontFamily: 'Prompt-SemiBold',
                       fontSize: 18,
-                    }}>{e.result ? e.result: I18n.t('noneAnswer')}</Text></Text>
+                    }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
                   )
                 } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
                   return (
@@ -250,28 +272,80 @@ class AnswerScreen extends Component {
                     }}>{I18n.t('detailPhra')} : <Text style={{
                       fontFamily: 'Prompt-SemiBold',
                       fontSize: 18,
-                    }}>{e.result ? e.result: '[ '+I18n.t('noneAnswer')+' ]'}</Text></Text>
+                    }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
                   )
                 }
               })
             }
           </View>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 
-            {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View style={{ alignItems: 'center' }} >
+            {/* {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View style={{ alignItems: 'center' }} >
               <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#3F54C4', borderRadius: 5, marginTop: 20 }}>
                 <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
                 <Text style={{ fontSize: 18, margin: 10, color: 'white', fontWeight: 'bold' }}>Share</Text>
               </TouchableOpacity>
-            </View>}
+            </View>} */}
 
-            <View style={{ alignItems: 'center', marginLeft: 15 }} >
+            {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View
+              style={{
+                backgroundColor: "red",
+                height: 48,
+                width: '40%',
+                borderRadius: 24,
+                backgroundColor: "#104E8Bdd",
+                marginTop: Metrics.doubleBaseMargin,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            ><TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <Icon
+                  name="facebook-square"
+                  size={28}
+                  color="white"
+                />
+                <Text
+                  style={{
+                    fontFamily: "Prompt-Regular",
+                    fontSize: 18,
+                    color: "white",
+                    marginLeft: Metrics.baseMargin
+                  }} > Share </Text>
+              </TouchableOpacity></View>}
+
+            {/* <View style={{ alignItems: 'center', marginLeft: 15 }} >
               <TouchableOpacity onPress={this._goToURL} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#3F54C4', borderRadius: 5, marginTop: 20 }}>
                 <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
                 <Text style={{ fontSize: 18, margin: 10, color: 'white', fontWeight: 'bold' }}>Messenger</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
+
+            <View
+              style={{
+                backgroundColor: "red",
+                height: 48,
+                width: '40%',
+                borderRadius: 24,
+                backgroundColor: "#104E8Bdd",
+                marginTop: Metrics.doubleBaseMargin,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            ><TouchableOpacity onPress={this._goToURL} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <Icon
+                  name="facebook-square"
+                  size={28}
+                  color="white"
+                />
+                <Text
+                  style={{
+                    fontFamily: "Prompt-Regular",
+                    fontSize: 18,
+                    color: "white",
+                    marginLeft: Metrics.baseMargin
+                  }} > Messenger </Text>
+              </TouchableOpacity></View>
 
           </View>
 

@@ -20,6 +20,7 @@ import Icon2 from "react-native-vector-icons/FontAwesome";
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import I18n from '../I18n/i18n';
+import { setTime } from '../Redux/AuthRedux';
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // I18n.locale = "th";
@@ -37,7 +38,8 @@ class SendImageScreen extends Component {
       fetch: null,
       dataType: null,
       questionData: null,
-      language: ''
+      language: '',
+      spin: false
     }
   }
 
@@ -53,8 +55,7 @@ class SendImageScreen extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
 
-    console.log(nextProps)
-    console.log(prevState)
+    // console.log(prevState)
     // if (nextProps.questionType && nextProps.questionType.length > 0 && prevState.check == true) {
     //   nextProps.questionType.forEach(e => {
     //     qtype.push({
@@ -105,12 +106,13 @@ class SendImageScreen extends Component {
             checkType: true,
           })
         })
-        console.log(chk)
+        // console.log(chk)
         chk = false
         return {
           questionType: qtype,
           dataType: nextProps.questionType,
-          language: nextProps.language
+          language: nextProps.language,
+          spin: nextProps.request ? nextProps.request : false
         }
       }
     }
@@ -122,10 +124,13 @@ class SendImageScreen extends Component {
     // }
 
     let qdata = nextProps.questionData
-    if (nextProps.questionData != prevState.questionData && nextProps.request == false) {
+    if (nextProps.questionData != prevState.questionData
+      && (nextProps.request == false /*|| nextProps.request == true*/)) {
 
-      if (chk2 == true) {
-        nextProps.getProfile()
+      // if (chk2 == true) {
+      nextProps.getProfile()
+
+      setTimeout(() => {
         Alert.alert(
           'Check Phra',
           I18n.t('sendQuestionSuccess'),
@@ -139,21 +144,21 @@ class SendImageScreen extends Component {
           ],
           { cancelable: false }
         )
-      }
-      chk2 = false
+      }, 1000)
 
     }
 
-
     return {
-      // questionType: qtype,
-      questionData: qdata
+      questionData: qdata,
+      spin: nextProps.request ? nextProps.request : false
     }
   }
 
   componentDidMount() {
     this.props.getProfile()
     this.props.getQuestionType()
+    chk = true
+    chk2 = true
   }
 
   componentWillUnmount() {
@@ -169,12 +174,12 @@ class SendImageScreen extends Component {
     let chk = []
     let cnt = 0
     let chkImage = this.props.images.filter(e => e != undefined)
-    console.log('CHECK IMG')
-    console.log(chkImage)
+    // console.log('CHECK IMG')
+    // console.log(chkImage)
     this.props.setStart(0, 1)
 
     this.state.questionType.map((e, i) => {
-      console.log(e)
+      // console.log(e)
       if (e.name == I18n.t('trueFalse')) {
         chk.push(1)
       } else {
@@ -305,7 +310,7 @@ class SendImageScreen extends Component {
                     this.setState({ questionType: qtype })
                   }}
                   isChecked={i > 0 ? this.state.questionType[i].isChecked : true}
-                  rightText={element.name + " ( " + element.point + " ฿ )"}
+                  rightText={element.name + " ( " + element.point + " " + I18n.t('coin') + " )"}
                   rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 20 }}
                   checkBoxColor={Colors.brownText}
                 />
@@ -321,11 +326,13 @@ class SendImageScreen extends Component {
           </View>
 
         </ScrollView>
+
         <Spinner
-          visible={this.props.request}
+          visible={this.state.spin}
           textContent={'Uploading...'}
           textStyle={{ color: '#fff' }}
         />
+
       </LinearGradient>
     )
   }
@@ -340,7 +347,7 @@ const mapStateToProps = (state) => {
     p: state.auth.profile,
     auth: state.auth,
     // fetching: state.question.fetching,
-    request: state.question.request,
+    request: state.question.request,   // for add quesiton only
     language: state.auth.language,
   }
 }

@@ -82,7 +82,7 @@ class Promotion extends Component {
         console.log(img)
         return (
             <TouchableOpacity style={{ height: 110 }} onPress={() => this._PressPromotion(item)}>
-                <View style={{ height: 110, backgroundColor: 'white', marginTop: 1 }}>
+                <View style={{ height: 110, backgroundColor: '#f5f5f5', marginTop: 1 }}>
                     <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
                         <View>
                             <Text style={{ fontWeight: 'bold', fontSize: 18, color: Colors.brownText }}>{item.detail}</Text>
@@ -176,7 +176,7 @@ class Promotion extends Component {
                             <Text style={{ fontSize: 16 }}>{I18n.t('promptpay')}</Text>
                         </TouchableOpacity> */}
 
-                        <TouchableOpacity onPress={this._Creditcard} style={{
+                        {/* <TouchableOpacity onPress={this._Creditcard} style={{
                             height: 42, flexDirection: 'row',
                             borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center'
                         }}>
@@ -186,7 +186,7 @@ class Promotion extends Component {
                                 color={Colors.brownText}
                                 style={{ marginHorizontal: 10 }} />
                             <Text style={{ fontSize: 16 }}>{I18n.t('creditCard')}</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </PopupDialog>
             </LinearGradient>

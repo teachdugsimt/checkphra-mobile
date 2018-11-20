@@ -19,6 +19,8 @@ import Publish from '../Containers/Publish'
 import ForgetPassword from '../Containers/ForgetPassword'
 import AnswerOfAdmin from '../Containers/AnswerOfAdmin'
 import AnswerOfAdmin2 from '../Containers/AnswerOfAdmin2'
+import Bit from '../Containers/Bit'
+import Bit2 from '../Containers/Bit2'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -408,10 +410,38 @@ const AdminAnswerStack = StackNavigator({ // **********************FOR ADMIN ***
     })
   })
 
+  const BitStack = StackNavigator({ // **********************FOR ADMIN *************************
+    bit: {
+      screen: Bit,
+      navigationOptions: {
+        title: I18n.t('bitPrice')
+      }
+    },
+    bit2: {
+      screen: Bit2,
+      navigationOptions: {
+        title: I18n.t('bitPrice')
+      }
+    }
+  }, {
+      transitionConfig: getSlideFromRightTransition,
+      navigationOptions: ({ navigation }) => ({
+        tabBarLabel: I18n.t('bitPrice'),
+        headerStyle: {
+          backgroundColor: Colors.tabBar,
+        },
+        headerTitleStyle: {
+          color: 'white',
+          fontFamily: 'Prompt-Regular'
+        },
+      })
+    })
+
 const AdminStack = TabNavigator({  // *************** MAIN ADMIN *************************
   checklist: CheckListStack,
   verify: VerifyStack,
   // pub: PublishStack,
+  // bit: BitStack,
   answeradmin: AdminAnswerStack,
   profile: ProfileStack,
 }, {
@@ -433,6 +463,9 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
         }
         if (routeName == "answeradmin") {
           iconName = `folder-open${focused ? "" : ""}`;
+        }
+        if (routeName == "bit") {
+          iconName = `exchange${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       },

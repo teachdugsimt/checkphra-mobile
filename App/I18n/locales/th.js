@@ -29,7 +29,7 @@ export default {
   adminAnswer: 'คำตอบของ Admin',
   detailAnswer: 'รายละเอียดคำตอบ',
   wantLogout: 'คุณต้องการออกจากระบบ ?',
-  haveCoin : 'คุณมีเหรียญคงเหลือ',
+  haveCoin: 'คุณมีเหรียญคงเหลือ',
   day: 'วัน ',
 
   emailUsed: 'อีเมลนี้ถูกใช้งานแล้ว',
@@ -81,7 +81,9 @@ export default {
   realPhra: 'พระแท้',
   realPhraOld: 'พระแท้ย้อนยุค',
   fakePhra: 'พระไม่แท้',
-
+  realPhranowhere: 'พระแท้ไม่รู้ที่',
+  reason: 'เหตุผล',
+  checkBy: 'ตรวจโดย',
 
   pickImage: 'เลือกรูป',
   frontSide: 'หน้า',
@@ -154,6 +156,11 @@ export default {
   sendQuestionSuccess: 'ส่งพระตรวจ สำเร็จ!!',
   sendQuestionFailure: 'ส่งตรวจพระ ล้มเหลว',
   submit: 'ส่งข้อมูล',
+  cancelCoin: 'คุณต้องการยกเลิกรายการนี้ ?',
+  cancelSucc: 'ยกเลิกสำเร็จ',
+  cancelFail: 'ยกเลิกล้มเหลว',
+  atLeast: 'โปรดตอบคำถามอย่างน้อย 1 ข้อ',
+  pleaseAnswerQuestion: 'โปรดตอบคำถามให้ครบ หรือเลือกไม่ออกผล',
 
   krungtepBanking: 'ธนาคารกรุงเทพ',
   krungthaiBanking: 'ธนาคารกรุงไทย',
@@ -164,4 +171,6 @@ export default {
   thanaBanking: 'ธนาคารธนชาต',
 
   cantEdit: 'คุณไม่สามารถแก้ไขคำตอบนี้ได้ ( ไม่ออกผล )',
+
+  bitPrice: 'เช่าพระ',
 }

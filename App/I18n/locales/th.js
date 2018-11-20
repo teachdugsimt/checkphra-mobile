@@ -160,6 +160,7 @@ export default {
   cancelSucc: 'ยกเลิกสำเร็จ',
   cancelFail: 'ยกเลิกล้มเหลว',
   atLeast: 'โปรดตอบคำถามอย่างน้อย 1 ข้อ',
+  pleaseAnswerQuestion: 'โปรดตอบคำถามให้ครบ หรือเลือกไม่ออกผล',
 
   krungtepBanking: 'ธนาคารกรุงเทพ',
   krungthaiBanking: 'ธนาคารกรุงไทย',

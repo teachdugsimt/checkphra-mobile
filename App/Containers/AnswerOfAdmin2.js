@@ -70,6 +70,8 @@ class AnswerOfAdmin2 extends Component {
             tmp.push('พระไม่แท้')
         } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
             tmp.push('พระแท้ไม่รู้ที่')
+        } else if (this.state.checkTrue3 == false && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false){
+            tmp.push(null)
         }
 
         if (this.state.answer2) {
@@ -82,15 +84,8 @@ class AnswerOfAdmin2 extends Component {
             tmp.push(this.state.answer_other)
         }
 
-        if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-            alert('Please choose one answer in check box')
-        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-            alert('Please choose one answer in check box')
-        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-            alert('Please choose one answer in check box')
-        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
-            alert('Please choose one answer in check box')
-        } else if (tmp.length == 0) {
+       
+        if (tmp.length == 0) {
             alert('Please answer one question')
         } else {
 
@@ -128,7 +123,7 @@ class AnswerOfAdmin2 extends Component {
                 this.setState({ answer4: this.props.data.argument })
             }
             if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
-                if (e.result == 'ไม่ออกผล') {
+                if (e.result == 'ไม่ออกผล'|| e.result == ''|| e.result == "" || !e.result ) {
                     this.setState({ checkans1: true })
                 } else {
                     if (e.result == 'พระแท้ย้อนยุค') {

@@ -159,6 +159,7 @@ export default {
   cancelSucc: 'cancel success!!',
   cancelFail: 'cancel failure',
   atLeast: 'Please answer at least one question',
+  pleaseAnswerQuestion: 'Please answer question or Choose none naswer',
 
   krungtepBanking: 'Bangkok Bank',
   krungthaiBanking: 'Krungthai Bank',

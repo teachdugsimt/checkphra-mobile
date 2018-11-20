@@ -91,11 +91,11 @@ class CheckPhraScreen extends Component {
     } else {
       // ตรวจสอบ กล่องเช็ค ว่าถ้าไม่ตอบแล้วต้องติ้ก กล่องเช็ค ไม่งั้นจะเด้งแจ้งเตือนนะ
       if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkTrue3 == false && this.state.checkFalse == false && this.state.checkNone1 == false) {
-        alert('answer question 1')
+        alert(I18n.t('pleaseAnswerQuestion'))
       } else if (this.state.checkNone2 == false && !this.state.answer2) {
-        alert('answer question 2')
+        alert(I18n.t('pleaseAnswerQuestion'))
       } else if (this.state.checkNone3 == false && !this.state.answer3) {
-        alert('answer question 3')
+        alert(I18n.t('pleaseAnswerQuestion'))
       } else {
 
 

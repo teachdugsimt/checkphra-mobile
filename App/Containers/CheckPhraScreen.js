@@ -119,7 +119,7 @@ class CheckPhraScreen extends Component {
         } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
           tmp.push('พระแท้ไม่รู้ที่')
         } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkTrue3 == false && this.state.checkFalse == false) {
-          tmp.push(null)
+          tmp.push('ไม่ออกผล')
         }
 
 

@@ -401,16 +401,16 @@ class ProfileScreen extends Component {
           height={height / 4.2}
           onDismissed={() => { this.setState({}) }}
         >
-          <View style={{}}>
-            <TouchableOpacity onPress={this._thai} style={{
-              height: 42, flexDirection: 'row',
+          <View style={{ flex: 1}}>
+            <TouchableOpacity onPress={this._thai} style={{ 
+              flex: 0.5, flexDirection: 'row',
               borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center', borderTopColor: 'lightgrey', borderTopWidth: 1
             }}>
               <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('thai')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={this._english} style={{
-              height: 42, flexDirection: 'row',
+              flex: 0.5, flexDirection: 'row',
               borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center'
             }}>
               <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('english')}</Text>

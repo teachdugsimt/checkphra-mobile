@@ -220,14 +220,22 @@ class AnswerScreen extends Component {
         </View> */}
         <ScrollView style={{ flex: 1 }}>
 
-          {this.props.answer && this.props.answer[0] && this.props.answer[0].personal && <Text style={{
+          {/* {this.props.answer && this.props.answer[0] && this.props.answer[0].personal && <Text style={{
             alignSelf: 'center',
             fontFamily: 'Prompt-Regular',
             fontSize: 16,
           }}>{I18n.t('checkBy')} : <Text style={{
             fontFamily: 'Prompt-SemiBold',
             fontSize: 16,
-          }}>{this.props.answer[0].personal.email}</Text></Text>}
+          }}>{this.props.answer[0].personal.email}</Text></Text>} */}
+          <Text style={{
+            alignSelf: 'center',
+            fontFamily: 'Prompt-Regular',
+            fontSize: 16,
+          }}>{I18n.t('checkBy')} : <Text style={{
+            fontFamily: 'Prompt-SemiBold',
+            fontSize: 16,
+          }}>Mr. Blue</Text></Text>
 
           <View style={{ marginHorizontal: 20, marginTop: 10 }}>
             {
@@ -291,7 +299,7 @@ class AnswerScreen extends Component {
             {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View
               style={{
                 backgroundColor: "red",
-                height: 48,
+                height: 45,
                 width: '40%',
                 borderRadius: 24,
                 backgroundColor: "#104E8Bdd",
@@ -324,7 +332,7 @@ class AnswerScreen extends Component {
             <View
               style={{
                 backgroundColor: "red",
-                height: 48,
+                height: 45,
                 width: '40%',
                 borderRadius: 24,
                 backgroundColor: "#104E8Bdd",

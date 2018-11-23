@@ -20,7 +20,7 @@ const { width } = Dimensions.get('window')
 let check = true
 let count = 1
 
-class Bit extends Component {
+class UserBit extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -150,7 +150,7 @@ class Bit extends Component {
                             <TouchableOpacity onPress={() => {
                                 // this.props.setAnswerDetail(item)
                                 this.props.setData(item)
-                                this.props.navigation.navigate('bit2')
+                                this.props.navigation.navigate('userBit2')
                             }
                             }>
                                 <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -231,4 +231,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Bit)
+export default connect(mapStateToProps, mapDispatchToProps)(UserBit)

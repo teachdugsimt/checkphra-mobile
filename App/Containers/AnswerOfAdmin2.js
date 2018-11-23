@@ -70,7 +70,7 @@ class AnswerOfAdmin2 extends Component {
             tmp.push('พระไม่แท้')
         } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
             tmp.push('พระแท้ไม่รู้ที่')
-        } else if (this.state.checkTrue3 == false && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false){
+        } else if (this.state.checkTrue3 == false && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
             tmp.push(null)
         }
 
@@ -84,7 +84,7 @@ class AnswerOfAdmin2 extends Component {
             tmp.push(this.state.answer_other)
         }
 
-       
+
         if (tmp.length == 0) {
             alert('Please answer one question')
         } else {
@@ -123,7 +123,7 @@ class AnswerOfAdmin2 extends Component {
                 this.setState({ answer4: this.props.data.argument })
             }
             if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
-                if (e.result == 'ไม่ออกผล'|| e.result == ''|| e.result == "" || !e.result ) {
+                if (e.result == 'ไม่ออกผล' || e.result == '' || e.result == "" || !e.result) {
                     this.setState({ checkans1: true })
                 } else {
                     if (e.result == 'พระแท้ย้อนยุค') {
@@ -150,6 +150,9 @@ class AnswerOfAdmin2 extends Component {
                 }
             }
         })
+
+    }
+    _onPressButton2 = () => {
 
     }
 
@@ -223,7 +226,7 @@ class AnswerOfAdmin2 extends Component {
                     </Modal>
 
                 </View>
-
+               
                 <View style={{ flex: 0.63 }}>
                     <ScrollView>
                         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
@@ -347,12 +350,14 @@ class AnswerOfAdmin2 extends Component {
 
                         })}
 
-                        <View style={{ width: '65%', alignSelf: 'center', marginTop: 10 }}>
+                        <View style={{ width: width / 2.5, alignSelf: 'center', marginTop: 10 }}>
                             <RoundedButton
                                 style={{ marginHorizontal: 10 }}
                                 title={I18n.t('edit')}
                                 onPress={this._onPressButton}
                             />
+
+
                         </View>
 
                         <View style={{ height: 40 }}>

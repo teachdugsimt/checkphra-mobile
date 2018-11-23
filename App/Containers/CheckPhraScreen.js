@@ -107,9 +107,6 @@ class CheckPhraScreen extends Component {
         alert(I18n.t('pleaseAnswerQuestion'))
       } else {
 
-
-
-
         if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false && this.state.checkTrue3 == false) {
           tmp.push('พระแท้')
         } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false && this.state.checkTrue3 == false) {

@@ -142,8 +142,18 @@ class UserBit extends Component {
                     renderItem={({ item }) => {
                         let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
                         // let status = 'รอตรวจ'
-                        let color = 'green'
-
+                        let color = ''
+                        let message = ''
+                        if (item.status == 'approve') {
+                            color = 'green'
+                            message = I18n.t('approve')
+                        } else if (item.status == 'bargain') {
+                            color = 'orange'
+                            message = I18n.t('bargain')
+                        } else if (item.status == 'cancel') {
+                            color = 'red'
+                            message = I18n.t('cancelHire')
+                        }
                         let name = item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
 
                         return (
@@ -189,7 +199,11 @@ class UserBit extends Component {
                                         borderRadius: 15,
                                         height: 30,
                                         backgroundColor: color
-                                    }}>{I18n.t('bitPrice')}</Text>
+                                    }}>{message}</Text>
+                                      {item.recent_bid == 'admin' && item.status == 'bargain' && <View style={{
+                                        backgroundColor: 'red', height: 10, width: 10, borderRadius: 5, position: 'absolute', bottom: 46, right: 23
+                                    }}>
+                                    </View>}
 
                                 </View>
                             </TouchableOpacity>

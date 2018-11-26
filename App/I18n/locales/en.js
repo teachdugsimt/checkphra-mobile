@@ -188,6 +188,11 @@ export default {
   callAdmin: 'Please contact to admin!!',
   waitUser: 'Wait for user contact!!',
   userCancel: 'User cancel this offer!!',
+  approve: 'Approve',
+  cancelHire: 'Cancel',
+  bargain: 'Bargain',
+  wantGetOffer: 'Do you want to get this offer ?',
+  dontwantOffer: 'Do you want to reject this offer ?',
 
   หลวงปู่ทวด: 'luangPuTuad',
   หลวงปู่หมุน: 'luangPuMoon',

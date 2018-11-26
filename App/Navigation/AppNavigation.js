@@ -345,7 +345,7 @@ const DashStack = TabNavigator(   // **************  USER STACK ****************
         if (routeName == "pub") {
           iconName = `newspaper-o${focused ? "" : ""}`;
         }
-        if (routeName == "userbit"){
+        if (routeName == "userbit") {
           iconName = `exchange${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
@@ -452,39 +452,39 @@ const AdminAnswerStack = StackNavigator({ // **********************FOR ADMIN ***
     })
   })
 
-  const BitStack = StackNavigator({ // **********************FOR ADMIN *************************
-    bit: {
-      screen: Bit,
-      navigationOptions: {
-        title: I18n.t('bitPrice2')
-      }
-    },
-    bit2: {
-      screen: Bit2,
-      navigationOptions: {
-        title: I18n.t('bitPrice2')
-      }
+const BitStack = StackNavigator({ // **********************FOR ADMIN *************************
+  bit: {
+    screen: Bit,
+    navigationOptions: {
+      title: I18n.t('bitPrice2')
     }
-  }, {
-      transitionConfig: getSlideFromRightTransition,
-      navigationOptions: ({ navigation }) => ({
-        tabBarLabel: I18n.t('bitPrice2'),
-        headerStyle: {
-          backgroundColor: Colors.tabBar,
-        },
-        headerTitleStyle: {
-          color: 'white',
-          fontFamily: 'Prompt-Regular'
-        },
-      })
+  },
+  bit2: {
+    screen: Bit2,
+    navigationOptions: {
+      title: I18n.t('bitPrice2')
+    }
+  }
+}, {
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      tabBarLabel: I18n.t('bitPrice2'),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
     })
+  })
 
 const AdminStack = TabNavigator({  // *************** MAIN ADMIN *************************
   checklist: CheckListStack,
-  verify: VerifyStack,
+  answeradmin: AdminAnswerStack,
   // pub: PublishStack,
   bit: BitStack,
-  answeradmin: AdminAnswerStack,
+  verify: VerifyStack,
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({

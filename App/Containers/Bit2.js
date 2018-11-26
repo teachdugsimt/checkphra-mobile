@@ -81,7 +81,11 @@ class Bit2 extends Component {
     }
 
     _onPressButton = () => {
-        this.props.trading(this.props.data.qid, this.state.price)
+        if (this.state.price) {
+            this.props.trading(this.props.data.qid, this.state.price)
+        } else {
+            alert(I18n.t('checkData'))
+        }
     }
 
     componentWillMount() {
@@ -91,7 +95,7 @@ class Bit2 extends Component {
     componentDidMount() {
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.getAnswer(1)
     }
 
@@ -245,29 +249,33 @@ class Bit2 extends Component {
                             if (i % 2 == 0 || i == 0) {
                                 return (
                                     <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-start' }}>
-                                        <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginLeft: 10, backgroundColor: '#E59866', borderRadius: 20, height: 40 }}>
-                                            <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>admin : <Text style={{
-                                                fontFamily: 'Prompt-SemiBold',
-                                                fontSize: 18,
-                                            }}>{e.admin_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                                        <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 10, backgroundColor: '#E59866', borderRadius: 15 }}>
+                                            <View style={{ marginVertical: 7 }}>
+                                                <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>admin : <Text style={{
+                                                    fontFamily: 'Prompt-SemiBold',
+                                                    fontSize: 18,
+                                                }}>{e.admin_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                                            </View>
                                         </View>
                                     </View>
                                 )
                             } else {
                                 return (
                                     <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-end' }}>
-                                        <View style={{ justifyContent: 'center', alignItems: 'flex-end', marginRight: 10, backgroundColor: 'lightgrey', borderRadius: 20, height: 40 }}>
-                                            <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>user : <Text style={{
-                                                fontFamily: 'Prompt-SemiBold',
-                                                fontSize: 18,
-                                            }}>{e.user_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                                        <View style={{ justifyContent: 'center', alignItems: 'flex-end', marginHorizontal: 10, backgroundColor: 'lightgrey', borderRadius: 15 }}>
+                                            <View style={{ marginVertical: 7 }}>
+                                                <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>user : <Text style={{
+                                                    fontFamily: 'Prompt-SemiBold',
+                                                    fontSize: 18,
+                                                }}>{e.user_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                                            </View>
                                         </View>
                                     </View>
                                 )
                             }
                         })}
 
-                        {this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 == 0)  && this.props.data.messages.length < 5 && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
+                        {this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 == 0) && this.props.data.messages.length < 5 && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
                             value={this.state.price}
                             textAlign={'center'}
                             onChangeText={(text) => this.setState({ price: text })}

@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, Modal, ScrollView, TextInput, Linking } from 'react-native'
+import {
+    Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl,
+    Modal, ScrollView, TextInput, Linking, Alert
+} from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -95,7 +98,11 @@ class UserBit2 extends Component {
     }
 
     _onPressButton = () => {
-        this.props.trading(this.props.data.qid, this.state.price)
+        if (this.state.price) {
+            this.props.trading(this.props.data.qid, this.state.price)
+        } else {
+            alert(I18n.t('checkData'))
+        }
         // this.props.getAnswer(1)
     }
 
@@ -125,13 +132,34 @@ class UserBit2 extends Component {
     }
 
     _onPressSell = () => {
-        console.log('PRESS SELL BUTTON')
-        this.props.update(this.props.data.qid, 'approve')
+        Alert.alert(
+            'Check Phra',
+            I18n.t('wantGetOffer'),
+            [
+                {
+                    text: I18n.t('ok'), onPress: () => {
+                        this.props.update(this.props.data.qid, 'approve')
+                    }
+                },
+                { text: I18n.t('cancel') }
+            ]
+        )
+
     }
 
     _onPressCancel = () => {
-        console.log('CANCEL PRESS')
-        this.props.update(this.props.data.qid, 'cancel')
+        Alert.alert(
+            'Check Phra',
+            I18n.t('dontwantOffer'),
+            [
+                {
+                    text: I18n.t('ok'), onPress: () => {
+                        this.props.update(this.props.data.qid, 'cancel')
+                    }
+                },
+                { text: I18n.t('cancel') }
+            ]
+        )
     }
 
     render() {
@@ -276,22 +304,26 @@ class UserBit2 extends Component {
                             if (i % 2 == 0 || i == 0) {
                                 return (
                                     <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-start' }}>
-                                        <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginLeft: 10, backgroundColor: '#E59866', borderRadius: 20, height: 40 }}>
-                                            <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>admin : <Text style={{
-                                                fontFamily: 'Prompt-SemiBold',
-                                                fontSize: 18,
-                                            }}>{e.admin_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                                        <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 10, backgroundColor: '#E59866', borderRadius: 15 }}>
+                                            <View style={{ marginVertical: 7 }}>
+                                                <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>admin : <Text style={{
+                                                    fontFamily: 'Prompt-SemiBold',
+                                                    fontSize: 18,
+                                                }}>{e.admin_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                                            </View>
                                         </View>
                                     </View>
                                 )
                             } else {
                                 return (
                                     <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-end' }}>
-                                        <View style={{ justifyContent: 'center', alignItems: 'flex-end', marginRight: 10, backgroundColor: 'lightgrey', borderRadius: 20, height: 40 }}>
-                                            <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>user : <Text style={{
-                                                fontFamily: 'Prompt-SemiBold',
-                                                fontSize: 18,
-                                            }}>{e.user_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                                        <View style={{ justifyContent: 'center', alignItems: 'flex-end', marginHorizontal: 10, backgroundColor: 'lightgrey', borderRadius: 15 }}>
+                                            <View style={{ marginVertical: 7 }}>
+                                                <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>user : <Text style={{
+                                                    fontFamily: 'Prompt-SemiBold',
+                                                    fontSize: 18,
+                                                }}>{e.user_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                                            </View>
                                         </View>
                                     </View>
                                 )
@@ -318,7 +350,7 @@ class UserBit2 extends Component {
 
                         </View>}
 
-                        {this.state.hide == false && this.props.data && this.props.data.status == 'bargain' && <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+                        {this.props.data.recent_bid == 'admin' && this.state.hide == false && this.props.data && this.props.data.status == 'bargain' && <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
                             <View style={{ width: '40%', height: 45 }}>
                                 <RoundedButton
                                     style={{ marginHorizontal: 10 }}

@@ -46,7 +46,7 @@ export function* signin(api, action) {
   } else {
     console.log("SIGNIN FAIL")
     console.log(response)
-    
+
     // alert(response.data.message)
     yield put(AuthActions.signinFailure(response.data.message))
   }
@@ -57,18 +57,33 @@ export function* signinWithCredential(api, action) {
   // get current data from Store
   // const currentData = yield select(AuthSelectors.getData)
   // make the call to the api
+  console.log(action)
+  console.log('----------------------HERE----------------------')
 
   const name = data.displayName.split(' ')
   const fname = name[0] ? name[0] : ''
   const lname = name[1] ? name[1] : ''
-
-  const d = {
-    email: data.email,
-    uid: data.uid,
-    firstname: fname,
-    lastname: lname,
-    project: 'check-phra'
+  let d = null
+  if (!data.email || data.email == null || data.email == undefined) {
+    d = {
+      email: data.uid + "@facebook.com",
+      uid: data.uid,
+      firstname: fname,
+      lastname: lname,
+      project: 'check-phra'
+    }
+  } else {
+    d = {
+      email: data.email,
+      uid: data.uid,
+      firstname: fname,
+      lastname: lname,
+      project: 'check-phra'
+    }
   }
+
+  console.log(d)
+  console.log('HERE D OF YOUR**************************************')
 
   const response = yield call(api.signin, d)
   console.log(response)
@@ -84,7 +99,7 @@ export function* signinWithCredential(api, action) {
 
 export function* signup(api, { id, password }) {
 
-  
+
   const data = {
     email: id,
     password: password,
@@ -120,7 +135,7 @@ export function* createUser(api, { email, uid }) {
   console.log(uid)
   console.log('SEND TO CREATE CHECK PHRA USER')
 
-  if(!uid) { return }
+  if (!uid) { return }
 
   const data = {
     email: email,

@@ -15,10 +15,15 @@ import Icon3 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import I18n from '../I18n/i18n';
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import RoundedButton from '../Components/RoundedButton';
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // Styles
 // import styles from './Styles/CheckListScreenStyle'
+const slideAnimation = new SlideAnimation({
+    slideFrom: 'bottom',
+});
 const { width, height } = Dimensions.get('window')
 let count = 1
 let check = true
@@ -37,6 +42,8 @@ class VerifyPoint extends Component {
             verifyData: null,
             full_data: null,
             cancel: null,
+            reason: null,
+            id: null,
         }
     }
 
@@ -134,29 +141,18 @@ class VerifyPoint extends Component {
                         </View>
 
                         {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}> */}
-                            { color == 'green' && <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}><Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold', marginRight: 25 }}>{item.price} ฿</Text></View>}
-                            { color == 'orange' && <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                        {color == 'green' && <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}><Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold', marginRight: 25 }}>{item.price} ฿</Text></View>}
+                        {color == 'orange' && <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
                             <Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold', marginRight: 0 }}>{item.price} ฿</Text>
-                                <Icon3
+                            <Icon3
                                 name="remove"
                                 size={24}
                                 color={'red'}
                                 style={{ marginLeft: 7, }}
                                 onPress={() => {
-                                    Alert.alert(
-                                        'Check Phra',
-                                        I18n.t('cancelCoin'),
-                                        [
-                                            {
-                                                text: I18n.t('ok'), onPress: () => {
-                                                    this.props.cancelCoin(item.id)
-                                                    // this.props.getVerify(1)
-                                                }
-                                            },
-                                            { text: I18n.t('cancel'), onPress: () => { } }
-                                        ]
-                                    )
-
+                                    // this.props.cancelCoin(item.id, this.state.argument)
+                                    this.setState({ id: item.id })
+                                    this.popupDialog.show()
                                 }}
 
                             /></View>}
@@ -188,6 +184,11 @@ class VerifyPoint extends Component {
         this.props.getVerify(count)
     }
 
+    _pressCancel2 = () => {
+        this.props.cancelCoin(this.state.id, this.state.reason)
+        this.popupDialog.dismiss()
+    }
+
     render() {
         I18n.locale = this.props.language
         // console.log(this.state.verifyData)
@@ -206,6 +207,39 @@ class VerifyPoint extends Component {
                     onEndReached={this._onScrollEndList}
                     onEndReachedThreshold={0.05}
                 />
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('reason')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.5}
+                    height={height / 3}
+                    // height={150}
+                    onDismissed={() => { this.setState({ reason: null, id: null }) }}
+                >
+                    <View style={{ flex: 1, paddingTop: 8 }}>
+                        <Text style={{
+                            color: Colors.brownText,
+                            fontSize: 18,
+                            fontFamily: 'Prompt-SemiBold',
+                            alignSelf: 'center',
+                        }}>{I18n.t('inputReason')}</Text>
+                        <TextInput style={{ width: '75%', alignSelf: 'center' }}
+                            value={this.state.reason}
+                            textAlign={'center'}
+                            onChangeText={(text) => this.setState({ reason: text })}
+                            placeholder={I18n.t('inputReason')} />
+
+                        {this.state.reason && <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
+                            <RoundedButton
+                                style={{ marginHorizontal: 10 }}
+                                title={I18n.t('ok')}
+                                onPress={this._pressCancel2}
+                            />
+                        </View>}
+                    </View>
+                </PopupDialog>
             </LinearGradient>
         )
     }
@@ -235,7 +269,7 @@ const mapDispatchToProps = (dispatch) => {
         setDataPoint: (data, index) => dispatch(ExpertActions.setDataPoint(data, index)),
         setFullData: (data) => dispatch(ExpertActions.setFullData(data)),
         // editFullData: (id, status) => dispatch(ExpertActions.editFullData(id, status)),
-        cancelCoin: (id) => dispatch(ExpertActions.cancelCoin(id)),
+        cancelCoin: (id, argument) => dispatch(ExpertActions.cancelCoin(id, argument)),
     }
 }
 

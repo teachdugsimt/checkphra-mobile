@@ -190,7 +190,7 @@ class Bit extends Component {
                                                 fontSize: 12,
                                                 color: Colors.brownText,
                                                 // margin: 20
-                                            }}> ( {item.id} )</Text>
+                                            }}> ( {item.qid} )</Text>
                                         </View>
                                     </View>
 

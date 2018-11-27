@@ -175,12 +175,13 @@ export function* getAnswerAdmin(api, { page }) {
   }
 }
 
-export function* cancelPoint(api, { id }) {
+export function* cancelPoint(api, { id, argument }) {
   const aut = yield select(auth)
   
   const data = {
     user_id: aut.user_id,
-    transfer_id: id
+    transfer_id: id,
+    argument
   }
 
   const response = yield call(api.cancelCoin, data)

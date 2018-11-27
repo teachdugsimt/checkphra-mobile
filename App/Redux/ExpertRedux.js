@@ -12,7 +12,7 @@ const { Types, Creators } = createActions({
   updateSuccess: ['data'],
   updateFailure: null,
 
-  cancelCoin: ['id'],
+  cancelCoin: ['id', 'argument'],
   cancelCoinSuccess: ['data'],
   cancelCoinFailure: null,
 

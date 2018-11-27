@@ -12,6 +12,7 @@ import { QuestionTypes } from '../Redux/QuestionRedux'
 import { PromotionTypes } from '../Redux/PromotionRedux'
 import { PaymentTypes } from '../Redux/PaymentRedux'
 import { ExpertTypes } from '../Redux/ExpertRedux'
+import { TradingTypes } from '../Redux/TradingRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -22,7 +23,7 @@ import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, get
 import { getPromotion, getPublish, sharedAnswer, getLoginPromotion } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest } from './PaymentSagas'
 import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint } from './ExpertSagas'
-
+import { getTrading, getDetail, getListTrade, updateAmulet } from './TradingSagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -30,6 +31,7 @@ import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, update
 const authApi = API.Auth.create()
 const questionApi = API.Question.create()
 const promotionApi = API.Promotion.create()
+const tradeApi = API.Trade.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -40,6 +42,10 @@ export default function * root () {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    takeLatest(TradingTypes.TRADING_REQUEST, getTrading, tradeApi),
+    takeLatest(TradingTypes.GET_DETAIL, getDetail, tradeApi),
+    takeLatest(TradingTypes.LIST_TRADING, getListTrade, tradeApi),
+    takeLatest(TradingTypes.UPDATE_STATUS, updateAmulet, tradeApi),
 
     takeLatest(AuthTypes.SIGNIN_REQUEST, signin, authApi),
     takeLatest(AuthTypes.SIGNIN_WITH_CREDENTIAL, signinWithCredential, authApi),

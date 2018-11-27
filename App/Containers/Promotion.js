@@ -151,9 +151,9 @@ class Promotion extends Component {
                     // height={150}
                     onDismissed={() => { this.setState({}) }}
                 >
-                    <View style={{}}>
+                    <View style={{flex: 1}}>
                         <TouchableOpacity onPress={this._Banking} style={{
-                            height: 42, flexDirection: 'row',
+                            flex: 1, flexDirection: 'row',
                             borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center', borderTopColor: 'lightgrey', borderTopWidth: 1
                         }}>
                             <Icon2

@@ -20,7 +20,7 @@ const { width } = Dimensions.get('window')
 let check = true
 let count = 1
 
-class Bit extends Component {
+class UserBit extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -154,17 +154,13 @@ class Bit extends Component {
                             color = 'red'
                             message = I18n.t('cancelHire')
                         }
-
-                        // approve - ยอมรับข้อเสนอ - green
-                        // cancel - ปฏิเสธข้อเสนอ - red
-                        // bargain - กำลังต่อรอง - orange
                         let name = item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
 
                         return (
                             <TouchableOpacity onPress={() => {
                                 // this.props.setAnswerDetail(item)
                                 this.props.setData(item)
-                                this.props.navigation.navigate('bit2')
+                                this.props.navigation.navigate('userBit2')
                             }
                             }>
                                 <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -193,7 +189,6 @@ class Bit extends Component {
                                             }}> ( {item.id} )</Text>
                                         </View>
                                     </View>
-
                                     <Text style={{
                                         fontFamily: 'Prompt-SemiBold',
                                         fontSize: 15,
@@ -205,7 +200,7 @@ class Bit extends Component {
                                         height: 30,
                                         backgroundColor: color
                                     }}>{message}</Text>
-                                    {item.recent_bid == 'user' && item.status == 'bargain' && <View style={{
+                                      {item.recent_bid == 'admin' && item.status == 'bargain' && <View style={{
                                         backgroundColor: 'red', height: 10, width: 10, borderRadius: 5, position: 'absolute', bottom: 46, right: 23
                                     }}>
                                     </View>}
@@ -250,4 +245,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Bit)
+export default connect(mapStateToProps, mapDispatchToProps)(UserBit)

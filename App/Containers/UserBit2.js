@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, Modal, ScrollView, TextInput } from 'react-native'
+import {
+    Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl,
+    Modal, ScrollView, TextInput, Linking, Alert
+} from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -8,12 +11,12 @@ import moment from 'moment'
 import RoundedButton from "../Components/RoundedButton";
 import 'moment/locale/th'
 import ImageViewer from 'react-native-image-zoom-viewer';
-import { Colors, Images } from '../Themes';
-import Icon2 from "react-native-vector-icons/FontAwesome";
+import { Colors, Images, Metrics } from '../Themes';
 import ExpertActions from '../Redux/ExpertRedux'
 import TradingActions from '../Redux/TradingRedux'
 import CheckBox from 'react-native-check-box'
 // Styles
+import Icon from "react-native-vector-icons/FontAwesome";
 import styles from './Styles/CheckListScreenStyle'
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -24,7 +27,7 @@ const { width } = Dimensions.get('window')
 let check = true
 let count = 1
 
-class Bit2 extends Component {
+class UserBit2 extends Component {
 
     constructor(props) {
         super(props)
@@ -47,6 +50,8 @@ class Bit2 extends Component {
 
             price: null,
             bidData: null,
+            hide: false,
+            updateData: null,
         }
     }
 
@@ -63,7 +68,10 @@ class Bit2 extends Component {
         console.log(newProps)
         console.log(prevState)
         let bidData = newProps.data_bid
-
+        // if(newProps.data_bid){
+        //     console.log(newProps.data_bid)
+        //     console.log('*------------------------------------*')
+        // }
         if (newProps.data_bid && newProps.data_bid.qid) {
             if (newProps.data.qid == newProps.data_bid.qid) {
                 if (prevState.bidData != newProps.data_bid) {
@@ -71,6 +79,15 @@ class Bit2 extends Component {
                     return {
                         bidData: newProps.data_bid
                     }
+                }
+            }
+        }
+
+        if (newProps.data_status && newProps.data_status != null && newProps.data_status != undefined) {
+            if (newProps.data_status.qid == newProps.data.qid) {
+                return {
+                    hide: true,
+                    updateData: newProps.data_status
                 }
             }
         }
@@ -86,6 +103,7 @@ class Bit2 extends Component {
         } else {
             alert(I18n.t('checkData'))
         }
+        // this.props.getAnswer(1)
     }
 
     componentWillMount() {
@@ -93,29 +111,65 @@ class Bit2 extends Component {
     }
 
     componentDidMount() {
+
     }
 
     componentWillUnmount() {
         this.props.getAnswer(1)
     }
 
+    _goToURL() {
+        // const url = 'm.me/316834699141900'
+        const url = 'https://www.messenger.com/t/316834699141900'    // pc , mobile
+        // const url = 'https://m.me/316834699141900' // pc , mobile can't use
+        Linking.canOpenURL(url).then(supported => {
+            if (supported) {
+                Linking.openURL(url);
+            } else {
+                console.log('Don\'t know how to open URI: ' + url);
+            }
+        });
+    }
+
+    _onPressSell = () => {
+        Alert.alert(
+            'Check Phra',
+            I18n.t('wantGetOffer'),
+            [
+                {
+                    text: I18n.t('ok'), onPress: () => {
+                        this.props.update(this.props.data.qid, 'approve')
+                    }
+                },
+                { text: I18n.t('cancel') }
+            ]
+        )
+
+    }
+
+    _onPressCancel = () => {
+        Alert.alert(
+            'Check Phra',
+            I18n.t('dontwantOffer'),
+            [
+                {
+                    text: I18n.t('ok'), onPress: () => {
+                        this.props.update(this.props.data.qid, 'cancel')
+                    }
+                },
+                { text: I18n.t('cancel') }
+            ]
+        )
+    }
+
     render() {
         I18n.locale = this.props.language
-        // console.log(this.props.data)
-        // console.log('HERE DATA EDITTTTTTTTTTT')
         let img2 = []
-        this.props.data.answer.images.map(e => {
-            img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
-        })
-        let tmp1 = null
-        let tmp2 = null
-
-        // if (this.props.data.answer[1]) {
-        //     tmp1 = this.props.data.answer[1].result
-        // }
-        // if (this.props.data.answer[2]) {
-        //     tmp2 = this.props.data.answer[2].result
-        // }
+        if (this.props.data && this.props.data.answer && this.props.data.answer.images) {
+            this.props.data.answer.images.map(e => {
+                img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+            })
+        }
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -215,6 +269,7 @@ class Bit2 extends Component {
                             <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')} </Text>
                         </View>
 
+
                         {this.state.bidData && this.state.bidData.length > 0 ? this.state.bidData && this.state.bidData.messages && this.state.bidData.messages.map((e, i) => {
                             let date = moment.unix(e.date_time).format("HH:mm")
                             // console.log(e)
@@ -275,24 +330,70 @@ class Bit2 extends Component {
                             }
                         })}
 
-                        {this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 == 0) && this.props.data.messages.length < 5 && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
+
+
+                        {this.state.hide == false && this.props.data && this.props.data.status == 'bargain' && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
                             value={this.state.price}
                             textAlign={'center'}
                             onChangeText={(text) => this.setState({ price: text })}
                             placeholder={I18n.t('inputBit')} />
 
-                            <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
+                            <View style={{ alignItems: 'center' }}>
+                                <View style={{ width: '40%', height: 45 }}>
+                                    <RoundedButton
+                                        style={{ marginHorizontal: 10 }}
+                                        title={I18n.t('bid2')}
+                                        onPress={this._onPressButton}
+                                    />
+                                </View>
+                            </View>
+
+                        </View>}
+
+                        {this.props.data.recent_bid == 'admin' && this.state.hide == false && this.props.data && this.props.data.status == 'bargain' && <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+                            <View style={{ width: '40%', height: 45 }}>
                                 <RoundedButton
                                     style={{ marginHorizontal: 10 }}
-                                    title={I18n.t('ok')}
-                                    onPress={this._onPressButton}
+                                    title={I18n.t('sellNow')}
+                                    onPress={this._onPressSell}
+                                />
+                            </View>
+                            <View style={{ width: '40%', height: 45 }}>
+                                <RoundedButton
+                                    style={{ marginHorizontal: 10 }}
+                                    title={I18n.t('dontSell')}
+                                    onPress={this._onPressCancel}
                                 />
                             </View>
                         </View>}
 
-                        {this.props.data && this.props.data.status == 'approve' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('waitUser')}</Text>}
-                        {this.props.data && this.props.data.status == 'cancel' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('userCancel')}</Text>}
-                        <View style={{ height: 40 }}>
+                        {this.state.updateData && this.state.updateData.status == 'approve' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('callAdmin')}</Text> : this.props.data && this.props.data.status == 'approve' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('callAdmin')}</Text>}
+                        {this.state.updateData && this.state.updateData.status == 'cancel' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('dontSell')}</Text> : this.props.data && this.props.data.status == 'cancel' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('dontSell')}</Text>}
+
+
+
+                        <View style={{
+                            position: 'absolute',
+                            right: 5, top: -8,
+                            backgroundColor: "red",
+                            height: 40,
+                            width: 40,
+                            borderRadius: 20,
+                            backgroundColor: "#104E8Bdd",
+                            marginTop: Metrics.doubleBaseMargin,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }} >
+                            <TouchableOpacity onPress={this._goToURL} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                                <Icon
+                                    name="facebook-square"
+                                    size={24}
+                                    color="white"
+                                />
+                            </TouchableOpacity></View>
+
+
+                        <View style={{ height: 50 }}>
                         </View>
 
 
@@ -317,11 +418,12 @@ const mapStateToProps = (state) => {
         // data: state.expert.answer_detail,
         language: state.auth.language,
         request: state.expert.fetch5,
-        data: state.trading.data_answer,  // pass value from flatlist set to Bit 2
+        data: state.trading.data_answer,  // pass set data to Bit 2
         data_bid: state.trading.data,  // data trading/add or data _bid
         data_detail: state.trading.data_detail,  // data when get detail by use bid id
         request1: state.trading.fetching,  // trading/add
         request2: state.trading.request,   // trading/detail
+        data_status: state.trading.data_status,  // after sell or cancel phra
     }
 }
 
@@ -331,11 +433,11 @@ const mapDispatchToProps = (dispatch) => {
         //   getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
         //   deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
         //   setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
-        updateAnswer: (pack, q_id) => dispatch(ExpertActions.updateAnswer(pack, q_id)),
-        getAnswer: (page) => dispatch(ExpertActions.answerList(page)),
+        getAnswer: (page) => dispatch(TradingActions.listTrading(page)),
         setData: (data) => dispatch(TradingActions.setData(data)),
         trading: (qid, message) => dispatch(TradingActions.tradingRequest(qid, message)),
+        update: (qid, status) => dispatch(TradingActions.updateStatus(qid, status)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Bit2)
+export default connect(mapStateToProps, mapDispatchToProps)(UserBit2)

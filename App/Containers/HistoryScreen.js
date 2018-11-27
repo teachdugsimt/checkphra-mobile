@@ -193,7 +193,7 @@ class HistoryScreen extends Component {
             else if (item.type == 'พระบูชา') {
               name = I18n.t('phraBucha')
             }
-            else if (item.type == 'อื่นๆ หรือ ไม่ทราบ') {
+            else if (item.type == 'อื่นๆ หรือ ไม่ทราบ' || item.type == 'ไม่ระบุประเภท') {
               name = I18n.t('otherOrUnknown')
             }
 
@@ -216,12 +216,20 @@ class HistoryScreen extends Component {
                         color: Colors.brownText,
                         // margin: 20
                       }}>{name}</Text>
-                      <Text style={{
-                        fontFamily: 'Prompt-SemiBold',
-                        fontSize: 12,
-                        color: Colors.brownText,
-                        // margin: 20
-                      }}>{date}</Text>
+                      <View style={{ flexDirection: 'row'}}>
+                        <Text style={{
+                          fontFamily: 'Prompt-SemiBold',
+                          fontSize: 12,
+                          color: Colors.brownText,
+                          // margin: 20
+                        }}>{date}</Text>
+                        <Text style={{
+                          fontFamily: 'Prompt-SemiBold',
+                          fontSize: 12,
+                          color: Colors.brownText,
+                          // margin: 20
+                        }}> ( {item.id} )</Text>
+                      </View>
                     </View>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',

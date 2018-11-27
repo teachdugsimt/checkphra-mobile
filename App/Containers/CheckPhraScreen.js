@@ -107,9 +107,6 @@ class CheckPhraScreen extends Component {
         alert(I18n.t('pleaseAnswerQuestion'))
       } else {
 
-
-
-
         if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false && this.state.checkTrue3 == false) {
           tmp.push('พระแท้')
         } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false && this.state.checkTrue3 == false) {
@@ -119,7 +116,7 @@ class CheckPhraScreen extends Component {
         } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
           tmp.push('พระแท้ไม่รู้ที่')
         } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkTrue3 == false && this.state.checkFalse == false) {
-          tmp.push(null)
+          tmp.push('ไม่ออกผล')
         }
 
 
@@ -455,31 +452,29 @@ class CheckPhraScreen extends Component {
                 ) {
                   return (
                     <View>
-                      {
-                        // this.props.language && this.props.language == 'th' &&
-                        <View><View style={{ flexDirection: 'row' }}>
-                          <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
-                          {/* disable question 3 */}
-                          <CheckBox
-                            style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
-                            onClick={() => {
-                              this.setState({
-                                checkNone3: !this.state.checkNone3,
-                                editans3: !this.state.editans3,
-                                answer3: null,
-                              })
-                            }}
-                            disabled={!this.state.editing}
-                            isChecked={this.state.checkNone3}
-                            rightText={I18n.t('noneAnswer')}
-                            rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
-                            checkBoxColor={Colors.brownText}
-                          />
-                          {/* disable question 3 */}
+                      {this.props.language && this.props.language == 'th' && <View><View style={{ flexDirection: 'row' }}>
+                        <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
+                        {/* disable question 3 */}
+                        <CheckBox
+                          style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                          onClick={() => {
+                            this.setState({
+                              checkNone3: !this.state.checkNone3,
+                              editans3: !this.state.editans3,
+                              answer3: null,
+                            })
+                          }}
+                          disabled={!this.state.editing}
+                          isChecked={this.state.checkNone3}
+                          rightText={I18n.t('noneAnswer')}
+                          rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                          checkBoxColor={Colors.brownText}
+                        />
+                        {/* disable question 3 */}
 
-                        </View>
-                          <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
-                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} /></View>
+                      </View>
+                        <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
+                          onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} /></View>
                       }
 
                       {this.props.language && (this.props.language == 'en' || this.props.language == 'en-US') && <View style={{}}>

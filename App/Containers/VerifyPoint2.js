@@ -106,30 +106,30 @@ class VerifyPoint2 extends Component {
         // console.log(img2)
         return (
             <View style={{ flex: 1 }}>
-                <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', height: 75, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', height: 60, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }}>
                     <Text style={{ color: status_color, fontSize: 20 }}>{status}</Text>
                 </View>
 
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('priceProduct')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{product} ฿</Text>
                 </View>
 
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionTime')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{time}</Text>
                 </View>
 
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionType')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{type}</Text>
                 </View>
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionID')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{this.props.item.id}</Text>
                 </View>
 
-                <View style={{ flex: 0.65 }}>
+                <View style={{ flex: 0.57 }}>
                     <ImageViewer
                         saveToLocalByLongPress={false}
                         imageUrls={img2}

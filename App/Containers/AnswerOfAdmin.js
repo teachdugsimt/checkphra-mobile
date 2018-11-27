@@ -1,24 +1,30 @@
 import React, { Component } from 'react'
-import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl } from 'react-native'
+import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, TextInput } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import QuestionActions from '../Redux/QuestionRedux'
 import moment from 'moment'
 import 'moment/locale/th'
-
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
+import TradingActions from '../Redux/TradingRedux'
 // Styles
 import styles from './Styles/CheckListScreenStyle'
 import I18n from '../I18n/i18n';
+import RoundedButton from '../Components/RoundedButton';
 I18n.fallbacks = true;
 // I18n.currentLocale();
 
-const { width } = Dimensions.get('window')
+let { width, height } = Dimensions.get('window')
 let check = true
 let count = 1
+
+const slideAnimation = new SlideAnimation({
+    slideFrom: 'bottom',
+});
 
 class AnswerOfAdmin extends Component {
     constructor(props) {
@@ -27,6 +33,8 @@ class AnswerOfAdmin extends Component {
             answerData: null,
             full_data: null,
             tmp: null,
+            price: null,
+            phra_bit: null,
         }
     }
 
@@ -45,16 +53,18 @@ class AnswerOfAdmin extends Component {
         console.log(prevState)
         // newProps.getAnswer(1)
         let tmp = null
-        // if (newProps.data_updateAnswer && prevState.tmp == null) {
-        //     if (check == true) {
-        //         newProps.getAnswer(1)
-        //         tmp = newProps.data_updateAnswer
-        //         check = false
-        //         return {
-        //             tmp
-        //         }
-        //     }
-        // }
+        let full_data = []
+
+        if (newProps.data_answer && prevState.answerData && prevState.answerData != newProps.data_answer) {
+
+            newProps.data_answer.map(e => {
+                full_data.push({
+                    qid: e.q_id,
+                    bid_status: !e.bid_status && (e.answer[0].result == 'พระแท้ไม่รู้ที่' || e.answer[0].result == 'พระแท้' || e.answer[0].result == 'พระแท้ย้อนยุค') ? 'can' : 'not',
+                })
+            })
+            newProps.setFullData2(full_data)
+        }
 
         if (newProps.data_updateAnswer && prevState.tmp == null) {
             newProps.getAnswer(1)
@@ -74,19 +84,11 @@ class AnswerOfAdmin extends Component {
             }
         }
 
-        // if (prevState.tmp != null) {
-
-        //     if (prevState.tmp != newProps.data_updateAnswer) {  // คำตอบที่แก้ไขไปแล้ว != คำตอบที่แก้ไขใหม่
-        //         newProps.getAnswer(1)
-        //         return {
-        //             tmp: newProps.data_updateAnswer
-        //         }
-        //     }
-        // }
 
 
         return {
-            answerData: plist
+            answerData: plist,
+            full_data
         }
     }
 
@@ -115,6 +117,19 @@ class AnswerOfAdmin extends Component {
         this.props.getAnswer(count)
     }
 
+    _pressBit = (item) => {
+        this.setState({ phra_bit: item })
+        this.popupDialog.show()
+    }
+
+    _pressBit2 = () => {
+        // console.log('FUCK YEAH555')
+        this.props.trading(this.state.phra_bit.q_id, this.state.price)
+        this.props.editFullData2(this.state.phra_bit.q_id)
+        // this.props.getAnswer(1)
+        this.popupDialog.dismiss()
+    }
+
 
     render() {
         I18n.locale = this.props.language
@@ -130,6 +145,40 @@ class AnswerOfAdmin extends Component {
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
 
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('bid')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.5}
+                    height={height / 3}
+                    // height={150}
+                    onDismissed={() => { this.setState({ price: null }) }}
+                >
+                    <View style={{ flex: 1, paddingTop: 8 }}>
+                        <Text style={{
+                            color: Colors.brownText,
+                            fontSize: 18,
+                            fontFamily: 'Prompt-SemiBold',
+                            alignSelf: 'center',
+                        }}>{this.state.phra_bit ? (this.state.phra_bit.type == 'อื่นๆ หรือ ไม่ทราบ'||this.state.phra_bit.type == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : I18n.t(this.state.phra_bit.type)) : ''}</Text>
+                        <TextInput style={{ width: '75%', alignSelf: 'center' }}
+                            value={this.state.price}
+                            textAlign={'center'}
+                            onChangeText={(text) => this.setState({ price: text })}
+                            placeholder={I18n.t('inputBit')} />
+
+                        <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
+                            <RoundedButton
+                                style={{ marginHorizontal: 10 }}
+                                title={I18n.t('ok')}
+                                onPress={this._pressBit2}
+                            />
+                        </View>
+                    </View>
+                </PopupDialog>
+
                 <FlatList
                     refreshControl={
                         <RefreshControl
@@ -139,14 +188,13 @@ class AnswerOfAdmin extends Component {
                     }
                     data={this.props.data_answer && this.props.data_answer.length > 0 && JSON.parse(JSON.stringify(this.props.data_answer))}
                     // data={data}
-                    renderItem={({ item }) => {
+                    renderItem={({ item, index }) => {
                         let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
                         // let status = 'รอตรวจ'
                         let color = 'orange'
-                        if (item.status == 'success') {
-                            status = 'ตรวจแล้ว'
-                            color = 'green'
-                        }
+
+                        let tmp = this.props.full_data2 && this.props.full_data2.length > 0 ? this.props.full_data2.find(e => e.qid == item.q_id) : null
+
                         let name = ''
                         if (item.type == 'เบญจภาคี') {
                             name = I18n.t('benjapakee')
@@ -202,77 +250,67 @@ class AnswerOfAdmin extends Component {
                         else if (item.type == 'พระบูชา') {
                             name = I18n.t('phraBucha')
                         }
-                        else if (item.type == 'อื่นๆ หรือ ไม่ทราบ') {
+                        else if (item.type == 'อื่นๆ หรือ ไม่ทราบ' || item.type == 'ไม่ระบุประเภท') {
                             name = I18n.t('otherOrUnknown')
                         }
 
-                        // let count = 0
-                        // item.answer.map(e => {
-                        //     if (e.result == 'ไม่ออกผล') {
-                        //         count++
-                        //     }
-                        // })
-
-
-
-                        return (
-                            <TouchableOpacity onPress={() => {
-                                // if (count == item.answer.length) {
-                                //     alert(I18n.t('cantEdit'))
-                                // } else {
-                                    // check = true
+                        if (this.props.full_data2 != null && this.props.full_data2.length > 0)
+                            return (
+                                <TouchableOpacity onPress={() => {
                                     this.props.setAnswerDetail(item)
                                     this.props.navigation.navigate('detail')
-                                // }
+                                }
+                                }>
+                                    <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                        <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 60, height: 60, margin: 10, borderRadius: 10 }} />
+                                        <View style={{ flex: 1, padding: 10 }}>
 
-                            }
-                            }>
-                                <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 60, height: 60, margin: 10, borderRadius: 10 }} />
-                                    <View style={{ flex: 1, padding: 10 }}>
-
-                                        <View style={{ flexDirection: 'row' }}>
                                             <Text style={{
                                                 fontFamily: 'Prompt-SemiBold',
                                                 fontSize: 18,
                                                 color: Colors.brownText,
                                                 // margin: 20
                                             }}>{name}</Text>
+
                                             <Text style={{
                                                 fontFamily: 'Prompt-SemiBold',
-                                                fontSize: 18,
+                                                fontSize: 12,
                                                 color: Colors.brownText,
                                                 // margin: 20
-                                            }}> ( {item.id} )</Text>
+                                            }}>{date} <Text style={{
+                                                fontFamily: 'Prompt-SemiBold',
+                                                fontSize: 12,
+                                                color: Colors.brownText,
+                                                // margin: 20
+                                            }}> ( {item.id} )</Text></Text>
+                                        </View>
+                                        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 0.35, height: 80 }}>
+
+                                            {item && tmp && tmp.bid_status && tmp.bid_status == 'can' && !item.bid_status && (item.answer[0].result == 'พระแท้ไม่รู้ที่' || item.answer[0].result == 'พระแท้ย้อนยุค' || item.answer[0].result == 'พระแท้') && <TouchableOpacity style={{
+                                                backgroundColor: 'green',
+                                                height: 30, borderRadius: 15, width: '85%', marginVertical: 5, justifyContent: 'center'
+                                            }} onPress={() => this._pressBit(item)}>
+                                                <Text style={{
+                                                    fontFamily: 'Prompt-SemiBold',
+                                                    fontSize: 15, color: 'white', alignSelf: 'center'
+                                                }}>{I18n.t('bid2')}</Text>
+                                            </TouchableOpacity>}
+
+                                            <View>
+                                            </View>
+
                                         </View>
 
-                                        <Text style={{
-                                            fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 12,
-                                            color: Colors.brownText,
-                                            // margin: 20
-                                        }}>{date}</Text>
                                     </View>
-                                    <Text style={{
-                                        fontFamily: 'Prompt-SemiBold',
-                                        fontSize: 15,
-                                        color: 'white',
-                                        margin: 20,
-                                        paddingHorizontal: 20,
-                                        paddingTop: 2.5,
-                                        borderRadius: 15,
-                                        height: 30,
-                                        backgroundColor: color
-                                    }}>{I18n.t('edit')}</Text>
-
-                                </View>
-                            </TouchableOpacity>
-                        )
+                                </TouchableOpacity>
+                            )
                     }}
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                     onEndReached={this._onScrollEndList}
                     onEndReachedThreshold={0.05}
                 />
+
+
 
             </LinearGradient>
         )
@@ -286,17 +324,20 @@ const mapStateToProps = (state) => {
         request3: state.expert.fetch5, // send answer
         data_answer: state.expert.data_answer,
         data_updateAnswer: state.expert.data_updateAnswer,
+
+        data_bit: state.trading.data,
+        // fetch_bid: state.trading.fetching,
+        full_data2: state.trading.full_data2,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        //   getHistory: (count) => dispatch(QuestionActions.getHistory(count)),
-        //   getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
-        //   deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
-        //   setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
         getAnswer: (page) => dispatch(ExpertActions.answerList(page)),
         setAnswerDetail: (data) => dispatch(ExpertActions.setAnswerDetail(data)),
+        trading: (qid, message) => dispatch(TradingActions.tradingRequest(qid, message)),
+        setFullData2: (data) => dispatch(TradingActions.setFullData2(data)),
+        editFullData2: (qid) => dispatch(TradingActions.editFullData2(qid)),
     }
 }
 

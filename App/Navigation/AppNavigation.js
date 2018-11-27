@@ -21,6 +21,8 @@ import AnswerOfAdmin from '../Containers/AnswerOfAdmin'
 import AnswerOfAdmin2 from '../Containers/AnswerOfAdmin2'
 import Bit from '../Containers/Bit'
 import Bit2 from '../Containers/Bit2'
+import UserBit from '../Containers/UserBit'
+import UserBit2 from '../Containers/UserBit2'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -276,11 +278,48 @@ const PublishStack = StackNavigator(  // Publish stack
   }
 );
 
-const DashStack = TabNavigator(
+const UserBitStack = StackNavigator(  // Publish stack
+  {
+    userBit: {
+      screen: UserBit,
+      navigationOptions: {
+        title: I18n.t('bitPrice2')
+      }
+    },
+    userBit2: {
+      screen: UserBit2,
+      navigationOptions: {
+        title: I18n.t('bitPrice2')
+      }
+    },
+  },
+  {
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
+      headerBackTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Regular'
+      },
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Regular'
+      },
+      tabBarLabel: I18n.t('bitPrice2')
+    })
+  }
+);
+
+const DashStack = TabNavigator(   // **************  USER STACK *******************
   {
     upload: UploadStack,
     his: HistoryStack,
     // pub: PublishStack,
+    userbit: UserBitStack,
     pro: PromotionStack,
     profile: ProfileStack,
   },
@@ -305,6 +344,9 @@ const DashStack = TabNavigator(
         }
         if (routeName == "pub") {
           iconName = `newspaper-o${focused ? "" : ""}`;
+        }
+        if (routeName == "userbit") {
+          iconName = `exchange${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       }
@@ -410,39 +452,39 @@ const AdminAnswerStack = StackNavigator({ // **********************FOR ADMIN ***
     })
   })
 
-  const BitStack = StackNavigator({ // **********************FOR ADMIN *************************
-    bit: {
-      screen: Bit,
-      navigationOptions: {
-        title: I18n.t('bitPrice')
-      }
-    },
-    bit2: {
-      screen: Bit2,
-      navigationOptions: {
-        title: I18n.t('bitPrice')
-      }
+const BitStack = StackNavigator({ // **********************FOR ADMIN *************************
+  bit: {
+    screen: Bit,
+    navigationOptions: {
+      title: I18n.t('bitPrice2')
     }
-  }, {
-      transitionConfig: getSlideFromRightTransition,
-      navigationOptions: ({ navigation }) => ({
-        tabBarLabel: I18n.t('bitPrice'),
-        headerStyle: {
-          backgroundColor: Colors.tabBar,
-        },
-        headerTitleStyle: {
-          color: 'white',
-          fontFamily: 'Prompt-Regular'
-        },
-      })
+  },
+  bit2: {
+    screen: Bit2,
+    navigationOptions: {
+      title: I18n.t('bitPrice2')
+    }
+  }
+}, {
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      tabBarLabel: I18n.t('bitPrice2'),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
     })
+  })
 
 const AdminStack = TabNavigator({  // *************** MAIN ADMIN *************************
   checklist: CheckListStack,
-  verify: VerifyStack,
-  // pub: PublishStack,
-  // bit: BitStack,
   answeradmin: AdminAnswerStack,
+  // pub: PublishStack,
+  bit: BitStack,
+  verify: VerifyStack,
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({

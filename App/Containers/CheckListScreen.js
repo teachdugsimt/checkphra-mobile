@@ -188,7 +188,7 @@ class CheckListScreen extends Component {
             else if (item.type == 'พระบูชา') {
               name = I18n.t('phraBucha')
             }
-            else if (item.type == 'อื่นๆ หรือ ไม่ทราบ') {
+            else if (item.type == 'อื่นๆ หรือ ไม่ทราบ' || item.type == 'ไม่ระบุประเภท') {
               name = I18n.t('otherOrUnknown')
             }
 

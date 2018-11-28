@@ -68,6 +68,7 @@ export default {
   realPhranowhere: 'Real amulet unknow place',
   reason: 'Reason',
   checkBy: 'Check by',
+  inputReason: 'Please input your reason',
 
   pickImage: 'Pick your Images',
   frontSide: 'front',
@@ -114,6 +115,7 @@ export default {
 
   addCoinSuccess2: 'Add coin successful',
   addCoinFailure: 'Add coin failure please try again',
+  fuckCoin: 'Cancel',
 
   success: 'Success',
   pending: 'Pending',

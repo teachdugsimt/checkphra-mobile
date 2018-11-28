@@ -47,7 +47,7 @@ export default {
 
   addCoinSuccess2: 'เติมเงินสำเร็จ',
   addCoinFailure: 'เติมเงินล้มเหลว กรุณาทำรายการใหม่',
-
+  fuckCoin: 'ถูกยกเลิก',
 
   checkPhra: 'เช็คพระ',
   package: 'เติมเหรียญ',
@@ -84,6 +84,7 @@ export default {
   realPhranowhere: 'พระแท้ไม่รู้ที่',
   reason: 'เหตุผล',
   checkBy: 'ตรวจโดย',
+  inputReason: 'ระบุเหตุผล',
 
   pickImage: 'เลือกรูป',
   frontSide: 'หน้า',

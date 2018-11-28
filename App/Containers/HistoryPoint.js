@@ -132,6 +132,13 @@ class HistoryPoint extends Component {
     _renderItem = ({ item, index }) => {
         // console.log(item)
         let color = item.status == 0 ? 'orange' : 'green'
+        if(item.status == 0){
+            color = 'orange'
+        } else if(item.status == 10){
+            color = 'green'
+        } else if(item.status == 99){
+            color = 'red'
+        }
         return (
             <TouchableOpacity onPress={() => this._nextPage(item)}>
                 <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>

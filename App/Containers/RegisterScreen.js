@@ -69,10 +69,22 @@ class RegisterScreen extends Component {
     }
   }
 
+  // firebase.auth().fetchProvidersForEmail(email)   // check email has been use ?
+  // .then(providers => {
+  //   if (providers.length === 0) {     // if email not ever used => signupAtFirebase() - normally
+  //     // this email hasn't signed up yet
+  //   } else {    // if email has been used => get token from that email - specially
+  //     // has signed up
+  //   }
+  // });
+
   signupAtFirebase = (email, uid) => {
     if (uid && uid != null) {
-      firebase.auth().createUserWithEmailAndPassword(email, uid)
+      firebase.auth().createUserWithEmailAndPassword(email, uid)   // create token by firebase (email, uid)
         .then((response) => {
+
+         
+
           console.log(response.user._user.email)
           console.log(response.user._user.uid)
           this.props.createUser(response.user._user.email, response.user._user.uid)

@@ -56,14 +56,15 @@ class AnswerOfAdmin extends Component {
         let full_data = []
 
         if (newProps.data_answer && prevState.answerData && prevState.answerData != newProps.data_answer) {
-
-            newProps.data_answer.map(e => {
-                full_data.push({
-                    qid: e.q_id,
-                    bid_status: !e.bid_status && (e.answer[0].result == 'พระแท้ไม่รู้ที่' || e.answer[0].result == 'พระแท้' || e.answer[0].result == 'พระแท้ย้อนยุค') ? 'can' : 'not',
+            if (newProps.data_answer.length > 0) {
+                newProps.data_answer.map(e => {
+                    full_data.push({
+                        qid: e.q_id,
+                        bid_status: !e.bid_status && (e.answer[0].result == 'พระแท้ไม่รู้ที่' || e.answer[0].result == 'พระแท้' || e.answer[0].result == 'พระแท้ย้อนยุค') ? 'can' : 'not',
+                    })
                 })
-            })
-            newProps.setFullData2(full_data)
+                newProps.setFullData2(full_data)
+            }
         }
 
         if (newProps.data_updateAnswer && prevState.tmp == null) {
@@ -162,20 +163,20 @@ class AnswerOfAdmin extends Component {
                             fontSize: 18,
                             fontFamily: 'Prompt-SemiBold',
                             alignSelf: 'center',
-                        }}>{this.state.phra_bit ? (this.state.phra_bit.type == 'อื่นๆ หรือ ไม่ทราบ'||this.state.phra_bit.type == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : I18n.t(this.state.phra_bit.type)) : ''}</Text>
+                        }}>{this.state.phra_bit ? (this.state.phra_bit.type == 'อื่นๆ หรือ ไม่ทราบ' || this.state.phra_bit.type == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : I18n.t(this.state.phra_bit.type)) : ''}</Text>
                         <TextInput style={{ width: '75%', alignSelf: 'center' }}
                             value={this.state.price}
                             textAlign={'center'}
                             onChangeText={(text) => this.setState({ price: text })}
                             placeholder={I18n.t('inputBit')} />
 
-                        <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
+                        {this.state.price && <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
                             <RoundedButton
                                 style={{ marginHorizontal: 10 }}
                                 title={I18n.t('ok')}
                                 onPress={this._pressBit2}
                             />
-                        </View>
+                        </View>}
                     </View>
                 </PopupDialog>
 
@@ -282,7 +283,7 @@ class AnswerOfAdmin extends Component {
                                                 fontSize: 12,
                                                 color: Colors.brownText,
                                                 // margin: 20
-                                            }}> ( {item.id} )</Text></Text>
+                                            }}> ( {item.q_id} )</Text></Text>
                                         </View>
                                         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 0.35, height: 80 }}>
 

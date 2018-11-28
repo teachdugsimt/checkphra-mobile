@@ -49,6 +49,8 @@ class CheckPhraScreen extends Component {
       checkNone1: false,
       checkNone2: false,
       checkNone3: false,
+
+      interested: false,
     }
   }
 
@@ -89,80 +91,85 @@ class CheckPhraScreen extends Component {
     if (this.state.checkNone1 == true && this.state.checkNone2 == true && this.state.checkNone3 == true) {
       this._onPressNotanswer()
     } else {
-      // console.log(this.props.data.question_list)
-      let qlist = this.props.data && this.props.data.question_list ? this.props.data.question_list.map(e => e.question) : []
-      console.log(qlist)
-      // ตรวจสอบ กล่องเช็ค ว่าถ้าไม่ตอบแล้วต้องติ้ก กล่องเช็ค ไม่งั้นจะเด้งแจ้งเตือนนะ
-      if (
-        this.state.checkTrue1 == false && this.state.checkTrue2 == false &&
-        this.state.checkTrue3 == false && this.state.checkFalse == false &&
-        this.state.checkNone1 == false && qlist.includes(1)) {
-        console.log('error 1')
-        alert(I18n.t('pleaseAnswerQuestion'))
-      } else if (this.state.checkNone2 == false && !this.state.answer2 && qlist.includes(2)) {
-        console.log('error 2')
-        alert(I18n.t('pleaseAnswerQuestion'))
-      } else if (this.state.checkNone3 == false && !this.state.answer3 && qlist.includes(3)) {
-        console.log('error 3')
-        alert(I18n.t('pleaseAnswerQuestion'))
-      } else {
+      Alert.alert(
+        'Check Phra',
+        I18n.t('submitTransaction'),
+        [
+          {
+            text: I18n.t('ok'), onPress: () => {
 
-        if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false && this.state.checkTrue3 == false) {
-          tmp.push('พระแท้')
-        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false && this.state.checkTrue3 == false) {
-          tmp.push('พระแท้ย้อนยุค')
-        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true && this.state.checkTrue3 == false) {
-          tmp.push('พระไม่แท้')
-        } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
-          tmp.push('พระแท้ไม่รู้ที่')
-        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkTrue3 == false && this.state.checkFalse == false) {
-          tmp.push('ไม่ออกผล')
-        }
+              // console.log(this.props.data.question_list)
+              let qlist = this.props.data && this.props.data.question_list ? this.props.data.question_list.map(e => e.question) : []
+              console.log(qlist)
+              // ตรวจสอบ กล่องเช็ค ว่าถ้าไม่ตอบแล้วต้องติ้ก กล่องเช็ค ไม่งั้นจะเด้งแจ้งเตือนนะ
+              if (
+                this.state.checkTrue1 == false && this.state.checkTrue2 == false &&
+                this.state.checkTrue3 == false && this.state.checkFalse == false &&
+                this.state.checkNone1 == false && qlist.includes(1)) {
+                console.log('error 1')
+                alert(I18n.t('pleaseAnswerQuestion'))
+              } else if (this.state.checkNone2 == false && !this.state.answer2 && qlist.includes(2)) {
+                console.log('error 2')
+                alert(I18n.t('pleaseAnswerQuestion'))
+              } else if (this.state.checkNone3 == false && !this.state.answer3 && qlist.includes(3)) {
+                console.log('error 3')
+                alert(I18n.t('pleaseAnswerQuestion'))
+              } else {
+
+                if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false && this.state.checkTrue3 == false) {
+                  tmp.push('พระแท้')
+                } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false && this.state.checkTrue3 == false) {
+                  tmp.push('พระแท้ย้อนยุค')
+                } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true && this.state.checkTrue3 == false) {
+                  tmp.push('พระไม่แท้')
+                } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
+                  tmp.push('พระแท้ไม่รู้ที่')
+                } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkTrue3 == false && this.state.checkFalse == false) {
+                  tmp.push('ไม่ออกผล')
+                }
+
+                if (this.state.answer2) {
+                  tmp.push(this.state.answer2)
+                }
+                if (this.state.answer3) {
+                  tmp.push(this.state.answer3)
+                }
+                if (this.state.answer_other) {
+                  tmp.push(this.state.answer_other)
+                }
+
+                if (tmp.length == 0) {
+                  alert(I18n.t('atLeast'))
+                } else {
+
+                  this.state.question.map((e, i) => {
+                    pack.push({
+                      id: e.id,
+                      result: tmp[i] ? tmp[i] : ''
+                    })
+                  })
+                  this.props.setAnswer(pack, this.props.data.id, this.state.answer4, this.state.interested)
+                  this.setState({
+                    answer_other: null,
+                    answer1: null,
+                    answer2: null,
+                    answer3: null,
+                    answer4: null,
+                    answer5: null,
+                    index: 0,
+                    modalVisible: false,
+                  })
+                  this.props.navigation.goBack()
+                }
+
+              }
 
 
-        // if (this.state.checkNone2 == true) {
-        //   this.setState({ answer2: null })
-        // }
-        // if (this.state.checkNone3 == true) {
-        //   this.setState({ answer3: null })
-        // }
-
-        if (this.state.answer2) {
-          tmp.push(this.state.answer2)
-        }
-        if (this.state.answer3) {
-          tmp.push(this.state.answer3)
-        }
-        if (this.state.answer_other) {
-          tmp.push(this.state.answer_other)
-        }
-
-        if (tmp.length == 0) {
-          alert(I18n.t('atLeast'))
-        } else {
-
-          this.state.question.map((e, i) => {
-            pack.push({
-              id: e.id,
-              result: tmp[i] ? tmp[i] : ''
-            })
-          })
-          this.props.setAnswer(pack, this.props.data.id, this.state.answer4)
-          this.setState({
-            answer_other: null,
-            answer1: null,
-            answer2: null,
-            answer3: null,
-            answer4: null,
-            answer5: null,
-            index: 0,
-            modalVisible: false,
-          })
-          this.props.navigation.goBack()
-        }
-
-      }
-
+            }
+          },
+          { text: I18n.t('cancel') }
+        ]
+      )
 
     }
   }
@@ -321,6 +328,7 @@ class CheckPhraScreen extends Component {
                               checkTrue3: false,
                               checkFalse: false,
                               editans1: !this.state.editans1,
+                              interested: false,
                               // editing: !this.state.editing,
                             })
                           }}
@@ -397,7 +405,8 @@ class CheckPhraScreen extends Component {
                             checkNone2: true,  // check none 2
                             checkNone3: true,  // check none 3
                             editans2: false,  // ควบคุม textInput 2
-                            editans3: false  // ควบคุม textInput 3
+                            editans3: false,  // ควบคุม textInput 3
+                            interested: false,
                           })
                         }}
                         disabled={this.state.editans1}
@@ -503,17 +512,28 @@ class CheckPhraScreen extends Component {
                     </View>
                   )
                 }
-                // else {
-                //   return (
-                //     <View>
-                //       <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                //       <TextInput key={i} value={this.state.answer_other} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                //         onChangeText={(text) => this.setState({ answer_other: text })} />
-                //     </View>
-                //   )
-                // }
 
               })}
+
+              {/* ***************INTERESTED AMULET**************** */}
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ marginLeft: 15 }}>a) </Text>
+                <CheckBox
+                  style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                  onClick={() => {
+                    this.setState({
+                      interested: !this.state.interested
+                    })
+                  }}
+                  disabled={(this.state.checkFalse || this.state.checkNone1)}
+                  isChecked={this.state.interested}
+                  rightText={I18n.t('leasing')}
+                  rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                  checkBoxColor={Colors.brownText}
+                />
+              </View>
+              {/* ***************INTERESTED AMULET**************** */}
+
 
               <View style={{ width: '65%', alignSelf: 'center', marginTop: 10 }}>
                 <RoundedButton
@@ -571,7 +591,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setAnswer: (pack, q_id, argument) => dispatch(ExpertActions.expertRequest(pack, q_id, argument))
+    setAnswer: (pack, q_id, argument, interested) => dispatch(ExpertActions.expertRequest(pack, q_id, argument, interested))
   }
 }
 

@@ -221,10 +221,10 @@ class UserBit2 extends Component {
 
                 <View style={{ flex: 0.63 }}>
                     <ScrollView>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                        {/* <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('detailAnswer')} </Text>
-                        </View>
-                        {this.props.data && this.props.data.answer && this.props.data.answer.answer.map((e, i) => {
+                        </View> */}
+                        {/* {this.props.data && this.props.data.answer && this.props.data.answer.answer.map((e, i) => {
                             let name = ''
 
                             if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
@@ -263,18 +263,22 @@ class UserBit2 extends Component {
                                 )
                             }
 
-                        })}
+                        })} */}
 
                         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')} </Text>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')} {this.props.data.qid ? ' ( ' + this.props.data.qid + ' )' : ''}</Text>
                         </View>
 
+                        <View>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('detailBidPrice')}</Text>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', alignSelf: 'center', marginTop: 5 }}>{I18n.t('detailBidPrice2')}</Text>
+                        </View>
 
                         {this.state.bidData && this.state.bidData.length > 0 ? this.state.bidData && this.state.bidData.messages && this.state.bidData.messages.map((e, i) => {
                             let date = moment.unix(e.date_time).format("HH:mm")
                             // console.log(e)
                             // console.log('********************************')
-                            if (i % 2 == 0 || i == 0) {
+                            if (i % 2 != 0 && i != 0) {
                                 return (
                                     <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-start' }}>
                                         <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginLeft: 10, backgroundColor: '#E59866', borderRadius: 20, height: 40 }}>
@@ -301,7 +305,7 @@ class UserBit2 extends Component {
                             let date = moment.unix(e.date_time).format("HH:mm")
                             // console.log(e)
                             // console.log('********************************')
-                            if (i % 2 == 0 || i == 0) {
+                            if (i % 2 != 0 && i != 0) {
                                 return (
                                     <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-start' }}>
                                         <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 10, backgroundColor: '#E59866', borderRadius: 15 }}>
@@ -331,14 +335,14 @@ class UserBit2 extends Component {
                         })}
 
 
-
-                        {this.state.hide == false && this.props.data && this.props.data.status == 'bargain' && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
+                        {/* && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 */}
+                        {this.props.data.messages ? this.state.hide == false && (this.props.data.messages.length % 2 == 0) && this.props.data.messages.length < 4 && this.props.data && (this.props.data.status == 'bargain' || this.props.data.status == 'interested') && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
                             value={this.state.price}
                             textAlign={'center'}
                             onChangeText={(text) => this.setState({ price: text })}
                             placeholder={I18n.t('inputBit')} />
 
-                            <View style={{ alignItems: 'center' }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                                 <View style={{ width: '40%', height: 45 }}>
                                     <RoundedButton
                                         style={{ marginHorizontal: 10 }}
@@ -346,9 +350,41 @@ class UserBit2 extends Component {
                                         onPress={this._onPressButton}
                                     />
                                 </View>
+                                {this.props.data.status == 'interested' && <View style={{ width: '40%', height: 45 }}>
+                                    <RoundedButton
+                                        style={{ marginHorizontal: 10 }}
+                                        title={I18n.t('cancelHire')}
+                                        onPress={this._onPressCancel}
+                                    />
+                                </View>}
                             </View>
 
-                        </View>}
+                        </View>
+                            : this.state.hide == false && this.props.data && (this.props.data.status == 'bargain' || this.props.data.status == 'interested') && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
+                                value={this.state.price}
+                                textAlign={'center'}
+                                onChangeText={(text) => this.setState({ price: text })}
+                                placeholder={I18n.t('inputBit')} />
+
+                                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                                    <View style={{ width: '40%', height: 45 }}>
+                                        <RoundedButton
+                                            style={{ marginHorizontal: 10 }}
+                                            title={I18n.t('bid2')}
+                                            onPress={this._onPressButton}
+                                        />
+                                    </View>
+                                    {this.props.data.status == 'interested' && <View style={{ width: '40%', height: 45 }}>
+                                        <RoundedButton
+                                            style={{ marginHorizontal: 10 }}
+                                            title={I18n.t('cancelHire')}
+                                            onPress={this._onPressCancel}
+                                        />
+                                    </View>}
+                                </View>
+
+                            </View>}
+
 
                         {this.props.data.recent_bid == 'admin' && this.state.hide == false && this.props.data && this.props.data.status == 'bargain' && <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
                             <View style={{ width: '40%', height: 45 }}>
@@ -374,7 +410,7 @@ class UserBit2 extends Component {
 
                         <View style={{
                             position: 'absolute',
-                            right: 5, top: -8,
+                            right: 5, top: -15,
                             backgroundColor: "red",
                             height: 40,
                             width: 40,
@@ -423,7 +459,7 @@ const mapStateToProps = (state) => {
         data_detail: state.trading.data_detail,  // data when get detail by use bid id
         request1: state.trading.fetching,  // trading/add
         request2: state.trading.request,   // trading/detail
-        data_status: state.trading.data_status,  // after sell or cancel phra
+        data_status: state.trading.data_status,  // after sell or cancel phra we get this data 
     }
 }
 

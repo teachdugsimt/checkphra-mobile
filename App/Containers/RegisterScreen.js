@@ -83,8 +83,6 @@ class RegisterScreen extends Component {
       firebase.auth().createUserWithEmailAndPassword(email, uid)   // create token by firebase (email, uid)
         .then((response) => {
 
-         
-
           console.log(response.user._user.email)
           console.log(response.user._user.uid)
           this.props.createUser(response.user._user.email, response.user._user.uid)

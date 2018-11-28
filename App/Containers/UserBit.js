@@ -153,6 +153,9 @@ class UserBit extends Component {
                         } else if (item.status == 'cancel') {
                             color = 'red'
                             message = I18n.t('cancelHire')
+                        } else if (item.status == 'interested') {
+                            color = '#579AEE'
+                            message = I18n.t('interest')
                         }
                         let name = item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
 
@@ -186,24 +189,26 @@ class UserBit extends Component {
                                                 fontSize: 12,
                                                 color: Colors.brownText,
                                                 // margin: 20
-                                            }}> ( {item.id} )</Text>
+                                            }}> ( {item.qid} )</Text>
                                         </View>
                                     </View>
-                                    <Text style={{
-                                        fontFamily: 'Prompt-SemiBold',
-                                        fontSize: 15,
-                                        color: 'white',
-                                        margin: 20,
-                                        paddingHorizontal: 20,
-                                        paddingTop: 2.5,
-                                        borderRadius: 15,
-                                        height: 30,
-                                        backgroundColor: color
-                                    }}>{message}</Text>
-                                      {item.recent_bid == 'admin' && item.status == 'bargain' && <View style={{
-                                        backgroundColor: 'red', height: 10, width: 10, borderRadius: 5, position: 'absolute', bottom: 46, right: 23
-                                    }}>
-                                    </View>}
+                                    <View style={{ width: width / 2.7, justifyContent: 'center', alignItems: 'center' }}>
+                                        <Text style={{
+                                            fontFamily: 'Prompt-SemiBold',
+                                            fontSize: 15,
+                                            color: 'white',
+                                            margin: 20,
+                                            paddingHorizontal: 20,
+                                            paddingTop: 2.5,
+                                            borderRadius: 15,
+                                            height: 30,
+                                            backgroundColor: color
+                                        }}>{message}</Text>
+                                        {item.recent_bid == 'admin' && item.status == 'bargain' && <View style={{
+                                            backgroundColor: 'red', height: 10, width: 10, borderRadius: 5, position: 'absolute', bottom: 45, right: (this.props.language == 'en-US' || this.props.language == 'en' || this.props.language == 'en-Us') ? 30 : 33
+                                        }}>
+                                        </View>}
+                                    </View>
 
                                 </View>
                             </TouchableOpacity>

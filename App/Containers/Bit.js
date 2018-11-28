@@ -153,6 +153,9 @@ class Bit extends Component {
                         } else if (item.status == 'cancel') {
                             color = 'red'
                             message = I18n.t('cancelHire')
+                        } else if (item.status == 'interested') {
+                            color = '#579AEE'
+                            message = I18n.t('interest')
                         }
 
                         // approve - ยอมรับข้อเสนอ - green
@@ -193,22 +196,23 @@ class Bit extends Component {
                                             }}> ( {item.qid} )</Text>
                                         </View>
                                     </View>
-
-                                    <Text style={{
-                                        fontFamily: 'Prompt-SemiBold',
-                                        fontSize: 15,
-                                        color: 'white',
-                                        margin: 20,
-                                        paddingHorizontal: 20,
-                                        paddingTop: 2.5,
-                                        borderRadius: 15,
-                                        height: 30,
-                                        backgroundColor: color
-                                    }}>{message}</Text>
-                                    {item.recent_bid == 'user' && item.status == 'bargain' && <View style={{
-                                        backgroundColor: 'red', height: 10, width: 10, borderRadius: 5, position: 'absolute', bottom: 46, right: 23
-                                    }}>
-                                    </View>}
+                                    <View style={{ width: width / 2.7, justifyContent: 'center', alignItems: 'center' }}>
+                                        <Text style={{
+                                            fontFamily: 'Prompt-SemiBold',
+                                            fontSize: 15,
+                                            color: 'white',
+                                            margin: 20,
+                                            paddingHorizontal: 20,
+                                            paddingTop: 2.5,
+                                            borderRadius: 15,
+                                            height: 30,
+                                            backgroundColor: color
+                                        }}>{message}</Text>
+                                        {item.recent_bid == 'user' && item.status == 'bargain' && <View style={{
+                                            backgroundColor: 'red', height: 10, width: 10, borderRadius: 5, position: 'absolute', bottom: 45, right: (this.props.language == 'en-US' || this.props.language == 'en' || this.props.language == 'en-Us') ? 30 : 33
+                                        }}>
+                                        </View>}
+                                    </View>
 
                                 </View>
                             </TouchableOpacity>

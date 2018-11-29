@@ -68,21 +68,28 @@ class RegisterScreen extends Component {
       errorMessage
     }
   }
-
-  // firebase.auth().fetchProvidersForEmail(email)   // check email has been use ?
-  // .then(providers => {
-  //   if (providers.length === 0) {     // if email not ever used => signupAtFirebase() - normally
-  //     // this email hasn't signed up yet
-  //   } else {    // if email has been used => get token from that email - specially
-  //     // has signed up
-  //   }
-  // });
+  
+  // checkAtFirebase = (email, uid) => {
+  //   firebase.auth().fetchProvidersForEmail(email)   // check email has been use ?
+  //   .then(providers => {
+  //     console.log(providers)
+  //     console.log('HERE PROVIDERS *************************************')
+  //     if (providers.length === 0) {     // if email not ever used => signupAtFirebase() - normally
+  //       // this email hasn't signed up yet
+  //       console.log("EMAIL NOT EVER USED 6666")
+  //       this.signupAtFirebase(email, uid)
+  //     } else {    // if email has been used => get token from that email - specially
+  //       // has signed up
+  //       console.log('EMAIL HAS BEEN USED FUCk YOU 5555')
+  //       alert('email has been used FUCK YOU 5555')
+  //     }
+  //   });
+  // }
 
   signupAtFirebase = (email, uid) => {
     if (uid && uid != null) {
       firebase.auth().createUserWithEmailAndPassword(email, uid)   // create token by firebase (email, uid)
         .then((response) => {
-
           console.log(response.user._user.email)
           console.log(response.user._user.uid)
           this.props.createUser(response.user._user.email, response.user._user.uid)
@@ -137,6 +144,7 @@ class RegisterScreen extends Component {
       setTimeout(() => {
         check1 = true
         this.signupAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
+        // this.checkAtFirebase(this.state.email, this.state.uid ? this.state.uid : '')
       }, 3000);
 
     }

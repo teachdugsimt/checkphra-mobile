@@ -63,33 +63,42 @@ export function* addQuestion(api) {
 
   const q = yield select(question)
   const a = yield select(auth)
-  console.log(q.questions)
-  console.log('SAGA Q')
 
-  const response = yield call(api.addQuestion, q.images, q.questions, q.amuletID, a.user_id)
-  console.log(response)
-
-  // success?
-  if (response.ok) {
-    // alert("ส่งพระตรวจ สำเร็จ!!")
-    // Alert.alert(
-    //   'Check Phra',
-    //   'ส่งพระตรวจ สำเร็จ!!',
-    //   [
-    //     { text: 'ตกลง' }
-    //   ],
-    //   // { cancelable: false }
-    // )
-    yield put(QuestionActions.addQuestionSuccess(response.data))
-    yield put(QuestionActions.clearForm())
-    yield put(QuestionActions.clearImage())
-
-  } else {
-
-    alert(response.problem)
+  if (q.questions.length == 1 && (!q.questions[0] || q.questions[0] == undefined || q.questions[0] == null)) {
+    // alert(I18n.t('doubleClick'))
     yield put(QuestionActions.addQuestionFailure())
     yield put(QuestionActions.clearForm())
     yield put(QuestionActions.clearImage())
+  } else {
+    console.log(q.questions)
+    console.log('SAGA Q')
+
+    const response = yield call(api.addQuestion, q.images, q.questions, q.amuletID, a.user_id)
+    console.log(response)
+
+    // success?
+    if (response.ok) {
+      // alert("ส่งพระตรวจ สำเร็จ!!")
+      // Alert.alert(
+      //   'Check Phra',
+      //   'ส่งพระตรวจ สำเร็จ!!',
+      //   [
+      //     { text: 'ตกลง' }
+      //   ],
+      //   // { cancelable: false }
+      // )
+      yield put(QuestionActions.addQuestionSuccess(response.data))
+      yield put(QuestionActions.clearForm())
+      yield put(QuestionActions.clearImage())
+
+    } else {
+
+      alert(response.problem)
+      yield put(QuestionActions.addQuestionFailure())
+      yield put(QuestionActions.clearForm())
+      yield put(QuestionActions.clearImage())
+
+    }
 
   }
 }

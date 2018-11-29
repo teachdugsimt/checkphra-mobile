@@ -31,6 +31,8 @@ export default {
   wantLogout: 'คุณต้องการออกจากระบบ ?',
   haveCoin: 'คุณมีเหรียญคงเหลือ',
   day: 'วัน ',
+  doubleClick: 'กรุณากลับไปหน้ารายการอัพโหลด และทำรายการใหม่ !!',
+  contactAdmin: 'ติดต่อเจ้าหน้าที่',
 
   emailUsed: 'อีเมลนี้ถูกใช้งานแล้ว',
   networkError: 'การเชื่อมต่ออินเตอร์เน็ตผิดพลาด',
@@ -44,6 +46,7 @@ export default {
   historyFailure: 'ร้องขอประวัติล้มเหลว',
   addCoinSuccess: 'แจ้งโอนเงินสำเร็จ',
   addCoinFailure2: 'แจ้งโอนเงินล้มเหลว',
+  useCoins: 'ใช้เหรียญในการตรวจ',
 
   addCoinSuccess2: 'เติมเงินสำเร็จ',
   addCoinFailure: 'เติมเงินล้มเหลว กรุณาทำรายการใหม่',
@@ -189,7 +192,10 @@ export default {
   sellFail: 'ทำรายการล้มเหลว',
   callAdmin: 'กรุณาติดต่อ admin',
   waitUser: 'การเช่าซื้อสำเร็จ รอเจ้าของติดต่อกลับ!!',
-  userCancel: 'ข้อเสนอนี้ถูกปฏิเสธ!!',
+  userCancel: 'ผู้ใช้ปฏิเสธข้อเสนอนี้ !!',
+  adminCancel: 'Mr.Blue ปฏิเสธข้อเสนอนี้ !!',
+  userAccept: 'ผู้ใช้ยอมรับข้อเสนอนี้ !!',
+  adminAccept: 'Mr.blue ยอมรับข้อเสนอนี้ !!',
   approve: 'ยอมรับ',
   cancelHire: 'ปฏิเสธ',
   bargain: 'ต่อรอง',

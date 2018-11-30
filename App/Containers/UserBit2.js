@@ -20,6 +20,10 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import styles from './Styles/CheckListScreenStyle'
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
+// import FBMessengerButton from '../Components/BackToMessenger'
+// var FBMessengerButton = require('../Components/FBMessengerButton');
+// import FBMessengerButton from 'react-native-facebook-messenger'
+import { MessageDialog } from 'react-native-fbsdk'
 I18n.fallbacks = true;
 // I18n.currentLocale();
 
@@ -27,6 +31,11 @@ const { width } = Dimensions.get('window')
 let check = true
 let count = 1
 
+const shareLinkContent = {
+    contentType: 'link',
+    contentUrl: 'http://www.google.com',
+    // contentDescription: 'DONT USE ITS AGAINST FB POLICY',
+};
 class UserBit2 extends Component {
 
     constructor(props) {
@@ -129,6 +138,50 @@ class UserBit2 extends Component {
                 console.log('Don\'t know how to open URI: ' + url);
             }
         });
+
+
+    }
+
+    async testMessage() {
+        MessageDialog.canShow(shareLinkContent).then(
+            function (canShow) {
+                if (canShow) {
+                    return MessageDialog.show(shareLinkContent);
+                } else {
+                    alert('Messenger not installed')
+                }
+            }
+        ).then(
+            function (result) {
+                if (result.isCancelled) {
+                    // cancelled
+                    alert('MESSAGE FAILURE')
+                } else {
+                    // success
+                    alert('MESSAGE SUCCESSFULLY!!')
+                }
+            },
+            function (error) {
+                showToast('Share fail with error: ' + error, 'error');
+            }
+        );
+    }
+
+    sendToMessenger() {
+
+        var url = 'https://www.messenger.com/t/316834699141900',
+            remoteUrl = 'ทดสอบๆ 001'
+
+        RNFBMessenger.sendGif(
+            url,
+            photoObject.get('imageObj').url(),
+            function errorCallback(results) {
+                alert('Error: ' + results);
+            },
+            function successCallback(results) {
+                alert('Success : ' + results);
+            }
+        );
     }
 
     _onPressSell = () => {
@@ -403,10 +456,47 @@ class UserBit2 extends Component {
                             </View>
                         </View>}
 
-                        {this.state.updateData && this.state.updateData.status == 'approve' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userAccept'): I18n.t('adminAccept')}</Text> : this.props.data && this.props.data.status == 'approve' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userAccept'): I18n.t('adminAccept')}</Text>}
-                        {this.state.updateData && this.state.updateData.status == 'cancel' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text> : this.props.data && this.props.data.status == 'cancel' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userCancel'): I18n.t('adminCancel')}</Text>}
+                        {this.state.updateData && this.state.updateData.status == 'approve' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userAccept') : I18n.t('adminAccept')}</Text> : this.props.data && this.props.data.status == 'approve' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userAccept') : I18n.t('adminAccept')}</Text>}
+                        {this.state.updateData && this.state.updateData.status == 'cancel' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text> : this.props.data && this.props.data.status == 'cancel' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text>}
+
+                        {/* <TouchableWithoutFeedback style={{
+                            width: 300,
+                            height: 50,
+                            backgroundColor: '#0084ff',
+                            flex: 1,
+                            alignSelf: 'center',
+                        }} onPress={this.sendToMessenger.bind(this)}>
+                            <FBMessengerButton.Button style={{
+                                width: 300,
+                                height: 50,
+                                backgroundColor: '#0084ff',
+                                flex: 1,
+                                alignSelf: 'center',
+                            }} />
+                        </TouchableWithoutFeedback> */}
+
+                        {/* <View style={{
+                            width: 300,
+                            height: 50,
+                            backgroundColor: '#0084ff',
+                            flex: 1,
+                            alignSelf: 'center',
+                        }} onPress={this.sendToMessenger.bind(this)}>
+                            <TouchableHighlight onPress={() => { FBMessengerButton.backToMessenger(); }}>
+                                <View>
+                                    <Text>Back to</Text>
+                                    <Text>Messenger</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View> */}
 
 
+                        <TouchableOpacity onPress={this.testMessage}>
+                            <View>
+                                <Text>Back to</Text>
+                                <Text>Messenger</Text>
+                            </View>
+                        </TouchableOpacity>
 
                         <View style={{
                             position: 'absolute',

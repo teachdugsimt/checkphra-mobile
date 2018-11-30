@@ -15,10 +15,15 @@ import styles from './Styles/CheckListScreenStyle'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 // I18n.currentLocale();
-
+import { MessageDialog } from 'react-native-fbsdk'
 const { width } = Dimensions.get('window')
 let check = true
 let count = 1
+const shareLinkContent = {
+    contentType: 'link',
+    contentUrl: 'http://www.google.com',
+    contentDescription: 'DONT USE ITS AGAINST FB POLICY',
+};
 
 class UserBit extends Component {
     constructor(props) {
@@ -28,6 +33,31 @@ class UserBit extends Component {
             full_data: null,
             tmp: null,
         }
+    }
+
+    testMessage() {
+        MessageDialog.canShow(shareLinkContent).then(
+            function (canShow) {
+                if (canShow) {
+                    return MessageDialog.show(shareLinkContent);
+                } else {
+                    alert('Messenger not installed')
+                }
+            }
+        ).then(
+            function (result) {
+                if (result.isCancelled) {
+                    // cancelled
+                    alert('MESSAGE FAILURE')
+                } else {
+                    // success
+                    alert('MESSAGE SUCCESSFULLY!!')
+                }
+            },
+            function (error) {
+                showToast('Share fail with error: ' + error, 'error');
+            }
+        );
     }
 
     static navigationOptions = ({ navigation }) => {
@@ -129,6 +159,16 @@ class UserBit extends Component {
                     width: width,
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
+
+                <View>
+                    <TouchableOpacity onPress={this.testMessage}>
+                        <View>
+                            <Text>Back to</Text>
+                            <Text>Messenger</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
 
                 <FlatList
                     refreshControl={

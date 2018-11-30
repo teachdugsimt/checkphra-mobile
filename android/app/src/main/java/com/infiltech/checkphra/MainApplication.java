@@ -47,9 +47,10 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(),
-
-            new ImageResizerPackage(), new ImagePickerPackage(),
+      return Arrays.<ReactPackage>asList(//
+          new MainReactPackage(), //
+          new ImageResizerPackage(), //
+          new ImagePickerPackage(), //
           new FBSDKPackage(mCallbackManager), //
           new RNI18nPackage(), //
           new RNFirebasePackage(), //

@@ -174,7 +174,7 @@ class UploadScreen extends Component {
         } else if (nextProps.modal == undefined) { // กรณีที่ modal ใน redux เป็น undeifined ให้เซทเปน true ก่อน
           nextProps.setModal(true)
         }
-      } else {  // ถ้าไม่ใช่วันนี้ เซทการแจ้งเตือนเป็นจริงไว้ก่อนรอถึงวันที่ 7 
+      } else {  // ถ้าไม่ใช่วันนี้ เซทการแจ้งเตือนเป็นจริงไว้ก่อนรอถึงวันที่ 7
         nextProps.setModal(true)
       }
     }
@@ -201,10 +201,10 @@ class UploadScreen extends Component {
     }
   }
 
-  componentWillMount() {
-    // check_publish = true
-    // check_login = true
-  }
+  // componentWillMount() {
+  // check_publish = true
+  // check_login = true
+  // }
 
   componentWillUnmount() {
     // check_publish = true

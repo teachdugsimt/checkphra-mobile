@@ -20,7 +20,7 @@ I18n.fallbacks = true;
 const auth = state => state.auth
 I18n.locale = auth.language
 
-export function* expertRequest(api, { pack, q_id, argument }) {   //   for add ANSWER ONLY!!!!!!!
+export function* expertRequest(api, { pack, q_id, argument, interested }) {   //   for add ANSWER ONLY!!!!!!!
   const aut = yield select(auth)
   if (!aut.user_id) { return }
   // console.log(argument)
@@ -28,7 +28,7 @@ export function* expertRequest(api, { pack, q_id, argument }) {   //   for add A
   // console.log(q_id)
   // console.log('SAGAS')
 
-  const response = yield call(api.addAnswer, pack, q_id, aut.user_id, argument)
+  const response = yield call(api.addAnswer, pack, q_id, aut.user_id, argument, interested)
   console.log(response)
   // success?
   if (response.ok) {

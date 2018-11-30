@@ -4,7 +4,7 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  expertRequest: ['pack', 'q_id', 'argument'],
+  expertRequest: ['pack', 'q_id', 'argument', 'interested'],
   expertSuccess: ['data'],
   expertFailure: null,
 

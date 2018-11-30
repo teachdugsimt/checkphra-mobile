@@ -23,7 +23,7 @@ const slideAnimation = new SlideAnimation({
 let { width, height } = Dimensions.get('window')
 let check_publish = true
 let check_login = true
-
+let checkButton = false
 
 class UploadScreen extends Component {
 
@@ -45,6 +45,7 @@ class UploadScreen extends Component {
       modalVisible: true,
       coin: null,
       // spinnner: false,
+      disButton: false,
     }
   }
 
@@ -212,13 +213,18 @@ class UploadScreen extends Component {
   }
 
   getTypePhra = (item) => {
+    checkButton = true
+
     if (item.name == "เบญจภาคี" || item.name == "Benja pakee") {
       this.props.navigation.navigate("detail")
+      checkButton = false
     }
     else {
       this.props.setAmuletType(item.id)
       this.props.navigation.navigate("send")
+      checkButton = false
     }
+
   }
 
   componentDidMount() {
@@ -302,7 +308,7 @@ class UploadScreen extends Component {
           items={this.state.item ? this.state.item : []}
           renderItem={item => {
             return (
-              <TouchableOpacity onPress={() => this.getTypePhra(item)}>
+              <TouchableOpacity onPress={() => this.getTypePhra(item)} disabled={checkButton}>
                 <View
                   style={{
                     height: 100,

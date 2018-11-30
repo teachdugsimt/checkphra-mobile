@@ -287,7 +287,7 @@ class AnswerOfAdmin extends Component {
                                         </View>
                                         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 0.35, height: 80 }}>
 
-                                            {item && tmp && tmp.bid_status && tmp.bid_status == 'can' && !item.bid_status && (item.answer[0].result == 'พระแท้ไม่รู้ที่' || item.answer[0].result == 'พระแท้ย้อนยุค' || item.answer[0].result == 'พระแท้') && <TouchableOpacity style={{
+                                            {/* {item && tmp && tmp.bid_status && tmp.bid_status == 'can' && !item.bid_status && (item.answer[0].result == 'พระแท้ไม่รู้ที่' || item.answer[0].result == 'พระแท้ย้อนยุค' || item.answer[0].result == 'พระแท้') && <TouchableOpacity style={{
                                                 backgroundColor: 'green',
                                                 height: 30, borderRadius: 15, width: '85%', marginVertical: 5, justifyContent: 'center'
                                             }} onPress={() => this._pressBit(item)}>
@@ -295,8 +295,16 @@ class AnswerOfAdmin extends Component {
                                                     fontFamily: 'Prompt-SemiBold',
                                                     fontSize: 15, color: 'white', alignSelf: 'center'
                                                 }}>{I18n.t('bid2')}</Text>
-                                            </TouchableOpacity>}
-
+                                            </TouchableOpacity>} */}
+                                            <View style={{
+                                                backgroundColor: 'orange',
+                                                height: 30, borderRadius: 15, width: '85%', marginVertical: 5, justifyContent: 'center'
+                                            }} onPress={() => this._pressBit(item)}>
+                                                <Text style={{
+                                                    fontFamily: 'Prompt-SemiBold',
+                                                    fontSize: 15, color: 'white', alignSelf: 'center'
+                                                }}>{I18n.t('edit')}</Text>
+                                            </View>
                                             <View>
                                             </View>
 

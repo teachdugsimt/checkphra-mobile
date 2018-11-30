@@ -146,6 +146,7 @@ class AnswerScreen extends Component {
   render() {
     let data = this.props.answer
     I18n.locale = this.props.language
+    let coins = 0
     // console.log(isShared)
     // console.log('AND IS SHARED')
     return (
@@ -242,6 +243,9 @@ class AnswerScreen extends Component {
               data != null && data[0].answer != null &&
               data[0].answer.map(e => {
                 if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
+                  if (e.result != 'ไม่ออกผล') {
+                    coins += 50
+                  }
                   return (
                     <View>
                       <Text style={{
@@ -263,6 +267,9 @@ class AnswerScreen extends Component {
                     </View>
                   )
                 } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
+                  if (e.result != 'ไม่ออกผล') {
+                    coins += 10
+                  }
                   return (
                     <Text style={{
                       fontFamily: 'Prompt-Regular',
@@ -273,6 +280,9 @@ class AnswerScreen extends Component {
                     }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
                   )
                 } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
+                  if (e.result != 'ไม่ออกผล') {
+                    coins += 10
+                  }
                   return (
                     <Text style={{
                       fontFamily: 'Prompt-Regular',
@@ -286,7 +296,7 @@ class AnswerScreen extends Component {
               })
             }
           </View>
-
+          <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 18, alignSelf: 'center', marginTop: 10 }}>{I18n.t('useCoins') + " " + coins + " coins"}</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 
             {/* {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View style={{ alignItems: 'center' }} >
@@ -333,7 +343,7 @@ class AnswerScreen extends Component {
               style={{
                 backgroundColor: "red",
                 height: 45,
-                width: '40%',
+                width: '48%',
                 borderRadius: 24,
                 backgroundColor: "#104E8Bdd",
                 marginTop: Metrics.doubleBaseMargin,
@@ -352,7 +362,7 @@ class AnswerScreen extends Component {
                     fontSize: 18,
                     color: "white",
                     marginLeft: Metrics.baseMargin
-                  }} > Messenger </Text>
+                  }} >{I18n.t('contactAdmin')}</Text>
               </TouchableOpacity></View>
 
           </View>

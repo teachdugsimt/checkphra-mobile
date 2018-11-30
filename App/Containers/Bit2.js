@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, Modal, ScrollView, TextInput } from 'react-native'
+import {
+    Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl,
+    Alert, Modal, ScrollView, TextInput
+} from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -45,6 +48,8 @@ class Bit2 extends Component {
             spinner: false,
             editing: true,
 
+            hide: false,
+            updateData: null,
             price: null,
             bidData: null,
         }
@@ -62,6 +67,7 @@ class Bit2 extends Component {
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
+        console.log('************* BIT 2 ADMIN ****************')
         let bidData = newProps.data_bid
 
         if (newProps.data_bid && newProps.data_bid.qid) {
@@ -71,6 +77,15 @@ class Bit2 extends Component {
                     return {
                         bidData: newProps.data_bid
                     }
+                }
+            }
+        }
+
+        if (newProps.data_status && newProps.data_status != null && newProps.data_status != undefined) {
+            if (newProps.data_status.qid == newProps.data.qid) {
+                return {
+                    hide: true,
+                    updateData: newProps.data_status
                 }
             }
         }
@@ -97,6 +112,37 @@ class Bit2 extends Component {
 
     componentWillUnmount() {
         this.props.getAnswer(1)
+    }
+
+    _onPressSell = () => {
+        Alert.alert(
+            'Check Phra',
+            I18n.t('wantGetOffer'),
+            [
+                {
+                    text: I18n.t('ok'), onPress: () => {
+                        this.props.update(this.props.data.qid, 'approve')
+                    }
+                },
+                { text: I18n.t('cancel') }
+            ]
+        )
+
+    }
+
+    _onPressCancel = () => {
+        Alert.alert(
+            'Check Phra',
+            I18n.t('dontwantOffer'),
+            [
+                {
+                    text: I18n.t('ok'), onPress: () => {
+                        this.props.update(this.props.data.qid, 'cancel')
+                    }
+                },
+                { text: I18n.t('cancel') }
+            ]
+        )
     }
 
     render() {
@@ -167,10 +213,10 @@ class Bit2 extends Component {
 
                 <View style={{ flex: 0.63 }}>
                     <ScrollView>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('detailAnswer')} </Text>
-                        </View>
-                        {this.props.data && this.props.data.answer && this.props.data.answer.answer.map((e, i) => {
+                        {/* <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('detailAnswer')}{this.props.data.qid ? ' ( ' + this.props.data.qid + ' )' : ''} </Text>
+                        </View> */}
+                        {/* {this.props.data && this.props.data.answer && this.props.data.answer.answer.map((e, i) => {
                             let name = ''
 
                             if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
@@ -209,17 +255,19 @@ class Bit2 extends Component {
                                 )
                             }
 
-                        })}
+                        })} */}
 
                         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')} </Text>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')} {this.props.data.qid ? ' ( ' + this.props.data.qid + ' )' : ''}</Text>
                         </View>
+
+                        {this.props.data && !this.props.data.recent_bid && this.props.data.status == 'interested' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('waitUser0') + "!!"}</Text>}
 
                         {this.state.bidData && this.state.bidData.length > 0 ? this.state.bidData && this.state.bidData.messages && this.state.bidData.messages.map((e, i) => {
                             let date = moment.unix(e.date_time).format("HH:mm")
                             // console.log(e)
                             // console.log('********************************')
-                            if (i % 2 == 0 || i == 0) {
+                            if (i % 2 != 0 && i == 0) {
                                 return (
                                     <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-start' }}>
                                         <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginLeft: 10, backgroundColor: '#E59866', borderRadius: 20, height: 40 }}>
@@ -246,7 +294,7 @@ class Bit2 extends Component {
                             let date = moment.unix(e.date_time).format("HH:mm")
                             // console.log(e)
                             // console.log('********************************')
-                            if (i % 2 == 0 || i == 0) {
+                            if (i % 2 != 0 && i != 0) {
                                 return (
                                     <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-start' }}>
                                         <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 10, backgroundColor: '#E59866', borderRadius: 15 }}>
@@ -275,7 +323,7 @@ class Bit2 extends Component {
                             }
                         })}
 
-                        {this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 == 0) && this.props.data.messages.length < 5 && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
+                        {this.state.hide == false && this.props.data.status == 'bargain' && this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
                             value={this.state.price}
                             textAlign={'center'}
                             onChangeText={(text) => this.setState({ price: text })}
@@ -290,8 +338,26 @@ class Bit2 extends Component {
                             </View>
                         </View>}
 
-                        {this.props.data && this.props.data.status == 'approve' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('waitUser')}</Text>}
-                        {this.props.data && this.props.data.status == 'cancel' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('userCancel')}</Text>}
+                        {this.state.hide == false && this.props.data && this.props.data.recent_bid && this.props.data.recent_bid == 'user' && this.props.data.status == 'bargain' && <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                            <View style={{ width: '40%', height: 45 }}>
+                                <RoundedButton
+                                    style={{ marginHorizontal: 10 }}
+                                    title={I18n.t('sellNow')}
+                                    onPress={this._onPressSell}
+                                />
+                            </View>
+                            <View style={{ width: '40%', height: 45 }}>
+                                <RoundedButton
+                                    style={{ marginHorizontal: 10 }}
+                                    title={I18n.t('dontSell')}
+                                    onPress={this._onPressCancel}
+                                />
+                            </View>
+                        </View>}
+
+                        {this.state.updateData && this.state.updateData.status == 'approve' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userAccept'): I18n.t('adminAccept')}</Text> : this.props.data && this.props.data.status == 'approve' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userAccept'): I18n.t('adminAccept')}</Text>}
+                        {this.state.updateData && this.state.updateData.status == 'cancel' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text> : this.props.data && this.props.data.status == 'cancel' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userCancel'): I18n.t('adminCancel')}</Text>}
+
                         <View style={{ height: 40 }}>
                         </View>
 
@@ -322,6 +388,7 @@ const mapStateToProps = (state) => {
         data_detail: state.trading.data_detail,  // data when get detail by use bid id
         request1: state.trading.fetching,  // trading/add
         request2: state.trading.request,   // trading/detail
+        data_status: state.trading.data_status // after sell or cancel phra we get this data 
     }
 }
 
@@ -331,10 +398,11 @@ const mapDispatchToProps = (dispatch) => {
         //   getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
         //   deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
         //   setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
-        updateAnswer: (pack, q_id) => dispatch(ExpertActions.updateAnswer(pack, q_id)),
+        // updateAnswer: (pack, q_id) => dispatch(ExpertActions.updateAnswer(pack, q_id)),
         getAnswer: (page) => dispatch(ExpertActions.answerList(page)),
         setData: (data) => dispatch(TradingActions.setData(data)),
         trading: (qid, message) => dispatch(TradingActions.tradingRequest(qid, message)),
+        update: (qid, status) => dispatch(TradingActions.updateStatus(qid, status)),
     }
 }
 

@@ -103,7 +103,8 @@ export default {
   atLeast2Image: 'กรุณาเลือกรูปอย่างน้อย 2 รูป',
   atLeast1Question: 'กรุณาเลือกคำถามอย่างน้อย 1 คำถาม',
   notEnoughCoin: 'เหรียญของคุณไม่พอ',
-  inputBit: 'กรุณาใส่ราคาที่ต้องการบิต',
+  inputBit: 'ข้อความ',
+  inputBit2: 'ราคาที่ต้องการบิต',
 
   result: 'ผลการตรวจพระ',
   back: 'กลับ',
@@ -202,9 +203,12 @@ export default {
   wantGetOffer: 'คุณต้องการรับข้อเสนอ ?',
   dontwantOffer: 'คุณไม่ต้องการรับข้อเสนอ ?',
   leasing: 'คุณต้องการเช่าซื้อ ?',
-  interest: 'สนใจเช่าซื้อ',
+  interest: 'สนใจเช่า',
   detailBidPrice: '** user เป็นคนเปิดราคาเช่าพระเครื่อง **',
   detailBidPrice2: '** user สามารถบิทราคาได้ 2 ครั้ง **',
+  sharedLeasing: 'แชร์สำเร็จ คุณได้รับ 100 เหรียญ !!',
+  sharedLeasing2: 'แชร์สำเร็จ',
+  address: 'ที่อยู่ของ admin',
 
   หลวงปู่ทวด: 'หลวงปู่ทวด',
   หลวงปู่หมุน: 'หลวงปู่หมุน',

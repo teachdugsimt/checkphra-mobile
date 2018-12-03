@@ -9,9 +9,9 @@
 *  - This template uses the api declared in sagas/index.js, so
 *    you'll need to define a constant in that file.
 *************************************************************/
-
+import { MessageDialog, ShareDialog } from 'react-native-fbsdk'
 import { call, put, select } from 'redux-saga/effects'
-import TradingActions from '../Redux/TradingRedux'
+import TradingActions, { sendMessage } from '../Redux/TradingRedux'
 // import { TradingSelectors } from '../Redux/TradingRedux'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
@@ -27,7 +27,7 @@ export function* getTrading(api, { qid, message }) {
   }
   // console.log(qid)
   // console.log(message)
-  
+
   // console.log(data)
   // console.log('-------------------------------------------')
   const response = yield call(api.trading, data)
@@ -93,11 +93,11 @@ export function* getListTrade(api, { page }) {
   }
 }
 
-export function* updateAmulet(api, { qid, status }){
+export function* updateAmulet(api, { qid, status }) {
   const aut = yield select(auth)
   console.log(qid)
   console.log(status)
-  const data ={
+  const data = {
     user_id: aut.user_id,
     qid,
     status
@@ -106,11 +106,58 @@ export function* updateAmulet(api, { qid, status }){
   const response = yield call(api.updateStatus, data)
   console.log(response)
   console.log('===========UPDATE STATUS============')
-  if(response.ok){
+  if (response.ok) {
     yield put(TradingActions.updateSuccess(response.data))
     alert(I18n.t('sellSucc'))
   } else {
     yield put(TradingActions.updateFailure())
     alert(I18n.t('sellFail'))
+  }
+}
+
+export function* sendMessage555(api, { text }) {
+  console.log(text)
+
+  const data = {
+    messaging_type: "RESPONSE",
+    recipient: {
+      // id: "541100422998912"
+      // id: "541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY"
+      id: "316834699141900"
+    },
+    message: {
+      text
+    }
+  }
+  console.log(data)
+  const response = yield call(api.fbmessage)
+  console.log(response)
+  console.log('***********TRADING MESSENGER***********')
+
+  if (response.ok) {
+    yield put(TradingActions.sendMessageSuccess(response.data))
+  } else {
+    yield put(TradingActions.sendMessageFailure())
+  }
+}
+
+export function* sharedLeasing555(api, { qid, status }) {
+  console.log(qid)
+  console.log(status)
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    qid,
+    leasing: status
+  }
+
+  const response = yield call(api.sharedLeasing, data)
+  console.log(response)
+  console.log('****************** SHARED LEASING *********************')
+  
+  if(response.ok){
+    yield put(TradingActions.sendMessageSuccess(response.data))
+  } else {
+    yield put(TradingActions.sendMessageFailure())
   }
 }

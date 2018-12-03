@@ -23,7 +23,7 @@ import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, get
 import { getPromotion, getPublish, sharedAnswer, getLoginPromotion } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest } from './PaymentSagas'
 import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint } from './ExpertSagas'
-import { getTrading, getDetail, getListTrade, updateAmulet } from './TradingSagas'
+import { getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555 } from './TradingSagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -32,6 +32,7 @@ const authApi = API.Auth.create()
 const questionApi = API.Question.create()
 const promotionApi = API.Promotion.create()
 const tradeApi = API.Trade.create()
+const faceApi = API.Face.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -46,6 +47,8 @@ export default function * root () {
     takeLatest(TradingTypes.GET_DETAIL, getDetail, tradeApi),
     takeLatest(TradingTypes.LIST_TRADING, getListTrade, tradeApi),
     takeLatest(TradingTypes.UPDATE_STATUS, updateAmulet, tradeApi),
+    takeLatest(TradingTypes.SEND_MESSAGE, sendMessage555, faceApi),
+    takeLatest(TradingTypes.SHARED_LEASING, sharedLeasing555, tradeApi),
 
     takeLatest(AuthTypes.SIGNIN_REQUEST, signin, authApi),
     takeLatest(AuthTypes.SIGNIN_WITH_CREDENTIAL, signinWithCredential, authApi),

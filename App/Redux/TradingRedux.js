@@ -28,6 +28,14 @@ const { Types, Creators } = createActions({
   updateStatus: ['qid', 'status'],
   updateSuccess: ['data'],
   updateFailure: null,
+
+  sendMessage: ['text'],
+  sendMessageSuccess: ['data'],
+  sendMessageFailure: null,
+
+  sharedLeasing: ['qid', 'status'],
+  sharedSuccess: ['data'],
+  sharedFailure: null,
 })
 
 export const TradingTypes = Types
@@ -51,6 +59,12 @@ export const INITIAL_STATE = Immutable({
 
   request3: null,  // request update status amulet 
   data_status: null,  // data update status
+
+  request4: null,  // request to facebook messenger
+  data_fbmsg: null,  // data facebook messenger
+
+  request5: null,   // request for shared leasing amulet
+  data_shared: null,   // data when shared amulet leasing
 })
 
 /* ------------- Selectors ------------- */
@@ -65,6 +79,14 @@ export const TradingSelectors = {
 export const getDetailRequest = (state) => state.merge({ request: true })
 export const getDetailSuccess = (state, { data }) => state.merge({ request: false, data_detail: data })
 export const getDetailFailure = (state) => state.merge({ request: false })
+
+export const sendMessage = state => state.merge({ request4: true })
+export const sendMessageSuccess = (state, { data }) => state.merge({ request4: false, data_fbmsg: data })
+export const sendMessageFailure = state => state.merge({ request4: null })
+
+export const sharedLeasing = state => state.merge({ request5: true })
+export const sharedSuccess = (state, { data }) => state.merge({ request5: false, data_shared: data })
+export const sharedFailure = state => state.merge({ request5: false })
 
 export const request = (state) => state.merge({ fetching: true })
 
@@ -153,6 +175,14 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.UPDATE_STATUS]: updateStatus,
   [Types.UPDATE_SUCCESS]: updateSuccess,
   [Types.UPDATE_FAILURE]: updateFailure,
+
+  [Types.SEND_MESSAGE]: sendMessage,
+  [Types.SEND_MESSAGE_SUCCESS]: sendMessageSuccess,
+  [Types.SEND_MESSAGE_FAILURE]: sendMessageFailure,
+
+  [Types.SHARED_LEASING]: sharedLeasing,
+  [Types.SHARED_SUCCESS]: sharedSuccess,
+  [Types.SHARED_FAILURE]: sharedFailure,
 
   [Types.SET_DATA]: setData,
   [Types.SET_FULL_DATA2]: setFullData2,

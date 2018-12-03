@@ -51,6 +51,7 @@ class Bit2 extends Component {
             hide: false,
             updateData: null,
             price: null,
+            price2: null,
             bidData: null,
         }
     }
@@ -95,9 +96,16 @@ class Bit2 extends Component {
         }
     }
 
+    commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+        }
+        return val;
+    }
+
     _onPressButton = () => {
-        if (this.state.price) {
-            this.props.trading(this.props.data.qid, this.state.price)
+        if (this.state.price2) {
+            this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
         } else {
             alert(I18n.t('checkData'))
         }
@@ -213,49 +221,6 @@ class Bit2 extends Component {
 
                 <View style={{ flex: 0.63 }}>
                     <ScrollView>
-                        {/* <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('detailAnswer')}{this.props.data.qid ? ' ( ' + this.props.data.qid + ' )' : ''} </Text>
-                        </View> */}
-                        {/* {this.props.data && this.props.data.answer && this.props.data.answer.answer.map((e, i) => {
-                            let name = ''
-
-                            if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
-                                name = I18n.t('trueFalse')
-                                return (
-                                    <View style={{ marginTop: 10, marginLeft: 10, }}>
-                                        <Text style={{ fontSize: 16, color: Colors.brownText }}>1) {name} : <Text style={{
-                                            fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 18,
-                                        }}>{e.result}</Text> </Text>
-                                        <Text style={{ fontSize: 16, color: Colors.brownText }}>{I18n.t('reason')} : <Text style={{
-                                            fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 18,
-                                        }}>{this.props.data && this.props.data.answer.argument ? this.props.data.answer.argument : I18n.t('noneAnswer')}</Text></Text>
-                                    </View>
-                                )
-                            } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
-                                name = I18n.t('pricePhra')
-                                return (
-                                    <View style={{ marginTop: 10, marginLeft: 10, }}>
-                                        <Text style={{ fontSize: 16, color: Colors.brownText }}>2) {name} : <Text style={{
-                                            fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 18,
-                                        }}>{e.result}</Text></Text>
-                                    </View>
-                                )
-                            } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
-                                name = I18n.t('detailPhra')
-                                return (
-                                    <View style={{ marginTop: 10, marginLeft: 10, }}>
-                                        <Text style={{ fontSize: 16, color: Colors.brownText }}>3) {name} : <Text style={{
-                                            fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 18,
-                                        }}>{e.result}</Text></Text>
-                                    </View>
-                                )
-                            }
-
-                        })} */}
 
                         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')} {this.props.data.qid ? ' ( ' + this.props.data.qid + ' )' : ''}</Text>
@@ -323,11 +288,21 @@ class Bit2 extends Component {
                             }
                         })}
 
-                        {this.state.hide == false && this.props.data.status == 'bargain' && this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
-                            value={this.state.price}
-                            textAlign={'center'}
-                            onChangeText={(text) => this.setState({ price: text })}
-                            placeholder={I18n.t('inputBit')} />
+                        {this.state.hide == false && this.props.data.status == 'bargain' && this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 && <View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
+                                <TextInput style={{ width: '45%', alignSelf: 'center' }}
+                                    value={this.state.price}
+                                    textAlign={'center'}
+                                    onChangeText={(text) => this.setState({ price: text })}
+                                    placeholder={I18n.t('inputBit')} />
+
+                                <TextInput style={{ width: '45%', alignSelf: 'center' }}
+                                    value={this.state.price2}
+                                    textAlign={'center'}
+                                    keyboardType={'numeric'}
+                                    onChangeText={(text) => this.setState({ price2: text })}
+                                    placeholder={I18n.t('inputBit2')} />
+                            </View>
 
                             <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
                                 <RoundedButton
@@ -355,8 +330,8 @@ class Bit2 extends Component {
                             </View>
                         </View>}
 
-                        {this.state.updateData && this.state.updateData.status == 'approve' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userAccept'): I18n.t('adminAccept')}</Text> : this.props.data && this.props.data.status == 'approve' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userAccept'): I18n.t('adminAccept')}</Text>}
-                        {this.state.updateData && this.state.updateData.status == 'cancel' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text> : this.props.data && this.props.data.status == 'cancel' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userCancel'): I18n.t('adminCancel')}</Text>}
+                        {this.state.updateData && this.state.updateData.status == 'approve' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userAccept') : I18n.t('adminAccept')}</Text> : this.props.data && this.props.data.status == 'approve' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userAccept') : I18n.t('adminAccept')}</Text>}
+                        {this.state.updateData && this.state.updateData.status == 'cancel' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text> : this.props.data && this.props.data.status == 'cancel' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text>}
 
                         <View style={{ height: 40 }}>
                         </View>

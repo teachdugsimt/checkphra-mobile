@@ -54,6 +54,8 @@ const create = (baseURL = b) => {
   const changePassword = (data) => api.post('user/reset-password', data)
 
   const forgetPassword = (data) => api.post('user/forgot-password', data)
+
+  const saveDeviceToken = (data) => api.post('user/add-registration-token', data)
   // ------
   // STEP 3
   // ------
@@ -74,6 +76,7 @@ const create = (baseURL = b) => {
     senddataRealTime,
     changePassword,
     forgetPassword,
+    saveDeviceToken
   }
 }
 

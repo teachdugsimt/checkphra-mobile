@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Text, View, TouchableOpacity, Dimensions, Alert, Modal, ScrollView } from "react-native";
+import { Image, Text, View, TouchableOpacity, Dimensions, Alert, Modal, ScrollView, AsyncStorage } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import GridView from "react-native-super-grid";
@@ -15,6 +15,9 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 import moment from 'moment'
+
+import firebase from 'react-native-firebase';
+
 // I18n.currentLocale();
 // I18n.locale = "th";
 const slideAnimation = new SlideAnimation({
@@ -230,6 +233,10 @@ class UploadScreen extends Component {
   componentDidMount() {
     check_publish = true
     // check_login = true
+
+
+    console.log("app did mount")
+
     this.props.getAmuletType()
     this.props.getProfile()
     // this.props.setLanguage(I18n.locale)
@@ -248,6 +255,100 @@ class UploadScreen extends Component {
     //     )
     //   }
     // }
+    this.getDeviceToken()
+
+  }
+
+  async getDeviceToken() {
+    this.checkPermission();
+    this.createNotificationListeners(); //add this line
+  }
+
+  //1
+  async checkPermission() {
+    console.log("check permission")
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+      this.getToken();
+    } else {
+      this.requestPermission();
+    }
+  }
+
+  //3
+  async getToken() {
+    console.log("get token")
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+      fcmToken = await firebase.messaging().getToken();
+      if (fcmToken) {
+        console.log(fcmToken)
+        // user has a device token
+        this.props.saveDeviceToken(fcmToken)
+        await AsyncStorage.setItem('fcmToken', fcmToken);
+
+      }
+    } else {
+      console.log(fcmToken)
+      this.props.saveDeviceToken(fcmToken)
+    }
+  }
+
+  //2
+  async requestPermission() {
+    console.log("request permission")
+    try {
+      await firebase.messaging().requestPermission();
+      // User has authorised
+      this.getToken();
+    } catch (error) {
+      // User has rejected permissions
+      console.log('permission rejected');
+    }
+  }
+
+  async createNotificationListeners() {
+    /*
+    * Triggered when a particular notification has been received in foreground
+    * */
+    this.notificationListener = firebase.notifications().onNotification((notification) => {
+      const { title, body } = notification;
+      this.showAlert(title, body);
+    });
+
+    /*
+    * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+    * */
+    this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+      const { title, body } = notificationOpen.notification;
+      this.showAlert(title, body);
+    });
+
+    /*
+    * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+    * */
+    const notificationOpen = await firebase.notifications().getInitialNotification();
+    if (notificationOpen) {
+      const { title, body } = notificationOpen.notification;
+      this.showAlert(title, body);
+    }
+    /*
+    * Triggered for data only payload in foreground
+    * */
+    this.messageListener = firebase.messaging().onMessage((message) => {
+      //process data message
+      console.log(JSON.stringify(message));
+    });
+  }
+
+  showAlert(title, body) {
+    Alert.alert(
+      title, body,
+      [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ],
+      { cancelable: false },
+    );
   }
 
   commaSeparateNumber(val) {
@@ -401,6 +502,7 @@ const mapDispatchToProps = dispatch => {
     setTime: (day) => dispatch(AuthActions.setTime(day)),
     getLoginPro: () => dispatch(PromotionActions.getLoginPro()),
     setModal: (check) => dispatch(AuthActions.setModal(check)),
+    saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token))
   };
 };
 

@@ -43,7 +43,9 @@ const { Types, Creators } = createActions({
   setImg: ['data'],
   setTime: ['day'],
   setModal: ['check'],
-  
+
+  saveDeviceToken: ['token']
+
 })
 
 export const AuthTypes = Types
@@ -123,7 +125,7 @@ export const setUserId = (state, { user_id }) => {
 export const clearRequest = state => state.merge({ request: null })
 export const startRequest = (state) => state.merge({ request: true })
 
-export const failureRequestSignup = (state, error ) => {
+export const failureRequestSignup = (state, error) => {
   return state.merge({ request: false, error_signup: error.type })
 }
 

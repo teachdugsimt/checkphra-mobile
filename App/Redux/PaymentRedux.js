@@ -29,6 +29,11 @@ const { Types, Creators } = createActions({
   cardSuccess: ['data'],
   cardFailure: null,
 
+  paypalRequest: ['pack'],
+  paypalSuccess: ['data'],
+  paypalFailure: null,
+
+  setPackage: ['data'],
   clearRequest: null,
   clearCardRequest: null,
 })
@@ -55,6 +60,10 @@ export const INITIAL_STATE = Immutable({
 
   data_credit: [],
   request3: null,   // credit card request
+
+  package: null,
+  request4: null,  // paypal request
+  data_paypal: null, // data from request4
 })
 
 /* ------------- Selectors ------------- */
@@ -66,6 +75,15 @@ export const PaymentSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+export const paypal = state => state.merge({ request4: true })
+export const paypalSuccess = (state, { data }) => state.merge({ request4: false, data_paypal: data })
+export const paypalFailure = state => state.merge({ request4: false })
+
+
+export const setPackage001 = (state, { data }) => {
+  return state.merge({ package: data })
+}
+
 export const request = (state) => {
   return state.merge({ fetching: true })
 }
@@ -161,7 +179,13 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_REQUEST]: clearRequest,
   [Types.CLEAR_CARD_REQUEST]: clearCardRequest,
 
+  [Types.PAYPAL_REQUEST]: paypal,
+  [Types.PAYPAL_SUCCESS]: paypalSuccess,
+  [Types.PAYPAL_FAILURE]: paypalFailure,
+
   [Types.CARD_REQUEST]: creditRequest,
   [Types.CARD_SUCCESS]: creditSuccess,
-  [Types.CARD_FAILURE]: creditFailure
+  [Types.CARD_FAILURE]: creditFailure,
+
+  [Types.SET_PACKAGE]: setPackage001,
 })

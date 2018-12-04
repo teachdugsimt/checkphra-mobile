@@ -44,6 +44,8 @@ const { Types, Creators } = createActions({
   getLeasingAdmin: ['page'],
   getLeasingSuccess: ['data'],
   getLeasingFailure: null,
+  getLeasingSuccess2: ['data'],
+  getLeasingFailure2: null,
 })
 
 export const TradingTypes = Types
@@ -105,6 +107,16 @@ export const sharedFailure = state => state.merge({ request5: false })
 export const getLeasingAdmin = state => state.merge({ request6: true })
 export const getLeasingSuccess = (state, { data }) => state.merge({ request6: false, data_admin: data })
 export const getLeasingFailure = state => state.merge({ request6: false })
+export const getLeasingSuccess2 = (state, { data }) => {
+  let tmp = [...state.data_admin]
+  data.forEach(e => {
+    if (tmp.find(b => b.id == e.id)) {
+      console.log('SAME VALUE')
+    } else { tmp.push(e) }
+  })
+  return state.merge({ data_admin: tmp, request6: false })
+}
+export const getLeasingFailure2 = state => state.merge({ request6: false })
 
 export const getPriceLeasing = state => state.merge({ request7: true })
 export const getPriceSuccess = (state, { data }) => state.merge({ request7: false, data_price: data })
@@ -214,6 +226,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_LEASING_ADMIN]: getLeasingAdmin,
   [Types.GET_LEASING_SUCCESS]: getLeasingSuccess,
   [Types.GET_LEASING_FAILURE]: getLeasingFailure,
+  [Types.GET_LEASING_SUCCESS2]: getLeasingSuccess2,
+  [Types.GET_LEASING_FAILURE2]: getLeasingFailure2,
 
   [Types.SET_DATA]: setData,
   [Types.SET_FULL_DATA2]: setFullData2,

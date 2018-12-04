@@ -1,7 +1,8 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce'
 
-let b = 'https://graph.facebook.com/v2.6/me/messages?access_token=541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY'
+let b = 'https://graph.facebook.com/v2.6/me/messages?access_token='
+  //  let b = 'https://graph.facebook.com/v2.6/me/messages?'
 
 // our "constructor"
 const create = (baseURL = b) => {
@@ -37,7 +38,11 @@ const create = (baseURL = b) => {
   // way at this level.
   //
 
-  const fbmessage = (data) => api.post(data)
+  const fbmessage = (data) => api.post('541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY', data)  // can't
+  // const fbmessage = (data) => api.post('541100422998912', data)   // can't
+  // const fbmessage = (data) => api.post('YicGjkjNUUvnQwHBcUSCnSJw5XY', data)  // can't
+  // const fbmessage = (data) => api.post('Gr4ZemIdAGMKh3R8xv5t9jp4EFN2', data) // can't
+  // const fbmessage = (data) => api.post(data)
   // ------
   // STEP 3
   // ------

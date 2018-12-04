@@ -471,7 +471,7 @@ class UploadScreen extends Component {
         </Modal>}
 
         <Spinner
-          visible={this.props.request_publish || this.props.request_amulet || this.props.request_promotionlogin}
+          visible={(this.props.request_publish || this.props.request_amulet || this.props.request_promotionlogin)}
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
         />

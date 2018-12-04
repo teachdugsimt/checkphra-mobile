@@ -18,23 +18,63 @@ I18n.fallbacks = true;
 // I18n.currentLocale();
 import { MessageDialog } from 'react-native-fbsdk'
 const { width } = Dimensions.get('window')
-
+let count = 1
 class LeasingAdmin extends Component {
 
+    static getDerivedStateFromProps(newProps, prevState) {
+        console.log(newProps)
+        console.log(prevState)
+
+        return {
+
+        }
+    }
+
     componentDidMount() {
-        this.props.getLeasing()
+        this.props.getLeasing(1)
+        this.props.getLeasing2()
+    }
+
+    componentWillUnmount() {
+        count = 1
+    }
+
+    onRefresh = () => {
+        count = 1
+        this.props.getLeasing(count)
+        this.props.getLeasing2()
+    }
+
+    _onScrollEndList = () => {
+        console.log('END LIST AGAIN')
+        count++
+        this.props.getLeasing(count)
         this.props.getLeasing2()
     }
     render() {
         return (
-            <View>
+            <LinearGradient
+                colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
+            >
+                <Image source={Images.watermarkbg} style={{
+                    position: 'absolute',
+                    right: 0, bottom: 0,
+                    width: width,
+                    height: width * 95.7 / 100
+                }} resizeMode='contain' />
                 <View>
-                    <Text>555555555555555555588888888888888888888888akkkkkkkkkkkkkkkkksd</Text>
+                    <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 17,
+                        color: Colors.brownText,
+                        alignSelf: 'center',
+                        marginVertical: 10,
+                    }}>{I18n.t('adminSum') + " " + (this.props.data_price? this.props.data_price : ' ') + ' ฿'}</Text>
                 </View>
                 <FlatList
                     refreshControl={
                         <RefreshControl
-                            refreshing={this.props.request6}
+                            refreshing={(this.props.request6 || this.props.request7)}
                             onRefresh={this.onRefresh.bind(this)}
                         />
                     }
@@ -105,10 +145,10 @@ class LeasingAdmin extends Component {
                                             height: 30,
                                             backgroundColor: color
                                         }}>{message}</Text>
-                                        {/* {item.recent_bid == 'admin' && item.status == 'bargain' && <View style={{
+                                        {item.recent_bid == 'admin' && item.status == 'bargain' && <View style={{
                                             backgroundColor: 'red', height: 10, width: 10, borderRadius: 5, position: 'absolute', bottom: 45, right: (this.props.language == 'en-US' || this.props.language == 'en' || this.props.language == 'en-Us') ? 30 : 33
                                         }}>
-                                        </View>} */}
+                                        </View>}
                                     </View>
 
                                 </View>
@@ -119,7 +159,7 @@ class LeasingAdmin extends Component {
                     onEndReached={this._onScrollEndList}
                     onEndReachedThreshold={0.05}
                 />
-            </View>
+            </LinearGradient>
         )
     }
 }
@@ -160,4 +200,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserBit)
+export default connect(mapStateToProps, mapDispatchToProps)(LeasingAdmin)

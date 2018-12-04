@@ -18,13 +18,15 @@ import { TradingTypes } from '../Redux/TradingRedux'
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
-import { signin, signinWithCredential, signup, createUser, changePassword, forgetPassword } from './AuthSagas'
+import { signin, signinWithCredential, signup, createUser, changePassword, forgetPassword, saveDeviceToken } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion, getPublish, sharedAnswer, getLoginPromotion } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest, paypalRequest55 } from './PaymentSagas'
 import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint } from './ExpertSagas'
-import { getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555, 
-  getListLeasing, getPriceallday } from './TradingSagas'
+import {
+  getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
+  getListLeasing, getPriceallday
+} from './TradingSagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -37,7 +39,7 @@ const faceApi = API.Face.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
-export default function * root () {
+export default function* root() {
   yield all([
     // some sagas only receive an action
     // takeLatest(StartupTypes.STARTUP, startup),
@@ -59,6 +61,7 @@ export default function * root () {
     takeLatest(AuthTypes.CREATE_USER, createUser, authApi),
     takeLatest(AuthTypes.CHANGE_PASSWORD, changePassword, authApi),
     takeLatest(AuthTypes.FORGET_PASSWORD, forgetPassword, authApi),
+    takeLatest(AuthTypes.SAVE_DEVICE_TOKEN, saveDeviceToken, authApi),
 
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
@@ -77,7 +80,7 @@ export default function * root () {
     takeLatest(PromotionTypes.SHARED_ANSWER, sharedAnswer, promotionApi),
 
     takeLatest(PaymentTypes.PAYMENT_REQUEST, paymentRequest, promotionApi),
-    takeLatest(PaymentTypes.HISTORY_ADDPOINT_REQUEST, historyAddpointRequest, promotionApi), 
+    takeLatest(PaymentTypes.HISTORY_ADDPOINT_REQUEST, historyAddpointRequest, promotionApi),
 
     takeLatest(PaymentTypes.SEND_SLIP_REQUEST, sendSlipRequest, promotionApi),
     takeLatest(ExpertTypes.GET_PROFILE_REQUEST, getProfileRequest, promotionApi),
@@ -85,7 +88,10 @@ export default function * root () {
     takeLatest(PaymentTypes.CARD_REQUEST, cardRequest, promotionApi),
     takeLatest(PromotionTypes.PUBLISH_REQUEST, getPublish, promotionApi),
     takeLatest(PromotionTypes.GET_LOGIN_PRO, getLoginPromotion, promotionApi),
+
     takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi),
     takeLatest(PaymentTypes.PAYPAL_REQUEST, paypalRequest55, promotionApi),
+    // takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi)
+
   ])
 }

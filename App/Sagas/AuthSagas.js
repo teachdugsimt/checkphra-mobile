@@ -199,3 +199,16 @@ export function* forgetPassword(api, { email }) {
     yield put(AuthActions.forgetFailure())
   }
 }
+
+export function* saveDeviceToken(api, { token }) {
+
+  // console.log(token)
+  const a = yield select(auth)
+  const data = {
+    user_id: a.user_id,
+    registration_token: token
+  }
+
+  const response = yield call(api.saveDeviceToken, data)
+  console.log(response)
+}

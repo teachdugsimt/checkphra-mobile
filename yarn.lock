@@ -3865,6 +3865,13 @@ domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
+dooboolab-welcome@^1.0.5:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/dooboolab-welcome/-/dooboolab-welcome-1.1.0.tgz#4a0aa9d2cbc4e2b1008bf7683bc056b41caa3d0d"
+  integrity sha512-K9TKEeefzDXZiUyLZG+bIr8cy9UoYIfFMseowp/o3czVl7TfkVm3gQpeB85w+TO8xeqzWHiIcEelZbBgt5WUwQ==
+  dependencies:
+    chalk "^2.4.1"
+
 dotenv@^5.0.1:
   version "5.0.1"
   resolved "http://registry.npmjs.org/dotenv/-/dotenv-5.0.1.tgz#a5317459bd3d79ab88cff6e44057a6a3fbb1fcef"
@@ -9422,6 +9429,13 @@ react-native-i18n@^2.0.15:
   integrity sha512-V8VwUP0TLda3oJvgt5tdnFaOV7WXPhTjCTLO7sXI3C2SHggSbD4bCUryMzNJhesimJidH21V2Owvj4zAylHoQQ==
   dependencies:
     i18n-js "3.0.11"
+
+react-native-iap@^2.3.20:
+  version "2.3.20"
+  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-2.3.20.tgz#327f413933672531e89130bef006f053a563a310"
+  integrity sha512-qmg77QJJ27yZxC5mIcAz2sYxWEqBF6kjwPS2K9gQAD6t61LiAgWJ1aIwnVph3Fg1u9yiLpNeZy0OO4eZxowg6A==
+  dependencies:
+    dooboolab-welcome "^1.0.5"
 
 react-native-image-pan-zoom@^2.1.9:
   version "2.1.11"

@@ -48,7 +48,7 @@ class UserBit2 extends Component {
             answer3: null,
             answer4: null,
             answer5: null,
-            question: this.props.data.answer,
+            // question: this.props.data.answer,
             index: 0,
             modalVisible: false,
             checkTrue1: false,
@@ -68,14 +68,14 @@ class UserBit2 extends Component {
         }
     }
 
-    static navigationOptions = ({ navigation }) => {
-        // console.log(navigation)
-        // console.log(I18n.locale)
+    // static navigationOptions = ({ navigation }) => {
+    //     // console.log(navigation)
+    //     // console.log(I18n.locale)
 
-        return {
-            title: I18n.t('bitPrice2'),
-        }
-    }
+    //     return {
+    //         title: I18n.t('bitPrice2'),
+    //     }
+    // }
 
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
@@ -306,6 +306,7 @@ class UserBit2 extends Component {
                     width: width,
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
+
                 <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
                     <ImageViewer
                         saveToLocalByLongPress={false}
@@ -345,6 +346,22 @@ class UserBit2 extends Component {
 
                 </View>
 
+                 <TouchableOpacity onPress={() => { this.props.navigation.goBack() }} style={{
+                    position: 'absolute',
+                    left: 10, top: 10,
+                    width: width/4.5,
+                    height: 40,
+                    // backgroundColor: 'red',
+                    // borderRadius: 20,
+                    // zIndex:2
+                }}>
+                    <Text style={{
+                        fontSize: 18,
+                        fontFamily: "Prompt-SemiBold",
+                        color: Colors.brownText
+                    }}>{" < Back"}</Text>
+                </TouchableOpacity>
+
                 <View style={{ flex: 0.63 }}>
                     <ScrollView>
 
@@ -359,6 +376,8 @@ class UserBit2 extends Component {
 
                         {this.state.bidData && this.state.bidData.length > 0 ? this.state.bidData && this.state.bidData.messages && this.state.bidData.messages.map((e, i) => {
                             let date = moment.unix(e.date_time).format("HH:mm")
+                            let adnum = 55
+                            let usnum = 66
                             // console.log(e)
                             // console.log('********************************')
                             if (i % 2 != 0 && i != 0) {

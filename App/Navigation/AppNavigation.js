@@ -23,6 +23,7 @@ import Bit from '../Containers/Bit'
 import Bit2 from '../Containers/Bit2'
 import UserBit from '../Containers/UserBit'
 import UserBit2 from '../Containers/UserBit2'
+import LeasingAdmin from '../Containers/LeasingAdmin'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -35,7 +36,7 @@ import { Colors } from "../Themes";
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/FontAwesome";
 
-import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator, Header } from 'react-navigation';
+import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator, Header, TabBarTop } from 'react-navigation';
 
 // import { fromLeft } from 'react-navigation-transitions';
 import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
@@ -278,24 +279,94 @@ const PublishStack = StackNavigator(  // Publish stack
   }
 );
 
-const UserBitStack = StackNavigator(  // Publish stack
+// const UserBitStack = StackNavigator(  // Publish stack
+//   {
+//     userBit: {
+//       screen: UserBit,
+//       navigationOptions: {
+//         title: I18n.t('bitPrice2')
+//       }
+//     },
+//     userBit2: {
+//       screen: UserBit2,
+//       navigationOptions: {
+//         title: I18n.t('bitPrice2')
+//       }
+//     },
+//   },
+//   {
+//     transitionConfig: getSlideFromRightTransition,
+//     navigationOptions: ({ navigation }) => ({
+//       headerTintColor: Colors.headerTitleColor,
+//       headerBackTitle: I18n.t('Back'),
+//       headerBackTitleStyle: {
+//         color: Colors.headerTitleColor,
+//         fontFamily: 'Prompt-Regular'
+//       },
+//       headerStyle: {
+//         backgroundColor: Colors.tabBar,
+//       },
+//       headerTitleStyle: {
+//         color: Colors.headerTitleColor,
+//         fontFamily: 'Prompt-Regular'
+//       },
+//       tabBarLabel: I18n.t('bitPrice2')
+//     })
+//   }
+// );
+
+
+
+const LeasingAdminStack = StackNavigator(      // 111111111
   {
-    userBit: {
-      screen: UserBit,
-      navigationOptions: {
-        title: I18n.t('bitPrice2')
-      }
-    },
-    userBit2: {
-      screen: UserBit2,
-      navigationOptions: {
-        title: I18n.t('bitPrice2')
-      }
+    leasingAdmin: {
+      screen: LeasingAdmin,
+      // navigationOptions: {
+      //   title: I18n.t('adminLeasing')
+      // }
     },
   },
   {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
+      header: false,
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
+      headerBackTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Regular'
+      },
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: Colors.headerTitleColor,
+        fontFamily: 'Prompt-Regular'
+      },
+      tabBarLabel: I18n.t('adminLeasing')
+    })
+  }
+)
+
+const UserBitStack = StackNavigator(  // Publish stack   2222222222
+  {
+    userBit: {
+      screen: UserBit,
+      // navigationOptions: {
+      //   title: I18n.t('bitPrice2')
+      // }
+    },
+    userBit2: {
+      screen: UserBit2,
+      // navigationOptions: {
+      //   title: I18n.t('bitPrice2')
+      // }
+    },
+  },
+  {
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      header: false,
       headerTintColor: Colors.headerTitleColor,
       headerBackTitle: I18n.t('Back'),
       headerBackTitleStyle: {
@@ -314,12 +385,37 @@ const UserBitStack = StackNavigator(  // Publish stack
   }
 );
 
+const TradingStack = TabNavigator(      //33333333333333333333
+  {
+    trade1: UserBitStack,
+    trade2: LeasingAdminStack,
+  },
+  {
+    tabBarOptions: {
+      activeTintColor: Colors.activeTab,
+      inactiveTintColor: Colors.inactiveTab,
+      style: {
+        height: 60,
+        backgroundColor: Colors.tabBar,
+      },
+      labelStyle: {
+        fontSize: 14,
+        fontFamily: "Prompt-Regular",
+        marginBottom: 5
+      }
+    },
+    tabBarComponent: TabBarTop,
+    tabBarPosition: "top"
+  }
+)
+
 const DashStack = TabNavigator(   // **************  USER STACK *******************
   {
     upload: UploadStack,
     his: HistoryStack,
+    trade: TradingStack,
     // pub: PublishStack,
-    userbit: UserBitStack,
+    // userbit: UserBitStack,   // เปลี่ยน userbit  => Tab nav / do 2 stack nav and push it to Tab nav(userbit)
     pro: PromotionStack,
     profile: ProfileStack,
   },
@@ -345,7 +441,7 @@ const DashStack = TabNavigator(   // **************  USER STACK ****************
         if (routeName == "pub") {
           iconName = `newspaper-o${focused ? "" : ""}`;
         }
-        if (routeName == "userbit") {
+        if (routeName == "trade") {
           iconName = `exchange${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
@@ -611,6 +707,30 @@ export default connect(
 )(PrimaryNav);
 
 // export default PrimaryNav;
+
+    //  ************ Code GoBack other Page *******************  //
+    // static navigationOptions = ({ navigation }) => {
+    //   const params = navigation.state.params || {};
+
+    //   return {
+    //     headerLeft: (
+    //       <TouchableOpacity onPress={() => navigation.goBack()}>
+    //         <Text
+    //           style={{
+    //             marginLeft: 20,
+    //             fontSize: 18,
+    //             fontFamily: "Prompt-SemiBold",
+    //             color: Colors.brownText
+    //           }}
+    //         >
+    //           {"< กลับ"}
+    //         </Text>
+    //       </TouchableOpacity>
+    //     )
+    //   };
+    // };
+    //  ************ Code GoBack other Page *******************  //
+
 
 
 

@@ -162,7 +162,7 @@ export function* sharedLeasing555(api, { qid, status }) {
   }
 }
 
-export function* getPriceallday(api){
+export function* getPriceallday(api) {
   const aut = yield select(auth)
   const data = {
     user_id: aut.user_id
@@ -171,7 +171,7 @@ export function* getPriceallday(api){
   const response = yield call(api.getPriceLeasing, data)
   console.log(response)
   console.log('**************** GET PRICE ALL LEASING OF ADMIN ****************')
-  if(response.ok){
+  if (response.ok) {
     yield put(TradingActions.getPriceSuccess(response.data))
   } else {
     yield put(TradingActions.getPriceFailure())
@@ -180,7 +180,7 @@ export function* getPriceallday(api){
 
 export function* getListLeasing(api, { page }) {
   const aut = yield select(auth)
-  if(page == 1){
+  if (page == 1) {
     const data = {
       user_id: aut.user_id,
       page_number: page
@@ -190,13 +190,26 @@ export function* getListLeasing(api, { page }) {
     console.log(response)
     console.log('**************** GET LIST LEASING OF ADMIN ****************')
 
-    if(response.ok){
+    if (response.ok) {
       yield put(TradingActions.getLeasingSuccess(response.data))
     } else {
       yield put(TradingActions.getLeasingFailure())
     }
 
   } else {
+    const data = {
+      user_id: aut.user_id,
+      page_number: page
+    }
 
+    const response = yield call(api.getListLeasing, data)
+    console.log(response)
+    console.log('**************** GET LIST LEASING OF ADMIN ****************')
+
+    if (response.ok) {
+      yield put(TradingActions.getLeasingSuccess2(response.data))
+    } else {
+      yield put(TradingActions.getLeasingFailure2())
+    }
   }
 }

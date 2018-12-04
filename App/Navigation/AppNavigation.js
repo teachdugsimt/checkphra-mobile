@@ -36,7 +36,8 @@ import { Colors } from "../Themes";
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/FontAwesome";
 
-import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator, Header, TabBarTop } from 'react-navigation';
+import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator, Header } from 'react-navigation';
+import Paypal from '../Containers/Payment/Paypal'
 
 // import { fromLeft } from 'react-navigation-transitions';
 import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
@@ -185,12 +186,18 @@ const PromotionStack = StackNavigator(  // main pro
         title: I18n.t('promptpay')
       }
     },
-    creditcard: {
-      screen: Creditcard,
+    paypal: {
+      screen: Paypal,
       navigationOptions: {
         title: I18n.t('creditCard')
       }
-    },
+    }
+    // creditcard: {
+    //   screen: Creditcard,
+    //   navigationOptions: {
+    //     title: I18n.t('creditCard')
+    //   }
+    // },
   },
   {
     transitionConfig: getSlideFromRightTransition,

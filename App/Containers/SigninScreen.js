@@ -151,8 +151,6 @@ class SigninScreen extends Component {
       this.props.setUserId(currentUserJson.uid)
       this.props.signinWithCredential(currentUserJson)
 
-
-
     } catch (e) {
       this.setState({ spinner: false })
       console.error(e);

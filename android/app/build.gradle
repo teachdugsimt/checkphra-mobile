@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-paypal-wrapper')
     compile project(':react-native-image-resizer')
 
     implementation project(':react-native-image-picker')
@@ -156,7 +157,8 @@ dependencies {
     }
     implementation project(':react-native-i18n')
     implementation (project(':react-native-firebase')) {
-        exclude group: "com.android.support"
+        // exclude group: "com.android.support"
+        transitive = false
     }
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-config')
@@ -167,11 +169,15 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "com.google.android.gms:play-services-base:15.0.1"
+    // implementation "com.google.android.gms:play-services-base:15.0.0"
     implementation "com.google.firebase:firebase-core:16.0.3"
+    // implementation "com.google.firebase:firebase-core:15.0.2"
     implementation "com.google.firebase:firebase-auth:16.0.3"
+    // implementation "com.google.firebase:firebase-auth:15.0.2"
     implementation "com.google.firebase:firebase-messaging:17.3.2"
-    implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // <-- Add this line if you wish to use badge on Android
+    // implementation "com.google.firebase:firebase-messaging:15.0.2"
 
+    implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // <-- Add this line if you wish to use badge on Android
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
 
 }

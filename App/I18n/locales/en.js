@@ -86,7 +86,8 @@ export default {
   atLeast2Image: 'Please select at least 2 images',
   atLeast1Question: 'Please select at least 1 question',
   notEnoughCoin: 'Not enough coin',
-  inputBit: 'Please input bid price',
+  inputBit: 'message',
+  inputBit2: 'number of your want to bid',
 
   result: 'Result',
   back: 'Back',
@@ -205,6 +206,9 @@ export default {
   interest: 'Interest',
   detailBidPrice: '** User must be the first bidder. **',
   detailBidPrice2: '** User can bid for 2 round. **',
+  sharedLeasing: 'Share was success and get 100 coin !!',
+  sharedLeasing2: 'Share was success',
+  address: 'Address of admin',
 
   หลวงปู่ทวด: 'luangPuTuad',
   หลวงปู่หมุน: 'luangPuMoon',

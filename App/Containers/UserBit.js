@@ -13,17 +13,52 @@ import ExpertActions from '../Redux/ExpertRedux'
 // Styles
 import styles from './Styles/CheckListScreenStyle'
 import I18n from '../I18n/i18n';
+
 I18n.fallbacks = true;
 // I18n.currentLocale();
 import { MessageDialog } from 'react-native-fbsdk'
 const { width } = Dimensions.get('window')
 let check = true
 let count = 1
-const shareLinkContent = {
-    contentType: 'link',
-    contentUrl: 'http://www.google.com',
-    contentDescription: 'DONT USE ITS AGAINST FB POLICY',
-};
+
+//************ TEST FBMEG 2 **************/
+
+// const { MessengerClient } = require('messaging-api-messenger');
+// const client = MessengerClient.connect(541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY);
+
+// const client = MessengerClient.connect({
+//     accessToken: '541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY',  //541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY
+//     appId: '541100422998912',
+//     appSecret: 'fce0a5aa382796960e3b40438e6da2e5',
+//     version: '2.12',
+//   });
+// const client = MessengerClient.connect({
+//     accessToken: '541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY',
+//     appId: '541100422998912',
+//     appSecret: 'fce0a5aa382796960e3b40438e6da2e5',
+//     skipAppSecretProof: true,
+// });
+
+// client.sendRawBody(body).catch(error => {
+//     console.log(error); // formatted error message
+//     console.log(error.stack); // error stack trace
+//     console.log(error.config); // axios request config
+//     console.log(error.request); // HTTP request
+//     console.log(error.response); // HTTP response
+// });
+
+//accessToken : EAAHsIMKAK4ABAGIIZC6rf4uV1shqzhdm15cOkDugdgtO0sNSC6IcsKZARBGkpATZA2ZBg7zxvUIKOItpq5lZApu0lDeovNeqVszcyFVlc1PevyDQFOQ4OzNnfHICErZBrPAbRe2cYmYMLbBHT2Yh4WUgb646AVPtVpQ3IqIo97EhMQAqDcA8PpVrUWBH6ZAVgwZD
+//recipient user_id : 316834699141900
+//************ TEST FBMEG 2 **************/
+
+
+//************ TEST FBMEG 1 **************/
+// const shareLinkContent = {
+//     contentType: 'link',
+//     contentUrl: 'http://www.google.com',
+//     contentDescription: 'DONT USE ITS AGAINST FB POLICY',
+// };
+//************ TEST FBMEG 1 **************/
 
 class UserBit extends Component {
     constructor(props) {
@@ -35,29 +70,33 @@ class UserBit extends Component {
         }
     }
 
-    testMessage() {
-        MessageDialog.canShow(shareLinkContent).then(
-            function (canShow) {
-                if (canShow) {
-                    return MessageDialog.show(shareLinkContent);
-                } else {
-                    alert('Messenger not installed')
-                }
-            }
-        ).then(
-            function (result) {
-                if (result.isCancelled) {
-                    // cancelled
-                    alert('MESSAGE FAILURE')
-                } else {
-                    // success
-                    alert('MESSAGE SUCCESSFULLY!!')
-                }
-            },
-            function (error) {
-                showToast('Share fail with error: ' + error, 'error');
-            }
-        );
+    testMessage = () => {
+        this.props.sendMessage('TEST SEND MESSAGE TO CHECK PHRA')
+        // MessageDialog.canShow(shareLinkContent).then(
+        //     function (canShow) {
+        //         console.log(canshow)
+        //         if (canShow) {
+        //             return MessageDialog.show(shareLinkContent);
+        //         } else {
+        //             alert('Messenger not installed')
+        //         }
+        //     }
+        // ).then(
+        //     function (result) {
+        //         if (result.isCancelled) {
+        //             console.log(result)
+        //             // cancelled
+        //             alert('MESSAGE FAILURE')
+        //         } else {
+        //             // success
+        //             console.log(result)
+        //             alert('MESSAGE SUCCESSFULLY!!')
+        //         }
+        //     },
+        //     function (error) {
+        //         showToast('Share fail with error: ' + error, 'error');
+        //     }
+        // );
     }
 
     static navigationOptions = ({ navigation }) => {
@@ -160,14 +199,13 @@ class UserBit extends Component {
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
 
-                <View>
+                {/* <View style={{ width: 40, height: 60 }}>
                     <TouchableOpacity onPress={this.testMessage}>
                         <View>
-                            <Text>Back to</Text>
-                            <Text>Messenger</Text>
+                            <Text>Back to Messenger</Text>
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View> */}
 
 
                 <FlatList
@@ -287,6 +325,7 @@ const mapDispatchToProps = (dispatch) => {
 
         setData: (data) => dispatch(TradingActions.setData(data)),
         getAnswer: (page) => dispatch(TradingActions.listTrading(page)),
+        sendMessage: (text) => dispatch(TradingActions.sendMessage(text)),
     }
 }
 

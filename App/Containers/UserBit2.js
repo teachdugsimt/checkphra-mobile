@@ -23,19 +23,20 @@ import Spinner from 'react-native-loading-spinner-overlay';
 // import FBMessengerButton from '../Components/BackToMessenger'
 // var FBMessengerButton = require('../Components/FBMessengerButton');
 // import FBMessengerButton from 'react-native-facebook-messenger'
-import { MessageDialog } from 'react-native-fbsdk'
+import { MessageDialog, ShareDialog } from 'react-native-fbsdk'
 I18n.fallbacks = true;
 // I18n.currentLocale();
 
 const { width } = Dimensions.get('window')
 let check = true
 let count = 1
-
+let isShared = false
 const shareLinkContent = {
     contentType: 'link',
-    contentUrl: 'http://www.google.com',
-    // contentDescription: 'DONT USE ITS AGAINST FB POLICY',
+    contentUrl: 'https://www.checkphra.com/',
+    contentDescription: 'ฉันได้ทำขายปล่อยเช่าพระโดยแอพ CheckPhra',
 };
+
 class UserBit2 extends Component {
 
     constructor(props) {
@@ -58,9 +59,12 @@ class UserBit2 extends Component {
             editing: true,
 
             price: null,
+            price2: null,
             bidData: null,
             hide: false,
             updateData: null,
+            shareData: null,
+            hideShare: false,
         }
     }
 
@@ -101,14 +105,22 @@ class UserBit2 extends Component {
             }
         }
 
+        if (newProps.data_shared && newProps.data_shared != null && newProps.data_shared != undefined) {
+            if (newProps.data_shared.qid == newProps.data.qid) {
+                return {
+                    shareData: newProps.data_shared
+                }
+            }
+        }
+
         return {
             bidData
         }
     }
 
     _onPressButton = () => {
-        if (this.state.price) {
-            this.props.trading(this.props.data.qid, this.state.price)
+        if (this.state.price2) {
+            this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
         } else {
             alert(I18n.t('checkData'))
         }
@@ -116,15 +128,26 @@ class UserBit2 extends Component {
     }
 
     componentWillMount() {
+
         this.setState({ spinner: false })
     }
 
     componentDidMount() {
-
+        if (this.props.data && this.props.data.share == 'enabled') {
+            this.setState({ hideShare: false })
+        } else if (this.props.data && this.props.data.share == 'disable') {
+            this.setState({ hideShare: true })
+        }
     }
 
     componentWillUnmount() {
         this.props.getAnswer(1)
+        if (isShared == true) {
+            this.props.sharedAmulet(this.props.data.qid, isShared)
+            // ส่งหาตั้มเพื่อรับ 100 เหรียญ
+            this.props.getProfile()
+        }
+        isShared = false
     }
 
     _goToURL() {
@@ -138,51 +161,100 @@ class UserBit2 extends Component {
                 console.log('Don\'t know how to open URI: ' + url);
             }
         });
-
-
     }
 
-    async testMessage() {
-        MessageDialog.canShow(shareLinkContent).then(
+    commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+        }
+        return val;
+    }
+
+    async shareLinkWithShareDialog() {
+        var tmp = this;
+        await ShareDialog.canShow(shareLinkContent).then(
             function (canShow) {
                 if (canShow) {
-                    return MessageDialog.show(shareLinkContent);
-                } else {
-                    alert('Messenger not installed')
+                    return ShareDialog.show(shareLinkContent);
                 }
             }
         ).then(
             function (result) {
+                console.log(result)
+                console.log('HERE RESULT')
                 if (result.isCancelled) {
-                    // cancelled
-                    alert('MESSAGE FAILURE')
+                    alert('Share operation was cancelled');
                 } else {
-                    // success
-                    alert('MESSAGE SUCCESSFULLY!!')
+                    // alert('Share was successful with postId: '
+                    //   + result.postId);
+                    // alert('Share was successful');
+                    if (isShared == false) {
+                        // this.props.sharedAmulet(this.props.data.qid, isShared) // can't use
+                        alert(I18n.t('sharedLeasing'))
+                        isShared = true
+                    } else if (isShared == true) {
+                        alert(I18n.t('sharedLeasing2'))
+                    }
+                    // Alert.alert(
+                    //   'Check Phra',
+                    //   I18n.t('sharedSuccess'),
+                    //   [
+                    //     { text: I18n.t('ok'), onPress: () => { 
+                    //       // this.setState({ shared: true })
+                    //      } }
+                    //   ]
+                    //   ,{cancelable: false}
+                    // )
+
                 }
             },
             function (error) {
-                showToast('Share fail with error: ' + error, 'error');
+                alert('Share failed with error: ' + error.message);
             }
         );
     }
 
-    sendToMessenger() {
+    // async testMessage() {
+    //     MessageDialog.canShow(shareLinkContent).then(
+    //         function (canShow) {
+    //             if (canShow) {
+    //                 return MessageDialog.show(shareLinkContent);
+    //             } else {
+    //                 alert('Messenger not installed')
+    //             }
+    //         }
+    //     ).then(
+    //         function (result) {
+    //             if (result.isCancelled) {
+    //                 // cancelled
+    //                 alert('MESSAGE FAILURE')
+    //             } else {
+    //                 // success
+    //                 alert('MESSAGE SUCCESSFULLY!!')
+    //             }
+    //         },
+    //         function (error) {
+    //             showToast('Share fail with error: ' + error, 'error');
+    //         }
+    //     );
+    // }
 
-        var url = 'https://www.messenger.com/t/316834699141900',
-            remoteUrl = 'ทดสอบๆ 001'
+    // sendToMessenger() {
 
-        RNFBMessenger.sendGif(
-            url,
-            photoObject.get('imageObj').url(),
-            function errorCallback(results) {
-                alert('Error: ' + results);
-            },
-            function successCallback(results) {
-                alert('Success : ' + results);
-            }
-        );
-    }
+    //     var url = 'https://www.messenger.com/t/316834699141900',
+    //         remoteUrl = 'ทดสอบๆ 001'
+
+    //     RNFBMessenger.sendGif(
+    //         url,
+    //         photoObject.get('imageObj').url(),
+    //         function errorCallback(results) {
+    //             alert('Error: ' + results);
+    //         },
+    //         function successCallback(results) {
+    //             alert('Success : ' + results);
+    //         }
+    //     );
+    // }
 
     _onPressSell = () => {
         Alert.alert(
@@ -223,6 +295,7 @@ class UserBit2 extends Component {
                 img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
             })
         }
+        let checkTmp = isShared == true ? checkTmp = true : checkTmp = false
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -274,49 +347,6 @@ class UserBit2 extends Component {
 
                 <View style={{ flex: 0.63 }}>
                     <ScrollView>
-                        {/* <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('detailAnswer')} </Text>
-                        </View> */}
-                        {/* {this.props.data && this.props.data.answer && this.props.data.answer.answer.map((e, i) => {
-                            let name = ''
-
-                            if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
-                                name = I18n.t('trueFalse')
-                                return (
-                                    <View style={{ marginTop: 10, marginLeft: 10, }}>
-                                        <Text style={{ fontSize: 16, color: Colors.brownText }}>1) {name} : <Text style={{
-                                            fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 18,
-                                        }}>{e.result}</Text> </Text>
-                                        <Text style={{ fontSize: 16, color: Colors.brownText }}>{I18n.t('reason')} : <Text style={{
-                                            fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 18,
-                                        }}>{this.props.data && this.props.data.answer.argument ? this.props.data.answer.argument : I18n.t('noneAnswer')}</Text></Text>
-                                    </View>
-                                )
-                            } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
-                                name = I18n.t('pricePhra')
-                                return (
-                                    <View style={{ marginTop: 10, marginLeft: 10, }}>
-                                        <Text style={{ fontSize: 16, color: Colors.brownText }}>2) {name} : <Text style={{
-                                            fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 18,
-                                        }}>{e.result}</Text></Text>
-                                    </View>
-                                )
-                            } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
-                                name = I18n.t('detailPhra')
-                                return (
-                                    <View style={{ marginTop: 10, marginLeft: 10, }}>
-                                        <Text style={{ fontSize: 16, color: Colors.brownText }}>3) {name} : <Text style={{
-                                            fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 18,
-                                        }}>{e.result}</Text></Text>
-                                    </View>
-                                )
-                            }
-
-                        })} */}
 
                         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')} {this.props.data.qid ? ' ( ' + this.props.data.qid + ' )' : ''}</Text>
@@ -389,11 +419,21 @@ class UserBit2 extends Component {
 
 
                         {/* && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 */}
-                        {this.props.data.messages ? this.state.hide == false && (this.props.data.messages.length % 2 == 0) && this.props.data.messages.length < 4 && this.props.data && (this.props.data.status == 'bargain' || this.props.data.status == 'interested') && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
-                            value={this.state.price}
-                            textAlign={'center'}
-                            onChangeText={(text) => this.setState({ price: text })}
-                            placeholder={I18n.t('inputBit')} />
+                        {this.props.data.messages ? this.state.hide == false && (this.props.data.messages.length % 2 == 0) && this.props.data.messages.length < 4 && this.props.data && (this.props.data.status == 'bargain' || this.props.data.status == 'interested') && <View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                <TextInput style={{ width: '45%', alignSelf: 'center' }}
+                                    value={this.state.price}
+                                    textAlign={'center'}
+                                    onChangeText={(text) => this.setState({ price: text })}
+                                    placeholder={I18n.t('inputBit')} />
+
+                                <TextInput style={{ width: '45%', alignSelf: 'center' }}
+                                    value={this.state.price2}
+                                    textAlign={'center'}
+                                    keyboardType={'numeric'}
+                                    onChangeText={(text) => this.setState({ price2: text })}
+                                    placeholder={I18n.t('inputBit2')} />
+                            </View>
 
                             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                                 <View style={{ width: '40%', height: 45 }}>
@@ -413,11 +453,21 @@ class UserBit2 extends Component {
                             </View>
 
                         </View>
-                            : this.state.hide == false && this.props.data && (this.props.data.status == 'bargain' || this.props.data.status == 'interested') && <View><TextInput style={{ width: '75%', alignSelf: 'center' }}
-                                value={this.state.price}
-                                textAlign={'center'}
-                                onChangeText={(text) => this.setState({ price: text })}
-                                placeholder={I18n.t('inputBit')} />
+                            : this.state.hide == false && this.props.data && (this.props.data.status == 'bargain' || this.props.data.status == 'interested') && <View>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
+                                    <TextInput style={{ width: '45%', alignSelf: 'center' }}
+                                        value={this.state.price}
+                                        textAlign={'center'}
+                                        onChangeText={(text) => this.setState({ price: text })}
+                                        placeholder={I18n.t('inputBit')} />
+
+                                    <TextInput style={{ width: '45%', alignSelf: 'center' }}
+                                        value={this.state.price2}
+                                        textAlign={'center'}
+                                        keyboardType={'numeric'}
+                                        onChangeText={(text) => this.setState({ price2: text })}
+                                        placeholder={I18n.t('inputBit2')} />
+                                </View>
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                                     <View style={{ width: '40%', height: 45 }}>
@@ -456,72 +506,142 @@ class UserBit2 extends Component {
                             </View>
                         </View>}
 
-                        {this.state.updateData && this.state.updateData.status == 'approve' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userAccept') : I18n.t('adminAccept')}</Text> : this.props.data && this.props.data.status == 'approve' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userAccept') : I18n.t('adminAccept')}</Text>}
+                        {this.state.updateData && this.state.updateData.status == 'approve' ? <View style={{ alignItems: 'center' }}>
+                            <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userAccept') : I18n.t('adminAccept')}</Text>
+
+                            <View>
+                                <Text style={{ fontSize: 16, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('address')} : Thai Great Amulet</Text>
+                                <Text style={{ fontSize: 16, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>131/96 หมู่ 1 ต.บึงยี่โถ อ.ธัญบุรี จ.ปทุมธานี 12130</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+
+                                {/* shared View */}
+                                {this.state.hideShare == false && <View
+                                    style={{
+                                        backgroundColor: "red",
+                                        height: 45,
+                                        width: '40%',
+                                        borderRadius: 24,
+                                        backgroundColor: "#104E8Bdd",
+                                        marginTop: Metrics.doubleBaseMargin,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }} >
+                                    <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                                        <Icon
+                                            name="facebook-square"
+                                            size={28}
+                                            color="white"
+                                        />
+                                        <Text
+                                            style={{
+                                                fontFamily: "Prompt-Regular",
+                                                fontSize: 18,
+                                                color: "white",
+                                                marginLeft: Metrics.baseMargin
+                                            }} > Share </Text>
+                                    </TouchableOpacity></View>}
+                                {/* shared View */}
+
+                                <View
+                                    style={{
+                                        backgroundColor: "red",
+                                        height: 45,
+                                        width: '48%',
+                                        borderRadius: 24,
+                                        backgroundColor: "#104E8Bdd",
+                                        marginTop: Metrics.doubleBaseMargin,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                ><TouchableOpacity onPress={this._goToURL} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                                        <Icon
+                                            name="facebook-square"
+                                            size={28}
+                                            color="white"
+                                        />
+                                        <Text
+                                            style={{
+                                                fontFamily: "Prompt-Regular",
+                                                fontSize: 18,
+                                                color: "white",
+                                                marginLeft: Metrics.baseMargin
+                                            }} >{I18n.t('contactAdmin')}</Text>
+                                    </TouchableOpacity></View>
+
+                            </View>
+                        </View>
+                            : this.props.data && this.props.data.status == 'approve' &&
+                            <View style={{ alignItems: 'center' }}>
+                                <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userAccept') : I18n.t('adminAccept')}</Text>
+
+                                <View>
+                                    <Text style={{ fontSize: 16, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('address')} : Thai Great Amulet</Text>
+                                    <Text style={{ fontSize: 16, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>131/96 หมู่ 1 ต.บึงยี่โถ อ.ธัญบุรี จ.ปทุมธานี 12130</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    {/* shared View */}
+                                    {this.state.hideShare == false && <View
+                                        style={{
+                                            backgroundColor: "red",
+                                            height: 45,
+                                            width: '40%',
+                                            borderRadius: 24,
+                                            backgroundColor: "#104E8Bdd",
+                                            marginTop: Metrics.doubleBaseMargin,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }} >
+                                        <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                                            <Icon
+                                                name="facebook-square"
+                                                size={28}
+                                                color="white"
+                                            />
+                                            <Text
+                                                style={{
+                                                    fontFamily: "Prompt-Regular",
+                                                    fontSize: 18,
+                                                    color: "white",
+                                                    marginLeft: Metrics.baseMargin
+                                                }} > Share </Text>
+                                        </TouchableOpacity></View>}
+                                    {/* shared View */}
+                                    <View
+                                        style={{
+                                            backgroundColor: "red",
+                                            height: 45,
+                                            width: '48%',
+                                            borderRadius: 24,
+                                            backgroundColor: "#104E8Bdd",
+                                            marginTop: Metrics.doubleBaseMargin,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    ><TouchableOpacity onPress={this._goToURL} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                                            <Icon
+                                                name="facebook-square"
+                                                size={28}
+                                                color="white"
+                                            />
+                                            <Text
+                                                style={{
+                                                    fontFamily: "Prompt-Regular",
+                                                    fontSize: 18,
+                                                    color: "white",
+                                                    marginLeft: Metrics.baseMargin
+                                                }} >{I18n.t('contactAdmin')}</Text>
+                                        </TouchableOpacity></View>
+
+                                </View>
+                            </View>}
+
                         {this.state.updateData && this.state.updateData.status == 'cancel' ? <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text> : this.props.data && this.props.data.status == 'cancel' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text>}
 
-                        {/* <TouchableWithoutFeedback style={{
-                            width: 300,
-                            height: 50,
-                            backgroundColor: '#0084ff',
-                            flex: 1,
-                            alignSelf: 'center',
-                        }} onPress={this.sendToMessenger.bind(this)}>
-                            <FBMessengerButton.Button style={{
-                                width: 300,
-                                height: 50,
-                                backgroundColor: '#0084ff',
-                                flex: 1,
-                                alignSelf: 'center',
-                            }} />
-                        </TouchableWithoutFeedback> */}
-
-                        {/* <View style={{
-                            width: 300,
-                            height: 50,
-                            backgroundColor: '#0084ff',
-                            flex: 1,
-                            alignSelf: 'center',
-                        }} onPress={this.sendToMessenger.bind(this)}>
-                            <TouchableHighlight onPress={() => { FBMessengerButton.backToMessenger(); }}>
-                                <View>
-                                    <Text>Back to</Text>
-                                    <Text>Messenger</Text>
-                                </View>
-                            </TouchableHighlight>
-                        </View> */}
-
-
-                        <TouchableOpacity onPress={this.testMessage}>
-                            <View>
-                                <Text>Back to</Text>
-                                <Text>Messenger</Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        <View style={{
-                            position: 'absolute',
-                            right: 5, top: -15,
-                            backgroundColor: "red",
-                            height: 40,
-                            width: 40,
-                            borderRadius: 20,
-                            backgroundColor: "#104E8Bdd",
-                            marginTop: Metrics.doubleBaseMargin,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }} >
-                            <TouchableOpacity onPress={this._goToURL} style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                                <Icon
-                                    name="facebook-square"
-                                    size={24}
-                                    color="white"
-                                />
-                            </TouchableOpacity></View>
 
 
                         <View style={{ height: 50 }}>
                         </View>
-
 
                         <Spinner
                             visible={(this.props.request1 || this.props.request2)}
@@ -550,6 +670,7 @@ const mapStateToProps = (state) => {
         request1: state.trading.fetching,  // trading/add
         request2: state.trading.request,   // trading/detail
         data_status: state.trading.data_status,  // after sell or cancel phra we get this data 
+        data_shared: state.trading.data_shared,  // after share we get this data 
     }
 }
 
@@ -563,6 +684,8 @@ const mapDispatchToProps = (dispatch) => {
         setData: (data) => dispatch(TradingActions.setData(data)),
         trading: (qid, message) => dispatch(TradingActions.tradingRequest(qid, message)),
         update: (qid, status) => dispatch(TradingActions.updateStatus(qid, status)),
+        getProfile: () => dispatch(QuestionActions.getProfile()),
+        sharedAmulet: (qid, status) => dispatch(TradingActions.sharedLeasing(qid, status))
     }
 }
 

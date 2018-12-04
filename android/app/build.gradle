@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-paypal-wrapper')
     compile project(':react-native-image-resizer')
 
     implementation project(':react-native-image-picker')

@@ -13,6 +13,7 @@ Omise.config('pkey_test_5dtotdvyulop403v93a', '2015-11-17');
 import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
 import Spinner from 'react-native-loading-spinner-overlay';
 import I18n from '../../I18n/i18n';
+
 I18n.fallbacks = true;
 // I18n.currentLocale();
 const { width } = Dimensions.get('window')
@@ -109,7 +110,7 @@ class Creditcard extends Component {
           },
           { text: I18n.t('cancel') }
         ],
-        {cancelable: false}
+        { cancelable: false }
       )
     } else if (this.state.form.valid == false) {
       this.setState({ spinner: false })
@@ -137,7 +138,7 @@ class Creditcard extends Component {
       status = I18n.t('trueData')
       color = 'green'
     }
-   
+
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{

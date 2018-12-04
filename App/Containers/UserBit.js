@@ -24,7 +24,7 @@ let count = 1
 //************ TEST FBMEG 2 **************/
 
 // const { MessengerClient } = require('messaging-api-messenger');
-// const client = MessengerClient.connect(541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY);
+// const client = MessengerClient.connect('541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY');
 
 // const client = MessengerClient.connect({
 //     accessToken: '541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY',  //541100422998912|YicGjkjNUUvnQwHBcUSCnSJw5XY
@@ -53,11 +53,11 @@ let count = 1
 
 
 //************ TEST FBMEG 1 **************/
-// const shareLinkContent = {
-//     contentType: 'link',
-//     contentUrl: 'http://www.google.com',
-//     contentDescription: 'DONT USE ITS AGAINST FB POLICY',
-// };
+const shareLinkContent = {
+    contentType: 'link',
+    contentUrl: 'https://www.messenger.com/t/316834699141900',
+    contentDescription: 'ฉันได้ทำการให้เช่าพระนางพญา / ในราคา 250,000 และต้องการติดต่อเจ้าหน้าที่เพื่อดำเนินการเรียกเก็บเงิน', 
+};
 //************ TEST FBMEG 1 **************/
 
 class UserBit extends Component {
@@ -71,9 +71,9 @@ class UserBit extends Component {
     }
 
     testMessage = () => {
-        this.props.sendMessage('TEST SEND MESSAGE TO CHECK PHRA')
+        this.props.sendMessage('TEST SEND MESSAGE TO CHECK PHRA999999999999999')
         // MessageDialog.canShow(shareLinkContent).then(
-        //     function (canShow) {
+        //     function (canShow) {   // 1. chheck can show dialog
         //         console.log(canshow)
         //         if (canShow) {
         //             return MessageDialog.show(shareLinkContent);
@@ -81,20 +81,22 @@ class UserBit extends Component {
         //             alert('Messenger not installed')
         //         }
         //     }
-        // ).then(
+        // ).then(  // 2. can show window and do .....
         //     function (result) {
-        //         if (result.isCancelled) {
+        //         if (result.isCancelled) {   // 3. if Dialog is closed
         //             console.log(result)
         //             // cancelled
         //             alert('MESSAGE FAILURE')
-        //         } else {
+        //         } else {    // 4. if Dialog not closed
         //             // success
+                    
         //             console.log(result)
         //             alert('MESSAGE SUCCESSFULLY!!')
         //         }
         //     },
         //     function (error) {
-        //         showToast('Share fail with error: ' + error, 'error');
+        //         alert('Share fail with error: ' + error, 'error')
+        //         // showToast('Share fail with error: ' + error, 'error');
         //     }
         // );
     }

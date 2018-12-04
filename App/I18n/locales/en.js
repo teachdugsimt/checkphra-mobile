@@ -203,7 +203,7 @@ export default {
   wantGetOffer: 'Do you want to get this offer ?',
   dontwantOffer: 'Do you want to reject this offer ?',
   leasing: 'Do you want to trading ?',
-  interest: 'Interest',
+  interest: 'Want to buy',
   detailBidPrice: '** User must be the first bidder. **',
   detailBidPrice2: '** User can bid for 2 round. **',
   sharedLeasing: 'Share was success and get 100 coin !!',
@@ -233,4 +233,7 @@ export default {
   พระซุ้มกอ: 'phraSoomkor',
   พระกำแพงเม็ดขนุน: 'phraKampaengMedKanun',
   ไม่ระบุประเภท: 'other / unknow',
+
+  successTransaction: 'Transaction Successful !!',
+  failureTransaction: 'Transaction Failure',
 }

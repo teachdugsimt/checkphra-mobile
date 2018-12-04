@@ -346,7 +346,8 @@ class UserBit2 extends Component {
 
                 </View>
 
-                 <TouchableOpacity onPress={() => { this.props.navigation.goBack() }} style={{
+                {/* BACK BUTTON FOR PHASE 2 ******************************* */}
+                {/* <TouchableOpacity onPress={() => { this.props.navigation.goBack() }} style={{
                     position: 'absolute',
                     left: 10, top: 10,
                     width: width/4.5,
@@ -360,7 +361,8 @@ class UserBit2 extends Component {
                         fontFamily: "Prompt-SemiBold",
                         color: Colors.brownText
                     }}>{" < Back"}</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                {/*************************** BACK BUTTON FOR PHASE 2 */}
 
                 <View style={{ flex: 0.63 }}>
                     <ScrollView>

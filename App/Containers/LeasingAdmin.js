@@ -63,12 +63,18 @@ class LeasingAdmin extends Component {
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
                 <View>
-                    <Text>{I18n.t('adminSum')+" "+this.props.data_price+' ฿'}</Text>
+                    <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 17,
+                        color: Colors.brownText,
+                        alignSelf: 'center',
+                        marginVertical: 10,
+                    }}>{I18n.t('adminSum') + " " + (this.props.data_price? this.props.data_price : ' ') + ' ฿'}</Text>
                 </View>
                 <FlatList
                     refreshControl={
                         <RefreshControl
-                            refreshing={(this.props.request6|| this.props.request7)}
+                            refreshing={(this.props.request6 || this.props.request7)}
                             onRefresh={this.onRefresh.bind(this)}
                         />
                     }

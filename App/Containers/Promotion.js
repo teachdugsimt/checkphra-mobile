@@ -9,6 +9,7 @@ import PromotionActions from '../Redux/PromotionRedux'
 import Icon2 from "react-native-vector-icons/FontAwesome";
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 import I18n from '../I18n/i18n';
+import PaymentActions from '../Redux/PaymentRedux'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -51,6 +52,7 @@ class Promotion extends Component {
 
   _PressPromotion(item) {
     // console.log(item)
+    this.props.setPackage(item.id)
     this.props.setMoney(item.price)
     this.popupDialog.show()
   }
@@ -177,8 +179,8 @@ class Promotion extends Component {
                         </TouchableOpacity> */}
 
             <TouchableOpacity onPress={this._Creditcard} style={{
-              height: 42, flexDirection: 'row',
-              borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center'
+              flex: 1, flexDirection: 'row',
+              borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center', borderTopColor: 'lightgrey', borderTopWidth: 1
             }}>
               <Icon2
                 name="credit-card"
@@ -207,6 +209,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getPromotion: () => dispatch(PromotionActions.promotionRequest()),
     setMoney: (m) => dispatch(PromotionActions.setMoney(m)),
+    setPackage: (pack) => dispatch(PaymentActions.setPackage(pack))
   }
 }
 

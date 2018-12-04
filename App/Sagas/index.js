@@ -21,7 +21,7 @@ import { getUserAvatar } from './GithubSagas'
 import { signin, signinWithCredential, signup, createUser, changePassword, forgetPassword } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion, getPublish, sharedAnswer, getLoginPromotion } from './PromotionSagas'
-import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest } from './PaymentSagas'
+import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest, paypalRequest55 } from './PaymentSagas'
 import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint } from './ExpertSagas'
 import { getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555, 
   getListLeasing, getPriceallday } from './TradingSagas'
@@ -86,5 +86,6 @@ export default function * root () {
     takeLatest(PromotionTypes.PUBLISH_REQUEST, getPublish, promotionApi),
     takeLatest(PromotionTypes.GET_LOGIN_PRO, getLoginPromotion, promotionApi),
     takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi),
+    takeLatest(PaymentTypes.PAYPAL_REQUEST, paypalRequest55, promotionApi),
   ])
 }

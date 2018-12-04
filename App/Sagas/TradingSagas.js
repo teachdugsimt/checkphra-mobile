@@ -117,7 +117,8 @@ export function* updateAmulet(api, { qid, status }) {
 
 export function* sendMessage555(api, { text }) {
   console.log(text)
-
+  // Gr4ZemIdAGMKh3R8xv5t9jp4EFN2
+  
   const data = {
     messaging_type: "RESPONSE",
     recipient: {
@@ -144,6 +145,7 @@ export function* sendMessage555(api, { text }) {
 export function* sharedLeasing555(api, { qid, status }) {
   console.log(qid)
   console.log(status)
+
   const aut = yield select(auth)
   const data = {
     user_id: aut.user_id,

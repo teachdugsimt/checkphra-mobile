@@ -19,6 +19,7 @@ I18n.fallbacks = true;
 const auth = state => state.auth
 const money = state => state.promotion
 const slip = state => state.payment.data_point
+const pack = state => state.payment.package
 // const pay = state => state.payment
 I18n.locale = auth.language
 export function* paymentRequest(api, { data }) {
@@ -117,7 +118,7 @@ export function* sendSlipRequest(api, { item }) {
   }
 }
 
-export function* cardRequest(api, { token }) {
+export function* cardRequest(api, { token }) {   // OMISE / PAYPAL CREDIT 
   const aut = yield select(auth)
   const mo = yield select(money)
 
@@ -139,5 +140,26 @@ export function* cardRequest(api, { token }) {
     alert(I18n.t('addCoinFailure'))
     yield put(PaymentActions.cardFailure())
     yield put(PaymentActions.clearCardRequest())
+  }
+}
+
+export function* paypalRequest55(api) {
+  const aut = yield select(auth)
+  // const mo = yield select(money)
+  const id = yield select(pack)
+  
+  const data = {
+    user_id: aut.user_id,
+    package_id: id
+  }
+  console.log(data)
+  const response = yield call(api.paypal, data)
+  console.log(response)
+  console.log('********** PAYPAL API *************')
+  if(response.ok){
+    alert(I18n.t('successTransaction'))
+    yield put(PaymentActions.paypalSuccess(response.data))
+  } else {
+    yield put(PaymentActions.paypalFailure())
   }
 }

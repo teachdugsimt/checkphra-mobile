@@ -154,10 +154,49 @@ export function* sharedLeasing555(api, { qid, status }) {
   const response = yield call(api.sharedLeasing, data)
   console.log(response)
   console.log('****************** SHARED LEASING *********************')
-  
-  if(response.ok){
+
+  if (response.ok) {
     yield put(TradingActions.sendMessageSuccess(response.data))
   } else {
     yield put(TradingActions.sendMessageFailure())
+  }
+}
+
+export function* getPriceallday(api){
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id
+  }
+
+  const response = yield call(api.getPriceLeasing, data)
+  console.log(response)
+  console.log('**************** GET PRICE ALL LEASING OF ADMIN ****************')
+  if(response.ok){
+    yield put(TradingActions.getPriceSuccess(response.data))
+  } else {
+    yield put(TradingActions.getPriceFailure())
+  }
+}
+
+export function* getListLeasing(api, { page }) {
+  const aut = yield select(auth)
+  if(page == 1){
+    const data = {
+      user_id: aut.user_id,
+      page_number: page
+    }
+
+    const response = yield call(api.getListLeasing, data)
+    console.log(response)
+    console.log('**************** GET LIST LEASING OF ADMIN ****************')
+
+    if(response.ok){
+      yield put(TradingActions.getLeasingSuccess(response.data))
+    } else {
+      yield put(TradingActions.getLeasingFailure())
+    }
+
+  } else {
+
   }
 }

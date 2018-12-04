@@ -23,7 +23,8 @@ import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, get
 import { getPromotion, getPublish, sharedAnswer, getLoginPromotion } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest } from './PaymentSagas'
 import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint } from './ExpertSagas'
-import { getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555 } from './TradingSagas'
+import { getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555, 
+  getListLeasing, getPriceallday } from './TradingSagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -49,6 +50,8 @@ export default function * root () {
     takeLatest(TradingTypes.UPDATE_STATUS, updateAmulet, tradeApi),
     takeLatest(TradingTypes.SEND_MESSAGE, sendMessage555, faceApi),
     takeLatest(TradingTypes.SHARED_LEASING, sharedLeasing555, tradeApi),
+    takeLatest(TradingTypes.GET_LEASING_ADMIN, getListLeasing, tradeApi),
+    takeLatest(TradingTypes.GET_PRICE_LEASING, getPriceallday, tradeApi),
 
     takeLatest(AuthTypes.SIGNIN_REQUEST, signin, authApi),
     takeLatest(AuthTypes.SIGNIN_WITH_CREDENTIAL, signinWithCredential, authApi),

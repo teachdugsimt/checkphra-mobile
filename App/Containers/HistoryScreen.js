@@ -138,64 +138,7 @@ class HistoryScreen extends Component {
               color = 'green'
             }
 
-            let name = ''
-            if (item.type == 'เบญจภาคี') {
-              name = I18n.t('benjapakee')
-            }
-            else if (item.type == 'พระสมเด็จ') {
-              name = I18n.t('phraSomdej')
-            }
-            else if (item.type == 'นางพญา') {
-              name = I18n.t('phraNangPaya')
-            }
-            else if (item.type == 'พระคง') {
-              name = I18n.t('phraKhong')
-            }
-            else if (item.type == 'พระรอด') {
-              name = I18n.t('phraRod')
-            }
-            else if (item.type == 'พระผงสุพรรณ') {
-              name = I18n.t('phraPhongSuphan')
-            }
-            else if (item.type == 'พระซุ้มกอ') {
-              name = I18n.t('phraSoomkor')
-            }
-            else if (item.type == 'พระกำแพงเม็ดขนุน') {
-              name = I18n.t('phraKampaengMedKanun')
-            }
-            else if (item.type == 'หลวงปู่ทวด') {
-              name = I18n.t('luangPuTuad')
-            }
-            else if (item.type == 'หลวงปู่หมุน') {
-              name = I18n.t('luangPuMoon')
-            }
-            else if (item.type == 'พระกรุ') {
-              name = I18n.t('phraKru')
-            }
-            else if (item.type == 'เหรียญปั้ม') {
-              name = I18n.t('pumpCoin')
-            }
-            else if (item.type == 'เหรียญหล่อ') {
-              name = I18n.t('castingCoin')
-            }
-            else if (item.type == 'พระผง') {
-              name = I18n.t('phraPhong')
-            }
-            else if (item.type == 'พระกริ่ง') {
-              name = I18n.t('phraKring')
-            }
-            else if (item.type == 'พระปิดตา') {
-              name = I18n.t('phraPidta')
-            }
-            else if (item.type == 'เครื่องราง') {
-              name = I18n.t('amulet')
-            }
-            else if (item.type == 'พระบูชา') {
-              name = I18n.t('phraBucha')
-            }
-            else if (item.type == 'อื่นๆ หรือ ไม่ทราบ' || item.type == 'ไม่ระบุประเภท') {
-              name = I18n.t('otherOrUnknown')
-            }
+            let name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
 
             if (item.status != "delete") {
               return (

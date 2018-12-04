@@ -36,6 +36,14 @@ const { Types, Creators } = createActions({
   sharedLeasing: ['qid', 'status'],
   sharedSuccess: ['data'],
   sharedFailure: null,
+
+  getPriceLeasing: null,
+  getPriceSuccess: ['data'],
+  getPriceFailure: null,
+
+  getLeasingAdmin: ['page'],
+  getLeasingSuccess: ['data'],
+  getLeasingFailure: null,
 })
 
 export const TradingTypes = Types
@@ -65,6 +73,12 @@ export const INITIAL_STATE = Immutable({
 
   request5: null,   // request for shared leasing amulet
   data_shared: null,   // data when shared amulet leasing
+
+  request6: null,  // for get admin leasing amulet
+  data_admin: null, // data when request6 true
+
+  request7: null,    // for get Price leasing all this day for admin
+  data_price: null,  // data when request7
 })
 
 /* ------------- Selectors ------------- */
@@ -87,6 +101,15 @@ export const sendMessageFailure = state => state.merge({ request4: null })
 export const sharedLeasing = state => state.merge({ request5: true })
 export const sharedSuccess = (state, { data }) => state.merge({ request5: false, data_shared: data })
 export const sharedFailure = state => state.merge({ request5: false })
+
+export const getLeasingAdmin = state => state.merge({ request6: true })
+export const getLeasingSuccess = (state, { data }) => state.merge({ request6: false, data_admin: data })
+export const getLeasingFailure = state => state.merge({ request6: false })
+
+export const getPriceLeasing = state => state.merge({ request7: true })
+export const getPriceSuccess = (state, { data }) => state.merge({ request7: false, data_price: data })
+export const getPriceFailure = state => state.merge({ request7: false })
+
 
 export const request = (state) => state.merge({ fetching: true })
 
@@ -183,6 +206,14 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SHARED_LEASING]: sharedLeasing,
   [Types.SHARED_SUCCESS]: sharedSuccess,
   [Types.SHARED_FAILURE]: sharedFailure,
+
+  [Types.GET_PRICE_LEASING]: getPriceLeasing,
+  [Types.GET_PRICE_SUCCESS]: getPriceSuccess,
+  [Types.GET_PRICE_FAILURE]: getPriceFailure,
+
+  [Types.GET_LEASING_ADMIN]: getLeasingAdmin,
+  [Types.GET_LEASING_SUCCESS]: getLeasingSuccess,
+  [Types.GET_LEASING_FAILURE]: getLeasingFailure,
 
   [Types.SET_DATA]: setData,
   [Types.SET_FULL_DATA2]: setFullData2,

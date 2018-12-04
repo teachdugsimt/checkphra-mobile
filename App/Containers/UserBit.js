@@ -199,13 +199,13 @@ class UserBit extends Component {
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
 
-                <View style={{ width: 40, height: 60 }}>
+                {/* <View style={{ width: 40, height: 60 }}>
                     <TouchableOpacity onPress={this.testMessage}>
                         <View>
                             <Text>Back to Messenger</Text>
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View> */}
 
 
                 <FlatList

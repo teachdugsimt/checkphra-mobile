@@ -32,6 +32,8 @@ const create = (baseURL = b) => {
     const getListTrade = (data) => api.get('trading/list', data)
     const updateStatus = (data) => api.post('trading/update-status', data)
     const sharedLeasing = (data) => api.post('share-history/add', data)
+    const getListLeasing = (data) => api.get('trading/list-to-day', data)
+    const getPriceLeasing = (data) => api.get('trading/total-price', data)
 
     return {
         // a list of the API functions from step 2
@@ -39,7 +41,9 @@ const create = (baseURL = b) => {
         getDetail,
         getListTrade,
         updateStatus,
-        sharedLeasing
+        sharedLeasing,
+        getListLeasing,
+        getPriceLeasing
     }
 }
 

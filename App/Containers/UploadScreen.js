@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { Image, Text, View, TouchableOpacity, Dimensions, Alert, Modal, ScrollView, AsyncStorage } from "react-native";
+import {
+  Image, Text, View, TouchableOpacity,
+  Dimensions, Alert, Modal, ScrollView, AsyncStorage, Platform
+} from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import GridView from "react-native-super-grid";
@@ -234,8 +237,12 @@ class UploadScreen extends Component {
     check_publish = true
     // check_login = true
 
-
-    console.log("app did mount")
+    if (Platform.OS == 'android') {
+      AsyncStorage.setItem('androidCurrentVersion', 2.0);
+    } else {
+      AsyncStorage.setItem('iosCurrentVersion', 2.0);
+    }
+    AsyncStorage.setItem('addBonusPoint', false);
 
     this.props.getAmuletType()
     this.props.getProfile()

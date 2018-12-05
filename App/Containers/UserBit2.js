@@ -86,20 +86,31 @@ class UserBit2 extends Component {
 
         let bidData = newProps.data_bid
 
+        if(newProps.data_list && newProps.data){
+            let tmp = newProps.data_list.filter(e=> e.qid == newProps.data.qid)  // biglist.qid = data.qid
+            console.log(tmp)
+            console.log('TMP IN GETDERIVE.................................')
+            if(tmp && tmp.messages && newProps.data.messages){
+                if(tmp.messages.length != newProps.data.messages.length){
+                    newProps.setData(tmp)
+                    return {
+                        bidData: tmp
+                    }
+                }
+            }
+        }
+
         if (newProps.data_bid && newProps.data_bid.qid) {
             if (newProps.data.qid == newProps.data_bid.qid) {
                 if (prevState.bidData != newProps.data_bid) {
+                    // console.log(newProps.data_bid)
+                    // console.log('------------HRER BID DATA (AFTER PRESS BIT)------------')
                     newProps.setData(newProps.data_bid)
                     return {
                         bidData: newProps.data_bid
                     }
                 }
             }
-            //   else {
-            //     return {
-            //       bidData: null
-            //     }
-            //   }
         }
 
         if (newProps.data_status && newProps.data_status != null && newProps.data_status != undefined) {
@@ -109,12 +120,6 @@ class UserBit2 extends Component {
                     updateData: newProps.data_status
                 }
             }
-            //   else {
-            //     return {
-            //       updateData: null,
-            //       hide: false,
-            //     }
-            //   }
         }
 
         if (newProps.data_shared && newProps.data_shared != null && newProps.data_shared != undefined) {
@@ -308,6 +313,8 @@ class UserBit2 extends Component {
             })
         }
         let checkTmp = isShared == true ? checkTmp = true : checkTmp = false
+        console.log(this.props.data)
+        console.log('HERE DATA BID PRICE')
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -704,6 +711,7 @@ const mapStateToProps = (state) => {
         request2: state.trading.request,   // trading/detail
         data_status: state.trading.data_status,  // after sell or cancel phra we get this data
         data_shared: state.trading.data_shared,  // after share we get this data
+        data_list: state.trading.data_tradelist,
     }
 }
 

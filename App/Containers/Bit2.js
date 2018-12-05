@@ -155,8 +155,8 @@ class Bit2 extends Component {
 
     render() {
         I18n.locale = this.props.language
-        // console.log(this.props.data)
-        // console.log('HERE DATA EDITTTTTTTTTTT')
+        console.log(this.props.data)
+        console.log('HERE DATA BID PRICE')
         let img2 = []
         this.props.data.answer.images.map(e => {
             img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })

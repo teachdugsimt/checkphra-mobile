@@ -137,8 +137,6 @@ export const success = (state, action) => {
   // let a = JSON.stringify(action.data)  // can't because not have " "" "
   // let a = action.data  // can't because not have " "" "
 
-
-
   // let a = JSON.parse(JSON.stringify(action.data))
   // console.log(JSON.stringify(a))
   // console.log('PAST step change to string and log A')

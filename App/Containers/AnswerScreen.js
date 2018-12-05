@@ -13,6 +13,10 @@ import PromotionActions from '../Redux/PromotionRedux'
 import I18n from '../I18n/i18n';
 import QuestionActions from '../Redux/QuestionRedux'
 import Icon from "react-native-vector-icons/FontAwesome";
+
+// import { MessengerClient } from 'messaging-api-messenger/lib';
+import { GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+
 I18n.fallbacks = true;
 const { width, height } = Dimensions.get('window')
 
@@ -115,7 +119,7 @@ class AnswerScreen extends Component {
           //   'Check Phra',
           //   I18n.t('sharedSuccess'),
           //   [
-          //     { text: I18n.t('ok'), onPress: () => { 
+          //     { text: I18n.t('ok'), onPress: () => {
           //       // this.setState({ shared: true })
           //      } }
           //   ]
@@ -130,6 +134,14 @@ class AnswerScreen extends Component {
     );
   }
 
+  _responseInfoCallback(error, result) {
+    if (error) {
+      console.log('Error fetching data: ' + error.toString());
+    } else {
+      console.log('Success fetching data: ' + result.toString());
+    }
+  }
+
   _goToURL() {
     // const url = 'm.me/316834699141900'
     const url = 'https://www.messenger.com/t/316834699141900'    // pc , mobile
@@ -141,6 +153,36 @@ class AnswerScreen extends Component {
         console.log('Don\'t know how to open URI: ' + url);
       }
     });
+
+    //Create response callback.
+
+
+    // Create a graph request asking for user information with a callback to handle the response.
+    // const infoRequest = new GraphRequest(
+    //   '/me/messages',
+    //   {
+    //     /**
+    //      * The httpMethod to use for the request, for example "GET" or "POST".
+    //      */
+    //     httpMethod: 'POST',
+    //     /**
+    //      * The Graph API version to use (e.g., "v2.0")
+    //      */
+    //     version: 'v2.0',
+    //     /**
+    //      * The request parameters.
+    //      */
+    //     parameters: GraphRequestParameters,
+    //     /**
+    //      * The access token used by the request.
+    //      */
+    //     accessToken: "",
+    //   },
+    //   this._responseInfoCallback,
+    // );
+    // // Start the graph request.
+    // new GraphRequestManager().addRequest(infoRequest).start();
+
   }
 
   render() {
@@ -363,12 +405,10 @@ class AnswerScreen extends Component {
                     color: "white",
                     marginLeft: Metrics.baseMargin
                   }} >{I18n.t('contactAdmin')}</Text>
-              </TouchableOpacity></View>
-
+              </TouchableOpacity>
+            </View>
           </View>
-
         </ScrollView>
-
       </LinearGradient>
     )
   }

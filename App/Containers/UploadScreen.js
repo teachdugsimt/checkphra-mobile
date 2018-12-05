@@ -1,9 +1,13 @@
 import React, { Component } from "react";
-import { Image, Text, View, TouchableOpacity, Dimensions, Alert, Modal, ScrollView, AsyncStorage } from "react-native";
+import {
+  Image, Text, View, TouchableOpacity,
+  Dimensions, Alert, Modal, ScrollView, AsyncStorage, Platform
+} from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import GridView from "react-native-super-grid";
 import AuthActions from '../Redux/AuthRedux'
+import VersionActions from '../Redux/VersionRedux'
 import QuestionActions from '../Redux/QuestionRedux'
 import PromotionActions from '../Redux/PromotionRedux'
 // Styles
@@ -234,8 +238,15 @@ class UploadScreen extends Component {
     check_publish = true
     // check_login = true
 
+    this.props.checkVersion()
 
-    console.log("app did mount")
+
+    AsyncStorage.getItem('addBonusPoint').then((result) => {
+      if (!result) {
+        this.props.addBonus()
+      }
+    })
+
 
     this.props.getAmuletType()
     this.props.getProfile()
@@ -486,6 +497,7 @@ const mapStateToProps = state => {
     data_login: state.promotion.data_login,
     request_promotionlogin: state.promotion.request3,
     modal: state.auth.modal,
+    addBunusSuccess: state.auth.addBonus
   };
 };
 
@@ -502,7 +514,10 @@ const mapDispatchToProps = dispatch => {
     setTime: (day) => dispatch(AuthActions.setTime(day)),
     getLoginPro: () => dispatch(PromotionActions.getLoginPro()),
     setModal: (check) => dispatch(AuthActions.setModal(check)),
-    saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token))
+    saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
+    checkVersion: () => dispatch(VersionActions.getVersion()),
+    addBonus: () => dispatch(PromotionActions.addBonus()),
+    getVersion: () => dispatch(VersionActions.getVersion())
   };
 };
 

@@ -104,7 +104,7 @@ export default {
   atLeast1Question: 'กรุณาเลือกคำถามอย่างน้อย 1 คำถาม',
   notEnoughCoin: 'เหรียญของคุณไม่พอ',
   inputBit: 'ข้อความ',
-  inputBit2: 'ราคาที่ต้องการบิต',
+  inputBit2: 'ราคาที่ต้องการเสนอ',
 
   result: 'ผลการตรวจพระ',
   back: 'กลับ',
@@ -178,8 +178,8 @@ export default {
 
   cantEdit: 'คุณไม่สามารถแก้ไขคำตอบนี้ได้ ( ไม่ออกผล )',
 
-  bid: 'บิตราคา',
-  bid2: 'บิต',
+  bid: 'เสนอราคา',
+  bid2: 'เสนอราคา',
   bitPrice: 'เช่าพระ',
   bitPrice2: 'เช่าพระ',
   BidSuc: 'เสนอราคาเรียบร้อย',
@@ -208,7 +208,7 @@ export default {
   detailBidPrice2: '** user สามารถบิทราคาได้ 2 ครั้ง **',
   sharedLeasing: 'แชร์สำเร็จ คุณได้รับ 100 เหรียญ !!',
   sharedLeasing2: 'แชร์สำเร็จ',
-  address: 'ที่อยู่ของ admin',
+  address: 'ที่อยู่สำหรับจัดส่ง',
   adminLeasing: 'รายการเช่าพระของ Mr.Blue',
   adminSum: 'วันนี้ Mr.Blue รับเช่าซื้อพระไปแล้ว',
 

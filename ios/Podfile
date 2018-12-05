@@ -35,6 +35,8 @@ target 'CheckPhra' do
   
   pod 'RNIap', :path => '../node_modules/react-native-iap'
 
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
   target 'CheckPhraTests' do
     inherit! :search_paths
     # Pods for testing

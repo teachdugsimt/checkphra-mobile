@@ -63,6 +63,10 @@ class CheckPhraScreen extends Component {
     }
   }
 
+  componentDidMount() {
+    console.log(this.props)
+  }
+
   // static navigationOptions = ({ navigation }) => {
   //   // const params = navigation.state.params || {};
 
@@ -459,6 +463,7 @@ class CheckPhraScreen extends Component {
                   // e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation'
                   e.question == 3
                 ) {
+                  console.log("question 3")
                   return (
                     <View>
                       {this.props.language && (this.props.language == 'th' || this.props.language == 'th-TH') && <View><View style={{ flexDirection: 'row' }}>

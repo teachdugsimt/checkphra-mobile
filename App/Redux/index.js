@@ -17,6 +17,7 @@ export const reducers = combineReducers({
   payment: require('./PaymentRedux').reducer,
   expert: require('./ExpertRedux').reducer,
   trading: require('./TradingRedux').reducer,
+  version: require('./VersionRedux').reducer,
 })
 
 export default () => {

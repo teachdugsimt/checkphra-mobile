@@ -92,6 +92,7 @@ def enableSeparateBuildPerCPUArchitecture = false
  * Run Proguard to shrink the Java bytecode in release builds.
  */
 def enableProguardInReleaseBuilds = false
+// com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
 
 android {
     compileSdkVersion 27
@@ -101,8 +102,8 @@ android {
         applicationId "com.infiltech.checkphra"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 13
-        versionName "1.7"
+        versionCode 14
+        versionName "2.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -148,6 +149,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-device-info')
     compile project(':react-native-iap')
     compile project(':react-native-paypal-wrapper')
     compile project(':react-native-image-resizer')
@@ -169,6 +171,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:23.0.1"
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
+    // implementation "com.google.android.gms:play-services-base:16.0.1"
     implementation "com.google.android.gms:play-services-base:15.0.1"
     // implementation "com.google.android.gms:play-services-base:15.0.0"
     implementation "com.google.firebase:firebase-core:16.0.3"

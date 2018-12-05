@@ -30,7 +30,7 @@ export default {
   detailAnswer: 'Answer detail',
   edit: 'EDIT',
   wantLogout: 'Do you want to log out ?',
-  haveCoin : 'You have',
+  haveCoin: 'You have',
   day: 'days ',
   doubleClick: 'Please go back to upload screen and done new transaction !!',
   contactAdmin: 'Contact admin',
@@ -87,7 +87,7 @@ export default {
   atLeast1Question: 'Please select at least 1 question',
   notEnoughCoin: 'Not enough coin',
   inputBit: 'message',
-  inputBit2: 'number of your want to bid',
+  inputBit2: 'Price you want to sell',
 
   result: 'Result',
   back: 'Back',
@@ -222,7 +222,7 @@ export default {
   พระปิดตา: 'phraPidta',
   เครื่องราง: 'amulet',
   พระบูชา: 'phraBucha',
-  
+
   เบญจภาคี: 'benjapakee',
   พระสมเด็จ: 'phraSomdej',
   พระนางพญา: 'phraNangPaya',

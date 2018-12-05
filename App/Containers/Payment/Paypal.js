@@ -24,7 +24,8 @@ class Paypal extends Component {
   componentDidMount() {
 
     // 3 env available: NO_NETWORK, SANDBOX, PRODUCTION
-    PayPal.initialize(PayPal.NO_NETWORK, "AUwtvwghu-ggxeDzKl0FRRh0siucIypDHKr2IESwQ1pSCR407jYlh4rxg8A3MJ6-0PLw9lru6OLO_3pI");
+    PayPal.initialize(PayPal.PRODUCTION, "Ac1JM3JixO2AThiCQwfJ5yINdV1hxwFQ7qkwaVO75iCOJohv04764za2uTIaYxOh3fiQduWv__BrJG4e");
+    // PayPal.initialize(PayPal.SANDBOX, "AUwtvwghu-ggxeDzKl0FRRh0siucIypDHKr2IESwQ1pSCR407jYlh4rxg8A3MJ6-0PLw9lru6OLO_3pI");
     PayPal.pay({
       // price: '100',
       // currency: 'THB',

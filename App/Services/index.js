@@ -3,4 +3,5 @@ import Question from './QuestionApi'
 import Promotion from './PromotionApi'
 import Trade from './TradeApi'
 import Face from './FaceApi'
-export default { Auth, Question, Promotion, Trade, Face }
+import Version from './VersionApi'
+export default { Auth, Question, Promotion, Trade, Face, Version }

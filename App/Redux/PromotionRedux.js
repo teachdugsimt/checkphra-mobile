@@ -21,7 +21,8 @@ const { Types, Creators } = createActions({
   getLoginProFailure: null,
 
   setMoney: ['data'],
-
+  addBonus: null,
+  addBonusSuccess: null
 })
 
 export const PromotionTypes = Types
@@ -45,6 +46,9 @@ export const INITIAL_STATE = Immutable({
 
   request3: null,  // get promotion login complete X days
   data_login: null, // data promotion login complete
+
+
+  addBonus: false
 })
 
 /* ------------- Selectors ------------- */
@@ -84,6 +88,10 @@ export const getLoginPro = state => state.merge({ request3: true })
 export const getLoginProSuccess = (state, { data }) => state.merge({ request3: false, data_login: data })
 export const getLoginProFailure = state => state.merge({ request3: false })
 
+
+export const addBonus = (state) => state.merge({ addBonus: false })
+export const addBonusSuccess = (state) => state.merge({ addBonus: true })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -104,5 +112,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_LOGIN_PRO_FAILURE]: getLoginProFailure,
 
   [Types.SET_MONEY]: setMoney,
+
+  [Types.ADD_BONUS]: addBonus,
+  [Types.ADD_BONUS_SUCCESS]: addBonusSuccess,
 
 })

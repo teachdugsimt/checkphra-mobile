@@ -11,6 +11,7 @@
 *************************************************************/
 
 import { call, put, select } from 'redux-saga/effects'
+import { AsyncStorage } from 'react-native'
 import PromotionActions, { publishRequest, getLoginPro } from '../Redux/PromotionRedux'
 // import { PromotionSelectors } from '../Redux/PromotionRedux'
 const auth = state => state.auth
@@ -63,21 +64,36 @@ export function* sharedAnswer(api, { qid }) {
   }
 }
 
-export function* getLoginPromotion(api){
+export function* getLoginPromotion(api) {
   const aut = yield select(auth)
 
-  const data ={
+  const data = {
     user_id: aut.user_id
   }
 
   const response = yield call(api.getPromotionCoin, data)
   console.log(response)
-  if(response.ok){
+  if (response.ok) {
     yield put(PromotionActions.getLoginProSuccess(response.data))
   } else {
     yield put(PromotionActions.getLoginProFailure())
   }
 }
 
+export function* addBonus(api) {
+
+  // console.log(token)
+  const a = yield select(auth)
+  const data = {
+    user_id: a.user_id,
+  }
+
+  const response = yield call(api.addBonus, data)
+  if (response.ok) {
+    AsyncStorage.setItem('addBonusPoint', true)
+  } else {
+    AsyncStorage.setItem('addBonusPoint', false)
+  }
+}
 
 

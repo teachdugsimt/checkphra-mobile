@@ -212,3 +212,5 @@ export function* saveDeviceToken(api, { token }) {
   const response = yield call(api.saveDeviceToken, data)
   console.log(response)
 }
+
+

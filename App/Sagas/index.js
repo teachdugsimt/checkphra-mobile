@@ -13,6 +13,7 @@ import { PromotionTypes } from '../Redux/PromotionRedux'
 import { PaymentTypes } from '../Redux/PaymentRedux'
 import { ExpertTypes } from '../Redux/ExpertRedux'
 import { TradingTypes } from '../Redux/TradingRedux'
+import { VersionTypes } from '../Redux/VersionRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -20,13 +21,14 @@ import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { signin, signinWithCredential, signup, createUser, changePassword, forgetPassword, saveDeviceToken } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
-import { getPromotion, getPublish, sharedAnswer, getLoginPromotion } from './PromotionSagas'
+import { getPromotion, getPublish, sharedAnswer, getLoginPromotion, addBonus } from './PromotionSagas'
 import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest, paypalRequest55 } from './PaymentSagas'
 import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
   getListLeasing, getPriceallday
 } from './TradingSagas'
+import { getVersion } from './VersionSagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -36,6 +38,7 @@ const questionApi = API.Question.create()
 const promotionApi = API.Promotion.create()
 const tradeApi = API.Trade.create()
 const faceApi = API.Face.create()
+const versionApi = API.Version.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -62,6 +65,7 @@ export default function* root() {
     takeLatest(AuthTypes.CHANGE_PASSWORD, changePassword, authApi),
     takeLatest(AuthTypes.FORGET_PASSWORD, forgetPassword, authApi),
     takeLatest(AuthTypes.SAVE_DEVICE_TOKEN, saveDeviceToken, authApi),
+    
 
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
@@ -78,6 +82,7 @@ export default function* root() {
 
     takeLatest(PromotionTypes.PROMOTION_REQUEST, getPromotion, promotionApi),
     takeLatest(PromotionTypes.SHARED_ANSWER, sharedAnswer, promotionApi),
+    takeLatest(PromotionTypes.ADD_BONUS, addBonus, promotionApi),
 
     takeLatest(PaymentTypes.PAYMENT_REQUEST, paymentRequest, promotionApi),
     takeLatest(PaymentTypes.HISTORY_ADDPOINT_REQUEST, historyAddpointRequest, promotionApi),
@@ -91,6 +96,8 @@ export default function* root() {
 
     takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi),
     takeLatest(PaymentTypes.PAYPAL_REQUEST, paypalRequest55, promotionApi),
+
+    takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
     // takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi)
 
   ])

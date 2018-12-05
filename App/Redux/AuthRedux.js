@@ -44,7 +44,7 @@ const { Types, Creators } = createActions({
   setTime: ['day'],
   setModal: ['check'],
 
-  saveDeviceToken: ['token']
+  saveDeviceToken: ['token'],
 
 })
 
@@ -164,6 +164,7 @@ export const setImg = (state, { data }) => state.merge({ picProfile: data })
 export const setTime = (state, { day }) => {
   return state.merge({ day })
 }
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {

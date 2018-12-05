@@ -131,8 +131,32 @@ export const request = (state) => state.merge({ fetching: true })
 // }
 
 export const success = (state, action) => {
+  // console.log(action)
   console.log(action.data)
-  console.log('REDUX TEST DATA -------------------')
+  // let {fuck} = action  // undefined
+  // let a = JSON.stringify(action.data)  // can't because not have " "" "
+  // let a = action.data  // can't because not have " "" "
+
+
+
+  // let a = JSON.parse(JSON.stringify(action.data))
+  // console.log(JSON.stringify(a))
+  // console.log('PAST step change to string and log A')
+  // // if (a.indexOf('int(200)') != -1) {   // if it has " int(200) "
+  // let c = JSON.stringify(a).substring(11, JSON.stringify(a).length-1) // action.data.splice(0, 9)
+  // console.log(c)
+  // console.log('PAST step cut int200 and log cut C')
+  // // }
+  // let b = JSON.parse(JSON.stringify(c))
+  // console.log(b)
+  // console.log('PAST step change to JSON and log B')
+
+
+
+  // console.log(JSON.parse(action.data))   // error
+  // console.log(JSON.stringify(action.data))  // can't => string + \n
+  // console.log(JSON.parse(JSON.stringify(action.data)))
+  console.log('------------------- REDUX TEST BID DATA FROM TUM -------------------')
   return state.merge({ fetching: false, data: action.data })
 }
 

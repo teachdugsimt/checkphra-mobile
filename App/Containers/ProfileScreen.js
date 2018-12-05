@@ -163,6 +163,8 @@ class ProfileScreen extends Component {
     // console.log(this.props.profile)
     I18n.locale = this.props.language
     console.log(this.props.coin)  // can use instead this.props.profile.point
+    // console.log(this.props.token)
+    //Gr4ZemIdAGMKh3R8xv5t9jp4EFN2
     console.log('-----------------------------------------------------')
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
@@ -430,6 +432,7 @@ const mapStateToProps = state => {
     language: state.auth.language,
     coin: state.auth.coin,
     pic: state.auth.picProfile,
+    token: state.auth.user_id,
   };
 };
 

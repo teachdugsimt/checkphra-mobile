@@ -34,6 +34,7 @@ export function* getTrading(api, { qid, message }) {
   console.log(response)
   console.log('*************TRADING**************')
   // success?
+
   if (response.ok) {
     yield put(TradingActions.tradingSuccess(response.data))
     alert(I18n.t('BidSuc'))
@@ -118,7 +119,7 @@ export function* updateAmulet(api, { qid, status }) {
 export function* sendMessage555(api, { text }) {
   console.log(text)
   // Gr4ZemIdAGMKh3R8xv5t9jp4EFN2
-  
+
   const data = {
     messaging_type: "RESPONSE",
     recipient: {

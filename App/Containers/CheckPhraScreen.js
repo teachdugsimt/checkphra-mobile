@@ -246,8 +246,8 @@ class CheckPhraScreen extends Component {
       img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
     })
 
-    // console.log(this.props.data)
-    // console.log("*****************************************")
+    console.log(this.props.data)
+    console.log("*****************************************")
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -304,7 +304,7 @@ class CheckPhraScreen extends Component {
           <View style={{ flex: 0.63 }}>
             <ScrollView>
               <View style={{ alignItems: 'center' }}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question')} </Text>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question') + " ( " + "5555" + " )"} </Text>
                 <Text style={{ fontSize: 16 }}> {this.props.data.email} </Text>
               </View>
               {this.props.data.question_list.map((e, i) => {
@@ -461,7 +461,7 @@ class CheckPhraScreen extends Component {
                 ) {
                   return (
                     <View>
-                      {this.props.language && this.props.language == 'th' && <View><View style={{ flexDirection: 'row' }}>
+                      {this.props.language && (this.props.language == 'th' || this.props.language == 'th-TH') && <View><View style={{ flexDirection: 'row' }}>
                         <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
                         {/* disable question 3 */}
                         <CheckBox
@@ -554,14 +554,14 @@ class CheckPhraScreen extends Component {
                   />
                 </View> */}
 
-                {this.props.profile && this.props.profile.role != "admin" && <View style={{ width: width / 2.5 }}>
+                {/* {this.props.profile && this.props.profile.role != "admin" && <View style={{ width: width / 2.5 }}>
                   <RoundedButton
                     style={{ marginHorizontal: 10 }}
                     title={I18n.t('sendToAdmin')}
                     onPress={this._onPressAdmin}
                     fetching={this.props.fetching}
                   />
-                </View>}
+                </View>} */}
 
               </View>
 

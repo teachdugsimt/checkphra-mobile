@@ -13,7 +13,6 @@ import ExpertActions from '../Redux/ExpertRedux'
 // Styles
 import styles from './Styles/CheckListScreenStyle'
 import I18n from '../I18n/i18n';
-
 I18n.fallbacks = true;
 // I18n.currentLocale();
 import { MessageDialog } from 'react-native-fbsdk'
@@ -56,7 +55,7 @@ let count = 1
 const shareLinkContent = {
     contentType: 'link',
     contentUrl: 'https://www.messenger.com/t/316834699141900',
-    contentDescription: 'ฉันได้ทำการให้เช่าพระนางพญา / ในราคา 250,000 และต้องการติดต่อเจ้าหน้าที่เพื่อดำเนินการเรียกเก็บเงิน', 
+    contentDescription: 'ฉันได้ทำการให้เช่าพระนางพญา / ในราคา 250,000 และต้องการติดต่อเจ้าหน้าที่เพื่อดำเนินการเรียกเก็บเงิน',
 };
 //************ TEST FBMEG 1 **************/
 
@@ -71,7 +70,8 @@ class UserBit extends Component {
     }
 
     testMessage = () => {
-        this.props.sendMessage('TEST SEND MESSAGE TO CHECK PHRA999999999999999')
+        // this.props.sendMessage('TEST SEND MESSAGE TO CHECK PHRA999999999999999')
+
         // MessageDialog.canShow(shareLinkContent).then(
         //     function (canShow) {   // 1. chheck can show dialog
         //         console.log(canshow)
@@ -89,7 +89,7 @@ class UserBit extends Component {
         //             alert('MESSAGE FAILURE')
         //         } else {    // 4. if Dialog not closed
         //             // success
-                    
+
         //             console.log(result)
         //             alert('MESSAGE SUCCESSFULLY!!')
         //         }
@@ -186,7 +186,6 @@ class UserBit extends Component {
         this.props.getAnswer(count)
     }
 
-
     render() {
         I18n.locale = this.props.language
         // let data = this.props.data_answer ? JSON.parse(JSON.stringify(this.props.data_answer)) : null
@@ -201,13 +200,13 @@ class UserBit extends Component {
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
 
-                {/* <View style={{ width: 40, height: 60 }}>
+                <View style={{ width: 40, height: 60 }}>
                     <TouchableOpacity onPress={this.testMessage}>
                         <View>
                             <Text>Back to Messenger</Text>
                         </View>
                     </TouchableOpacity>
-                </View> */}
+                </View>
 
 
                 <FlatList

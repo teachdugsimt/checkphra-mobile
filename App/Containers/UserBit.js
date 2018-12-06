@@ -241,6 +241,8 @@ class UserBit extends Component {
                         return (
                             <TouchableOpacity onPress={() => {
                                 // this.props.setAnswerDetail(item)
+                                // console.log(item)
+                                // console.log('-------------ITEM BEFORE SET TO BIT 2-------------')
                                 this.props.setData(item)
                                 this.props.navigation.navigate('userBit2')
                             }

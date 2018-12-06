@@ -119,6 +119,7 @@ class Bit2 extends Component {
     }
 
     componentWillUnmount() {
+        this.props.clearDataBid()
         this.props.getAnswer(1)
     }
 
@@ -228,7 +229,7 @@ class Bit2 extends Component {
 
                         {this.props.data && !this.props.data.recent_bid && this.props.data.status == 'interested' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('waitUser0') + "!!"}</Text>}
 
-                        {this.state.bidData && this.state.bidData.length > 0 ? this.state.bidData && this.state.bidData.messages && this.state.bidData.messages.map((e, i) => {
+                        {this.state.bidData && this.state.bidData.length > 0 && this.state.bidData.messages && this.props.bidData.messages.length > 0 ? this.props.data.messages.map.map((e, i) => {
                             let date = moment.unix(e.date_time).format("HH:mm")
                             // console.log(e)
                             // console.log('********************************')
@@ -378,6 +379,7 @@ const mapDispatchToProps = (dispatch) => {
         setData: (data) => dispatch(TradingActions.setData(data)),
         trading: (qid, message) => dispatch(TradingActions.tradingRequest(qid, message)),
         update: (qid, status) => dispatch(TradingActions.updateStatus(qid, status)),
+        clearDataBid: () => dispatch(TradingActions.clearDataBid())
     }
 }
 

@@ -84,28 +84,14 @@ class UserBit2 extends Component {
 
         console.log('********************* USER BIT DETAIL ************************')
 
-        let bidData = newProps.data_bid
-
-        if(newProps.data_list && newProps.data){
-            let tmp = newProps.data_list.filter(e=> e.qid == newProps.data.qid)  // biglist.qid = data.qid
-            console.log(tmp)
-            console.log('TMP IN GETDERIVE.................................')
-            if(tmp && tmp.messages && newProps.data.messages){
-                if(tmp.messages.length != newProps.data.messages.length){
-                    newProps.setData(tmp)
-                    return {
-                        bidData: tmp
-                    }
-                }
-            }
-        }
+        let bidData = null
+        let tmp = newProps.data_list.find(e => e.qid == newProps.data.qid)
 
         if (newProps.data_bid && newProps.data_bid.qid) {
             if (newProps.data.qid == newProps.data_bid.qid) {
-                if (prevState.bidData != newProps.data_bid) {
-                    // console.log(newProps.data_bid)
-                    // console.log('------------HRER BID DATA (AFTER PRESS BIT)------------')
-                    newProps.setData(newProps.data_bid)
+                if (prevState.bidData != newProps.data_bid && check == true) { // data_bid ไอดีตรงกับ data แน่ๆ // bidData != data_bid 
+                    // check = false
+                    newProps.setData(newProps.data_bid)   // เอา ดาต้าบิท อันเก่ามาเซททับเลยไม่เห็น ข้อความจากแอดมินไง
                     return {
                         bidData: newProps.data_bid
                     }
@@ -131,7 +117,7 @@ class UserBit2 extends Component {
         }
 
         return {
-            bidData
+            // bidData
         }
     }
 
@@ -145,7 +131,7 @@ class UserBit2 extends Component {
     }
 
     componentWillMount() {
-
+        check = true
         this.setState({ spinner: false })
     }
 
@@ -158,6 +144,7 @@ class UserBit2 extends Component {
     }
 
     componentWillUnmount() {
+        this.props.clearDataBid()
         this.props.getAnswer(1)
         if (isShared == true) {
             this.props.sharedAmulet(this.props.data.qid, isShared)
@@ -313,8 +300,12 @@ class UserBit2 extends Component {
             })
         }
         let checkTmp = isShared == true ? checkTmp = true : checkTmp = false
+        // let FuckData = this.state.bidData && this.props.data && this.state.bidData.messages && this.props.data.messages ? (this.state.bidData.messages.length > this.props.data.messages.length ? this.state.bidData : this.props.data  ) : this.props.data
+        console.log(this.state.bidData)
+        console.log('HERE DATA THIS.STATE.BIDDATA')
+
         console.log(this.props.data)
-        console.log('HERE DATA BID PRICE')
+        console.log('HERE DATA THIS.PROPS.DATA')
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -395,10 +386,8 @@ class UserBit2 extends Component {
                             <Text style={{ fontSize: 16, fontWeight: 'bold', alignSelf: 'center', marginTop: 5 }}>{I18n.t('detailBidPrice2')}</Text>
                         </View>
 
-                        {this.state.bidData && this.state.bidData.length > 0 ? this.state.bidData && this.state.bidData.messages && this.state.bidData.messages.map((e, i) => {
+                        {this.state.bidData && this.state.bidData.length > 0 && this.state.bidData.messages && this.props.bidData.messages.length > 0 ? this.props.data.messages.map((e, i) => {
                             let date = moment.unix(e.date_time).format("HH:mm")
-                            let adnum = 55
-                            let usnum = 66
                             // console.log(e)
                             // console.log('********************************')
                             if (i % 2 != 0 && i != 0) {
@@ -712,6 +701,7 @@ const mapStateToProps = (state) => {
         data_status: state.trading.data_status,  // after sell or cancel phra we get this data
         data_shared: state.trading.data_shared,  // after share we get this data
         data_list: state.trading.data_tradelist,
+
     }
 }
 
@@ -726,7 +716,8 @@ const mapDispatchToProps = (dispatch) => {
         trading: (qid, message) => dispatch(TradingActions.tradingRequest(qid, message)),
         update: (qid, status) => dispatch(TradingActions.updateStatus(qid, status)),
         getProfile: () => dispatch(QuestionActions.getProfile()),
-        sharedAmulet: (qid, status) => dispatch(TradingActions.sharedLeasing(qid, status))
+        sharedAmulet: (qid, status) => dispatch(TradingActions.sharedLeasing(qid, status)),
+        clearDataBid: () => dispatch(TradingActions.clearDataBid())
     }
 }
 

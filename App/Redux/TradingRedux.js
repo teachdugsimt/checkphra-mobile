@@ -41,6 +41,8 @@ const { Types, Creators } = createActions({
   getPriceSuccess: ['data'],
   getPriceFailure: null,
 
+  clearDataBid: null,
+
   getLeasingAdmin: ['page'],
   getLeasingSuccess: ['data'],
   getLeasingFailure: null,
@@ -91,6 +93,7 @@ export const TradingSelectors = {
 
 /* ------------- Reducers ------------- */
 
+export const clearDataBid = state => state.merge({ data: [] })
 // request the data from an api
 export const getDetailRequest = (state) => state.merge({ request: true })
 export const getDetailSuccess = (state, { data }) => state.merge({ request: false, data_detail: data })
@@ -254,4 +257,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_DATA]: setData,
   [Types.SET_FULL_DATA2]: setFullData2,
   [Types.EDIT_FULL_DATA2]: editFullData2,
+  [Types.CLEAR_DATA_BID]: clearDataBid,
 })

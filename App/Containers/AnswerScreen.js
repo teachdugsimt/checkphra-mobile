@@ -304,7 +304,7 @@ class AnswerScreen extends Component {
                       }}>{I18n.t('reason')} : <Text style={{
                         fontFamily: 'Prompt-SemiBold',
                         fontSize: 18,
-                      }}>{data[0].argument ? data[0].argument : I18n.t('noneAnswer')}</Text></Text>
+                      }}>{data[0].argument ? data[0].argument : I18n.t('noneSpecify')}</Text></Text>
 
                     </View>
                   )

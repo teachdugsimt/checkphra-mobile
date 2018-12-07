@@ -52,13 +52,13 @@ class Promotion extends Component {
 
   _PressPromotion(item) {
     // console.log(item)
-    if (Platform.OS == 'android') {
+    // if (Platform.OS == 'android') {
       this.props.setPackage(item.id)
       this.props.setMoney(item.price)
       this.popupDialog.show()
-    } else {
-      // PLATFORM == IOS
-    }
+    // } else {
+    //   // PLATFORM == IOS
+    // }
   }
 
   _Banking = () => {
@@ -125,6 +125,7 @@ class Promotion extends Component {
       // console.log(Platform.OS)
       // console.log('------ PLATFORM-------')
       this.props.getPromotion(Platform.OS)
+      // this.props.getPromotion('ios')
     }
   }
   render() {

@@ -154,6 +154,13 @@ class ProfileScreen extends Component {
     this.popupDialog.dismiss()
   }
 
+  commaSeparateNumber(val) {
+    while (/(\d+)(\d{3})/.test(val.toString())) {
+      val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+    }
+    return val;
+  }
+
   _english = () => {
     this.props.setLanguage('en')
     this.popupDialog.dismiss()
@@ -264,7 +271,7 @@ class ProfileScreen extends Component {
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
-              <Text style={{ fontWeight: 'bold', color: 'orange' }}>{this.props.profile ? this.props.profile.point : '-'}</Text>
+              <Text style={{ fontWeight: 'bold', color: 'orange' }}>{this.props.profile ? this.commaSeparateNumber(this.props.profile.point) : '-'}</Text>
             </View>
           </View>
         }

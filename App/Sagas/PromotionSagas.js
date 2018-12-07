@@ -20,6 +20,7 @@ export function* getPromotion(api, { platform }) {
   // get current data from Store
   // const currentData = yield select(PromotionSelectors.getData)
   // make the call to the api
+
   console.log(platform)
   const data = {
     platform

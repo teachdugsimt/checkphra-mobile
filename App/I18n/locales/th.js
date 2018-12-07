@@ -138,7 +138,7 @@ export default {
   verify: 'อนุมัติ',
   noneAnswer: 'ไม่ออกผล',
   sendToAdmin: 'ส่งให้ admin ตรวจ',
-  sharedSuccess: 'แชร์สำเร็จ คุณได้รับ 2 coin',
+  sharedSuccess: 'แชร์สำเร็จ คุณได้รับ 10 coins',
   sharedSuccess2: 'แชร์สำเร็จ',
   loginSuccess: 'คุณ login ครบ 7 วัน รับฟรี 15 เหรียญ!!',
   loginSuccess1: 'คุณ login ครบ ',

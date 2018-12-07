@@ -95,9 +95,13 @@ export function* addBonus(api) {
 
   const response = yield call(api.addBonus, data)
   if (response.ok) {
-    AsyncStorage.setItem('addBonusPoint', true)
+    console.log(true)
+    yield put(PromotionActions.addBonusSuccess())
+    // console.log(true)
+    // AsyncStorage.setItem('addBonusPoint', true)
   } else {
-    AsyncStorage.setItem('addBonusPoint', false)
+    // console.log(false)
+    // AsyncStorage.setItem('addBonusPoint', false)
   }
 }
 

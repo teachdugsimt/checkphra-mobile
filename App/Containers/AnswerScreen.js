@@ -22,8 +22,9 @@ const { width, height } = Dimensions.get('window')
 
 let shareLinkContent = {
   contentType: 'link',
-  contentUrl: 'https://www.checkphra.com/',
-  contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
+  contentUrl: 'https://play.google.com/store/apps/details?id=com.infiltech.checkphra',
+  // contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
+  quote: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra ดูข้อมูลได้ที่ https://www.checkphra.com'
 }
 
 let isShared = false
@@ -64,8 +65,9 @@ class AnswerScreen extends Component {
         // shareLinkContent.contentUrl = img2[0].url
         shareLinkContent = {
           contentType: 'link',
-          contentUrl: 'https://www.checkphra.com/',
-          contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
+          contentUrl: 'https://play.google.com/store/apps/details?id=com.infiltech.checkphra',
+          // contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
+          quote: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra ดูข้อมูลได้ที่ https://www.checkphra.com'
         }
 
         return {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
   Image, Text, View, TouchableOpacity,
-  Dimensions, Alert, Modal, ScrollView, AsyncStorage, Platform
+  Dimensions, Alert, Modal, ScrollView, AsyncStorage, Platform, Linking
 } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
@@ -377,6 +377,17 @@ class UploadScreen extends Component {
     });
   }
 
+  _pressLink(link){
+    const url = link
+    Linking.canOpenURL(url).then(supported => {
+        if (supported) {
+            Linking.openURL(url);
+        } else {
+            console.log('Don\'t know how to open URI: ' + url);
+        }
+    });
+  }
+
   showAlert(title, body) {
     Alert.alert(
       title, body,
@@ -495,6 +506,7 @@ class UploadScreen extends Component {
               {this.state.kawsod && this.state.kawsod.length > 0 && this.state.kawsod[0] && this.state.kawsod[0].image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.state.kawsod[0].image }}
                 style={{ width: height / 3, height: height / 3, marginTop: 10, marginHorizontal: 5, alignSelf: 'center', borderRadius: 10 }} />}
               <Text style={{ fontSize: 17, marginVertical: 15, alignSelf: 'center', marginHorizontal: 10, }}>{this.state.kawsod && this.state.kawsod[0] && this.state.kawsod.length > 0 && this.state.kawsod[0].content}</Text>
+              <TouchableOpacity onPress={() => this._pressLink(this.state.kawsod && this.state.kawsod.length > 0 && this.state.kawsod[0] && this.state.kawsod[0].link && this.state.kawsod[0].link)}><Text style={{ fontSize: 17, marginVertical: 10, alignSelf: 'center', marginHorizontal: 10, }}>{this.state.kawsod && this.state.kawsod.length > 0 && this.state.kawsod[0] && this.state.kawsod[0].link && this.state.kawsod[0].link}</Text></TouchableOpacity>
             </ScrollView>
           </View>
         </Modal>}

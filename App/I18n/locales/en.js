@@ -138,7 +138,7 @@ export default {
   verify: 'Verify',
   noneAnswer: 'None answer',
   sendToAdmin: 'Send to admin',
-  sharedSuccess: 'Share was success and get 2 coin',
+  sharedSuccess: 'Share was success and get 10 coins',
   sharedSuccess2: 'Share was success',
   loginSuccess: 'You login 7 days get free 15 coin!!',
   loginSuccess1: 'You login ',

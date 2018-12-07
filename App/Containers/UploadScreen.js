@@ -53,6 +53,7 @@ class UploadScreen extends Component {
       coin: null,
       // spinnner: false,
       disButton: false,
+      addBonusSuccess: false
     }
   }
 
@@ -139,6 +140,11 @@ class UploadScreen extends Component {
     let time11 = f1.slice(0, 10)
     I18n.locale = nextProps.language
 
+    // console.log(nextProps.addBonusSuccess)
+    // if (!nextProps.addBonusSuccess) {
+    //   nextProps.addBonus()
+    // }
+
     // console.log('-------------')
     console.log(nextProps)
     console.log(prevState)
@@ -214,9 +220,15 @@ class UploadScreen extends Component {
   // check_login = true
   // }
 
+  // componentWillUnmount() {
+  // check_publish = true
+  // check_login = true
+  // }
+
   componentWillUnmount() {
-    // check_publish = true
-    // check_login = true
+    this.notificationListener();
+    this.notificationOpenedListener();
+    // this.notificationOpen();
   }
 
   getTypePhra = (item) => {
@@ -234,19 +246,18 @@ class UploadScreen extends Component {
 
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     check_publish = true
     // check_login = true
 
     this.props.checkVersion()
 
+    // const val = await AsyncStorage.getItem('addBonusPoint')
+    // if (!val) {
+    //   this.props.addBonus()
+    // }
 
-    AsyncStorage.getItem('addBonusPoint').then((result) => {
-      if (!result) {
-        this.props.addBonus()
-      }
-    })
-
+    // console.log(val)
 
     this.props.getAmuletType()
     this.props.getProfile()
@@ -273,6 +284,7 @@ class UploadScreen extends Component {
   async getDeviceToken() {
     this.checkPermission();
     this.createNotificationListeners(); //add this line
+    this.notificationOpen();
   }
 
   //1
@@ -319,28 +331,41 @@ class UploadScreen extends Component {
   }
 
   async createNotificationListeners() {
+
+    // const channel = new firebase.notifications.Android.Channel(name, Desc, firebase.notifications.Android.Importance.High)
+    //   .setDescription(ChannelName)
+    //   .setSound("glass.mp3")
+
+    // firebase.notifications().android.createChannel(channel);
+
     /*
     * Triggered when a particular notification has been received in foreground
     * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       const { title, body } = notification;
+      console.log(title, body)
       this.showAlert(title, body);
     });
+    // .setSound(channel.sound);
 
     /*
     * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+      // console.log(notificationOpen)
       const { title, body } = notificationOpen.notification;
-      this.showAlert(title, body);
+      // console.log(title, body)
+      // this.showAlert(title, body);
     });
 
     /*
     * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
     * */
-    const notificationOpen = await firebase.notifications().getInitialNotification();
-    if (notificationOpen) {
+    this.notificationOpen = await firebase.notifications().getInitialNotification();
+    if (this.notificationOpen) {
+
       const { title, body } = notificationOpen.notification;
+      console.log(title, body)
       this.showAlert(title, body);
     }
     /*
@@ -497,7 +522,7 @@ const mapStateToProps = state => {
     data_login: state.promotion.data_login,
     request_promotionlogin: state.promotion.request3,
     modal: state.auth.modal,
-    addBunusSuccess: state.auth.addBonus
+    addBonusSuccess: state.promotion.addBonus
   };
 };
 

@@ -10,6 +10,8 @@ import 'moment/locale/th'
 import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
+import AuthActions from '../Redux/AuthRedux'
+
 // Styles
 import Spinner from 'react-native-loading-spinner-overlay';
 import styles from './Styles/CheckListScreenStyle'
@@ -314,6 +316,7 @@ const mapDispatchToProps = (dispatch) => {
     deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
     setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
     getProfile: () => dispatch(QuestionActions.getProfile()),
+    saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token))
   }
 }
 

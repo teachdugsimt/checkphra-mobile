@@ -37,7 +37,7 @@ export function* getVersion(api) {
 
         Alert.alert(
           'กรุณาอัพเดทแอ็พของคุณ',
-          'มีแอ็พรุ่นที่ใหม่กว่า กรุณาอัพเดทแอ็พของคุณ (!!อัพเดทวันนี้ รับฟรีทันที่ 100 เหรียญ)',
+          'มีแอ็พรุ่นที่ใหม่กว่า กรุณาอัพเดทแอ็พของคุณ',
           [
             { text: 'เตือนฉันทีหลัง', onPress: () => console.log('Cancel Pressed') },
             {
@@ -58,8 +58,6 @@ export function* getVersion(api) {
         )
 
       } else {
-
-
 
       }
     }

@@ -267,7 +267,7 @@ class CheckListScreen extends Component {
                       fontSize: 13,
                       color: Colors.brownText,
                       // margin: 20
-                    }}>{item.email}</Text>
+                    }}>{item.name ? item.name : item.email}</Text>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
                       fontSize: 12,

@@ -309,7 +309,7 @@ class CheckPhraScreen extends Component {
             <ScrollView>
               <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question') + " ( " + this.props.data.id + " )"} </Text>
-                <Text style={{ fontSize: 16 }}> {this.props.data.email} </Text>
+                <Text style={{ fontSize: 16 }}> {this.props.data.name ? this.props.data.name : this.props.data.email} </Text>
               </View>
               {this.props.data.question_list.map((e, i) => {
                 if (

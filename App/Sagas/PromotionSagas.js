@@ -16,12 +16,18 @@ import PromotionActions, { publishRequest, getLoginPro } from '../Redux/Promotio
 // import { PromotionSelectors } from '../Redux/PromotionRedux'
 const auth = state => state.auth
 
-export function* getPromotion(api) {
+export function* getPromotion(api, { platform }) {
   // get current data from Store
   // const currentData = yield select(PromotionSelectors.getData)
   // make the call to the api
-  const response = yield call(api.getPromotion)
+
+  console.log(platform)
+  const data = {
+    platform
+  }
+  const response = yield call(api.getPromotion, data)
   console.log(response)
+
   // success?
   if (response.ok) {
     yield put(PromotionActions.promotionSuccess(response.data))

@@ -137,6 +137,7 @@ export default {
   sendAdmin: 'คุณต้องการส่งคำถามให้ admin ตรวจ ?',
   verify: 'อนุมัติ',
   noneAnswer: 'ไม่ออกผล',
+  noneSpecify: 'ไม่ระบุ',
   sendToAdmin: 'ส่งให้ admin ตรวจ',
   sharedSuccess: 'แชร์สำเร็จ คุณได้รับ 10 coins',
   sharedSuccess2: 'แชร์สำเร็จ',

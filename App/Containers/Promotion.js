@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, View, TouchableOpacity, Dimensions, TextInput, FlatList, RefreshControl, ImageBackground, Image } from 'react-native'
+import { ScrollView, Text, View, TouchableOpacity, Dimensions, TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 import RoundedButton from '../Components/RoundedButton'
@@ -52,9 +52,13 @@ class Promotion extends Component {
 
   _PressPromotion(item) {
     // console.log(item)
-    this.props.setPackage(item.id)
-    this.props.setMoney(item.price)
-    this.popupDialog.show()
+    // if (Platform.OS == 'android') {
+      this.props.setPackage(item.id)
+      this.props.setMoney(item.price)
+      this.popupDialog.show()
+    // } else {
+    //   // PLATFORM == IOS
+    // }
   }
 
   _Banking = () => {
@@ -113,7 +117,16 @@ class Promotion extends Component {
   }
 
   componentDidMount() {
-    this.props.getPromotion()
+    if (Platform.OS == 'ios') {
+      // console.log(Platform.OS)
+      // console.log('------ PLATFORM-------')
+      this.props.getPromotion(Platform.OS)
+    } else if (Platform.OS == 'android') {
+      // console.log(Platform.OS)
+      // console.log('------ PLATFORM-------')
+      this.props.getPromotion(Platform.OS)
+      // this.props.getPromotion('ios')
+    }
   }
   render() {
     I18n.locale = this.props.language
@@ -207,7 +220,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPromotion: () => dispatch(PromotionActions.promotionRequest()),
+    getPromotion: (platform) => dispatch(PromotionActions.promotionRequest(platform)),
     setMoney: (m) => dispatch(PromotionActions.setMoney(m)),
     setPackage: (pack) => dispatch(PaymentActions.setPackage(pack))
   }

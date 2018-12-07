@@ -34,7 +34,8 @@ let isShared = false
 const shareLinkContent = {
     contentType: 'link',
     contentUrl: 'https://www.checkphra.com/',
-    contentDescription: 'ฉันได้ทำขายปล่อยเช่าพระโดยแอพ CheckPhra',
+    // contentDescription: 'ฉันได้ทำขายปล่อยเช่าพระโดยแอพ CheckPhra',
+    quote: 'ฉันได้ทำการให้เช่าพระโดยแอพ CheckPhra ดูข้อมูลได้ที่ https://www.checkphra.com'
 };
 
 class UserBit2 extends Component {

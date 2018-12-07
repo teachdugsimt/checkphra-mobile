@@ -88,16 +88,16 @@ export function* addBonus(api) {
     user_id: a.user_id,
   }
 
-  const response = yield call(api.addBonus, data)
-  if (response.ok) {
-    console.log(true)
-    yield put(PromotionActions.addBonusSuccess())
-    // console.log(true)
-    // AsyncStorage.setItem('addBonusPoint', true)
-  } else {
-    // console.log(false)
-    // AsyncStorage.setItem('addBonusPoint', false)
-  }
+  // const response = yield call(api.addBonus, data)
+  // if (response.ok) {
+  // console.log(true)
+  // yield put(PromotionActions.addBonusSuccess())
+  // console.log(true)
+  // AsyncStorage.setItem('addBonusPoint', true)
+  // } else {
+  // console.log(false)
+  // AsyncStorage.setItem('addBonusPoint', false)
+  // }
 }
 
 

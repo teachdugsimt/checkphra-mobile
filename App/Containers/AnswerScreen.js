@@ -8,14 +8,14 @@ import LinearGradient from "react-native-linear-gradient";
 import styles from './Styles/AnswerScreenStyle'
 import { Colors, Images, Metrics } from '../Themes';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import { LoginButton, ShareDialog, ShareButton } from 'react-native-fbsdk';
+import { LoginButton, ShareDialog, ShareButton, ShareApi } from 'react-native-fbsdk';
 import PromotionActions from '../Redux/PromotionRedux'
 import I18n from '../I18n/i18n';
 import QuestionActions from '../Redux/QuestionRedux'
 import Icon from "react-native-vector-icons/FontAwesome";
 
 // import { MessengerClient } from 'messaging-api-messenger/lib';
-import { GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+// import { GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
 I18n.fallbacks = true;
 const { width, height } = Dimensions.get('window')
@@ -429,3 +429,34 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnswerScreen)
+
+
+// await ShareApi.canShare(shareLinkContent).then(
+//   function (canShare) {
+//     if (canShare) {
+//       return ShareApi.share(shareLinkContent, '/Check Phra', 'Some message.');
+//     }
+//   }
+// ).then(
+//   function (result) {
+//     console.log(result)
+//     console.log('HERE RESULT')
+//     if (result.isCancelled) {
+
+//       alert('Share operation was cancelled');
+
+//     } else {
+
+//       if (isShared == false) {
+//         alert(I18n.t('sharedSuccess'))
+//         isShared = true
+//       } else if (isShared == true) {
+//         alert(I18n.t('sharedSuccess2'))
+//       }
+
+//     }
+//   },
+//   function (error) {
+//     alert('Share failed with error: ' + error.message);
+//   }
+// );

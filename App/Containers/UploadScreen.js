@@ -146,8 +146,8 @@ class UploadScreen extends Component {
     // }
 
     // console.log('-------------')
-    console.log(nextProps)
-    console.log(prevState)
+    // console.log(nextProps)
+    // console.log(prevState)
 
 
     if (nextProps.day != time11) {
@@ -377,14 +377,14 @@ class UploadScreen extends Component {
     });
   }
 
-  _pressLink(link){
+  _pressLink(link) {
     const url = link
     Linking.canOpenURL(url).then(supported => {
-        if (supported) {
-            Linking.openURL(url);
-        } else {
-            console.log('Don\'t know how to open URI: ' + url);
-        }
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log('Don\'t know how to open URI: ' + url);
+      }
     });
   }
 

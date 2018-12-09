@@ -29,37 +29,43 @@ export function* getVersion(api) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     // yield put(VersionActions.versionSuccess(response.data))
+
     const installed_v = DeviceInfo.getBuildNumber()
+
+
+    let store_v = 0
+    let url = 'https://play.google.com/store/apps/details?id=com.infiltech.checkphra'
     if (Platform.OS == 'android') {
+      store_v = response.data.android_v
+      url = 'https://play.google.com/store/apps/details?id=com.infiltech.checkphra'
+    } else {
+      store_v = response.data.ios_v
+      url = 'http://itunes.apple.com/app/id1440117957'
+    }
+    console.log(store_v, installed_v)
+    if (+store_v > +installed_v) {
 
-      const store_v = response.data.android_v
-      if (+store_v > +installed_v) {
+      Alert.alert(
+        'กรุณาอัพเดทแอ็พของคุณ',
+        'มีแอ็พรุ่นที่ใหม่กว่า กรุณาอัพเดทแอ็พของคุณ',
+        [
+          { text: 'เตือนฉันทีหลัง', onPress: () => console.log('Cancel Pressed') },
+          {
+            text: 'อัพเดททันที', onPress: () => {
 
-        Alert.alert(
-          'กรุณาอัพเดทแอ็พของคุณ',
-          'มีแอ็พรุ่นที่ใหม่กว่า กรุณาอัพเดทแอ็พของคุณ',
-          [
-            { text: 'เตือนฉันทีหลัง', onPress: () => console.log('Cancel Pressed') },
-            {
-              text: 'อัพเดททันที', onPress: () => {
-                const url = 'https://play.google.com/store/apps/details?id=com.infiltech.checkphra'    // pc , mobile
-                // const url = 'https://m.me/316834699141900' // pc , mobile can't use
-                Linking.canOpenURL(url).then(supported => {
-                  if (supported) {
-                    Linking.openURL(url);
-                  } else {
-                    console.log('Don\'t know how to open URI: ' + url);
-                  }
-                });
-              }, style: 'cancel'
-            },
-          ],
-          { cancelable: false }
-        )
+              Linking.canOpenURL(url).then(supported => {
+                if (supported) {
+                  Linking.openURL(url);
+                } else {
+                  console.log('Don\'t know how to open URI: ' + url);
+                }
+              });
+            }, style: 'cancel'
+          },
+        ],
+        { cancelable: false }
+      )
 
-      } else {
-
-      }
     }
   } else {
     // yield put(VersionActions.versionFailure())

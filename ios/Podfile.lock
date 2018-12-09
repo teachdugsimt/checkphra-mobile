@@ -137,6 +137,10 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNDeviceInfo (0.21.5):
+    - React
+  - RNIap (2.3.20):
+    - React
   - yoga (0.55.4.React)
 
 DEPENDENCIES:
@@ -154,6 +158,8 @@ DEPENDENCIES:
   - React/RCTImage (from `../node_modules/react-native`)
   - React/RCTNetwork (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNIap (from `../node_modules/react-native-iap`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
@@ -165,6 +171,10 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native-image-picker
   react-native-image-resizer:
     :path: ../node_modules/react-native-image-resizer
+  RNDeviceInfo:
+    :path: ../node_modules/react-native-device-info
+  RNIap:
+    :path: ../node_modules/react-native-iap
   yoga:
     :path: ../node_modules/react-native/ReactCommon/yoga
 
@@ -193,8 +203,10 @@ SPEC CHECKSUMS:
   react-native-fbsdk: d5f98cc5abecbcc463e3c35c04743d716d002d37
   react-native-image-picker: b303e31c3c4ada1d7cb1342423d328d2efb07fb3
   react-native-image-resizer: 04a3409e7d4ad646c4468671c69dec490def139c
+  RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
+  RNIap: ef7dbcbb0ad7bb2400c14797ef3fad4e02ff0681
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: cd064d9bb7b677b8d019275ec8d25e57613d4c23
+PODFILE CHECKSUM: 594e4da2790833776300a0d7d142ef0a19ffc9c5
 
 COCOAPODS: 1.4.0

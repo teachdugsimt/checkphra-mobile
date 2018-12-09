@@ -291,7 +291,7 @@ class AnswerScreen extends Component {
                     coins += 50
                   }
                   return (
-                    <View>
+                    <View style={{ backgroundColor: '#fff5', padding: 10, borderRadius: 10 }}>
                       <Text style={{
                         fontFamily: 'Prompt-Regular',
                         fontSize: 16,
@@ -315,26 +315,30 @@ class AnswerScreen extends Component {
                     coins += 10
                   }
                   return (
-                    <Text style={{
-                      fontFamily: 'Prompt-Regular',
-                      fontSize: 16,
-                    }}>{I18n.t('pricePhra')} : <Text style={{
-                      fontFamily: 'Prompt-SemiBold',
-                      fontSize: 18,
-                    }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
+                    <View style={{ backgroundColor: '#fff5', padding: 10, borderRadius: 10, marginTop: 10 }}>
+                      <Text style={{
+                        fontFamily: 'Prompt-Regular',
+                        fontSize: 16,
+                      }}>{I18n.t('pricePhra')} : <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 18,
+                      }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
+                    </View>
                   )
                 } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
                   if (e.result != 'ไม่ออกผล') {
                     coins += 10
                   }
                   return (
-                    <Text style={{
-                      fontFamily: 'Prompt-Regular',
-                      fontSize: 16,
-                    }}>{I18n.t('detailPhra')} : <Text style={{
-                      fontFamily: 'Prompt-SemiBold',
-                      fontSize: 18,
-                    }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
+                    <View style={{ backgroundColor: '#fff5', padding: 10, borderRadius: 10, marginTop: 10 }}>
+                      <Text style={{
+                        fontFamily: 'Prompt-Regular',
+                        fontSize: 16,
+                      }}>{I18n.t('detailPhra')} : <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 18,
+                      }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
+                    </View>
                   )
                 }
               })
@@ -364,13 +368,13 @@ class AnswerScreen extends Component {
             ><TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center' }}>
                 <Icon
                   name="facebook-square"
-                  size={28}
+                  size={22}
                   color="white"
                 />
                 <Text
                   style={{
                     fontFamily: "Prompt-Regular",
-                    fontSize: 18,
+                    fontSize: 15,
                     color: "white",
                     marginLeft: Metrics.baseMargin
                   }} > Share </Text>
@@ -391,19 +395,20 @@ class AnswerScreen extends Component {
                 borderRadius: 24,
                 backgroundColor: "#104E8Bdd",
                 marginTop: Metrics.doubleBaseMargin,
+                marginBottom: Metrics.doubleBaseMargin,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             ><TouchableOpacity onPress={this._goToURL} style={{ flexDirection: 'row', justifyContent: 'center' }}>
                 <Icon
                   name="facebook-square"
-                  size={28}
+                  size={22}
                   color="white"
                 />
                 <Text
                   style={{
                     fontFamily: "Prompt-Regular",
-                    fontSize: 18,
+                    fontSize: 15,
                     color: "white",
                     marginLeft: Metrics.baseMargin
                   }} >{I18n.t('contactAdmin')}</Text>

@@ -41,6 +41,10 @@ const { Types, Creators } = createActions({
   getPriceSuccess: ['data'],
   getPriceFailure: null,
 
+  wantBuy: ['qid', 'interest'],
+  wantSuccess: ['data'],
+  wantFailure: null,
+
   clearDataBid: null,
 
   getLeasingAdmin: ['page'],
@@ -83,6 +87,9 @@ export const INITIAL_STATE = Immutable({
 
   request7: null,    // for get Price leasing all this day for admin
   data_price: null,  // data when request7
+
+  request8: null,  // want to buy api
+  data_want: null,  // data want to buy
 })
 
 /* ------------- Selectors ------------- */
@@ -134,29 +141,7 @@ export const request = (state) => state.merge({ fetching: true })
 // }
 
 export const success = (state, action) => {
-  // console.log(action)
   console.log(action.data)
-  // let {fuck} = action  // undefined
-  // let a = JSON.stringify(action.data)  // can't because not have " "" "
-  // let a = action.data  // can't because not have " "" "
-
-  // let a = JSON.parse(JSON.stringify(action.data))
-  // console.log(JSON.stringify(a))
-  // console.log('PAST step change to string and log A')
-  // // if (a.indexOf('int(200)') != -1) {   // if it has " int(200) "
-  // let c = JSON.stringify(a).substring(11, JSON.stringify(a).length-1) // action.data.splice(0, 9)
-  // console.log(c)
-  // console.log('PAST step cut int200 and log cut C')
-  // // }
-  // let b = JSON.parse(JSON.stringify(c))
-  // console.log(b)
-  // console.log('PAST step change to JSON and log B')
-
-
-
-  // console.log(JSON.parse(action.data))   // error
-  // console.log(JSON.stringify(action.data))  // can't => string + \n
-  // console.log(JSON.parse(JSON.stringify(action.data)))
   console.log('------------------- REDUX TEST BID DATA FROM TUM -------------------')
   return state.merge({ fetching: false, data: action.data })
 }
@@ -215,12 +200,20 @@ export const updateStatus = state => state.merge({ request3: true })
 export const updateSuccess = (state, { data }) => state.merge({ request3: false, data_status: data })
 export const updateFailure = (state) => state.merge({ request3: false })
 
+export const wantRequest = state => state.merge({ request8: true })
+export const wantSuccess = (state, { data }) => state.merge({ request8: false, data_want: data })
+export const wantFailure = state => state.merge({ request8: false })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.TRADING_REQUEST]: request,
   [Types.TRADING_SUCCESS]: success,
   [Types.TRADING_FAILURE]: failure,
+
+  [Types.WANT_BUY]: wantRequest,
+  [Types.WANT_SUCCESS]: wantSuccess,
+  [Types.WANT_FAILURE]: wantFailure,
 
   [Types.GET_DETAIL]: getDetailRequest,
   [Types.GET_DETAIL_SUCCESS]: getDetailSuccess,

@@ -26,7 +26,7 @@ import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest, p
 import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
-  getListLeasing, getPriceallday
+  getListLeasing, getPriceallday, wantToBuy
 } from './TradingSagas'
 import { getVersion } from './VersionSagas'
 /* ------------- API ------------- */
@@ -57,6 +57,7 @@ export default function* root() {
     takeLatest(TradingTypes.SHARED_LEASING, sharedLeasing555, tradeApi),
     takeLatest(TradingTypes.GET_LEASING_ADMIN, getListLeasing, tradeApi),
     takeLatest(TradingTypes.GET_PRICE_LEASING, getPriceallday, tradeApi),
+    takeLatest(TradingTypes.WANT_BUY, wantToBuy, tradeApi),
 
     takeLatest(AuthTypes.SIGNIN_REQUEST, signin, authApi),
     takeLatest(AuthTypes.SIGNIN_WITH_CREDENTIAL, signinWithCredential, authApi),

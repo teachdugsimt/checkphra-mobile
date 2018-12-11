@@ -13,6 +13,8 @@ import { Colors, Images } from "../Themes";
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import I18n from '../I18n/i18n';
 import { getLanguages } from 'react-native-i18n';
+
+// import ImagePicker from 'react-native-image-picker'
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // I18n.locale = "th";

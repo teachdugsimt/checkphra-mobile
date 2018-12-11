@@ -11,6 +11,7 @@ import { database } from 'react-native-firebase';
 
 import ImageResizer from 'react-native-image-resizer';
 
+// import ImagePicker from 'react-native-image-picker'
 var ImagePicker = require('react-native-image-picker');
 var options = {
   title: 'Select Avatar',

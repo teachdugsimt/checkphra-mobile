@@ -15,7 +15,7 @@ import { INITIAL_STATE } from '../../Redux/AuthRedux';
 import I18n from '../../I18n/i18n';
 I18n.fallbacks = true;
 // I18n.currentLocale("th");
-
+// import ImagePicker from 'react-native-image-picker'
 var ImagePicker = require('react-native-image-picker');
 var options = {
     title: 'Select Avatar',

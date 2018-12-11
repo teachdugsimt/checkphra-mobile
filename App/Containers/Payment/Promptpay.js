@@ -16,6 +16,7 @@ I18n.fallbacks = true;
 // I18n.currentLocale();
 
 const { width } = Dimensions.get('window')
+// import ImagePicker from 'react-native-image-picker'
 var ImagePicker = require('react-native-image-picker');
 var options = {
   title: 'Select Avatar',

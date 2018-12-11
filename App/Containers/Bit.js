@@ -142,18 +142,23 @@ class Bit extends Component {
                     renderItem={({ item }) => {
                         let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
                         // let status = 'รอตรวจ'
+                        let dice = null
                         let color = ''
                         let message = ''
                         if (item.status == 'approve') {
+                            dice = '100%'
                             color = 'green'
                             message = I18n.t('approve')
                         } else if (item.status == 'bargain') {
+                            dice = '94%'
                             color = 'orange'
                             message = I18n.t('bargain')
                         } else if (item.status == 'cancel') {
+                            dice = '100%'
                             color = 'red'
                             message = I18n.t('cancelHire')
                         } else if (item.status == 'interested') {
+                            dice = '94%'
                             color = '#579AEE'
                             message = I18n.t('interest')
                         }
@@ -196,13 +201,13 @@ class Bit extends Component {
                                             }}> ( {item.qid} )</Text>
                                         </View>
                                     </View>
-                                    <View style={{ width: width / 2.7, justifyContent: 'center', alignItems: 'center' }}>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', height: 80, width: width / 3.3 }}>
                                         <Text style={{
                                             fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             color: 'white',
-                                            margin: 20,
-                                            paddingHorizontal: 20,
+                                            margin: 15,
+                                            paddingHorizontal: 15,
                                             paddingTop: 2.5,
                                             borderRadius: 15,
                                             height: 30,

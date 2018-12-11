@@ -110,6 +110,7 @@ class SigninScreen extends Component {
 
       console.log(result)
       if (result.isCancelled) {
+        alert('User canceled request')
         return
         // throw new Error('User cancelled request'); // Handle this however fits the flow of your app
       }

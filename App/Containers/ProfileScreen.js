@@ -138,12 +138,12 @@ class ProfileScreen extends Component {
     this.popupDialog.dismiss()
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
-    if (nextProps.profile == null) {
-      this.props.navigation.navigate("Auth")
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps)
+  //   if (nextProps.profile == null) {
+  //     this.props.navigation.navigate("Auth")
+  //   }
+  // }
 
   _changeLanguage = () => {
     this.popupDialog.show()
@@ -186,7 +186,7 @@ class ProfileScreen extends Component {
           , height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center',
         }}>
 
-          <View style={{ flex: 1 }} 
+          <View style={{ flex: 1 }}
           // onPress={this.pick}
           >
             <View style={{
@@ -198,8 +198,8 @@ class ProfileScreen extends Component {
                 size={40}
                 color={Colors.brownTextTran}
               />} */}
-               {/* <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%' }} /> */}
-               <Icon2
+              {/* <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%' }} /> */}
+              <Icon2
                 name="md-contact"
                 size={45}
                 color={Colors.brownTextTran}
@@ -410,8 +410,8 @@ class ProfileScreen extends Component {
           height={height / 4.2}
           onDismissed={() => { this.setState({}) }}
         >
-          <View style={{ flex: 1}}>
-            <TouchableOpacity onPress={this._thai} style={{ 
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity onPress={this._thai} style={{
               flex: 0.5, flexDirection: 'row',
               borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center', borderTopColor: 'lightgrey', borderTopWidth: 1
             }}>

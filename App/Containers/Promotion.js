@@ -7,6 +7,7 @@ import { Colors, Images } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import PromotionActions from '../Redux/PromotionRedux'
 import Icon2 from "react-native-vector-icons/FontAwesome";
+import * as RNIap from 'react-native-iap';
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 import I18n from '../I18n/i18n';
 import PaymentActions from '../Redux/PaymentRedux'
@@ -47,18 +48,50 @@ class Promotion extends Component {
 
 
   componentWillUnmount() {
+    RNIap.endConnection()
     this.popupDialog.dismiss()
   }
 
-  _PressPromotion(item) {
+  async _PressPromotion(item) {
     // console.log(item)
-    // if (Platform.OS == 'android') {
+    if (Platform.OS == 'android') {
       this.props.setPackage(item.id)
       this.props.setMoney(item.price)
       this.popupDialog.show()
-    // } else {
-    //   // PLATFORM == IOS
-    // }
+    } else {
+      this.props.setPackage(item.id)
+      this.props.setMoney(item.price)
+
+      try {
+        await RNIap.initConnection();
+
+        const products = await RNIap.getProducts([
+          'org.infiltech.checkphra99',
+          'org.infiltech.checkphra249',
+          'org.infiltech.checkphra349',
+          'org.infiltech.checkphra699',
+          'org.infiltech.checkphra1000',
+          'org.infiltech.checkphra2100',
+        ]);
+
+        console.log(products)
+
+        await RNIap.buyProduct('org.infiltech.checkphra' + item.price).then(purchase => {
+
+          console.log(purchase)
+          this.props.paypal()
+          this.props.navigation.navigate("historyAddPoint")
+
+        }).catch(err => {
+          // console.log(err.message)
+          // this.props.navigation.navigate("historyAddPoint")
+          // alert(err.message)
+        });
+        // this.setState({ products });
+      } catch (err) {
+        console.warn(err);
+      }
+    }
   }
 
   _Banking = () => {
@@ -222,7 +255,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getPromotion: (platform) => dispatch(PromotionActions.promotionRequest(platform)),
     setMoney: (m) => dispatch(PromotionActions.setMoney(m)),
-    setPackage: (pack) => dispatch(PaymentActions.setPackage(pack))
+    setPackage: (pack) => dispatch(PaymentActions.setPackage(pack)),
+    paypal: () => dispatch(PaymentActions.paypalRequest()),
   }
 }
 

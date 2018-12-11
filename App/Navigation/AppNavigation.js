@@ -156,6 +156,8 @@ const ProfileStack = StackNavigator(   // main pro
   {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('back'),
       headerStyle: {
         backgroundColor: Colors.tabBar,
       },
@@ -430,6 +432,8 @@ const DashStack = TabNavigator(   // **************  USER STACK ****************
   {
     initialRouteName: "upload",
     navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
@@ -490,8 +494,9 @@ const CheckListStack = StackNavigator({ // **********************FOR EXPERT & AD
 }, {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
       tabBarLabel: I18n.t('pendingList'),
-      headerTintColor: 'white',
       headerStyle: {
         backgroundColor: Colors.tabBar,
       },
@@ -518,6 +523,8 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
 }, {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
       tabBarLabel: I18n.t('pendingCoin'),
       headerStyle: {
         backgroundColor: Colors.tabBar,
@@ -545,6 +552,8 @@ const AdminAnswerStack = StackNavigator({ // **********************FOR ADMIN ***
 }, {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
       tabBarLabel: I18n.t('editAnswer'),
       headerStyle: {
         backgroundColor: Colors.tabBar,
@@ -572,6 +581,8 @@ const BitStack = StackNavigator({ // **********************FOR ADMIN ***********
 }, {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
       tabBarLabel: I18n.t('bitPrice2'),
       headerStyle: {
         backgroundColor: Colors.tabBar,
@@ -592,6 +603,8 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
@@ -641,6 +654,8 @@ const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *****
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;

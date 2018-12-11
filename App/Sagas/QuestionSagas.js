@@ -133,6 +133,7 @@ export function* getHistory(api, { count }) {
     }
 
     const response = yield call(api.getHistory, data)
+    // console.log("**************")
     console.log(response)
     if (response.ok) {
       yield put(QuestionActions.getHistorySuccess2(response.data))

@@ -80,11 +80,11 @@ export const INITIAL_STATE = Immutable({
   amuletID: 0,
   uri: {},
 
-  request: null,  // for add Question
+  request: false,  // for add Question
   data_question: null,  // response addQuestion
 
-  request2: null,  //for get History
-  request3: null,  // for cancel Question
+  request2: false,  //for get History
+  request3: false,  // for cancel Question
 
   dataDeleteq: []
 })
@@ -171,7 +171,7 @@ export const setStartQuestion = (state, { index, num }) => {
 }
 
 export const requestGetHistory = (state) => state.merge({ request2: true })
-export const clearGetHistory = state => state.merge({ request2: null })
+export const clearGetHistory = state => state.merge({ request2: false })
 // successful api lookup
 export const historySuccess = (state, action) => {
   const { history } = action
@@ -200,8 +200,8 @@ export const clearForm = state => state.merge({
   images: [],
   questions: [],
   amuletID: 0,
-  request: null,
-  request2: null,
+  request: false,
+  request2: false,
 })
 
 
@@ -299,7 +299,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_GET_HISTORY]: clearGetHistory,
 
   [Types.CLEAR_FORM]: clearForm,
-  [Types.CLEAR_ALL]:clearAll,
+  [Types.CLEAR_ALL]: clearAll,
 
   [Types.GET_ANSWER_SUCCESS]: answerSuccess,
   [Types.GET_PROFILE_SUCCESS]: profileSuccess,

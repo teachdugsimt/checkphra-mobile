@@ -317,10 +317,10 @@ class CheckPhraScreen extends Component {
                   e.question == 1
                 ) {
                   return (
-                    <View style={{ marginLeft: 15, marginTop: 10 }}>
 
-                      <View style={{ flexDirection: 'row', marginRight: 10 }}>
-                        <Text style={{}}>1) {I18n.t('trueFalse')}</Text>
+                    <View key={i} style={{ marginHorizontal: 15, backgroundColor: '#fff5', padding: 10, borderRadius: 10, marginTop: 10 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15 }}>
+                        <Text style={{ flex: 2 }}>1) {I18n.t('trueFalse')}</Text>
                         {/* disable question 1 */}
                         <CheckBox
                           style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
@@ -431,10 +431,10 @@ class CheckPhraScreen extends Component {
                   e.question == 2
                 ) {
                   return (
-                    <View>
-                      <View style={{ flexDirection: 'row' }}>
+                    <View style={{ marginHorizontal: 15, backgroundColor: '#fff5', padding: 10, borderRadius: 10, marginTop: 10 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-                        <Text style={{ marginLeft: 15 }}>2) {I18n.t('pricePhra')}</Text>
+                        <Text style={{ flex: 2, marginLeft: 15 }}>2) {I18n.t('pricePhra')}</Text>
                         {/* disable question 2 */}
                         <CheckBox
                           style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
@@ -465,54 +465,61 @@ class CheckPhraScreen extends Component {
                 ) {
                   console.log("question 3")
                   return (
-                    <View>
-                      {this.props.language && (this.props.language == 'th' || this.props.language == 'th-TH') && <View><View style={{ flexDirection: 'row' }}>
-                        <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
-                        {/* disable question 3 */}
-                        <CheckBox
-                          style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
-                          onClick={() => {
-                            this.setState({
-                              checkNone3: !this.state.checkNone3,
-                              editans3: !this.state.editans3,
-                              answer3: null,
-                            })
-                          }}
-                          disabled={!this.state.editing}
-                          isChecked={this.state.checkNone3}
-                          rightText={I18n.t('noneAnswer')}
-                          rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
-                          checkBoxColor={Colors.brownText}
-                        />
-                        {/* disable question 3 */}
+                    <View style={{ marginHorizontal: 15, backgroundColor: '#fff5', padding: 10, borderRadius: 10, marginTop: 10 }}>
+                      {this.props.language && (this.props.language == 'th' || this.props.language == 'th-TH') &&
+                        <View>
+                          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ flex: 2, marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
+                            {/* disable question 3 */}
 
-                      </View>
-                        <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
-                          onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} /></View>
+                            <CheckBox
+                              style={{ flex: 1, marginLeft: 20, marginVertical: 10 }}
+                              onClick={() => {
+                                this.setState({
+                                  checkNone3: !this.state.checkNone3,
+                                  editans3: !this.state.editans3,
+                                  answer3: null,
+                                })
+                              }}
+                              disabled={!this.state.editing}
+                              isChecked={this.state.checkNone3}
+                              rightText={I18n.t('noneAnswer')}
+                              rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                              checkBoxColor={Colors.brownText}
+                            />
+                            {/* disable question 3 */}
+                          </View>
+
+                          <TextInput value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: 5 }}
+                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} /></View>
                       }
 
-                      {this.props.language && (this.props.language == 'en' || this.props.language == 'en-US') && <View style={{}}>
-                        <Text style={{ marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
-                        {/* disable question 3 */}
-                        <CheckBox
-                          style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
-                          onClick={() => {
-                            this.setState({
-                              checkNone3: !this.state.checkNone3,
-                              editans3: !this.state.editans3,
-                              answer3: null,
-                            })
-                          }}
-                          disabled={!this.state.editing}
-                          isChecked={this.state.checkNone3}
-                          rightText={I18n.t('noneAnswer')}
-                          rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
-                          checkBoxColor={Colors.brownText}
-                        />
-                        {/* disable question 3 */}
-                        <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: -10 }}
-                          onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} />
-                      </View>}
+                      {this.props.language && (this.props.language == 'en' || this.props.language == 'en-US') &&
+                        <View>
+                          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ flex: 2, marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
+                            {/* disable question 3 */}
+                            <CheckBox
+                              style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                              onClick={() => {
+                                this.setState({
+                                  checkNone3: !this.state.checkNone3,
+                                  editans3: !this.state.editans3,
+                                  answer3: null,
+                                })
+                              }}
+                              disabled={!this.state.editing}
+                              isChecked={this.state.checkNone3}
+                              rightText={I18n.t('noneAnswer')}
+                              rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                              checkBoxColor={Colors.brownText}
+                            />
+                          </View>
+                          {/* disable question 3 */}
+                          <TextInput value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: 15 }}
+                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} />
+                        </View>
+                      }
 
                     </View>
                   )
@@ -521,10 +528,10 @@ class CheckPhraScreen extends Component {
               })}
 
               {/* ***************INTERESTED AMULET**************** */}
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ marginLeft: 15 }}>a) </Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 20 }}>
+
                 <CheckBox
-                  style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                  style={{ marginLeft: 8, width: 200 }}
                   onClick={() => {
                     this.setState({
                       interested: !this.state.interested

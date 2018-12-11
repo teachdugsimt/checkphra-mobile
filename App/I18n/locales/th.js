@@ -203,7 +203,7 @@ export default {
   bargain: 'ต่อรอง',
   wantGetOffer: 'คุณต้องการรับข้อเสนอ ?',
   dontwantOffer: 'คุณไม่ต้องการรับข้อเสนอ ?',
-  leasing: 'คุณต้องการเช่าซื้อ ?',
+  leasing: 'ต้องการเช่าพระองค์นี้',
   interest: 'สนใจเช่า',
   detailBidPrice: '** user เป็นคนเปิดราคาเช่าพระเครื่อง **',
   detailBidPrice2: '** user สามารถบิทราคาได้ 2 ครั้ง **',

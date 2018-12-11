@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -47,9 +48,9 @@
 		4E61FF5634CE4DDCA2F6D1AA /* Prompt-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFDA423AB92A434581CF89C6 /* Prompt-Italic.ttf */; };
 		50F062A8178141B525C31DC6 /* libPods-CheckPhra.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D166400E7EFA6302F4DC085F /* libPods-CheckPhra.a */; };
 		54573B619F364AD3821766BE /* RNI18nTests.xctest in Frameworks */ = {isa = PBXBuildFile; fileRef = 823B30F2FA1B4611A1FAB2AE /* RNI18nTests.xctest */; };
+		5518428921BDEE89007B9BEC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5518428821BDEE89007B9BEC /* GoogleService-Info.plist */; };
 		5588CA64219A840500F3578A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5588CAC7219A8AC500F3578A /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		55B549A92160C67C00E4F1F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55B549A82160C67C00E4F1F2 /* GoogleService-Info.plist */; };
 		55C5D7B021B697B500252B2F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C5D7AF21B697B500252B2F /* StoreKit.framework */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		5FE4ADB715EE4FC89E45C221 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EAC2DF9FCAF34F7B9926A8E2 /* SimpleLineIcons.ttf */; };
@@ -444,11 +445,11 @@
 		43A55FD5D5C340299E054276 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		44CEE496840597E3892468E3 /* Pods-CheckPhra-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CheckPhra-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CheckPhra-tvOSTests/Pods-CheckPhra-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		5124819D014B4FAE8479F270 /* Prompt-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Prompt-SemiBold.ttf"; path = "../assets/Fonts/Prompt-SemiBold.ttf"; sourceTree = "<group>"; };
+		5518428821BDEE89007B9BEC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		551DBEF62177D2E100F0A8DD /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		55702F4621801BFD006CCA1B /* RCTImageResizer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImageResizer.xcodeproj; path = "../node_modules/react-native-image-resizer/ios/RCTImageResizer.xcodeproj"; sourceTree = "<group>"; };
 		5588CA62219A83F700F3578A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		55B430E7217E3781000CC3CF /* CheckPhra.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CheckPhra.entitlements; path = CheckPhra/CheckPhra.entitlements; sourceTree = "<group>"; };
-		55B549A82160C67C00E4F1F2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "CheckPhra/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		55C5D7AF21B697B500252B2F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		55EC38272181976000D73F72 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -681,8 +682,8 @@
 		13B07FAE1A68108700A75B9A /* CheckPhra */ = {
 			isa = PBXGroup;
 			children = (
+				5518428821BDEE89007B9BEC /* GoogleService-Info.plist */,
 				55B430E7217E3781000CC3CF /* CheckPhra.entitlements */,
-				55B549A82160C67C00E4F1F2 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1009,6 +1010,9 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = EZH5YYP2L5;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
@@ -1472,7 +1476,7 @@
 				AD82B15E2AC447A0B519D872 /* Prompt-Black.ttf in Resources */,
 				0A4D56B2116848A5BE440CE4 /* Prompt-BlackItalic.ttf in Resources */,
 				ED8AD69437CB441EAF6CAC95 /* Prompt-Bold.ttf in Resources */,
-				55B549A92160C67C00E4F1F2 /* GoogleService-Info.plist in Resources */,
+				5518428921BDEE89007B9BEC /* GoogleService-Info.plist in Resources */,
 				2EA16114000D4388A9923C7C /* Prompt-BoldItalic.ttf in Resources */,
 				3B94606BC2F94383A03D11AE /* Prompt-ExtraBold.ttf in Resources */,
 				FDC922A9CF9D407DB34A6F86 /* Prompt-ExtraBoldItalic.ttf in Resources */,

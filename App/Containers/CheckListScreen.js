@@ -46,7 +46,7 @@ class CheckListScreen extends Component {
 
   componentDidMount() {
     moment.locale('th')
-    this.props.getHistory()
+    this.props.getHistory(1)
     // this.props.getProfile()
     this.getDeviceToken()
   }
@@ -144,9 +144,9 @@ class CheckListScreen extends Component {
     );
   }
 
-  componentWillMount() {
-    count = 1
-  }
+  // componentWillMount() {
+  //   count = 1
+  // }
 
   componentWillUnmount() {
     count = 1
@@ -196,8 +196,10 @@ class CheckListScreen extends Component {
 
   _onScrollEndList = () => {
     console.log('END OF LIST AGAIN')
-    count++
-    this.props.getHistory(count)
+    if (this.props.history && this.props.history.length > 7) {
+      count++
+      this.props.getHistory(count)
+    }
   }
 
   render() {

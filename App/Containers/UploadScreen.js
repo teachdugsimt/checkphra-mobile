@@ -284,7 +284,7 @@ class UploadScreen extends Component {
   async getDeviceToken() {
     this.checkPermission();
     this.createNotificationListeners(); //add this line
-    this.notificationOpen();
+    // this.notificationOpen();
   }
 
   //1

@@ -52,6 +52,8 @@ const create = (baseURL = b) => {
   const paypal = (data) => api.post('payment-history/paypal-checkout', data)
 
   const addBonus = (data) => api.post('user/add-point', data)
+  
+  const cardHistory = (data) => api.get('payment-history/credit-list', data)
 
   return {
     // a list of the API functions from step 2
@@ -67,7 +69,8 @@ const create = (baseURL = b) => {
     getPromotionCoin,
     cancelCoin,
     paypal,
-    addBonus
+    addBonus,
+    cardHistory
   }
 }
 

@@ -11,7 +11,7 @@
 *************************************************************/
 
 import { call, put, select } from 'redux-saga/effects'
-import PaymentActions, { creditRequest } from '../Redux/PaymentRedux'
+import PaymentActions, { creditRequest, cardHistory } from '../Redux/PaymentRedux'
 // import { PaymentSelectors } from '../Redux/PaymentRedux'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
@@ -162,4 +162,48 @@ export function* paypalRequest55(api) {
   } else {
     yield put(PaymentActions.paypalFailure())
   }
+}
+
+
+export function* cardHistoryRequest(api, { page }) {
+  if (page == 1) {
+    const aut = yield select(auth)
+    // console.log(page)
+    if (!aut.user_id) { return }
+
+    const data = {
+      user_id: aut.user_id,
+      page_number: page
+    }
+
+    const response = yield call(api.cardHistory, data)
+    console.log(response)
+    console.log('---------------- ADD COIN BY CREDIT CARD ------------------')
+    if (response.ok) {
+      yield put(PaymentActions.cardHistorySuccess(response.data))
+    } else {
+      yield put(PaymentActions.cardHistoryFailure())
+      // alert(I18n.t('historyFailure'))
+    }
+  } else {
+    const aut = yield select(auth)
+    // console.log(page)
+    if (!aut.user_id) { return }
+
+    const data = {
+      user_id: aut.user_id,
+      page_number: page
+    }
+
+    const response = yield call(api.cardHistory, data)
+    console.log(response)
+    console.log('---------------- ADD COIN BY CREDIT CARD ------------------')
+    if (response.ok) {
+      yield put(PaymentActions.cardHistorySuccess2(response.data))
+    } else {
+      yield put(PaymentActions.cardHistoryFailure2())
+      // alert(I18n.t('historyFailure'))
+    }
+  }
+
 }

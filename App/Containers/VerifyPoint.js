@@ -123,6 +123,7 @@ class VerifyPoint extends Component {
 
         // let status = item.status == 10 ? 'อนุมัติแล้ว' : 'รออนุมัติ'
         // let color = item.status == 10 ? 'green' : 'orange'
+        // if(item.type == '1')
         return (
             <TouchableOpacity style={{ height: 60 }} onPress={() => this._PressList(item, index)}>
                 <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
@@ -194,6 +195,12 @@ class VerifyPoint extends Component {
         // console.log(this.state.verifyData)
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
+                <Image source={Images.watermarkbg} style={{
+                    position: 'absolute',
+                    right: 0, bottom: 0,
+                    width: width,
+                    height: width * 95.7 / 100
+                }} resizeMode='contain' />
                 <FlatList
                     refreshControl={
                         <RefreshControl

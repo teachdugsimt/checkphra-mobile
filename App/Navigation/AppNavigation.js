@@ -24,6 +24,8 @@ import Bit2 from '../Containers/Bit2'
 import UserBit from '../Containers/UserBit'
 import UserBit2 from '../Containers/UserBit2'
 import LeasingAdmin from '../Containers/LeasingAdmin'
+import CardVerifyPoint from '../Containers/CardVerifyPoint'
+import CardVerifyPoint2 from '../Containers/CardVerifyPoint2'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -507,25 +509,27 @@ const CheckListStack = StackNavigator({ // **********************FOR EXPERT & AD
     })
   })
 
-const VerifyStack = StackNavigator({ // **********************FOR ADMIN *************************
-  check: {
-    screen: VerifyPoint,
+const CardStack = StackNavigator({ // HISTORY ADD COIN BY CREDIT CARD
+  card: {
+    screen: CardVerifyPoint,
     navigationOptions: {
-      title: I18n.t('pendingCoin')
+      // title: I18n.t('pendingCoin')
     }
   },
-  check2: {
-    screen: VerifyPoint2,
+  card2: {
+    screen: CardVerifyPoint2,
     navigationOptions: {
-      title: I18n.t('detailCoin')
+      // title: I18n.t('detailCoin')
     }
   }
 }, {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
+      header: false,
       headerTintColor: Colors.headerTitleColor,
       headerBackTitle: I18n.t('Back'),
-      tabBarLabel: I18n.t('pendingCoin'),
+      // tabBarLabel: I18n.t('pendingCoin'),
+      tabBarLabel: I18n.t('creditCard'),
       headerStyle: {
         backgroundColor: Colors.tabBar,
       },
@@ -535,6 +539,64 @@ const VerifyStack = StackNavigator({ // **********************FOR ADMIN ********
       },
     })
   })
+
+const VerifyStack = StackNavigator({ // HISTORY ADD COIN BY BANKING
+  check: {
+    screen: VerifyPoint,
+    navigationOptions: {
+      // title: I18n.t('pendingCoin')
+      // title: I18n.t('banking')
+    }
+  },
+  check2: {
+    screen: VerifyPoint2,
+    navigationOptions: {
+      // title: I18n.t('detailCoin')
+      // title: I18n.t('banking')
+    }
+  }
+}, {
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      header: false,
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
+      // tabBarLabel: I18n.t('pendingCoin'),
+      tabBarLabel: I18n.t('banking'),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
+    })
+  })
+
+const MoneyStack = TabNavigator(      // MONEY TRANSACTIONS
+  {
+    cardTran: VerifyStack,
+    bankTran: CardStack,
+  },
+  {
+    tabBarOptions: {
+      activeTintColor: Colors.activeTab,
+      inactiveTintColor: Colors.inactiveTab,
+      style: {
+        height: 60,
+        backgroundColor: Colors.tabBar,
+      },
+      labelStyle: {
+        fontSize: 14,
+        fontFamily: "Prompt-Regular",
+        marginBottom: 5
+      }
+    },
+    tabBarComponent: TabBarTop,
+    tabBarPosition: "top",
+    tabBarLabel: I18n.t('pendingCoin'),
+  }
+)
 
 const AdminAnswerStack = StackNavigator({ // **********************FOR ADMIN *************************
   answer: {
@@ -599,7 +661,8 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
   answeradmin: AdminAnswerStack,
   // pub: PublishStack,
   bit: BitStack,
-  verify: VerifyStack,
+  // verify: VerifyStack,
+  money: MoneyStack,
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({
@@ -614,7 +677,7 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
         if (routeName == "profile") {
           iconName = `user-circle${focused ? "" : "-o"}`;
         }
-        if (routeName == "verify") {
+        if (routeName == "verify" || routeName == "money") {
           iconName = `money`;
         }
         if (routeName == "pub") {

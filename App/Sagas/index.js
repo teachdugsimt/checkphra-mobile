@@ -65,36 +65,32 @@ export default function* root() {
     takeLatest(AuthTypes.CHANGE_PASSWORD, changePassword, authApi),
     takeLatest(AuthTypes.FORGET_PASSWORD, forgetPassword, authApi),
     takeLatest(AuthTypes.SAVE_DEVICE_TOKEN, saveDeviceToken, authApi),
-    
 
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
     takeLatest(QuestionTypes.ADD_QUESTION, addQuestion, questionApi),
-
     takeLatest(QuestionTypes.GET_HISTORY, getHistory, questionApi),
     takeLatest(QuestionTypes.GET_ANSWER, getAnswer, questionApi),
-
     takeLatest(QuestionTypes.GET_PROFILE, getProfile, questionApi),
     takeLatest(QuestionTypes.DELETE_QUESTION, deleteQuestion, questionApi),
+
     takeLatest(ExpertTypes.EXPERT_REQUEST, expertRequest, questionApi),
     takeLatest(ExpertTypes.ANSWER_LIST, getAnswerAdmin, questionApi),
     takeLatest(ExpertTypes.UPDATE_ANSWER, updateAnswer, questionApi),
+    takeLatest(ExpertTypes.GET_PROFILE_REQUEST, getProfileRequest, promotionApi),
+    takeLatest(ExpertTypes.ACCEPT_REQUEST, acceptRequest, promotionApi),
+    takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi),
 
     takeLatest(PromotionTypes.PROMOTION_REQUEST, getPromotion, promotionApi),
     takeLatest(PromotionTypes.SHARED_ANSWER, sharedAnswer, promotionApi),
     takeLatest(PromotionTypes.ADD_BONUS, addBonus, promotionApi),
-
-    takeLatest(PaymentTypes.PAYMENT_REQUEST, paymentRequest, promotionApi),
-    takeLatest(PaymentTypes.HISTORY_ADDPOINT_REQUEST, historyAddpointRequest, promotionApi),
-
-    takeLatest(PaymentTypes.SEND_SLIP_REQUEST, sendSlipRequest, promotionApi),
-    takeLatest(ExpertTypes.GET_PROFILE_REQUEST, getProfileRequest, promotionApi),
-    takeLatest(ExpertTypes.ACCEPT_REQUEST, acceptRequest, promotionApi),
-    takeLatest(PaymentTypes.CARD_REQUEST, cardRequest, promotionApi),
     takeLatest(PromotionTypes.PUBLISH_REQUEST, getPublish, promotionApi),
     takeLatest(PromotionTypes.GET_LOGIN_PRO, getLoginPromotion, promotionApi),
 
-    takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi),
+    takeLatest(PaymentTypes.PAYMENT_REQUEST, paymentRequest, promotionApi),
+    takeLatest(PaymentTypes.HISTORY_ADDPOINT_REQUEST, historyAddpointRequest, promotionApi),
+    takeLatest(PaymentTypes.SEND_SLIP_REQUEST, sendSlipRequest, promotionApi),
+    takeLatest(PaymentTypes.CARD_REQUEST, cardRequest, promotionApi),
     takeLatest(PaymentTypes.PAYPAL_REQUEST, paypalRequest55, promotionApi),
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),

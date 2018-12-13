@@ -194,3 +194,19 @@ export function* cancelPoint(api, { id, argument }) {
     alert(I18n.t('cancelFail'))
   }
 }
+
+export function* getAutoText55(api){
+  const aut = yield select(auth)
+
+  const data = {
+    user_id: aut.user_id
+  }
+
+  const response = yield call(api.getText, data)
+
+  if(response.ok){
+    yield put(ExpertActions.getAutoTextSuccess(response.data))
+  } else {
+    yield put(ExpertActions.getAutoTextFailure())
+  }
+}

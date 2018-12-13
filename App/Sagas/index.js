@@ -22,9 +22,12 @@ import { getUserAvatar } from './GithubSagas'
 import { signin, signinWithCredential, signup, createUser, changePassword, forgetPassword, saveDeviceToken } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion, getPublish, sharedAnswer, getLoginPromotion, addBonus } from './PromotionSagas'
-import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest, 
-  paypalRequest55, cardHistoryRequest } from './PaymentSagas'
-import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint } from './ExpertSagas'
+import {
+  paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest,
+  paypalRequest55, cardHistoryRequest, appleHistoryRequest
+} from './PaymentSagas'
+import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
+  getAutoText55 } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
   getListLeasing, getPriceallday, wantToBuy
@@ -67,8 +70,8 @@ export default function* root() {
     takeLatest(AuthTypes.CHANGE_PASSWORD, changePassword, authApi),
     takeLatest(AuthTypes.FORGET_PASSWORD, forgetPassword, authApi),
     takeLatest(AuthTypes.SAVE_DEVICE_TOKEN, saveDeviceToken, authApi),
-    
 
+    takeLatest(ExpertTypes.GET_AUTO_TEXT, getAutoText55, questionApi),
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
     takeLatest(QuestionTypes.ADD_QUESTION, addQuestion, questionApi),
@@ -99,6 +102,7 @@ export default function* root() {
     takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi),
     takeLatest(PaymentTypes.PAYPAL_REQUEST, paypalRequest55, promotionApi),
     takeLatest(PaymentTypes.CARD_HISTORY, cardHistoryRequest, promotionApi),
+    takeLatest(PaymentTypes.APPLE_HISTORY, appleHistoryRequest, promotionApi),
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
     // takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi)

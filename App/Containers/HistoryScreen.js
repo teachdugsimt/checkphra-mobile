@@ -87,13 +87,22 @@ class HistoryScreen extends Component {
     // }
     // *********************************************************************//
 
-
+    // data_question
     //beta algorithm test version
-    if (newProps.request_question == false && newProps.data_question != null) {
-      newProps.getHistory(1)
-      newProps.getProfile()
-      return {
-        data_history: newProps.history
+    // if (newProps.request_question == false && newProps.data_question != null) {
+    //   newProps.getHistory(1)
+    //   newProps.getProfile()
+    //   return {
+    //     data_history: newProps.history
+    //   }
+    // }
+    if (newProps.data_question && newProps.history && newProps.data_question.id && newProps.history[0]) {
+      if (newProps.data_question.id != newProps.history[0].id) {
+        newProps.getHistory(1)
+        newProps.getProfile()
+        return {
+          data_history: newProps.history
+        }
       }
     }
 
@@ -137,8 +146,37 @@ class HistoryScreen extends Component {
               status = I18n.t('success')
               color = 'green'
             }
-
-            let name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
+            let name = ''
+            if (item.type == '100 ปี พ.ศ.2515') {
+              name = I18n.t('year100era2515')
+            }
+            else if (item.type == '108 ปี พ.ศ.2523') {
+              name = I18n.t('year108era2523')
+            }
+            else if (item.type == '118 ปี พ.ศ.2533') {
+              name = I18n.t('year118era2533')
+            }
+            else if (item.type == '122 ปี พ.ศ.2537') {
+              name = I18n.t('year122era2537')
+            }
+            else if (item.type == 'เสาร์ 5 พ.ศ.2536') {
+              name = I18n.t('sat5era2536')
+            }
+            else if (item.type == 'เสาร์ 5 พ.ศ.2539') {
+              name = I18n.t('sat5era2539')
+            }
+            else if (item.type == '214 ปีชาตกาล พ.ศ.2545') {
+              name = I18n.t('year214era2545')
+            }
+            else if (item.type == 'บางขุนพรหม ปี พ.ศ.2509') {
+              name = I18n.t('BangKhunProm2509')
+            }
+            else if (item.type == 'บางขุนพรหม ปี พ.ศ.2517') {
+              name = I18n.t('BangKhunProm2517')
+            }
+            else {
+              name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
+            }
 
             if (item.status != "delete") {
               return (
@@ -159,7 +197,7 @@ class HistoryScreen extends Component {
                         color: Colors.brownText,
                         // margin: 20
                       }}>{name}</Text>
-                      <View style={{ flexDirection: 'row'}}>
+                      <View style={{ flexDirection: 'row' }}>
                         <Text style={{
                           fontFamily: 'Prompt-SemiBold',
                           fontSize: 12,
@@ -233,8 +271,8 @@ const mapStateToProps = (state) => {
     request2: state.question.request2,
     images: state.question.images,
     amulet: state.question.amuletType,
-    request_question: state.question.request,
-    data_question: state.question.data_question,
+    request_question: state.question.request,   // request add question
+    data_question: state.question.data_question,  // data when add question complete
     language: state.auth.language,
     // access_id: state.auth.user_id,
 

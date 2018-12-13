@@ -14,15 +14,18 @@ import { Colors, Images, Metrics } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
 import ImageViewer from 'react-native-image-zoom-viewer';
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 // Styles
 // import styles from './Styles/CheckListScreenStyle'
 import CheckBox from 'react-native-check-box'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 
-const deviceWidth = Dimensions.get('window').width
 // const { height } = Dimensions.get('window')
-const { width } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
+const slideAnimation = new SlideAnimation({
+  slideFrom: 'bottom',
+});
 
 class CheckPhraScreen extends Component {
   constructor(props) {
@@ -51,6 +54,7 @@ class CheckPhraScreen extends Component {
       checkNone3: false,
 
       interested: false,
+      autoText: null,
     }
   }
 
@@ -64,7 +68,7 @@ class CheckPhraScreen extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
+    this.props.getText()
   }
 
   // static navigationOptions = ({ navigation }) => {
@@ -88,6 +92,22 @@ class CheckPhraScreen extends Component {
   //     )
   //   };
   // };
+
+  static getDerivedStateFromProps(newProps, prevState) {
+    console.log(newProps)
+    console.log(prevState)
+
+    if (newProps.data_text) {
+      return {
+        autoText: newProps.data_text
+      }
+    }
+
+    return {
+      autoText: newProps.data_text
+    }
+  }
+
   _onPressButton = () => {
     let tmp = []
     let pack = []
@@ -238,6 +258,14 @@ class CheckPhraScreen extends Component {
     )
   }
 
+  pressAutoButton = () => {
+    this.popupDialog.show()
+  }
+  pressText = (item) => {
+    this.setState({ answer4: item })
+    this.popupDialog.dismiss()
+  }
+
   render() {
     I18n.locale = this.props.language
     let img = []
@@ -263,6 +291,26 @@ class CheckPhraScreen extends Component {
           height: width * 95.7 / 100
         }} resizeMode='contain' />
         <View style={{ flex: 1 }}>
+          <PopupDialog
+            dialogTitle={<DialogTitle title={'AutoText'} titleTextStyle={{ fontSize: 18, fontWeight: 'bold' }} />}
+            ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+            dialogAnimation={slideAnimation}
+            width={0.7}
+            height={height / 3.5}
+            // height={150}
+            onDismissed={() => { this.setState({}) }}
+          >
+            <View style={{ flex: 1 }}>
+              {this.state.autoText && this.state.autoText.map((e, i) => {
+                return <TouchableOpacity key={'auto' + i} onPress={() => this.pressText(e.text)} style={{
+                  flex: 1,
+                  borderBottomWidth: 1,
+                  borderBottomColor: 'white',
+                  backgroundColor: 'lightgrey'
+                }}><Text style={{ alignSelf: 'center', marginTop: 15, fontSize: 16, color: Colors.brownText }}>{e.text}</Text></TouchableOpacity>
+              })}
+            </View>
+          </PopupDialog>
 
           <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
             <ImageViewer
@@ -421,8 +469,13 @@ class CheckPhraScreen extends Component {
                       />
 
                       <Text style={{ marginLeft: 15 }}>{I18n.t('reason')}</Text>
-                      <TextInput key={i} value={this.state.answer4} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                        onChangeText={(text) => this.setState({ answer4: text })} />
+                      <View style={{ flexDirection: 'row' }}>
+                        <TextInput key={i} value={this.state.answer4} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, flex: 1 }}
+                          onChangeText={(text) => this.setState({ answer4: text })} />
+                        <View style={{ alignItems: 'flex-end', width: 35, height: 30, marginTop: 10, marginRight: 10 }}>
+                          {this.state.autoText && <TouchableOpacity style={{ backgroundColor: 'orange', width: 35, height: 30, borderRadius: 5, position: 'absolute' }} onPress={this.pressAutoButton}><Text style={{ alignSelf: 'center', marginVertical: 5 }}>Auto</Text></TouchableOpacity>}
+                        </View>
+                      </View>
 
                     </View>
                   )
@@ -461,7 +514,7 @@ class CheckPhraScreen extends Component {
                   )
                 } else if (
                   // e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation'
-                  e.question == 3
+                  e.question == 4
                 ) {
                   console.log("question 3")
                   return (
@@ -473,7 +526,7 @@ class CheckPhraScreen extends Component {
                             {/* disable question 3 */}
 
                             <CheckBox
-                              style={{ flex: 1, marginLeft: 20, marginVertical: 10 }}
+                              style={{ flex: 1, marginLeft: 20 }}
                               onClick={() => {
                                 this.setState({
                                   checkNone3: !this.state.checkNone3,
@@ -490,8 +543,9 @@ class CheckPhraScreen extends Component {
                             {/* disable question 3 */}
                           </View>
 
-                          <TextInput value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: 5 }}
-                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} /></View>
+                          <TextInput value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
+                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} />
+                        </View>
                       }
 
                       {this.props.language && (this.props.language == 'en' || this.props.language == 'en-US') &&
@@ -500,7 +554,7 @@ class CheckPhraScreen extends Component {
                             <Text style={{ flex: 2, marginLeft: 15 }}>3) {I18n.t('detailPhra')}</Text>
                             {/* disable question 3 */}
                             <CheckBox
-                              style={{ flex: 1, marginLeft: 8, marginBottom: 10 }}
+                              style={{ flex: 1, marginLeft: 8 }}
                               onClick={() => {
                                 this.setState({
                                   checkNone3: !this.state.checkNone3,
@@ -516,7 +570,7 @@ class CheckPhraScreen extends Component {
                             />
                           </View>
                           {/* disable question 3 */}
-                          <TextInput value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, marginTop: 15 }}
+                          <TextInput value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
                             onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} />
                         </View>
                       }
@@ -577,6 +631,8 @@ class CheckPhraScreen extends Component {
 
               </View>
 
+
+
               <View style={{ height: 40 }}>
               </View>
 
@@ -598,12 +654,15 @@ const mapStateToProps = (state) => {
     questionType: state.question.questionType,
     fetching: state.expert.fetch,
     language: state.auth.language,
+    fetch7: state.expert.fetch7, // for request automatic text
+    data_text: state.expert.data_text,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setAnswer: (pack, q_id, argument, interested) => dispatch(ExpertActions.expertRequest(pack, q_id, argument, interested))
+    setAnswer: (pack, q_id, argument, interested) => dispatch(ExpertActions.expertRequest(pack, q_id, argument, interested)),
+    getText: () => dispatch(ExpertActions.getAutoText()),
   }
 }
 

@@ -95,6 +95,8 @@ const create = (baseURL = b) => {
 
   const answerAdmin = (data) => api.get('answer/list', data)
 
+  const getText = (data) => api.get('automatic-text/list', data)
+
   return {
     // a list of the API functions from step 2
     getQuestionType,
@@ -111,6 +113,7 @@ const create = (baseURL = b) => {
     answerAdmin,
 
     updateAnswer,
+    getText,
 
     // moneyTransfer
   }

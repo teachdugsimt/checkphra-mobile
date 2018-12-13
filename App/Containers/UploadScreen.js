@@ -118,7 +118,49 @@ class UploadScreen extends Component {
       else if (e.name == 'พระบูชา' && e.id == 18) {
         name = I18n.t('phraBucha')
       }
-      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ' && e.id == 19) {
+      else if (e.name == 'พระวัดประสาทบุญญาวาส') {
+        name = I18n.t('phraWadPhrasatBunyawat')
+      }
+      else if (e.name == 'พระวัดระฆัง') {
+        name = I18n.t('phraWadRakung')
+      }
+      else if (e.name == '100 ปี พ.ศ.2515') {
+        name = I18n.t('year100era2515')
+      }
+      else if (e.name == '108 ปี พ.ศ.2523') {
+        name = I18n.t('year108era2523')
+      }
+      else if (e.name == '118 ปี พ.ศ.2533') {
+        name = I18n.t('year118era2533')
+      }
+      else if (e.name == '122 ปี พ.ศ.2537') {
+        name = I18n.t('year122era2537')
+      }
+      else if (e.name == 'เสาร์ 5 พ.ศ.2536') {
+        name = I18n.t('sat5era2536')
+      }
+      else if (e.name == 'เสาร์ 5 พ.ศ.2539') {
+        name = I18n.t('sat5era2539')
+      }
+      else if (e.name == '214 ปีชาตกาล พ.ศ.2545') {
+        name = I18n.t('year214era2545')
+      }
+      else if (e.name == 'หลวงพ่อหลิว') {
+        name = I18n.t('LuangPhorLhew')
+      }
+      else if (e.name == 'หลวงพ่อกวย') {
+        name = I18n.t('LuangPhorKauy')
+      }
+      else if (e.name == 'บางขุนพรหม') {
+        name = I18n.t('BangKhunProm')
+      }
+      else if (e.name == 'บางขุนพรหม ปี พ.ศ.2509') {
+        name = I18n.t('BangKhunProm2509')
+      }
+      else if (e.name == 'บางขุนพรหม ปี พ.ศ.2517') {
+        name = I18n.t('BangKhunProm2517')
+      }
+      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ') {
         name = I18n.t('otherOrUnknown')
       }
       item.push({
@@ -146,8 +188,8 @@ class UploadScreen extends Component {
     // }
 
     // console.log('-------------')
-    // console.log(nextProps)
-    // console.log(prevState)
+    console.log(nextProps)
+    console.log(prevState)
 
 
     if (nextProps.day != time11) {
@@ -201,7 +243,7 @@ class UploadScreen extends Component {
       item = UploadScreen.rename(amuletTypes)
     }
 
-    if (nextProps.data_amulet != null && nextProps.data_amulet != prevState.amuletType) {
+    if (nextProps.data_amulet != null && nextProps.data_aumlet != prevState.amuletType) {
       amuletTypes = nextProps.data_amulet.filter(e => !e.parent_id)
       item = UploadScreen.rename(amuletTypes)
     }
@@ -238,6 +280,14 @@ class UploadScreen extends Component {
       this.props.navigation.navigate("detail")
       checkButton = false
     }
+    else if(item.name == "พระวัดระฆัง" || item.name == "PhraWad Rakung"){
+      this.props.navigation.navigate("detail2")
+      checkButton = false
+    }
+    else if(item.name == "บางขุนพรหม" || item.name == "Bang Khun Prom"){
+      this.props.navigation.navigate("detail3")
+      checkButton = false
+    }
     else {
       this.props.setAmuletType(item.id)
       this.props.navigation.navigate("send")
@@ -251,32 +301,12 @@ class UploadScreen extends Component {
     // check_login = true
 
     this.props.checkVersion()
-
-    // const val = await AsyncStorage.getItem('addBonusPoint')
-    // if (!val) {
-    //   this.props.addBonus()
-    // }
-
-    // console.log(val)
-
     this.props.getAmuletType()
     this.props.getProfile()
     // this.props.setLanguage(I18n.locale)
     this.props.clearDataQuestion()
     this.props.getPublish()
     this.props.getLoginPro()
-    // this.props.setModal(true)
-    // if (this.props.profile) {
-    //   if (this.props.profile.count == 7 || (this.props.profile.count % 7) == 0) {
-    //     Alert.alert(
-    //       'Check Phra',
-    //       I18n.t('loginSuccess'),
-    //       [
-    //         { text: I18n.t('ok') }
-    //       ],
-    //     )
-    //   }
-    // }
     this.getDeviceToken()
 
   }
@@ -512,7 +542,7 @@ class UploadScreen extends Component {
         </Modal>}
 
         <Spinner
-          visible={(this.props.request_publish || this.props.request_amulet || this.props.request_promotionlogin)}
+          visible={((this.props.request_publish || this.props.request_amulet) || this.props.request_promotionlogin)}
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
         />

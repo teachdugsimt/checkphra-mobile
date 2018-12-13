@@ -229,12 +229,42 @@ class CheckListScreen extends Component {
             let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
             let status = 'รอตรวจ'
             let color = 'orange'
+            let name = ''
             if (item.status == 'success') {
               status = 'ตรวจแล้ว'
               color = 'green'
             }
-
-            let name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
+            
+            if (item.type == '100 ปี พ.ศ.2515') {
+              name = I18n.t('year100era2515')
+            } 
+            else if(item.type == '108 ปี พ.ศ.2523'){
+              name = I18n.t('year108era2523')
+            }
+            else if(item.type == '118 ปี พ.ศ.2533'){
+              name = I18n.t('year118era2533')
+            }
+            else if(item.type == '122 ปี พ.ศ.2537'){
+              name = I18n.t('year122era2537')
+            }
+            else if(item.type == 'เสาร์ 5 พ.ศ.2536'){
+              name = I18n.t('sat5era2536')
+            }
+            else if(item.type == 'เสาร์ 5 พ.ศ.2539'){
+              name = I18n.t('sat5era2539')
+            }
+            else if(item.type == '214 ปีชาตกาล พ.ศ.2545'){
+              name = I18n.t('year214era2545')
+            }
+            else if(item.type == 'บางขุนพรหม ปี พ.ศ.2509'){
+              name = I18n.t('BangKhunProm2509')
+            }
+            else if(item.type == 'บางขุนพรหม ปี พ.ศ.2517'){
+              name = I18n.t('BangKhunProm2517')
+            }
+            else {
+              name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
+            }
 
             return (
               <TouchableOpacity onPress={() => {

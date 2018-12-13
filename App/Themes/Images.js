@@ -36,6 +36,7 @@ const images = {
   nonePic: require('../Images/none_1.png'),
   fb: require('../Images/fb_icon.png'),
   card3: require('../Images/card3.png'),
+  applepay: require('../Images/applepay.png'),
 }
 
 export default images

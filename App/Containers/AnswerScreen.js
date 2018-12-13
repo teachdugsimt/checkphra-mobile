@@ -325,7 +325,7 @@ class AnswerScreen extends Component {
                       }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
                     </View>
                   )
-                } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
+                } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด' || e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง') {
                   if (e.result != 'ไม่ออกผล') {
                     coins += 10
                   }

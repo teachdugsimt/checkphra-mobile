@@ -38,6 +38,12 @@ const { Types, Creators } = createActions({
   cardHistoryFailure: null,
   cardHistorySuccess2: ['data'],
   cardHistoryFailure2: null,
+  
+  appleHistory: ['page'],
+  appleHistorySuccess: ['data'],
+  appleHistoryFailure: null,
+  appleHistorySuccess2: ['data'],
+  appleHistoryFailure2: null,
 
   setPackage: ['data'],
   clearRequest: null,
@@ -73,6 +79,9 @@ export const INITIAL_STATE = Immutable({
 
   request5: null,  // request for add coin by credit card
   data_cardHistory: null,
+
+  request6: null,  // request for add coin by apple
+  data_appleHistory: null, 
 })
 
 /* ------------- Selectors ------------- */
@@ -183,6 +192,23 @@ export const cardHistorySuccess2 = (state, { data }) => {
   return state.merge({ data_cardHistory: tmp, request5: false })
 }
 export const cardHistoryFailure2 = state => state.merge({ request5: false })
+
+export const appleHistory = state => state.merge({ request6: true })
+export const appleHistorySuccess = (state, { data }) => { 
+  return state.merge({ request6: false, data_appleHistory: data }) 
+}
+export const appleHistoryFailure = state => state.merge({ request6: false })
+export const appleHistorySuccess2 = (state, { data }) => {
+  let tmp = [...state.data_appleHistory]
+  // data.forEach(e => tmp.push(e))
+  data.forEach(e => {
+    if (tmp.find(b => b.id == e.id)) {
+      console.log('SAME VALUE')
+    } else { tmp.push(e) }
+  })
+  return state.merge({ data_appleHistory: tmp, request6: false })
+}
+export const appleHistoryFailure2 = state => state.merge({ request6: false })
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -221,6 +247,13 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CARD_HISTORY_FAILURE]: cardHistoryFailure,
   [Types.CARD_HISTORY_SUCCESS2]: cardHistorySuccess2,
   [Types.CARD_HISTORY_FAILURE2]: cardHistoryFailure2,
+
+  [Types.APPLE_HISTORY]: appleHistory,
+  [Types.APPLE_HISTORY_SUCCESS]: appleHistorySuccess,
+  [Types.APPLE_HISTORY_FAILURE]: appleHistoryFailure,
+  [Types.APPLE_HISTORY_SUCCESS2]: appleHistorySuccess2,
+  [Types.APPLE_HISTORY_FAILURE2]: appleHistoryFailure2,
+
 
   [Types.SET_PACKAGE]: setPackage001,
 })

@@ -26,6 +26,10 @@ import UserBit2 from '../Containers/UserBit2'
 import LeasingAdmin from '../Containers/LeasingAdmin'
 import CardVerifyPoint from '../Containers/CardVerifyPoint'
 import CardVerifyPoint2 from '../Containers/CardVerifyPoint2'
+import AppleVerifyPoint from '../Containers/AppleVerifyPoint'
+import AppleVerifyPoint2 from '../Containers/AppleVerifyPoint2'
+import DetailTypeScreen2 from '../Containers/DetailTypeScreen2'
+import DetailTypeScreen3 from '../Containers/DetailTypeScreen3'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -98,6 +102,20 @@ const UploadStack = StackNavigator(  // main upload
     },
     detail: {
       screen: DetailTypeScreen,
+      navigationOptions: {
+        title: I18n.t('selectAmuletType'),
+        // headerTintColor: Colors.headerTitleColor
+      }
+    },
+    detail2: {
+      screen: DetailTypeScreen2,
+      navigationOptions: {
+        title: I18n.t('selectAmuletType'),
+        // headerTintColor: Colors.headerTitleColor
+      }
+    },
+    detail3: {
+      screen: DetailTypeScreen3,
       navigationOptions: {
         title: I18n.t('selectAmuletType'),
         // headerTintColor: Colors.headerTitleColor
@@ -540,6 +558,38 @@ const CardStack = StackNavigator({ // HISTORY ADD COIN BY CREDIT CARD
     })
   })
 
+
+const AppleStack = StackNavigator({ // HISTORY ADD COIN BY CREDIT CARD
+  apple: {
+    screen: AppleVerifyPoint,
+    navigationOptions: {
+      // title: I18n.t('pendingCoin')
+    }
+  },
+  apple2: {
+    screen: AppleVerifyPoint2,
+    navigationOptions: {
+      // title: I18n.t('detailCoin')
+    }
+  }
+}, {
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      header: false,
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
+      // tabBarLabel: I18n.t('pendingCoin'),
+      tabBarLabel: I18n.t('apple'),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
+    })
+  })
+
 const VerifyStack = StackNavigator({ // HISTORY ADD COIN BY BANKING
   check: {
     screen: VerifyPoint,
@@ -577,6 +627,7 @@ const MoneyStack = TabNavigator(      // MONEY TRANSACTIONS
   {
     cardTran: VerifyStack,
     bankTran: CardStack,
+    apple: AppleStack,
   },
   {
     tabBarOptions: {

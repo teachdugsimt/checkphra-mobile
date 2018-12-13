@@ -207,3 +207,48 @@ export function* cardHistoryRequest(api, { page }) {
   }
 
 }
+
+export function* appleHistoryRequest(api, { page, type }) {
+  if (page == 1) {
+    const aut = yield select(auth)
+    // console.log(page)
+    if (!aut.user_id) { return }
+
+    const data = {
+      user_id: aut.user_id,
+      page_number: page,
+      platform: 'ios'
+    }
+
+    const response = yield call(api.cardHistory, data)
+    console.log(response)
+    console.log('---------------- ADD COIN BY CREDIT CARD APPLE ------------------')
+    if (response.ok) {
+      yield put(PaymentActions.appleHistorySuccess(response.data))
+    } else {
+      yield put(PaymentActions.appleHistoryFailure())
+      // alert(I18n.t('historyFailure'))
+    }
+  } else {
+    const aut = yield select(auth)
+    // console.log(page)
+    if (!aut.user_id) { return }
+
+    const data = {
+      user_id: aut.user_id,
+      page_number: page,
+      platform: 'ios'
+    }
+
+    const response = yield call(api.cardHistory, data)
+    console.log(response)
+    console.log('---------------- ADD COIN BY CREDIT CARD APPLE ------------------')
+    if (response.ok) {
+      yield put(PaymentActions.appleHistorySuccess2(response.data))
+    } else {
+      yield put(PaymentActions.appleHistoryFailure2())
+      // alert(I18n.t('historyFailure'))
+    }
+  }
+
+}

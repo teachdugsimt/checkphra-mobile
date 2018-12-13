@@ -135,9 +135,9 @@ export const setAmuletType = (state, { amuletType }) => {
 export const setQuestions = (state, { questions }) => {
   let q = []
   questions.forEach(element => {
-    if (element.name == "พระแท้ / ไม่แท้" || element.name == "พระแท้/ไม่แท้" || element.name == "Real amulet / Fake amulet" || element.name == "Real amulet/Fake amulet" && element.isChecked == false) {
+    if ((element.name == "พระแท้ / ไม่แท้" || element.name == "พระแท้/ไม่แท้" || element.name == "Real amulet / Fake amulet" || element.name == "Real amulet/Fake amulet") && element.isChecked == false) {
       q.push(element.id)
-    } else if (element.name == "พระแท้ / ไม่แท้" || element.name == "พระแท้/ไม่แท้" || element.name == "Real amulet / Fake amulet" || element.name == "Real amulet/Fake amulet" && element.isChecked) {
+    } else if ((element.name == "พระแท้ / ไม่แท้" || element.name == "พระแท้/ไม่แท้" || element.name == "Real amulet / Fake amulet" || element.name == "Real amulet/Fake amulet") && element.isChecked) {
       q.push(element.id)
     } else {
       if (element.isChecked) {
@@ -162,7 +162,11 @@ export const setStartQuestion = (state, { index, num }) => {
     q[index] = num
   } else {    // กรณีส่งแล้วไม่ติ๊กข้อแรก
     console.log('not have first')
-    q = chk
+    q = JSON.parse(JSON.stringify(chk))
+    if (q.indexOf(1) == -1) {
+      q.splice(0, 0, 1)
+    }
+    // q[index] = num
     console.log(q)
   }
   // console.log(q)
@@ -200,7 +204,7 @@ export const clearForm = state => state.merge({
   images: [],
   questions: [],
   amuletID: 0,
-  request: false,
+  request: null,
   request2: false,
 })
 

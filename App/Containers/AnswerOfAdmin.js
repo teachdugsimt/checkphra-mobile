@@ -125,10 +125,45 @@ class AnswerOfAdmin extends Component {
 
   _pressBit2 = () => {
     // console.log('FUCK YEAH555')
-    this.props.trading(this.state.phra_bit.q_id, this.state.price)
+    this.props.wantBuy(this.state.phra_bit.q_id, true)
     this.props.editFullData2(this.state.phra_bit.q_id)
     // this.props.getAnswer(1)
     this.popupDialog.dismiss()
+  }
+
+  rename = (item) => {
+    let name = ''
+    if (item == '100 ปี พ.ศ.2515') {
+      name = I18n.t('year100era2515')
+    } 
+    else if(item == '108 ปี พ.ศ.2523'){
+      name = I18n.t('year108era2523')
+    }
+    else if(item == '118 ปี พ.ศ.2533'){
+      name = I18n.t('year118era2533')
+    }
+    else if(item == '122 ปี พ.ศ.2537'){
+      name = I18n.t('year122era2537')
+    }
+    else if(item == 'เสาร์ 5 พ.ศ.2536'){
+      name = I18n.t('sat5era2536')
+    }
+    else if(item == 'เสาร์ 5 พ.ศ.2539'){
+      name = I18n.t('sat5era2539')
+    }
+    else if(item == '214 ปีชาตกาล พ.ศ.2545'){
+      name = I18n.t('year214era2545')
+    }
+    else if(item == 'บางขุนพรหม ปี พ.ศ.2509'){
+      name = I18n.t('BangKhunProm2509')
+    }
+    else if(item == 'บางขุนพรหม ปี พ.ศ.2517'){
+      name = I18n.t('BangKhunProm2517')
+    }
+    else {
+      name = item == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item)
+    }
+    return name
   }
 
 
@@ -149,11 +184,11 @@ class AnswerOfAdmin extends Component {
         <PopupDialog
           dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
             fontSize: 18, fontWeight: 'bold'
-          }}>{I18n.t('bid')}</Text></View>}
+          }}>{I18n.t('interest')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           dialogAnimation={slideAnimation}
           width={width / 1.5}
-          height={height / 3}
+          height={height / 3.5}
           // height={150}
           onDismissed={() => { this.setState({ price: null }) }}
         >
@@ -163,20 +198,21 @@ class AnswerOfAdmin extends Component {
               fontSize: 18,
               fontFamily: 'Prompt-SemiBold',
               alignSelf: 'center',
-            }}>{this.state.phra_bit ? (this.state.phra_bit.type == 'อื่นๆ หรือ ไม่ทราบ' || this.state.phra_bit.type == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : I18n.t(this.state.phra_bit.type)) : ''}</Text>
-            <TextInput style={{ width: '75%', alignSelf: 'center' }}
-              value={this.state.price}
-              textAlign={'center'}
-              onChangeText={(text) => this.setState({ price: text })}
-              placeholder={I18n.t('inputBit')} />
+            }}>{this.state.phra_bit ? (this.state.phra_bit.type == 'อื่นๆ หรือ ไม่ทราบ' || this.state.phra_bit.type == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : this.rename(this.state.phra_bit.type)) : ''}</Text>
 
-            {this.state.price && <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
+            <Text style={{
+              color: Colors.brownText,
+              fontSize: 18,
+              fontFamily: 'Prompt-SemiBold',
+              alignSelf: 'center',
+            }}>{I18n.t('submitTransaction')}</Text>
+            <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
               <RoundedButton
                 style={{ marginHorizontal: 10 }}
                 title={I18n.t('ok')}
                 onPress={this._pressBit2}
               />
-            </View>}
+            </View>
           </View>
         </PopupDialog>
 
@@ -197,62 +233,35 @@ class AnswerOfAdmin extends Component {
             let tmp = this.props.full_data2 && this.props.full_data2.length > 0 ? this.props.full_data2.find(e => e.qid == item.q_id) : null
 
             let name = ''
-            if (item.type == 'เบญจภาคี') {
-              name = I18n.t('benjapakee')
+            if (item.type == '100 ปี พ.ศ.2515') {
+              name = I18n.t('year100era2515')
             }
-            else if (item.type == 'พระสมเด็จ') {
-              name = I18n.t('phraSomdej')
+            else if (item.type == '108 ปี พ.ศ.2523') {
+              name = I18n.t('year108era2523')
             }
-            else if (item.type == 'นางพญา') {
-              name = I18n.t('phraNangPaya')
+            else if (item.type == '118 ปี พ.ศ.2533') {
+              name = I18n.t('year118era2533')
             }
-            else if (item.type == 'พระคง') {
-              name = I18n.t('phraKhong')
+            else if (item.type == '122 ปี พ.ศ.2537') {
+              name = I18n.t('year122era2537')
             }
-            else if (item.type == 'พระรอด') {
-              name = I18n.t('phraRod')
+            else if (item.type == 'เสาร์ 5 พ.ศ.2536') {
+              name = I18n.t('sat5era2536')
             }
-            else if (item.type == 'พระผงสุพรรณ') {
-              name = I18n.t('phraPhongSuphan')
+            else if (item.type == 'เสาร์ 5 พ.ศ.2539') {
+              name = I18n.t('sat5era2539')
             }
-            else if (item.type == 'พระซุ้มกอ') {
-              name = I18n.t('phraSoomkor')
+            else if (item.type == '214 ปีชาตกาล พ.ศ.2545') {
+              name = I18n.t('year214era2545')
             }
-            else if (item.type == 'พระกำแพงเม็ดขนุน') {
-              name = I18n.t('phraKampaengMedKanun')
+            else if (item.type == 'บางขุนพรหม ปี พ.ศ.2509') {
+              name = I18n.t('BangKhunProm2509')
             }
-            else if (item.type == 'หลวงปู่ทวด') {
-              name = I18n.t('luangPuTuad')
+            else if (item.type == 'บางขุนพรหม ปี พ.ศ.2517') {
+              name = I18n.t('BangKhunProm2517')
             }
-            else if (item.type == 'หลวงปู่หมุน') {
-              name = I18n.t('luangPuMoon')
-            }
-            else if (item.type == 'พระกรุ') {
-              name = I18n.t('phraKru')
-            }
-            else if (item.type == 'เหรียญปั้ม') {
-              name = I18n.t('pumpCoin')
-            }
-            else if (item.type == 'เหรียญหล่อ') {
-              name = I18n.t('castingCoin')
-            }
-            else if (item.type == 'พระผง') {
-              name = I18n.t('phraPhong')
-            }
-            else if (item.type == 'พระกริ่ง') {
-              name = I18n.t('phraKring')
-            }
-            else if (item.type == 'พระปิดตา') {
-              name = I18n.t('phraPidta')
-            }
-            else if (item.type == 'เครื่องราง') {
-              name = I18n.t('amulet')
-            }
-            else if (item.type == 'พระบูชา') {
-              name = I18n.t('phraBucha')
-            }
-            else if (item.type == 'อื่นๆ หรือ ไม่ทราบ' || item.type == 'ไม่ระบุประเภท') {
-              name = I18n.t('otherOrUnknown')
+            else {
+              name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
             }
 
             if (this.props.full_data2 != null && this.props.full_data2.length > 0)
@@ -287,16 +296,17 @@ class AnswerOfAdmin extends Component {
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 0.35, height: 80 }}>
 
-                      {/* {item && tmp && tmp.bid_status && tmp.bid_status == 'can' && !item.bid_status && (item.answer[0].result == 'พระแท้ไม่รู้ที่' || item.answer[0].result == 'พระแท้ย้อนยุค' || item.answer[0].result == 'พระแท้') && <TouchableOpacity style={{
-                                                backgroundColor: 'green',
-                                                height: 30, borderRadius: 15, width: '85%', marginVertical: 5, justifyContent: 'center'
-                                            }} onPress={() => this._pressBit(item)}>
-                                                <Text style={{
-                                                    fontFamily: 'Prompt-SemiBold',
-                                                    fontSize: 15, color: 'white', alignSelf: 'center'
-                                                }}>{I18n.t('bid2')}</Text>
-                                            </TouchableOpacity>} */}
-                      <View style={{
+                      {item && tmp && tmp.bid_status && tmp.bid_status == 'can' && !item.bid_status && (item.answer[0].result == 'พระแท้ไม่รู้ที่' || item.answer[0].result == 'พระแท้ย้อนยุค' || item.answer[0].result == 'พระแท้') && <TouchableOpacity style={{
+                        backgroundColor: 'green',
+                        height: 30, borderRadius: 15, width: '85%', marginVertical: 5, justifyContent: 'center'
+                      }} onPress={() => this._pressBit(item)}>
+                        <Text style={{
+                          fontFamily: 'Prompt-SemiBold',
+                          fontSize: 15, color: 'white', alignSelf: 'center'
+                        }}>{I18n.t('bid2')}</Text>
+                      </TouchableOpacity>}
+
+                      {/* <View style={{
                         backgroundColor: 'orange',
                         height: 30, borderRadius: 15, width: '85%', marginVertical: 5, justifyContent: 'center'
                       }} onPress={() => this._pressBit(item)}>
@@ -304,9 +314,7 @@ class AnswerOfAdmin extends Component {
                           fontFamily: 'Prompt-SemiBold',
                           fontSize: 15, color: 'white', alignSelf: 'center'
                         }}>{I18n.t('edit')}</Text>
-                      </View>
-                      <View>
-                      </View>
+                      </View> */}
 
                     </View>
 
@@ -347,6 +355,8 @@ const mapDispatchToProps = (dispatch) => {
     trading: (qid, message) => dispatch(TradingActions.tradingRequest(qid, message)),
     setFullData2: (data) => dispatch(TradingActions.setFullData2(data)),
     editFullData2: (qid) => dispatch(TradingActions.editFullData2(qid)),
+    wantBuy: (qid, interest) => dispatch(TradingActions.wantBuy(qid, interest)),
+    // setAnswer: (pack, q_id, argument, interested) => dispatch(ExpertActions.expertRequest(pack, q_id, argument, interested))
   }
 }
 

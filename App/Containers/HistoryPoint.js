@@ -130,7 +130,10 @@ class HistoryPoint extends Component {
     }
 
     _renderItem = ({ item, index }) => {
-        // console.log(item)
+        // type=1 banking
+        // type=2 promptpay
+        // type=3 credit-card
+        console.log(item)
         let color = item.status == 0 ? 'orange' : 'green'
         if(item.status == 0){
             color = 'orange'
@@ -148,7 +151,7 @@ class HistoryPoint extends Component {
                             size={26}
                             color={Colors.brownText}
                             style={{ marginLeft: 15 }} /> */}
-                        <Image source={Images.coin0} style={{ width: 25, height: 25, marginLeft: 10 }} />
+                        <Image source={item.type == '3' ? Images.card3 : Images.coin0} style={{ width: 27, height: 27, marginLeft: 10 }} />
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, width: '85%' }}>

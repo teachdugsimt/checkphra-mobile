@@ -142,18 +142,23 @@ class Bit extends Component {
                     renderItem={({ item }) => {
                         let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
                         // let status = 'รอตรวจ'
+                        let dice = null
                         let color = ''
                         let message = ''
                         if (item.status == 'approve') {
+                            dice = '100%'
                             color = 'green'
                             message = I18n.t('approve')
                         } else if (item.status == 'bargain') {
+                            dice = '94%'
                             color = 'orange'
                             message = I18n.t('bargain')
                         } else if (item.status == 'cancel') {
+                            dice = '100%'
                             color = 'red'
                             message = I18n.t('cancelHire')
                         } else if (item.status == 'interested') {
+                            dice = '94%'
                             color = '#579AEE'
                             message = I18n.t('interest')
                         }
@@ -161,7 +166,37 @@ class Bit extends Component {
                         // approve - ยอมรับข้อเสนอ - green
                         // cancel - ปฏิเสธข้อเสนอ - red
                         // bargain - กำลังต่อรอง - orange
-                        let name = item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
+                        let name = ''
+                        if (item.answer.type == '100 ปี พ.ศ.2515') {
+                            name = I18n.t('year100era2515')
+                          } 
+                          else if(item.answer.type == '108 ปี พ.ศ.2523'){
+                            name = I18n.t('year108era2523')
+                          }
+                          else if(item.answer.type == '118 ปี พ.ศ.2533'){
+                            name = I18n.t('year118era2533')
+                          }
+                          else if(item.answer.type == '122 ปี พ.ศ.2537'){
+                            name = I18n.t('year122era2537')
+                          }
+                          else if(item.answer.type == 'เสาร์ 5 พ.ศ.2536'){
+                            name = I18n.t('sat5era2536')
+                          }
+                          else if(item.answer.type == 'เสาร์ 5 พ.ศ.2539'){
+                            name = I18n.t('sat5era2539')
+                          }
+                          else if(item.answer.type == '214 ปีชาตกาล พ.ศ.2545'){
+                            name = I18n.t('year214era2545')
+                          }
+                          else if(item.answer.type == 'บางขุนพรหม ปี พ.ศ.2509'){
+                            name = I18n.t('BangKhunProm2509')
+                          }
+                          else if(item.answer.type == 'บางขุนพรหม ปี พ.ศ.2517'){
+                            name = I18n.t('BangKhunProm2517')
+                          }
+                          else {
+                            name = item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
+                          }
 
                         return (
                             <TouchableOpacity onPress={() => {
@@ -196,13 +231,13 @@ class Bit extends Component {
                                             }}> ( {item.qid} )</Text>
                                         </View>
                                     </View>
-                                    <View style={{ width: width / 2.7, justifyContent: 'center', alignItems: 'center' }}>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', height: 80, width: width / 3.3 }}>
                                         <Text style={{
                                             fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             color: 'white',
-                                            margin: 20,
-                                            paddingHorizontal: 20,
+                                            margin: 15,
+                                            paddingHorizontal: 15,
                                             paddingTop: 2.5,
                                             borderRadius: 15,
                                             height: 30,

@@ -142,7 +142,7 @@ class AnswerOfAdmin2 extends Component {
         } else {
           this.setState({ answer2: e.result })
         }
-      } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
+      } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ / ชื่อวัด') {
         if (e.result == 'ไม่ออกผล') {
           this.setState({ checkans3: false, answer3: 'ไม่ออกผล' })
         } else {
@@ -330,7 +330,7 @@ class AnswerOfAdmin2 extends Component {
                         onChangeText={(text) => this.setState({ answer2: text })} editable={this.state.checkans2} />
                     </View>
                   )
-                } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
+                } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด' || e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง') {
                   // this.setState({ answer3: e.result })
                   return (
                     <View style={{ marginHorizontal: 15, backgroundColor: '#fff5', padding: 10, borderRadius: 10, marginTop: 10 }}>

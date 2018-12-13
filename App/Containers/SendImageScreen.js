@@ -94,7 +94,7 @@ class SendImageScreen extends Component {
             name = I18n.t('trueFalse')
           } else if (e.name == 'ราคาประเมินเช่าพระเครื่อง' || e.name == 'ประเมินราคาพระ') {
             name = I18n.t('pricePhra')
-          } else if (e.name == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.name == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
+          } else if (e.name == 'ชื่อหลวงพ่อ / ชื่อวัด' || e.name == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง') {
             name = I18n.t('detailPhra')
           }
           qtype.push({
@@ -124,12 +124,9 @@ class SendImageScreen extends Component {
     // }
 
     let qdata = nextProps.questionData
-    if (nextProps.questionData != prevState.questionData
-      && (nextProps.request == false /*|| nextProps.request == true*/)) {
-
+    if (nextProps.questionData != prevState.questionData && (nextProps.request == false || nextProps.request == true)) {
       // if (chk2 == true) {
       nextProps.getProfile()
-
       setTimeout(() => {
         Alert.alert(
           'Check Phra',
@@ -155,6 +152,7 @@ class SendImageScreen extends Component {
   }
 
   componentDidMount() {
+    
     this.props.getProfile()
     this.props.getQuestionType()
     chk = true

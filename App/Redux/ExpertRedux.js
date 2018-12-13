@@ -42,6 +42,10 @@ const { Types, Creators } = createActions({
   editFullData: ['id'],
   // editFullData: ['id', 'status'],
 
+  getAutoText: null,
+  getAutoTextSuccess: ['data'],
+  getAutoTextFailure: null,
+
   clearSendAnswer: null,
   clearGetAnswer: null,
   clearUpdateRequest: null
@@ -81,6 +85,9 @@ export const INITIAL_STATE = Immutable({
 
   answer_detail: null,
 
+  fetch7: null, // for request automatic text
+  data_text: null,
+
 })
 
 /* ------------- Selectors ------------- */
@@ -90,6 +97,10 @@ export const ExpertSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const getAutoText = state => state.merge({ fetch7: true })
+export const getAutoTextSuccess = (state, { data }) => state.merge({ fetch7: false, data_text: data })
+export const getAutoTextFailure = state => state.merge({ fetch7: false })
 
 export const clearSendAnswer = state => state.merge({ fetch: null })
 export const requestAnswer = (state) => state.merge({ fetch: true })
@@ -230,6 +241,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ANSWER_FAILURE]: answerFailure,
   [Types.ANSWER_SUCCESS2]: answerSuccess2,
   [Types.ANSWER_FAILURE2]: answerFailure2,
+
+  [Types.GET_AUTO_TEXT]: getAutoText,
+  [Types.GET_AUTO_TEXT_SUCCESS]: getAutoTextSuccess,
+  [Types.GET_AUTO_TEXT_FAILURE]: getAutoTextFailure,
 
   [Types.CLEAR_ACCEPT_REQUEST]: clearAcceptRequest,
   [Types.SET_FULL_DATA]: setFullData,

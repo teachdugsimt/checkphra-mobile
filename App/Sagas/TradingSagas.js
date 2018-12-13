@@ -216,3 +216,23 @@ export function* getListLeasing(api, { page }) {
     }
   }
 }
+
+
+export function* wantToBuy(api, { qid, interest }) {
+  const aut = yield select(auth)
+ 
+  const data = {
+    user_id: aut.user_id,
+    qid,
+    interested: interest
+  }
+
+  const response = yield call(api.wantToBuy, data)
+  console.log(response)
+  console.log('===================WANT TO BUY API ====================')
+  if (response.ok) {
+    yield put(TradingActions.wantSuccess())
+  } else {
+    yield put(TradingActions.wantFailure())
+  }
+}

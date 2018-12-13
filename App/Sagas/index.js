@@ -22,11 +22,15 @@ import { getUserAvatar } from './GithubSagas'
 import { signin, signinWithCredential, signup, createUser, changePassword, forgetPassword, saveDeviceToken } from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion, getPublish, sharedAnswer, getLoginPromotion, addBonus } from './PromotionSagas'
-import { paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest, paypalRequest55 } from './PaymentSagas'
-import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint } from './ExpertSagas'
+import {
+  paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest,
+  paypalRequest55, cardHistoryRequest, appleHistoryRequest
+} from './PaymentSagas'
+import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
+  getAutoText55 } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
-  getListLeasing, getPriceallday
+  getListLeasing, getPriceallday, wantToBuy
 } from './TradingSagas'
 import { getVersion } from './VersionSagas'
 /* ------------- API ------------- */
@@ -57,6 +61,7 @@ export default function* root() {
     takeLatest(TradingTypes.SHARED_LEASING, sharedLeasing555, tradeApi),
     takeLatest(TradingTypes.GET_LEASING_ADMIN, getListLeasing, tradeApi),
     takeLatest(TradingTypes.GET_PRICE_LEASING, getPriceallday, tradeApi),
+    takeLatest(TradingTypes.WANT_BUY, wantToBuy, tradeApi),
 
     takeLatest(AuthTypes.SIGNIN_REQUEST, signin, authApi),
     takeLatest(AuthTypes.SIGNIN_WITH_CREDENTIAL, signinWithCredential, authApi),
@@ -66,6 +71,7 @@ export default function* root() {
     takeLatest(AuthTypes.FORGET_PASSWORD, forgetPassword, authApi),
     takeLatest(AuthTypes.SAVE_DEVICE_TOKEN, saveDeviceToken, authApi),
 
+    takeLatest(ExpertTypes.GET_AUTO_TEXT, getAutoText55, questionApi),
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
     takeLatest(QuestionTypes.ADD_QUESTION, addQuestion, questionApi),
@@ -92,6 +98,8 @@ export default function* root() {
     takeLatest(PaymentTypes.SEND_SLIP_REQUEST, sendSlipRequest, promotionApi),
     takeLatest(PaymentTypes.CARD_REQUEST, cardRequest, promotionApi),
     takeLatest(PaymentTypes.PAYPAL_REQUEST, paypalRequest55, promotionApi),
+    takeLatest(PaymentTypes.CARD_HISTORY, cardHistoryRequest, promotionApi),
+    takeLatest(PaymentTypes.APPLE_HISTORY, appleHistoryRequest, promotionApi),
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
     // takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi)

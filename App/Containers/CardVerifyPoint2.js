@@ -15,18 +15,19 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 // I18n.currentLocale();
+
 const { width } = Dimensions.get('window')
-class VerifyPoint2 extends Component {
+class CardVerifyPoint2 extends Component {
 
     static navigationOptions = ({ navigation }) => {
         // console.log(navigation)
         // console.log(I18n.locale)
-
+    
         return {
-            title: I18n.t('ansdetailCoinwer'),
+          title: I18n.t('ansdetailCoinwer'),
         }
-    }
-
+      }
+    
     constructor(props) {
         super(props)
         this.state = {
@@ -74,29 +75,11 @@ class VerifyPoint2 extends Component {
     render() {
         I18n.locale = this.props.language
         let tmp_chk = this.props.full_data.find(e => e.id == this.props.item.id)
-        let status = this.props.item.status == 10 || tmp_chk.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
-        let status_color = this.props.item.status == 10 || tmp_chk.status == 10 ? 'green' : 'orange'
+        let status = this.props.item.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
+        let status_color = this.props.item.status == 10  ? 'green' : 'orange'
         let product = this.props.item.price
         let time = this.props.item.date.slice(11, this.props.item.date.length - 3)
 
-        // let bank55 = ''
-        // if (this.props.item.bank == 'ธนาคารทหารไทย') {
-        //     bank55 = I18n.t('tmbBanking')
-        // } else if (this.props.item.bank == 'ธนาคารธนชาต') {
-        //     bank55 = I18n.t('thanaBanking')
-        // } else if (this.props.item.bank == 'ธนาคารไทยพาณิชย์') {
-        //     bank55 = I18n.t('scbBanking')
-        // } else if (this.props.item.bank == 'ธนาคารกสิกรไทย') {
-        //     bank55 = I18n.t('kBanking')
-        // } else if (this.props.item.bank == 'ธนาคารกรุงศรีอยุธยา') {
-        //     bank55 = I18n.t('krugsriBanking')
-        // } else if (this.props.item.bank == 'ธนาคารกรุงไทย') {
-        //     bank55 = I18n.t('krungthaiBanking')
-        // } else if (this.props.item.bank == 'ธนาคารกรุงเทพ') {
-        //     bank55 = I18n.t('krungtepBanking')
-        // } else {
-        //     bank55 = this.props.item.bank
-        // }
         let type = this.props.item.bank ? I18n.t('banking') : 'credit-card'
         // console.log(this.props.item)
         // console.log(tmp_chk)
@@ -107,34 +90,32 @@ class VerifyPoint2 extends Component {
         // console.log(img2)
         return (
             <View style={{ flex: 1 }}>
-                
-
-                <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', height: 60, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', height: 80, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }}>
                     <Text style={{ color: status_color, fontSize: 20 }}>{status}</Text>
                 </View>
 
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('priceProduct')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{product} ฿</Text>
                 </View>
 
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionTime')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{time}</Text>
                 </View>
 
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionType')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{type}</Text>
                 </View>
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionID')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{this.props.item.id}</Text>
                 </View>
 
                 <TouchableOpacity onPress={() => { this.props.navigation.goBack() }} style={{
                     position: 'absolute',
-                    left: 10, top: 17.5,
+                    left: 10, top: 25,
                     width: width / 4.5,
                     height: 40,
                     // backgroundColor: 'red',
@@ -148,51 +129,6 @@ class VerifyPoint2 extends Component {
                     }}>{" < Back"}</Text>
                 </TouchableOpacity>
 
-                <View style={{ flex: 0.57 }}>
-                    <ImageViewer
-                        saveToLocalByLongPress={false}
-                        imageUrls={img2}
-                        backgroundColor={'lightgrey'}
-                        onClick={(e) => {
-                            console.log('Show modal')
-                            this.setState({ modalVisible: true })
-                        }}
-                        index={this.state.index}
-                    />
-                    <Modal
-                        visible={this.state.modalVisible}
-                        transparent={true}
-                        onRequestClose={() => this.setState({ modalVisible: false })}>
-                        <ImageViewer
-                            saveToLocalByLongPress={false}
-                            imageUrls={img2}
-                            backgroundColor={'lightgrey'}
-                            index={this.state.index}
-                            onSwipeDown={() => {
-                                console.log('onSwipeDown');
-                                this.setState({ modalVisible: false })
-                            }}
-                            enableSwipeDown={true}
-                        />
-                    </Modal>
-                </View>
-
-                {status == I18n.t('waitVerify') && this.props.item.status == 0 && tmp_chk.status == 0 && <View style={{ alignItems: 'center', marginTop: 20 }}>
-                    <View style={{ width: 170 }}>
-                        <RoundedButton
-                            style={{ marginHorizontal: 10 }}
-                            title={I18n.t('verify')}
-                            onPress={this._onPressVerify}
-                            fetching={this.props.request}
-                        />
-                    </View>
-                </View>}
-
-                <Spinner
-                    visible={this.state.spinner}
-                    textContent={'Loading...'}
-                    textStyle={{ color: '#fff' }}
-                />
             </View>
         )
     }
@@ -218,4 +154,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(VerifyPoint2)
+)(CardVerifyPoint2)

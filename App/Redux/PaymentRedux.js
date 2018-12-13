@@ -33,6 +33,18 @@ const { Types, Creators } = createActions({
   paypalSuccess: ['data'],
   paypalFailure: null,
 
+  cardHistory: ['page'],
+  cardHistorySuccess: ['data'],
+  cardHistoryFailure: null,
+  cardHistorySuccess2: ['data'],
+  cardHistoryFailure2: null,
+  
+  appleHistory: ['page'],
+  appleHistorySuccess: ['data'],
+  appleHistoryFailure: null,
+  appleHistorySuccess2: ['data'],
+  appleHistoryFailure2: null,
+
   setPackage: ['data'],
   clearRequest: null,
   clearCardRequest: null,
@@ -64,6 +76,12 @@ export const INITIAL_STATE = Immutable({
   package: null,
   request4: null,  // paypal request
   data_paypal: null, // data from request4
+
+  request5: null,  // request for add coin by credit card
+  data_cardHistory: null,
+
+  request6: null,  // request for add coin by apple
+  data_appleHistory: null, 
 })
 
 /* ------------- Selectors ------------- */
@@ -155,6 +173,42 @@ export const creditFailure = state => state.merge({ request3: false })
 export const clearRequest = state => state.merge({ request2: null })
 
 export const clearCardRequest = state => state.merge({ request3: null })
+
+export const cardHistory = state => state.merge({ request5: true })
+export const cardHistorySuccess = (state, { data }) => { 
+  // console.log(data)
+  // console.log('REDUX TEST DATA CARD')
+  return state.merge({ request5: false, data_cardHistory: data }) 
+}
+export const cardHistoryFailure = state => state.merge({ request5: false })
+export const cardHistorySuccess2 = (state, { data }) => {
+  let tmp = [...state.data_cardHistory]
+  // data.forEach(e => tmp.push(e))
+  data.forEach(e => {
+    if (tmp.find(b => b.id == e.id)) {
+      console.log('SAME VALUE')
+    } else { tmp.push(e) }
+  })
+  return state.merge({ data_cardHistory: tmp, request5: false })
+}
+export const cardHistoryFailure2 = state => state.merge({ request5: false })
+
+export const appleHistory = state => state.merge({ request6: true })
+export const appleHistorySuccess = (state, { data }) => { 
+  return state.merge({ request6: false, data_appleHistory: data }) 
+}
+export const appleHistoryFailure = state => state.merge({ request6: false })
+export const appleHistorySuccess2 = (state, { data }) => {
+  let tmp = [...state.data_appleHistory]
+  // data.forEach(e => tmp.push(e))
+  data.forEach(e => {
+    if (tmp.find(b => b.id == e.id)) {
+      console.log('SAME VALUE')
+    } else { tmp.push(e) }
+  })
+  return state.merge({ data_appleHistory: tmp, request6: false })
+}
+export const appleHistoryFailure2 = state => state.merge({ request6: false })
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -186,6 +240,20 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CARD_REQUEST]: creditRequest,
   [Types.CARD_SUCCESS]: creditSuccess,
   [Types.CARD_FAILURE]: creditFailure,
+
+
+  [Types.CARD_HISTORY]: cardHistory,
+  [Types.CARD_HISTORY_SUCCESS]: cardHistorySuccess,
+  [Types.CARD_HISTORY_FAILURE]: cardHistoryFailure,
+  [Types.CARD_HISTORY_SUCCESS2]: cardHistorySuccess2,
+  [Types.CARD_HISTORY_FAILURE2]: cardHistoryFailure2,
+
+  [Types.APPLE_HISTORY]: appleHistory,
+  [Types.APPLE_HISTORY_SUCCESS]: appleHistorySuccess,
+  [Types.APPLE_HISTORY_FAILURE]: appleHistoryFailure,
+  [Types.APPLE_HISTORY_SUCCESS2]: appleHistorySuccess2,
+  [Types.APPLE_HISTORY_FAILURE2]: appleHistoryFailure2,
+
 
   [Types.SET_PACKAGE]: setPackage001,
 })

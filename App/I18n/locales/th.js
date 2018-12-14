@@ -196,6 +196,7 @@ export default {
   scbBanking: 'ธนาคารไทยพาณิชย์',
   thanaBanking: 'ธนาคารธนชาต',
 
+  autoText: 'ข้อความอัตโนมัติ',
   cantEdit: 'คุณไม่สามารถแก้ไขคำตอบนี้ได้ ( ไม่ออกผล )',
 
   apple: 'Apple',

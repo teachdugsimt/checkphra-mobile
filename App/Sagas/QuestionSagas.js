@@ -29,7 +29,8 @@ export function* getAmuletType(api) {
   const data = {
     user_id: aut.user_id
   }
-  const response = yield call(api.getAmuletType, data)
+  // const response = yield call(api.getAmuletType, data)
+  const response = yield call(api.getAmuletType, data)  // new api v2
   console.log(response)
 
   // success?
@@ -46,7 +47,9 @@ export function* getQuestionType(api) {
   // get current data from Store
   // const currentData = yield select(QuestionSelectors.getData)
   // make the call to the api
-  const response = yield call(api.getQuestionType)
+
+  // const response = yield call(api.getQuestionType)
+  const response = yield call(api.getQuestionType)  // new api v2
   console.log(response)
 
   // success?

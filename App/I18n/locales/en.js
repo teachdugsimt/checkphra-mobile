@@ -195,6 +195,7 @@ export default {
   scbBanking: 'Scb Bank',
   thanaBanking: 'Thanachart Bank',
 
+  autoText: 'Auto Text',
   cantEdit: 'You can not edit this answer ( None answer )',
 
   apple: 'Apple',

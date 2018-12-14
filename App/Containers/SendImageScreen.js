@@ -99,7 +99,6 @@ class SendImageScreen extends Component {
           }
           qtype.push({
             id: e.id,
-            // name: e.name,
             name: name,
             point: e.point,
             isChecked: false,

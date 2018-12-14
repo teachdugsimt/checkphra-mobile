@@ -44,6 +44,8 @@ const tradeApi = API.Trade.create()
 const faceApi = API.Face.create()
 const versionApi = API.Version.create()
 
+const question2Api = API.Question2.create()
+
 /* ------------- Connect Types To Sagas ------------- */
 
 export default function* root() {
@@ -72,8 +74,10 @@ export default function* root() {
     takeLatest(AuthTypes.SAVE_DEVICE_TOKEN, saveDeviceToken, authApi),
 
     takeLatest(ExpertTypes.GET_AUTO_TEXT, getAutoText55, questionApi),
-    takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
-    takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
+    // takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
+    // takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
+    takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, question2Api),  // new api v2
+    takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, question2Api), // new api v2
     takeLatest(QuestionTypes.ADD_QUESTION, addQuestion, questionApi),
 
     takeLatest(QuestionTypes.GET_HISTORY, getHistory, questionApi),

@@ -292,11 +292,12 @@ class CheckPhraScreen extends Component {
         }} resizeMode='contain' />
         <View style={{ flex: 1 }}>
           <PopupDialog
-            dialogTitle={<DialogTitle title={'AutoText'} titleTextStyle={{ fontSize: 18, fontWeight: 'bold' }} />}
+            dialogTitle={<DialogTitle title={I18n.t('autoText')} titleTextStyle={{ fontSize: 18, fontWeight: 'bold' }} containerStyle={{ backgroundColor: 'red' }} />}
+            dialogStyle={{ backgroundColor: 'lightgrey', borderRadius: 10 }}
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
             dialogAnimation={slideAnimation}
             width={0.7}
-            height={height / 3.5}
+            height={height / (this.state.autoText ? (this.state.autoText.length + (1.5)) : 3.5)}
             // height={150}
             onDismissed={() => { this.setState({}) }}
           >
@@ -306,8 +307,11 @@ class CheckPhraScreen extends Component {
                   flex: 1,
                   borderBottomWidth: 1,
                   borderBottomColor: 'white',
-                  backgroundColor: 'lightgrey'
-                }}><Text style={{ alignSelf: 'center', marginTop: 15, fontSize: 16, color: Colors.brownText }}>{e.text}</Text></TouchableOpacity>
+                  backgroundColor: 'lightgrey',
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}><Text style={{ alignSelf: 'center', fontSize: 16, color: Colors.brownText }}>{e.text}</Text></TouchableOpacity>
               })}
             </View>
           </PopupDialog>
@@ -473,7 +477,8 @@ class CheckPhraScreen extends Component {
                         <TextInput key={i} value={this.state.answer4} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15, flex: 1 }}
                           onChangeText={(text) => this.setState({ answer4: text })} />
                         <View style={{ alignItems: 'flex-end', width: 35, height: 30, marginTop: 10, marginRight: 10 }}>
-                          {this.state.autoText && <TouchableOpacity style={{ backgroundColor: 'orange', width: 35, height: 30, borderRadius: 5, position: 'absolute' }} onPress={this.pressAutoButton}><Text style={{ alignSelf: 'center', marginVertical: 5 }}>Auto</Text></TouchableOpacity>}
+                          {this.state.autoText && <TouchableOpacity style={{ backgroundColor: 'transparent', width: 35, height: 30, borderRadius: 5, position: 'absolute' }} onPress={this.pressAutoButton}>
+                            <Icon2 name={'pencil'} size={24} style={{ alignSelf: 'center' }} /></TouchableOpacity>}
                         </View>
                       </View>
 

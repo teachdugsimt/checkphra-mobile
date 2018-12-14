@@ -191,7 +191,6 @@ class UploadScreen extends Component {
     console.log(nextProps)
     console.log(prevState)
 
-
     if (nextProps.day != time11) {
       nextProps.setTime(time11)
       return {
@@ -213,6 +212,27 @@ class UploadScreen extends Component {
     // }
     //***************************** check PUBLISH of the day ************************************/
 
+    let item = prevState.item
+    if (nextProps.language != prevState.language && prevState.amuletType) {
+      nextProps.navigation.setParams({ title: I18n.t('selectAmuletType') })
+      amuletTypes = prevState.amuletType.filter(e => !e.parent_id)
+      item = UploadScreen.rename(amuletTypes)
+    } else {
+      if (nextProps.data_amulet) {
+        amuletTypes = nextProps.data_amulet.filter(e => !e.parent_id)
+        item = UploadScreen.rename(amuletTypes)
+      }
+    }
+
+    if (nextProps.data_amulet != null && nextProps.data_aumlet != prevState.amuletType) {
+      amuletTypes = nextProps.data_amulet.filter(e => !e.parent_id)
+      item = UploadScreen.rename(amuletTypes)
+    } else {
+      if (nextProps.data_amulet) {
+        amuletTypes = nextProps.data_amulet.filter(e => !e.parent_id)
+        item = UploadScreen.rename(amuletTypes)
+      }
+    }
 
     //************************ check alert login complete 7 days ******************************/
     if (nextProps.data_login != null) {
@@ -235,18 +255,6 @@ class UploadScreen extends Component {
       }
     }
     //************************ check alert login complete 7 days ******************************/
-
-    let item = prevState.item
-    if (nextProps.language != prevState.language && prevState.amuletType) {
-      nextProps.navigation.setParams({ title: I18n.t('selectAmuletType') })
-      amuletTypes = prevState.amuletType.filter(e => !e.parent_id)
-      item = UploadScreen.rename(amuletTypes)
-    }
-
-    if (nextProps.data_amulet != null && nextProps.data_aumlet != prevState.amuletType) {
-      amuletTypes = nextProps.data_amulet.filter(e => !e.parent_id)
-      item = UploadScreen.rename(amuletTypes)
-    }
 
     return {
       item: item,
@@ -280,11 +288,11 @@ class UploadScreen extends Component {
       this.props.navigation.navigate("detail")
       checkButton = false
     }
-    else if(item.name == "พระวัดระฆัง" || item.name == "PhraWad Rakung"){
+    else if (item.name == "พระวัดระฆัง" || item.name == "PhraWad Rakung") {
       this.props.navigation.navigate("detail2")
       checkButton = false
     }
-    else if(item.name == "บางขุนพรหม" || item.name == "Bang Khun Prom"){
+    else if (item.name == "บางขุนพรหม" || item.name == "Bang Khun Prom") {
       this.props.navigation.navigate("detail3")
       checkButton = false
     }
@@ -442,6 +450,7 @@ class UploadScreen extends Component {
     //   this.popupDialog.show()
     // }
 
+
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
         <Image source={Images.watermarkbg} style={{
@@ -489,7 +498,7 @@ class UploadScreen extends Component {
               <TouchableOpacity onPress={() => this.getTypePhra(item)} disabled={checkButton}>
                 <View
                   style={{
-                    height: 100,
+                    height: 85,
                     width: '100%',
                     backgroundColor: Colors.milk,
                     justifyContent: "center",

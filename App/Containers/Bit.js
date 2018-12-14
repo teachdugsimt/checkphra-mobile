@@ -244,7 +244,7 @@ class Bit extends Component {
                                             backgroundColor: color
                                         }}>{message}</Text>
                                         {item.recent_bid == 'user' && item.status == 'bargain' && <View style={{
-                                            backgroundColor: 'red', height: 10, width: 10, borderRadius: 5, position: 'absolute', bottom: 45, right: (this.props.language == 'en-US' || this.props.language == 'en' || this.props.language == 'en-Us') ? 30 : 33
+                                            backgroundColor: 'red', height: 10, width: 10, borderRadius: 5, position: 'absolute', bottom: 48, right: (this.props.language == 'en-US' || this.props.language == 'en' || this.props.language == 'en-Us') ? 30 : 30
                                         }}>
                                         </View>}
                                     </View>

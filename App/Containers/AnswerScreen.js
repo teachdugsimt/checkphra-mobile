@@ -280,6 +280,7 @@ class AnswerScreen extends Component {
           }}>{I18n.t('checkBy')} : <Text style={{
             fontFamily: 'Prompt-SemiBold',
             fontSize: 16,
+            color: Colors.brownTextTran
           }}>Mr. Blue</Text></Text>
 
           <View style={{ marginHorizontal: 20, marginTop: 10 }}>
@@ -298,6 +299,7 @@ class AnswerScreen extends Component {
                       }}>{I18n.t('trueFalse')} : <Text style={{
                         fontFamily: 'Prompt-SemiBold',
                         fontSize: 18,
+                        color: Colors.brownTextTran
                       }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
 
                       <Text style={{
@@ -306,6 +308,7 @@ class AnswerScreen extends Component {
                       }}>{I18n.t('reason')} : <Text style={{
                         fontFamily: 'Prompt-SemiBold',
                         fontSize: 18,
+                        color: Colors.brownTextTran
                       }}>{data[0].argument ? data[0].argument : I18n.t('noneSpecify')}</Text></Text>
 
                     </View>
@@ -322,6 +325,7 @@ class AnswerScreen extends Component {
                       }}>{I18n.t('pricePhra')} : <Text style={{
                         fontFamily: 'Prompt-SemiBold',
                         fontSize: 18,
+                        color: Colors.brownTextTran
                       }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
                     </View>
                   )
@@ -337,6 +341,7 @@ class AnswerScreen extends Component {
                       }}>{I18n.t('detailPhra')} : <Text style={{
                         fontFamily: 'Prompt-SemiBold',
                         fontSize: 18,
+                        color: Colors.brownTextTran
                       }}>{e.result != 'ไม่ออกผล' ? e.result : I18n.t('noneAnswer')}</Text></Text>
                     </View>
                   )
@@ -344,7 +349,7 @@ class AnswerScreen extends Component {
               })
             }
           </View>
-          <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 18, alignSelf: 'center', marginTop: 10 }}>{I18n.t('useCoins') + " " + coins + " coins"}</Text>
+          <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 18, alignSelf: 'center', marginTop: 10, color: Colors.brownTextTran }}>{I18n.t('useCoins') + " " + coins + " coins"}</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 
             {/* {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View style={{ alignItems: 'center' }} >

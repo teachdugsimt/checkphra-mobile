@@ -283,13 +283,13 @@ class CheckListScreen extends Component {
                     <View style={{ flexDirection: 'row' }}>
                       <Text style={{
                         fontFamily: 'Prompt-SemiBold',
-                        fontSize: 18,
+                        fontSize: 17,
                         color: Colors.brownText,
                         // margin: 20
                       }}>{name}</Text>
                       <Text style={{
                         fontFamily: 'Prompt-SemiBold',
-                        fontSize: 18,
+                        fontSize: 17,
                         color: Colors.brownText,
                         // margin: 20
                       }}> ( {item.id} )</Text>

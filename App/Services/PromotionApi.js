@@ -4,8 +4,8 @@ let b
 if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'
 } else {
-  // b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
-  b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
+  b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
+  // b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
 }
 
 const create = (baseURL = b) => {
@@ -52,7 +52,7 @@ const create = (baseURL = b) => {
   const paypal = (data) => api.post('payment-history/paypal-checkout', data)
 
   const addBonus = (data) => api.post('user/add-point', data)
-  
+
   const cardHistory = (data) => api.get('payment-history/credit-list', data)
 
   return {

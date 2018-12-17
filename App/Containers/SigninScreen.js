@@ -80,7 +80,7 @@ class SigninScreen extends Component {
   hideSignin = async () => {
     // this.setState({ spinner: true })
     const data = await AccessToken.getCurrentAccessToken();
-   
+
     if (!data) {
       console.log('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
     }

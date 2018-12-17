@@ -174,6 +174,9 @@ class HistoryScreen extends Component {
             else if (item.type == 'บางขุนพรหม ปี พ.ศ.2517') {
               name = I18n.t('BangKhunProm2517')
             }
+            else if (item.type == 'หลวงพ่อหลิว') {
+              name = I18n.t('LuangPhorLhew')
+            }
             else {
               name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
             }
@@ -204,12 +207,12 @@ class HistoryScreen extends Component {
                           color: Colors.brownText,
                           // margin: 20
                         }}>{date}</Text>
-                        <Text style={{
+                        {/* <Text style={{
                           fontFamily: 'Prompt-SemiBold',
                           fontSize: 12,
                           color: Colors.brownText,
                           // margin: 20
-                        }}> ( {item.id} )</Text>
+                        }}> ( {item.id} )</Text> */}
                       </View>
                     </View>
                     <Text style={{

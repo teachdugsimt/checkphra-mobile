@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
   Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl,
-  Alert, Modal, ScrollView, TextInput
+  Alert, Modal, ScrollView, TextInput, Linking
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -153,6 +153,21 @@ class Bit2 extends Component {
       ]
     )
   }
+
+  _goToURL = (item) => {
+    // const url = 'm.me/316834699141900'
+    const url = 'https://www.messenger.com/t/' + item    // pc , mobile
+    // const url = 'https://m.me/316834699141900' // pc , mobile can't use
+    console.log(url)
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log('Don\'t know how to open URI: ' + url);
+      }
+    });
+  
+}
 
   render() {
     I18n.locale = this.props.language

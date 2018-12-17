@@ -64,20 +64,20 @@ export default {
   phraWadPhrasatBunyawat: 'PhraWadPha satBunyawat',
 
   phraWadRakung: 'PhraWad Rakung',
-  year100era2515: '100 years, Buddhist era 2515',
-  year108era2523: '108 years, Buddhist era 2523',
-  year118era2533: '118 years, Buddhist era 2533',
-  year122era2537: '122 years, Buddhist era 2537',
-  sat5era2536: 'Saturday 5, Buddhist era 2536',
-  sat5era2539: 'Saturday 5, Buddhist era 2539',
-  year214era2545: '214 years, Buddhist era 2545',
+  year100era2515: '100 years, B.E. 2515',
+  year108era2523: '108 years, B.E. 2523',
+  year118era2533: '118 years, B.E. 2533',
+  year122era2537: '122 years, B.E. 2537',
+  sat5era2536: 'Saturday 5, B.E. 2536',
+  sat5era2539: 'Saturday 5, B.E. 2539',
+  year214era2545: '214 years, B.E. 2545',
 
   LuangPhorLhew: 'LuangPhor Lhew',
   LuangPhorKauy: 'LuangPhor Kauy',
 
   BangKhunProm: 'Bang Khun Prom',
-  BangKhunProm2509: 'BangKhunProm Buddhist era 2509',
-  BangKhunProm2517: 'BangKhunProm Buddhist era 2517',
+  BangKhunProm2509: 'BangKhunProm B.E. 2509',
+  BangKhunProm2517: 'BangKhunProm B.E. 2517',
 
   trueFalse: 'Real / Fake amulet',
   pricePhra: 'Amulet price',
@@ -257,7 +257,8 @@ export default {
 
   พระวัดประสาทบุญญาวาส: 'PhraWadPha satBunyawat',
   พระวัดระฆัง: 'PhraWad Rakung',
-  หลวงพ่อหลิว: 'LuangPhor Lhew',
+  หลวงพ่อหลิว: 'Luangphor Lhew',
+  หลวงปู่หลิว: 'Luangpu Lhew',
   หลวงพ่อกวย: 'LuangPhor Kauy',
   บางขุนพรหม: 'Bang Khun Prom',
 

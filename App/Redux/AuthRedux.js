@@ -45,6 +45,7 @@ const { Types, Creators } = createActions({
   setModal: ['check'],
 
   saveDeviceToken: ['token'],
+  setCredentialData: ['data'],
 
 })
 
@@ -80,6 +81,8 @@ export const INITIAL_STATE = Immutable({
   day: moment(new Date()).format().slice(0, 10),
   modal: true,
 
+  credential_data: null,
+
 
   // day: null,
 })
@@ -91,6 +94,8 @@ export const AuthSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const setCredentialData = (state, { data }) => state.merge({ credential_data: data })
 
 export const setModal = (state, { check }) => {
   return state.merge({ modal: check })
@@ -173,6 +178,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNIN_SUCCESS]: success,
   [Types.SIGNIN_FAILURE]: failure,
 
+  [Types.SET_CREDENTIAL_DATA]: setCredentialData,
   [Types.SET_USER_ID]: setUserId,
 
   [Types.SIGNUP]: startRequest,

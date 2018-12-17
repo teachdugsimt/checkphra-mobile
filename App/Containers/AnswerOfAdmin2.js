@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, Modal, ScrollView, TextInput, KeyboardAvoidingView } from 'react-native'
+import {
+  Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, Modal,
+  ScrollView, TextInput, KeyboardAvoidingView, Linking
+} from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -156,9 +159,24 @@ class AnswerOfAdmin2 extends Component {
 
   }
 
+  _goToURL = (item) => {
+    // const url = 'm.me/316834699141900'
+    const url = 'https://www.messenger.com/t/' + item    // pc , mobile
+    // const url = 'https://m.me/316834699141900' // pc , mobile can't use
+    console.log(url)
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log('Don\'t know how to open URI: ' + url);
+      }
+    });
+
+  }
+
   render() {
     I18n.locale = this.props.language
-    // console.log(this.props.data)
+    console.log(this.props.data)
     // console.log('HERE DATA EDITTTTTTTTTTT')
     let img2 = []
     this.props.data.images.map(e => {
@@ -175,8 +193,8 @@ class AnswerOfAdmin2 extends Component {
     // }
     let tmp1 = this.props.data.answer[1] ? this.props.data.answer[1].result : null
     let tmp2 = this.props.data.answer[2] ? this.props.data.answer[2].result : null
-    console.log(tmp1)
-    console.log(tmp2)
+    // console.log(tmp1)
+    // console.log(tmp2)
     console.log('*******************************************')
     return (
       <LinearGradient
@@ -231,14 +249,19 @@ class AnswerOfAdmin2 extends Component {
           {/* <ScrollView> */}
           <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={-64}>
             <ScrollView>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question')} </Text>
+                {this.props.data && !this.props.data.fb_id && <Text style={{ fontSize: 16, color: Colors.brownTextTran, marginHorizontal: 18, marginVertical: 4 }}> {this.props.data.name} </Text>}
+                {this.props.data && this.props.data.fb_id && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', borderRadius: 15 }} onPress={() => this._goToURL(this.props.data.fb_id)}>
+                  <Text style={{ fontSize: 16, color: Colors.brownTextTran, marginHorizontal: 18, marginVertical: 4 }}> {this.props.data.name} </Text>
+                </TouchableOpacity>}
               </View>
+
               {this.props.data.answer.map((e, i) => {
                 if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
                   return (
 
-                    <View key={i} style={{ marginHorizontal: 15, backgroundColor: '#fff5', padding: 10, borderRadius: 10 }}>
+                    <View key={i} style={{ marginHorizontal: 15, backgroundColor: '#fff5', padding: 10, borderRadius: 10, marginTop: 10 }}>
                       <Text style={{}}>{I18n.t('trueFalse')}</Text>
                       <CheckBox
                         style={{ flex: 1, marginLeft: 15, marginTop: 5 }}

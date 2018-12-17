@@ -13,6 +13,8 @@
 import { call, put, select } from 'redux-saga/effects'
 import AuthActions from '../Redux/AuthRedux'
 // import { AuthSelectors } from '../Redux/AuthRedux'
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import firebase from 'react-native-firebase';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 const auth = state => state.auth
@@ -58,7 +60,8 @@ export function* signinWithCredential(api, action) {
   // const currentData = yield select(AuthSelectors.getData)
   // make the call to the api
   console.log(action)
-  console.log('----------------------HERE----------------------')
+  console.log(data.providerData[0].uid)
+  console.log('----------------------HERE LOGIN WITH CREDENTIAL----------------------')
 
   const name = data.displayName.split(' ')
   const fname = name[0] ? name[0] : ''
@@ -70,7 +73,8 @@ export function* signinWithCredential(api, action) {
       uid: data.uid,
       firstname: fname,
       lastname: lname,
-      project: 'check-phra'
+      project: 'check-phra',
+      fbid: data.providerData[0].uid
     }
   } else {
     d = {
@@ -78,12 +82,10 @@ export function* signinWithCredential(api, action) {
       uid: data.uid,
       firstname: fname,
       lastname: lname,
-      project: 'check-phra'
+      project: 'check-phra',
+      fbid: data.providerData[0].uid
     }
   }
-
-  console.log(d)
-  console.log('HERE D OF YOUR**************************************')
 
   const response = yield call(api.signin, d)
   console.log(response)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
   Image, Text, View, FlatList, TouchableOpacity,
-  Dimensions, RefreshControl, ScrollView, StyleSheet, TextInput, Alert, Modal
+  Dimensions, RefreshControl, ScrollView, StyleSheet, TextInput, Alert, Modal, Linking
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -266,6 +266,21 @@ class CheckPhraScreen extends Component {
     this.popupDialog.dismiss()
   }
 
+  _goToURL = (item) => {
+      // const url = 'm.me/316834699141900'
+      const url = 'https://www.messenger.com/t/' + item    // pc , mobile
+      // const url = 'https://m.me/316834699141900' // pc , mobile can't use
+      console.log(url)
+      Linking.canOpenURL(url).then(supported => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          console.log('Don\'t know how to open URI: ' + url);
+        }
+      });
+    
+  }
+
   render() {
     I18n.locale = this.props.language
     let img = []
@@ -277,7 +292,7 @@ class CheckPhraScreen extends Component {
     this.props.data.images.map(e => {
       img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
     })
-
+    // console.log(this.props.data.fb_id)
     console.log(this.props.data)
     console.log("*****************************************")
     return (
@@ -361,7 +376,10 @@ class CheckPhraScreen extends Component {
             <ScrollView>
               <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question') + " ( " + this.props.data.id + " )"} </Text>
-                <Text style={{ fontSize: 16 }}> {this.props.data.name ? this.props.data.name : this.props.data.email} </Text>
+                {this.props.data && !this.props.data.fb_id && <Text style={{ fontSize: 16, color: Colors.brownTextTran, marginHorizontal: 18, marginVertical: 4 }}> {this.props.data.email} </Text>}
+                {this.props.data && this.props.data.fb_id && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', borderRadius: 15 }} onPress={() => this._goToURL(this.props.data.fb_id)}>
+                  <Text style={{ fontSize: 16, color: Colors.brownTextTran, marginHorizontal: 18, marginVertical: 4 }}> {this.props.data.name} </Text>
+                </TouchableOpacity>}
               </View>
               {this.props.data.question_list.map((e, i) => {
                 if (
@@ -519,7 +537,7 @@ class CheckPhraScreen extends Component {
                   )
                 } else if (
                   // e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question_detail == 'Priest name / Temple name / Year Buddhist era of creation'
-                  e.question == 4
+                  e.question == 4 || e.question == 3
                 ) {
                   console.log("question 3")
                   return (

@@ -72,10 +72,10 @@ class AppleVerifyPoint extends Component {
             <TouchableOpacity style={{ height: 60 }} onPress={() => this._PressList(item, index)}>
                 <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
                     <View style={{ justifyContent: 'center' }}>
-                        <Image source={Images.applepay} style={{ width: 75, height: 30, marginLeft: 10 }} />
+                        <Image source={Images.apple1} style={{ width: 25, height: 30, marginLeft: 10 }} />
                     </View>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, width: '70%' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, width: '85%' }}>
 
                         <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
                             <View style={{ flexDirection: 'row' }}>

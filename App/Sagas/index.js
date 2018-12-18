@@ -27,7 +27,7 @@ import {
   paypalRequest55, cardHistoryRequest, appleHistoryRequest
 } from './PaymentSagas'
 import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
-  getAutoText55 } from './ExpertSagas'
+  getAutoText55, editTypeQuestion } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
   getListLeasing, getPriceallday, wantToBuy
@@ -78,6 +78,7 @@ export default function* root() {
     // takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, question2Api),  // new api v2
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, question2Api), // new api v2
+    takeLatest(ExpertTypes.EDIT_GROUP, editTypeQuestion, question2Api),
     takeLatest(QuestionTypes.ADD_QUESTION, addQuestion, questionApi),
 
     takeLatest(QuestionTypes.GET_HISTORY, getHistory, questionApi),

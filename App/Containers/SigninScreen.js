@@ -80,7 +80,7 @@ class SigninScreen extends Component {
   hideSignin = async () => {
     // this.setState({ spinner: true })
     const data = await AccessToken.getCurrentAccessToken();
-
+    
     if (!data) {
       console.log('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
     }
@@ -270,7 +270,7 @@ class SigninScreen extends Component {
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
         <Spinner
-          visible={this.props.fetch || this.state.spinner}
+          visible={this.state.spinner}
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
         />

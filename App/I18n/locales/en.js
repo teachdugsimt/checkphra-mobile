@@ -232,6 +232,14 @@ export default {
   address: 'Shipping address',
   adminLeasing: 'Trading list of Mr.Blue',
   adminSum: 'Today, Mr.Blue get trading for',
+  checkBid: 'Confrim bid price ?',
+
+  home: 'Home Screen',
+  checkAmuletScreen: 'Check Phra',
+  showAmuletReal: 'Real Amulet Room',
+  chat: 'Chat Room',
+
+  editType: 'Please choose new group',
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

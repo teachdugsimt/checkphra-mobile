@@ -104,11 +104,23 @@ class Bit2 extends Component {
   }
 
   _onPressButton = () => {
-    if (this.state.price2) {
-      this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
-    } else {
-      alert(I18n.t('checkData'))
-    }
+
+    Alert.alert(
+      'Check Phra',
+      I18n.t('checkBid') + " ( " + this.commaSeparateNumber(this.state.price2) + " ฿ )",
+      [
+        {
+          text: I18n.t('ok'), onPress: () => {
+            if (this.state.price2) {
+              this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
+            } else {
+              alert(I18n.t('checkData'))
+            }
+          }
+        },
+        { text: I18n.t('cancel'), onPress: () => { } }
+      ]
+    )
   }
 
   componentWillMount() {
@@ -166,8 +178,8 @@ class Bit2 extends Component {
         console.log('Don\'t know how to open URI: ' + url);
       }
     });
-  
-}
+
+  }
 
   render() {
     I18n.locale = this.props.language
@@ -305,7 +317,7 @@ class Bit2 extends Component {
             })}
 
             {this.state.hide == false && this.props.data.status == 'bargain' && this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 && <View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#fff5', margin: 10, borderRadius: 10 }} >
                 <TextInput style={{ width: '45%', alignSelf: 'center' }}
                   value={this.state.price}
                   textAlign={'center'}

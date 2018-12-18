@@ -177,7 +177,7 @@ export function* getAnswerAdmin(api, { page }) {
 
 export function* cancelPoint(api, { id, argument }) {
   const aut = yield select(auth)
-  
+
   const data = {
     user_id: aut.user_id,
     transfer_id: id,
@@ -195,7 +195,7 @@ export function* cancelPoint(api, { id, argument }) {
   }
 }
 
-export function* getAutoText55(api){
+export function* getAutoText55(api) {
   const aut = yield select(auth)
 
   const data = {
@@ -204,9 +204,26 @@ export function* getAutoText55(api){
 
   const response = yield call(api.getText, data)
 
-  if(response.ok){
+  if (response.ok) {
     yield put(ExpertActions.getAutoTextSuccess(response.data))
   } else {
     yield put(ExpertActions.getAutoTextFailure())
+  }
+}
+
+export function* editTypeQuestion(api, { type_id, qid }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    type_id,
+    qid
+  } 
+  
+  const response = yield call(api.editGroupQuestion, data)
+  console.log('----------------- EDIT TYPE QUESTION --------------------')
+  if (response.ok) {
+    yield put(ExpertActions.editGroupSuccess(response.data))
+  } else {
+    yield put(ExpertActions.editGroupFailure())
   }
 }

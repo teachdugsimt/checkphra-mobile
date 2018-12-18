@@ -5,8 +5,8 @@ let b
 if (process.env.NODE_ENV === 'production') {
     b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'
 } else {
-    b = 'https://infiltech.org/checkphra-api/web/index.php/v2/'   //true
-    // b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v2/'
+    // b = 'https://infiltech.org/checkphra-api/web/index.php/v2/'   //true
+    b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v2/'
 }
 
 // our "constructor"
@@ -47,13 +47,14 @@ const create = (baseURL = b) => {
 
     const getAmuletType = (data) => api.get('type/list', data)
     const getQuestionType = () => api.get('manage-question/list')
-
+    const editGroupQuestion = (data) => api.post('type/update-type', data)
 
 
     return {
         // a list of the API functions from step 2
         getAmuletType,
         getQuestionType,
+        editGroupQuestion
     }
 }
 

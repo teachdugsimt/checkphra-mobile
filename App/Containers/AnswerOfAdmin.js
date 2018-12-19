@@ -135,30 +135,33 @@ class AnswerOfAdmin extends Component {
     let name = ''
     if (item == '100 ปี พ.ศ.2515') {
       name = I18n.t('year100era2515')
-    } 
-    else if(item == '108 ปี พ.ศ.2523'){
+    }
+    else if (item == '108 ปี พ.ศ.2523') {
       name = I18n.t('year108era2523')
     }
-    else if(item == '118 ปี พ.ศ.2533'){
+    else if (item == '118 ปี พ.ศ.2533') {
       name = I18n.t('year118era2533')
     }
-    else if(item == '122 ปี พ.ศ.2537'){
+    else if (item == '122 ปี พ.ศ.2537') {
       name = I18n.t('year122era2537')
     }
-    else if(item == 'เสาร์ 5 พ.ศ.2536'){
+    else if (item == 'เสาร์ 5 พ.ศ.2536') {
       name = I18n.t('sat5era2536')
     }
-    else if(item == 'เสาร์ 5 พ.ศ.2539'){
+    else if (item == 'เสาร์ 5 พ.ศ.2539') {
       name = I18n.t('sat5era2539')
     }
-    else if(item == '214 ปีชาตกาล พ.ศ.2545'){
+    else if (item == '214 ปีชาตกาล พ.ศ.2545') {
       name = I18n.t('year214era2545')
     }
-    else if(item == 'บางขุนพรหม ปี พ.ศ.2509'){
+    else if (item == 'บางขุนพรหม ปี พ.ศ.2509') {
       name = I18n.t('BangKhunProm2509')
     }
-    else if(item == 'บางขุนพรหม ปี พ.ศ.2517'){
+    else if (item == 'บางขุนพรหม ปี พ.ศ.2517') {
       name = I18n.t('BangKhunProm2517')
+    }
+    else if (item == 'หลวงพ่อหลิว') {
+      name = I18n.t('LuangPhorLhew')
     }
     else {
       name = item == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item)
@@ -188,7 +191,7 @@ class AnswerOfAdmin extends Component {
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           dialogAnimation={slideAnimation}
           width={width / 1.5}
-          height={height / 3.5}
+          height={height / 3.1}
           // height={150}
           onDismissed={() => { this.setState({ price: null }) }}
         >
@@ -198,6 +201,7 @@ class AnswerOfAdmin extends Component {
               fontSize: 18,
               fontFamily: 'Prompt-SemiBold',
               alignSelf: 'center',
+              marginHorizontal: 10,
             }}>{this.state.phra_bit ? (this.state.phra_bit.type == 'อื่นๆ หรือ ไม่ทราบ' || this.state.phra_bit.type == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : this.rename(this.state.phra_bit.type)) : ''}</Text>
 
             <Text style={{
@@ -259,6 +263,9 @@ class AnswerOfAdmin extends Component {
             }
             else if (item.type == 'บางขุนพรหม ปี พ.ศ.2517') {
               name = I18n.t('BangKhunProm2517')
+            }
+            else if (item.type == 'หลวงพ่อหลิว') {
+              name = I18n.t('LuangPhorLhew')
             }
             else {
               name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)

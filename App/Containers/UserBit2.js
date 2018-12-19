@@ -379,7 +379,7 @@ class UserBit2 extends Component {
           <ScrollView>
 
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')} {this.props.data.qid ? ' ( ' + this.props.data.qid + ' )' : ''}</Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')}</Text>
             </View>
 
             <View>

@@ -238,34 +238,37 @@ class UserBit extends Component {
                         }
                         let name = ''
                         if (item.answer.type == '100 ปี พ.ศ.2515') {
-                          name = I18n.t('year100era2515')
-                        } 
-                        else if(item.answer.type == '108 ปี พ.ศ.2523'){
-                          name = I18n.t('year108era2523')
+                            name = I18n.t('year100era2515')
                         }
-                        else if(item.answer.type == '118 ปี พ.ศ.2533'){
-                          name = I18n.t('year118era2533')
+                        else if (item.answer.type == '108 ปี พ.ศ.2523') {
+                            name = I18n.t('year108era2523')
                         }
-                        else if(item.answer.type == '122 ปี พ.ศ.2537'){
-                          name = I18n.t('year122era2537')
+                        else if (item.answer.type == '118 ปี พ.ศ.2533') {
+                            name = I18n.t('year118era2533')
                         }
-                        else if(item.answer.type == 'เสาร์ 5 พ.ศ.2536'){
-                          name = I18n.t('sat5era2536')
+                        else if (item.answer.type == '122 ปี พ.ศ.2537') {
+                            name = I18n.t('year122era2537')
                         }
-                        else if(item.answer.type == 'เสาร์ 5 พ.ศ.2539'){
-                          name = I18n.t('sat5era2539')
+                        else if (item.answer.type == 'เสาร์ 5 พ.ศ.2536') {
+                            name = I18n.t('sat5era2536')
                         }
-                        else if(item.answer.type == '214 ปีชาตกาล พ.ศ.2545'){
-                          name = I18n.t('year214era2545')
+                        else if (item.answer.type == 'เสาร์ 5 พ.ศ.2539') {
+                            name = I18n.t('sat5era2539')
                         }
-                        else if(item.answer.type == 'บางขุนพรหม ปี พ.ศ.2509'){
-                          name = I18n.t('BangKhunProm2509')
+                        else if (item.answer.type == '214 ปีชาตกาล พ.ศ.2545') {
+                            name = I18n.t('year214era2545')
                         }
-                        else if(item.answer.type == 'บางขุนพรหม ปี พ.ศ.2517'){
-                          name = I18n.t('BangKhunProm2517')
+                        else if (item.answer.type == 'บางขุนพรหม ปี พ.ศ.2509') {
+                            name = I18n.t('BangKhunProm2509')
+                        }
+                        else if (item.answer.type == 'บางขุนพรหม ปี พ.ศ.2517') {
+                            name = I18n.t('BangKhunProm2517')
+                        }
+                        else if (item.answer.type == 'หลวงพ่อหลิว') {
+                            name = I18n.t('LuangPhorLhew')
                         }
                         else {
-                          name = item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
+                            name = item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
                         }
 
                         return (
@@ -295,12 +298,12 @@ class UserBit extends Component {
                                                 color: Colors.brownText,
                                                 // margin: 20
                                             }}>{date}</Text>
-                                            <Text style={{
+                                            {/* <Text style={{
                                                 fontFamily: 'Prompt-SemiBold',
                                                 fontSize: 12,
                                                 color: Colors.brownText,
                                                 // margin: 20
-                                            }}> ( {item.qid} )</Text>
+                                            }}> ( {item.qid} )</Text> */}
                                         </View>
                                     </View>
                                     <View style={{ width: width / 2.7, justifyContent: 'center', alignItems: 'center' }}>

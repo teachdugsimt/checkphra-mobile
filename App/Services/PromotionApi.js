@@ -52,7 +52,7 @@ const create = (baseURL = b) => {
   const paypal = (data) => api.post('payment-history/paypal-checkout', data)
 
   const addBonus = (data) => api.post('user/add-point', data)
-  
+
   const cardHistory = (data) => api.get('payment-history/credit-list', data)
 
   return {

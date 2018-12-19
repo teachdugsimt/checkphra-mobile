@@ -123,11 +123,23 @@ class UserBit2 extends Component {
   }
 
   _onPressButton = () => {
-    if (this.state.price2) {
-      this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
-    } else {
-      alert(I18n.t('checkData'))
-    }
+    Alert.alert(
+      'Check Phra',
+      I18n.t('checkBid') + " ( " + this.commaSeparateNumber(this.state.price2) + " ฿ )",
+      [
+      {
+        text: I18n.t('ok'), onPress: () => {
+          if (this.state.price2) {
+            this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
+          } else {
+            alert(I18n.t('checkData'))
+          }
+        }
+      },
+      { text: I18n.t('cancel'), onPress: () => {} }
+      ]
+    )
+
     // this.props.getAnswer(1)
   }
 
@@ -450,7 +462,7 @@ class UserBit2 extends Component {
 
             {/* && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 */}
             {this.props.data.messages ? this.state.hide == false && (this.props.data.messages.length % 2 == 0) && this.props.data.messages.length < 4 && this.props.data && (this.props.data.status == 'bargain' || this.props.data.status == 'interested') && <View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#fff5', margin: 10, borderRadius: 10 }}>
                 <TextInput style={{ width: '45%', alignSelf: 'center' }}
                   value={this.state.price}
                   textAlign={'center'}
@@ -465,7 +477,7 @@ class UserBit2 extends Component {
                   placeholder={I18n.t('inputBit2')} />
               </View>
 
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                 <View style={{ width: '40%', height: 45 }}>
                   <RoundedButton
                     style={{ marginHorizontal: 10 }}
@@ -484,7 +496,7 @@ class UserBit2 extends Component {
 
             </View>
               : this.state.hide == false && this.props.data && (this.props.data.status == 'bargain' || this.props.data.status == 'interested') && <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#fff5', margin: 10, borderRadius: 10 }} >
                   <TextInput style={{ width: '45%', alignSelf: 'center' }}
                     value={this.state.price}
                     textAlign={'center'}
@@ -499,7 +511,7 @@ class UserBit2 extends Component {
                     placeholder={I18n.t('inputBit2')} />
                 </View>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                   <View style={{ width: '40%', height: 45 }}>
                     <RoundedButton
                       style={{ marginHorizontal: 10 }}

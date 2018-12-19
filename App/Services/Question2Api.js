@@ -47,13 +47,14 @@ const create = (baseURL = b) => {
 
   const getAmuletType = (data) => api.get('type/list', data)
   const getQuestionType = () => api.get('manage-question/list')
-
+  const editGroupQuestion = (data) => api.post('type/update-type', data)
 
 
   return {
     // a list of the API functions from step 2
     getAmuletType,
     getQuestionType,
+    editGroupQuestion
   }
 }
 

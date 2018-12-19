@@ -267,18 +267,18 @@ class CheckPhraScreen extends Component {
   }
 
   _goToURL = (item) => {
-      // const url = 'm.me/316834699141900'
-      const url = 'https://www.messenger.com/t/' + item    // pc , mobile
-      // const url = 'https://m.me/316834699141900' // pc , mobile can't use
-      console.log(url)
-      Linking.canOpenURL(url).then(supported => {
-        if (supported) {
-          Linking.openURL(url);
-        } else {
-          console.log('Don\'t know how to open URI: ' + url);
-        }
-      });
-    
+    // const url = 'm.me/316834699141900'
+    const url = 'https://www.messenger.com/t/' + item    // pc , mobile
+    // const url = 'https://m.me/316834699141900' // pc , mobile can't use
+    console.log(url)
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log('Don\'t know how to open URI: ' + url);
+      }
+    });
+
   }
 
   render() {
@@ -376,7 +376,7 @@ class CheckPhraScreen extends Component {
             <ScrollView>
               <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question') + " ( " + this.props.data.id + " )"} </Text>
-                {this.props.data && !this.props.data.fb_id && <Text style={{ fontSize: 16, color: Colors.brownTextTran, marginHorizontal: 18, marginVertical: 4 }}> {this.props.data.email} </Text>}
+                {this.props.data && !this.props.data.fb_id && <Text style={{ fontSize: 16, color: Colors.brownTextTran, marginHorizontal: 18, marginVertical: 4 }}> {this.props.data.name ? this.props.data.name : this.props.data.email} </Text>}
                 {this.props.data && this.props.data.fb_id && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', borderRadius: 15 }} onPress={() => this._goToURL(this.props.data.fb_id)}>
                   <Text style={{ fontSize: 16, color: Colors.brownTextTran, marginHorizontal: 18, marginVertical: 4 }}> {this.props.data.name} </Text>
                 </TouchableOpacity>}

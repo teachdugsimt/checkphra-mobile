@@ -46,9 +46,14 @@ const { Types, Creators } = createActions({
   getAutoTextSuccess: ['data'],
   getAutoTextFailure: null,
 
+  editGroup: ['type_id', 'qid'],
+  editGroupSuccess: ['data'],
+  editGroupFailure: null,
+
   clearSendAnswer: null,
   clearGetAnswer: null,
-  clearUpdateRequest: null
+  clearUpdateRequest: null,
+  clearEditData: null,
 })
 
 export const ExpertTypes = Types
@@ -87,6 +92,9 @@ export const INITIAL_STATE = Immutable({
 
   fetch7: null, // for request automatic text
   data_text: null,
+
+  fetch8: null,  // for edit type of question
+  data_group: null,
 
 })
 
@@ -168,7 +176,9 @@ export const answerSuccess2 = (state, { data }) => {
 }
 export const answerFailure2 = state => state.merge({ fetch4: false })
 
-
+export const editGroup = state => state.merge({ fetch8: true })
+export const editGroupSuccess = (state, { data }) => state.merge({ fetch8: false, data_group: data })
+export const editGroupFailure = state => state.merge({ fetch8: false })
 
 
 export const clearAcceptRequest = state => state.merge({ fetch3: null })
@@ -190,19 +200,7 @@ export const editFullData = (state, { id }) => {
   return state.merge({ full_data: tmp })
 }
 
-// export const editFullData = (state, { id, status }) => {
-//   let tmp = [...state.full_data]
-//   let index = state.index_row
-//   // console.log(tmp[index])
-//   // console.log('HERE TMP IN REDUX')
-//   let data = {
-//     id: id,
-//     status
-//   }
-//   tmp[index] = data
-//   return state.merge({ full_data: tmp })
-
-// }
+export const clearEditData = state => state.merge({ data_group: null })
 
 export const setAnswerDetail = (state, { data }) => {
   return state.merge({ answer_detail: data })
@@ -245,6 +243,12 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_AUTO_TEXT]: getAutoText,
   [Types.GET_AUTO_TEXT_SUCCESS]: getAutoTextSuccess,
   [Types.GET_AUTO_TEXT_FAILURE]: getAutoTextFailure,
+
+  [Types.EDIT_GROUP]: editGroup,
+  [Types.EDIT_GROUP_SUCCESS]: editGroupSuccess,
+  [Types.EDIT_GROUP_FAILURE]: editGroupFailure,
+
+  [Types.CLEAR_EDIT_DATA]: clearEditData,
 
   [Types.CLEAR_ACCEPT_REQUEST]: clearAcceptRequest,
   [Types.SET_FULL_DATA]: setFullData,

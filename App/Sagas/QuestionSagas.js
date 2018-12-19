@@ -32,6 +32,7 @@ export function* getAmuletType(api) {
   // const response = yield call(api.getAmuletType, data)
   const response = yield call(api.getAmuletType, data)  // new api v2
   console.log(response)
+  console.log('+++++++++++ REQUEST AMMULET TYPE ++++++++++++')
 
   // success?
   if (response.ok) {

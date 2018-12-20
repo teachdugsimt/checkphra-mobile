@@ -34,8 +34,9 @@ export function* signin(api, action) {
   console.log(data)
   console.log('start signin')
 
+  console.log(data)
   const response = yield call(api.signin, data)
-
+  console.log(response)
   // success?
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
@@ -50,7 +51,7 @@ export function* signin(api, action) {
     console.log(response)
 
     // alert(response.data.message)
-    yield put(AuthActions.signinFailure(response.data.message))
+    yield put(AuthActions.signinFailure(response.problem))
   }
 }
 

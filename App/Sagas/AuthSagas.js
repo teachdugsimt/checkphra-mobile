@@ -51,7 +51,12 @@ export function* signin(api, action) {
     console.log(response)
 
     // alert(response.data.message)
-    yield put(AuthActions.signinFailure(response.problem))
+    if (response.data) {
+      yield put(AuthActions.signinFailure(response.data.message))
+    } else {
+      yield put(AuthActions.signinFailure(response.problem))
+    }
+
   }
 }
 

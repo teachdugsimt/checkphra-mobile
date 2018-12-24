@@ -318,13 +318,13 @@ class Bit2 extends Component {
 
             {this.state.hide == false && this.props.data.status == 'bargain' && this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 && <View>
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#fff5', margin: 10, borderRadius: 10 }} >
-                <TextInput style={{ width: '45%', alignSelf: 'center' }}
+                <TextInput style={{ width: '45%', height: 48, alignSelf: 'center' }}
                   value={this.state.price}
                   textAlign={'center'}
                   onChangeText={(text) => this.setState({ price: text })}
                   placeholder={I18n.t('inputBit')} />
 
-                <TextInput style={{ width: '45%', alignSelf: 'center' }}
+                <TextInput style={{ width: '45%', height: 48, alignSelf: 'center' }}
                   value={this.state.price2}
                   textAlign={'center'}
                   keyboardType={'numeric'}

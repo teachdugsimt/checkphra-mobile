@@ -131,6 +131,8 @@ export function* getHistory(api, { count }) {
       yield put(QuestionActions.clearGetHistory())
     }
   } else {
+    console.log(count)
+    console.log('******************HERE COUNT AT SAGAS******************')
     const a = yield select(auth)
 
     const data = {

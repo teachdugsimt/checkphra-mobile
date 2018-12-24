@@ -56,6 +56,7 @@ class CheckListScreen extends Component {
   }
 
   componentDidMount() {
+    count = 1
     moment.locale('th')
     this.props.getHistory(1)
     this.props.getAmuletType()
@@ -353,9 +354,14 @@ class CheckListScreen extends Component {
   }
 
   _onScrollEndList = () => {
-    console.log('END OF LIST AGAIN')
-    if (this.props.history && this.props.history.length > 7) {
+    // console.log('END OF LIST AGAIN')
+    // console.log(this.props.request2)  // request2 is change => true / false 
+    // console.log(count)
+    if (this.props.history && this.props.history.length >= 20 && this.props.request2 == false) {
       count++
+      console.log('LOAD')
+      // console.log('COUNT BEFORE REQUEST')
+      // console.log(count)
       this.props.getHistory(count)
     }
   }
@@ -376,6 +382,8 @@ class CheckListScreen extends Component {
 
   render() {
     I18n.locale = this.props.language
+    // console.log(this.props.request2)
+    // console.log('HERE REQUEST2')
     // console.log(JSON.parse(JSON.stringify(this.props.history)))
     // let data = this.props.history ? JSON.parse(JSON.stringify(this.props.history)) : null
     return (
@@ -527,7 +535,7 @@ class CheckListScreen extends Component {
           }}
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
           onEndReached={this._onScrollEndList}
-          onEndReachedThreshold={0.05}
+          onEndReachedThreshold={0.025}
         />
         {/* <Spinner
           visible={this.props.request2}

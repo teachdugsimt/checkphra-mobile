@@ -111,8 +111,10 @@ class Bit extends Component {
 
     _onScrollEndList = () => {
         console.log('END LIST AGAIN')
+        // if (this.props.data_answer && this.props.data_answer.length >= 10 && this.props.request2 == false) {
         count++
         this.props.getAnswer(count)
+        // }
     }
 
 

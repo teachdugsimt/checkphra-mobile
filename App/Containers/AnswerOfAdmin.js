@@ -114,8 +114,10 @@ class AnswerOfAdmin extends Component {
 
   _onScrollEndList = () => {
     console.log('END LIST AGAIN')
+    // if (this.props.data_answer && this.props.data_answer.length >= 10 && this.props.request2 == false) {
     count++
     this.props.getAnswer(count)
+    // }
   }
 
   _pressBit = (item) => {
@@ -344,7 +346,7 @@ class AnswerOfAdmin extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.auth.language,
-    request2: state.expert.fetch4, //get history
+    request2: state.expert.fetch4, //get answer admin
     request3: state.expert.fetch5, // send answer
     data_answer: state.expert.data_answer,
     data_updateAnswer: state.expert.data_updateAnswer,

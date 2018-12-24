@@ -45,7 +45,6 @@ class ShowAmuletRoom extends Component {
         }
     }
 
-
     static rename = (amuletTypes) => {
         let item = []
 
@@ -170,15 +169,22 @@ class ShowAmuletRoom extends Component {
 
         let item = prevState.item
 
-        if (nextProps.language != prevState.language && prevState.amuletType && checkType2 == true ) {
-            checkType2 = false
+        let tmp = prevState.tmp
+        if (nextProps.language != prevState.language && prevState.tmp) {
+            tmp = ShowAmuletRoom.rename(prevState.tmp)
+        } else if (prevState.language == nextProps.language && prevState.tmp) {
+            tmp = ShowAmuletRoom.rename(prevState.tmp)
+        }
+
+        if (nextProps.language != prevState.language && prevState.amuletType) {
+            // checkType2 = false
             nextProps.navigation.setParams({ title: I18n.t('selectAmuletType') })
             amuletTypes = prevState.amuletType.filter(e => !e.parent_id)
             item = ShowAmuletRoom.rename(amuletTypes)
         }
 
-        if (nextProps.data_amulet != null && nextProps.data_aumlet != prevState.amuletType && checkType == true) {
-            checkType = false
+        if (nextProps.data_amulet != null && nextProps.data_aumlet != prevState.amuletType) {
+            // checkType = false
             amuletTypes = nextProps.data_amulet.filter(e => !e.parent_id)
             item = ShowAmuletRoom.rename(amuletTypes)
         }
@@ -186,7 +192,8 @@ class ShowAmuletRoom extends Component {
         return {
             item: item,
             amuletType: nextProps.data_amulet,
-            language: nextProps.language
+            language: nextProps.language,
+            tmp: tmp,
         }
     }
 
@@ -214,37 +221,38 @@ class ShowAmuletRoom extends Component {
     getTypePhra = (item) => {
 
         if (item.name == "เบญจภาคี" || item.name == "Benja pakee") {
-            // this.props.navigation.navigate("detail")
             let tmp = this.state.amuletType.filter(e => (e.parent_id && e.parent_id == item.id))
+            tmp = ShowAmuletRoom.rename(tmp)
             this.setState({ tmp })
             this.popupDialog.show()
         }
         else if (item.name == "พระวัดระฆัง" || item.name == "PhraWad Rakung") {
-            // this.props.navigation.navigate("detail2")
             let tmp = this.state.amuletType.filter(e => (e.parent_id && e.parent_id == item.id))
+            tmp = ShowAmuletRoom.rename(tmp)
             this.setState({ tmp })
             this.popupDialog.show()
         }
         else if (item.name == "บางขุนพรหม" || item.name == "Bang Khun Prom") {
-            // this.props.navigation.navigate("detail3")
             let tmp = this.state.amuletType.filter(e => (e.parent_id && e.parent_id == item.id))
+            tmp = ShowAmuletRoom.rename(tmp)
             this.setState({ tmp })
             this.popupDialog.show()
         }
         else {
             this.props.setAmuletType(item)
-            console.log('YESSSSSSSSSSSSSSSSSSSSSSSSSSSSSS')
-            // this.props.navigation.navigate("send")
+            this.props.navigation.navigate("myAmulet")
+            this.popupDialog.dismiss()
         }
     }
 
     _pressEdit2 = (item) => {
         this.props.setAmuletType(item)
-        // this.props.navigation.navigate("send")
+        this.props.navigation.navigate("myAmulet")
+        this.popupDialog.dismiss()
     }
 
     render() {
-        I18n.locale = this.props.language
+        // I18n.locale = this.props.language
 
 
         return (
@@ -284,6 +292,10 @@ class ShowAmuletRoom extends Component {
                     </View>
                 </PopupDialog>
 
+                <TouchableOpacity style={{ marginTop: 15, marginBottom: 5, backgroundColor: '#FFEFD5', alignItems: 'center', borderRadius: 15, width: width / 2.5, alignSelf: 'center' }}>
+                    <Text style={{ color: Colors.brownTextTran, fontSize: 16, fontWeight: 'bold', marginVertical: 7, marginHorizontal: 7 }}>{I18n.t('myAmulet')}</Text>
+                </TouchableOpacity>
+                
                 <GridView
                     itemDimension={100}
                     items={this.state.item ? this.state.item : []}
@@ -294,7 +306,7 @@ class ShowAmuletRoom extends Component {
                                     style={{
                                         height: 85,
                                         width: '100%',
-                                        backgroundColor: Colors.milk,
+                                        backgroundColor: '#FBD190',
                                         justifyContent: "center",
                                         borderRadius: 8,
                                         padding: 10
@@ -319,7 +331,7 @@ class ShowAmuletRoom extends Component {
                 <Spinner
                     visible={this.props.request_type == true}
                     textContent={'Loading...'}
-                    textStyle={{ color: '#fff'}}
+                    textStyle={{ color: '#fff' }}
                 />
 
             </LinearGradient>

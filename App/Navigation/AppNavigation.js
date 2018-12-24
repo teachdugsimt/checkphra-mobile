@@ -32,6 +32,7 @@ import DetailTypeScreen2 from '../Containers/DetailTypeScreen2'
 import DetailTypeScreen3 from '../Containers/DetailTypeScreen3'
 import HomeScreen from '../Containers/HomeScreen'
 import ShowAmuletRoom from '../Containers/ShowAmuletRoom'
+import MyRealAmulet from '../Containers/MyRealAmulet'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -139,6 +140,12 @@ const UploadStack = StackNavigator(  // main upload
       screen: ShowAmuletRoom,
       navigationOptions: {
         title: I18n.t('showAmuletReal')
+      }
+    },
+    myAmulet: {
+      screen: MyRealAmulet,
+      navigationOptions: {
+        title: I18n.t('myAmulet')
       }
     }
   },

@@ -212,6 +212,8 @@ class UploadScreen extends Component {
     // }
     //***************************** check PUBLISH of the day ************************************/
 
+
+    // ********************* GET AMULET TYPE ***************************************//
     let item = prevState.item
     if (nextProps.language != prevState.language && prevState.amuletType) {
       nextProps.navigation.setParams({ title: I18n.t('selectAmuletType') })
@@ -233,6 +235,7 @@ class UploadScreen extends Component {
         item = UploadScreen.rename(amuletTypes)
       }
     }
+     // ********************* GET AMULET TYPE ***************************************//
 
     //************************ check alert login complete 7 days ******************************/
     if (nextProps.data_login != null) {
@@ -264,16 +267,6 @@ class UploadScreen extends Component {
       coin: nextProps.profile ? nextProps.profile.point : null
     }
   }
-
-  // componentWillMount() {
-  // check_publish = true
-  // check_login = true
-  // }
-
-  // componentWillUnmount() {
-  // check_publish = true
-  // check_login = true
-  // }
 
   componentWillUnmount() {
     this.notificationListener();

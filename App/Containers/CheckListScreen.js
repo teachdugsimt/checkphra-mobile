@@ -59,7 +59,7 @@ class CheckListScreen extends Component {
     moment.locale('th')
     this.props.getHistory(1)
     this.props.getAmuletType()
-    // this.props.getProfile()
+    this.props.getProfile()
     this.getDeviceToken()
   }
 
@@ -361,8 +361,12 @@ class CheckListScreen extends Component {
   }
 
   _pressEdit = (item) => {
-    this.popupDialog.show()
-    this.setState({ tmp_qid: item })
+    if (this.props.profile && this.props.profile.role == 'admin') {
+      this.popupDialog.show()
+      this.setState({ tmp_qid: item })
+    } else {
+
+    }
   }
 
   _pressEdit2 = (id) => {
@@ -547,6 +551,7 @@ const mapStateToProps = (state) => {
     request1: state.expert.fetch,   // send answer
     data_answer: state.expert.data_answer,
     language: state.auth.language,
+    profile: state.question.profile,
 
     request_edit: state.expert.fetch8,  // request edit type of  question
     data_edit: state.expert.data_group,

@@ -30,6 +30,8 @@ import AppleVerifyPoint from '../Containers/AppleVerifyPoint'
 import AppleVerifyPoint2 from '../Containers/AppleVerifyPoint2'
 import DetailTypeScreen2 from '../Containers/DetailTypeScreen2'
 import DetailTypeScreen3 from '../Containers/DetailTypeScreen3'
+import HomeScreen from '../Containers/HomeScreen'
+import ShowAmuletRoom from '../Containers/ShowAmuletRoom'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -94,11 +96,17 @@ const ForgetStack = StackNavigator(
   },
 );
 
+
 const UploadStack = StackNavigator(  // main upload
   {
+    home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        title: I18n.t('home')
+      }
+    },
     uploadScreen: {
       screen: UploadScreen,
-
     },
     detail: {
       screen: DetailTypeScreen,
@@ -125,6 +133,12 @@ const UploadStack = StackNavigator(  // main upload
       screen: SendImageScreen,
       navigationOptions: {
         title: I18n.t('selectImagesAndQuestions'),
+      }
+    },
+    showroom: {
+      screen: ShowAmuletRoom,
+      navigationOptions: {
+        title: I18n.t('showAmuletReal')
       }
     }
   },
@@ -439,6 +453,7 @@ const UserBitStack = StackNavigator(  // Publish stack // ORIGINAL ONE BIT STACK
 // )
 //     **************** PHASE 2 STACK******************
 
+
 const DashStack = TabNavigator(   // **************  USER STACK *******************
   {
     upload: UploadStack,
@@ -474,6 +489,9 @@ const DashStack = TabNavigator(   // **************  USER STACK ****************
           iconName = `newspaper-o${focused ? "" : ""}`;
         }
         if (routeName == "userbit") {
+          iconName = `exchange${focused ? "" : ""}`;
+        }
+        if (routeName == "home") {
           iconName = `exchange${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;

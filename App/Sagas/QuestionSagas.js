@@ -39,8 +39,10 @@ export function* getAmuletType(api) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(QuestionActions.getAmuletTypeSuccess(response.data))
+    yield put(QuestionActions.setRequestType())
   } else {
     yield put(QuestionActions.getAmuletTypeFailure())
+    yield put(QuestionActions.setRequestType())
   }
 }
 

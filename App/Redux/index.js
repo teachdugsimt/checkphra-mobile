@@ -18,6 +18,7 @@ export const reducers = combineReducers({
   expert: require('./ExpertRedux').reducer,
   trading: require('./TradingRedux').reducer,
   version: require('./VersionRedux').reducer,
+  showroom: require('./ShowRoomRedux').reducer,
 })
 
 export default () => {

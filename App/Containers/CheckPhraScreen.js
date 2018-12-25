@@ -313,7 +313,8 @@ class CheckPhraScreen extends Component {
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
             dialogAnimation={slideAnimation}
             width={0.7}
-            height={height / (this.state.autoText ? (this.state.autoText.length + (1.5)) : 3.5)}
+            // height={height / (this.state.autoText ? (this.state.autoText.length + (1.5)) : 3.5)}
+            height={this.props.autoText ? 30 * (this.props.autoText.length + 1) : height / 3}
             // height={150}
             onDismissed={() => { this.setState({}) }}
           >
@@ -326,8 +327,8 @@ class CheckPhraScreen extends Component {
                   backgroundColor: 'lightgrey',
                   borderRadius: 10,
                   justifyContent: 'center',
-                  alignItems: 'center'
-                }}><Text style={{ alignSelf: 'center', fontSize: 16, color: Colors.brownText }}>{e.text}</Text></TouchableOpacity>
+                  // alignItems: 'center'
+                }}><Text style={{ fontSize: 16, color: Colors.brownText, paddingHorizontal: 20 }}>{e.text}</Text></TouchableOpacity>
               })}
             </View>
           </PopupDialog>

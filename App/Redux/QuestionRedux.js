@@ -53,6 +53,7 @@ const { Types, Creators } = createActions({
   clearDataQuestion: null,
   clearAll: null,
   clearGetHistory: null,
+  setRequestType: null,
 })
 
 export const QuestionTypes = Types
@@ -73,6 +74,7 @@ export const INITIAL_STATE = Immutable({
   answer: null,
 
   profile: null,
+  request_profile: null,
 
   // -------- For Submittion
   images: [],
@@ -98,6 +100,9 @@ export const QuestionSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const setRequestType = state => state.merge({ request_type: null })
+
 export const questionRequest = (state, { data }) =>
   state.merge({ fetching: true, data, questionType: [] })
 
@@ -216,11 +221,13 @@ export const answerSuccess = (state, action) => {
   return state.merge({ answer })
 }
 
+export const getProfile = state => state.merge({ request_profile: true })
+
 export const profileSuccess = (state, action) => {
 
   const { profile } = action
   console.log(profile)
-  return state.merge({ profile })
+  return state.merge({ profile, request_profile: false })
 }
 
 // export const deleteImage = (state, { index }) => {
@@ -306,6 +313,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_ALL]: clearAll,
 
   [Types.GET_ANSWER_SUCCESS]: answerSuccess,
+  [Types.GET_PROFILE]: getProfile,
   [Types.GET_PROFILE_SUCCESS]: profileSuccess,
 
   [Types.DELETE_IMAGE]: deleteImage,
@@ -324,4 +332,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_DATA_QUESTION]: clearDataQuestion,
 
   [Types.SET_START_QUESTION]: setStartQuestion,
+  [Types.SET_REQUEST_TYPE]: setRequestType,
 })

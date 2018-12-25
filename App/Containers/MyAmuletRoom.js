@@ -20,12 +20,12 @@ const slideAnimation = new SlideAnimation({
 });
 
 let { width, height } = Dimensions.get('window')
-class Promotion extends Component {
+class MyAmuletRoom extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      listPromotion: null,
+    //   listPromotion: null,
     }
   }
 
@@ -34,7 +34,7 @@ class Promotion extends Component {
     // console.log(I18n.locale)
 
     return {
-      title: I18n.t('package'),
+      title: I18n.t('myAmulet'),
     }
   }
 
@@ -45,7 +45,6 @@ class Promotion extends Component {
       listPromotion: plist
     }
   }
-
 
   componentWillUnmount() {
     RNIap.endConnection()
@@ -131,8 +130,8 @@ class Promotion extends Component {
               }} />
             </View>
 
-            <View style={{ backgroundColor: 'red' }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: width / 2.85 }}>
+            <View>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={{ fontWeight: 'bold', color: 'orange', fontSize: 24, marginTop: 15 }}>{item.point}</Text>
                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 15, color: Colors.brownText }}> {I18n.t('coin')}</Text>
               </View>
@@ -244,8 +243,6 @@ class Promotion extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    promotion: state.promotion.data,
-    fetching: state.promotion.fetching,
     profile: state.question.profile,
     language: state.auth.language,
   }
@@ -253,11 +250,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPromotion: (platform) => dispatch(PromotionActions.promotionRequest(platform)),
-    setMoney: (m) => dispatch(PromotionActions.setMoney(m)),
-    setPackage: (pack) => dispatch(PaymentActions.setPackage(pack)),
-    paypal: () => dispatch(PaymentActions.paypalRequest()),
+    // getPromotion: (platform) => dispatch(PromotionActions.promotionRequest(platform)),
+    // setMoney: (m) => dispatch(PromotionActions.setMoney(m)),
+    // setPackage: (pack) => dispatch(PaymentActions.setPackage(pack)),
+    // paypal: () => dispatch(PaymentActions.paypalRequest()),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Promotion)
+export default connect(mapStateToProps, mapDispatchToProps)(MyAmuletRoom)

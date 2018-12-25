@@ -56,10 +56,11 @@ class CheckListScreen extends Component {
   }
 
   componentDidMount() {
+    count = 1
     moment.locale('th')
     this.props.getHistory(1)
     this.props.getAmuletType()
-    // this.props.getProfile()
+    this.props.getProfile()
     this.getDeviceToken()
   }
 
@@ -353,16 +354,25 @@ class CheckListScreen extends Component {
   }
 
   _onScrollEndList = () => {
-    console.log('END OF LIST AGAIN')
-    if (this.props.history && this.props.history.length > 7) {
+    // console.log('END OF LIST AGAIN')
+    // console.log(this.props.request2)  // request2 is change => true / false 
+    // console.log(count)
+    if (this.props.history && this.props.history.length >= 20 && this.props.request2 == false) {
       count++
+      console.log('LOAD')
+      // console.log('COUNT BEFORE REQUEST')
+      // console.log(count)
       this.props.getHistory(count)
     }
   }
 
   _pressEdit = (item) => {
-    this.popupDialog.show()
-    this.setState({ tmp_qid: item })
+    if (this.props.profile && this.props.profile.role == 'admin') {
+      this.popupDialog.show()
+      this.setState({ tmp_qid: item })
+    } else {
+
+    }
   }
 
   _pressEdit2 = (id) => {
@@ -372,6 +382,8 @@ class CheckListScreen extends Component {
 
   render() {
     I18n.locale = this.props.language
+    // console.log(this.props.request2)
+    // console.log('HERE REQUEST2')
     // console.log(JSON.parse(JSON.stringify(this.props.history)))
     // let data = this.props.history ? JSON.parse(JSON.stringify(this.props.history)) : null
     return (
@@ -523,7 +535,7 @@ class CheckListScreen extends Component {
           }}
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
           onEndReached={this._onScrollEndList}
-          onEndReachedThreshold={0.05}
+          onEndReachedThreshold={0.025}
         />
         {/* <Spinner
           visible={this.props.request2}
@@ -547,6 +559,7 @@ const mapStateToProps = (state) => {
     request1: state.expert.fetch,   // send answer
     data_answer: state.expert.data_answer,
     language: state.auth.language,
+    profile: state.question.profile,
 
     request_edit: state.expert.fetch8,  // request edit type of  question
     data_edit: state.expert.data_group,

@@ -239,6 +239,8 @@ export default {
   showAmuletReal: 'Real Amulet Room',
   chat: 'Chat Room',
 
+  myAmulet: 'My Real Amulet',
+
   editType: 'Please choose new group',
 
   หลวงปู่ทวด: 'Luangpu Tuad',

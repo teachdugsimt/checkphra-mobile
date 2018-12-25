@@ -39,8 +39,10 @@ export function* getAmuletType(api) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(QuestionActions.getAmuletTypeSuccess(response.data))
+    yield put(QuestionActions.setRequestType())
   } else {
     yield put(QuestionActions.getAmuletTypeFailure())
+    yield put(QuestionActions.setRequestType())
   }
 }
 
@@ -129,6 +131,8 @@ export function* getHistory(api, { count }) {
       yield put(QuestionActions.clearGetHistory())
     }
   } else {
+    console.log(count)
+    console.log('******************HERE COUNT AT SAGAS******************')
     const a = yield select(auth)
 
     const data = {

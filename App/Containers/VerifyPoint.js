@@ -181,10 +181,10 @@ class VerifyPoint extends Component {
     }
 
     _onScrollEndList = () => {
-        // if (this.props.data_answer && this.props.data_answer.length >= 10 && this.props.request2 == false) {
-        count++
-        this.props.getVerify(count)
-        // }
+        if (this.props.data && this.props.data.length >= 10 && (this.props.request == false || this.props.request == null)) {
+            count++
+            this.props.getVerify(count)
+        }
     }
 
     _pressCancel2 = () => {
@@ -214,7 +214,8 @@ class VerifyPoint extends Component {
                     data={this.state.verifyData}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
-                    onEndReachedThreshold={0.05}
+                    // onEndReachedThreshold={0.025}
+                    onEndReachedThreshold={1.2}
                 />
                 <PopupDialog
                     dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
@@ -262,7 +263,7 @@ const mapStateToProps = (state) => {
         // questionType: state.question.questionType,
         // fetching: state.expert.fetch,
         data: state.expert.data_verify,
-        request: state.expert.fetch2,
+        request: state.expert.fetch2,  // request history verify point
         data_accept: state.expert.data_accept,
         request2: state.expert.fetch3,
         data_fully: state.expert.full_data,

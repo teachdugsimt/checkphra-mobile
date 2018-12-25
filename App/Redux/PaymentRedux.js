@@ -38,7 +38,7 @@ const { Types, Creators } = createActions({
   cardHistoryFailure: null,
   cardHistorySuccess2: ['data'],
   cardHistoryFailure2: null,
-  
+
   appleHistory: ['page'],
   appleHistorySuccess: ['data'],
   appleHistoryFailure: null,
@@ -48,6 +48,7 @@ const { Types, Creators } = createActions({
   setPackage: ['data'],
   clearRequest: null,
   clearCardRequest: null,
+  clearAppleRequest: null,
 })
 
 export const PaymentTypes = Types
@@ -81,7 +82,7 @@ export const INITIAL_STATE = Immutable({
   data_cardHistory: null,
 
   request6: null,  // request for add coin by apple
-  data_appleHistory: null, 
+  data_appleHistory: null,
 })
 
 /* ------------- Selectors ------------- */
@@ -175,10 +176,10 @@ export const clearRequest = state => state.merge({ request2: null })
 export const clearCardRequest = state => state.merge({ request3: null })
 
 export const cardHistory = state => state.merge({ request5: true })
-export const cardHistorySuccess = (state, { data }) => { 
+export const cardHistorySuccess = (state, { data }) => {
   // console.log(data)
   // console.log('REDUX TEST DATA CARD')
-  return state.merge({ request5: false, data_cardHistory: data }) 
+  return state.merge({ request5: false, data_cardHistory: data })
 }
 export const cardHistoryFailure = state => state.merge({ request5: false })
 export const cardHistorySuccess2 = (state, { data }) => {
@@ -194,8 +195,8 @@ export const cardHistorySuccess2 = (state, { data }) => {
 export const cardHistoryFailure2 = state => state.merge({ request5: false })
 
 export const appleHistory = state => state.merge({ request6: true })
-export const appleHistorySuccess = (state, { data }) => { 
-  return state.merge({ request6: false, data_appleHistory: data }) 
+export const appleHistorySuccess = (state, { data }) => {
+  return state.merge({ request6: false, data_appleHistory: data })
 }
 export const appleHistoryFailure = state => state.merge({ request6: false })
 export const appleHistorySuccess2 = (state, { data }) => {
@@ -209,6 +210,8 @@ export const appleHistorySuccess2 = (state, { data }) => {
   return state.merge({ data_appleHistory: tmp, request6: false })
 }
 export const appleHistoryFailure2 = state => state.merge({ request6: false })
+
+export const clearAppleRequest = state => state.merge({ request6: null })
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -256,4 +259,5 @@ export const reducer = createReducer(INITIAL_STATE, {
 
 
   [Types.SET_PACKAGE]: setPackage001,
+  [Types.CLEAR_APPLE_REQUEST]: clearAppleRequest,
 })

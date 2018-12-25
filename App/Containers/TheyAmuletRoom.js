@@ -25,32 +25,26 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 
-class MyRealAmulet extends Component {
+class TheyAmuletRoom extends Component {
 
     _renderItem = ({ item, index }) => {
         return (
-            <TouchableOpacity style={{ height: 120, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }}
-            onPress={() => this._goToChat(item)}>
-                
+            <TouchableOpacity style={{ height: 120, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }}>
+
                 <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.name}</Text>
                 <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{item.date}</Text>
             </TouchableOpacity>
         )
     }
 
-    _goToChat = (item) => {
-        this.props.setDetailPhra(item)
-        this.props.navigation.navigate('chatMyAmulet')
-    }
-
     render() {
         I18n.locale = this.props.language
-        // console.log(this.props.data_amulet)
-        const data = [{ name: 'no1.', date: '24/12/18' },
-        { name: 'no2', date: '24/12/18' },
-        { name: 'no3', date: '24/12/18' },
-        { name: 'no4.', date: '24/12/18' }]
-        // console.log('***************************************')
+        console.log(this.props.data_amulet)
+        const data = [{ name: 'num1.', date: '25/12/18' },
+        { name: 'num2.', date: '25/12/18' },
+        { name: 'num3.', date: '25/12/18' },
+        { name: 'num4.', date: '25/12/18' }]
+        console.log('***************************************')
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -92,8 +86,7 @@ const mapDispatchToProps = (dispatch) => {
         getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
         setRequestType: () => dispatch(QuestionActions.setRequestType()),
         setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
-        setDetailPhra: (data) => dispatch(ShowRoomActions.setDetailPhra(data)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyRealAmulet)
+export default connect(mapStateToProps, mapDispatchToProps)(TheyAmuletRoom)

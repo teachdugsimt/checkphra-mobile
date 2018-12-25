@@ -111,10 +111,10 @@ class AppleVerifyPoint extends Component {
     }
 
     _onScrollEndList = () => {
-        // if (this.props.data_answer && this.props.data_answer.length >= 10 && this.props.request2 == false) {
-        count++
-        this.props.getCardList(count)
-        // }
+        if (this.props.data && this.props.data.length >= 10 && (this.props.request == false || this.props.request == null)) {
+            count++
+            this.props.getCardList(count)
+        }
     }
 
     _pressCancel2 = () => {
@@ -124,9 +124,9 @@ class AppleVerifyPoint extends Component {
 
     render() {
         I18n.locale = this.props.language
-        console.log(this.state.verifyData)
-        console.log(this.props.data)
-        console.log('===========STATE AND REDUX============')
+        // console.log(this.state.verifyData)
+        // console.log(this.props.data)
+        // console.log('===========STATE AND REDUX============')
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
                 <Image source={Images.watermarkbg} style={{
@@ -147,7 +147,8 @@ class AppleVerifyPoint extends Component {
                     // data={this.props.data}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
-                    onEndReachedThreshold={0.05}
+                    // onEndReachedThreshold={0.025}
+                    onEndReachedThreshold={1.2}
                 />
             </LinearGradient>
         )

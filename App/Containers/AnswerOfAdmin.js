@@ -114,10 +114,10 @@ class AnswerOfAdmin extends Component {
 
   _onScrollEndList = () => {
     console.log('END LIST AGAIN')
-    // if (this.props.data_answer && this.props.data_answer.length >= 10 && this.props.request2 == false) {
-    count++
-    this.props.getAnswer(count)
-    // }
+    if (this.props.data_answer && this.props.data_answer.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
+      count++
+      this.props.getAnswer(count)
+    }
   }
 
   _pressBit = (item) => {
@@ -333,7 +333,8 @@ class AnswerOfAdmin extends Component {
           }}
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
           onEndReached={this._onScrollEndList}
-          onEndReachedThreshold={0.05}
+          // onEndReachedThreshold={0.025}
+          onEndReachedThreshold={1.2}
         />
 
 

@@ -111,10 +111,10 @@ class HistoryScreen extends Component {
     }
   }
   _onScrollEndList = () => {
-    // if (this.props.data_answer && this.props.data_answer.length >= 10 && this.props.request2 == false) {
-    count++
-    this.props.getHistory(count)
-    // }
+    if (this.props.history && this.props.history.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
+      count++
+      this.props.getHistory(count)
+    }
   }
 
   render() {
@@ -137,7 +137,8 @@ class HistoryScreen extends Component {
             />
           }
           onEndReached={this._onScrollEndList}
-          onEndReachedThreshold={0.05}
+          // onEndReachedThreshold={0.025}
+          onEndReachedThreshold={1.2}
           data={this.props.history}
           renderItem={({ item }) => {
             // console.log(item)
@@ -271,9 +272,9 @@ class HistoryScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    history: state.question.history,
+    history: state.question.history,  // main data
     answer: state.question.answer,
-    request2: state.question.request2,
+    request2: state.question.request2,  // get history 
     images: state.question.images,
     amulet: state.question.amuletType,
     request_question: state.question.request,   // request add question

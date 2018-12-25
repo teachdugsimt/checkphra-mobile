@@ -110,10 +110,10 @@ class CardVerifyPoint extends Component {
     }
 
     _onScrollEndList = () => {
-        // if (this.props.data_answer && this.props.data_answer.length >= 10 && this.props.request2 == false) {
-        count++
-        this.props.getCardList(count)
-        // }
+        if (this.props.data && this.props.data.length >= 10 && (this.props.request == false || this.props.request == null)) {
+            count++
+            this.props.getCardList(count)
+        }
     }
 
     _pressCancel2 = () => {
@@ -146,7 +146,8 @@ class CardVerifyPoint extends Component {
                     // data={this.props.data}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
-                    onEndReachedThreshold={0.05}
+                    // onEndReachedThreshold={0.025}
+                    onEndReachedThreshold={1.2}
                 />
             </LinearGradient>
         )

@@ -314,6 +314,8 @@ class CheckListScreen extends Component {
       }
     }
 
+
+
     let item = prevState.item
     if (newProps.data_amulet != null) {
       // amuletTypes = newProps.data_amulet.filter(e => !e.parent_id)
@@ -343,7 +345,6 @@ class CheckListScreen extends Component {
       newProps.clearEditData()
     }
 
-
     return {
       // fetch: checkRequest,
       item: item,
@@ -357,9 +358,11 @@ class CheckListScreen extends Component {
     // console.log('END OF LIST AGAIN')
     // console.log(this.props.request2)  // request2 is change => true / false 
     // console.log(count)
-    if (this.props.history && this.props.history.length >= 20 && this.props.request2 == false) {
+
+    if (this.props.history && this.props.history.length >= 10 && this.props.request2 == false) {
       count++
       console.log('LOAD')
+      // console.log(this.props.checkHistory)
       // console.log('COUNT BEFORE REQUEST')
       // console.log(count)
       this.props.getHistory(count)
@@ -535,7 +538,8 @@ class CheckListScreen extends Component {
           }}
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
           onEndReached={this._onScrollEndList}
-          onEndReachedThreshold={0.025}
+          // onEndReachedThreshold={1}  // 0.025 low but good
+          onEndReachedThreshold={1.2}
         />
         {/* <Spinner
           visible={this.props.request2}
@@ -563,6 +567,7 @@ const mapStateToProps = (state) => {
 
     request_edit: state.expert.fetch8,  // request edit type of  question
     data_edit: state.expert.data_group,
+
   }
 }
 

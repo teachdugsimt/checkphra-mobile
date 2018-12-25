@@ -25,13 +25,13 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 
-class MyRealAmulet extends Component {
+class ChatMyAmulet extends Component {
 
     _renderItem = ({ item, index }) => {
         return (
             <TouchableOpacity style={{ height: 120, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }}
-            onPress={() => this._goToChat(item)}>
-                
+                onPress={() => this._goToChat(item)}>
+
                 <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.name}</Text>
                 <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{item.date}</Text>
             </TouchableOpacity>
@@ -39,17 +39,19 @@ class MyRealAmulet extends Component {
     }
 
     _goToChat = (item) => {
-        this.props.setDetailPhra(item)
-        this.props.navigation.navigate('chatMyAmulet')
+        // this.props.setDetailPhra(item)
+        // this.props.navigation.navigate('')
+        this.props.navigation.navigate('')
     }
 
     render() {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
-        const data = [{ name: 'no1.', date: '24/12/18' },
-        { name: 'no2', date: '24/12/18' },
-        { name: 'no3', date: '24/12/18' },
-        { name: 'no4.', date: '24/12/18' }]
+        const data = [{ name: 'chat1.', date: '25/12/18' },
+        { name: 'chat2.', date: '25/12/18' },
+        { name: 'chat3.', date: '25/12/18' },
+        { name: 'chat4.', date: '25/12/18' },
+        { name: 'chat5.', date: '25/12/18' }]
         // console.log('***************************************')
         return (
             <LinearGradient
@@ -61,6 +63,19 @@ class MyRealAmulet extends Component {
                     width: width,
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
+
+                <View style={{  height: 45, backgroundColor: Colors.milk,  }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <TouchableOpacity style={{ borderColor: 'orange', alignItems: 'center', justifyContent: 'center', borderWidth: 5, flex: 1 }}>
+                            <Text style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, fontSize: 18 }}>{I18n.t('messages')}</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={{ borderBottomColor: 'orange', borderBottomWidth: 5,borderRightColor: 'orange', borderRightWidth: 5,borderTopColor: 'orange', borderTopWidth: 5, alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+                            <Text style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, fontSize: 18 }}>{I18n.t('chat')}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
                 <FlatList
                     // refreshControl={
                     //     <RefreshControl
@@ -96,4 +111,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyRealAmulet)
+export default connect(mapStateToProps, mapDispatchToProps)(ChatMyAmulet)

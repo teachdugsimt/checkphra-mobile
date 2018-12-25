@@ -240,14 +240,19 @@ class ShowAmuletRoom extends Component {
         }
         else {
             this.props.setAmuletType(item)
-            this.props.navigation.navigate("myAmulet")
+            this.props.navigation.navigate("theyAmulet")
             this.popupDialog.dismiss()
         }
     }
 
+    _goMyAmulet = () => {
+        this.props.navigation.navigate("myAmulet")
+        this.popupDialog.dismiss()
+    }
+
     _pressEdit2 = (item) => {
         this.props.setAmuletType(item)
-        this.props.navigation.navigate("myAmulet")
+        this.props.navigation.navigate("theyAmulet")
         this.popupDialog.dismiss()
     }
 
@@ -292,10 +297,11 @@ class ShowAmuletRoom extends Component {
                     </View>
                 </PopupDialog>
 
-                <TouchableOpacity style={{ marginTop: 15, marginBottom: 5, backgroundColor: '#FFEFD5', alignItems: 'center', borderRadius: 15, width: width / 2.5, alignSelf: 'center' }}>
+                <TouchableOpacity style={{ marginTop: 15, marginBottom: 5, backgroundColor: '#FFEFD5', alignItems: 'center', borderRadius: 15, width: width / 2.5, alignSelf: 'center' }}
+                    onPress={this._goMyAmulet}>
                     <Text style={{ color: Colors.brownTextTran, fontSize: 16, fontWeight: 'bold', marginVertical: 7, marginHorizontal: 7 }}>{I18n.t('myAmulet')}</Text>
                 </TouchableOpacity>
-                
+
                 <GridView
                     itemDimension={100}
                     items={this.state.item ? this.state.item : []}

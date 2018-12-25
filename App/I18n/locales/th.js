@@ -239,6 +239,8 @@ export default {
   checkAmuletScreen: 'ตรวจสอบพระ',
   showAmuletReal: 'ห้องรวมพระแท้',
   chat: 'ห้องสนทนา',
+  messages: 'ข้อความ',
+  chatMyAmulet: 'สนทนาพระของฉัน',
 
   myAmulet: 'พระแท้ของฉัน',
 

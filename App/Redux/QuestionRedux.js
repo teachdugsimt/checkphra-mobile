@@ -71,6 +71,7 @@ export const INITIAL_STATE = Immutable({
   questionType: [],
 
   history: [],
+  // checkHistory: null,
   answer: null,
 
   profile: null,

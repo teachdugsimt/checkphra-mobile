@@ -19,11 +19,11 @@ class HistoryPoint extends Component {
     static navigationOptions = ({ navigation }) => {
         // console.log(navigation)
         // console.log(I18n.locale)
-    
+
         return {
-          title: I18n.t('purchaseHistory'),
+            title: I18n.t('purchaseHistory'),
         }
-      }
+    }
     // static navigationOptions = ({ navigation }) => {
     //     // const params = navigation.state.params || {};
 
@@ -124,9 +124,11 @@ class HistoryPoint extends Component {
         // } else if(this.state.history_data.length < 11) {
         //     count = 1
         // }
-        console.log('END OF LIST AGAIN')
-        count++
-        this.props.getHistory(count)
+        if (this.props.data_history && this.props.data_history.length >= 10 && (this.props.request == false || this.props.request == null)) {
+            console.log('END OF LIST AGAIN')
+            count++
+            this.props.getHistory(count)
+        }
     }
 
     _renderItem = ({ item, index }) => {
@@ -135,11 +137,11 @@ class HistoryPoint extends Component {
         // type=3 credit-card
         console.log(item)
         let color = item.status == 0 ? 'orange' : 'green'
-        if(item.status == 0){
+        if (item.status == 0) {
             color = 'orange'
-        } else if(item.status == 10){
+        } else if (item.status == 10) {
             color = 'green'
-        } else if(item.status == 99){
+        } else if (item.status == 99) {
             color = 'red'
         }
         return (
@@ -190,7 +192,8 @@ class HistoryPoint extends Component {
                         />
                     }
                     onEndReached={this._onScrollEndList}
-                    onEndReachedThreshold={0.05}
+                    // onEndReachedThreshold={0.025}
+                    onEndReachedThreshold={1.2}
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                 />
             </View>
@@ -200,9 +203,9 @@ class HistoryPoint extends Component {
 
 const mapStateToProps = state => {
     return {
-        data_history: state.payment.data_history,
+        data_history: state.payment.data_history,  // main data
         profile: state.question.profile,
-        request: state.payment.request,
+        request: state.payment.request,  // main request
         request2: state.payment.request2,
         data_slip: state.payment.data_slip,
         request3: state.payment.request3,

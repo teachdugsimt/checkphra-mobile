@@ -225,8 +225,10 @@ export function* appleHistoryRequest(api, { page, type }) {
     console.log('---------------- ADD COIN BY CREDIT CARD APPLE ------------------')
     if (response.ok) {
       yield put(PaymentActions.appleHistorySuccess(response.data))
+      yield put(PaymentActions.clearAppleRequest())
     } else {
       yield put(PaymentActions.appleHistoryFailure())
+      yield put(PaymentActions.clearAppleRequest())
       // alert(I18n.t('historyFailure'))
     }
   } else {
@@ -245,8 +247,10 @@ export function* appleHistoryRequest(api, { page, type }) {
     console.log('---------------- ADD COIN BY CREDIT CARD APPLE ------------------')
     if (response.ok) {
       yield put(PaymentActions.appleHistorySuccess2(response.data))
+      yield put(PaymentActions.clearAppleRequest())
     } else {
       yield put(PaymentActions.appleHistoryFailure2())
+      yield put(PaymentActions.clearAppleRequest())
       // alert(I18n.t('historyFailure'))
     }
   }

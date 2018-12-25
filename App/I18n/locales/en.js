@@ -238,6 +238,8 @@ export default {
   checkAmuletScreen: 'Check Phra',
   showAmuletReal: 'Real Amulet Room',
   chat: 'Chat Room',
+  messages: 'Messages',
+  chatMyAmulet: 'Chat about my amulet',
 
   myAmulet: 'My Real Amulet',
 

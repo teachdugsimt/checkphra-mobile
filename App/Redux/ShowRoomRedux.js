@@ -9,6 +9,7 @@ const { Types, Creators } = createActions({
   showRoomFailure: null,
 
   setAmuletType: ['data'],
+  setDetailPhra: ['data'],
 
 })
 
@@ -24,6 +25,7 @@ export const INITIAL_STATE = Immutable({
   error: null,
 
   data_amulet: null,
+  data_detail: null,
 })
 
 /* ------------- Selectors ------------- */
@@ -36,6 +38,7 @@ export const ShowRoomSelectors = {
 
 // request the data from an api
 export const setAmuletType = (state, { data }) => state.merge({ data_amulet: data })
+export const setDetailPhra = (state, { data }) => state.merge({ data_detail: data })
 
 export const request = (state, { data }) =>
   state.merge({ fetching: true, data, payload: null })
@@ -58,4 +61,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SHOW_ROOM_FAILURE]: failure,
 
   [Types.SET_AMULET_TYPE]: setAmuletType,
+  [Types.SET_DETAIL_PHRA]: setDetailPhra,
 })

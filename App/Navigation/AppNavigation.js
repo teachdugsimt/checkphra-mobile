@@ -52,6 +52,7 @@ import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 
 import { connect } from "react-redux";
+import IconBadge from 'react-native-icon-badge';
 
 
 const AuthStack = StackNavigator(
@@ -446,7 +447,20 @@ const DashStack = TabNavigator(   // **************  USER STACK ****************
     // trade: TradingStack,  //  PHASE 2 wait for person more than now person
     // pub: PublishStack,
     userbit: UserBitStack,   // เปลี่ยน userbit  => Tab nav / do 2 stack nav and push it to Tab nav(userbit)
-    pro: PromotionStack,
+    pro: {
+      screen: PromotionStack,
+      // navigationOptions: ({ screenProps }) => ({
+      //   tabBarIcon: ({ tintColor }) =>
+      //     <IconBadge
+      //       MainElement={<Icon2 name={'gift'} size={30} color={tintColor} />}
+      //       BadgeElement={<Text style={{ color: 'white' }}>Hot</Text>}
+      //       IconBadgeStyle={
+      //         { paddingHorizontal: 5, top: 1, right: -22 }
+      //       }
+      //       Hidden={false}
+      //     />
+      // })
+    },
     profile: ProfileStack,
   },
   {

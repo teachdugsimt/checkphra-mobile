@@ -13,7 +13,11 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
 import LinearGradient from "react-native-linear-gradient";
 
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import {
+  AccessToken, LoginManager,
+  GraphRequest,
+  GraphRequestManager
+} from 'react-native-fbsdk';
 import firebase from 'react-native-firebase';
 import { Images, Metrics } from '../Themes'
 import AuthActions from '../Redux/AuthRedux'
@@ -80,7 +84,7 @@ class SigninScreen extends Component {
   hideSignin = async () => {
     // this.setState({ spinner: true })
     const data = await AccessToken.getCurrentAccessToken();
-    
+
     if (!data) {
       console.log('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
     }
@@ -136,11 +140,31 @@ class SigninScreen extends Component {
     }
   }
 
+  graphRequestSuccess(error, result) {
+    console.log(result)
+    console.log(error)
+  }
+  async FBGraphRequest(fields, callback) {
+    const accessData = await AccessToken.getCurrentAccessToken();
+    // Create a graph request asking for user information
+    const infoRequest = new GraphRequest('/me', {
+      accessToken: accessData.accessToken,
+      parameters: {
+        fields: {
+          string: fields
+        }
+      }
+    }, callback.bind(this));
+    // Execute the graph request created above
+    let result = new GraphRequestManager().addRequest(infoRequest).start();
+    console.log(result)
+  }
+
   fbLogin = async () => {
     try {
-      const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+      const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_link']);
 
-      console.log(result)
+      // console.log(result)
       console.log('--------------- RESULT LOGIN ----------------')
       if (result.isCancelled) {
         alert('User canceled request')
@@ -153,12 +177,13 @@ class SigninScreen extends Component {
 
       // get the access token
       const data = await AccessToken.getCurrentAccessToken();
-
+      // console.log(data)
       if (!data) {
         throw new Error('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
       }
 
       // create a new firebase credential with the token
+      // this.FBGraphRequest('id, email, link', this.graphRequestSuccess)
       const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
 
       // login with credential

@@ -21,10 +21,11 @@ export function* getPromotion(api, { platform }) {
   // const currentData = yield select(PromotionSelectors.getData)
   // make the call to the api
 
-  console.log(platform)
+  // console.log(platform)
   const data = {
-    platform
+    platform: Platform.OS
   }
+  // console.log(data)
   const response = yield call(api.getPromotion, data)
   console.log(response)
 

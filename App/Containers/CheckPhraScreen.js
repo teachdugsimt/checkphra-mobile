@@ -268,7 +268,8 @@ class CheckPhraScreen extends Component {
 
   _goToURL = (item) => {
     // const url = 'm.me/316834699141900'
-    const url = 'https://www.messenger.com/t/' + item    // pc , mobile
+    // const url = 'https://www.messenger.com/t/' + item    // pc , mobile
+    const url = 'https://m.me?app_scoped_user_id=' + item
     // const url = 'https://m.me/316834699141900' // pc , mobile can't use
     console.log(url)
     Linking.canOpenURL(url).then(supported => {

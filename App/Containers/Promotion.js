@@ -131,8 +131,8 @@ class Promotion extends Component {
               }} />
             </View>
 
-            <View>
-              <View style={{ flexDirection: 'row' }}>
+            <View style={{ backgroundColor: 'red' }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: width / 2.85 }}>
                 <Text style={{ fontWeight: 'bold', color: 'orange', fontSize: 24, marginTop: 15 }}>{item.point}</Text>
                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 15, color: Colors.brownText }}> {I18n.t('coin')}</Text>
               </View>

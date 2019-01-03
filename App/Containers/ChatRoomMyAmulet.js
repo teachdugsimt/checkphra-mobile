@@ -1,5 +1,5 @@
 // ==================================
-// ***************** ห้องดูรายการข้อความของพระ... และไปห้องแชทรวมพระ... ในหมวด "พระของฉัน" *****************
+// ***************** ห้องแชทรวม ในหมวด "พระของฉัน" *****************
 // ==================================
 import React, { Component } from 'react'
 import {
@@ -28,34 +28,18 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 
-class ChatMyAmulet extends Component {
-
-    _renderItem = ({ item, index }) => {
-        return (
-            <TouchableOpacity style={{ height: 120, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }}
-                onPress={() => this._goToChat(item)}>
-
-                <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.name}</Text>
-                <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{item.date}</Text>
-            </TouchableOpacity>
-        )
-    }
-
-    _goToChat = (item) => {
-        // this.props.setDetailPhra(item)
-        // this.props.navigation.navigate('')
-        this.props.navigation.navigate('chatRoomMyAmuletSolo')
+class ChatRoomMyAmulet extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            hide: false
+        }
     }
 
     render() {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
-        const data = [{ name: 'chat1.', date: '25/12/18' },
-        { name: 'chat2.', date: '25/12/18' },
-        { name: 'chat3.', date: '25/12/18' },
-        { name: 'chat4.', date: '25/12/18' },
-        { name: 'chat5.', date: '25/12/18' }]
-        // console.log('***************************************')
+
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -66,23 +50,33 @@ class ChatMyAmulet extends Component {
                     width: width,
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
+                <View>
+                    {this.state.hide == false && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', height: 120, width: '100%' }} onPress={() => this.setState({ hide: true })}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 8, flex: 1 }}>
 
-                <View style={{ height: 40, backgroundColor: Colors.milk, }}>
-                    <TouchableOpacity style={{ borderColor: 'orange', borderWidth: 5, alignItems: 'center', justifyContent: 'center', flex: 1 }} onPress={() => this.props.navigation.navigate("chatRoomMyAmulet")}>
-                        <Text style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, fontSize: 18 }}>{I18n.t('chat')}</Text>
-                    </TouchableOpacity>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                                <View style={{ backgroundColor: 'red', height: 85, width: 85, borderRadius: 15 }}></View>
+                            </View>
+
+                            <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>Phra Pidta</Text></Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Price: <Text style={{ fontSize: 14 }}>750,000 </Text>฿ </Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Priest Name: <Text style={{ fontSize: 14 }}>LuangPhor Ngern</Text></Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Temple: <Text style={{ fontSize: 14 }}>Wat Mai Phin Greaw</Text></Text>
+                            </View>
+                        </View>
+
+                    </TouchableOpacity>}
+
+                    {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
+                     <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginVertical: 15, alignSelf: 'center' }}>Phra Pidta</Text>
+                    </TouchableOpacity>}
+
+
+
+                    <Text style={{ alignSelf: 'center', marginVertical: 10 }}>Chat Room All Person</Text>
                 </View>
 
-                <FlatList
-                    // refreshControl={
-                    //     <RefreshControl
-                    //         refreshing={this.props.fetching == true}
-                    //         onRefresh={this._reload}
-                    //     />
-                    // }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePromotion')}</Text>}
-                    data={data}
-                    renderItem={this._renderItem} />
             </LinearGradient>
         )
     }
@@ -108,4 +102,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatMyAmulet)
+export default connect(mapStateToProps, mapDispatchToProps)(ChatRoomMyAmulet)

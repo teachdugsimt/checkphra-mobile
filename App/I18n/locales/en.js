@@ -244,6 +244,7 @@ export default {
   myAmulet: 'My Real Amulet',
 
   editType: 'Please choose new group',
+  editDetailPhra: 'Edit detail of amulet',
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

@@ -1,3 +1,6 @@
+// ==================================
+// ***************** ห้องดูรายการพระแท้หมวด... ในหมวด "พระของคนอื่น" *****************
+// ==================================
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,

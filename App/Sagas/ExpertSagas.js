@@ -72,38 +72,54 @@ export function* updateAnswer(api, { pack, q_id, argument }) {   //   for UPDATE
 export function* getProfileRequest(api, { page }) {
   const aut = yield select(auth)
 
-  if (page == 1) {
-    if (!aut.user_id) { return }
+  // if (page == 1) {
+  //   if (!aut.user_id) { return }
 
-    const data = {
-      user_id: aut.user_id,
-      page_number: page
-    }
+  //   const data = {
+  //     user_id: aut.user_id,
+  //     page_number: page
+  //   }
 
-    const response = yield call(api.getVerify, data)
+  //   const response = yield call(api.getVerify, data)
 
-    if (response.ok) {
-      yield put(ExpertActions.verifySuccess(response.data))
-    } else {
-      yield put(ExpertActions.verifyFailure())
-    }
-  } else {
-    if (!aut.user_id) { return }
+  //   if (response.ok) {
+  //     yield put(ExpertActions.verifySuccess(response.data))
+  //   } else {
+  //     yield put(ExpertActions.verifyFailure())
+  //   }
+  // } else {
+  //   if (!aut.user_id) { return }
 
-    const data = {
-      user_id: aut.user_id,
-      page_number: page
-    }
+  //   const data = {
+  //     user_id: aut.user_id,
+  //     page_number: page
+  //   }
 
-    const response = yield call(api.getVerify, data)
+  //   const response = yield call(api.getVerify, data)
 
-    if (response.ok) {
-      yield put(ExpertActions.verifySuccess2(response.data))
-    } else {
-      yield put(ExpertActions.verifyFailure2())
-    }
+  //   if (response.ok) {
+  //     yield put(ExpertActions.verifySuccess2(response.data))
+  //   } else {
+  //     yield put(ExpertActions.verifyFailure2())
+  //   }
 
+  // }
+
+  if (!aut.user_id) { return }
+
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
   }
+
+  const response = yield call(api.getVerify, data)
+
+  if (response.ok) {
+    yield put(ExpertActions.verifySuccess(response.data))
+  } else {
+    yield put(ExpertActions.verifyFailure())
+  }
+
 }
 
 export function* acceptRequest(api, { id }) {
@@ -217,8 +233,8 @@ export function* editTypeQuestion(api, { type_id, qid }) {
     user_id: aut.user_id,
     type_id,
     qid
-  } 
-  
+  }
+
   const response = yield call(api.editGroupQuestion, data)
   console.log('----------------- EDIT TYPE QUESTION --------------------')
   if (response.ok) {

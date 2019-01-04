@@ -10,11 +10,17 @@
 *    you'll need to define a constant in that file.
 *************************************************************/
 
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
-// import { ShowRoomSelectors } from '../Redux/ShowRoomRedux'
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
 
-export function * getShowRoom (api, action) {
+// import { ShowRoomSelectors } from '../Redux/ShowRoomRedux'
+const auth = state => state.auth
+const type = state => state.showroom.data_amulet
+I18n.locale = auth.language
+
+export function* getShowRoom(api, action) {
   const { data } = action
   // get current data from Store
   // const currentData = yield select(ShowRoomSelectors.getData)
@@ -29,4 +35,67 @@ export function * getShowRoom (api, action) {
   } else {
     yield put(ShowRoomActions.showRoomFailure())
   }
+}
+
+// export function* getListAmulet(api, { page }) {
+//   const aut = yield select(auth)
+//   const typ = yield select(type)
+//   console.log('COME HERE 0')
+//   if (page == 1) {
+
+//     const data = {
+//       user_id: aut.user_id,
+//       page_number: page,
+//       type_id: typ.id
+//     }
+//     console.log('COME HERE')
+//     console.log(data)
+
+//     const response = yield call(api.getListReal, data)
+//     console.log('================= GET LIST THEIR REAL AMULET ==================')
+//     console.log(response)
+//     if (response.ok) {
+//       yield put(ShowRoomActions.getListSuccess(response.data))
+//     } else {
+//       yield put(ShowRoomActions.getListFailure())
+//     }
+
+//   } else {
+
+//     const data = {
+//       user_id: aut.user_id,
+//       page_number: page,
+//       type_id: typ.id
+//     }
+//     const response = yield call(api.getListReal, data)
+//     console.log('================= GET LIST THEIR REAL AMULET ==================')
+//     console.log(response)
+//     if (response.ok) {
+//       yield put(ShowRoomActions.getListSuccess2(response.data))
+//     } else {
+//       yield put(ShowRoomActions.getListFailure2())
+//     }
+
+//   }
+
+// }
+export function* getListAmulet(api, { page }) {
+  const aut = yield select(auth)
+  const typ = yield select(type)
+    
+    const data = {
+      user_id: aut.user_id,
+      page_number: page,
+      type_id: typ.id
+    }
+
+    const response = yield call(api.getListReal, data)
+    console.log('================= GET LIST THEIR REAL AMULET ==================')
+    console.log(response)
+    if (response.ok) {
+      yield put(ShowRoomActions.getListSuccess(response.data))
+    } else {
+      yield put(ShowRoomActions.getListFailure())
+    }
+
 }

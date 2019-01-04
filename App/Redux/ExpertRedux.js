@@ -129,26 +129,44 @@ export const setDataPhra = (state, { data }) => {
   return state.merge({ data_phra: data })
 }
 
+// export const verifyRequest = state => state.merge({ fetch2: true })
+// export const verifySuccess = (state, { data }) => {
+//   return state.merge({ fetch2: false, data_verify: data })
+// }
+// export const verifyFailure = state => state.merge({ fetch2: false })
+// export const verifySuccess2 = (state, { data }) => {
+//   let tmp = [...state.data_verify]
+//   data.forEach(e => {
+//     if (tmp.find(b => b.id == e.id)) {
+//       console.log('SAME VALUE')
+//     } else { tmp.push(e) }
+//   })
+//   return state.merge({ data_verify: tmp, fetch2: false })
+// }
+// export const verifyFailure2 = state => state.merge({ fetch2: false })
+
 export const verifyRequest = state => state.merge({ fetch2: true })
-
 export const verifySuccess = (state, { data }) => {
-  return state.merge({ fetch2: false, data_verify: data })
-}
+  // let tmp = state.data_verify  // can use
+  // let tmp = [...state.data_verify]  // can use
 
+  let tmp
+  if (state.data_verify && state.data_verify != null) {
+    // data.forEach(e => tmp.push(e))
+    tmp = [...state.data_verify]
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+  
+  return state.merge({ fetch2: false, data_verify: tmp })
+}
 export const verifyFailure = state => state.merge({ fetch2: false })
-
-export const verifySuccess2 = (state, { data }) => {
-  let tmp = [...state.data_verify]
-  data.forEach(e => {
-    if (tmp.find(b => b.id == e.id)) {
-      console.log('SAME VALUE')
-    } else { tmp.push(e) }
-  })
-  return state.merge({ data_verify: tmp, fetch2: false })
-}
-
-export const verifyFailure2 = state => state.merge({ fetch2: false })
-
 
 export const setDataPoint = (state, { data, index }) => {
   return state.merge({ data_point: data, index_row: index })
@@ -227,8 +245,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE_REQUEST]: verifyRequest,
   [Types.VERIFY_SUCCESS]: verifySuccess,
   [Types.VERIFY_FAILURE]: verifyFailure,
-  [Types.VERIFY_SUCCESS2]: verifySuccess2,
-  [Types.VERIFY_FAILURE2]: verifyFailure2,
+  // [Types.VERIFY_SUCCESS2]: verifySuccess2,
+  // [Types.VERIFY_FAILURE2]: verifyFailure2,
 
   [Types.ACCEPT_REQUEST]: acceptRequest,
   [Types.ACCEPT_SUCCESS]: acceptSuccess,

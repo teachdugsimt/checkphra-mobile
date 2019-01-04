@@ -14,6 +14,7 @@ import { PaymentTypes } from '../Redux/PaymentRedux'
 import { ExpertTypes } from '../Redux/ExpertRedux'
 import { TradingTypes } from '../Redux/TradingRedux'
 import { VersionTypes } from '../Redux/VersionRedux'
+import { ShowRoomTypes } from '../Redux/ShowRoomRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -32,6 +33,8 @@ import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
   getListLeasing, getPriceallday, wantToBuy
 } from './TradingSagas'
+
+import { getListAmulet } from './ShowRoomSagas'
 import { getVersion } from './VersionSagas'
 /* ------------- API ------------- */
 
@@ -43,6 +46,7 @@ const promotionApi = API.Promotion.create()
 const tradeApi = API.Trade.create()
 const faceApi = API.Face.create()
 const versionApi = API.Version.create()
+const showroomApi = API.Showroom.create()
 
 const question2Api = API.Question2.create()
 
@@ -55,6 +59,9 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    
+    takeLatest(ShowRoomTypes.GET_LIST_AMULET, getListAmulet, showroomApi),
+
     takeLatest(TradingTypes.TRADING_REQUEST, getTrading, tradeApi),
     takeLatest(TradingTypes.GET_DETAIL, getDetail, tradeApi),
     takeLatest(TradingTypes.LIST_TRADING, getListTrade, tradeApi),
@@ -107,7 +114,8 @@ export default function* root() {
     takeLatest(PaymentTypes.APPLE_HISTORY, appleHistoryRequest, promotionApi),
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
-    // takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi)
+
+    
 
   ])
 }

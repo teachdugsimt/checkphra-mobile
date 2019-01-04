@@ -125,6 +125,7 @@ class CheckPhraScreen extends Component {
               // console.log(this.props.data.question_list)
               let qlist = this.props.data && this.props.data.question_list ? this.props.data.question_list.map(e => e.question) : []
               console.log(qlist)
+
               // ตรวจสอบ กล่องเช็ค ว่าถ้าไม่ตอบแล้วต้องติ้ก กล่องเช็ค ไม่งั้นจะเด้งแจ้งเตือนนะ
               if (
                 this.state.checkTrue1 == false && this.state.checkTrue2 == false &&
@@ -520,7 +521,7 @@ class CheckPhraScreen extends Component {
                             this.setState({
                               checkNone2: !this.state.checkNone2,
                               editans2: !this.state.editans2,
-                              answer2: null,
+                              answer2: 'ไม่ออกผล',
                             })
                           }}
                           disabled={!this.state.editing}
@@ -556,7 +557,7 @@ class CheckPhraScreen extends Component {
                                 this.setState({
                                   checkNone3: !this.state.checkNone3,
                                   editans3: !this.state.editans3,
-                                  answer3: null,
+                                  answer3: 'ไม่ออกผล',
                                 })
                               }}
                               disabled={!this.state.editing}
@@ -584,7 +585,7 @@ class CheckPhraScreen extends Component {
                                 this.setState({
                                   checkNone3: !this.state.checkNone3,
                                   editans3: !this.state.editans3,
-                                  answer3: null,
+                                  answer3: 'ไม่ออกผล',
                                 })
                               }}
                               disabled={!this.state.editing}

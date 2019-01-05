@@ -51,31 +51,42 @@ class ChatRoomMyAmulet extends Component {
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
                 <View>
-                    {this.state.hide == false && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', height: 120, width: '100%' }} onPress={() => this.setState({ hide: true })}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 8, flex: 1 }}>
+                    {this.state.hide == false && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', height: 135, width: '100%' }} onPress={() => this.setState({ hide: true })}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 8, marginHorizontal: 8, flex: 1 }}>
 
                             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                                 <View style={{ backgroundColor: 'red', height: 85, width: 85, borderRadius: 15 }}></View>
                             </View>
 
                             <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>Phra Pidta</Text></Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>Phra Pidta5555588</Text></Text>
                                 <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Price: <Text style={{ fontSize: 14 }}>750,000 </Text>฿ </Text>
                                 <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Priest Name: <Text style={{ fontSize: 14 }}>LuangPhor Ngern</Text></Text>
                                 <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Temple: <Text style={{ fontSize: 14 }}>Wat Mai Phin Greaw</Text></Text>
                             </View>
                         </View>
 
+                        <Icon2 size={22} name={'chevron-up'} style={{ alignSelf: 'center', marginVertical: 2.5 }} />
                     </TouchableOpacity>}
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
-                     <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginVertical: 15, alignSelf: 'center' }}>Phra Pidta</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>Phra Pidta</Text>
+                        <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
                     </TouchableOpacity>}
 
 
 
-                    <Text style={{ alignSelf: 'center', marginVertical: 10 }}>Chat Room All Person</Text>
+                    {/* <Text style={{ alignSelf: 'center', marginVertical: 10 }}>Chat Room My Amulet Solo </Text> */}
+
+
                 </View>
+
+                <TextInput style={{ width: '100%', position: 'absolute', bottom: 0, left: 0, backgroundColor: '#fff5', height: 40 }}
+                    value={this.state.text} onChangeText={(text) => this.setState({ text })} />
+
+                {this.state.text && this.state.text != null && <TouchableOpacity style={{ position: 'absolute', right: 5, bottom: 10 }} onPress={this._sendMessage}>
+                    <Icon2 name={'arrow-right'} size={22} style={{}} />
+                </TouchableOpacity>}
 
             </LinearGradient>
         )

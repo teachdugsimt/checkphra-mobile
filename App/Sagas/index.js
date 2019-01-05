@@ -34,7 +34,7 @@ import {
   getListLeasing, getPriceallday, wantToBuy
 } from './TradingSagas'
 
-import { getListAmulet } from './ShowRoomSagas'
+import { getListAmulet, sendMessageTheirAmulet55, getMessageFromTheirAmulet } from './ShowRoomSagas'
 import { getVersion } from './VersionSagas'
 /* ------------- API ------------- */
 
@@ -61,6 +61,8 @@ export default function* root() {
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
     
     takeLatest(ShowRoomTypes.GET_LIST_AMULET, getListAmulet, showroomApi),
+    takeLatest(ShowRoomTypes.SEND_MESSAGE_THEIR_AMULET, sendMessageTheirAmulet55, showroomApi),
+    takeLatest(ShowRoomTypes.GET_MESSAGE_THEIR_AMULET, getMessageFromTheirAmulet, showroomApi),
 
     takeLatest(TradingTypes.TRADING_REQUEST, getTrading, tradeApi),
     takeLatest(TradingTypes.GET_DETAIL, getDetail, tradeApi),

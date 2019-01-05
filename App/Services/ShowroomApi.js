@@ -28,11 +28,17 @@ const create = (baseURL = b) => {
   })
 
   const getListReal = (data) => api.get('amulets/list-all', data)
+
+  const sendMessageChatAllTheirAmulet = (data) => api.post('discuss/public-amulets-message', data)
+
+  const getMessageTheirAmulet = (data) => api.get('discuss/list-amulets-message', data)
  
 
   return {
     // a list of the API functions from step 2
     getListReal,
+    sendMessageChatAllTheirAmulet,
+    getMessageTheirAmulet
    
   }
 }

@@ -82,20 +82,59 @@ export function* getShowRoom(api, action) {
 export function* getListAmulet(api, { page }) {
   const aut = yield select(auth)
   const typ = yield select(type)
-    
-    const data = {
-      user_id: aut.user_id,
-      page_number: page,
-      type_id: typ.id
-    }
 
-    const response = yield call(api.getListReal, data)
-    console.log('================= GET LIST THEIR REAL AMULET ==================')
-    console.log(response)
-    if (response.ok) {
-      yield put(ShowRoomActions.getListSuccess(response.data))
-    } else {
-      yield put(ShowRoomActions.getListFailure())
-    }
+  const data = {
+    user_id: aut.user_id,
+    page_number: page,
+    type_id: typ.id
+  }
 
+  const response = yield call(api.getListReal, data)
+  console.log('================= GET LIST THEIR REAL AMULET ==================')
+  console.log(response)
+  if (response.ok) {
+    yield put(ShowRoomActions.getListSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getListFailure())
+  }
+}
+
+export function* sendMessageTheirAmulet55(api, { qid, message }) {  // don't have name duplicate with redux
+  const aut = yield select(auth)
+  console.log(qid)
+  console.log(message)
+
+  const data = {
+    user_id: aut.user_id,
+    qid,
+    message
+  }
+  console.log(data)
+
+  const response = yield call(api.sendMessageChatAllTheirAmulet, data)
+  console.log(response)
+  console.log('=======================  SEND MESSAGE DURATION =======================')
+  if (response.ok) {
+    yield put(ShowRoomActions.sendMessageTheirAmuletSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.sendMessageTheirAmuletFailure())
+  }
+}
+
+
+export function* getMessageFromTheirAmulet(api, { qid }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    qid
+  }
+
+  const response = yield call(api.getMessageTheirAmulet, data)
+  console.log(response)
+  console.log('====================== GET MESSAGE FROM THEIR AMULET =============================')
+  if (response.ok) {
+    yield put(ShowRoomActions.getMessageTheirAmuletSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getMessageTheirAmuletFailure())
+  }
 }

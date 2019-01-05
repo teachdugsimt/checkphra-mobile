@@ -37,6 +37,7 @@ import TheyAmuletRoom from '../Containers/TheyAmuletRoom'
 import ChatMyAmulet from '../Containers/ChatMyAmulet'
 import ChatRoomMyAmulet from '../Containers/ChatRoomMyAmulet'
 import ChatRoomMyAmuletSolo from '../Containers/ChatRoomMyAmuletSolo'
+import ChatTheirAmulet from '../Containers/ChatTheirAmulet'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -177,6 +178,12 @@ const UploadStack = StackNavigator(  // main upload
         title: I18n.t('showAmuletReal')
       }
     },
+    chatTheirAmulet: {
+      screen: ChatTheirAmulet,
+      navigationOptions: {
+        title: I18n.t('chat')
+      }
+    }
   
   },
   {

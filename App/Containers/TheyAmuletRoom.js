@@ -146,12 +146,17 @@ class TheyAmuletRoom extends Component {
         return name
     }
 
+    _goToChatTheirAmulet = (item) => {
+        this.props.setTheirAmuletData(item)
+        this.props.navigation.navigate('chatTheirAmulet')
+    }
+
 
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
 
         return (
-            <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }}>
+            <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChatTheirAmulet(item)}>
 
                 <View style={{ flexDirection: 'row', flex: 1 }}>
                     <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => {
@@ -168,9 +173,9 @@ class TheyAmuletRoom extends Component {
 
                         <View style={{ flexDirection: 'row', width: '100%' }}>
                             <Text style={{ marginLeft: 10, marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
-                            <View style={{ flex: 1, marginLeft: 10, marginTop: 4, width: '100%' }}>
+                            <TouchableOpacity style={{ flex: 1, marginLeft: 10, marginTop: 4, width: '100%' }} onPress={() => this._pressSubList(item.images)}>
                                 <ImageList data={item.images} />
-                            </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -187,33 +192,16 @@ class TheyAmuletRoom extends Component {
         })
         this.setState({ img })
         this.popupDialog.show()
-        // console.log(img)
-        // console.log(this.state.modalVisible)
-        // return (<View style={{ width: '100%', height: '100%' }}>
-        //     <Modal
-        //         visible={this.state.modalVisible}
-        //         transparent={true}
-        //         onRequestClose={() => this.setState({ modalVisible: false })}>
-        //         <ImageViewer
-        //             saveToLocalByLongPress={false}
-        //             imageUrls={img}
-        //             backgroundColor={'lightgrey'}
-        //             // onClick={(e) => {
-        //             //     console.log('Show modal')
-        //             //     this.setState({ modalVisible: true })
-        //             // }}
+    }
 
-        //             // index={this.state.index} // add + 
-        //             onSwipeDown={() => {
-        //                 console.log('onSwipeDown');
-        //                 this.setState({ modalVisible: false })
-        //             }}
-        //             enableSwipeDown={true}
-        //             failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
-        //         />
-        //     </Modal>
-
-        // </View>)
+    _pressSubList = (item) => {
+        this.setState({ modalVisible: true })
+        let img = []
+        item.map(e => {
+            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+        })
+        this.setState({ img, index: 1 })
+        this.popupDialog.show()
     }
 
     componentDidMount() {
@@ -255,15 +243,13 @@ class TheyAmuletRoom extends Component {
                 }} resizeMode='contain' />
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'transparent' }}><Text style={{
-                        fontSize: 18, fontWeight: 'bold', color: 'transparent'
-                    }}>{I18n.t('reason')}</Text></View>}
+                    dialogTitle={<View></View>}
                     ref={(popupDialog) => { this.popupDialog = popupDialog; }}
                     dialogAnimation={slideAnimation}
-                    width={width / 1.5}
-                    height={0.7}
+                    width={0}
+                    height={0}
                     // height={150}
-                    onDismissed={() => { this.setState({ img: null, modalVisible: false }) }}
+                    onDismissed={() => { this.setState({ img: null, modalVisible: false, index: 0 }) }}
                 >
                     <View style={{ width: '100%', height: '80%', backgroundColor: 'transparent' }}>
                         <Modal
@@ -330,7 +316,8 @@ const mapDispatchToProps = (dispatch) => {
         getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
         setRequestType: () => dispatch(QuestionActions.setRequestType()),
         setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
-        getListAmuletReal: (page) => dispatch(ShowRoomActions.getListAmulet(page))
+        getListAmuletReal: (page) => dispatch(ShowRoomActions.getListAmulet(page)),
+        setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
     }
 }
 

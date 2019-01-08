@@ -18,6 +18,7 @@ I18n.fallbacks = true;
 // import { ShowRoomSelectors } from '../Redux/ShowRoomRedux'
 const auth = state => state.auth
 const type = state => state.showroom.data_amulet
+const idDataAmulet = state => state.showroom.data_their
 I18n.locale = auth.language
 
 export function* getShowRoom(api, action) {
@@ -122,11 +123,13 @@ export function* sendMessageTheirAmulet55(api, { qid, message }) {  // don't hav
 }
 
 
-export function* getMessageFromTheirAmulet(api, { qid }) {
+export function* getMessageFromTheirAmulet(api, { page }) {
   const aut = yield select(auth)
+  const id = yield select(idDataAmulet)
   const data = {
     user_id: aut.user_id,
-    qid
+    qid: id.id,
+    page_number: page
   }
 
   const response = yield call(api.getMessageTheirAmulet, data)

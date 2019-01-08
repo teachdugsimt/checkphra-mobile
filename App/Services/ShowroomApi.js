@@ -4,8 +4,10 @@ let b
 if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'
 } else {
-//   b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
+    // b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
   b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v2/'
+
+  // b = 'http://172.20.10.2/CheckPhraApi/web/index.php/v2/'
 }
 
 const create = (baseURL = b) => {
@@ -32,14 +34,14 @@ const create = (baseURL = b) => {
   const sendMessageChatAllTheirAmulet = (data) => api.post('discuss/public-amulets-message', data)
 
   const getMessageTheirAmulet = (data) => api.get('discuss/list-amulets-message', data)
- 
+
 
   return {
     // a list of the API functions from step 2
     getListReal,
     sendMessageChatAllTheirAmulet,
     getMessageTheirAmulet
-   
+
   }
 }
 

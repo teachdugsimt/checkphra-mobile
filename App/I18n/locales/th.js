@@ -241,6 +241,7 @@ export default {
   chat: 'ห้องสนทนา',
   messages: 'ข้อความ',
   chatMyAmulet: 'สนทนาพระของฉัน',
+  contactOwnerAmulet: 'ติดต่อเจ้าของพระ',
 
   myAmulet: 'พระแท้ของฉัน',
 

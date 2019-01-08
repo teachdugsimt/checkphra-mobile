@@ -240,6 +240,7 @@ export default {
   chat: 'Chat Room',
   messages: 'Messages',
   chatMyAmulet: 'Chat about my amulet',
+  contactOwnerAmulet: 'Contact to owner amulet',
 
   myAmulet: 'My Real Amulet',
 

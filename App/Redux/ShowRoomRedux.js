@@ -21,9 +21,12 @@ const { Types, Creators } = createActions({
   sendMessageTheirAmuletSuccess: ['data'],
   sendMessageTheirAmuletFailure: null,
 
-  getMessageTheirAmulet: ['qid'],
+  getMessageTheirAmulet: ['page'],
   getMessageTheirAmuletSuccess: ['data'],
   getMessageTheirAmuletFailure: null,
+
+  clearTheirAmuletMessage: null,
+  editTheirAmuletMessage: ['data'],
 
 })
 
@@ -62,12 +65,74 @@ export const ShowRoomSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const clearTheirAmuletMessage = state => state.merge({ data_messageTheirAmulet: null, data_sendMessageTheirAmulet: null })
+export const editTheirAmuletMessage = (state, { data }) => {  // new data
+  console.log('DATA ABOUT COME TO REDUX BEFORE EDIT')
+  console.log(data)
+
+  let tmp  // old data 
+
+  if (state.data_messageTheirAmulet && state.data_messageTheirAmulet != null && state.data_messageTheirAmulet.length > 0) {
+    tmp = JSON.parse(JSON.stringify(state.data_messageTheirAmulet))
+    // 1. redux state has "id" same "id new send data" ****************************************
+    if (tmp.find(c => c.id == data.id) || tmp.find(c => c.id == data.id) != undefined) {
+      console.log('FUCK YEAH DO NOT COME THIS IF')
+      tmp.forEach((e, i) => {
+        if (e.id == data.id && tmp.find(c => c.id == data.id) != -1) {
+          // console.log(e) // เจอ id ที่ตรงกัน ระหว่าง old data(tmp) และ new data(data)แล้ว 
+          console.log('E.MESSAGE => data.messages')
+          console.log(e)
+          console.log(data)
+          e.messages = data.messages
+          // e = data  // can't
+          //e[i] = data  // can't
+          // e.messages = data.messages  // tmp2 มีช่องที่ 0 กับ 1 must be loop for check index again  // can't
+        }
+      })
+    }
+    // 2. redux state has not "id" same "id new send data" ****************************************
+    else if (!tmp.find(c => c.id == data.id) || tmp.find(c => c.id == data.id) == undefined) {
+      console.log('More Than 10 Messages')
+      tmp.push(data)
+    }
+    console.log('AFTER EDIT ARRAY IN FIRST IF')
+    console.log(tmp)
+
+  } else {
+    // 3. Opening first chat in chat room ****************************************
+    tmp = []
+    tmp.push(data)
+    console.log('NEW TMP IN HAVE NOT DATA FROM FIRST TIME')
+    console.log(tmp)
+  }
+
+  return state.merge({ data_messageTheirAmulet: tmp })
+}
+
 export const setAmuletType = (state, { data }) => state.merge({ data_amulet: data })
 export const setDetailPhra = (state, { data }) => state.merge({ data_detail: data })
 export const setTheirAmuletData = (state, { data }) => state.merge({ data_their: data })
 
 export const getMessageTheirAmulet = state => state.merge({ request3: true })
-export const getMessageTheirAmuletSuccess = (state, { data }) => state.merge({ request3: false, data_messageTheirAmulet: data })
+export const getMessageTheirAmuletSuccess = (state, { data }) => {
+  // let tmp = [...state.data_list] // if don't have value it ERROR!!
+  let tmp
+  if (state.data_messageTheirAmulet && state.data_messageTheirAmulet != null && state.data_messageTheirAmulet.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = JSON.parse(JSON.stringify(state.data_messageTheirAmulet))
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  return state.merge({ data_messageTheirAmulet: tmp, request3: false })
+}
 export const getMessageTheirAmuletFailure = state => state.merge({ request3: false })
 
 export const sendMessageTheirAmulet = state => state.merge({ request2: true })
@@ -146,6 +211,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SEND_MESSAGE_THEIR_AMULET]: sendMessageTheirAmulet,
   [Types.SEND_MESSAGE_THEIR_AMULET_SUCCESS]: sendMessageTheirAmuletSuccess,
   [Types.SEND_MESSAGE_THEIR_AMULET_FAILURE]: sendMessageTheirAmuletFailure,
+
+  [Types.CLEAR_THEIR_AMULET_MESSAGE]: clearTheirAmuletMessage,
+  [Types.EDIT_THEIR_AMULET_MESSAGE]: editTheirAmuletMessage,
   // [Types.GET_LIST_SUCCESS2]: getListSuccess2,
   // [Types.GET_LIST_FAILURE2]: getListFailure2,
 })

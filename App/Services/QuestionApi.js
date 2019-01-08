@@ -7,6 +7,8 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   // b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
   b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
+
+  // b = 'http://172.20.10.2/CheckPhraApi/web/index.php/v1/'
 }
 
 // our "constructor"

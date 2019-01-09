@@ -211,6 +211,7 @@ class TheyAmuletRoom extends Component {
 
     componentWillUnmount() {
         count = 1
+        this.props.clearDataListTheirAmulet()
     }
 
     _reload = () => {
@@ -318,6 +319,7 @@ const mapDispatchToProps = (dispatch) => {
         setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
         getListAmuletReal: (page) => dispatch(ShowRoomActions.getListAmulet(page)),
         setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
+        clearDataListTheirAmulet: () => dispatch(ShowRoomActions.clearDataListTheirAmulet()),
     }
 }
 

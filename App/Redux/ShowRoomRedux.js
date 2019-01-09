@@ -26,6 +26,7 @@ const { Types, Creators } = createActions({
   getMessageTheirAmuletFailure: null,
 
   clearTheirAmuletMessage: null,
+  clearDataListTheirAmulet: null,
   editTheirAmuletMessage: ['data'],
 
 })
@@ -66,6 +67,7 @@ export const ShowRoomSelectors = {
 
 // request the data from an api
 
+export const clearDataListTheirAmulet = state => state.merge({ data_list: null })
 export const clearTheirAmuletMessage = state => state.merge({ data_messageTheirAmulet: null, data_sendMessageTheirAmulet: null })
 export const editTheirAmuletMessage = (state, { data }) => {  // new data
   console.log('DATA ABOUT COME TO REDUX BEFORE EDIT')
@@ -86,7 +88,7 @@ export const editTheirAmuletMessage = (state, { data }) => {  // new data
           console.log(data)
           e.messages = data.messages
           // e = data  // can't
-          //e[i] = data  // can't
+          // e[i] = data  // can't
           // e.messages = data.messages  // tmp2 มีช่องที่ 0 กับ 1 must be loop for check index again  // can't
         }
       })
@@ -131,6 +133,10 @@ export const getMessageTheirAmuletSuccess = (state, { data }) => {
     tmp = data
   }
 
+  tmp.sort(function (a, b) {
+    return a.id - b.id;
+  })
+
   return state.merge({ data_messageTheirAmulet: tmp, request3: false })
 }
 export const getMessageTheirAmuletFailure = state => state.merge({ request3: false })
@@ -172,7 +178,7 @@ export const getListAmulet = state => state.merge({ request: true })
 export const getListSuccess = (state, { data }) => {
   // let tmp = [...state.data_list] // if don't have value it ERROR!!
   let tmp
-  if (state.data_list && state.data_list != null) {
+  if (state.data_list && state.data_list != null && state.data_list.length > 0) {
     // data.forEach(e => tmp.push(e))
     tmp = [...state.data_list]
     data.forEach(e => {
@@ -214,6 +220,7 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.CLEAR_THEIR_AMULET_MESSAGE]: clearTheirAmuletMessage,
   [Types.EDIT_THEIR_AMULET_MESSAGE]: editTheirAmuletMessage,
+  [Types.CLEAR_DATA_LIST_THEIR_AMULET]: clearDataListTheirAmulet,
   // [Types.GET_LIST_SUCCESS2]: getListSuccess2,
   // [Types.GET_LIST_FAILURE2]: getListFailure2,
 })

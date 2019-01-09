@@ -52,7 +52,7 @@ class ChatTheirAmulet extends Component {
         // 1. ถ้ามีการส่งข้อความ ให้เก็บอาเรย์ response จากตั้ม ไว้ที่ เสตท message_list แล้วก้ เอาข้อความอันล่าสุด จาก response มาเก็บไว้ที่อาเรย์
         // tmp ใน เสตท
 
-        if(newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null && prevState.mlist != newProps.data_sendMessageTheirAmulet){
+        if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null && prevState.mlist != newProps.data_sendMessageTheirAmulet) {
             console.log(newProps.data_sendMessageTheirAmulet)
             newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
             return {
@@ -226,8 +226,12 @@ class ChatTheirAmulet extends Component {
     }
 
     _reload = () => {
-        count = 1
-        this.props.getMessageTheirAmulet(count)
+        // count = 1
+        // this.props.getMessageTheirAmulet(count)
+        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+            count++
+            this.props.getMessageTheirAmulet(count)
+        }
     }
 
     _onScrollEndList = () => {
@@ -243,6 +247,7 @@ class ChatTheirAmulet extends Component {
     _chatOwnerAmulet = () => {
 
     }
+
     _showPicture = () => {
         this.setState({ modalVisible: true })
         this.popupDialog.show()
@@ -388,13 +393,13 @@ class ChatTheirAmulet extends Component {
                     renderItem={this._renderItem}
                 // inverted={true}
                 // onEndReached={this._onScrollEndList}
-                // onEndReachedThreshold={1.2}
-                // refreshControl={
-                //     <RefreshControl
-                //         refreshing={this.props.request3 == true}
-                //         onRefresh={this._reload}
-                //     />
-                // }
+                // onEndReachedThreshold={0.3}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.props.request3 == true}
+                        onRefresh={this._reload}
+                    />
+                }
                 />
                 <View style={{ marginBottom: 10 }}>
                 </View>
@@ -437,10 +442,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         sendMessageTheirAmulet: (qid, message) => dispatch(ShowRoomActions.sendMessageTheirAmulet(qid, message)),  // send message
-        getMessageTheirAmulet: (qid) => dispatch(ShowRoomActions.getMessageTheirAmulet(qid)), // get message
+        getMessageTheirAmulet: (page) => dispatch(ShowRoomActions.getMessageTheirAmulet(page)), // get message
         clearTheirAmuletMessage: () => dispatch(ShowRoomActions.clearTheirAmuletMessage()), // clear get&send data
         editTheirAmuletMessage: (data) => dispatch(ShowRoomActions.editTheirAmuletMessage(data)),
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatTheirAmulet)
+
+//

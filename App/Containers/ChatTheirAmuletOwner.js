@@ -1,5 +1,5 @@
 // ==================================
-// ***************** ห้องแชทรวม ในหมวด "พระของคนอื่น" *****************
+// ***************** ห้องแชทเดี่ยว ติดต่อเจ้าของพระ *****************
 // ==================================
 import React, { Component } from 'react'
 import {
@@ -31,7 +31,8 @@ const slideAnimation = new SlideAnimation({
 let { width, height } = Dimensions.get('window')
 let count = 1
 let check = true
-class ChatTheirAmulet extends Component {
+
+class ChatTheirAmuletOwner extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -48,10 +49,7 @@ class ChatTheirAmulet extends Component {
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
-
-        // 1. ถ้ามีการส่งข้อความ ให้เก็บอาเรย์ response จากตั้ม ไว้ที่ เสตท message_list แล้วก้ เอาข้อความอันล่าสุด จาก response มาเก็บไว้ที่อาเรย์
-        // tmp ใน เสตท
-
+        console.log('------------- SEND MESSAGE OWNER --------------')
         if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null && prevState.mlist != newProps.data_sendMessageTheirAmulet) {
             console.log(newProps.data_sendMessageTheirAmulet)
             newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
@@ -59,29 +57,6 @@ class ChatTheirAmulet extends Component {
                 mlist: newProps.data_sendMessageTheirAmulet
             }
         }
-        // let tmp_messages = []
-        // let message_list = newProps.data_sendMessageTheirAmulet  //can't
-        // let message_list = null  //can't
-        // if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null) {
-
-        //     // if (newProps.data_messageTheirAmulet && newProps.data_messageTheirAmulet != null) {
-        //     //     let fuck = newProps.data_messageTheirAmulet.find(e => e.id == newProps.data_sendMessageTheirAmulet.id)
-
-        //     // }
-
-        //     if (prevState.mlist == newProps.data_sendMessageTheirAmulet) {
-        //         // let fuck = newProps.data_messageTheirAmulet.find(e => e.id == newProps.data_sendMessageTheirAmulet.id)
-        //         newProps.editTheirAmuletMessage(data_sendMessageTheirAmulet)
-        //     }
-
-        //     // if (prevState.mlist != newProps.data_sendMessageTheirAmulet) { // ข้อความที่ส่ง != ข้อความที่ส่งล่าสุด
-        //     //     console.log('MESSAGE LIST != newProps.data_sendMessageTheirAmulet')
-        //     //     message_list = newProps.data_sendMessageTheirAmulet
-        //     //     // newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
-        //     //     // tmp_messages.push(newProps.data_sendMessageTheirAmulet.messages[newProps.data_sendMessageTheirAmulet.messages.length - 1])
-        //     // }
-
-        // }
 
         return {
             // mlist: message_list,
@@ -202,7 +177,7 @@ class ChatTheirAmulet extends Component {
     _sendMessage = () => {
         console.log('send message complete')
         console.log(this.state.text)
-        this.props.sendMessageTheirAmulet(this.props.data_their.id, this.state.text)
+        this.props.sendMessageTheirAmulet(this.state.text)
         this.setState({ text: null })
     }
 
@@ -228,7 +203,7 @@ class ChatTheirAmulet extends Component {
     _reload = () => {
         // count = 1
         // this.props.getMessageTheirAmulet(count)
-        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
             count++
             this.props.getMessageTheirAmulet(count)
         }
@@ -245,7 +220,7 @@ class ChatTheirAmulet extends Component {
 
 
     _chatOwnerAmulet = () => {
-        this.props.navigation.navigate("chatTheirAmuletOwner")
+        // this.props.navigation.navigate("")
     }
 
     _showPicture = () => {
@@ -301,7 +276,7 @@ class ChatTheirAmulet extends Component {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
         console.log(this.props.data_their)
-        console.log('--------------------- ChatTheirAmulet DATA -------------------------')
+        console.log('--------------------- ChatTheirAmuletOwner DATA -------------------------')
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -361,7 +336,7 @@ class ChatTheirAmulet extends Component {
                             </View>
 
                             <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>{ChatTheirAmulet.rename(this.props.data_their.type)}</Text></Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>{ChatTheirAmuletOwner.rename(this.props.data_their.type)}</Text></Text>
                                 {this.props.data_their && this.props.data_their.question_list && this.props.data_their.question_list.length > 0 && this.props.data_their.question_list.map((e, i) => {
                                     return (
                                         <View>
@@ -369,10 +344,6 @@ class ChatTheirAmulet extends Component {
                                         </View>
                                     )
                                 })}
-                                <TouchableOpacity onPress={this._chatOwnerAmulet}><Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: 'orange' }}>{I18n.t('contactOwnerAmulet')}</Text></TouchableOpacity>
-                                {/* <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Price: <Text style={{ fontSize: 14 }}>750,000 </Text>฿ </Text>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Priest Name: <Text style={{ fontSize: 14 }}>LuangPhor Ngern</Text></Text>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Temple: <Text style={{ fontSize: 14 }}>Wat Mai Phin Greaw</Text></Text> */}
 
                             </View>
                         </View>
@@ -381,7 +352,7 @@ class ChatTheirAmulet extends Component {
                     </TouchableOpacity>}
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{ChatTheirAmulet.rename(this.props.data_their.type)}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{ChatTheirAmuletOwner.rename(this.props.data_their.type)}</Text>
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
                     </TouchableOpacity>}
 
@@ -438,23 +409,23 @@ const mapStateToProps = (state) => {
 
         data_their: state.showroom.data_their,  // data set to this page (ChatTheirAmulet)
 
-        request2: state.showroom.request2,  //  request send message of their amulet 
-        data_sendMessageTheirAmulet: state.showroom.data_sendMessageTheirAmulet,  // request send message of their amulet
+        request2: state.showroom.request4,  //  request send message of their amulet 
+        data_sendMessageTheirAmulet: state.showroom.data_sendMessageOwner,  // request send message of their amulet
 
-        request3: state.showroom.request3,  // request for get message of this room
-        data_messageTheirAmulet: state.showroom.data_messageTheirAmulet, // request for get message of this room
+        request3: state.showroom.request5,  // request for get message of this room
+        data_messageTheirAmulet: state.showroom.data_messageOwner, // request for get message of this room
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        sendMessageTheirAmulet: (qid, message) => dispatch(ShowRoomActions.sendMessageTheirAmulet(qid, message)),  // send message
-        getMessageTheirAmulet: (page) => dispatch(ShowRoomActions.getMessageTheirAmulet(page)), // get message
-        clearTheirAmuletMessage: () => dispatch(ShowRoomActions.clearTheirAmuletMessage()), // clear get&send data
-        editTheirAmuletMessage: (data) => dispatch(ShowRoomActions.editTheirAmuletMessage(data)),
+        sendMessageTheirAmulet: (message) => dispatch(ShowRoomActions.sendMessageOwner(message)),  // send message
+        getMessageTheirAmulet: (page) => dispatch(ShowRoomActions.getMessageOwner(page)), // get message
+        clearTheirAmuletMessage: () => dispatch(ShowRoomActions.clearOwnerAmuletMessage()), // clear get&send data
+        editTheirAmuletMessage: (data) => dispatch(ShowRoomActions.editOwnerAmuletMessage(data)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatTheirAmulet)
+export default connect(mapStateToProps, mapDispatchToProps)(ChatTheirAmuletOwner)
 
 //

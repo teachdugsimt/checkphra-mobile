@@ -27,14 +27,19 @@ import {
   paymentRequest, historyAddpointRequest, sendSlipRequest, cardRequest,
   paypalRequest55, cardHistoryRequest, appleHistoryRequest
 } from './PaymentSagas'
-import { expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
-  getAutoText55, editTypeQuestion } from './ExpertSagas'
+import {
+  expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
+  getAutoText55, editTypeQuestion
+} from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
   getListLeasing, getPriceallday, wantToBuy
 } from './TradingSagas'
 
-import { getListAmulet, sendMessageTheirAmulet55, getMessageFromTheirAmulet } from './ShowRoomSagas'
+import {
+  getListAmulet, sendMessageTheirAmulet55, getMessageFromTheirAmulet, sendMessageToOwner,
+  getMessageFromOwner, getMyRealAmulet
+} from './ShowRoomSagas'
 import { getVersion } from './VersionSagas'
 /* ------------- API ------------- */
 
@@ -59,10 +64,13 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
-    
+
     takeLatest(ShowRoomTypes.GET_LIST_AMULET, getListAmulet, showroomApi),
     takeLatest(ShowRoomTypes.SEND_MESSAGE_THEIR_AMULET, sendMessageTheirAmulet55, showroomApi),
     takeLatest(ShowRoomTypes.GET_MESSAGE_THEIR_AMULET, getMessageFromTheirAmulet, showroomApi),
+    takeLatest(ShowRoomTypes.SEND_MESSAGE_OWNER, sendMessageToOwner, showroomApi),
+    takeLatest(ShowRoomTypes.GET_MESSAGE_OWNER, getMessageFromOwner, showroomApi),
+    takeLatest(ShowRoomTypes.GET_MY_REAL_AMULET, getMyRealAmulet, showroomApi),
 
     takeLatest(TradingTypes.TRADING_REQUEST, getTrading, tradeApi),
     takeLatest(TradingTypes.GET_DETAIL, getDetail, tradeApi),
@@ -117,7 +125,7 @@ export default function* root() {
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
 
-    
+
 
   ])
 }

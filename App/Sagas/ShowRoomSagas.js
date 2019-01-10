@@ -141,3 +141,63 @@ export function* getMessageFromTheirAmulet(api, { page }) {
     yield put(ShowRoomActions.getMessageTheirAmuletFailure())
   }
 }
+
+export function* sendMessageToOwner(api, { message }) {
+  const aut = yield select(auth)
+  const their = yield select(idDataAmulet)
+
+  const data = {
+    user_id: aut.user_id,
+    message,
+    qid: their.id,
+    uid_contact: their.user_id
+  }
+  console.log(data)
+  const response = yield call(api.sendMessageChatOwner, data)
+  console.log(response)
+  console.log('=================== SEND MESSAGE TO OWNER ====================')
+  if (response.ok) {
+    yield put(ShowRoomActions.sendMessageOwnerSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.sendMessageOwnerFailure())
+  }
+}
+
+export function* getMessageFromOwner(api, { page }) {
+  const aut = yield select(auth)
+  const id = yield select(idDataAmulet)
+  const data = {
+    qid: id.id,
+    user_id: aut.user_id,
+    uid_owner: id.user_id,
+    page_number: page,
+    
+  }
+
+  const response = yield call(api.getMessageOwner, data)
+  console.log(response)
+  console.log('======================= GET MESSAGE FROM OWNER =====================')
+  if (response.ok) {
+    yield put(ShowRoomActions.getMessageOwnerSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getMessageOwnerFailure())
+  }
+}
+
+
+export function* getMyRealAmulet(api, { page }) {
+  const aut = yield select(auth)
+
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+  const response = yield call(api.getMyRealAmulet, data)
+  console.log(response)
+  console.log('====================== GET MY REAL AMULET =======================')
+  if (response.ok) {
+    yield put(ShowRoomActions.getMyRealAmuletSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getMyRealAmuletFailure())
+  }
+}

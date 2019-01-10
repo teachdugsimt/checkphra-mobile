@@ -139,7 +139,7 @@ class TheyAmuletRoom extends Component {
         else if (e == 'บางขุนพรหม ปี พ.ศ.2517') {
             name = I18n.t('BangKhunProm2517')
         }
-        else if (e == 'อื่นๆ หรือ ไม่ทราบ') {
+        else if (e == 'อื่นๆ หรือ ไม่ทราบ' || e == 'ไม่ระบุประเภท') {
             name = I18n.t('otherOrUnknown')
         }
 

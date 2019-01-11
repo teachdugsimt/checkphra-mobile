@@ -44,7 +44,13 @@ class ChatTheirAmuletOwner extends Component {
             mlist: null,
             tlist: null,
         }
+        // this._onScroll = this._onScroll.bind(this)
     }
+
+    // static _onScroll = () => {
+    //     // this.myFaltList.scrollToEnd({ animated: false })
+    //     this.myFaltList.scrollToEnd()
+    // }
 
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
@@ -53,6 +59,9 @@ class ChatTheirAmuletOwner extends Component {
         if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null && prevState.mlist != newProps.data_sendMessageTheirAmulet) {
             console.log(newProps.data_sendMessageTheirAmulet)
             newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
+            // ChatTheirAmuletOwner._onScroll()
+            // ChatTheirAmuletOwner.myFaltList.scrollToEnd().bind(this)
+            // ChatTheirAmuletOwner.myFaltList.scrollToEnd().bind(ChatTheirAmuletOwner)
             return {
                 mlist: newProps.data_sendMessageTheirAmulet
             }
@@ -163,7 +172,7 @@ class ChatTheirAmuletOwner extends Component {
         else if (e == 'บางขุนพรหม ปี พ.ศ.2517') {
             name = I18n.t('BangKhunProm2517')
         }
-        else if (e == 'อื่นๆ หรือ ไม่ทราบ') {
+        else if (e == 'อื่นๆ หรือ ไม่ทราบ' || e == 'ไม่ระบุประเภท') {
             name = I18n.t('otherOrUnknown')
         }
 
@@ -369,6 +378,12 @@ class ChatTheirAmuletOwner extends Component {
                 <FlatList
                     data={this.props.data_messageTheirAmulet}
                     renderItem={this._renderItem}
+                    ref={(list) => this.myFaltList = list}
+                    onContentSizeChange={() => {
+                        if (this.myFaltList.props.data && this.props.data_sendMessageTheirAmulet)
+                            this.myFaltList.scrollToEnd()
+                    }}
+                    // ref={"myList"}
                     // inverted={true}
                     // onEndReached={this._onScrollEndList}
                     // onEndReachedThreshold={0.3}

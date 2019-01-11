@@ -12,6 +12,8 @@ import RoundedButton from '../Components/RoundedButton'
 import { Colors, Images } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import Icon2 from "react-native-vector-icons/FontAwesome";
+import moment from 'moment'
+import 'moment/locale/th'
 import * as RNIap from 'react-native-iap';
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 import I18n from '../I18n/i18n';
@@ -27,16 +29,17 @@ const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
 });
 let { width, height } = Dimensions.get('window')
-
+let count = 1
 class ChatMyAmulet extends Component {
 
     _renderItem = ({ item, index }) => {
+        let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
         return (
-            <TouchableOpacity style={{ height: 120, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }}
+            <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }}
                 onPress={() => this._goToChat(item)}>
 
-                <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.name}</Text>
-                <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{item.date}</Text>
+                <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{I18n.t('messages') + " " + (index + 1)}</Text>
+                <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
             </TouchableOpacity>
         )
     }
@@ -44,17 +47,36 @@ class ChatMyAmulet extends Component {
     _goToChat = (item) => {
         // this.props.setDetailPhra(item)
         // this.props.navigation.navigate('')
+        this.props.setDataGroupChat(item)
         this.props.navigation.navigate('chatRoomMyAmuletSolo')
+    }
+
+    componentDidMount() {
+        count = 1
+        this.props.getMyMessageFromOther(count)
+    }
+
+    componentWillUnmount() {
+        count = 1
+    }
+
+    _reload = () => {
+        count = 1
+        this.props.getMyMessageFromOther(count)
+    }
+
+    _onScrollEndList = () => {
+        console.log('END LIST AGAIN')
+        if (this.props.data_myMessageFromOther && this.props.data_myMessageFromOther.length >= 10 && (this.props.request7 == false || this.props.request7 == null)) {
+            count++
+            this.props.getMyMessageFromOther(count)
+        }
     }
 
     render() {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
-        const data = [{ name: 'chat1.', date: '25/12/18' },
-        { name: 'chat2.', date: '25/12/18' },
-        { name: 'chat3.', date: '25/12/18' },
-        { name: 'chat4.', date: '25/12/18' },
-        { name: 'chat5.', date: '25/12/18' }]
+
         // console.log('***************************************')
         return (
             <LinearGradient
@@ -74,14 +96,14 @@ class ChatMyAmulet extends Component {
                 </View>
 
                 <FlatList
-                    // refreshControl={
-                    //     <RefreshControl
-                    //         refreshing={this.props.fetching == true}
-                    //         onRefresh={this._reload}
-                    //     />
-                    // }
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.request7 == true}
+                            onRefresh={this._reload}
+                        />
+                    }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePromotion')}</Text>}
-                    data={data}
+                    data={this.props.data_myMessageFromOther}
                     renderItem={this._renderItem} />
             </LinearGradient>
         )
@@ -96,6 +118,9 @@ const mapStateToProps = (state) => {
         // data_amulet: state.question.amuletType,   // data request type amulet
         // request_type: state.question.request_type,  // request type
         data_amulet: state.showroom.data_amulet,
+
+        request7: state.showroom.request7,  // request for get data my real amulet message from other person ( Chat Solo )
+        data_myMessageFromOther: state.showroom.data_myMessageFromOther,  // data for store my message from other person ( Chat Solo )
     }
 }
 
@@ -105,6 +130,8 @@ const mapDispatchToProps = (dispatch) => {
         setRequestType: () => dispatch(QuestionActions.setRequestType()),
         setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
         setDetailPhra: (data) => dispatch(ShowRoomActions.setDetailPhra(data)),
+        getMyMessageFromOther: (page) => dispatch(ShowRoomActions.getMyMessageFromOther(page)),
+        setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
     }
 }
 

@@ -369,12 +369,14 @@ class ChatTheirAmulet extends Component {
                                         </View>
                                     )
                                 })}
-                                <TouchableOpacity onPress={this._chatOwnerAmulet}><Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: 'orange' }}>{I18n.t('contactOwnerAmulet')}</Text></TouchableOpacity>
+
                                 {/* <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Price: <Text style={{ fontSize: 14 }}>750,000 </Text>฿ </Text>
                                 <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Priest Name: <Text style={{ fontSize: 14 }}>LuangPhor Ngern</Text></Text>
                                 <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Temple: <Text style={{ fontSize: 14 }}>Wat Mai Phin Greaw</Text></Text> */}
 
                             </View>
+                            {this.props.user_id != this.props.data_their.user_id && <TouchableOpacity onPress={this._chatOwnerAmulet} style={{ position: 'absolute', top: 0.2, right: 5 }}>
+                                <Icon2 name={'wechat'} color={Colors.bloodOrange} size={26} /></TouchableOpacity>}
                         </View>
 
                         <Icon2 size={22} name={'chevron-up'} style={{ alignSelf: 'center', marginVertical: 2.5 }} />
@@ -398,6 +400,11 @@ class ChatTheirAmulet extends Component {
                 <FlatList
                     data={this.props.data_messageTheirAmulet}
                     renderItem={this._renderItem}
+                    ref={(list) => this.myFaltList = list}
+                    onContentSizeChange={() => {
+                        if (this.myFaltList.props.data && this.props.data_sendMessageTheirAmulet)
+                            this.myFaltList.scrollToEnd()
+                    }}
                     // inverted={true}
                     // onEndReached={this._onScrollEndList}
                     // onEndReachedThreshold={0.3}

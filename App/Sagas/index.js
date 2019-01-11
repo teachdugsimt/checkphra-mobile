@@ -38,7 +38,7 @@ import {
 
 import {
   getListAmulet, sendMessageTheirAmulet55, getMessageFromTheirAmulet, sendMessageToOwner,
-  getMessageFromOwner, getMyRealAmulet
+  getMessageFromOwner, getMyRealAmulet, getMyMessageFromOtherPerson
 } from './ShowRoomSagas'
 import { getVersion } from './VersionSagas'
 /* ------------- API ------------- */
@@ -71,6 +71,7 @@ export default function* root() {
     takeLatest(ShowRoomTypes.SEND_MESSAGE_OWNER, sendMessageToOwner, showroomApi),
     takeLatest(ShowRoomTypes.GET_MESSAGE_OWNER, getMessageFromOwner, showroomApi),
     takeLatest(ShowRoomTypes.GET_MY_REAL_AMULET, getMyRealAmulet, showroomApi),
+    takeLatest(ShowRoomTypes.GET_MY_MESSAGE_FROM_OTHER, getMyMessageFromOtherPerson, showroomApi),
 
     takeLatest(TradingTypes.TRADING_REQUEST, getTrading, tradeApi),
     takeLatest(TradingTypes.GET_DETAIL, getDetail, tradeApi),

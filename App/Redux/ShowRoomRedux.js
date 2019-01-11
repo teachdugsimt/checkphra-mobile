@@ -11,6 +11,7 @@ const { Types, Creators } = createActions({
   setAmuletType: ['data'],
   setDetailPhra: ['data'],
   setTheirAmuletData: ['data'],
+  setDataGroupChat: ['data'],
 
   getListAmulet: ['page'],
   getListSuccess: ['data'],
@@ -41,8 +42,13 @@ const { Types, Creators } = createActions({
   clearTheirAmuletMessage: null,
   clearOwnerAmuletMessage: null,
   clearDataListTheirAmulet: null,
+  clearDataMyRealAmulet: null,
   editTheirAmuletMessage: ['data'],
   editOwnerAmuletMessage: ['data'],
+
+  getMyMessageFromOther: ['page'],
+  getMyMessageFromOtherSuccess: ['data'],
+  getMyMessageFromOtherFailure: null,
 
 })
 
@@ -58,8 +64,9 @@ export const INITIAL_STATE = Immutable({
   error: null,
 
   data_amulet: null,  // they real amulet data  
-  data_detail: null,  // data my real amulet
-  data_their: null,   // data their real amulet
+  data_detail: null,  // data my real amulet, set from List of my real amulet 
+  data_their: null,   // data their real amulet, set from List of their real amulet  (Forget to ChatMyAmulet please!! ^-^)
+  data_groupChat: null, // group uid of api when owner => other & other => owner
 
   data_list: null,  // show phra real other person
   request: null,  // request for get list of real phra other person
@@ -79,6 +86,9 @@ export const INITIAL_STATE = Immutable({
   request6: null,   // request for get my real amulet
   data_myRealAmulet: null,  // data for store my real amulet
 
+  request7: null,  // request for get data my real amulet message from other person ( Chat Solo )
+  data_myMessageFromOther: null,  // data for store my message from other person ( Chat Solo )
+
 })
 
 /* ------------- Selectors ------------- */
@@ -90,6 +100,28 @@ export const ShowRoomSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+export const clearDataMyRealAmulet = state => state.merge({ data_myRealAmulet: null })
+export const setDataGroupChat = (state, { data }) => state.merge({ data_groupChat: data })
+
+export const getMyMessageFromOther = state => state.merge({ request7: true })
+export const getMyMessageFromOtherSuccess = (state, { data }) => {
+  let tmp
+  if (state.data_myMessageFromOther && state.data_myMessageFromOther != null && state.data_myMessageFromOther.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = JSON.parse(JSON.stringify(state.data_myMessageFromOther))
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  return state.merge({ data_myMessageFromOther: tmp, request7: false })
+}
+export const getMyMessageFromOtherFailure = state => state.merge({ request7: false })
 
 export const getMyRealAmulet = state => state.merge({ request6: true })
 export const getMyRealAmuletSuccess = (state, { data }) => {
@@ -271,24 +303,7 @@ export const success = (state, action) => {
 }
 
 // Something went wrong somewhere.
-export const failure = state =>
-  state.merge({ fetching: false, error: true, payload: null })
-
-
-// export const getListAmulet = state => state.merge({ request: true })
-// export const getListSuccess = (state, { data }) => state.merge({ request: false, data_list: data })
-// export const getListFailure = state => state.merge({ request: false })
-// export const getListSuccess2 = (state, { data }) => {
-//   let tmp = [...state.data_list]
-//   // data.forEach(e => tmp.push(e))
-//   data.forEach(e => {
-//     if (tmp.find(b => b.id == e.id)) {
-//       console.log('SAME VALUE')
-//     } else { tmp.push(e) }
-//   })
-//   return state.merge({ data_list: tmp, request: false })
-// }
-// export const getListFailure2 = state => state.merge({ request: false })
+export const failure = state => state.merge({ fetching: false, error: true, payload: null })
 
 export const getListAmulet = state => state.merge({ request: true })
 export const getListSuccess = (state, { data }) => {
@@ -321,6 +336,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_AMULET_TYPE]: setAmuletType,
   [Types.SET_DETAIL_PHRA]: setDetailPhra,
   [Types.SET_THEIR_AMULET_DATA]: setTheirAmuletData,
+  [Types.SET_DATA_GROUP_CHAT]: setDataGroupChat,
 
   [Types.GET_LIST_AMULET]: getListAmulet,
   [Types.GET_LIST_SUCCESS]: getListSuccess,
@@ -346,11 +362,16 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_MY_REAL_AMULET_SUCCESS]: getMyRealAmuletSuccess,
   [Types.GET_MY_REAL_AMULET_FAILURE]: getMyRealAmuletFailure,
 
+  [Types.GET_MY_MESSAGE_FROM_OTHER]: getMyMessageFromOther,
+  [Types.GET_MY_MESSAGE_FROM_OTHER_SUCCESS]: getMyMessageFromOtherSuccess,
+  [Types.GET_MY_MESSAGE_FROM_OTHER_FAILURE]: getMyMessageFromOtherFailure,
+
   [Types.CLEAR_THEIR_AMULET_MESSAGE]: clearTheirAmuletMessage,
   [Types.EDIT_THEIR_AMULET_MESSAGE]: editTheirAmuletMessage,
   [Types.EDIT_OWNER_AMULET_MESSAGE]: editOwnerAmuletMessage,
   [Types.CLEAR_DATA_LIST_THEIR_AMULET]: clearDataListTheirAmulet,
-  [Types.CLEAR_OWNER_AMULET_MESSAGEs]: clearOwnerAmuletMessage,
+  [Types.CLEAR_OWNER_AMULET_MESSAGE]: clearOwnerAmuletMessage,
+  [Types.CLEAR_DATA_MY_REAL_AMULET]: clearDataMyRealAmulet,
   // [Types.GET_LIST_SUCCESS2]: getListSuccess2,
   // [Types.GET_LIST_FAILURE2]: getListFailure2,
 })

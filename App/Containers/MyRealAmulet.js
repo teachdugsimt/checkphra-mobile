@@ -223,6 +223,7 @@ class MyRealAmulet extends Component {
 
     componentWillUnmount() {
         count = 1
+        this.props.clearDataMyRealAmulet()
     }
 
     _reload = () => {
@@ -349,8 +350,9 @@ const mapDispatchToProps = (dispatch) => {
         getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
         setRequestType: () => dispatch(QuestionActions.setRequestType()),
         setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
-        setDetailPhra: (data) => dispatch(ShowRoomActions.setDetailPhra(data)),
+        setDetailPhra: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
         getMyRealAmulet: (page) => dispatch(ShowRoomActions.getMyRealAmulet(page)),
+        clearDataMyRealAmulet: () => dispatch(ShowRoomActions.clearDataMyRealAmulet()),
     }
 }
 

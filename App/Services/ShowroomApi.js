@@ -41,6 +41,8 @@ const create = (baseURL = b) => {
 
   const getMyRealAmulet = (data) => api.get('amulets/list-me', data)
 
+  const getMyMessageFromOther = (data) => api.get('discuss/my-amulet-contacter', data)
+
 
 
   return {
@@ -50,7 +52,8 @@ const create = (baseURL = b) => {
     getMessageTheirAmulet,
     sendMessageChatOwner,
     getMessageOwner,
-    getMyRealAmulet
+    getMyRealAmulet,
+    getMyMessageFromOther
 
   }
 }

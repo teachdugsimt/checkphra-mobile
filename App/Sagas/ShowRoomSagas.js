@@ -19,6 +19,7 @@ I18n.fallbacks = true;
 const auth = state => state.auth
 const type = state => state.showroom.data_amulet
 const idDataAmulet = state => state.showroom.data_their
+const dataChat = state => state.showroom.data_groupChat
 I18n.locale = auth.language
 
 export function* getShowRoom(api, action) {
@@ -38,48 +39,6 @@ export function* getShowRoom(api, action) {
   }
 }
 
-// export function* getListAmulet(api, { page }) {
-//   const aut = yield select(auth)
-//   const typ = yield select(type)
-//   console.log('COME HERE 0')
-//   if (page == 1) {
-
-//     const data = {
-//       user_id: aut.user_id,
-//       page_number: page,
-//       type_id: typ.id
-//     }
-//     console.log('COME HERE')
-//     console.log(data)
-
-//     const response = yield call(api.getListReal, data)
-//     console.log('================= GET LIST THEIR REAL AMULET ==================')
-//     console.log(response)
-//     if (response.ok) {
-//       yield put(ShowRoomActions.getListSuccess(response.data))
-//     } else {
-//       yield put(ShowRoomActions.getListFailure())
-//     }
-
-//   } else {
-
-//     const data = {
-//       user_id: aut.user_id,
-//       page_number: page,
-//       type_id: typ.id
-//     }
-//     const response = yield call(api.getListReal, data)
-//     console.log('================= GET LIST THEIR REAL AMULET ==================')
-//     console.log(response)
-//     if (response.ok) {
-//       yield put(ShowRoomActions.getListSuccess2(response.data))
-//     } else {
-//       yield put(ShowRoomActions.getListFailure2())
-//     }
-
-//   }
-
-// }
 export function* getListAmulet(api, { page }) {
   const aut = yield select(auth)
   const typ = yield select(type)
@@ -142,17 +101,20 @@ export function* getMessageFromTheirAmulet(api, { page }) {
   }
 }
 
-export function* sendMessageToOwner(api, { message }) {
+export function* sendMessageToOwner(api, { message }) {   // *****************************************************************************
   const aut = yield select(auth)
   const their = yield select(idDataAmulet)
-
+  const dgroup = yield select(dataChat)
   const data = {
+    // user_id: aut.user_id,  // Mobile login now
     user_id: aut.user_id,
     message,
     qid: their.id,
-    uid_contact: their.user_id
+    uid_contact: their.user_id == aut.user_id ? dgroup.user_id : their.user_id  // other person
+    //               เจ้าของ  =  ไอดีในอีมูนี้             me                 003
   }
   console.log(data)
+  console.log('============== SEND MESSAGE JAAAA ===============')
   const response = yield call(api.sendMessageChatOwner, data)
   console.log(response)
   console.log('=================== SEND MESSAGE TO OWNER ====================')
@@ -163,17 +125,20 @@ export function* sendMessageToOwner(api, { message }) {
   }
 }
 
-export function* getMessageFromOwner(api, { page }) {
+export function* getMessageFromOwner(api, { page }) {   // **********************************************************************
   const aut = yield select(auth)
-  const id = yield select(idDataAmulet)
+  const their = yield select(idDataAmulet)
+  const dgroup = yield select(dataChat)
   const data = {
-    qid: id.id,
-    user_id: aut.user_id,
-    uid_owner: id.user_id,
+    qid: their.id,
+    // user_id: aut.user_id,  // mobile login now
+    user_id: aut.user_id == their.user_id ? dgroup.user_id : aut.user_id,
+    uid_owner: their.user_id,  // other person
     page_number: page,
-    
-  }
 
+  }
+  console.log(data)
+  console.log('============== GET MESSAGE JAAAA ===============')
   const response = yield call(api.getMessageOwner, data)
   console.log(response)
   console.log('======================= GET MESSAGE FROM OWNER =====================')
@@ -199,5 +164,25 @@ export function* getMyRealAmulet(api, { page }) {
     yield put(ShowRoomActions.getMyRealAmuletSuccess(response.data))
   } else {
     yield put(ShowRoomActions.getMyRealAmuletFailure())
+  }
+}
+
+export function* getMyMessageFromOtherPerson(api, { page }) {
+  const aut = yield select(auth)
+  const id = yield select(idDataAmulet)
+
+  const data = {
+    user_id: aut.user_id,
+    qid: id.id,
+    page_number: page
+  }
+
+  const response = yield call(api.getMyMessageFromOther, data)
+  console.log(response)
+  console.log('===================== GET MY MESSAGE FROM OTHER PERSON =====================')
+  if (response.ok) {
+    yield put(ShowRoomActions.getMyMessageFromOtherSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getMyMessageFromOtherFailure())
   }
 }

@@ -241,7 +241,10 @@ export default {
   chat: 'ห้องสนทนา',
   messages: 'ข้อความ',
   chatMyAmulet: 'สนทนาพระของฉัน',
+
   contactOwnerAmulet: 'ติดต่อเจ้าของพระ',
+  webBoard: 'เว็บบอร์ด',
+  userContact: 'ปัญหาจาก user',
 
   myAmulet: 'พระแท้ของฉัน',
 

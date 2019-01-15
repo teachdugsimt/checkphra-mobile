@@ -15,6 +15,7 @@ import { ExpertTypes } from '../Redux/ExpertRedux'
 import { TradingTypes } from '../Redux/TradingRedux'
 import { VersionTypes } from '../Redux/VersionRedux'
 import { ShowRoomTypes } from '../Redux/ShowRoomRedux'
+import { ChatTypes } from '../Redux/ChatRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -38,8 +39,10 @@ import {
 
 import {
   getListAmulet, sendMessageTheirAmulet55, getMessageFromTheirAmulet, sendMessageToOwner,
-  getMessageFromOwner, getMyRealAmulet, getMyMessageFromOtherPerson
+  getMessageFromOwner, getMyRealAmulet, getMyMessageFromOtherPerson, getListOwnerContactWithUser
 } from './ShowRoomSagas'
+
+import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
 import { getVersion } from './VersionSagas'
 /* ------------- API ------------- */
 
@@ -72,6 +75,11 @@ export default function* root() {
     takeLatest(ShowRoomTypes.GET_MESSAGE_OWNER, getMessageFromOwner, showroomApi),
     takeLatest(ShowRoomTypes.GET_MY_REAL_AMULET, getMyRealAmulet, showroomApi),
     takeLatest(ShowRoomTypes.GET_MY_MESSAGE_FROM_OTHER, getMyMessageFromOtherPerson, showroomApi),
+
+    takeLatest(ChatTypes.SEND_MESSAGE_ADMIN, contactAdmin, showroomApi), //********* */
+    takeLatest(ChatTypes.GET_MESSAGE_ADMIN, getMessageAdmin, showroomApi), //********** */
+    takeLatest(ChatTypes.GET_LIST_USER_CONTACT, getListUserForAdmin, showroomApi),
+    takeLatest(ShowRoomTypes.GET_LIST_OWNER_CONTACT, getListOwnerContactWithUser, showroomApi),
 
     takeLatest(TradingTypes.TRADING_REQUEST, getTrading, tradeApi),
     takeLatest(TradingTypes.GET_DETAIL, getDetail, tradeApi),

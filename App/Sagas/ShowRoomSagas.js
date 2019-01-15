@@ -114,7 +114,7 @@ export function* sendMessageToOwner(api, { message }) {   // *******************
     //               เจ้าของ  =  ไอดีในอีมูนี้             me                 003
   }
   console.log(data)
-  console.log('============== SEND MESSAGE JAAAA ===============')
+  console.log('============== SEND MESSAGE IN ROOM ===============')
   const response = yield call(api.sendMessageChatOwner, data)
   console.log(response)
   console.log('=================== SEND MESSAGE TO OWNER ====================')
@@ -133,12 +133,12 @@ export function* getMessageFromOwner(api, { page }) {   // *********************
     qid: their.id,
     // user_id: aut.user_id,  // mobile login now
     user_id: aut.user_id == their.user_id ? dgroup.user_id : aut.user_id,
-    uid_owner: their.user_id,  // other person
+    uid_owner: their.user_id,  // other person or Owner amulet only
     page_number: page,
 
   }
   console.log(data)
-  console.log('============== GET MESSAGE JAAAA ===============')
+  console.log('============== GET MESSAGE IN ROOM ===============')
   const response = yield call(api.getMessageOwner, data)
   console.log(response)
   console.log('======================= GET MESSAGE FROM OWNER =====================')
@@ -184,5 +184,25 @@ export function* getMyMessageFromOtherPerson(api, { page }) {
     yield put(ShowRoomActions.getMyMessageFromOtherSuccess(response.data))
   } else {
     yield put(ShowRoomActions.getMyMessageFromOtherFailure())
+  }
+}
+
+export function* getListOwnerContactWithUser(api, { page }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getMyContact, data)
+
+
+  console.log(response)
+  console.log('======================  GET LIST USER CONTACT TO OWNER ========================')
+
+  if (response.ok) {
+    yield put(ShowRoomActions.getListOwnerContactSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getListOwnerContactFailure())
   }
 }

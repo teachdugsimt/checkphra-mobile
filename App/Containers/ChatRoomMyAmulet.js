@@ -338,7 +338,7 @@ class ChatRoomMyAmulet extends Component {
                             </View>
 
                             <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>{ChatRoomMyAmulet.rename(this.props.data_their.type)}</Text></Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>{ChatRoomMyAmulet.rename(this.props.data_their.type)+" ( "+this.props.data_their.id+" )"}</Text></Text>
                                 {this.props.data_their && this.props.data_their.question_list && this.props.data_their.question_list.length > 0 && this.props.data_their.question_list.map((e, i) => {
                                     return (
                                         <View>
@@ -354,7 +354,7 @@ class ChatRoomMyAmulet extends Component {
                     </TouchableOpacity>}
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{ChatRoomMyAmulet.rename(this.props.data_their.type)}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{ChatRoomMyAmulet.rename(this.props.data_their.type)+" ( "+this.props.data_their.id+" )"}</Text>
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
                     </TouchableOpacity>}
 

@@ -22,7 +22,7 @@ const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
 });
 let { width, height } = Dimensions.get('window')
-class HomeScreen extends Component {
+class AdminHome extends Component {
 
     constructor(props) {
         super(props)
@@ -48,8 +48,8 @@ class HomeScreen extends Component {
         // const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: (<View><Text>5555555555555555555555888</Text></View>) },
         // { name: I18n.t('showAmuletReal'), id: 2 },
         // { name: I18n.t('chat'), id: 3 }]
-        const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1 },
-        { name: I18n.t('showAmuletReal'), id: 2 },
+        const list_user = [{ name: I18n.t('pendingList'), id: 1 },
+        { name: I18n.t('editAnswer'), id: 2 },
         { name: I18n.t('chat'), id: 3 }]
 
         if (newProps.language != prevState.language) {
@@ -71,9 +71,9 @@ class HomeScreen extends Component {
 
     _pressList = (item) => {
         if (item.id == 1) {
-            this.props.navigation.navigate('uploadScreen')
+            this.props.navigation.navigate('check')
         } else if (item.id == 2) {
-            this.props.navigation.navigate('showroom')
+            this.props.navigation.navigate('answer')
         } else if (item.id == 3) {
             this.popupDialog.show()
         }
@@ -118,13 +118,12 @@ class HomeScreen extends Component {
 
     }
 
-    _ownerAmulet = () => {
-        this.props.navigation.navigate('userContactOwner')
-        this.popupDialog.dismiss()
+    _editAnswer = () => {
+
     }
 
-    _contactAdmin = () => {
-        this.props.navigation.navigate('contactAdmin')
+    _userContact = () => {
+        this.props.navigation.navigate('chat2')
         this.popupDialog.dismiss()
     }
 
@@ -153,24 +152,24 @@ class HomeScreen extends Component {
                     }}>{I18n.t('editType')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog = popupDialog; }}
                     dialogAnimation={slideAnimation}
-                    width={width / 1.2}
-                    height={height / 2.4}
+                    width={width / 1.05}
+                    height={height / 2}
                     // height={150}
                     onDismissed={() => { this.setState({}) }}
                 >
                     <View style={{ flex: 1 }}>
                         <ScrollView style={{ flex: 1 }}>
                             <View style={{}}>
-                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._webBoard}>
+                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._webBoard}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._ownerAmulet}>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactOwnerAmulet')}</Text>
-                                </TouchableOpacity>
+                                {/* <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._editAnswer}>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('chat')}</Text>
+                                </TouchableOpacity> */}
 
-                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._contactAdmin}>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactAdmin')}</Text>
+                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._userContact}>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('userContact')}</Text>
                                 </TouchableOpacity>
 
                             </View>
@@ -198,4 +197,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminHome)

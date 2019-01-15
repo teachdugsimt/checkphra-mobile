@@ -50,6 +50,10 @@ const { Types, Creators } = createActions({
   getMyMessageFromOtherSuccess: ['data'],
   getMyMessageFromOtherFailure: null,
 
+  getListOwnerContact: ['page'],
+  getListOwnerContactSuccess: ['data'],
+  getListOwnerContactFailure: null,
+
 })
 
 export const ShowRoomTypes = Types
@@ -89,6 +93,9 @@ export const INITIAL_STATE = Immutable({
   request7: null,  // request for get data my real amulet message from other person ( Chat Solo )
   data_myMessageFromOther: null,  // data for store my message from other person ( Chat Solo )
 
+  request8: null,  // request for get list contact with user => owner
+  data_listOwner: null, // store list user => owner
+
 })
 
 /* ------------- Selectors ------------- */
@@ -122,6 +129,26 @@ export const getMyMessageFromOtherSuccess = (state, { data }) => {
   return state.merge({ data_myMessageFromOther: tmp, request7: false })
 }
 export const getMyMessageFromOtherFailure = state => state.merge({ request7: false })
+
+export const getListOwnerContact = state => state.merge({ request8: true })
+export const getListOwnerContactSuccess = (state, { data }) => {
+  let tmp
+  if (state.data_listOwner && state.data_listOwner != null && state.data_listOwner.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = JSON.parse(JSON.stringify(state.data_listOwner))
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  return state.merge({ data_listOwner: tmp, request8: false })
+}
+export const getListOwnerContactFailure = state => state.merge({ request8: false })
 
 export const getMyRealAmulet = state => state.merge({ request6: true })
 export const getMyRealAmuletSuccess = (state, { data }) => {
@@ -365,6 +392,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_MY_MESSAGE_FROM_OTHER]: getMyMessageFromOther,
   [Types.GET_MY_MESSAGE_FROM_OTHER_SUCCESS]: getMyMessageFromOtherSuccess,
   [Types.GET_MY_MESSAGE_FROM_OTHER_FAILURE]: getMyMessageFromOtherFailure,
+
+  [Types.GET_LIST_OWNER_CONTACT]: getListOwnerContact,
+  [Types.GET_LIST_OWNER_CONTACT_SUCCESS]: getListOwnerContactSuccess,
+  [Types.GET_LIST_OWNER_CONTACT_FAILURE]: getListOwnerContactFailure,
 
   [Types.CLEAR_THEIR_AMULET_MESSAGE]: clearTheirAmuletMessage,
   [Types.EDIT_THEIR_AMULET_MESSAGE]: editTheirAmuletMessage,

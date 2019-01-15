@@ -163,6 +163,10 @@ class ProfileScreen extends Component {
     return val;
   }
 
+  _changePicture = () => {
+    
+  }
+
   _english = () => {
     this.props.setLanguage('en')
     this.popupDialog.dismiss()
@@ -201,11 +205,15 @@ class ProfileScreen extends Component {
                 color={Colors.brownTextTran}
               />} */}
               {/* <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%' }} /> */}
-              <Icon2
+              {this.props.profile && !this.props.profile.fb_id && <Icon2
                 name="md-contact"
                 size={45}
+                onPress={this._changePicture}
                 color={Colors.brownTextTran}
-              />
+              />}
+
+              {this.props.profile && this.props.profile.fb_id && <Image style={{ height: '100%', width: '100%', borderRadius: 10 }}
+                source={{ uri: 'https://graph.facebook.com/' + this.props.profile.fb_id + '/picture' }} />}
             </View>
           </View>
 

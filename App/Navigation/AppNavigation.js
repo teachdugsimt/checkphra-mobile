@@ -39,6 +39,15 @@ import ChatRoomMyAmulet from '../Containers/ChatRoomMyAmulet'
 import ChatRoomMyAmuletSolo from '../Containers/ChatRoomMyAmuletSolo'
 import ChatTheirAmulet from '../Containers/ChatTheirAmulet'
 import ChatTheirAmuletOwner from '../Containers/ChatTheirAmuletOwner'
+import ContactAdmin from '../Containers/ContactAdmin'
+import AdminHome from '../Containers/AdminHome'
+import AdminContactUser from '../Containers/AdminContactUser'
+import AdminContactUser2 from '../Containers/AdminContactUser2'
+import UserContactOwner from '../Containers/UserContactOwner'
+import UserContactOwner2 from '../Containers/UserContactOwner2'
+import Webboard from '../Containers/Webboard'
+import Webboard2 from '../Containers/Webboard2'
+import Certificate from '../Containers/Certificate'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -190,8 +199,38 @@ const UploadStack = StackNavigator(  // main upload
       navigationOptions: {
         title: I18n.t('chat')
       }
+    },
+    contactAdmin: {
+      screen: ContactAdmin,
+      navigationOptions: {
+        title: I18n.t('contactAdmin')
+      }
+    },
+    userContactOwner: {
+      screen: UserContactOwner,
+      navigationOptions: {
+        title: I18n.t('contactOwnerAmulet')
+      }
+    },
+    // userContactOwner2: {
+    //   screen: UserContactOwner2,
+    //   navigationOptions: {
+    //     title: I18n.t("contactOwnerAmulet")
+    //   }
+    // },
+    webboard: {
+      screen: Webboard,
+      navigationOptions: {
+        title: I18n.t('webBoard')
+      }
+    },
+    webboard2: {
+      screen: Webboard2,
+      navigationOptions: {
+        title: I18n.t('webBoard')
+      }
     }
-  
+
   },
   {
     transitionConfig: getSlideFromRightTransition,
@@ -580,6 +619,85 @@ const DashStack = TabNavigator(   // **************  USER STACK ****************
 );
 
 
+const AdminHomeStack = StackNavigator({
+  adhome: {
+    screen: AdminHome,
+    navigationOptions: {
+      title: I18n.t('home')
+    }
+  },
+  check: {
+    screen: CheckListScreen,
+    navigationOptions: {
+      title: I18n.t('pendingList')
+    }
+  },
+  check2: {
+    screen: CheckPhraScreen,
+    navigationOptions: {
+      title: I18n.t('pending')
+    }
+  },
+  certificate: {
+    screen: Certificate,
+    navigationOptions: {
+      title: I18n.t('certificateList')
+    }
+  }
+  ,
+  answer: {
+    screen: AnswerOfAdmin,
+    navigationOptions: {
+      title: I18n.t('adminAnswer')
+    }
+  },
+  detail: {
+    screen: AnswerOfAdmin2,
+    navigationOptions: {
+      title: I18n.t('detailAnswer')
+    }
+  },
+  chat2: {
+    screen: AdminContactUser,
+    navigationOptions: {
+      title: I18n.t('userContact')
+    }
+  },
+  chat3: {
+    screen: AdminContactUser2,
+    navigationOptions: {
+      title: I18n.t('userContact')
+    }
+  },
+  web1: {
+    screen: Webboard,
+    navigationOptions: {
+      title: I18n.t('webBoard')
+    }
+  },
+  web2: {
+    screen: Webboard2,
+    navigationOptions: {
+      title: I18n.t('webBoard')
+    }
+  }
+ 
+}, {
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      // headerBackTitle: I18n.t('Back'),
+      tabBarLabel: I18n.t('home'),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
+    })
+  })
+
 const CheckListStack = StackNavigator({ // **********************FOR EXPERT & ADMIN *************************
   check: {
     screen: CheckListScreen,
@@ -731,34 +849,36 @@ const MoneyStack = TabNavigator(      // MONEY TRANSACTIONS
   }
 )
 
-const AdminAnswerStack = StackNavigator({ // **********************FOR ADMIN *************************
-  answer: {
-    screen: AnswerOfAdmin,
-    navigationOptions: {
-      title: I18n.t('adminAnswer')
-    }
-  },
-  detail: {
-    screen: AnswerOfAdmin2,
-    navigationOptions: {
-      title: I18n.t('detailAnswer')
-    }
-  }
-}, {
-    transitionConfig: getSlideFromRightTransition,
-    navigationOptions: ({ navigation }) => ({
-      headerTintColor: Colors.headerTitleColor,
-      headerBackTitle: I18n.t('Back'),
-      tabBarLabel: I18n.t('editAnswer'),
-      headerStyle: {
-        backgroundColor: Colors.tabBar,
-      },
-      headerTitleStyle: {
-        color: 'white',
-        fontFamily: 'Prompt-Regular'
-      },
-    })
-  })
+// const AdminAnswerStack = StackNavigator({ // **********************FOR ADMIN *************************
+//   answer: {
+//     screen: AnswerOfAdmin,
+//     navigationOptions: {
+//       title: I18n.t('adminAnswer')
+//     }
+//   },
+//   detail: {
+//     screen: AnswerOfAdmin2,
+//     navigationOptions: {
+//       title: I18n.t('detailAnswer')
+//     }
+//   }
+// }, {
+//     transitionConfig: getSlideFromRightTransition,
+//     navigationOptions: ({ navigation }) => ({
+//       headerTintColor: Colors.headerTitleColor,
+//       headerBackTitle: I18n.t('Back'),
+//       tabBarLabel: I18n.t('editAnswer'),
+//       headerStyle: {
+//         backgroundColor: Colors.tabBar,
+//       },
+//       headerTitleStyle: {
+//         color: 'white',
+//         fontFamily: 'Prompt-Regular'
+//       },
+//     })
+//   })
+
+
 
 const BitStack = StackNavigator({ // **********************FOR ADMIN *************************
   bit: {
@@ -790,8 +910,9 @@ const BitStack = StackNavigator({ // **********************FOR ADMIN ***********
   })
 
 const AdminStack = TabNavigator({  // *************** MAIN ADMIN *************************
-  checklist: CheckListStack,
-  answeradmin: AdminAnswerStack,
+  adhome: AdminHomeStack,
+  // checklist: CheckListStack,
+  // answeradmin: AdminAnswerStack,
   // pub: PublishStack,
   bit: BitStack,
   // verify: VerifyStack,
@@ -821,6 +942,9 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
         }
         if (routeName == "bit") {
           iconName = `exchange${focused ? "" : ""}`;
+        }
+        if (routeName == "adhome") {
+          iconName = `home${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       },
@@ -924,32 +1048,6 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(PrimaryNav);
-
-// export default PrimaryNav;
-
-    //  ************ Code GoBack other Page *******************  //
-    // static navigationOptions = ({ navigation }) => {
-    //   const params = navigation.state.params || {};
-
-    //   return {
-    //     headerLeft: (
-    //       <TouchableOpacity onPress={() => navigation.goBack()}>
-    //         <Text
-    //           style={{
-    //             marginLeft: 20,
-    //             fontSize: 18,
-    //             fontFamily: "Prompt-SemiBold",
-    //             color: Colors.brownText
-    //           }}
-    //         >
-    //           {"< กลับ"}
-    //         </Text>
-    //       </TouchableOpacity>
-    //     )
-    //   };
-    // };
-    //  ************ Code GoBack other Page *******************  //
-
 
 
 

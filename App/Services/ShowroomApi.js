@@ -44,6 +44,17 @@ const create = (baseURL = b) => {
   const getMyMessageFromOther = (data) => api.get('discuss/my-amulet-contacter', data)
 
 
+  //********************** Chat Api Zone ***********************/
+  const chatToAdmin = (data) => api.post('discuss/contact-officer', data)
+
+  const getMessageAdmin = (data) => api.get('discuss/detail', data)
+
+  const adminContactUser = (data) => api.get('discuss/contact-list', data)
+
+  const getMyContact = (data) => api.get('discuss/my-contact-list', data)
+
+  //********************** Chat Api Zone ***********************/
+
 
   return {
     // a list of the API functions from step 2
@@ -53,7 +64,11 @@ const create = (baseURL = b) => {
     sendMessageChatOwner,
     getMessageOwner,
     getMyRealAmulet,
-    getMyMessageFromOther
+    getMyMessageFromOther,
+    chatToAdmin,
+    getMessageAdmin,
+    adminContactUser,
+    getMyContact
 
   }
 }

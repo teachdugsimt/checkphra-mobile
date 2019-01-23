@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Text, View, TouchableOpacity, Dimensions, RefreshControl, Alert } from "react-native";
+import { Image, Text, View, TouchableOpacity, Dimensions, RefreshControl, Alert, TextInput } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -13,6 +13,7 @@ import { Colors, Images } from "../Themes";
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import I18n from '../I18n/i18n';
 import { getLanguages } from 'react-native-i18n';
+import RoundedButton from "../Components/RoundedButton";
 
 // import ImagePicker from 'react-native-image-picker'
 I18n.fallbacks = true;
@@ -52,7 +53,16 @@ class ProfileScreen extends Component {
       // checkData: this.props.id,
       // Imagine: null
       point: null,
+      name: null,
+      name2: null,
     }
+  }
+
+  _changeName = () => {
+    console.log(" HHHHHHHHHHHHHHHHHHHHH NAMEEEEEEEEEEEEE")
+    this.props.changeProfile(this.state.name ? this.state.name : null, this.state.name2 ? this.state.name2 : null, null)
+    this.props.getProfile()
+    this.popupDialog2.dismiss()
   }
 
   pick = () => {
@@ -83,6 +93,12 @@ class ProfileScreen extends Component {
           avatarSource: source
         });
 
+        this.props.changeProfile(null, null, {
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName
+        })
+        this.props.getProfile()
       }
     });
   }
@@ -163,6 +179,15 @@ class ProfileScreen extends Component {
     return val;
   }
 
+  _showpopupRename = () => {
+    if (this.props.profile && (!this.props.profile.fb_id || this.props.profile.fb_id == null)) {
+      this.popupDialog2.show()
+    }  else {
+      alert(I18n.t('userFacebook'))
+    }
+  }
+
+
   _english = () => {
     this.props.setLanguage('en')
     this.popupDialog.dismiss()
@@ -188,6 +213,7 @@ class ProfileScreen extends Component {
           , height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center',
         }}>
 
+
           <View style={{ flex: 1 }}
           // onPress={this.pick}
           >
@@ -195,24 +221,36 @@ class ProfileScreen extends Component {
               flex: 1, justifyContent: 'center', alignItems: 'center',
               borderWidth: 3, borderColor: Colors.brownTextTran, borderRadius: 10, margin: 5, overflow: 'hidden'
             }}>
-              {/* {!this.state.avatarSource && <Icon
+
+              {!this.state.avatarSource && this.props.profile && !this.props.profile.fb_id && !this.props.profile.image && <Icon
                 name="camera"
                 size={40}
                 color={Colors.brownTextTran}
-              />} */}
-              {/* <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%' }} /> */}
-              <Icon2
+                onPress={this.pick}
+              />}
+              {this.state.avatarSource && !this.props.profile.image && !this.props.profile.fb_id && <TouchableOpacity onPress={this.pick} style={{ width: '100%', height: '100%' }}>
+                <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%' }} /></TouchableOpacity>}
+
+              {this.props.profile && this.props.profile.image && !this.props.profile.fb_id && <TouchableOpacity onPress={this.pick} style={{ width: '100%', height: '100%' }}>
+                <Image source={this.state.avatarSource && this.props.pic ? this.props.pic : { uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + this.props.profile.image }} style={{ width: '100%', height: '100%' }} /></TouchableOpacity>}
+
+              {/* {this.props.profile && !this.props.profile.fb_id && <Icon2
                 name="md-contact"
                 size={45}
+                onPress={this._changePicture}
                 color={Colors.brownTextTran}
-              />
+              />} */}
+
+              {this.props.profile && this.props.profile.fb_id && <Image style={{ height: '100%', width: '100%', borderRadius: 10 }}
+                source={{ uri: 'https://graph.facebook.com/' + this.props.profile.fb_id + '/picture?width=500&height=500' }} />}
+
             </View>
           </View>
 
           <View style={{ flexDirection: 'column', justifyContent: 'center', flex: 2 }}>
             <View style={{ flexDirection: 'row' }}>
-              {this.props.profile &&
-                <Text>{(this.props.profile.firstname != null ? this.props.profile.firstname : 'User') + " " + (this.props.profile.lastname != null ? this.props.profile.lastname : 'CheckPhra')} </Text>
+              {this.props.profile && <TouchableOpacity onPress={this._showpopupRename}>
+                <Text>{(this.props.profile.firstname != null ? this.props.profile.firstname : 'User') + " " + (this.props.profile.lastname != null ? this.props.profile.lastname : 'CheckPhra')} </Text></TouchableOpacity>
               }
             </View>
             {/* <Text style={{ marginTop: 5, color: 'orange' }}>Check Phra Account</Text> */}
@@ -261,6 +299,32 @@ class ProfileScreen extends Component {
           </View>
 
         </View>
+
+
+        {/* ************* CHANGE NAME ZONE ************* */}
+        <PopupDialog
+          dialogTitle={<DialogTitle title={I18n.t('changeName')} titleTextStyle={{ fontSize: 18 }} />}
+          ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={0.7}
+          height={height / 4}
+          onDismissed={() => { this.setState({ name: null, name2: null }) }}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <TextInput style={{ width: '45%', height: 48, alignSelf: 'center' }} value={this.state.name} onChangeText={(text) => this.setState({ name: text })} placeholder={'First name'} />
+              <TextInput style={{ width: '45%', height: 48, alignSelf: 'center' }} value={this.state.name2} onChangeText={(text2) => this.setState({ name2: text2 })} placeholder={'Last name'} />
+            </View>
+
+            {(this.state.name != null || this.state.name2 != null) && <View style={{ width: '40%', height: 40 }}>
+              <RoundedButton
+                title={I18n.t('ok')}
+                onPress={this._changeName} />
+            </View>}
+          </View>
+        </PopupDialog>
+        {/* ************* CHANGE NAME ZONE ************* */}
 
         {this.props.profile && this.props.profile.role != 'expert' && this.props.profile.role != 'admin' &&
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'lightgrey', borderBottomWidth: 1, marginTop: 20, backgroundColor: 'white' }}>
@@ -430,6 +494,8 @@ class ProfileScreen extends Component {
         </PopupDialog>
 
 
+
+
       </LinearGradient>
     );
   }
@@ -442,6 +508,7 @@ const mapStateToProps = state => {
     coin: state.auth.coin,
     pic: state.auth.picProfile,
     token: state.auth.user_id,
+    pic: state.auth.picProfile,
   };
 };
 
@@ -454,6 +521,7 @@ const mapDispatchToProps = dispatch => {
     setLanguage: (language) => dispatch(AuthActions.setLanguage(language)),
     setCoin: (coin) => dispatch(AuthActions.setCoin(coin)),
     setImg: (img) => dispatch(AuthActions.setImg(img)),
+    changeProfile: (firstname, lastname, file) => dispatch(AuthActions.changeProfile(firstname, lastname, file)),
   };
 };
 

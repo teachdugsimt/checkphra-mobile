@@ -1,4 +1,4 @@
-import { takeLatest, all } from 'redux-saga/effects'
+import { takeLatest, all, take } from 'redux-saga/effects'
 import API from '../Services'
 import FixtureAPI from '../Services/FixtureApi'
 import DebugConfig from '../Config/DebugConfig'
@@ -15,12 +15,17 @@ import { ExpertTypes } from '../Redux/ExpertRedux'
 import { TradingTypes } from '../Redux/TradingRedux'
 import { VersionTypes } from '../Redux/VersionRedux'
 import { ShowRoomTypes } from '../Redux/ShowRoomRedux'
+import { ChatTypes } from '../Redux/ChatRedux'
+import { WebboardTypes } from '../Redux/WebboardRedux'
 
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
-import { signin, signinWithCredential, signup, createUser, changePassword, forgetPassword, saveDeviceToken } from './AuthSagas'
+import {
+  signin, signinWithCredential, signup, createUser, changePassword, forgetPassword, saveDeviceToken,
+  changeProfileRequest
+} from './AuthSagas'
 import { getAmuletType, getQuestionType, addQuestion, getHistory, getAnswer, getProfile, deleteQuestion } from './QuestionSagas'
 import { getPromotion, getPublish, sharedAnswer, getLoginPromotion, addBonus } from './PromotionSagas'
 import {
@@ -33,14 +38,20 @@ import {
 } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
-  getListLeasing, getPriceallday, wantToBuy
+  getListLeasing, getPriceallday, wantToBuy, addDetailCertificateRequest, getListCerfromUserRequest
 } from './TradingSagas'
 
 import {
   getListAmulet, sendMessageTheirAmulet55, getMessageFromTheirAmulet, sendMessageToOwner,
-  getMessageFromOwner, getMyRealAmulet, getMyMessageFromOtherPerson
+  getMessageFromOwner, getMyRealAmulet, getMyMessageFromOtherPerson, getListOwnerContactWithUser,
+  getListAllBoard555, getListMyBoard555, getCommentRequest, addPostRequest, addCommentRequest, addLike
 } from './ShowRoomSagas'
+
+import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
 import { getVersion } from './VersionSagas'
+
+// import { getListAllBoard, getListMeBoard } from './WebboardSagas'
+// import { getListAllBoard555 } from './WebboardSagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -52,7 +63,7 @@ const tradeApi = API.Trade.create()
 const faceApi = API.Face.create()
 const versionApi = API.Version.create()
 const showroomApi = API.Showroom.create()
-
+const webboardApi = API.Webboard.create()
 const question2Api = API.Question2.create()
 
 /* ------------- Connect Types To Sagas ------------- */
@@ -64,6 +75,12 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    takeLatest(WebboardTypes.ADD_COMMENT, addCommentRequest, webboardApi),
+    takeLatest(WebboardTypes.ADD_POST, addPostRequest, webboardApi),
+    takeLatest(WebboardTypes.GET_COMMENT, getCommentRequest, webboardApi),
+    takeLatest(WebboardTypes.GET_LIST_ALL, getListAllBoard555, webboardApi),
+    takeLatest(WebboardTypes.GET_LIST_ME, getListMyBoard555, webboardApi),
+    takeLatest(WebboardTypes.LIKE, addLike, webboardApi),
 
     takeLatest(ShowRoomTypes.GET_LIST_AMULET, getListAmulet, showroomApi),
     takeLatest(ShowRoomTypes.SEND_MESSAGE_THEIR_AMULET, sendMessageTheirAmulet55, showroomApi),
@@ -73,7 +90,14 @@ export default function* root() {
     takeLatest(ShowRoomTypes.GET_MY_REAL_AMULET, getMyRealAmulet, showroomApi),
     takeLatest(ShowRoomTypes.GET_MY_MESSAGE_FROM_OTHER, getMyMessageFromOtherPerson, showroomApi),
 
+    takeLatest(ChatTypes.SEND_MESSAGE_ADMIN, contactAdmin, showroomApi), //********* */
+    takeLatest(ChatTypes.GET_MESSAGE_ADMIN, getMessageAdmin, showroomApi), //********** */
+    takeLatest(ChatTypes.GET_LIST_USER_CONTACT, getListUserForAdmin, showroomApi),
+    takeLatest(ShowRoomTypes.GET_LIST_OWNER_CONTACT, getListOwnerContactWithUser, showroomApi),
+
     takeLatest(TradingTypes.TRADING_REQUEST, getTrading, tradeApi),
+    takeLatest(TradingTypes.ADD_DETAIL_CERTIFICATE, addDetailCertificateRequest, question2Api),
+    takeLatest(TradingTypes.GET_LIST_CER_FROM_USER, getListCerfromUserRequest, question2Api),
     takeLatest(TradingTypes.GET_DETAIL, getDetail, tradeApi),
     takeLatest(TradingTypes.LIST_TRADING, getListTrade, tradeApi),
     takeLatest(TradingTypes.UPDATE_STATUS, updateAmulet, tradeApi),
@@ -83,6 +107,7 @@ export default function* root() {
     takeLatest(TradingTypes.GET_PRICE_LEASING, getPriceallday, tradeApi),
     takeLatest(TradingTypes.WANT_BUY, wantToBuy, tradeApi),
 
+    takeLatest(AuthTypes.CHANGE_PROFILE, changeProfileRequest, authApi),
     takeLatest(AuthTypes.SIGNIN_REQUEST, signin, authApi),
     takeLatest(AuthTypes.SIGNIN_WITH_CREDENTIAL, signinWithCredential, authApi),
     takeLatest(AuthTypes.SIGNUP, signup, authApi),
@@ -104,7 +129,7 @@ export default function* root() {
     takeLatest(QuestionTypes.DELETE_QUESTION, deleteQuestion, questionApi),
 
     takeLatest(ExpertTypes.EXPERT_REQUEST, expertRequest, questionApi),
-    takeLatest(ExpertTypes.ANSWER_LIST, getAnswerAdmin, questionApi),
+    takeLatest(ExpertTypes.ANSWER_LIST, getAnswerAdmin, question2Api),
     takeLatest(ExpertTypes.UPDATE_ANSWER, updateAnswer, questionApi),
     takeLatest(ExpertTypes.GET_PROFILE_REQUEST, getProfileRequest, promotionApi),
     takeLatest(ExpertTypes.ACCEPT_REQUEST, acceptRequest, promotionApi),

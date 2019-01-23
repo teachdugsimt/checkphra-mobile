@@ -1,5 +1,8 @@
 // ==================================
-// ***************** ห้องแชทเดี่ยว ติดต่อเจ้าของพระ *****************
+// ***************** ห้องแชทรวม ในหมวด "พระของฉัน" *****************
+// ==================================
+// ==================================
+// ***************** ห้องแชทรวม ในหมวด "พระของคนอื่น" *****************
 // ==================================
 import React, { Component } from 'react'
 import {
@@ -31,8 +34,7 @@ const slideAnimation = new SlideAnimation({
 let { width, height } = Dimensions.get('window')
 let count = 1
 let check = true
-
-class ChatTheirAmuletOwner extends Component {
+class UserContactOwner2 extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -44,24 +46,15 @@ class ChatTheirAmuletOwner extends Component {
             mlist: null,
             tlist: null,
         }
-        // this._onScroll = this._onScroll.bind(this)
     }
-
-    // static _onScroll = () => {
-    //     // this.myFaltList.scrollToEnd({ animated: false })
-    //     this.myFaltList.scrollToEnd()
-    // }
 
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
-        console.log('------------- SEND MESSAGE OWNER --------------')
+
         if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null && prevState.mlist != newProps.data_sendMessageTheirAmulet) {
             console.log(newProps.data_sendMessageTheirAmulet)
             newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
-            // ChatTheirAmuletOwner._onScroll()
-            // ChatTheirAmuletOwner.myFaltList.scrollToEnd().bind(this)
-            // ChatTheirAmuletOwner.myFaltList.scrollToEnd().bind(ChatTheirAmuletOwner)
             return {
                 mlist: newProps.data_sendMessageTheirAmulet
             }
@@ -172,15 +165,11 @@ class ChatTheirAmuletOwner extends Component {
         else if (e == 'บางขุนพรหม ปี พ.ศ.2517') {
             name = I18n.t('BangKhunProm2517')
         }
-        else if (e == 'อื่นๆ หรือ ไม่ทราบ' || e == 'ไม่ระบุประเภท') {
+        else if (e == 'อื่นๆ หรือ ไม่ทราบ') {
             name = I18n.t('otherOrUnknown')
         }
 
         return name
-    }
-
-    componentWillUnmount() {
-        this.setState({ text: null })
     }
 
     _sendMessage = () => {
@@ -191,10 +180,6 @@ class ChatTheirAmuletOwner extends Component {
             this.setState({ text: null })
         }
     }
-
-
-
-
 
     componentDidMount() {
         count = 1
@@ -208,13 +193,14 @@ class ChatTheirAmuletOwner extends Component {
 
     componentWillUnmount() {
         count = 1
+        this.setState({ text: null })
         this.props.clearTheirAmuletMessage()
     }
 
     _reload = () => {
         // count = 1
         // this.props.getMessageTheirAmulet(count)
-        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
+        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
             count++
             this.props.getMessageTheirAmulet(count)
         }
@@ -231,7 +217,7 @@ class ChatTheirAmuletOwner extends Component {
 
 
     _chatOwnerAmulet = () => {
-        // this.props.navigation.navigate("")
+        // this.props.navigation.navigate("chatTheirAmuletOwner")
     }
 
     _showPicture = () => {
@@ -287,7 +273,7 @@ class ChatTheirAmuletOwner extends Component {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
         console.log(this.props.data_their)
-        console.log('--------------------- ChatTheirAmuletOwner DATA -------------------------')
+        console.log('--------------------- ChatTheirAmulet DATA -------------------------')
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -347,7 +333,7 @@ class ChatTheirAmuletOwner extends Component {
                             </View>
 
                             <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>{ChatTheirAmuletOwner.rename(this.props.data_their.type) + " ( " + this.props.data_their.id + " )"}</Text></Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>{UserContactOwner2.rename(this.props.data_their.type) + " ( " + this.props.data_their.id + " )"}</Text></Text>
                                 {this.props.data_their && this.props.data_their.question_list && this.props.data_their.question_list.length > 0 && this.props.data_their.question_list.map((e, i) => {
                                     return (
                                         <View>
@@ -363,7 +349,7 @@ class ChatTheirAmuletOwner extends Component {
                     </TouchableOpacity>}
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{ChatTheirAmuletOwner.rename(this.props.data_their.type) + " ( " + this.props.data_their.id + " )"}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{UserContactOwner2.rename(this.props.data_their.type) + " ( " + this.props.data_their.id + " )"}</Text>
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
                     </TouchableOpacity>}
 
@@ -385,10 +371,6 @@ class ChatTheirAmuletOwner extends Component {
                         if (this.myFaltList.props.data && this.props.data_sendMessageTheirAmulet)
                             this.myFaltList.scrollToEnd()
                     }}
-                    // ref={"myList"}
-                    // inverted={true}
-                    // onEndReached={this._onScrollEndList}
-                    // onEndReachedThreshold={0.3}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.props.request3 == true}
@@ -443,6 +425,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatTheirAmuletOwner)
+export default connect(mapStateToProps, mapDispatchToProps)(UserContactOwner2)
 
 //

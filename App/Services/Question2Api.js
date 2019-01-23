@@ -5,10 +5,10 @@ let b
 if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/checkphra-api/web/index.php/v2/'
 } else {
-    // b = 'https://infiltech.org/checkphra-api/web/index.php/v2/'   //true
-    b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v2/'
+  // b = 'https://infiltech.org/checkphra-api/web/index.php/v2/'   //true
+  b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v2/'
 
-    // b = 'http://172.20.10.2/CheckPhraApi/web/index.php/v2/'
+  // b = 'http://172.20.10.2/CheckPhraApi/web/index.php/v2/'
 }
 
 // our "constructor"
@@ -50,13 +50,21 @@ const create = (baseURL = b) => {
   const getAmuletType = (data) => api.get('type/list', data)
   const getQuestionType = () => api.get('manage-question/list')
   const editGroupQuestion = (data) => api.post('type/update-type', data)
+  const getAnswerGroup = (data) => api.get('answer/sort-by-answer', data)
+  const answerAdmin = (data) => api.get('answer/sort-by-answer', data)  // new Edition
 
-
+  const addDetailCertificate = (data) => api.post('permit/add', data)
+  const getListCerFromUser = (data) => api.get('permit/list-all', data)
   return {
     // a list of the API functions from step 2
     getAmuletType,
     getQuestionType,
-    editGroupQuestion
+    editGroupQuestion,
+    getAnswerGroup,
+    answerAdmin,
+
+    addDetailCertificate,
+    getListCerFromUser
   }
 }
 

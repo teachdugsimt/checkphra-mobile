@@ -44,6 +44,10 @@ const { Types, Creators } = createActions({
   setTime: ['day'],
   setModal: ['check'],
 
+  changeProfile: ['firstname', 'lastname', 'file'],
+  changeProfileSuccess: ['data'],
+  changeProfileFailure: null,
+
   saveDeviceToken: ['token'],
   setCredentialData: ['data'],
 
@@ -83,6 +87,8 @@ export const INITIAL_STATE = Immutable({
 
   credential_data: null,
 
+  request5: null,  // request change profile (firstname, lastname, picture)
+  data_changeProfile: null, // store change profile data
 
   // day: null,
 })
@@ -94,6 +100,10 @@ export const AuthSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const changeProfile = state => state.merge({ request5: true })
+export const changeProfileSuccess = (state, { data }) => state.merge({ request5: false, data_changeProfile: data })
+export const changeProfileFailure = state => state.merge({ request5: false })
 
 export const setCredentialData = (state, { data }) => state.merge({ credential_data: data })
 
@@ -196,6 +206,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.FORGET_PASSWORD]: forgetPassword,
   [Types.FORGET_SUCCESS]: forgetSuccess,
   [Types.FORGET_FAILURE]: forgetFailure,
+  
+  [Types.CHANGE_PROFILE]: changeProfile,
+  [Types.CHANGE_PROFILE_FAILURE]: changeProfileFailure,
+  [Types.CHANGE_PROFILE_SUCCESS]: changeProfileSuccess,
 
   [Types.SIGNOUT]: signout,
   [Types.SET_LANGUAGE]: setLanguage,

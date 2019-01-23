@@ -5,6 +5,7 @@ export default {
   loginWithFacebook: 'Login with Facebook',
   register: 'Register',
   logout: 'Logout',
+  changeName: 'Input name',
   changePassword: 'Change Password',
   changeLanguage: 'Change Language',
   selectLanguage: 'Select Language',
@@ -233,6 +234,16 @@ export default {
   adminLeasing: 'Trading list of Mr.Blue',
   adminSum: 'Today, Mr.Blue get trading for',
   checkBid: 'Confrim bid price ?',
+  license: 'Issue a license',
+  userFacebook: 'Facebook account can not rename',
+  certificate: 'Congratulations, You get certificate !!',
+  certificateList: 'Certificate',
+
+  type: 'Type',
+  phra: 'Amulet',
+  templeKru: 'Temple / Kru',
+  date: 'Date of issue',
+  date2: 'Auto generate',
 
   home: 'Home Screen',
   checkAmuletScreen: 'Check Phra',
@@ -240,9 +251,19 @@ export default {
   chat: 'Chat Room',
   messages: 'Messages',
   chatMyAmulet: 'Chat about my amulet',
-  contactOwnerAmulet: 'Contact to owner amulet',
 
+  contactOwnerAmulet: 'Contact to owner amulet',
+  webBoard: 'Web Board',
+  userContact: 'Complaint',
+
+  myBoard: 'My Post',
+  allBoard: 'All Post',
   myAmulet: 'My Real Amulet',
+
+  amuletName: 'Amulet Name',
+  templeName: 'Temple Name',
+  ownerName: 'Owner Name',
+  anywhere: 'Input or not input',
 
   editType: 'Please choose new group',
   editDetailPhra: 'Edit detail of amulet',

@@ -69,10 +69,12 @@ class ContactAdmin extends Component {
     }
 
     _sendMessage = () => {
-        console.log('send message complete')
-        console.log(this.state.text)
-        this.props.sendMessageTheirAmulet(this.state.text)
-        this.setState({ text: null })
+        if (this.state.text) {
+            console.log('send message complete')
+            console.log(this.state.text)
+            this.props.sendMessageTheirAmulet(this.state.text)
+            this.setState({ text: null })
+        }
     }
 
 
@@ -210,9 +212,9 @@ class ContactAdmin extends Component {
                 </View>
 
 
-                {this.state.text && this.state.text != null && <TouchableOpacity style={{ position: 'absolute', right: 5, bottom: 10 }} onPress={this._sendMessage}>
+                <TouchableOpacity style={{ position: 'absolute', right: 5, bottom: 10 }} onPress={this._sendMessage}>
                     <Icon2 name={'arrow-right'} size={22} style={{}} />
-                </TouchableOpacity>}
+                </TouchableOpacity>
 
                 <Spinner
                     visible={this.props.request2}

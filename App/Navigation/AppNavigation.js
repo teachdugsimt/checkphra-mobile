@@ -45,6 +45,9 @@ import AdminContactUser from '../Containers/AdminContactUser'
 import AdminContactUser2 from '../Containers/AdminContactUser2'
 import UserContactOwner from '../Containers/UserContactOwner'
 import UserContactOwner2 from '../Containers/UserContactOwner2'
+import Webboard from '../Containers/Webboard'
+import Webboard2 from '../Containers/Webboard2'
+import Certificate from '../Containers/Certificate'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -209,10 +212,22 @@ const UploadStack = StackNavigator(  // main upload
         title: I18n.t('contactOwnerAmulet')
       }
     },
-    userContactOwner2: {
-      screen: UserContactOwner2,
+    // userContactOwner2: {
+    //   screen: UserContactOwner2,
+    //   navigationOptions: {
+    //     title: I18n.t("contactOwnerAmulet")
+    //   }
+    // },
+    webboard: {
+      screen: Webboard,
       navigationOptions: {
-        title: I18n.t("contactOwnerAmulet")
+        title: I18n.t('webBoard')
+      }
+    },
+    webboard2: {
+      screen: Webboard2,
+      navigationOptions: {
+        title: I18n.t('webBoard')
       }
     }
 
@@ -623,6 +638,13 @@ const AdminHomeStack = StackNavigator({
       title: I18n.t('pending')
     }
   },
+  certificate: {
+    screen: Certificate,
+    navigationOptions: {
+      title: I18n.t('certificateList')
+    }
+  }
+  ,
   answer: {
     screen: AnswerOfAdmin,
     navigationOptions: {
@@ -645,6 +667,18 @@ const AdminHomeStack = StackNavigator({
     screen: AdminContactUser2,
     navigationOptions: {
       title: I18n.t('userContact')
+    }
+  },
+  web1: {
+    screen: Webboard,
+    navigationOptions: {
+      title: I18n.t('webBoard')
+    }
+  },
+  web2: {
+    screen: Webboard2,
+    navigationOptions: {
+      title: I18n.t('webBoard')
     }
   }
  

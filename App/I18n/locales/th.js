@@ -5,6 +5,7 @@ export default {
   loginWithFacebook: 'เข้าสู่ระบบด้วย Facebook',
   register: 'สมัครสมาชิก',
   logout: 'ออกจากระบบ',
+  changeName: 'ระบุชื่อ',
   changePassword: 'เปลี่ยนรหัสผ่าน',
   changeLanguage: 'เปลี่ยนภาษา',
   selectLanguage: 'กรุณาเลือกภาษา',
@@ -234,6 +235,16 @@ export default {
   adminLeasing: 'รายการเช่าพระของ Mr.Blue',
   adminSum: 'วันนี้ Mr.Blue รับเช่าซื้อพระไปแล้ว',
   checkBid: 'ยืนยันการบิทราคา ?',
+  license: 'ออกใบรับรอง',
+  userFacebook: 'บัญชี facebook ไม่สามารถเปลี่ยนชื่อได้',
+  certificate: 'ยินดีด้วย!! คุณได้รับใบรับรอง',
+  certificateList: 'ใบรับรองพระ',
+  
+  type: 'ประเภท',
+  phra: 'พระ',
+  templeKru: 'วัด/กรุ',
+  date: 'วันออกบัตร',
+  date2: 'วันที่ปัจจุบัน',
 
   home: 'หน้าหลัก',
   checkAmuletScreen: 'ตรวจสอบพระ',
@@ -246,7 +257,14 @@ export default {
   webBoard: 'เว็บบอร์ด',
   userContact: 'ปัญหาจาก user',
 
+  myBoard: 'โพสต์ของฉัน',
+  allBoard: 'โพสต์ทั้งหมด',
   myAmulet: 'พระแท้ของฉัน',
+
+  amuletName: 'ชื่อพระ',
+  templeName: 'ชื่อวัด',
+  ownerName: 'ชื่อเจ้าของพระ',
+  anywhere: 'ใส่หรือไม่ใส่ก็ได้',
 
   editType: 'กรุณาเลือกหมวดหมู่',
   editDetailPhra: 'แก้ไขรายละเอียดพระ',

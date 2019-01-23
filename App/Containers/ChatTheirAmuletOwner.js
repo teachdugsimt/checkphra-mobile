@@ -184,10 +184,12 @@ class ChatTheirAmuletOwner extends Component {
     }
 
     _sendMessage = () => {
-        console.log('send message complete')
-        console.log(this.state.text)
-        this.props.sendMessageTheirAmulet(this.state.text)
-        this.setState({ text: null })
+        if (this.state.text) {
+            console.log('send message complete')
+            console.log(this.state.text)
+            this.props.sendMessageTheirAmulet(this.state.text)
+            this.setState({ text: null })
+        }
     }
 
 
@@ -345,7 +347,7 @@ class ChatTheirAmuletOwner extends Component {
                             </View>
 
                             <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>{ChatTheirAmuletOwner.rename(this.props.data_their.type)+" ( "+this.props.data_their.id+" )"}</Text></Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>{ChatTheirAmuletOwner.rename(this.props.data_their.type) + " ( " + this.props.data_their.id + " )"}</Text></Text>
                                 {this.props.data_their && this.props.data_their.question_list && this.props.data_their.question_list.length > 0 && this.props.data_their.question_list.map((e, i) => {
                                     return (
                                         <View>
@@ -361,7 +363,7 @@ class ChatTheirAmuletOwner extends Component {
                     </TouchableOpacity>}
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{ChatTheirAmuletOwner.rename(this.props.data_their.type)+" ( "+this.props.data_their.id+" )"}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{ChatTheirAmuletOwner.rename(this.props.data_their.type) + " ( " + this.props.data_their.id + " )"}</Text>
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
                     </TouchableOpacity>}
 
@@ -404,9 +406,9 @@ class ChatTheirAmuletOwner extends Component {
                 </View>
 
 
-                {this.state.text && this.state.text != null && <TouchableOpacity style={{ position: 'absolute', right: 5, bottom: 10 }} onPress={this._sendMessage}>
+                <TouchableOpacity style={{ position: 'absolute', right: 5, bottom: 10 }} onPress={this._sendMessage}>
                     <Icon2 name={'arrow-right'} size={22} style={{}} />
-                </TouchableOpacity>}
+                </TouchableOpacity>
 
                 <Spinner
                     visible={this.props.request2}

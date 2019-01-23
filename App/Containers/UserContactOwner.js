@@ -48,7 +48,7 @@ class UserContactOwner extends Component {
     _renderItem = ({ item, index }) => {
 
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
-        if (item.uid_owner != this.props.user_id)
+        if (item.uid_owner != this.props.user_id) {
             return (
                 <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
                     onPress={() => this._goToChat(item)}>
@@ -62,13 +62,14 @@ class UserContactOwner extends Component {
 
                     <View style={{ flex: 1 }}>
 
-                        <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18, marginTop: 8.5 }}>{item.amulet.type}</Text>
-                        <TouchableOpacity style={{ flex: 1, width: 110 }} onPress={() => this._showPicture(item.amulet.images)}>
-                            <ImageList2 data={item.amulet.images} />
+                        <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18, marginTop: 8.5 }}>{item.amulet && item.amulet.type}</Text>
+                        <TouchableOpacity style={{ flex: 1, width: 110 }} onPress={() => this._showPicture(item.amulet && item.amulet.images)}>
+                            <ImageList2 data={item.amulet && item.amulet.images} />
                         </TouchableOpacity>
                     </View>
                 </TouchableOpacity>
             )
+        }
     }
 
     _showPicture = (item) => {

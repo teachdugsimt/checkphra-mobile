@@ -12,6 +12,7 @@
 
 import { call, put, select } from 'redux-saga/effects'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
+import WebboardActions from '../Redux/WebboardRedux'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 
@@ -20,6 +21,7 @@ const auth = state => state.auth
 const type = state => state.showroom.data_amulet
 const idDataAmulet = state => state.showroom.data_their
 const dataChat = state => state.showroom.data_groupChat
+const webboard = state => state.webboard
 I18n.locale = auth.language
 
 export function* getShowRoom(api, action) {
@@ -204,5 +206,114 @@ export function* getListOwnerContactWithUser(api, { page }) {
     yield put(ShowRoomActions.getListOwnerContactSuccess(response.data))
   } else {
     yield put(ShowRoomActions.getListOwnerContactFailure())
+  }
+}
+
+export function* getListAllBoard555(api, { page }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getListAll1, data)
+  console.log(response)
+  console.log('================ GET LIST ALL BOARD ================')
+  if (response.ok) {
+    yield put(WebboardActions.getListAllSuccess(response.data))
+  } else {
+    yield put(WebboardActions.getListAllFailure())
+  }
+}
+
+export function* getListMyBoard555(api, { page }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getListMe1, data)
+
+  console.log(response)
+  console.log('================== GET LIST ME BOARD ===================')
+
+  if (response.ok) {
+    yield put(WebboardActions.getListMeSuccess(response.data))
+  } else {
+    yield put(WebboardActions.getListMeFailure())
+  }
+}
+
+export function* getCommentRequest(api) {
+  const web = yield select(webboard)
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    post_id: web.data_webboard.id
+  }
+  const response = yield call(api.getComment, data)
+  console.log(response)
+  console.log('================== GET COMMENT ===================')
+  if (response.ok) {
+    yield put(WebboardActions.getCommentSuccess(response.data))
+  } else {
+    yield put(WebboardActions.getCommentFailure())
+  }
+}
+
+export function* addPostRequest(api, { topic, content }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    topic,
+    content
+  }
+  const response = yield call(api.addPost, data)
+  console.log(response)
+  console.log('================= POST ADD ==================')
+  if (response.ok) {
+    yield put(WebboardActions.addPostSuccess(response.data))
+  } else {
+    yield put(WebboardActions.addPostFailure())
+  }
+}
+
+export function* addCommentRequest(api, { comment }) {
+  const aut = yield select(auth)
+  const web = yield select(webboard)
+
+  const data = {
+    user_id: aut.user_id,
+    post_id: web.data_webboard.id,
+    text: comment
+  }
+
+  const response = yield call(api.addComment, data)
+  console.log(response)
+  console.log('================== ADD COMMENT ===================')
+  if(response.ok){
+    yield put(WebboardActions.addCommentSuccess(response.data))
+  } else {
+    yield put(WebboardActions.addCommentFailure)
+  }
+}
+
+export function* addLike(api, {id, from, status}){
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    id,
+    from,
+    status
+  }
+
+  const response = yield call(api.like, data)
+  console.log(response)
+  console.log('============ LIKE POST & COMMENT ============')
+  if(response.ok){
+    yield put(WebboardActions.likeSuccess(response.data))
+  } else {
+    yield put(WebboardActions.likeFailure())
   }
 }

@@ -115,7 +115,8 @@ class HomeScreen extends Component {
     }
 
     _webBoard = () => {
-
+        this.props.navigation.navigate('webboard')
+        this.popupDialog.dismiss()
     }
 
     _ownerAmulet = () => {

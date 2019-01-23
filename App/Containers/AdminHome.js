@@ -115,7 +115,8 @@ class AdminHome extends Component {
     }
 
     _webBoard = () => {
-
+        this.props.navigation.navigate('web1'),
+        this.popupDialog.dismiss()
     }
 
     _editAnswer = () => {

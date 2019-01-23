@@ -39,6 +39,7 @@ const images = {
   applepay: require('../Images/applepay.png'),
   apple1: require('../Images/apple1.png'),
   user: require('../Images/userAccount.png'),
+  cer: require('../Images/certificate.png'),
 }
 
 export default images

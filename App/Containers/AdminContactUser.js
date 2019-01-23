@@ -95,7 +95,7 @@ class AdminContactUser extends Component {
                             onRefresh={this._reload}
                         />
                     }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePromotion')}</Text>}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                     data={this.props.data_myMessageFromOther}
                     renderItem={this._renderItem} />
             </LinearGradient>

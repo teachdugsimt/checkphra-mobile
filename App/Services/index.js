@@ -6,4 +6,5 @@ import Trade from './TradeApi'
 import Face from './FaceApi'
 import Version from './VersionApi'
 import Showroom from './ShowroomApi'
-export default { Auth, Question, Promotion, Trade, Face, Version, Question2, Showroom }
+import Webboard from './WebboardApi'
+export default { Auth, Question, Promotion, Trade, Face, Version, Question2, Showroom, Webboard }

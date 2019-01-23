@@ -38,6 +38,8 @@ const create = (baseURL = b) => {
   const getPriceLeasing = (data) => api.get('trading/total-price', data)
   const wantToBuy = (data) => api.post('trading/to-buy', data)
 
+  
+
   return {
     // a list of the API functions from step 2
     trading,
@@ -47,7 +49,8 @@ const create = (baseURL = b) => {
     sharedLeasing,
     getListLeasing,
     getPriceLeasing,
-    wantToBuy
+    wantToBuy,
+    
   }
 }
 

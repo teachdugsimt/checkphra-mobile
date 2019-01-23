@@ -221,4 +221,28 @@ export function* saveDeviceToken(api, { token }) {
   console.log(response)
 }
 
+export function* changeProfileRequest(api, { firstname, lastname, file }) {
+  const aut = yield select(auth)
+
+  let body = new FormData()
+
+  body.append('user_id', aut.user_id)
+  if (firstname)
+    body.append('firstname', firstname ? firstname : aut.profile.firstname)
+  if (lastname)
+    body.append('lastname', lastname ? lastname : aut.profile.lastname)
+  // body.append('display_name', '')
+  body.append('project_name', 'check-phra')
+  if (file)
+    body.append('file', file ? file : aut.image)
+
+  const response = yield call(api.changeProfile, body)
+  console.log(response)
+  console.log('===================== CHANGE PROFILE ======================')
+  if (response.ok) {
+    yield put(AuthActions.changeProfileSuccess(response.data))
+  } else {
+    yield put(AuthActions.changeProfileFailure())
+  }
+}
 

@@ -20,6 +20,7 @@ export const reducers = combineReducers({
   version: require('./VersionRedux').reducer,
   showroom: require('./ShowRoomRedux').reducer,
   chat: require('./ChatRedux').reducer,
+  webboard: require('./WebboardRedux').reducer,
 })
 
 export default () => {

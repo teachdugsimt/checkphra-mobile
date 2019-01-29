@@ -260,11 +260,23 @@ export default {
   myBoard: 'โพสต์ของฉัน',
   allBoard: 'โพสต์ทั้งหมด',
   myAmulet: 'พระแท้ของฉัน',
+  market: 'ตลาดเช่าพระ',
+  anywhere: 'ใส่หรือไม่ใส่ก็ได้',
+  priceMarket: 'ราคาเช่าพระ',
+
+  checkPrice: 'กรุณาใส่ราคาเช่าพระ',
+  checkZone: 'กรุณาเลือกภูมิภาคของท่าน',
+  checkType: 'กรุณาเลือกประเภทพระ',
+  fakeAmulet: 'พระไม่แท้ !!',
 
   amuletName: 'ชื่อพระ',
   templeName: 'ชื่อวัด',
   ownerName: 'ชื่อเจ้าของพระ',
-  anywhere: 'ใส่หรือไม่ใส่ก็ได้',
+  contact: 'ติดต่อ',
+  zone: 'ภูมิภาค',
+  typeAmuletMarket: 'ประเภท',
+
+  uploadCardPerson: 'อัพโหลดรูปบัตรประชาชน',
 
   editType: 'กรุณาเลือกหมวดหมู่',
   editDetailPhra: 'แก้ไขรายละเอียดพระ',

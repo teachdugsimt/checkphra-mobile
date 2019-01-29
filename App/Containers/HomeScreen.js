@@ -50,7 +50,8 @@ class HomeScreen extends Component {
         // { name: I18n.t('chat'), id: 3 }]
         const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1 },
         { name: I18n.t('showAmuletReal'), id: 2 },
-        { name: I18n.t('chat'), id: 3 }]
+        { name: I18n.t('market'), id: 4 },
+        { name: I18n.t('chat'), id: 3 },]
 
         if (newProps.language != prevState.language) {
             newProps.getProfile()
@@ -76,6 +77,8 @@ class HomeScreen extends Component {
             this.props.navigation.navigate('showroom')
         } else if (item.id == 3) {
             this.popupDialog.show()
+        } else if (item.id == 4) {
+            this.props.navigation.navigate('marketHome')
         }
     }
 

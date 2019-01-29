@@ -17,6 +17,7 @@ import { VersionTypes } from '../Redux/VersionRedux'
 import { ShowRoomTypes } from '../Redux/ShowRoomRedux'
 import { ChatTypes } from '../Redux/ChatRedux'
 import { WebboardTypes } from '../Redux/WebboardRedux'
+import { MarketTypes } from '../Redux/MarketRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -38,7 +39,8 @@ import {
 } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
-  getListLeasing, getPriceallday, wantToBuy, addDetailCertificateRequest, getListCerfromUserRequest
+  getListLeasing, getPriceallday, wantToBuy, addDetailCertificateRequest, getListCerfromUserRequest,
+  activeCerRequest
 } from './TradingSagas'
 
 import {
@@ -46,6 +48,11 @@ import {
   getMessageFromOwner, getMyRealAmulet, getMyMessageFromOtherPerson, getListOwnerContactWithUser,
   getListAllBoard555, getListMyBoard555, getCommentRequest, addPostRequest, addCommentRequest, addLike
 } from './ShowRoomSagas'
+
+import {
+  getTypeAmuletRequest, sendDataAmuletForMarket, getListAreaAmuletRequest,
+  sendDataAmuletForMarket2
+} from './MarketSagas'
 
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
 import { getVersion } from './VersionSagas'
@@ -95,6 +102,11 @@ export default function* root() {
     takeLatest(ChatTypes.GET_LIST_USER_CONTACT, getListUserForAdmin, showroomApi),
     takeLatest(ShowRoomTypes.GET_LIST_OWNER_CONTACT, getListOwnerContactWithUser, showroomApi),
 
+    takeLatest(MarketTypes.SEND_DATA_AMULET_MARKET2, sendDataAmuletForMarket2, question2Api),
+    takeLatest(MarketTypes.GET_LIST_AREA_AMULET, getListAreaAmuletRequest, question2Api),
+    takeLatest(MarketTypes.SEND_DATA_AMULET_MARKET, sendDataAmuletForMarket, question2Api),
+    takeLatest(MarketTypes.GET_LIST_TYPE_AMULET, getTypeAmuletRequest, question2Api),
+    takeLatest(TradingTypes.ACTIVE_CERTIFICATE, activeCerRequest, question2Api),
     takeLatest(TradingTypes.TRADING_REQUEST, getTrading, tradeApi),
     takeLatest(TradingTypes.ADD_DETAIL_CERTIFICATE, addDetailCertificateRequest, question2Api),
     takeLatest(TradingTypes.GET_LIST_CER_FROM_USER, getListCerfromUserRequest, question2Api),
@@ -117,8 +129,6 @@ export default function* root() {
     takeLatest(AuthTypes.SAVE_DEVICE_TOKEN, saveDeviceToken, authApi),
 
     takeLatest(ExpertTypes.GET_AUTO_TEXT, getAutoText55, questionApi),
-    // takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
-    // takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, question2Api),  // new api v2
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, question2Api), // new api v2
     takeLatest(ExpertTypes.EDIT_GROUP, editTypeQuestion, question2Api),

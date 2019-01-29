@@ -195,11 +195,3 @@ export default connect(
   mapDispatchToProps
 )(Picker);
 
-
-//   < Icon
-// style = {{ margin: 3 }}
-// name = "squared-cross"
-// size = { 24}
-// color = { 'red'}
-// onPress = {() => { console.log("Press close button") }}
-// />

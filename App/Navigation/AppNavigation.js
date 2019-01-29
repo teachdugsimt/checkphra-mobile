@@ -48,6 +48,12 @@ import UserContactOwner2 from '../Containers/UserContactOwner2'
 import Webboard from '../Containers/Webboard'
 import Webboard2 from '../Containers/Webboard2'
 import Certificate from '../Containers/Certificate'
+import MarketHome from '../Containers/MarketHome'
+import MarketUpload1 from '../Containers/MarketUpload1'
+import MarketHomeList1 from '../Containers/MarketHomeList1'
+import MarketUpload2 from '../Containers/MarketUpload2'
+import MarketUpload2n1 from '../Containers/MarketUpload2n1'
+import MarketOpenstore from '../Containers/MarketOpenstore'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -212,12 +218,42 @@ const UploadStack = StackNavigator(  // main upload
         title: I18n.t('contactOwnerAmulet')
       }
     },
-    // userContactOwner2: {
-    //   screen: UserContactOwner2,
-    //   navigationOptions: {
-    //     title: I18n.t("contactOwnerAmulet")
-    //   }
-    // },
+    marketHome: {
+      screen: MarketHome,
+      navigationOptions: {
+        title: I18n.t("market")
+      }
+    },
+    marketListArea1: {
+      screen: MarketHomeList1,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketUpload1: {
+      screen: MarketUpload1,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketUpload2: {
+      screen: MarketUpload2,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketUpload2n1: {
+      screen: MarketUpload2n1,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketStore: {
+      screen: MarketOpenstore,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
     webboard: {
       screen: Webboard,
       navigationOptions: {
@@ -681,7 +717,7 @@ const AdminHomeStack = StackNavigator({
       title: I18n.t('webBoard')
     }
   }
- 
+
 }, {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({

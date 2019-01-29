@@ -245,6 +245,7 @@ export default {
   date: 'Date of issue',
   date2: 'Auto generate',
 
+
   home: 'Home Screen',
   checkAmuletScreen: 'Check Phra',
   showAmuletReal: 'Real Amulet Room',
@@ -259,11 +260,23 @@ export default {
   myBoard: 'My Post',
   allBoard: 'All Post',
   myAmulet: 'My Real Amulet',
+  market: 'Market for hire amulet',
+  anywhere: 'Input or not input',
+  priceMarket: 'Price Amulet',
 
   amuletName: 'Amulet Name',
   templeName: 'Temple Name',
   ownerName: 'Owner Name',
-  anywhere: 'Input or not input',
+  contact: 'Contact',
+  zone: 'Region',
+  typeAmuletMarket: 'Type Amulet',
+
+  uploadCardPerson: 'Upload id card',
+
+  checkPrice: 'Please input price of amulet',
+  checkZone: 'Please select region',
+  checkType: 'Please select type of amulet',
+
 
   editType: 'Please choose new group',
   editDetailPhra: 'Edit detail of amulet',

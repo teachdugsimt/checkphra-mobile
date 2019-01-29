@@ -39,6 +39,9 @@ class Certificate extends Component {
             img: null,
             modalVisible: false,
             // index: 0,
+            tmp_activeCer: null,
+
+            hideButton: false,
 
             type: null,
             phra: null,
@@ -46,6 +49,31 @@ class Certificate extends Component {
             owner: null,
             date: null,
         }
+    }
+
+    static getDerivedStateFromProps(newProps, prevState) {
+        console.log(newProps)
+        console.log(prevState)
+
+        if (newProps.data_activeCer && newProps.data_activeCer != null) {
+            if (prevState.tmp_activeCer != newProps.data_activeCer && newProps.data_activeCer.qid == newProps.data_setCer.qid) {
+                console.log('BEFORE COME TO REDUX')
+                newProps.editDataListCer(newProps.data_activeCer)
+                return {
+                    hideButton: true,
+                    tmp_activeCer: newProps.data_activeCer
+                }
+            }
+        }
+
+        return {
+
+        }
+    }
+
+    componentWillUnmount() {
+        this.props.clearDataActiveCer()
+        this.props.getListCerFromUser(1)
     }
 
     componentDidMount() {
@@ -68,7 +96,19 @@ class Certificate extends Component {
     }
 
     _onPressButton = () => {
-
+        //call api
+        Alert.alert(
+            'Check Phra',
+            I18n.t('submitTransaction'),
+            [
+                { text: I18n.t('cancel'), onPress: () => { } },
+                {
+                    text: I18n.t('ok'), onPress: () => {
+                        this.props.activeCertificate(this.props.data_setCer.qid, this.state.phra, this.state.temple)
+                    }
+                }
+            ]
+        )
     }
 
     _onPressCancel = () => {
@@ -140,17 +180,17 @@ class Certificate extends Component {
                                 placeholder={!this.state.type ? I18n.t('answerText') : null} />
                         </View> */}
 
-                        <View style={{ marginTop: 12, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                        {this.props.data_setCer.status == 1 && this.state.hideButton == false && <View style={{ marginTop: 12, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
                             <Text style={{ fontFamily: 'Prompt-SemiBold', alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('phra') + " : "}</Text>
                             <TextInput underlineColorAndroid={'rgba(0,0,0,0)'} value={this.state.phra} onChangeText={(text) => this.setState({ phra: text })} style={{ width: width / 2, padding: 10, borderRadius: 10, backgroundColor: '#fff5' }}
                                 placeholder={!this.state.phra ? I18n.t('answerText') : null} />
-                        </View>
+                        </View>}
 
-                        <View style={{ marginTop: 12, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                        {this.props.data_setCer.status == 1 && this.state.hideButton == false && <View style={{ marginTop: 12, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
                             <Text style={{ fontFamily: 'Prompt-SemiBold', alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('templeKru') + " : "}</Text>
                             <TextInput underlineColorAndroid={'rgba(0,0,0,0)'} value={this.state.temple} onChangeText={(text) => this.setState({ temple: text })} style={{ width: width / 2, padding: 10, borderRadius: 10, backgroundColor: '#fff5' }}
                                 placeholder={!this.state.temple ? I18n.t('answerText') : null} />
-                        </View>
+                        </View>}
 
                         {/* <View style={{ marginTop: 12, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
                             <Text style={{ fontFamily: 'Prompt-SemiBold', alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('date') + " : "}</Text>
@@ -158,7 +198,7 @@ class Certificate extends Component {
                                 placeholder={!this.state.date ? I18n.t('answerText') : null} />
                         </View> */}
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 15 }}>
+                        {this.props.data_setCer.status == 1 && this.state.hideButton == false && <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 15 }}>
                             <View style={{ width: '40%', height: 45 }}>
                                 <RoundedButton
                                     style={{ marginHorizontal: 10 }}
@@ -166,14 +206,7 @@ class Certificate extends Component {
                                     onPress={this._onPressButton}
                                 />
                             </View>
-                            <View style={{ width: '40%', height: 45 }}>
-                                <RoundedButton
-                                    style={{ marginHorizontal: 10 }}
-                                    title={I18n.t('cancel')}
-                                    onPress={this._onPressCancel}
-                                />
-                            </View>
-                        </View>
+                        </View>}
 
                         <View style={{ height: 30 }}></View>
 
@@ -194,6 +227,9 @@ const mapStateToProps = (state) => {
         request10: state.trading.request10,  // get List certificate from user ( Admin Only !!)
         data_getListCer: state.trading.data_getListCer,  // store list certificate from user
         data_setCer: state.trading.data_setCer,  // data set cer... from previous page
+
+        request11: state.trading.request11,  // request for active certificate data
+        data_activeCer: state.trading.data_activeCer,  // store data when active certificate by admin
     }
 }
 
@@ -208,8 +244,10 @@ const mapDispatchToProps = (dispatch) => {
         getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
         editGroup: (type_id, qid) => dispatch(ExpertActions.editGroup(type_id, qid)),
         clearEditData: () => dispatch(ExpertActions.clearEditData()),
+        activeCertificate: (qid, amuletName, temple) => dispatch(TradingActions.activeCertificate(qid, amuletName, temple)),
 
-
+        editDataListCer: (data) => dispatch(TradingActions.editDataListCer(data)),
+        clearDataActiveCer: () => dispatch(TradingActions.clearDataActiveCer()),
         getListCerFromUser: (page) => dispatch(TradingActions.getListCerFromUser(page)),
     }
 }

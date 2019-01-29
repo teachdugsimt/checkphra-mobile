@@ -275,13 +275,13 @@ class AnswerScreen extends Component {
 
   _selectPic = (e, i) => {
     let tmp = this.state.reference
-    // tmp[i] = 1
+    // tmp[i] = 1  // can but one argument
     tmp = tmp.map((a, b) => {
       if (b == i) {
-        // a = 1
+        // a = 1 // can't
         return 1
       } else {
-        // a = 0
+        // a = 0 // can't
         return 0
       }
     })
@@ -380,17 +380,17 @@ class AnswerScreen extends Component {
 
             <View style={{ flexDirection: 'row', marginTop: 5, marginLeft: 10 }}>
               <Text style={{ textAlignVertical: 'center' }}>{I18n.t('amuletName')} : </Text>
-              <TextInput value={this.state.amuletName} onChangeText={(text) => this.setState({ amuletName: text })} placeholder={I18n.t('answerText')} style={{ width: width / 1.8, marginRight: 10 }} />
+              <TextInput value={this.state.amuletName} onChangeText={(text) => this.setState({ amuletName: text })} placeholder={I18n.t('answerText')} style={{ width: width / 1.8, marginRight: 10, alignSelf: 'center' }} />
             </View>
 
             <View style={{ flexDirection: 'row', marginTop: 5, marginLeft: 10 }}>
               <Text style={{ textAlignVertical: 'center' }}>{I18n.t('templeName')} : </Text>
-              <TextInput value={this.state.templeName} onChangeText={(text) => this.setState({ templeName: text })} placeholder={I18n.t('answerText')} style={{ width: width / 1.8, marginRight: 10 }} />
+              <TextInput value={this.state.templeName} onChangeText={(text) => this.setState({ templeName: text })} placeholder={I18n.t('answerText')} style={{ width: width / 1.8, marginRight: 10, alignSelf: 'center' }} />
             </View>
 
             <View style={{ flexDirection: 'row', marginTop: 5, marginLeft: 10 }}>
               <Text style={{ textAlignVertical: 'center' }}>{I18n.t('ownerName')} : </Text>
-              <TextInput value={this.state.ownerName} onChangeText={(text) => this.setState({ ownerName: text })} placeholder={I18n.t('anywhere')} style={{ width: width / 1.8, marginRight: 10 }} />
+              <TextInput value={this.state.ownerName} onChangeText={(text) => this.setState({ ownerName: text })} placeholder={I18n.t('anywhere')} style={{ width: width / 1.8, marginRight: 10, alignSelf: 'center' }} />
             </View>
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>

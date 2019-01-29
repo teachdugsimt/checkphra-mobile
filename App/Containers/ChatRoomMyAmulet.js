@@ -384,6 +384,7 @@ class ChatRoomMyAmulet extends Component {
                             onRefresh={this._reload}
                         />
                     }
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                 />
                 <View style={{ marginBottom: 10 }}>
                 </View>

@@ -261,8 +261,7 @@ class SendImageScreen extends Component {
                 fontFamily: "Prompt-Regular",
                 alignSelf: "center",
                 color: Colors.brownText
-              }}
-            >
+              }}>
               {I18n.t('pickImage')}
             </Text>
           </View>

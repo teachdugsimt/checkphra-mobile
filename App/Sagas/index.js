@@ -51,7 +51,7 @@ import {
 
 import {
   getTypeAmuletRequest, sendDataAmuletForMarket, getListAreaAmuletRequest,
-  sendDataAmuletForMarket2
+  sendDataAmuletForMarket2, getProvinceRequest
 } from './MarketSagas'
 
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
@@ -72,6 +72,7 @@ const versionApi = API.Version.create()
 const showroomApi = API.Showroom.create()
 const webboardApi = API.Webboard.create()
 const question2Api = API.Question2.create()
+const marketApi = API.Market.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -82,6 +83,9 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    
+    takeLatest(MarketTypes.GET_PROVINCE, getProvinceRequest, marketApi),
+    
     takeLatest(WebboardTypes.ADD_COMMENT, addCommentRequest, webboardApi),
     takeLatest(WebboardTypes.ADD_POST, addPostRequest, webboardApi),
     takeLatest(WebboardTypes.GET_COMMENT, getCommentRequest, webboardApi),
@@ -161,6 +165,7 @@ export default function* root() {
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
 
+    
 
 
   ])

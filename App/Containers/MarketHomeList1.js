@@ -195,7 +195,7 @@ class MarketHomeList1 extends Component {
                     data={this.props.data_areaAmulet}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
-                    onEndReachedThreshold={1.2} />/>
+                    onEndReachedThreshold={1.2} />
 
             </LinearGradient>
         )

@@ -257,6 +257,7 @@ export default {
   webBoard: 'เว็บบอร์ด',
   userContact: 'ปัญหาจาก user',
 
+
   myBoard: 'โพสต์ของฉัน',
   allBoard: 'โพสต์ทั้งหมด',
   myAmulet: 'พระแท้ของฉัน',
@@ -277,6 +278,8 @@ export default {
   typeAmuletMarket: 'ประเภท',
 
   uploadCardPerson: 'อัพโหลดรูปบัตรประชาชน',
+  storeName: 'ชื่อร้านค้า',
+  selectProvince: 'เลือกจังหวัด',
 
   editType: 'กรุณาเลือกหมวดหมู่',
   editDetailPhra: 'แก้ไขรายละเอียดพระ',

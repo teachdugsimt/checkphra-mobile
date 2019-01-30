@@ -123,3 +123,21 @@ export function* getListAreaAmuletRequest(api, { page }) {
     yield put(MarketActions.getListAreaAmuletFailure())
   }
 }
+
+export function* getProvinceRequest(api) {
+  // const data = {
+  //   page_number: page
+  // }
+  // const response = yield call(api.getProvince, data)
+ 
+  const response = yield call(api.getProvince)
+  // const response = yield call(api.getProvince)
+  console.log(response)
+  console.log('============= GET PROVINCE 5558 ==============')
+
+  if (response.ok) {
+    yield put(MarketActions.getProvinceSuccess(response.data))
+  } else {
+    yield put(MarketActions.getProvinceFailure())
+  }
+}

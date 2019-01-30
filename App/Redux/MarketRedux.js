@@ -16,7 +16,11 @@ const { Types, Creators } = createActions({
 
   setLocationAmulet: ['data'],
   setMainData: ['data'],
+
   setImageCardPerson: ['data'],
+  deleteImageCard: null,
+  setImage2: ['data'],
+  deleteImage2: null,
 
   getListTypeAmulet: null,
   getListTypeAmuletSuccess: ['data'],
@@ -26,13 +30,18 @@ const { Types, Creators } = createActions({
   deleteImageMarket: ['index'],
   clearImageMarket: null,
   setTmpDataUpload: ['data'],
-  deleteImageCard: null,
+
 
   getListAreaAmulet: ['page'],
   getListAreaAmuletSuccess: ['data'],
   getListAreaAmuletFailure: null,
 
   setZoneSkin: ['zone', 'skin'],
+
+  // getProvince: ['page'],
+  getProvince: null,
+  getProvinceSuccess: ['data'],
+  getProvinceFailure: null,
 
 })
 
@@ -57,6 +66,7 @@ export const INITIAL_STATE = Immutable({
   maindata2: null,  //  array data 2 set detail amulet before send to tum
   tmp_upload: null,  // tmp data upload pass to 2n1 
   img_store: null,  // card person to open store
+  img_store2: null, // for open store data => id card with face owner
 
   data_sendAmulet: null,  // store send amulet data
   request1: null,  // request for send amulet data
@@ -69,6 +79,9 @@ export const INITIAL_STATE = Immutable({
 
   zone: null,  // store zone id
   skin: null,  // store skin amulet id
+
+  request4: null,  // request get province
+  province: null,  // store province
 })
 
 /* ------------- Selectors ------------- */
@@ -80,14 +93,42 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const deleteImage2 = state => state.merge({ img_store2: null })
 export const deleteImageCard = state => state.merge({ img_store: null })
 export const setImageCardPerson = (state, { data }) => state.merge({ img_store: data })
+export const setImage2 = (state, { data }) => state.merge({ img_store2: data })
 
 export const setTmpDataUpload = (state, { data }) => state.merge({ tmp_upload: data })
 export const setMainData = (state, { data }) => state.merge({ maindata: data })
 export const setMainData2 = (state, { data }) => state.merge({ maindata2: data })
 export const setLocationAmulet = (state, { data }) => state.merge({ data_location: data })
 export const setZoneSkin = (state, { zone, skin }) => state.merge({ zone, skin })
+
+export const getProvince = state => state.merge({ request4: true })
+export const getProvinceSuccess = (state, { data }) => state.merge({ province: data, request4: false })
+// export const getProvinceSuccess = (state, { data }) => {
+//   let tmp
+//   if (state.province && state.province != null && state.province.length > 0) {
+//     // data.forEach(e => tmp.push(e))
+//     tmp = JSON.parse(JSON.stringify(state.province))
+//     data.forEach(e => {
+//       if (tmp.find(b => b.id == e.id)) {
+//         console.log('SAME VALUE')
+//       } else { tmp.push(e) }
+//     })
+//     // main algorithm
+//   } else {
+//     tmp = data
+//   }
+
+//   // tmp.sort(function (a, b) {
+//   //   return b.id - a.id;
+//   // })
+
+//   return state.merge({ province: tmp, request4: false })
+// }
+export const getProvinceFailure = state => state.merge({ request4: false })
 
 export const getListAreaAmulet = state => state.merge({ request2: true })
 export const getListAreaAmuletFailure = state => state.merge({ request2: false })
@@ -163,6 +204,8 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.SET_IMAGE_CARD_PERSON]: setImageCardPerson,
   [Types.DELETE_IMAGE_CARD]: deleteImageCard,
+  [Types.SET_IMAGE2]: setImage2,
+  [Types.DELETE_IMAGE2]: deleteImage2,
 
   [Types.SEND_DATA_AMULET_MARKET]: sendDataAmuletMarket,
   [Types.SEND_DATA_AMULET_MARKET_SUCCESS]: sendDataAmuletMarketSuccess,
@@ -179,4 +222,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_LIST_AREA_AMULET]: getListAreaAmulet,
   [Types.GET_LIST_AREA_AMULET_SUCCESS]: getListAreaAmuletSuccess,
   [Types.GET_LIST_AREA_AMULET_FAILURE]: getListAreaAmuletFailure,
+
+  [Types.GET_PROVINCE]: getProvince,
+  [Types.GET_PROVINCE_SUCCESS]: getProvinceSuccess,
+  [Types.GET_PROVINCE_FAILURE]: getProvinceFailure,
+
 })

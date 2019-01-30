@@ -272,6 +272,8 @@ export default {
   typeAmuletMarket: 'Type Amulet',
 
   uploadCardPerson: 'Upload id card',
+  storeName: 'Store name',
+  selectProvince: 'Select province',
 
   checkPrice: 'Please input price of amulet',
   checkZone: 'Please select region',

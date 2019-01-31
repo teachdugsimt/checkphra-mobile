@@ -239,7 +239,7 @@ export default {
   userFacebook: 'บัญชี facebook ไม่สามารถเปลี่ยนชื่อได้',
   certificate: 'ยินดีด้วย!! คุณได้รับใบรับรอง',
   certificateList: 'ใบรับรองพระ',
-  
+
   type: 'ประเภท',
   phra: 'พระ',
   templeKru: 'วัด/กรุ',
@@ -280,6 +280,11 @@ export default {
   uploadCardPerson: 'อัพโหลดรูปบัตรประชาชน',
   storeName: 'ชื่อร้านค้า',
   selectProvince: 'เลือกจังหวัด',
+  storeSuccess: 'ทำรายการสำเร็จ!! รอ admin อนุมัติ',
+  submitShop: 'อนุมัติร้านค้า',
+  shop: 'ร้านค้า',
+  myShop: 'ร้านค้าของฉัน',
+  waitShop: 'กรุณารอ Admin อนุมัติร้านค้า',
 
   editType: 'กรุณาเลือกหมวดหมู่',
   editDetailPhra: 'แก้ไขรายละเอียดพระ',

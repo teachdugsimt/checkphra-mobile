@@ -138,8 +138,7 @@ export const setDataCer = (state, { data }) => state.merge({ data_setCer: data }
 // request the data from an api
 
 export const editDataListCer = (state, { data }) => {
-  // console.log(data)
-  // console.log("+++++++++ COME TO REDUX +++++++++")
+
   let tmp
   let tmp2
   if (state.data_getListCer && state.data_getListCer != null) {
@@ -151,14 +150,6 @@ export const editDataListCer = (state, { data }) => {
         tmp2[i] = data
       }
     })
-    // console.log(tmp2)
-    // console.log('++++ TMP 2 AFTER ADAPTER ++++')
-
-    // tmp = tmp.map(e => {
-    //   if (e.qid == data.qid) {
-    //     return data
-    //   }
-    // })
 
   }
   console.log(tmp2)

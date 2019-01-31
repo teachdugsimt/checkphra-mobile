@@ -1,3 +1,4 @@
+// Select my amulet to upload in market2, (Upload detail amulet blaa....)
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,

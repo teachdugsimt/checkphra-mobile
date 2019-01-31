@@ -43,6 +43,14 @@ const { Types, Creators } = createActions({
   getProvinceSuccess: ['data'],
   getProvinceFailure: null,
 
+  getListMyMarket: ['page'],
+  getListMyMarketSuccess: ['data'],
+  getListMyMarketFailure: null,
+
+  openStore: ['store_name', 'province_id', 'img1', 'img2', 'contact'],
+  openStoreSuccess: ['data'],
+  openStoreFailure: null,
+
 })
 
 export const MarketTypes = Types
@@ -82,6 +90,12 @@ export const INITIAL_STATE = Immutable({
 
   request4: null,  // request get province
   province: null,  // store province
+
+  request5: null,  // request for open store
+  data_open: null,  // store data open store
+
+  request6: null,  // for get list my amulet in market
+  data_mylist: null,  // store list amulet in my market
 })
 
 /* ------------- Selectors ------------- */
@@ -105,30 +119,37 @@ export const setMainData2 = (state, { data }) => state.merge({ maindata2: data }
 export const setLocationAmulet = (state, { data }) => state.merge({ data_location: data })
 export const setZoneSkin = (state, { zone, skin }) => state.merge({ zone, skin })
 
+export const openStore = state => state.merge({ request5: true })
+export const openStoreSuccess = (state, { data }) => state.merge({ request5: false, data_open: data })
+export const openStoreFailure = state => state.merge({ request5: false })
+
 export const getProvince = state => state.merge({ request4: true })
 export const getProvinceSuccess = (state, { data }) => state.merge({ province: data, request4: false })
-// export const getProvinceSuccess = (state, { data }) => {
-//   let tmp
-//   if (state.province && state.province != null && state.province.length > 0) {
-//     // data.forEach(e => tmp.push(e))
-//     tmp = JSON.parse(JSON.stringify(state.province))
-//     data.forEach(e => {
-//       if (tmp.find(b => b.id == e.id)) {
-//         console.log('SAME VALUE')
-//       } else { tmp.push(e) }
-//     })
-//     // main algorithm
-//   } else {
-//     tmp = data
-//   }
-
-//   // tmp.sort(function (a, b) {
-//   //   return b.id - a.id;
-//   // })
-
-//   return state.merge({ province: tmp, request4: false })
-// }
 export const getProvinceFailure = state => state.merge({ request4: false })
+
+export const getListMyMarket = state => state.merge({ request6: true })
+export const getListMyMarketSuccess = (state, { data }) => {
+  let tmp
+  if (state.data_mylist && state.data_mylist != null && state.data_mylist.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = JSON.parse(JSON.stringify(state.data_mylist))
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  // tmp.sort(function (a, b) {
+  //   return b.id - a.id;
+  // })
+
+  return state.merge({ data_mylist: tmp, request6: false })
+}
+export const getListMyMarketFailure = state => state.merge({ request6: false })
 
 export const getListAreaAmulet = state => state.merge({ request2: true })
 export const getListAreaAmuletFailure = state => state.merge({ request2: false })
@@ -226,5 +247,13 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROVINCE]: getProvince,
   [Types.GET_PROVINCE_SUCCESS]: getProvinceSuccess,
   [Types.GET_PROVINCE_FAILURE]: getProvinceFailure,
+
+  [Types.OPEN_STORE]: openStore,
+  [Types.OPEN_STORE_SUCCESS]: openStoreSuccess,
+  [Types.OPEN_STORE_FAILURE]: openStoreFailure,
+
+  [Types.GET_LIST_MY_MARKET]: getListMyMarket,
+  [Types.GET_LIST_MY_MARKET_SUCCESS]: getListMyMarketSuccess,
+  [Types.GET_LIST_MY_MARKET_FAILURE]: getListMyMarketFailure,
 
 })

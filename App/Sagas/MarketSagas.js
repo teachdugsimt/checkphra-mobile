@@ -11,7 +11,7 @@
 *************************************************************/
 
 import { call, put, select } from 'redux-saga/effects'
-import MarketActions from '../Redux/MarketRedux'
+import MarketActions, { getListMyMarket } from '../Redux/MarketRedux'
 // import { MarketSelectors } from '../Redux/MarketRedux'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
@@ -129,7 +129,7 @@ export function* getProvinceRequest(api) {
   //   page_number: page
   // }
   // const response = yield call(api.getProvince, data)
- 
+
   const response = yield call(api.getProvince)
   // const response = yield call(api.getProvince)
   console.log(response)
@@ -141,3 +141,44 @@ export function* getProvinceRequest(api) {
     yield put(MarketActions.getProvinceFailure())
   }
 }
+
+export function* openStoreRequest(api, { store_name, province_id, img1, img2, contact }) {
+  const aut = yield select(auth)
+  let body = new FormData()
+  body.append('user_id', aut.user_id)
+  body.append('store_name', store_name)
+  body.append('province_id', province_id)
+  body.append('images[0]', img1)
+  body.append('images[1]', img2)
+  body.append('contact', contact)
+
+  const response = yield call(api.openStore, body)
+  console.log(response)
+  console.log('=============== OPEN STORE ================')
+  if (response.ok) {
+    yield put(MarketActions.openStoreSuccess(response.data))
+    alert(I18n.t('storeSuccess'))
+  } else {
+    yield put(MarketActions.openStoreFailure())
+    alert(I18n.t('failureTransaction'))
+  }
+}
+
+export function* getListMyMarketRequest(api, {page}){
+  const aut = yield select(auth)
+  const data ={
+    user_id: aut.user_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getListMarketMyAmulet, data)
+
+  console.log(response)
+  console.log('================ GET LIST MY AMULET IN MARKET ==================')
+  if(response.ok){
+    yield put(MarketActions.getListMyMarketSuccess(response.data))
+  } else {
+    yield put(MarketActions.getListMyMarketFailure())
+  }
+}
+

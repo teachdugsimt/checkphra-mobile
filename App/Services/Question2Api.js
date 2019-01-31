@@ -81,6 +81,8 @@ const create = (baseURL = b) => {
   const sendDataAmuletMarket2 = (data) => api.post('market/add', data)
   const getListAreaAmulet = (data) => api.get('market/list-all', data)
 
+  const openStore = (data) => api.post('shop/add', data)
+
   return {
     // a list of the API functions from step 2
     getAmuletType,
@@ -96,7 +98,8 @@ const create = (baseURL = b) => {
     getTypeMarket,
     sendDataAmuletMarket,
     getListAreaAmulet,
-    sendDataAmuletMarket2
+    sendDataAmuletMarket2,
+    openStore
   }
 }
 

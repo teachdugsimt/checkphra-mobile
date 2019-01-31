@@ -35,7 +35,7 @@ import {
 } from './PaymentSagas'
 import {
   expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
-  getAutoText55, editTypeQuestion
+  getAutoText55, editTypeQuestion, getListShop, verifyStoreRequest
 } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
@@ -51,7 +51,7 @@ import {
 
 import {
   getTypeAmuletRequest, sendDataAmuletForMarket, getListAreaAmuletRequest,
-  sendDataAmuletForMarket2, getProvinceRequest
+  sendDataAmuletForMarket2, getProvinceRequest, openStoreRequest, getListMyMarketRequest
 } from './MarketSagas'
 
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
@@ -83,9 +83,11 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
-    
+    takeLatest(MarketTypes.GET_LIST_MY_MARKET, getListMyMarketRequest, showroomApi),
+    takeLatest(ExpertTypes.VERIFY_STORE, verifyStoreRequest, showroomApi),
+    takeLatest(MarketTypes.OPEN_STORE, openStoreRequest, question2Api),
     takeLatest(MarketTypes.GET_PROVINCE, getProvinceRequest, marketApi),
-    
+
     takeLatest(WebboardTypes.ADD_COMMENT, addCommentRequest, webboardApi),
     takeLatest(WebboardTypes.ADD_POST, addPostRequest, webboardApi),
     takeLatest(WebboardTypes.GET_COMMENT, getCommentRequest, webboardApi),
@@ -93,6 +95,7 @@ export default function* root() {
     takeLatest(WebboardTypes.GET_LIST_ME, getListMyBoard555, webboardApi),
     takeLatest(WebboardTypes.LIKE, addLike, webboardApi),
 
+    takeLatest(ExpertTypes.GET_LIST_STORE, getListShop, showroomApi),
     takeLatest(ShowRoomTypes.GET_LIST_AMULET, getListAmulet, showroomApi),
     takeLatest(ShowRoomTypes.SEND_MESSAGE_THEIR_AMULET, sendMessageTheirAmulet55, showroomApi),
     takeLatest(ShowRoomTypes.GET_MESSAGE_THEIR_AMULET, getMessageFromTheirAmulet, showroomApi),
@@ -165,7 +168,7 @@ export default function* root() {
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
 
-    
+
 
 
   ])

@@ -1,3 +1,4 @@
+// Open Shop Screen (upload id card , store name)
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,
@@ -47,6 +48,8 @@ class MarketOpenstore extends Component {
 
             store_name: null,
             contact: null,
+            province: null,
+            namep: null,
         }
     }
 
@@ -129,30 +132,45 @@ class MarketOpenstore extends Component {
         count = 1
     }
 
-    // _reload = () => {
-    //     count = 1
-    //     this.props.getProvince(count)
-    // }
+    _pressProvince = (item) => {
+        this.setState({ province: item.id, namep: item.name })
+        this.popupDialog.dismiss()
+    }
 
-    // _onScrollEndList = () => {
-    //     console.log('END LIST AGAIN')
-    //     if (this.props.province && this.props.province.length >= 10 && (this.props.request4 == false || this.props.request4 == null)) {
-    //         count++
-    //         this.props.getProvince(count)
-    //     }
-    // }
+    _onPressButton = () => {
+        if (!this.state.store_name) {
+            alert('Please input store name')
+        } else if (!this.state.avatarSource || !this.state.avatarSource2) {
+            alert('Please upload id card')
+        } else if (!this.state.province) {
+            alert('Please select province')
+        } else {
+            this.props.openStore(this.state.store_name, this.state.province, this.props.image, this.props.image2, this.state.contact)
+            this.setState({
+                avatarSource: null,
+                avatarSource2: null,
 
-    // _pressList = (item) => {
-    //     this.popupDialog.dismiss()
-    // }
+                store_name: null,
+                contact: null,
+                province: null,
+            })
+            this.props.deleteImage()
+            this.props.deleteImage2()
+            this.props.navigation.goBack()
+        }
+    }
 
-    // _renderItem = ({ item, index }) => {
-    //     return (
-    //         <TouchableOpacity onPress={() => this._pressList(item)}>
-    //             <Text>555555KKKKK</Text>
-    //         </TouchableOpacity>
-    //     )
-    // }
+    _onPressCancel = () => {
+        this.setState({
+            avatarSource: null,
+            avatarSource2: null,
+
+            store_name: null,
+            contact: null,
+            province: null,
+        })
+        this.props.navigation.goBack()
+    }
 
     render() {
         return (
@@ -240,22 +258,17 @@ class MarketOpenstore extends Component {
                         height={height / 1.6}
                         // height={150}
                         onDismissed={() => { this.setState({}) }} >
-                        {/* <FlatList
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={this.props.request4 == true}
-                                    onRefresh={this._reload}
-                                />
-                            }
-                            ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
-                            data={this.props.province}
-                            renderItem={this._renderItem}
-                            onEndReached={this._onScrollEndList}
-                            onEndReachedThreshold={1.0} /> */}
 
-                        <View style={{ flex: 1 }}>
-                            <Text>8888888888888888888</Text>
-                        </View>
+
+                        <ScrollView style={{ flex: 1 }}>
+                            {this.props.province && this.props.province != null && this.props.province.map(e => {
+                                return (
+                                    <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => this._pressProvince(e)}>
+                                        <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                    </TouchableOpacity>
+                                )
+                            })}
+                        </ScrollView>
 
                     </PopupDialog>
 
@@ -273,9 +286,26 @@ class MarketOpenstore extends Component {
                         </View>
 
                         <TouchableOpacity style={{ padding: 10, backgroundColor: '#fff5', borderRadius: 10, marginTop: 10 }} onPress={() => this.popupDialog.show()}>
-                            <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 16 }}>{I18n.t('selectProvince')}</Text>
+                            <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 16 }}>{this.state.namep ? this.state.namep : I18n.t('selectProvince')}</Text>
                         </TouchableOpacity>
 
+                    </View>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                        <View style={{ width: '40%', height: 40 }}>
+                            <RoundedButton
+                                style={{ marginHorizontal: 10 }}
+                                title={I18n.t('ok')}
+                                onPress={this._onPressButton}
+                            />
+                        </View>
+                        <View style={{ width: '40%', height: 40 }}>
+                            <RoundedButton
+                                style={{ marginHorizontal: 10 }}
+                                title={I18n.t('cancel')}
+                                onPress={this._onPressCancel}
+                            />
+                        </View>
                     </View>
 
                 </View>
@@ -311,6 +341,7 @@ const mapDispatchToProps = (dispatch) => {
         deleteImage2: () => dispatch(MarketActions.deleteImage2()),
         // getProvince: (page) => dispatch(MarketActions.getProvince(page)),
         getProvince: () => dispatch(MarketActions.getProvince()),
+        openStore: (store_name, province_id, img1, img2, contact) => dispatch(MarketActions.openStore(store_name, province_id, img1, img2, contact)),
     }
 }
 

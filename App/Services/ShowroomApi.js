@@ -55,6 +55,13 @@ const create = (baseURL = b) => {
 
   //********************** Chat Api Zone ***********************/
 
+  //********************** Admin Verify Store *****************/
+  const getListShop = (data) => api.get('shop/list', data)
+  const verifyStore = (data) => api.post('shop/confirm', data)
+
+  const getListMarketMyAmulet = (data) => api.get('market/list-me', data)
+  //********************** Admin Verify Store *****************/
+
 
   return {
     // a list of the API functions from step 2
@@ -68,7 +75,10 @@ const create = (baseURL = b) => {
     chatToAdmin,
     getMessageAdmin,
     adminContactUser,
-    getMyContact
+    getMyContact,
+    verifyStore,
+    getListShop,
+    getListMarketMyAmulet
 
   }
 }

@@ -274,6 +274,11 @@ export default {
   uploadCardPerson: 'Upload id card',
   storeName: 'Store name',
   selectProvince: 'Select province',
+  storeSuccess: 'Transaction Complete!!, wait for admin verify',
+  submitShop: 'Verify Store',
+  shop: 'store',
+  myShop: 'My Shop',
+  waitShop: 'Wait for admin verify your store',
 
   checkPrice: 'Please input price of amulet',
   checkZone: 'Please select region',

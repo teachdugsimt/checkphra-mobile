@@ -29,10 +29,12 @@ const create = (baseURL = b) => {
   })
 
   const getProvince = () => api.get('province/list')
+  
 
   return {
     // a list of the API functions from step 2
-    getProvince
+    getProvince,
+    
   }
 }
 

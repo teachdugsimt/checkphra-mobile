@@ -1,3 +1,4 @@
+// THAILAND MAP
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,
@@ -95,7 +96,13 @@ class MarketHome extends Component {
     }
 
     _openStore = () => {
-        this.props.navigation.navigate("marketStore")
+        if (this.props.profile.store == null) {
+            this.props.navigation.navigate("marketStore")
+        } else if (this.props.profile.store && this.props.profile.store.status == 1) {
+            alert(I18n.t('waitShop'))
+        } else if (this.props.profile.store && this.props.profile.store.status == 5) {
+            this.props.navigation.navigate("marketMylistAmulet")
+        }
     }
 
     render() {
@@ -138,10 +145,10 @@ class MarketHome extends Component {
 
 
                 {/* *******************OPEN STORE ZONE******************* */}
-                <TouchableOpacity style={{ width: (width / 2.70), height: (height / 7.75), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
-                    <Image source={Images.chat} style={{ width: width / 2.70, height: height / 7.75 }} />
-                    <Text style={{ position: 'absolute', bottom: height / 12.5, right: 15 }}>You don't have store.</Text>
-                    <Text style={{ position: 'absolute', bottom: (height / 12.5) - 20, right: 15 }}>Click to open store !!</Text>
+                <TouchableOpacity style={{ width: (width / 3.7), height: (height / 8.5), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
+                    <Image source={Images.chat} style={{ width: width / 3.7, height: height / 8.5 }} />
+                    <Text style={{ position: 'absolute', bottom: height / 14, right: 34 }}>Go To.</Text>
+                    <Text style={{ position: 'absolute', bottom: (height / 14) - 20, right: 22 }}>My store !!</Text>
                 </TouchableOpacity>
                 {/* *******************OPEN STORE ZONE******************* */}
 

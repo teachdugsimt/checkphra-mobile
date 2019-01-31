@@ -1,3 +1,4 @@
+// Upload new amulet screen , have not amuet 
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,

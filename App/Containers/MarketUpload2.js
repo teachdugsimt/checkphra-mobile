@@ -1,3 +1,4 @@
+// Select my amulet to upload in market1 (List amulet)
 import React, { Component } from 'react'
 import {
     Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, Alert, ScrollView, Modal,

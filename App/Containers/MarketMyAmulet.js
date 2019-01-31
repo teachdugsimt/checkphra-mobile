@@ -31,7 +31,20 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
-class MarketHomeList1 extends Component {
+class MarketMyAmulet extends Component {
+
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+
+        return {
+            headerRight: (
+                <TouchableOpacity onPress={params.addAmulet}>
+                    <Icon2 name={'plus-square-o'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+                </TouchableOpacity>
+            ),
+        };
+    };
+
     constructor(props) {
         super(props)
         this.state = {
@@ -44,6 +57,26 @@ class MarketHomeList1 extends Component {
             tlist: null,
         }
     }
+
+    componentWillMount() {
+        this.props.navigation.setParams({ addAmulet: this._addAmulet });
+    }
+
+    _addAmulet = () => {
+        // add amulet here
+        this.popupDialog2.show()
+    };
+
+    _goToUpload = () => {
+        this.props.navigation.navigate('marketUpload1')
+        this.popupDialog2.dismiss()
+    }
+
+    _goToUpload2 = () => {
+        this.props.navigation.navigate("marketUpload2")
+        this.popupDialog2.dismiss()
+    }
+
     _renderItem = ({ item, index }) => {
 
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
@@ -51,10 +84,8 @@ class MarketHomeList1 extends Component {
             <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChat(item)}>
 
                 <View style={{ flexDirection: 'row', flex: 1 }}>
-                    <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => {
-                        this._showImage(item.images)
-                    }}>
-                        <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + item.images[0] }} />
+                    <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => { this._showImage(item.images) }}>
+                        {item.images != null && <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + item.images[0] }} />}
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: 'center', width: '100%' }}>
@@ -65,9 +96,9 @@ class MarketHomeList1 extends Component {
 
                         <View style={{ flexDirection: 'row', width: '100%' }}>
                             <Text style={{ marginLeft: 10, marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
-                            <TouchableOpacity style={{ flex: 1, marginLeft: 10, marginTop: 4, width: '100%' }} onPress={() => this._pressSubList(item.images)}>
+                            {item.images != null && <TouchableOpacity style={{ flex: 1, marginLeft: 10, marginTop: 4, width: '100%' }} onPress={() => this._pressSubList(item.images)}>
                                 <ImageList data={item.images} />
-                            </TouchableOpacity>
+                            </TouchableOpacity>}
                         </View>
                     </View>
                 </View>
@@ -182,6 +213,28 @@ class MarketHomeList1 extends Component {
                     </View>
                 </PopupDialog>
 
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('reason')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.5}
+                    height={height / 4}
+                    // height={150}
+                    onDismissed={() => { this.setState({}) }}
+                >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
+                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderBottomColor: 'orange', borderBottomWidth: 1, flex: 1, width: '100%', justifyContent: 'center' }} onPress={this._goToUpload2}>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>Have Amulet</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, justifyContent: 'center', width: '100%' }} onPress={this._goToUpload}>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>Have not Amulet</Text>
+                        </TouchableOpacity>
+                    </View>
+                </PopupDialog>
+
                 <FlatList
                     refreshControl={
                         <RefreshControl
@@ -193,7 +246,7 @@ class MarketHomeList1 extends Component {
                     data={this.props.data_areaAmulet}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
-                    onEndReachedThreshold={1.2} />
+                    onEndReachedThreshold={1.0} />
 
             </LinearGradient>
         )
@@ -210,8 +263,8 @@ const mapStateToProps = (state) => {
         // request_type: state.question.request_type,  // request type
         // data_amulet: state.showroom.data_amulet,
 
-        data_areaAmulet: state.market.data_areaAmulet,  // store area & type amulet zone
-        request2: state.market.request2, // request for get list type*area amuletore my message from other person ( Chat Solo )
+        data_areaAmulet: state.market.data_mylist,  // store area & type amulet zone
+        request2: state.market.request6, // request for get list type*area amuletore my message from other person ( Chat Solo )
     }
 }
 
@@ -221,9 +274,12 @@ const mapDispatchToProps = (dispatch) => {
         // setRequestType: () => dispatch(QuestionActions.setRequestType()),
         // setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
         // setDetailPhra: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
-        getListAreaAmulet: (page) => dispatch(MarketActions.getListAreaAmulet(page)),
+        getListAreaAmulet: (page) => dispatch(MarketActions.getListMyMarket(page)),
         // setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketHomeList1)
+export default connect(mapStateToProps, mapDispatchToProps)(MarketMyAmulet)
+
+
+//  *********************************  " 165 "  ****************************************

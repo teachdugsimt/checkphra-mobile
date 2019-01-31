@@ -73,39 +73,6 @@ export function* updateAnswer(api, { pack, q_id, argument }) {   //   for UPDATE
 export function* getProfileRequest(api, { page }) {
   const aut = yield select(auth)
 
-  // if (page == 1) {
-  //   if (!aut.user_id) { return }
-
-  //   const data = {
-  //     user_id: aut.user_id,
-  //     page_number: page
-  //   }
-
-  //   const response = yield call(api.getVerify, data)
-
-  //   if (response.ok) {
-  //     yield put(ExpertActions.verifySuccess(response.data))
-  //   } else {
-  //     yield put(ExpertActions.verifyFailure())
-  //   }
-  // } else {
-  //   if (!aut.user_id) { return }
-
-  //   const data = {
-  //     user_id: aut.user_id,
-  //     page_number: page
-  //   }
-
-  //   const response = yield call(api.getVerify, data)
-
-  //   if (response.ok) {
-  //     yield put(ExpertActions.verifySuccess2(response.data))
-  //   } else {
-  //     yield put(ExpertActions.verifyFailure2())
-  //   }
-
-  // }
-
   if (!aut.user_id) { return }
 
   const data = {
@@ -242,10 +209,48 @@ export function* editTypeQuestion(api, { type_id, qid }) {
   }
 
   const response = yield call(api.editGroupQuestion, data)
-  console.log('----------------- EDIT TYPE QUESTION --------------------')
+  console.log('==================== EDIT TYPE QUESTION ======================')
   if (response.ok) {
     yield put(ExpertActions.editGroupSuccess(response.data))
   } else {
     yield put(ExpertActions.editGroupFailure())
+  }
+}
+
+export function* getListShop(api, { page }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getListShop, data)
+  console.log(response)
+  console.log('============ GET LIST SHOP ==============')
+  if (response.ok) {
+    yield put(ExpertActions.getListStoreSuccess(response.data))
+  } else {
+    yield put(ExpertActions.getListStoreFailure())
+  }
+}
+
+export function* verifyStoreRequest(api, { shop_id }) {
+  const aut = yield select(auth)
+
+  const data = {
+    user_id: aut.user_id,
+    shop_id
+  }
+
+  const response = yield call(api.verifyStore, data)
+  console.log(response)
+  console.log('=========== CONFIRM STORE ============')
+
+  if (response.ok) {
+    yield put(ExpertActions.verifyStoreSuccess(response.data))
+    alert(I18n.t('successTransaction'))
+  } else {
+    yield put(ExpertActions.verifyStoreFailure())
+    alert(I18n.t('failureTransaction'))
   }
 }

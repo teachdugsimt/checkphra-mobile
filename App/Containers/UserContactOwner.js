@@ -23,7 +23,7 @@ import QuestionActions from '../Redux/QuestionRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
-import ImageList2 from './ImageList/ImageList2'
+import ImageList2 from './ImageList/ImageList4'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -45,28 +45,61 @@ class UserContactOwner extends Component {
             tlist: null,
         }
     }
+    // _renderItem = ({ item, index }) => {
+
+    //     let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
+    //     if (item.uid_owner != this.props.user_id) {
+    //         return (
+    //             <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
+    //                 onPress={() => this._goToChat(item)}>
+    //                 <View style={{ flex: 1 }}>
+    //                     <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{I18n.t('messages') + " " + (index + 1) + " ( " + item.type_id + " )"}</Text>
+    //                     <View style={{ flexDirection: 'row' }}>
+    //                         <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+    //                         {item.type == 1 && <Icon2 name={'lock'} size={20} style={{ marginLeft: 5, marginTop: 10 }} />}
+    //                     </View>
+    //                 </View>
+
+    //                 <View style={{ flex: 1 }}>
+
+    //                     <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18, marginTop: 8.5 }}>{item.amulet && item.amulet.type}</Text>
+    //                     <TouchableOpacity style={{ flex: 1, width: 110 }} onPress={() => this._showPicture(item.amulet && item.amulet.images)}>
+    //                         <ImageList2 data={item.amulet && item.amulet.images} />
+    //                     </TouchableOpacity>
+    //                 </View>
+    //             </TouchableOpacity>
+    //         )
+    //     }
+    // }
+
     _renderItem = ({ item, index }) => {
 
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
         if (item.uid_owner != this.props.user_id) {
             return (
-                <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
+                <TouchableOpacity style={{ height: 110, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
                     onPress={() => this._goToChat(item)}>
-                    <View style={{ flex: 1 }}>
-                        <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{I18n.t('messages') + " " + (index + 1) + " ( " + item.type_id + " )"}</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
-                            {item.type == 1 && <Icon2 name={'lock'} size={20} style={{ marginLeft: 5, marginTop: 10 }} />}
+                    <View style={{ flexDirection: 'row' }}>
+                        {item.profile && item.profile.facebook_id && <Image source={{ uri: 'https://graph.facebook.com/' + item.profile.facebook_id + '/picture?width=500&height=500' }} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+                        {item.profile && item.profile.facebook_id == null && item.profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.profile.image }} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+                        {item.profile && item.profile.facebook_id == null && !item.profile.image && <Image source={Images.user} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+                        {!item.profile && <Image source={Images.user} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+                        
+                        <View style={{ justifyContent: 'center' }}>
+                            {item.profile && item.amulet && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.profile.fullname}{" ( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
+                            {!item.profile && item.amulet && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>Chat All {"( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
+                            <Text style={{ color: Colors.brownTextTran, fontSize: 14 }}>{date}{" ( id: " + item.type_id + " )"}</Text>
+
+                            {item.amulet && <TouchableOpacity style={{ marginTop: 10 }} onPress={() => this._showPicture(item.amulet.images)}>
+                                <ImageList2 data={item.amulet.images} />
+                            </TouchableOpacity>}
+
                         </View>
                     </View>
 
-                    <View style={{ flex: 1 }}>
 
-                        <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18, marginTop: 8.5 }}>{item.amulet && item.amulet.type}</Text>
-                        <TouchableOpacity style={{ flex: 1, width: 110 }} onPress={() => this._showPicture(item.amulet && item.amulet.images)}>
-                            <ImageList2 data={item.amulet && item.amulet.images} />
-                        </TouchableOpacity>
-                    </View>
+                    <Icon2 name={'chevron-right'} size={30} style={{ alignSelf: 'center', marginRight: 15 }} />
+
                 </TouchableOpacity>
             )
         }
@@ -76,7 +109,7 @@ class UserContactOwner extends Component {
         this.setState({ modalVisible: true })
         let img = []
         item.map(e => {
-            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+            img.push({ url: e })
         })
         this.setState({ img })
         this.popupDialog.show()
@@ -195,8 +228,6 @@ class UserContactOwner extends Component {
             this.props.setDetailPhra(item.amulet)
             this.props.navigation.navigate("chatTheirAmulet")
         }
-        // this.props.setDetailPhra(item.amulet)
-        // this.props.navigation.navigate('userContactOwner2')
     }
 
     componentDidMount() {
@@ -281,7 +312,9 @@ class UserContactOwner extends Component {
                     }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                     data={this.props.data_myMessageFromOther}
-                    renderItem={this._renderItem} />
+                    renderItem={this._renderItem}
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={1.0} />
             </LinearGradient>
         )
     }

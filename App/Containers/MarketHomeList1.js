@@ -54,7 +54,8 @@ class MarketHomeList1 extends Component {
                     <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => {
                         this._showImage(item.images)
                     }}>
-                        <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + item.images[0] }} />
+                        {/* <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + item.images[0] }} /> */}
+                        <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: item.images[0] }} />
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: 'center', width: '100%' }}>
@@ -80,8 +81,11 @@ class MarketHomeList1 extends Component {
     _pressSubList = (item) => {
         this.setState({ modalVisible: true })
         let img = []
+        // item.map(e => {
+        //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
+        // })
         item.map(e => {
-            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
+            img.push({ url: e })
         })
         this.setState({ img, index: 1 })
         this.popupDialog.show()
@@ -90,21 +94,21 @@ class MarketHomeList1 extends Component {
     _showImage = (item) => {
         this.setState({ modalVisible: true })
         let img = []
+        // item.map(e => {
+        //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
+        // })
         item.map(e => {
-            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
+            img.push({ url: e })
         })
         this.setState({ img })
         this.popupDialog.show()
     }
 
     _goToChat = (item) => {
-        // if (item.type == 1) {
-        //     this.props.setDetailPhra(item.amulet)
-        //     this.props.navigation.navigate("chatTheirAmuletOwner")
-        // } else if (item.type == 2) {
-        //     this.props.setDetailPhra(item.amulet)
-        //     this.props.navigation.navigate("chatTheirAmulet")
-        // }
+        console.log(item)
+        console.log('Item Before go to Chat')
+        this.props.setTheirAmuletData(item)
+        this.props.navigation.navigate('chatTheirAmulet')
     }
 
     componentDidMount() {
@@ -114,6 +118,7 @@ class MarketHomeList1 extends Component {
 
     componentWillUnmount() {
         count = 1
+        this.props.clearListAreaAmulet()
     }
 
     _reload = () => {
@@ -221,9 +226,14 @@ const mapDispatchToProps = (dispatch) => {
         // setRequestType: () => dispatch(QuestionActions.setRequestType()),
         // setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
         // setDetailPhra: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
+        setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
         getListAreaAmulet: (page) => dispatch(MarketActions.getListAreaAmulet(page)),
+        clearListAreaAmulet: () => dispatch(MarketActions.clearListAreaAmulet()),
         // setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MarketHomeList1)
+
+
+// North East ,  กาฬสินธ์

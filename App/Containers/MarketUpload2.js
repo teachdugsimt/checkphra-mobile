@@ -152,12 +152,14 @@ class MarketUpload2 extends Component {
                     renderItem={({ item }) => {
                         // console.log(item)
                         let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
-                        let status = I18n.t('pending')
-                        let color = 'orange'
-                        if (item.status == 'success') {
-                            status = I18n.t('success')
-                            color = 'green'
+
+                        let iconCheck = 'check-circle-o'
+                        let iconColor = 'green'
+                        if (item.real == 0 || item.real == null) {
+                            iconCheck = 'times-circle-o'
+                            iconColor = 'red'
                         }
+
                         let name = ''
                         if (item.type == '100 ปี พ.ศ.2515') {
                             name = I18n.t('year100era2515')
@@ -221,20 +223,7 @@ class MarketUpload2 extends Component {
                                                 }}> ( {item.id} )</Text>
                                             </View>
                                         </View>
-                                        <Text style={{
-                                            fontFamily: 'Prompt-SemiBold',
-                                            fontSize: 15,
-                                            color: 'white',
-                                            marginVertical: 20,
-                                            marginLeft: 20,
-                                            marginRight: 10,
-                                            paddingHorizontal: 20,
-                                            paddingTop: 2.5,
-                                            borderRadius: 15,
-                                            height: 30,
-                                            backgroundColor: color
-                                        }}>{status}</Text>
-
+                                        <Icon2 name={iconCheck} size={30} color={iconColor} style={{ marginRight: 15 }} />
                                     </View>
                                 </TouchableOpacity>
                             )

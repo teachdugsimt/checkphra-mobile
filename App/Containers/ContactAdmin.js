@@ -83,9 +83,11 @@ class ContactAdmin extends Component {
 
     componentDidMount() {
         count = 1
-        if (this.props.data_sendMessageTheirAmulet && this.props.data_sendMessageTheirAmulet != null) {
+        // if (this.props.data_sendMessageTheirAmulet && this.props.data_sendMessageTheirAmulet != null) {
             this.props.getMessageTheirAmulet(count)
-        }
+        // }
+
+
         // let img = []
         // this.props.data_their.images.map(e => {
         //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })

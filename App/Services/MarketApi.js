@@ -29,12 +29,12 @@ const create = (baseURL = b) => {
   })
 
   const getProvince = () => api.get('province/list')
-  
+  const getRegion = (data) => api.get('province/check-phra-region', data)
 
   return {
     // a list of the API functions from step 2
     getProvince,
-    
+    getRegion
   }
 }
 

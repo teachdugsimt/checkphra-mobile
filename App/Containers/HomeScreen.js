@@ -49,7 +49,7 @@ class HomeScreen extends Component {
         // { name: I18n.t('showAmuletReal'), id: 2 },
         // { name: I18n.t('chat'), id: 3 }]
         const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1 },
-        { name: I18n.t('showAmuletReal'), id: 2 },
+        // { name: I18n.t('showAmuletReal'), id: 2 },
         { name: I18n.t('market'), id: 4 },
         { name: I18n.t('chat'), id: 3 },]
 

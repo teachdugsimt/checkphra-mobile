@@ -46,12 +46,13 @@ import {
 import {
   getListAmulet, sendMessageTheirAmulet55, getMessageFromTheirAmulet, sendMessageToOwner,
   getMessageFromOwner, getMyRealAmulet, getMyMessageFromOtherPerson, getListOwnerContactWithUser,
-  getListAllBoard555, getListMyBoard555, getCommentRequest, addPostRequest, addCommentRequest, addLike
+  getListAllBoard555, getListMyBoard555, getCommentRequest, addPostRequest, addCommentRequest, addLike,
 } from './ShowRoomSagas'
 
 import {
   getTypeAmuletRequest, sendDataAmuletForMarket, getListAreaAmuletRequest,
-  sendDataAmuletForMarket2, getProvinceRequest, openStoreRequest, getListMyMarketRequest
+  sendDataAmuletForMarket2, getProvinceRequest, openStoreRequest, getListMyMarketRequest, getRegionRequest,
+  voteAmuletRequest
 } from './MarketSagas'
 
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
@@ -83,10 +84,12 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    takeLatest(MarketTypes.VOTE_AMULET, voteAmuletRequest, showroomApi),
     takeLatest(MarketTypes.GET_LIST_MY_MARKET, getListMyMarketRequest, showroomApi),
     takeLatest(ExpertTypes.VERIFY_STORE, verifyStoreRequest, showroomApi),
     takeLatest(MarketTypes.OPEN_STORE, openStoreRequest, question2Api),
     takeLatest(MarketTypes.GET_PROVINCE, getProvinceRequest, marketApi),
+    takeLatest(MarketTypes.GET_REGION, getRegionRequest, marketApi),
 
     takeLatest(WebboardTypes.ADD_COMMENT, addCommentRequest, webboardApi),
     takeLatest(WebboardTypes.ADD_POST, addPostRequest, webboardApi),

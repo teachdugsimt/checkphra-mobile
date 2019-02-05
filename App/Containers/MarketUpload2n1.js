@@ -70,9 +70,9 @@ class MarketUpload2n1 extends Component {
         if (!this.state.price) {
             alert(I18n.t('checkPrice'))
         }
-        else if (!this.state.zone) {
-            alert(I18n.t('checkZone'))
-        }
+        // else if (!this.state.zone) {
+        //     alert(I18n.t('checkZone'))
+        // }
         else if (!this.state.type) {
             alert(I18n.t('checkType'))
         }
@@ -80,7 +80,7 @@ class MarketUpload2n1 extends Component {
         //     alert(I18n.t('atLeast2Image'))
         // }
 
-        if (this.state.price && this.state.zone && this.state.type ) {
+        if (this.state.price && this.state.type ) {
 
             // name, temple, price, owner, contact, zone, type
             this.props.setMainData({
@@ -89,7 +89,7 @@ class MarketUpload2n1 extends Component {
                 price: this.state.price,
                 owner: this.state.owner,
                 contact: this.state.contact,
-                zone: this.state.zone,
+                // zone: this.state.zone,
                 type: this.state.type
             })
             this.props.sendDataAmuletMarket()
@@ -100,7 +100,7 @@ class MarketUpload2n1 extends Component {
                 price: null,
                 owner: null,
                 contact: null,
-                zone: null,
+                // zone: null,
                 type: null,
             })
             // this.props.sendDataAmuletMarket(this.state.name, this.state.temple, this.state.price, this.state.owner, this.state.contact, this.state.zone, this.state.type)
@@ -136,7 +136,7 @@ class MarketUpload2n1 extends Component {
                                 alignSelf: "center",
                                 color: Colors.brownText
                             }}>
-                            {I18n.t('pickImage')}
+                            {I18n.t('yourAmuletImage')}
                         </Text>
                     </View>
 
@@ -200,7 +200,7 @@ class MarketUpload2n1 extends Component {
                         </View>
 
 
-                        <Picker
+                        {/* <Picker
                             selectedValue={this.state.zone}
                             style={{ height: 45, width: width / 2, alignSelf: 'center', marginTop: 12 }}
                             onValueChange={(itemValue, itemIndex) => this.setState({ zone: itemValue })}>
@@ -210,7 +210,7 @@ class MarketUpload2n1 extends Component {
                             <Picker.Item label="East" value="3" />
                             <Picker.Item label="North East" value="4" />
                             <Picker.Item label="South" value="5" />
-                        </Picker>
+                        </Picker> */}
 
                         {this.state.tmp_type && <Picker
                             selectedValue={this.state.type}

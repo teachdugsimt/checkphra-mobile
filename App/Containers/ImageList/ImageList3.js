@@ -12,7 +12,8 @@ class ImageList3 extends Component {
         // let img = item.images ? JSON.parse(item.images) : []
         if (index > 0) {
             let imgName = item ?
-                { uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/thumbs/tmb_100x100_' + item, scale: 0.1 } :
+                // { uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/thumbs/tmb_100x100_' + item, scale: 0.1 } :
+                { uri: item, scale: 0.1 } :
                 Images.coin0
 
             return (

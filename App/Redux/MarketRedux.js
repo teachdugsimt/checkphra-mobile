@@ -36,7 +36,13 @@ const { Types, Creators } = createActions({
   getListAreaAmuletSuccess: ['data'],
   getListAreaAmuletFailure: null,
 
-  setZoneSkin: ['zone', 'skin'],
+  setZoneSkin: ['zone', 'province'],
+  setSkinAmulet: ['skin'],
+
+  getRegion: ['geo_id'],
+  getRegionSuccess: ['data'],
+  getRegionFailure: null,
+
 
   // getProvince: ['page'],
   getProvince: null,
@@ -51,6 +57,15 @@ const { Types, Creators } = createActions({
   openStoreSuccess: ['data'],
   openStoreFailure: null,
 
+  voteAmulet: ['id', 'status'],
+  voteAmuletSuccess: ['data'],
+  voteAmuletFailure: null,
+
+  clearDataMyList: null,
+  clearListMyAmulet: null,
+  clearListAreaAmulet: null,
+  clearDataVote: null,
+  clearDataAreaAmulet: null,
 })
 
 export const MarketTypes = Types
@@ -87,6 +102,7 @@ export const INITIAL_STATE = Immutable({
 
   zone: null,  // store zone id
   skin: null,  // store skin amulet id
+  pro_id: null,  // set province id
 
   request4: null,  // request get province
   province: null,  // store province
@@ -96,6 +112,12 @@ export const INITIAL_STATE = Immutable({
 
   request6: null,  // for get list my amulet in market
   data_mylist: null,  // store list amulet in my market
+
+  request7: null,  // get province in each region
+  data_region: null,  // store province n each region
+
+  request8: null,  // for vote amulet
+  data_vote: null,  // store vote amulet
 })
 
 /* ------------- Selectors ------------- */
@@ -107,7 +129,15 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+export const clearDataMyList = state => state.merge({ data_mylist: null })
+export const clearDataAreaAmulet = state => state.merge({ data_areaAmulet: null })
+export const clearDataVote = state => state.merge({ data_vote: null })
+export const voteAmulet = state => state.merge({ request8: true })
+export const voteAmuletSuccess = (state, { data }) => state.merge({ data_vote: data })
+export const voteAmuletFailure = state => state.merge({ request8: false })
 
+export const clearListMyAmulet = state => state.merge({ data_mylist: null })
+export const clearListAreaAmulet = state => state.merge({ data_areaAmulet: null })
 export const deleteImage2 = state => state.merge({ img_store2: null })
 export const deleteImageCard = state => state.merge({ img_store: null })
 export const setImageCardPerson = (state, { data }) => state.merge({ img_store: data })
@@ -117,7 +147,12 @@ export const setTmpDataUpload = (state, { data }) => state.merge({ tmp_upload: d
 export const setMainData = (state, { data }) => state.merge({ maindata: data })
 export const setMainData2 = (state, { data }) => state.merge({ maindata2: data })
 export const setLocationAmulet = (state, { data }) => state.merge({ data_location: data })
-export const setZoneSkin = (state, { zone, skin }) => state.merge({ zone, skin })
+export const setZoneSkin = (state, { zone, province }) => state.merge({ zone, pro_id: province })
+export const setSkinAmulet = (state, { skin }) => state.merge({ skin })
+
+export const getRegion = state => state.merge({ request7: true })
+export const getRegionSuccess = (state, { data }) => state.merge({ request7: false, data_region: data })
+export const getRegionFailure = state => state.merge({ request7: false })
 
 export const openStore = state => state.merge({ request5: true })
 export const openStoreSuccess = (state, { data }) => state.merge({ request5: false, data_open: data })
@@ -143,9 +178,9 @@ export const getListMyMarketSuccess = (state, { data }) => {
     tmp = data
   }
 
-  // tmp.sort(function (a, b) {
-  //   return b.id - a.id;
-  // })
+  tmp.sort(function (a, b) {  // (b.id - a.id;) id มากไปน้อย 
+    return b.id - a.id;       // (a.id - b.id;) id น้อยไปมาก 
+  })
 
   return state.merge({ data_mylist: tmp, request6: false })
 }
@@ -213,7 +248,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   // [Types.MARKET_REQUEST]: request,
   // [Types.MARKET_SUCCESS]: success,
   // [Types.MARKET_FAILURE]: failure,
-
+  [Types.CLEAR_DATA_MY_LIST]: clearDataMyList,
+  [Types.CLEAR_DATA_AREA_AMULET]: clearDataAreaAmulet,
+  [Types.CLEAR_LIST_MY_AMULET]: clearListMyAmulet,
+  [Types.CLEAR_LIST_AREA_AMULET]: clearListAreaAmulet,
   [Types.SET_LOCATION_AMULET]: setLocationAmulet,
   [Types.SET_IMAGE_MARKET]: setImageMarket,
   [Types.DELETE_IMAGE_MARKET]: deleteImageMarket,
@@ -221,6 +259,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_MAIN_DATA]: setMainData,
   [Types.SET_MAIN_DATA2]: setMainData2,
   [Types.SET_ZONE_SKIN]: setZoneSkin,
+  [Types.SET_SKIN_AMULET]: setSkinAmulet,
   [Types.SET_TMP_DATA_UPLOAD]: setTmpDataUpload,
 
   [Types.SET_IMAGE_CARD_PERSON]: setImageCardPerson,
@@ -255,5 +294,14 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_LIST_MY_MARKET]: getListMyMarket,
   [Types.GET_LIST_MY_MARKET_SUCCESS]: getListMyMarketSuccess,
   [Types.GET_LIST_MY_MARKET_FAILURE]: getListMyMarketFailure,
+
+  [Types.GET_REGION]: getRegion,
+  [Types.GET_REGION_SUCCESS]: getRegionSuccess,
+  [Types.GET_REGION_FAILURE]: getRegionFailure,
+
+  [Types.VOTE_AMULET]: voteAmulet,
+  [Types.VOTE_AMULET_SUCCESS]: voteAmuletSuccess,
+  [Types.VOTE_AMULET_FAILURE]: voteAmuletFailure,
+  [Types.CLEAR_DATA_VOTE]: clearDataVote,
 
 })

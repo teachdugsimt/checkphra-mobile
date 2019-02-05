@@ -39,6 +39,7 @@ const { Types, Creators } = createActions({
   getMessageTheirAmuletSuccess: ['data'],
   getMessageTheirAmuletFailure: null,
 
+  clearDataTheir: null,  // clear data_their
   clearTheirAmuletMessage: null,
   clearOwnerAmuletMessage: null,
   clearDataListTheirAmulet: null,
@@ -54,6 +55,7 @@ const { Types, Creators } = createActions({
   getListOwnerContactSuccess: ['data'],
   getListOwnerContactFailure: null,
 
+  clearDataListMyMessageFromOtherPerson: null, // clear list ที่โชว์ว่ามีคน x คน ทักมาหาเรา 
 })
 
 export const ShowRoomTypes = Types
@@ -107,6 +109,8 @@ export const ShowRoomSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+export const clearDataTheir = state => state.merge({ data_their: null })
+export const clearDataListMyMessageFromOtherPerson = state => state.merge({ data_myMessageFromOther: null })
 export const clearDataMyRealAmulet = state => state.merge({ data_myRealAmulet: null })
 export const setDataGroupChat = (state, { data }) => state.merge({ data_groupChat: data })
 
@@ -403,6 +407,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_DATA_LIST_THEIR_AMULET]: clearDataListTheirAmulet,
   [Types.CLEAR_OWNER_AMULET_MESSAGE]: clearOwnerAmuletMessage,
   [Types.CLEAR_DATA_MY_REAL_AMULET]: clearDataMyRealAmulet,
+  [Types.CLEAR_DATA_LIST_MY_MESSAGE_FROM_OTHER_PERSON]: clearDataListMyMessageFromOtherPerson,
+  [Types.CLEAR_DATA_THEIR]: clearDataTheir,
   // [Types.GET_LIST_SUCCESS2]: getListSuccess2,
   // [Types.GET_LIST_FAILURE2]: getListFailure2,
 })

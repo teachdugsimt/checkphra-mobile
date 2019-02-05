@@ -55,7 +55,7 @@ export function* sendDataAmuletForMarket(api) {
   const aut = yield select(auth)
   const img = yield select(image)
 
-  const response = yield call(api.sendDataAmuletMarket, img.maindata.name, img.maindata.temple, img.maindata.price, img.maindata.owner, img.maindata.contact, img.maindata.zone, img.maindata.type, aut.user_id, img.data_image)
+  const response = yield call(api.sendDataAmuletMarket, img.maindata.name, img.maindata.temple, img.maindata.price, img.maindata.owner, img.maindata.contact, img.maindata.type, aut.user_id, img.data_image)
   // const response = yield call(api.sendDataAmuletMarket, name, temple, price, owner, contact, zone, type, aut.user_id, img.data_image)
   console.log(response)
   console.log('============= SEND DATA AMULET MARKET ==============')
@@ -78,7 +78,7 @@ export function* sendDataAmuletForMarket2(api) {
   const data = {
     user_id: aut.user_id,
     type: img.maindata2.type,
-    zone_id: img.maindata2.zone,
+    // zone_id: img.maindata2.zone,
     qid: img.tmp_upload.id,
     price: img.maindata2.price,
     owner: img.maindata2.owner,
@@ -109,6 +109,7 @@ export function* getListAreaAmuletRequest(api, { page }) {
     user_id: aut.user_id,
     zone_id: img.zone,
     type: img.skin,
+    province_id: img.pro_id,
     page_number: page,
   }
 
@@ -164,9 +165,9 @@ export function* openStoreRequest(api, { store_name, province_id, img1, img2, co
   }
 }
 
-export function* getListMyMarketRequest(api, {page}){
+export function* getListMyMarketRequest(api, { page }) {
   const aut = yield select(auth)
-  const data ={
+  const data = {
     user_id: aut.user_id,
     page_number: page
   }
@@ -175,10 +176,45 @@ export function* getListMyMarketRequest(api, {page}){
 
   console.log(response)
   console.log('================ GET LIST MY AMULET IN MARKET ==================')
-  if(response.ok){
+  if (response.ok) {
     yield put(MarketActions.getListMyMarketSuccess(response.data))
   } else {
     yield put(MarketActions.getListMyMarketFailure())
+  }
+}
+
+export function* getRegionRequest(api, { geo_id }) {
+  const data = {
+    geo_id
+  }
+
+  const response = yield call(api.getRegion, data)
+
+  console.log(response)
+  console.log('============ GET REGION ==============')
+
+  if (response.ok) {
+    yield put(MarketActions.getRegionSuccess(response.data))
+  } else {
+    yield put(MarketActions.getRegionFailure())
+  }
+}
+
+export function* voteAmuletRequest(api, { id, status }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    id,
+    status
+  }
+
+  const response = yield call(api.voteAmulet, data)  // showroom api  market/update-fact
+  console.log(response)
+  console.log('============= VOTE AMULET ==============')
+  if (response.ok) {
+    yield put(MarketActions.voteAmuletSuccess(response.data))
+  } else {
+    yield put(MarketActions.voteAmuletFailure())
   }
 }
 

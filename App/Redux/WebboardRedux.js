@@ -33,6 +33,8 @@ const { Types, Creators } = createActions({
   like: ['id', 'from', 'status'],
   likeSuccess: ['data'],
   likeFailure: null,
+  editLikeData: ['data'],
+  editLikeData2: ['data'],
 
 })
 
@@ -71,6 +73,26 @@ export const WebboardSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const editLikeData2 = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_comment))
+  let tmp2 = tmp
+  tmp.comments.map((e, i) => {
+    if (e.id == data.id) {
+      tmp2.comments[i] = data
+    }
+  })
+  return state.merge({ data_comment: tmp2 })
+}
+
+export const editLikeData = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_comment))
+  let tmp2 = JSON.parse(JSON.stringify(state.data_webboard))
+  tmp2.like = data.like
+  tmp2.dislike = data.dislike
+  tmp = data
+  return state.merge({ data_comment: tmp, data_webboard: tmp2 })
+}
 
 export const editDataComment = (state, { data }) => {
   let tmp
@@ -183,6 +205,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.LIKE]: like,
   [Types.LIKE_SUCCESS]: likeSuccess,
   [Types.LIKE_FAILURE]: likeFailure,
+  [Types.EDIT_LIKE_DATA]: editLikeData,
+  [Types.EDIT_LIKE_DATA2]: editLikeData2,
 
   [Types.EDIT_DATA_COMMENT]: editDataComment,
 

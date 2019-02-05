@@ -1,4 +1,4 @@
-// After select province and type amulet go to this page show list amulet in other province and type
+// My store page , (Manage amulet in store)
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,
@@ -76,7 +76,8 @@ class MarketMyAmulet extends Component {
         this.props.navigation.navigate("marketUpload2")
         this.popupDialog2.dismiss()
     }
-
+    // 1. มี qid ไม่ต้องมี market
+    // 2. ไม่มี qid ต้องมี market
     _renderItem = ({ item, index }) => {
 
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
@@ -85,7 +86,8 @@ class MarketMyAmulet extends Component {
 
                 <View style={{ flexDirection: 'row', flex: 1 }}>
                     <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => { this._showImage(item.images) }}>
-                        {item.images != null && <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + item.images[0] }} />}
+                        {/* {item.images != null && <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + item.images[0] }} />} */}
+                        {item.images != null && <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: item.images[0] }} />}
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: 'center', width: '100%' }}>
@@ -111,8 +113,11 @@ class MarketMyAmulet extends Component {
     _pressSubList = (item) => {
         this.setState({ modalVisible: true })
         let img = []
+        // item.map(e => {
+        //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
+        // })
         item.map(e => {
-            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
+            img.push({ url: e })
         })
         this.setState({ img, index: 1 })
         this.popupDialog.show()
@@ -121,21 +126,19 @@ class MarketMyAmulet extends Component {
     _showImage = (item) => {
         this.setState({ modalVisible: true })
         let img = []
+        // item.map(e => {
+        //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
+        // })
         item.map(e => {
-            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
+            img.push({ url: e })
         })
         this.setState({ img })
         this.popupDialog.show()
     }
 
     _goToChat = (item) => {
-        // if (item.type == 1) {
-        //     this.props.setDetailPhra(item.amulet)
-        //     this.props.navigation.navigate("chatTheirAmuletOwner")
-        // } else if (item.type == 2) {
-        //     this.props.setDetailPhra(item.amulet)
-        //     this.props.navigation.navigate("chatTheirAmulet")
-        // }
+        this.props.setTheirAmuletData(item)
+        this.props.navigation.navigate('chatMyAmulet')
     }
 
     componentDidMount() {
@@ -144,6 +147,7 @@ class MarketMyAmulet extends Component {
     }
 
     componentWillUnmount() {
+        this.props.clearListMyAmulet()
         count = 1
     }
 
@@ -226,11 +230,11 @@ class MarketMyAmulet extends Component {
                 >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
                         <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderBottomColor: 'orange', borderBottomWidth: 1, flex: 1, width: '100%', justifyContent: 'center' }} onPress={this._goToUpload2}>
-                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>Have Amulet</Text>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('haveAmulet')}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, justifyContent: 'center', width: '100%' }} onPress={this._goToUpload}>
-                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>Have not Amulet</Text>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('notAmulet')}</Text>
                         </TouchableOpacity>
                     </View>
                 </PopupDialog>
@@ -274,7 +278,9 @@ const mapDispatchToProps = (dispatch) => {
         // setRequestType: () => dispatch(QuestionActions.setRequestType()),
         // setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
         // setDetailPhra: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
+        setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
         getListAreaAmulet: (page) => dispatch(MarketActions.getListMyMarket(page)),
+        clearListMyAmulet: () => dispatch(MarketActions.clearListMyAmulet()),
         // setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
     }
 }

@@ -46,10 +46,10 @@ export function* getMessageAdmin(api, { page }) {
   const data = {
     user_id: aut.user_id,
     page_number: page,
-    discuss_id: aut.profile.role == "admin" ? dg.id : dis[dis.length - 1].id
+    discuss_id: aut.profile.role == "admin" ? dg.id : (dis && dis != null) ? dis[dis.length - 1].id : null
   }
 
-  const response = yield call(api.getMessageAdmin, data)
+  const response = yield call(api.getMessageAdmin, data)  //'discuss/detail'
   console.log(response)
   console.log('==================== Get Message Contact Admin ===================')
   if (response.ok) {

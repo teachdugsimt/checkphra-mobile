@@ -60,12 +60,12 @@ const create = (baseURL = b) => {
 
   //**** MARKET PLACE ZONE */
   const getTypeMarket  = (user_id) => api.get('type/market-type', user_id)
-  const sendDataAmuletMarket = ( name, temple, price, owner, contact, zone, type, user_id, data_image) => {
+  const sendDataAmuletMarket = ( name, temple, price, owner, contact, type, user_id, data_image) => {
     console.log('COME To APIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
     let body = new FormData()
     body.append('user_id', user_id)
     body.append('type', type)
-    body.append('zone_id', zone)
+    // body.append('zone_id', zone)
     data_image.forEach((element, i) => {
       body.append('images[' + i + ']', element)
     });

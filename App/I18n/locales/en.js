@@ -264,12 +264,13 @@ export default {
   anywhere: 'Input or not input',
   priceMarket: 'Price Amulet',
 
-  amuletName: 'Amulet Name',
-  templeName: 'Temple Name',
-  ownerName: 'Owner Name',
+  amuletName: 'Amulet',
+  templeName: 'Temple',
+  ownerName: 'Owner',
   contact: 'Contact',
   zone: 'Region',
   typeAmuletMarket: 'Type Amulet',
+  costAmulet: 'Price',
 
   uploadCardPerson: 'Upload id card',
   storeName: 'Store name',
@@ -280,10 +281,14 @@ export default {
   myShop: 'My Shop',
   waitShop: 'Wait for admin verify your store',
 
+  haveAmulet: 'Existing amulet',
+  notAmulet: 'Add new amulet',
+  yourAmuletImage: 'Your Amulet Image',
+
   checkPrice: 'Please input price of amulet',
   checkZone: 'Please select region',
   checkType: 'Please select type of amulet',
-
+  fakeAmulet: 'Fake Amulet !!',
 
   editType: 'Please choose new group',
   editDetailPhra: 'Edit detail of amulet',

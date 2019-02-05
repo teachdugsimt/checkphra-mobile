@@ -31,15 +31,21 @@ class MarketHome extends Component {
         super(props)
         this.state = {
             id_type: null,
+            id_province: null,
             area: null,
 
             data_skin: null,
+            tmp_region: null,
         }
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
+        let tmp_region = null
+        if (newProps.data_region && newProps.data_region != null) {
+            tmp_region = newProps.data_region
+        }
 
         let slist = newProps.data_typeAmulet
         if (newProps.data_typeAmulet && newProps.data_typeAmulet != null) {
@@ -47,7 +53,8 @@ class MarketHome extends Component {
         }
 
         return {
-            data_skin: slist
+            data_skin: slist,
+            tmp_region
         }
     }
 
@@ -58,41 +65,32 @@ class MarketHome extends Component {
 
     _north = () => {
         this.setState({ area: 1 })
+        this.props.getRegion(1)
         this.popupDialog2.show()
     }
 
     _northEast = () => {
         this.setState({ area: 4 })
+        this.props.getRegion(4)
         this.popupDialog2.show()
     }
 
     _central = () => {
         this.setState({ area: 2 })
+        this.props.getRegion(2)
         this.popupDialog2.show()
     }
 
     _east = () => {
         this.setState({ area: 3 })
+        this.props.getRegion(3)
         this.popupDialog2.show()
     }
 
     _south = () => {
         this.setState({ area: 5 })
+        this.props.getRegion(5)
         this.popupDialog2.show()
-    }
-
-    _newItem = () => {
-        this.popupDialog.show()
-    }
-
-    _goToUpload = () => {
-        this.props.navigation.navigate('marketUpload1')
-        this.popupDialog.dismiss()
-    }
-
-    _goToUpload2 = () => {
-        this.props.navigation.navigate("marketUpload2")
-        this.popupDialog.dismiss()
     }
 
     _openStore = () => {
@@ -139,10 +137,6 @@ class MarketHome extends Component {
                     <Text style={styles.textMap}>South</Text>
                 </TouchableOpacity>
 
-                {/* <TouchableOpacity style={styles.iconView} onPress={this._newItem}>
-                    <Icon2 name={'plus-square-o'} color={'dark'} size={40} />
-                </TouchableOpacity> */}
-
 
                 {/* *******************OPEN STORE ZONE******************* */}
                 <TouchableOpacity style={{ width: (width / 3.7), height: (height / 8.5), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
@@ -158,46 +152,24 @@ class MarketHome extends Component {
                     }}>{I18n.t('reason')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
                     dialogAnimation={slideAnimation}
-                    width={width / 1.5}
-                    height={(height / 2) + (7 * 10)}
+                    width={width / 1.15}
+                    height={height / 1.75}
                     // height={150}
                     onDismissed={() => { this.setState({ id_type: null, area: null }) }}
                 >
-                    {this.props.data_typeAmulet && this.props.data_typeAmulet != null && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center', borderRadius: 10 }}>
-                        {this.props.data_typeAmulet.map((e, i) => {
+                    <ScrollView style={{ flex: 1 }}>
+                        {this.state.tmp_region && this.state.tmp_region != null && this.state.tmp_region.map((e, i) => {
                             return (
-                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, justifyContent: 'center', width: '100%', borderBottomColor: 'white', borderBottomWidth: 1 }} onPress={() => {
-                                    this.setState({ id_type: e.id })
-                                    this.props.setZoneSkin(this.state.area, e.id)
-                                    this.props.navigation.navigate('marketListArea1')
+                                <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                    this.setState({ id_province: e.id })
+                                    this.props.setZoneSkin(this.state.area, e.id)  // zone & province
+                                    this.props.navigation.navigate('marketSelectType')
                                     this.popupDialog2.dismiss()
                                 }}>
-                                    <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{e.name}</Text>
+                                    <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{e.name}</Text>
                                 </TouchableOpacity>)
                         })}
-                    </View>}
-                </PopupDialog>
-
-                <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
-                        fontSize: 18, fontWeight: 'bold'
-                    }}>{I18n.t('reason')}</Text></View>}
-                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-                    dialogAnimation={slideAnimation}
-                    width={width / 1.5}
-                    height={height / 4}
-                    // height={150}
-                    onDismissed={() => { this.setState({}) }}
-                >
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
-                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderBottomColor: 'orange', borderBottomWidth: 1, flex: 1, width: '100%', justifyContent: 'center' }} onPress={this._goToUpload2}>
-                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>Have Amulet</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, justifyContent: 'center', width: '100%' }} onPress={this._goToUpload}>
-                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>Have not Amulet</Text>
-                        </TouchableOpacity>
-                    </View>
+                    </ScrollView>
                 </PopupDialog>
 
                 <Spinner
@@ -219,6 +191,9 @@ const mapStateToProps = (state) => {
 
         data_typeAmulet: state.market.data_typeAmulet,  // store skin amulet 
         request: state.market.request,  // for request to get type amulet
+
+        request7: state.market.request7,  // get province in each region
+        data_region: state.market.data_region,  // store province n each region
     }
 }
 
@@ -226,7 +201,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getProfile: () => dispatch(QuestionActions.getProfile()),
         getListTypeAmulet: () => dispatch(MarketActions.getListTypeAmulet()),
-        setZoneSkin: (zone, skin) => dispatch(MarketActions.setZoneSkin(zone, skin)),
+        setZoneSkin: (zone, province) => dispatch(MarketActions.setZoneSkin(zone, province)),
+        getRegion: (geo_id) => dispatch(MarketActions.getRegion(geo_id)),
     }
 }
 

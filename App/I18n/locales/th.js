@@ -270,12 +270,13 @@ export default {
   checkType: 'กรุณาเลือกประเภทพระ',
   fakeAmulet: 'พระไม่แท้ !!',
 
-  amuletName: 'ชื่อพระ',
-  templeName: 'ชื่อวัด',
-  ownerName: 'ชื่อเจ้าของพระ',
+  amuletName: 'พระ',
+  templeName: 'วัด',
+  ownerName: 'เจ้าของพระ',
   contact: 'ติดต่อ',
   zone: 'ภูมิภาค',
   typeAmuletMarket: 'ประเภท',
+  costAmulet: 'ราคา',
 
   uploadCardPerson: 'อัพโหลดรูปบัตรประชาชน',
   storeName: 'ชื่อร้านค้า',
@@ -285,6 +286,10 @@ export default {
   shop: 'ร้านค้า',
   myShop: 'ร้านค้าของฉัน',
   waitShop: 'กรุณารอ Admin อนุมัติร้านค้า',
+
+  haveAmulet: 'พระที่มีอยู่',
+  notAmulet: 'เพิ่มพระใหม่',
+  yourAmuletImage: 'รูปพระเครื่องของคุณ',
 
   editType: 'กรุณาเลือกหมวดหมู่',
   editDetailPhra: 'แก้ไขรายละเอียดพระ',

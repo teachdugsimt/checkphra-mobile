@@ -182,7 +182,7 @@ class ProfileScreen extends Component {
   _showpopupRename = () => {
     if (this.props.profile && (!this.props.profile.fb_id || this.props.profile.fb_id == null)) {
       this.popupDialog2.show()
-    }  else {
+    } else {
       alert(I18n.t('userFacebook'))
     }
   }
@@ -228,7 +228,7 @@ class ProfileScreen extends Component {
                 color={Colors.brownTextTran}
                 onPress={this.pick}
               />}
-              {this.state.avatarSource && !this.props.profile.image && !this.props.profile.fb_id && <TouchableOpacity onPress={this.pick} style={{ width: '100%', height: '100%' }}>
+              {this.state.avatarSource && this.props.profile && !this.props.profile.image && !this.props.profile.fb_id && <TouchableOpacity onPress={this.pick} style={{ width: '100%', height: '100%' }}>
                 <Image source={this.state.avatarSource} style={{ width: '100%', height: '100%' }} /></TouchableOpacity>}
 
               {this.props.profile && this.props.profile.image && !this.props.profile.fb_id && <TouchableOpacity onPress={this.pick} style={{ width: '100%', height: '100%' }}>

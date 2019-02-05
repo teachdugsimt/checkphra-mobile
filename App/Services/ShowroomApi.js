@@ -53,6 +53,8 @@ const create = (baseURL = b) => {
 
   const getMyContact = (data) => api.get('discuss/my-contact-list', data)
 
+  const voteAmulet = (data) => api.post('market/update-fact', data)
+ 
   //********************** Chat Api Zone ***********************/
 
   //********************** Admin Verify Store *****************/
@@ -78,7 +80,8 @@ const create = (baseURL = b) => {
     getMyContact,
     verifyStore,
     getListShop,
-    getListMarketMyAmulet
+    getListMarketMyAmulet,
+    voteAmulet
 
   }
 }

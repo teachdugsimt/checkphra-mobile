@@ -51,7 +51,28 @@ class Webboard extends Component {
         }
     }
 
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+
+        return {
+            headerRight: (
+                <TouchableOpacity onPress={params.newItem}>
+                    <Icon2 name={'plus-square-o'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+                </TouchableOpacity>
+            ),
+        };
+    };
+
+    componentWillMount() {
+        // this.props.navigation.setParams({ newItem: this._newItem });
+    }
+
+    _newItem = () => {
+        this.popupDialog.show()
+    }
+
     componentDidMount() {
+        this.props.navigation.setParams({ newItem: this._newItem });
         count = 1
         this.props.getProfile()
         this.props.getListAll(count)
@@ -83,9 +104,9 @@ class Webboard extends Component {
         }
     }
 
-    _newPost = () => {
-        this.popupDialog.show()
-    }
+    // _newPost = () => {
+    //     this.popupDialog.show()
+    // }
 
     _post = () => {
         if (this.state.topic && this.state.content) {
@@ -272,9 +293,9 @@ class Webboard extends Component {
                     </ScrollView>
                 </PopupDialog>
 
-                <TouchableOpacity style={styles.iconView} onPress={this._newPost}>
+                {/* <TouchableOpacity style={styles.iconView} onPress={this._newPost}>
                     <Icon2 name={'plus-square-o'} color={'dark'} size={34} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <Spinner
                     visible={this.props.request3}
                     textContent={'Loading...'}

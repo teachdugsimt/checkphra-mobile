@@ -38,15 +38,36 @@ class Webboard2 extends Component {
             tmp_comment: null,
             tmp_addcomment: null,
             tmp_like: null,
+            tmp_like2: null,
         }
     }
 
     componentWillUnmount() {
-        this.props.clearComment()
+        this.props.clearComment()  // clear comment, add comment , like ...
+        // this.props.getProfile()
+        // count = 1
+        // this.props.getListAll(count)
         check = true
     }
 
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+
+        return {
+            headerRight: (
+                <TouchableOpacity onPress={params.newPost}>
+                    <Icon2 name={'plus-square-o'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+                </TouchableOpacity>
+            ),
+        };
+    };
+
+    _newPost = () => {
+        this.popupDialog.show()
+    }
+
     componentDidMount() {
+        this.props.navigation.setParams({ newPost: this._newPost });
         this.props.getComment()
         count = 1
         check = true
@@ -77,14 +98,23 @@ class Webboard2 extends Component {
             }
         }
 
-        // if (newProps.data_like && newProps.data_like != null) {
-        //     if (prevState.tmp_like != newProps.data_like) {
-        //         newProps.editLikeData(newProps.data_like)
-        //         return {
-        //             tmp_like: newProps.data_like
-        //         }
-        //     }
-        // }
+        if (newProps.data_like && newProps.data_like != null && newProps.data_comment) {
+            if (prevState.tmp_like != newProps.data_like && newProps.data_like.id == newProps.data_comment.id && newProps.data_like.comments) {  // Like post only
+                console.log('--------- LIKE POST  -----------')
+                newProps.editLikeData(newProps.data_like)
+                return {
+                    tmp_like: newProps.data_like
+                }
+            }
+            else if (prevState.tmp_like2 != newProps.data_like && newProps.data_like.post_id == newProps.data_comment.id && !newProps.data_like.comments) {  // Like comment only
+                console.log('--------- LIKE COMMENT -----------')
+                newProps.editLikeData2(newProps.data_like)
+
+                return {
+                    tmp_like2: newProps.data_like
+                }
+            }
+        }
 
         return {
             tmp_comment: newProps.data_comment
@@ -116,24 +146,24 @@ class Webboard2 extends Component {
                         <View style={styles.commentContainer2}>
 
                             <View style={styles.topRow}>
-                                <Text style={styles.topicText}>{this.props.data_webboard.topic}</Text>
+                                <Text style={styles.topicText}>{this.props.data_comment.topic}</Text>
                                 <View style={styles.subTopRow}>
-                                    <Text style={styles.nameText}>{this.props.data_webboard.profile.firstname ? (this.props.data_webboard.profile.firstname + " " + (this.props.data_webboard.profile.lastname ? this.props.data_webboard.profile.lastname : "")) : 'CheckPhra User'}</Text>
-                                    <Text style={styles.dateText} >{moment.unix(this.props.data_webboard.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
+                                    <Text style={styles.nameText}>{this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                                    <Text style={styles.dateText} >{moment.unix(this.props.data_comment.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
                                 </View>
 
                             </View>
 
                             <View style={styles.row2View}>
-                                <Text style={styles.commentText}>{this.props.data_webboard.content}</Text>
+                                <Text style={styles.commentText}>{this.props.data_comment.content}</Text>
                             </View>
 
                             <View style={styles.row3View}>
                                 <View style={styles.likeView}>
                                     <TouchableOpacity style={styles.likeTouch} onPress={() => this._likePost(item)}><Icon2 name={'thumbs-o-up'} size={20} />
-                                        <Text style={styles.numLikeText}>{this.props.data_webboard.like}</Text></TouchableOpacity>
+                                        <Text style={styles.numLikeText}>{this.props.data_comment.like}</Text></TouchableOpacity>
                                     <TouchableOpacity style={styles.likeTouch2} onPress={() => this._dislikePost(item)}><Icon2 name={'thumbs-o-down'} size={20} />
-                                        <Text style={styles.numLikeText2}>{this.props.data_webboard.dislike}</Text></TouchableOpacity>
+                                        <Text style={styles.numLikeText2}>{this.props.data_comment.dislike}</Text></TouchableOpacity>
                                 </View>
                             </View>
 
@@ -195,9 +225,9 @@ class Webboard2 extends Component {
         }
     }
 
-    _newComment = () => {
-        this.popupDialog.show()
-    }
+    // _newComment = () => {
+    //     this.popupDialog.show()
+    // }
 
     _comment = () => {
         if (this.state.comment) {
@@ -219,28 +249,28 @@ class Webboard2 extends Component {
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container} >
                 <Image source={Images.watermarkbg} style={styles.mainBackground} resizeMode='contain' />
-                {this.props.data_comment && this.props.data_comment.comments.length == 0 && <View style={styles.topicViewRender}>
+                {this.props.data_comment && (this.props.data_comment.comments || this.props.data_comment.comments == null) && this.props.data_comment.comments.length == 0 && <View style={styles.topicViewRender}>
                     <View style={styles.commentContainer2}>
 
                         <View style={styles.topRow}>
-                            <Text style={styles.topicText}>{this.props.data_webboard.topic}</Text>
+                            <Text style={styles.topicText}>{this.props.data_comment.topic}</Text>
                             <View style={styles.subTopRow}>
-                                <Text style={styles.nameText}>{this.props.data_webboard.profile.firstname ? (this.props.data_webboard.profile.firstname + " " + (this.props.data_webboard.profile.lastname ? this.props.data_webboard.profile.lastname : "")) : 'CheckPhra User'}</Text>
-                                <Text style={styles.dateText} >{moment.unix(this.props.data_webboard.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
+                                <Text style={styles.nameText}>{this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                                <Text style={styles.dateText} >{moment.unix(this.props.data_comment.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
                             </View>
 
                         </View>
 
                         <View style={styles.row2View}>
-                            <Text style={styles.commentText}>{this.props.data_webboard.content}</Text>
+                            <Text style={styles.commentText}>{this.props.data_comment.content}</Text>
                         </View>
 
                         <View style={styles.row3View}>
                             <View style={styles.likeView}>
                                 <TouchableOpacity style={styles.likeTouch} onPress={() => this._likePost()}><Icon2 name={'thumbs-o-up'} size={20} />
-                                    <Text style={styles.numLikeText}>{this.props.data_webboard.like}</Text></TouchableOpacity>
+                                    <Text style={styles.numLikeText}>{this.props.data_comment.like}</Text></TouchableOpacity>
                                 <TouchableOpacity style={styles.likeTouch2} onPress={() => this._dislikePost()}><Icon2 name={'thumbs-o-down'} size={20} />
-                                    <Text style={styles.numLikeText2}>{this.props.data_webboard.dislike}</Text></TouchableOpacity>
+                                    <Text style={styles.numLikeText2}>{this.props.data_comment.dislike}</Text></TouchableOpacity>
                             </View>
                         </View>
 
@@ -296,9 +326,9 @@ class Webboard2 extends Component {
                     </ScrollView>
                 </PopupDialog>
 
-                <TouchableOpacity style={styles.iconView} onPress={this._newComment}>
+                {/* <TouchableOpacity style={styles.iconView} onPress={this._newComment}>
                     <Icon2 name={'plus-square-o'} color={'dark'} size={34} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <Spinner
                     visible={this.props.request4}
@@ -317,7 +347,7 @@ const mapStateToProps = (state) => {
         data_webboard: state.webboard.data_webboard,
 
         request2: state.webboard.request2, // for request comment post
-        data_comment: state.webboard.data_comment,  // store comment data
+        data_comment: state.webboard.data_comment,  // store comment data  (have topic detail)
 
         request4: state.webboard.request4,  // for add comment
         data_addcomment: state.webboard.data_addcomment, // store add comment data
@@ -335,7 +365,10 @@ const mapDispatchToProps = (dispatch) => {
         addComment: (comment) => dispatch(WebboardActions.addComment(comment)),
         editDataComment: (data) => dispatch(WebboardActions.editDataComment(data)),
         like: (id, from, status) => dispatch(WebboardActions.like(id, from, status)),
-        // editLikeData: (data) => dispatch(WebboardActions.editLikeData(data)),
+
+        editLikeData: (data) => dispatch(WebboardActions.editLikeData(data)),
+        editLikeData2: (data) => dispatch(WebboardActions.editLikeData2(data)),
+        getListAll: (page) => dispatch(WebboardActions.getListAll(page)),
     }
 }
 

@@ -84,11 +84,11 @@ class UserContactOwner extends Component {
                         {item.profile && item.profile.facebook_id == null && item.profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.profile.image }} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
                         {item.profile && item.profile.facebook_id == null && !item.profile.image && <Image source={Images.user} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
                         {!item.profile && <Image source={Images.user} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
-                        
+
                         <View style={{ justifyContent: 'center' }}>
                             {item.profile && item.amulet && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.profile.fullname}{" ( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
                             {!item.profile && item.amulet && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>Chat All {"( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
-                            <Text style={{ color: Colors.brownTextTran, fontSize: 14 }}>{date}{" ( id: " + item.type_id + " )"}</Text>
+                            {item.amulet && <Text style={{ color: Colors.brownTextTran, fontSize: 14 }}>{date}{" ( id: " + item.amulet.id + " )"}</Text>}
 
                             {item.amulet && <TouchableOpacity style={{ marginTop: 10 }} onPress={() => this._showPicture(item.amulet.images)}>
                                 <ImageList2 data={item.amulet.images} />
@@ -213,7 +213,7 @@ class UserContactOwner extends Component {
         else if (e == 'บางขุนพรหม ปี พ.ศ.2517') {
             name = I18n.t('BangKhunProm2517')
         }
-        else if (e == 'อื่นๆ หรือ ไม่ทราบ') {
+        else if (e == 'อื่นๆ หรือ ไม่ทราบ' || e == 'ไม่ระบุประเภท') {
             name = I18n.t('otherOrUnknown')
         }
 
@@ -237,6 +237,7 @@ class UserContactOwner extends Component {
 
     componentWillUnmount() {
         count = 1
+        this.props.clearDataListContactOwner()
     }
 
     _reload = () => {
@@ -343,6 +344,7 @@ const mapDispatchToProps = (dispatch) => {
         setDetailPhra: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
         getMyMessageFromOther: (page) => dispatch(ShowRoomActions.getListOwnerContact(page)),
         setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
+        clearDataListContactOwner: () => dispatch(ShowRoomActions.clearDataListContactOwner()),
     }
 }
 

@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,
-    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Modal
+    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Modal, Alert
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -31,6 +31,7 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
+let check = false
 class MarketMyAmulet extends Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -55,11 +56,32 @@ class MarketMyAmulet extends Component {
             img: null,
             mlist: null,
             tlist: null,
+
+            tmp_push: null,
+        }
+    }
+
+    static getDerivedStateFromProps(newProps, prevState) {
+        console.log(newProps)
+        console.log(prevState)
+        console.log('--------------- MY AMULET PAGE -----------------')
+
+        if (newProps.data_push && newProps.data_push != null) {
+            if (newProps.data_push != prevState.tmp_push && newProps.request9 == false) {
+                newProps.editPushData(newProps.data_push)
+                return {
+                    tmp_push: newProps.data_push
+                }
+            }
+        }
+
+        return {
+
         }
     }
 
     componentWillMount() {
-        this.props.navigation.setParams({ addAmulet: this._addAmulet });
+        // this.props.navigation.setParams({ addAmulet: this._addAmulet });
     }
 
     _addAmulet = () => {
@@ -76,6 +98,10 @@ class MarketMyAmulet extends Component {
         this.props.navigation.navigate("marketUpload2")
         this.popupDialog2.dismiss()
     }
+
+    _amuletToMarket = (item) => {
+        this.popupDialog3.show()
+    }
     // 1. มี qid ไม่ต้องมี market
     // 2. ไม่มี qid ต้องมี market
     _renderItem = ({ item, index }) => {
@@ -83,6 +109,10 @@ class MarketMyAmulet extends Component {
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
         return (
             <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChat(item)}>
+
+                {item.display == 1 && <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10 }} onPress={() => this._amuletToMarket(item)}>
+                    <Icon2 name={'truck'} size={28} color={'green'} />
+                </TouchableOpacity>}
 
                 <View style={{ flexDirection: 'row', flex: 1 }}>
                     <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => { this._showImage(item.images) }}>
@@ -142,6 +172,7 @@ class MarketMyAmulet extends Component {
     }
 
     componentDidMount() {
+        this.props.navigation.setParams({ addAmulet: this._addAmulet });
         count = 1
         this.props.getListAreaAmulet(count)
     }
@@ -239,6 +270,42 @@ class MarketMyAmulet extends Component {
                     </View>
                 </PopupDialog>
 
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('confirmSell')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog3 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={height / 3}
+                    onDismissed={() => { this.setState({}) }}
+                >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
+
+                        <Text style={{ marginHorizontal: 10, alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('wantMarketDetail')}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                            <View style={{ width: '40%', height: 45 }}>
+                                <RoundedButton
+                                    style={{ marginHorizontal: 10 }}
+                                    title={I18n.t('ok')}
+                                    onPress={() => {
+                                        this.props.pushAmuletMarket(item.id)
+                                        this.popupDialog3.dismiss()
+                                    }}
+                                />
+                            </View>
+                            <View style={{ width: '40%', height: 45 }}>
+                                <RoundedButton
+                                    style={{ marginHorizontal: 10 }}
+                                    title={I18n.t('cancel')}
+                                    onPress={() => this.popupDialog3.dismiss()}
+                                />
+                            </View>
+                        </View>
+
+                    </View>
+                </PopupDialog>
+
                 <FlatList
                     refreshControl={
                         <RefreshControl
@@ -269,6 +336,9 @@ const mapStateToProps = (state) => {
 
         data_areaAmulet: state.market.data_mylist,  // store area & type amulet zone
         request2: state.market.request6, // request for get list type*area amuletore my message from other person ( Chat Solo )
+
+        request9: state.market.request9, // request for push amulet to market
+        data_push: state.market.data_push,  // store push my amulet to market
     }
 }
 
@@ -281,6 +351,8 @@ const mapDispatchToProps = (dispatch) => {
         setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
         getListAreaAmulet: (page) => dispatch(MarketActions.getListMyMarket(page)),
         clearListMyAmulet: () => dispatch(MarketActions.clearListMyAmulet()),
+        pushAmuletMarket: (market_id) => dispatch(MarketActions.pushAmuletMarket(market_id)),
+        editPushData: (data) => dispatch(MarketActions.editPushData(data)),
         // setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
     }
 }

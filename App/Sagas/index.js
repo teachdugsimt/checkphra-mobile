@@ -52,7 +52,7 @@ import {
 import {
   getTypeAmuletRequest, sendDataAmuletForMarket, getListAreaAmuletRequest,
   sendDataAmuletForMarket2, getProvinceRequest, openStoreRequest, getListMyMarketRequest, getRegionRequest,
-  voteAmuletRequest
+  voteAmuletRequest, pushAmuletToMarket
 } from './MarketSagas'
 
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
@@ -90,6 +90,7 @@ export default function* root() {
     takeLatest(MarketTypes.OPEN_STORE, openStoreRequest, question2Api),
     takeLatest(MarketTypes.GET_PROVINCE, getProvinceRequest, marketApi),
     takeLatest(MarketTypes.GET_REGION, getRegionRequest, marketApi),
+    takeLatest(MarketTypes.PUSH_AMULET_MARKET, pushAmuletToMarket, question2Api),
 
     takeLatest(WebboardTypes.ADD_COMMENT, addCommentRequest, webboardApi),
     takeLatest(WebboardTypes.ADD_POST, addPostRequest, webboardApi),

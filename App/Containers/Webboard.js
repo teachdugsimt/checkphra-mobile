@@ -165,6 +165,11 @@ class Webboard extends Component {
                     <View style={styles.topicView}>
                         {/* topic numLike numComment */}
                         <Text style={styles.eachListText3} numberOfLines={1}>{item.topic}</Text>
+
+                        <View style={styles.countCommentView}>
+                            <Icon2 name={'commenting-o'} size={26} style={styles.iconComment} />
+                            <Text style={styles.textComment}>{item.count}</Text>
+                        </View>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -192,7 +197,13 @@ class Webboard extends Component {
                     <View style={styles.topicView}>
                         {/* topic numLike numComment */}
                         <Text style={styles.eachListText3} numberOfLines={1}>{item.topic}</Text>
+
+                        <View style={styles.countCommentView}>
+                            <Icon2 name={'commenting-o'} size={26} style={styles.iconComment} />
+                            <Text style={styles.textComment}>{item.count}</Text>
+                        </View>
                     </View>
+
                 </View>
             </TouchableOpacity>
         )
@@ -204,7 +215,7 @@ class Webboard extends Component {
         // { name: 'Doggy', topic: "New Amulet SOMDEJ", detail: "เมื่อวันที่ 16 มกราคม 2562 เวลาประมาณ 16.24น. ได้มีการค้นพบพระชื่อดังจาก หลุมลึกขนาดใหญ่ บริเวณไซต์ก่อสร้าง เบื้องต้นคาดว่าน่าจะเป็นพระสมเด็จโต จากซากวัดในสมัยก่อน", comment: [{ com: 'somdej to', like: 1229, name: 'WTF', date: '11 Jan 19' }, { com: 'Sathu', like: 13000, name: 'AdminBLue', date: '15:58' }], date: '16/01/2562' }]
         console.log("---------------------- WEBBOARD 1 ----------------------")
         console.log(this.props.data_allBoard)
-        
+
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container} >
                 <Image source={Images.watermarkbg} style={styles.mainBackground} resizeMode='contain' />

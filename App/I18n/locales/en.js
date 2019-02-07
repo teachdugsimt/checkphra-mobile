@@ -210,7 +210,7 @@ export default {
   bidDetail: 'Bid detail',
   sellNow: 'Get Offer!!',
   dontSell: 'Cancel Offer',
-  confirmSell: 'Do you want to get this offer ?',
+  confirmSell: 'Do you want submit transaction ?',
   sellSucc: 'Complete transaction!!',
   sellFail: 'Failure transaction!!',
   callAdmin: 'Please contact to admin!!',
@@ -246,7 +246,7 @@ export default {
   date2: 'Auto generate',
 
 
-  home: 'Home Screen',
+  home: 'Home',
   checkAmuletScreen: 'Check Phra',
   showAmuletReal: 'Real Amulet Room',
   chat: 'Chat Room',
@@ -271,6 +271,8 @@ export default {
   zone: 'Region',
   typeAmuletMarket: 'Type Amulet',
   costAmulet: 'Price',
+  wantMarket: 'Do you want to rent out ?',
+  wantMarketDetail: 'Rent out of amulet must be pay a little bit coins !!',
 
   uploadCardPerson: 'Upload id card',
   storeName: 'Store name',

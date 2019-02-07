@@ -55,7 +55,10 @@ const { Types, Creators } = createActions({
   getListOwnerContactSuccess: ['data'],
   getListOwnerContactFailure: null,
 
+  syncVoteData: ['data'],
+
   clearDataListMyMessageFromOtherPerson: null, // clear list ที่โชว์ว่ามีคน x คน ทักมาหาเรา 
+  clearDataListContactOwner: null,
 })
 
 export const ShowRoomTypes = Types
@@ -108,6 +111,21 @@ export const ShowRoomSelectors = {
 
 /* ------------- Reducers ------------- */
 
+export const syncVoteData = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_listOwner))
+
+  tmp.forEach((e, i) => {
+    if (e.amulet && e.amulet != null && e.amulet.id) {
+      if (data.id == e.amulet.id) {
+        e.amulet = data
+      }
+    }
+  })
+
+  return state.merge({ data_listOwner: tmp })
+}
+
+export const clearDataListContactOwner = state => state.merge({ data_listOwner: null })
 // request the data from an api
 export const clearDataTheir = state => state.merge({ data_their: null })
 export const clearDataListMyMessageFromOtherPerson = state => state.merge({ data_myMessageFromOther: null })
@@ -364,6 +382,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SHOW_ROOM_SUCCESS]: success,
   [Types.SHOW_ROOM_FAILURE]: failure,
 
+  [Types.CLEAR_DATA_LIST_CONTACT_OWNER]: clearDataListContactOwner,
+
   [Types.SET_AMULET_TYPE]: setAmuletType,
   [Types.SET_DETAIL_PHRA]: setDetailPhra,
   [Types.SET_THEIR_AMULET_DATA]: setTheirAmuletData,
@@ -409,6 +429,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_DATA_MY_REAL_AMULET]: clearDataMyRealAmulet,
   [Types.CLEAR_DATA_LIST_MY_MESSAGE_FROM_OTHER_PERSON]: clearDataListMyMessageFromOtherPerson,
   [Types.CLEAR_DATA_THEIR]: clearDataTheir,
+  [Types.SYNC_VOTE_DATA]: syncVoteData,
   // [Types.GET_LIST_SUCCESS2]: getListSuccess2,
   // [Types.GET_LIST_FAILURE2]: getListFailure2,
 })

@@ -54,6 +54,15 @@ class ChatMyAmulet extends Component {
         )
     }
 
+    static getDerivedStateFromProps(newProps, prevState){
+        console.log(newProps)
+        console.log(prevState)
+        console.log('---------------  LIST CHAT MY AMULET ----------------')
+        return {
+
+        }
+    }
+
     _goToChat = (item) => {
         // this.props.setDetailPhra(item)
         // this.props.navigation.navigate('')

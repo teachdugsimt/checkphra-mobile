@@ -105,6 +105,14 @@ export const editDataComment = (state, { data }) => {
     tmp.comments.push(data)
     // console.log(tmp)
   }
+
+  // let temp = JSON.parse(JSON.stringify(state.data_allBoard))
+  // let temp2 = JSON.parse(JSON.stringify(state.data_meBoard))
+
+  // temp.map((e, i) => {
+
+  // })
+
   return state.merge({ data_comment: tmp })
 }
 
@@ -129,48 +137,116 @@ export const getCommentSuccess = (state, { data }) => state.merge({ data_comment
 export const getCommentFailure = state => state.merge({ request2: false })
 // request the data from an api
 export const getListAll = state => state.merge({ request: true })
+// export const getListAllSuccess = (state, { data }) => {
+//   let tmp
+//   if (state.data_allBoard && state.data_allBoard != null && state.data_allBoard.length > 0) {
+//     // data.forEach(e => tmp.push(e))
+//     tmp = JSON.parse(JSON.stringify(state.data_allBoard))
+//     data.forEach(e => {
+//       if (tmp.find(b => b.id == e.id)) {
+//         console.log('SAME VALUE')
+//       } else { tmp.push(e) }
+//     })
+//     // main algorithm
+//   } else {
+//     tmp = data
+//   }
+
+//   // tmp.sort(function (a, b) {
+//   //   return b.id - a.id;
+//   // })
+
+//   return state.merge({ data_allBoard: tmp, request: false })
+// }
 export const getListAllSuccess = (state, { data }) => {
   let tmp
   if (state.data_allBoard && state.data_allBoard != null && state.data_allBoard.length > 0) {
     // data.forEach(e => tmp.push(e))
     tmp = JSON.parse(JSON.stringify(state.data_allBoard))
-    data.forEach(e => {
-      if (tmp.find(b => b.id == e.id)) {
-        console.log('SAME VALUE')
-      } else { tmp.push(e) }
+    data.map((e, index) => {
+      tmp.map((b, index2) => {
+        if (e.id == b.id && e != b) {  // 1. id new data == id old data, data in new arr != data in old arr
+          if (e.count > b.count) {  // 1.1 comment in new data > comment in old data
+            tmp.splice(index2, 1)  // cut old data 
+            tmp.splice(0, 0, e)    // and push new data in first array 
+          } else {
+            tmp.splice(index2, 1, e)  // 1.2 don't interest comment count splice at that index
+          }
+        }
+        else if (tmp.find(c => c.id == e.id) == undefined) {  // 2. add new post into first array
+          tmp.splice(0, 0, e)
+        }
+        else if (e.id == b.id && e == b) { // 3. id new data == id old data , data in new arr == data in old arr
+          console.log('SAME VALUE')
+        }
+      })
     })
     // main algorithm
   } else {
     tmp = data
   }
 
-  tmp.sort(function (a, b) {
-    return b.id - a.id;
-  })
+  // tmp.sort(function (a, b) {
+  //   return b.id - a.id;
+  // })
 
   return state.merge({ data_allBoard: tmp, request: false })
 }
 export const getListAllFailure = state => state.merge({ request: false })
 
 export const getListMe = state => state.merge({ request1: true })
+// export const getListMeSuccess = (state, { data }) => {
+//   let tmp
+//   if (state.data_meBoard && state.data_meBoard != null && state.data_meBoard.length > 0) {
+//     // data.forEach(e => tmp.push(e))
+//     tmp = JSON.parse(JSON.stringify(state.data_meBoard))
+//     data.forEach(e => {
+//       if (tmp.find(b => b.id == e.id)) {
+//         console.log('SAME VALUE')
+//       } else { tmp.push(e) }
+//     })
+//     // main algorithm
+//   } else {
+//     tmp = data
+//   }
+
+//   // tmp.sort(function (a, b) {
+//   //   return b.id - a.id;
+//   // })
+
+//   return state.merge({ data_meBoard: tmp, request1: false })
+// }
 export const getListMeSuccess = (state, { data }) => {
   let tmp
   if (state.data_meBoard && state.data_meBoard != null && state.data_meBoard.length > 0) {
     // data.forEach(e => tmp.push(e))
     tmp = JSON.parse(JSON.stringify(state.data_meBoard))
-    data.forEach(e => {
-      if (tmp.find(b => b.id == e.id)) {
-        console.log('SAME VALUE')
-      } else { tmp.push(e) }
+    data.map((e, index) => {
+      tmp.map((b, index2) => {
+        if (e.id == b.id && e != b) {  // 1. id new data == id old data, data in new arr != data in old arr
+          if (e.count > b.count) {  // 1.1 comment in new data > comment in old data
+            tmp.splice(index2, 1)  // cut old data 
+            tmp.splice(0, 0, e)    // and push new data in first array 
+          } else {
+            tmp.splice(index2, 1, e)  // 1.2 don't interest comment count splice at that index
+          }
+        }
+        else if (tmp.find(c => c.id == e.id) == undefined) {  // 2. add new post into first array
+          tmp.splice(0, 0, e)
+        }
+        else if (e.id == b.id && e == b) { // 3. id new data == id old data , data in new arr == data in old arr
+          console.log('SAME VALUE')
+        }
+      })
     })
     // main algorithm
   } else {
     tmp = data
   }
 
-  tmp.sort(function (a, b) {
-    return b.id - a.id;
-  })
+  // tmp.sort(function (a, b) {
+  //   return b.id - a.id;
+  // })
 
   return state.merge({ data_meBoard: tmp, request1: false })
 }

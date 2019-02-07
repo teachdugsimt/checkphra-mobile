@@ -277,6 +277,8 @@ export default {
   zone: 'ภูมิภาค',
   typeAmuletMarket: 'ประเภท',
   costAmulet: 'ราคา',
+  wantMarket: 'ยืนยันการปล่อยเช่าพระสู่ตลาด ?',
+  wantMarketDetail: 'การปล่อยเช่าพระสู่ตลาด จะมีการเสีย coins จำนวนหนึ่ง',
 
   uploadCardPerson: 'อัพโหลดรูปบัตรประชาชน',
   storeName: 'ชื่อร้านค้า',

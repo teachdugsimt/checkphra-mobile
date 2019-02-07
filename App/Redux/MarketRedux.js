@@ -60,6 +60,13 @@ const { Types, Creators } = createActions({
   voteAmulet: ['id', 'status'],
   voteAmuletSuccess: ['data'],
   voteAmuletFailure: null,
+  editVoteData: ['data'],
+  editVoteData2: ['data'],
+
+  pushAmuletMarket: ['market_id'],
+  pushAmuletMarketSuccess: ['data'],
+  pushAmuletMarketFailure: null,
+  editPushData: ['data'],
 
   clearDataMyList: null,
   clearListMyAmulet: null,
@@ -118,6 +125,9 @@ export const INITIAL_STATE = Immutable({
 
   request8: null,  // for vote amulet
   data_vote: null,  // store vote amulet
+
+  request9: null, // request for push amulet to market
+  data_push: null,  // store push my amulet to market
 })
 
 /* ------------- Selectors ------------- */
@@ -129,6 +139,26 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+export const editVoteData = (state, {data}) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_areaAmulet))
+  tmp.map((e, i) => {
+    if(e.id == data.id){
+      tmp.splice(i, 1, data)
+    }
+  })
+  return state.merge({ data_areaAmulet: tmp})
+}
+
+export const editVoteData2 = (state, {data}) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_mylist))
+  tmp.map((e, i) => {
+    if(e.id == data.id){
+      tmp.splice(i, 1, data)
+    }
+  })
+  return state.merge({ data_mylist: tmp})
+}
+
 export const clearDataMyList = state => state.merge({ data_mylist: null })
 export const clearDataAreaAmulet = state => state.merge({ data_areaAmulet: null })
 export const clearDataVote = state => state.merge({ data_vote: null })
@@ -149,6 +179,21 @@ export const setMainData2 = (state, { data }) => state.merge({ maindata2: data }
 export const setLocationAmulet = (state, { data }) => state.merge({ data_location: data })
 export const setZoneSkin = (state, { zone, province }) => state.merge({ zone, pro_id: province })
 export const setSkinAmulet = (state, { skin }) => state.merge({ skin })
+
+export const pushAmuletMarket = state => state.merge({ request9: true })
+export const pushAmuletMarketSuccess = (state, { data }) => state.merge({ data_push: data, request9: false })
+export const pushAmuletMarketFailure = state => state.merge({ request9: false })
+export const editPushData = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_mylist))
+  let tmp2 = tmp
+  tmp.map((e, i) => {
+    if (e.id == data.id) {
+      tmp2[i] = data
+    }
+  })
+
+  return state.merge({ data_mylist: tmp2, request9: null })
+}
 
 export const getRegion = state => state.merge({ request7: true })
 export const getRegionSuccess = (state, { data }) => state.merge({ request7: false, data_region: data })
@@ -248,6 +293,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   // [Types.MARKET_REQUEST]: request,
   // [Types.MARKET_SUCCESS]: success,
   // [Types.MARKET_FAILURE]: failure,
+  [Types.EDIT_VOTE_DATA]: editVoteData,
+  [Types.EDIT_VOTE_DATA2]: editVoteData2,
   [Types.CLEAR_DATA_MY_LIST]: clearDataMyList,
   [Types.CLEAR_DATA_AREA_AMULET]: clearDataAreaAmulet,
   [Types.CLEAR_LIST_MY_AMULET]: clearListMyAmulet,
@@ -298,6 +345,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_REGION]: getRegion,
   [Types.GET_REGION_SUCCESS]: getRegionSuccess,
   [Types.GET_REGION_FAILURE]: getRegionFailure,
+
+  [Types.PUSH_AMULET_MARKET]: pushAmuletMarket,
+  [Types.PUSH_AMULET_MARKET_SUCCESS]: pushAmuletMarketSuccess,
+  [Types.PUSH_AMULET_MARKET_FAILURE]: pushAmuletMarketFailure,
+  [Types.EDIT_PUSH_DATA]: editPushData,
 
   [Types.VOTE_AMULET]: voteAmulet,
   [Types.VOTE_AMULET_SUCCESS]: voteAmuletSuccess,

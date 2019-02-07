@@ -300,7 +300,7 @@ const UploadStack = StackNavigator(  // main upload
         color: Colors.headerTitleColor,
         fontFamily: 'Prompt-Regular'
       },
-      tabBarLabel: I18n.t('checkPhra')
+      tabBarLabel: I18n.t('home')
     })
   }
 )

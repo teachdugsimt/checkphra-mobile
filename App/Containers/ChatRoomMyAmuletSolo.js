@@ -67,8 +67,10 @@ class ChatRoomMyAmuletSolo extends Component {
         }
 
         if (newProps.data_vote && newProps.data_vote != null) {
-            if (prevState.tmp_vote != newProps.data_vote && newProps.data_their.id == newProps.data_vote.id) {
+            if (prevState.tmp_vote != newProps.data_vote && newProps.data_their.id == newProps.data_vote.id && newProps.data_areaAmulet && newProps.data_areaAmulet != null) {
                 newProps.setTheirAmuletData(newProps.data_vote)
+                newProps.editVoteData2(newProps.data_vote)
+                newProps.clearDataVote()
                 return {
                     tmp_vote: newProps.data_vote
                 }
@@ -366,39 +368,30 @@ class ChatRoomMyAmuletSolo extends Component {
                                 {this.props.data_their.amulet_detail.price && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('costAmulet') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.price}</Text></Text>}
                                 {this.props.data_their.amulet_detail.owner && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('ownerName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.owner}</Text></Text>}
                                 {this.props.data_their.amulet_detail.contact && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('contact') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.contact}</Text></Text>}
-                                {/* {this.props.data_their && this.props.data_their.question_list && this.props.data_their.question_list.length > 0 && this.props.data_their.question_list.map((e, i) => {
-                                    return (
-                                        <View>
-                                            <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{e.answer}</Text>
-                                        </View>
-                                    )
-                                })} */}
 
                             </View>
                         </View>
 
-                        <Icon2 size={22} name={'chevron-up'} style={{ alignSelf: 'center', marginVertical: 2.5 }} />
-                    </TouchableOpacity>}
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
 
-                    {/* {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
-                        {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{this.props.data_their.amulet_detail.amuletName}</Text>}
-                        <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
-                    </TouchableOpacity>} */}
-                    {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-
-                            <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: 10 }} onPress={this._likeAmulet}>
+                            <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginLeft: 10 }} onPress={this._likeAmulet}>
                                 <Icon2 name={'thumbs-up'} size={26} />
-                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.15 }}>{this.props.data_their.real}</Text>
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.75 }}>{this.props.data_their.real}</Text>
                             </TouchableOpacity>
 
-                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{this.props.data_their.amulet_detail.amuletName}</Text>}
+                            <Icon2 size={22} name={'chevron-up'} style={{ alignSelf: 'center', marginVertical: 2.5 }} />
 
-                            <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: 10 }} onPress={this._dislikeAmulet}>
+                            <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginRight: 10 }} onPress={this._dislikeAmulet}>
                                 <Icon2 name={'thumbs-down'} size={26} />
                                 <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 2.5 }}>{this.props.data_their.fake}</Text>
                             </TouchableOpacity>
 
+                        </View>
+                    </TouchableOpacity>}
+
+                    {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{this.props.data_their.amulet_detail.amuletName}</Text>}
                         </View>
 
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
@@ -467,6 +460,8 @@ const mapStateToProps = (state) => {
 
         request8: state.market.request8,  // for vote amulet
         data_vote: state.market.data_vote,  // store vote amulet
+
+        data_areaAmulet: state.market.data_mylist,  // store area & type amulet zone
     }
 }
 
@@ -477,8 +472,10 @@ const mapDispatchToProps = (dispatch) => {
         clearTheirAmuletMessage: () => dispatch(ShowRoomActions.clearOwnerAmuletMessage()), // clear get&send data
         editTheirAmuletMessage: (data) => dispatch(ShowRoomActions.editOwnerAmuletMessage(data)),
 
+        editVoteData2: (data) => dispatch(MarketActions.editVoteData2(data)),
         setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
         voteAmulet: (id, status) => dispatch(MarketActions.voteAmulet(id, status)),
+        clearDataVote: () => dispatch(MarketActions.clearDataVote()),
     }
 }
 

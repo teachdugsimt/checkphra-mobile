@@ -46,7 +46,19 @@ export default StyleSheet.create({
         color: Colors.brownTextTran,
     },
     topicView: {
-        marginLeft: 10
+        width: width - 20,
+        marginLeft: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    countCommentView: {
+        flexDirection: 'row',
+    },
+    iconComment: {
+        marginRight: 10,
+    },
+    textComment: {
+        marginTop: 5
     },
     nameView: {
         // backgroundColor: 'red'

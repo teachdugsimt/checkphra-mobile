@@ -218,3 +218,21 @@ export function* voteAmuletRequest(api, { id, status }) {
   }
 }
 
+export function* pushAmuletToMarket(api, { market_id }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    market_id
+  }
+
+  const response = yield call(api.pushAmuletMarket, data)
+  console.log(response)
+  console.log('================ PUSH AMULET TO MARKET =================')
+  if(response.ok){
+    yield put(MarketActions.pushAmuletMarketSuccess(response.data))
+  } else {
+    yield put(MarketActions.pushAmuletMarketFailure())
+  }
+  
+}
+

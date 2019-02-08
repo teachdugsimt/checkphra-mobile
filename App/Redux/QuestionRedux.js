@@ -227,7 +227,7 @@ export const getProfile = state => state.merge({ request_profile: true })
 export const profileSuccess = (state, action) => {
 
   const { profile } = action
-  console.log(profile)
+  // console.log(profile)
   return state.merge({ profile, request_profile: false })
 }
 

@@ -126,9 +126,11 @@ class MarketOpenstore extends Component {
     componentDidMount() {
         count = 1
         this.props.getProvince()
+        alert(I18n.t('openStore'))
     }
 
     componentWillUnmount() {
+        this.props.getProfile()
         count = 1
     }
 
@@ -156,6 +158,7 @@ class MarketOpenstore extends Component {
             })
             this.props.deleteImage()
             this.props.deleteImage2()
+            this.props.getProfile()
             this.props.navigation.goBack()
         }
     }
@@ -311,7 +314,7 @@ class MarketOpenstore extends Component {
                 </View>
 
                 <Spinner
-                    visible={this.props.request4}
+                    visible={(this.props.request4 || this.props.request_profile)}
                     textContent={'Loading...'}
                     textStyle={{ color: '#fff' }}
                 />
@@ -324,11 +327,15 @@ const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
         profile: state.question.profile,
+        request_profile: state.question.request_profile,
         image: state.market.img_store,
         image2: state.market.img_store2,
 
         request4: state.market.request4,  // request get province
         province: state.market.province,  // store province
+
+        request5: state.market.request5,  // request for open store
+        data_open: state.market.data_open,  // store data open store
     }
 }
 
@@ -336,7 +343,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setImage: (data) => dispatch(MarketActions.setImageCardPerson(data)),
         deleteImage: () => dispatch(MarketActions.deleteImageCard()),
-
+        getProfile: () => dispatch(QuestionActions.getProfile()),
         setImage2: (data) => dispatch(MarketActions.setImage2(data)),
         deleteImage2: () => dispatch(MarketActions.deleteImage2()),
         // getProvince: (page) => dispatch(MarketActions.getProvince(page)),

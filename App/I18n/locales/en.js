@@ -263,6 +263,7 @@ export default {
   market: 'Market for hire amulet',
   anywhere: 'Input or not input',
   priceMarket: 'Price Amulet',
+  openStore: "You don't have store. Please open store !!",
 
   amuletName: 'Amulet',
   templeName: 'Temple',

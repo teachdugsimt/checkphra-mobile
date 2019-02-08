@@ -58,6 +58,7 @@ class MarketMyAmulet extends Component {
             tlist: null,
 
             tmp_push: null,
+            tmp_item: null,
         }
     }
 
@@ -100,6 +101,7 @@ class MarketMyAmulet extends Component {
     }
 
     _amuletToMarket = (item) => {
+        this.setState({ tmp_item: item })
         this.popupDialog3.show()
     }
     // 1. มี qid ไม่ต้องมี market
@@ -278,7 +280,7 @@ class MarketMyAmulet extends Component {
                     dialogAnimation={slideAnimation}
                     width={width / 1.15}
                     height={height / 3}
-                    onDismissed={() => { this.setState({}) }}
+                    onDismissed={() => { this.setState({ tmp_item: null }) }}
                 >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
 
@@ -289,7 +291,7 @@ class MarketMyAmulet extends Component {
                                     style={{ marginHorizontal: 10 }}
                                     title={I18n.t('ok')}
                                     onPress={() => {
-                                        this.props.pushAmuletMarket(item.id)
+                                        this.props.pushAmuletMarket(this.state.tmp_item.id)
                                         this.popupDialog3.dismiss()
                                     }}
                                 />

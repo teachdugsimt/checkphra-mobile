@@ -455,7 +455,7 @@ class CheckListScreen extends Component {
           height: width * 95.7 / 100
         }} resizeMode='contain' />
 
-        <View style={{ flexDirection: 'row', width: '100%', borderBottomColor: 'orange', borderBottomWidth: 1 }}>
+        {/* <View style={{ flexDirection: 'row', width: '100%', borderBottomColor: 'orange', borderBottomWidth: 1 }}>
           <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 7, borderTopColor: this.state.color1, height: 40, flex: 1, borderRightColor: 'orange', borderRightWidth: 1 }}
             onPress={this._pressG1}>
             <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 17, color: Colors.brownText, alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('pendingList')}</Text>
@@ -465,7 +465,7 @@ class CheckListScreen extends Component {
             onPress={this._pressG2}>
             <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 17, color: Colors.brownText, alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('certificateList')}</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <PopupDialog
           dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{

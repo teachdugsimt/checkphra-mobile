@@ -173,7 +173,7 @@ class MarketHome extends Component {
                 </PopupDialog>
 
                 <Spinner
-                    visible={this.props.request}
+                    visible={(this.props.request || this.props.request_profile)}
                     textContent={'Loading...'}
                     textStyle={{ color: '#fff' }}
                 />

@@ -630,7 +630,7 @@ class CheckPhraScreen extends Component {
               {/* ***************INTERESTED AMULET**************** */}
 
               {/* ***************PERMIT ZONE**************** */}
-              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+              {/* <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
 
                 <CheckBox
                   style={{ marginLeft: 8, width: 200 }}
@@ -645,7 +645,7 @@ class CheckPhraScreen extends Component {
                   rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
                   checkBoxColor={Colors.brownText}
                 />
-              </View>
+              </View> */}
               {/* ***************PERMIT ZONE**************** */}
 
 

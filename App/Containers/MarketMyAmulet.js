@@ -59,6 +59,7 @@ class MarketMyAmulet extends Component {
 
             tmp_push: null,
             tmp_item: null,
+            tmp_delete: null,
         }
     }
 
@@ -72,6 +73,15 @@ class MarketMyAmulet extends Component {
                 newProps.editPushData(newProps.data_push)
                 return {
                     tmp_push: newProps.data_push
+                }
+            }
+        }
+
+        if (newProps.data_delete && newProps.data_delete != null) {
+            if (newProps.data_delete != prevState.tmp_delete && newProps.request10 == false) {
+                newProps.deleteFromList(newProps.data_delete)
+                return {
+                    tmp_delete: newProps.data_delete
                 }
             }
         }
@@ -104,6 +114,10 @@ class MarketMyAmulet extends Component {
         this.setState({ tmp_item: item })
         this.popupDialog3.show()
     }
+
+    _deleteAmulet = (item, index) => {
+        this.props.deleteAmuletMarket(item.id)
+    }
     // 1. มี qid ไม่ต้องมี market
     // 2. ไม่มี qid ต้องมี market
     _renderItem = ({ item, index }) => {
@@ -112,9 +126,13 @@ class MarketMyAmulet extends Component {
         return (
             <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChat(item)}>
 
-                {item.display == 1 && <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10 }} onPress={() => this._amuletToMarket(item)}>
+                {item.display == 1 && <TouchableOpacity style={{ position: 'absolute', top: 10, right: 42 }} onPress={() => this._amuletToMarket(item)}>
                     <Icon2 name={'truck'} size={28} color={'green'} />
                 </TouchableOpacity>}
+
+                <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10 }} onPress={() => this._deleteAmulet(item)}>
+                    <Icon2 name={'trash-o'} size={28} color={'red'} />
+                </TouchableOpacity>
 
                 <View style={{ flexDirection: 'row', flex: 1 }}>
                     <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => { this._showImage(item.images) }}>
@@ -341,6 +359,9 @@ const mapStateToProps = (state) => {
 
         request9: state.market.request9, // request for push amulet to market
         data_push: state.market.data_push,  // store push my amulet to market
+
+        request10: state.market.request10,  // for delete amulet in market
+        data_delete: state.market.data_delete,  // store data delete amulet in market
     }
 }
 
@@ -355,6 +376,8 @@ const mapDispatchToProps = (dispatch) => {
         clearListMyAmulet: () => dispatch(MarketActions.clearListMyAmulet()),
         pushAmuletMarket: (market_id) => dispatch(MarketActions.pushAmuletMarket(market_id)),
         editPushData: (data) => dispatch(MarketActions.editPushData(data)),
+        deleteAmuletMarket: (market_id) => dispatch(MarketActions.deleteAmuletMarket(market_id)),
+        deleteFromList: (data) => dispatch(MarketActions.deleteFromList(data)),
         // setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
     }
 }

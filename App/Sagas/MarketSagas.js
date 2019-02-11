@@ -228,11 +228,48 @@ export function* pushAmuletToMarket(api, { market_id }) {
   const response = yield call(api.pushAmuletMarket, data)
   console.log(response)
   console.log('================ PUSH AMULET TO MARKET =================')
-  if(response.ok){
+  if (response.ok) {
     yield put(MarketActions.pushAmuletMarketSuccess(response.data))
   } else {
     yield put(MarketActions.pushAmuletMarketFailure())
   }
+
+}
+
+export function* deleteAmuletMarketRequest(api, { market_id }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    market_id
+  }
+
+  const response = yield call(api.deleteAmuletMarket, data)
+  console.log(response)
+  console.log('===================== DELETE AMULET MY MARKET ==========================')
+  if (response.ok) {
+    yield put(MarketActions.deleteAmuletMarketSuccess(response.data))
+  } else {
+    yield put(MarketActions.deleteAmuletMarketFailure())
+  }
+}
+
+export function* getListStoreGroupRequest(api, { page }) {
+  const aut = yield select(auth)
+  const img = yield select(image)
   
+  const data = {
+    user_id: aut.user_id,
+    province_id: img.pro_id,
+    page_number: page,
+  }
+
+  const response = yield call(api.getListStore, data)
+  console.log(response)
+  console.log("=================== GET LIST STORE =====================")
+  if (response.ok) {
+    yield put(MarketActions.getListStoreGroupSuccess(response.data))
+  } else {
+    yield put(MarketActions.getListStoreGroupFailure())
+  }
 }
 

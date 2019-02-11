@@ -68,6 +68,15 @@ const { Types, Creators } = createActions({
   pushAmuletMarketFailure: null,
   editPushData: ['data'],
 
+  deleteAmuletMarket: ['market_id'],
+  deleteAmuletMarketSuccess: ['data'],
+  deleteAmuletMarketFailure: null,
+  deleteFromList: ['data'],
+
+  getListStoreGroup: ['page'],
+  getListStoreGroupSuccess: ['data'],
+  getListStoreGroupFailure: null,
+
   clearDataMyList: null,
   clearListMyAmulet: null,
   clearListAreaAmulet: null,
@@ -128,6 +137,12 @@ export const INITIAL_STATE = Immutable({
 
   request9: null, // request for push amulet to market
   data_push: null,  // store push my amulet to market
+
+  request10: null,  // for delete amulet in market
+  data_delete: null,  // store data delete amulet in market
+
+  request11: null,  // for get list store by province
+  data_shopgroup: null,  // store list shop by province
 })
 
 /* ------------- Selectors ------------- */
@@ -139,25 +154,75 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const editVoteData = (state, {data}) => {
-  let tmp = JSON.parse(JSON.stringify(state.data_areaAmulet))
-  tmp.map((e, i) => {
-    if(e.id == data.id){
-      tmp.splice(i, 1, data)
-    }
-  })
-  return state.merge({ data_areaAmulet: tmp})
+export const getListStoreGroup = state => state.merge({ request11: true })
+export const getListStoreGroupSuccess = (state, { data }) => {
+  let tmp
+  if (state.data_shopgroup && state.data_shopgroup != null && state.data_shopgroup.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = JSON.parse(JSON.stringify(state.data_shopgroup))
+
+    data.map((e, i) => {
+      tmp.map((c, index) => {
+        if (e.id == c.id && e != c) {  // 1. id เหมือนกัน แต่ข้อมูลข้างในต่างกัน
+          tmp.splice(index, 1, e)  // แทนที่ช่องนั้นด้วยข้อมูลใหม่คือ e
+        } else if (tmp.find(b => b.id == e.id) == undefined) {  // 2. ถ้าเป็นไอดีใหม่ ให้เพิ่มไปช่องบนสุด
+          tmp.splice(0, 0, e)
+        } else if (e.id == c.id && e == c) {
+          console.log('SAME VALUE')
+        }
+      })
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  // tmp.sort(function (a, b) {  // (b.id - a.id;) id มากไปน้อย 
+  //   return b.id - a.id;       // (a.id - b.id;) id น้อยไปมาก 
+  // })
+
+  return state.merge({ data_shopgroup: tmp, request11: false })
+}
+export const getListStoreGroupFailure = state => state.merge({ request11: false })
+
+export const deleteFromList = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_mylist))
+
+  if (tmp && tmp.length > 0) {
+    tmp.map((e, i) => {
+      if (e.id == data.id) {
+        tmp.splice(i, 1)
+      }
+    })
+  } else {
+    console.log(" can't delete amulet ")
+  }
+  return state.merge({ data_mylist: tmp, request10: null })
 }
 
-export const editVoteData2 = (state, {data}) => {
-  let tmp = JSON.parse(JSON.stringify(state.data_mylist))
+export const editVoteData = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_areaAmulet))
   tmp.map((e, i) => {
-    if(e.id == data.id){
+    if (e.id == data.id) {
       tmp.splice(i, 1, data)
     }
   })
-  return state.merge({ data_mylist: tmp})
+  return state.merge({ data_areaAmulet: tmp })
 }
+
+export const editVoteData2 = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_mylist))
+  tmp.map((e, i) => {
+    if (e.id == data.id) {
+      tmp.splice(i, 1, data)
+    }
+  })
+  return state.merge({ data_mylist: tmp })
+}
+
+export const deleteAmuletMarket = state => state.merge({ request10: true })
+export const deleteAmuletMarketSuccess = (state, { data }) => state.merge({ request10: false, data_delete: data })
+export const deleteAmuletMarketFailure = state => state.merge({ request10: false })
 
 export const clearDataMyList = state => state.merge({ data_mylist: null })
 export const clearDataAreaAmulet = state => state.merge({ data_areaAmulet: null })
@@ -350,6 +415,15 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.PUSH_AMULET_MARKET_SUCCESS]: pushAmuletMarketSuccess,
   [Types.PUSH_AMULET_MARKET_FAILURE]: pushAmuletMarketFailure,
   [Types.EDIT_PUSH_DATA]: editPushData,
+
+  [Types.DELETE_AMULET_MARKET]: deleteAmuletMarket,
+  [Types.DELETE_AMULET_MARKET_SUCCESS]: deleteAmuletMarketSuccess,
+  [Types.DELETE_AMULET_MARKET_FAILURE]: deleteAmuletMarketFailure,
+  [Types.DELETE_FROM_LIST]: deleteFromList,
+
+  [Types.GET_LIST_STORE_GROUP]: getListStoreGroup,
+  [Types.GET_LIST_STORE_GROUP_SUCCESS]: getListStoreGroupSuccess,
+  [Types.GET_LIST_STORE_GROUP_FAILURE]: getListStoreGroupFailure,
 
   [Types.VOTE_AMULET]: voteAmulet,
   [Types.VOTE_AMULET_SUCCESS]: voteAmuletSuccess,

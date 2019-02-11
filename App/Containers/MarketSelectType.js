@@ -33,6 +33,11 @@ class MarketSelectType extends Component {
         this.props.navigation.navigate('marketListArea1')
     }
 
+    _ListShop = () => {
+        // this.props.getListStoreGroup()
+        this.props.navigation.navigate("marketListShop")
+    }
+
     render() {
         console.log(this.props.skin)
         console.log('----------- SELECT TYPE AMULET --------------')
@@ -40,6 +45,11 @@ class MarketSelectType extends Component {
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
                 <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText, marginVertical: 15 }}>{I18n.t('selectAmuletType')}</Text>
+
+                <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 8, width: '70%', alignSelf: 'center' }} onPress={this._ListShop}>
+                    <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, alignSelf: 'center', textAlign: 'center', padding: 8 }}>Go to shop</Text>
+                </TouchableOpacity>
+
                 <GridView
                     itemDimension={100}
                     items={this.props.data_typeAmulet}
@@ -79,6 +89,9 @@ class MarketSelectType extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        language: state.auth.language,
+        profile: state.question.profile,
+
         data_typeAmulet: state.market.data_typeAmulet,  // store skin amulet 
         skin: state.market.skin,  // store skin amulet id
     }
@@ -87,6 +100,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setSkinAmulet: (skin) => dispatch(MarketActions.setSkinAmulet(skin)),
+        getListStoreGroup: (page) => dispatch(MarketActions.getListStoreGroup(page)),
     }
 }
 

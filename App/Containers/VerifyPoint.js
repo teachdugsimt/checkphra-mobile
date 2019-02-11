@@ -203,6 +203,7 @@ class VerifyPoint extends Component {
                     width: width,
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
+                
                 <FlatList
                     refreshControl={
                         <RefreshControl

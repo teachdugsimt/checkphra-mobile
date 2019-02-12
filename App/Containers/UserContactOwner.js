@@ -1,5 +1,5 @@
 // ==================================
-// ***************** ห้องดูรายการพระแท้ทั้งหมดของฉัน ในหมวดหมู่ "พระของฉัน" *****************
+// ***************** ห้องดูรายการข้อความของพระ... และไปห้องแชทรวมพระ... ในหมวด "พระของฉัน" *****************
 // ==================================
 import React, { Component } from 'react'
 import {
@@ -8,10 +8,13 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
+import ImageViewer from 'react-native-image-zoom-viewer';
 import RoundedButton from '../Components/RoundedButton'
 import { Colors, Images } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import Icon2 from "react-native-vector-icons/FontAwesome";
+import moment from 'moment'
+import 'moment/locale/th'
 import * as RNIap from 'react-native-iap';
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 import I18n from '../I18n/i18n';
@@ -20,10 +23,7 @@ import QuestionActions from '../Redux/QuestionRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
-import ImageViewer from 'react-native-image-zoom-viewer';
-import moment from 'moment'
-import 'moment/locale/th'
-import ImageList from './ImageList/ImageList'
+import ImageList2 from './ImageList/ImageList2'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -32,25 +32,54 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
-class MyRealAmulet extends Component {
-
-
+class UserContactOwner extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            hide: false,
+            text: null,
             modalVisible: false,
             index: 0,
-            img: null
+            img: null,
+            mlist: null,
+            tlist: null,
+        }
+    }
+    _renderItem = ({ item, index }) => {
+
+        let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
+        if (item.uid_owner != this.props.user_id) {
+            return (
+                <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
+                    onPress={() => this._goToChat(item)}>
+                    <View style={{ flex: 1 }}>
+                        <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{I18n.t('messages') + " " + (index + 1) + " ( " + item.type_id + " )"}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+                            {item.type == 1 && <Icon2 name={'lock'} size={20} style={{ marginLeft: 5, marginTop: 10 }} />}
+                        </View>
+                    </View>
+
+                    <View style={{ flex: 1 }}>
+
+                        <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18, marginTop: 8.5 }}>{item.amulet && item.amulet.type}</Text>
+                        <TouchableOpacity style={{ flex: 1, width: 110 }} onPress={() => this._showPicture(item.amulet && item.amulet.images)}>
+                            <ImageList2 data={item.amulet && item.amulet.images} />
+                        </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
+            )
         }
     }
 
-    static getDerivedStateFromProps(newProps, prevState) {
-        console.log(newProps)
-        console.log(prevState)
-
-        return {
-
-        }
+    _showPicture = (item) => {
+        this.setState({ modalVisible: true })
+        let img = []
+        item.map(e => {
+            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+        })
+        this.setState({ img })
+        this.popupDialog.show()
     }
 
     static rename = (e) => {
@@ -151,97 +180,51 @@ class MyRealAmulet extends Component {
         else if (e == 'บางขุนพรหม ปี พ.ศ.2517') {
             name = I18n.t('BangKhunProm2517')
         }
-        else if (e == 'อื่นๆ หรือ ไม่ทราบ' || e == 'ไม่ระบุประเภท') {
+        else if (e == 'อื่นๆ หรือ ไม่ทราบ') {
             name = I18n.t('otherOrUnknown')
         }
 
         return name
     }
 
-
-    _showImage = (item) => {
-        this.setState({ modalVisible: true })
-        let img = []
-        item.map(e => {
-            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
-        })
-        this.setState({ img })
-        this.popupDialog.show()
-    }
-
-    _pressSubList = (item) => {
-        this.setState({ modalVisible: true })
-        let img = []
-        item.map(e => {
-            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
-        })
-        this.setState({ img, index: 1 })
-        this.popupDialog.show()
-    }
-
-    _renderItem = ({ item, index }) => {
-        let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
-
-        return (
-            <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChat(item)}>
-
-                <View style={{ flexDirection: 'row', flex: 1 }}>
-                    <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => {
-                        this._showImage(item.images)
-                    }}>
-                        <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} />
-                    </TouchableOpacity>
-
-                    <View style={{ justifyContent: 'center', width: '100%' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                            <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{MyRealAmulet.rename(item.type)}</Text>
-                            <Text style={{ color: Colors.brownTextTran, fontSize: 14, fontFamily: 'Prompt-SemiBold', marginTop: 3 }}> ( {item.id} )</Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', width: '100%' }}>
-                            <Text style={{ marginLeft: 10, marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
-                            <TouchableOpacity style={{ flex: 1, marginLeft: 10, marginTop: 4, width: '100%' }} onPress={() => this._pressSubList(item.images)}>
-                                <ImageList data={item.images} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-
-            </TouchableOpacity>
-        )
-    }
-
     _goToChat = (item) => {
-        this.props.setDetailPhra(item)
-        this.props.navigation.navigate('chatMyAmulet')
+        if (item.type == 1) {
+            this.props.setDetailPhra(item.amulet)
+            this.props.navigation.navigate("chatTheirAmuletOwner")
+        } else if (item.type == 2) {
+            this.props.setDetailPhra(item.amulet)
+            this.props.navigation.navigate("chatTheirAmulet")
+        }
+        // this.props.setDetailPhra(item.amulet)
+        // this.props.navigation.navigate('userContactOwner2')
     }
 
     componentDidMount() {
         count = 1
-        this.props.getMyRealAmulet(count)
+        this.props.getMyMessageFromOther(count)
     }
 
     componentWillUnmount() {
         count = 1
-        this.props.clearDataMyRealAmulet()
     }
 
     _reload = () => {
         count = 1
-        this.props.getMyRealAmulet(count)
+        this.props.getMyMessageFromOther(count)
     }
 
     _onScrollEndList = () => {
         console.log('END LIST AGAIN')
-        if (this.props.data_myRealAmulet && this.props.data_myRealAmulet.length >= 10 && (this.props.request6 == false || this.props.request6 == null)) {
+        if (this.props.data_myMessageFromOther && this.props.data_myMessageFromOther.length >= 10 && (this.props.request7 == false || this.props.request7 == null)) {
             count++
-            this.props.getMyRealAmulet(count)
+            this.props.getMyMessageFromOther(count)
         }
     }
 
     render() {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
+
         // console.log('***************************************')
         return (
             <LinearGradient
@@ -260,7 +243,7 @@ class MyRealAmulet extends Component {
                     width={0}
                     height={0}
                     // height={150}
-                    onDismissed={() => { this.setState({ img: null, modalVisible: false, index: 0 }) }}
+                    onDismissed={() => { this.setState({ modalVisible: false, index: 0 }) }}
                 >
                     <View style={{ width: '100%', height: '80%', backgroundColor: 'transparent' }}>
                         <Modal
@@ -276,7 +259,7 @@ class MyRealAmulet extends Component {
                                 //     this.setState({ modalVisible: true })
                                 // }}
 
-                                index={this.state.index} // add + 
+                                index={this.state.index} // index in array picture
                                 onSwipeDown={() => {
                                     console.log('onSwipeDown');
                                     this.setState({ modalVisible: false })
@@ -289,44 +272,16 @@ class MyRealAmulet extends Component {
 
                     </View>
                 </PopupDialog>
-
                 <FlatList
                     refreshControl={
                         <RefreshControl
-                            refreshing={this.props.request6 == true}
+                            refreshing={this.props.request7 == true}
                             onRefresh={this._reload}
                         />
                     }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePromotion')}</Text>}
-                    data={this.props.data_myRealAmulet}
+                    data={this.props.data_myMessageFromOther}
                     renderItem={this._renderItem} />
-
-                <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
-                        fontSize: 18, fontWeight: 'bold'
-                    }}>{I18n.t('editDetailPhra')}</Text></View>}
-                    ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
-                    dialogAnimation={slideAnimation}
-                    width={width / 1.05}
-                    height={height / 2}
-                    // height={150}
-                    onDismissed={() => { this.setState({}) }} >
-
-                    <View style={{ flex: 1 }}>
-                        <ScrollView style={{ flex: 1 }}>
-                            <View style={{ height: 10 }}>
-                            </View>
-
-                            <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', padding: 5, height: 70 }} onPress={() => this.popupDialog.dismiss()}>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('ok')}</Text>
-                            </TouchableOpacity>
-
-                            <View style={{ height: 15 }}>
-                            </View>
-                        </ScrollView>
-                    </View>
-
-                </PopupDialog>
             </LinearGradient>
         )
     }
@@ -335,25 +290,27 @@ class MyRealAmulet extends Component {
 const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
+        user_id: state.auth.user_id,
         // profile: state.question.profile,
         // request_profile: state.question.request_profile,
         // data_amulet: state.question.amuletType,   // data request type amulet
         // request_type: state.question.request_type,  // request type
-        data_amulet: state.showroom.data_amulet,
-        request6: state.showroom.request6,   // request for get my real amulet
-        data_myRealAmulet: state.showroom.data_myRealAmulet,  // data for store my real amulet
+        // data_amulet: state.showroom.data_amulet,
+
+        request7: state.showroom.request8,  // request for get data my real amulet message from other person ( Chat Solo )
+        data_myMessageFromOther: state.showroom.data_listOwner,  // data for store my message from other person ( Chat Solo )
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
-        setRequestType: () => dispatch(QuestionActions.setRequestType()),
-        setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
+        // getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
+        // setRequestType: () => dispatch(QuestionActions.setRequestType()),
+        // setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
         setDetailPhra: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
-        getMyRealAmulet: (page) => dispatch(ShowRoomActions.getMyRealAmulet(page)),
-        clearDataMyRealAmulet: () => dispatch(ShowRoomActions.clearDataMyRealAmulet()),
+        getMyMessageFromOther: (page) => dispatch(ShowRoomActions.getListOwnerContact(page)),
+        setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyRealAmulet)
+export default connect(mapStateToProps, mapDispatchToProps)(UserContactOwner)

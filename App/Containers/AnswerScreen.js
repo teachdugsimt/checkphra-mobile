@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TouchableOpacity, Image, View, Modal, Dimensions, TouchableHighlight, Alert, Linking } from 'react-native'
+import {
+  ScrollView, Text, TouchableOpacity, Image, View, Modal, Dimensions,
+  TouchableHighlight, Alert, Linking, TextInput
+} from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -10,22 +13,38 @@ import { Colors, Images, Metrics } from '../Themes';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { LoginButton, ShareDialog, ShareButton, ShareApi } from 'react-native-fbsdk';
 import PromotionActions from '../Redux/PromotionRedux'
+import TradingActions from '../Redux/TradingRedux'
 import I18n from '../I18n/i18n';
 import QuestionActions from '../Redux/QuestionRedux'
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import RoundedButton from "../Components/RoundedButton";
 // import { MessengerClient } from 'messaging-api-messenger/lib';
 // import { GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-
+import Icon2 from 'react-native-vector-icons/FontAwesome'
+import Icon3 from "react-native-vector-icons/Entypo";
 I18n.fallbacks = true;
 const { width, height } = Dimensions.get('window')
-
+const slideAnimation = new SlideAnimation({
+  slideFrom: 'bottom',
+});
 let shareLinkContent = {
   contentType: 'link',
   contentUrl: 'https://play.google.com/store/apps/details?id=com.infiltech.checkphra',
   // contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
   quote: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra ดูข้อมูลได้ที่ https://www.checkphra.com'
 }
+var ImagePicker = require('react-native-image-picker');
+var options = {
+  title: 'Select Avatar',
+  customButtons: [
+    { name: 'fb', title: 'Choose Photo from Facebook' },
+  ],
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+};
 
 let isShared = false
 
@@ -37,8 +56,19 @@ class AnswerScreen extends Component {
       data: this.props.answer,
       index: 0,
       modalVisible: false,
+      // modalVisible2: false,
+      // imageModal: null,
       img2: null,
       shared: false,
+      avatarSource: null,
+
+      reference: null,
+      pictureSelect: null,
+      hideAddDetail: false,
+
+      amuletName: null,  // ชื่อพระ
+      templeName: null,  // ชื่อวัด
+      ownerName: null,  // ชื่อเจ้าของ
     }
   }
 
@@ -56,11 +86,22 @@ class AnswerScreen extends Component {
     console.log(newProps)
     console.log(prevState)
 
+    if (newProps.data_certificate && newProps.data_certificate != null) {
+      if (newProps.data_certificate.qid == newProps.answer[0].q_id) {
+        // newProps.getAnswer(this.props.answer[0].q_id)
+        return {
+          hideAddDetail: true
+        }
+      }
+    }
+
     if (newProps.answer) {
       if (newProps.answer != null && newProps.answer[0].images != null) {
         let img2 = []
+        let reference = []
         newProps.answer[0].images.map(e => {
           img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+          reference.push(0)
         })
         // shareLinkContent.contentUrl = img2[0].url
         shareLinkContent = {
@@ -72,15 +113,45 @@ class AnswerScreen extends Component {
 
         return {
           img2,
+          reference
         }
       }
     }
-
 
     return {
 
     }
   }
+
+  // pick = () => {
+  //   ImagePicker.showImagePicker(options, (response) => {
+  //     // console.log('Response = ', response);
+
+  //     if (response.didCancel) {
+  //       // console.log('User cancelled image picker');
+  //     }
+  //     else if (response.error) {
+  //       // console.log('ImagePicker Error: ', response.error);
+  //     }
+  //     else if (response.customButton) {
+  //       // console.log('User tapped custom button: ', response.customButton);
+  //     }
+  //     else {
+  //       let source = { uri: response.uri };
+  //       // console.log(response)
+
+  //       this.setState({
+  //         avatarSource: source
+  //       });
+
+  //       this.props.setImage({
+  //         uri: response.uri,
+  //         type: response.type,
+  //         name: response.fileName
+  //       })
+  //     }
+  //   });
+  // }
 
   componentWillUnmount() {
     this.props.navigation.goBack()
@@ -89,6 +160,7 @@ class AnswerScreen extends Component {
       this.props.getProfile()
     }
     isShared = false
+    this.props.clearDataCer()
     // console.log(isShared)
     // console.log('AND IS SHARED')
   }
@@ -187,6 +259,36 @@ class AnswerScreen extends Component {
 
   }
 
+  _certificate = () => {
+    this.popupDialog2.show()
+  }
+
+  _submitDetail = () => {
+    if ((!this.state.amuletName || !this.state.templeName) || !this.state.pictureSelect) {
+      alert(I18n.t('checkData'))
+    } else {
+      this.props.addDetailCertificate(this.props.answer[0].q_id, this.state.amuletName, this.state.templeName
+        , this.state.pictureSelect, this.state.ownerName)  // EDIT THIS.PROPS.IMAGE => picture name (small than)
+      this.popupDialog2.dismiss()
+    }
+  }
+
+  _selectPic = (e, i) => {
+    let tmp = this.state.reference
+    // tmp[i] = 1
+    tmp = tmp.map((a, b) => {
+      if (b == i) {
+        // a = 1
+        return 1
+      } else {
+        // a = 0
+        return 0
+      }
+    })
+
+    this.setState({ reference: tmp, pictureSelect: e })
+  }
+
   render() {
     let data = this.props.answer
     I18n.locale = this.props.language
@@ -247,32 +349,66 @@ class AnswerScreen extends Component {
 
         </View>}
 
-        {/* <View style={{ marginHorizontal: 20, marginTop: 20 }}>
-          {
-            data != null && data[0].answer != null &&
-            data[0].answer.map(e => {
-              return (
-                <Text style={{
-                  fontFamily: 'Prompt-Regular',
-                  fontSize: 16,
-                }}>{e.question} : <Text style={{
-                  fontFamily: 'Prompt-SemiBold',
-                  fontSize: 18,
-                }}>{e.result}</Text></Text>
-              )
-            })
-          }
-        </View> */}
+        <PopupDialog
+          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+            fontSize: 18, fontWeight: 'bold'
+          }}>{I18n.t('editDetailPhra')}</Text></View>}
+          ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width / 1.05}
+          height={height / 1.5}
+          // height={150}
+          onDismissed={() => {
+            this.setState({ amuletName: null, templeName: null, ownerName: null, pictureSelect: null })
+            this.props.deleteImage()
+          }}
+        >
+          <ScrollView style={{ flex: 1 }}>
+            <View style={{ height: 20 }}></View>
+
+            <ScrollView style={{ flex: 1 }} horizontal={true}>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                {this.props.answer && this.props.answer[0] && this.props.answer[0].images.map((e, i) => {
+                  return (
+                    <TouchableOpacity style={{ backgroundColor: this.state.reference[i] == 1 ? 'orange' : 'transparent', marginRight: 10, flex: 1 }} onPress={() => this._selectPic(e, i)}>
+                      <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e }} style={{ width: 100, height: 100, margin: 15 }} />
+                    </TouchableOpacity>
+                  )
+                })}
+              </View>
+            </ScrollView>
+
+            <View style={{ flexDirection: 'row', marginTop: 5, marginLeft: 10 }}>
+              <Text style={{ textAlignVertical: 'center' }}>{I18n.t('amuletName')} : </Text>
+              <TextInput value={this.state.amuletName} onChangeText={(text) => this.setState({ amuletName: text })} placeholder={I18n.t('answerText')} style={{ width: width / 1.8, marginRight: 10 }} />
+            </View>
+
+            <View style={{ flexDirection: 'row', marginTop: 5, marginLeft: 10 }}>
+              <Text style={{ textAlignVertical: 'center' }}>{I18n.t('templeName')} : </Text>
+              <TextInput value={this.state.templeName} onChangeText={(text) => this.setState({ templeName: text })} placeholder={I18n.t('answerText')} style={{ width: width / 1.8, marginRight: 10 }} />
+            </View>
+
+            <View style={{ flexDirection: 'row', marginTop: 5, marginLeft: 10 }}>
+              <Text style={{ textAlignVertical: 'center' }}>{I18n.t('ownerName')} : </Text>
+              <TextInput value={this.state.ownerName} onChangeText={(text) => this.setState({ ownerName: text })} placeholder={I18n.t('anywhere')} style={{ width: width / 1.8, marginRight: 10 }} />
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+              <View style={{ width: '45%', height: 40 }}>
+                <RoundedButton title={I18n.t('ok')} onPress={this._submitDetail} />
+              </View>
+              <View style={{ width: '45%', height: 40 }}>
+                <RoundedButton title={I18n.t('cancel')} onPress={() => this.popupDialog2.dismiss()} />
+              </View>
+            </View>
+
+            <View style={{ height: 40 }}></View>
+
+          </ScrollView>
+        </PopupDialog>
+
         <ScrollView style={{ flex: 1 }}>
 
-          {/* {this.props.answer && this.props.answer[0] && this.props.answer[0].personal && <Text style={{
-            alignSelf: 'center',
-            fontFamily: 'Prompt-Regular',
-            fontSize: 16,
-          }}>{I18n.t('checkBy')} : <Text style={{
-            fontFamily: 'Prompt-SemiBold',
-            fontSize: 16,
-          }}>{this.props.answer[0].personal.email}</Text></Text>} */}
           <Text style={{
             alignSelf: 'center',
             fontFamily: 'Prompt-Regular',
@@ -349,15 +485,16 @@ class AnswerScreen extends Component {
               })
             }
           </View>
-          <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 18, alignSelf: 'center', marginTop: 10, color: Colors.brownTextTran }}>{I18n.t('useCoins') + " " + coins + " coins"}</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 
-            {/* {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View style={{ alignItems: 'center' }} >
-              <TouchableOpacity onPress={this.shareLinkWithShareDialog} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#3F54C4', borderRadius: 5, marginTop: 20 }}>
-                <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
-                <Text style={{ fontSize: 18, margin: 10, color: 'white', fontWeight: 'bold' }}>Share</Text>
-              </TouchableOpacity>
-            </View>} */}
+          {this.props.answer && this.props.answer[0] && this.props.answer[0].permit == 1 && this.state.hideAddDetail == false && <TouchableOpacity onPress={this._certificate} style={{ marginTop: 10, backgroundColor: '#fff5', borderRadius: 10, borderWidth: 1, borderColor: 'transparent', padding: 10, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'center' }}>
+            <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 18, alignSelf: 'center', color: '#DC143C' }}>{I18n.t('certificate')}</Text>
+            <Icon2 name={'hand-o-up'} size={25} color={'#DC143C'} style={{ marginLeft: 8 }} />
+          </TouchableOpacity>}
+
+          <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 18, alignSelf: 'center', marginTop: 10, color: Colors.brownTextTran }}>{I18n.t('useCoins') + " " + coins + " coins"}</Text>
+
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 
             {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View
               style={{
@@ -384,13 +521,6 @@ class AnswerScreen extends Component {
                     marginLeft: Metrics.baseMargin
                   }} > Share </Text>
               </TouchableOpacity></View>}
-
-            {/* <View style={{ alignItems: 'center', marginLeft: 15 }} >
-              <TouchableOpacity onPress={this._goToURL} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#3F54C4', borderRadius: 5, marginTop: 20 }}>
-                <Image source={Images.fb} style={{ width: 25, height: 25, marginLeft: 5, marginTop: 10 }} />
-                <Text style={{ fontSize: 18, margin: 10, color: 'white', fontWeight: 'bold' }}>Messenger</Text>
-              </TouchableOpacity>
-            </View> */}
 
             <View
               style={{
@@ -421,7 +551,7 @@ class AnswerScreen extends Component {
             </View>
           </View>
         </ScrollView>
-      </LinearGradient>
+      </LinearGradient >
     )
   }
 }
@@ -430,6 +560,9 @@ const mapStateToProps = (state) => {
   return {
     answer: state.question.answer,
     language: state.auth.language,
+    image: state.trading.image,
+
+    data_certificate: state.trading.data_certificate, // data for add detail certificate
   }
 }
 
@@ -437,6 +570,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     sharedAnswer: (qid) => dispatch(PromotionActions.sharedAnswer(qid)),
     getProfile: () => dispatch(QuestionActions.getProfile()),
+    getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
+    setImage: (data) => dispatch(TradingActions.setImage(data)),
+    deleteImage: () => dispatch(TradingActions.deleteImage()),
+    addDetailCertificate: (qid, amuletName, temple, image, ownerName) => dispatch(TradingActions.addDetailCertificate(qid, amuletName, temple, image, ownerName)),
+    clearDataCer: () => dispatch(TradingActions.clearDataCer()),
+
   }
 }
 

@@ -54,6 +54,7 @@ class CheckPhraScreen extends Component {
       checkNone3: false,
 
       interested: false,
+      permit: false,
       autoText: null,
     }
   }
@@ -125,6 +126,7 @@ class CheckPhraScreen extends Component {
               // console.log(this.props.data.question_list)
               let qlist = this.props.data && this.props.data.question_list ? this.props.data.question_list.map(e => e.question) : []
               console.log(qlist)
+
               // ตรวจสอบ กล่องเช็ค ว่าถ้าไม่ตอบแล้วต้องติ้ก กล่องเช็ค ไม่งั้นจะเด้งแจ้งเตือนนะ
               if (
                 this.state.checkTrue1 == false && this.state.checkTrue2 == false &&
@@ -172,7 +174,7 @@ class CheckPhraScreen extends Component {
                       result: tmp[i] ? tmp[i] : ''
                     })
                   })
-                  this.props.setAnswer(pack, this.props.data.id, this.state.answer4, this.state.interested)
+                  this.props.setAnswer(pack, this.props.data.id, this.state.answer4, this.state.interested, this.state.permit)
                   this.setState({
                     answer_other: null,
                     answer1: null,
@@ -405,6 +407,7 @@ class CheckPhraScreen extends Component {
                               checkFalse: false,
                               editans1: !this.state.editans1,
                               interested: false,
+                              permit: false,
                               // editing: !this.state.editing,
                             })
                           }}
@@ -483,6 +486,7 @@ class CheckPhraScreen extends Component {
                             editans2: false,  // ควบคุม textInput 2
                             editans3: false,  // ควบคุม textInput 3
                             interested: false,
+                            permit: false,
                           })
                         }}
                         disabled={this.state.editans1}
@@ -520,7 +524,7 @@ class CheckPhraScreen extends Component {
                             this.setState({
                               checkNone2: !this.state.checkNone2,
                               editans2: !this.state.editans2,
-                              answer2: null,
+                              answer2: 'ไม่ออกผล',
                             })
                           }}
                           disabled={!this.state.editing}
@@ -556,7 +560,7 @@ class CheckPhraScreen extends Component {
                                 this.setState({
                                   checkNone3: !this.state.checkNone3,
                                   editans3: !this.state.editans3,
-                                  answer3: null,
+                                  answer3: 'ไม่ออกผล',
                                 })
                               }}
                               disabled={!this.state.editing}
@@ -584,7 +588,7 @@ class CheckPhraScreen extends Component {
                                 this.setState({
                                   checkNone3: !this.state.checkNone3,
                                   editans3: !this.state.editans3,
-                                  answer3: null,
+                                  answer3: 'ไม่ออกผล',
                                 })
                               }}
                               disabled={!this.state.editing}
@@ -624,6 +628,25 @@ class CheckPhraScreen extends Component {
                 />
               </View>
               {/* ***************INTERESTED AMULET**************** */}
+
+              {/* ***************PERMIT ZONE**************** */}
+              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+
+                <CheckBox
+                  style={{ marginLeft: 8, width: 200 }}
+                  onClick={() => {
+                    this.setState({
+                      permit: !this.state.permit
+                    })
+                  }}
+                  disabled={(this.state.checkFalse || this.state.checkNone1)}
+                  isChecked={this.state.permit}
+                  rightText={I18n.t('license')}
+                  rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
+                  checkBoxColor={Colors.brownText}
+                />
+              </View>
+              {/* ***************PERMIT ZONE**************** */}
 
 
               <View style={{ width: '65%', alignSelf: 'center', marginTop: 10 }}>
@@ -686,7 +709,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setAnswer: (pack, q_id, argument, interested) => dispatch(ExpertActions.expertRequest(pack, q_id, argument, interested)),
+    setAnswer: (pack, q_id, argument, interested, permit) => dispatch(ExpertActions.expertRequest(pack, q_id, argument, interested, permit)),
     getText: () => dispatch(ExpertActions.getAutoText()),
   }
 }

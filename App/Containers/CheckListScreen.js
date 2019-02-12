@@ -14,6 +14,7 @@ import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
 import AuthActions from '../Redux/AuthRedux'
+import TradingActions from '../Redux/TradingRedux'
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 // Styles
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -43,6 +44,9 @@ class CheckListScreen extends Component {
       item: null,
       tmp_qid: null,
       language: '',
+
+      color1: 'green',
+      color2: 'lightgrey',
     }
   }
 
@@ -383,6 +387,56 @@ class CheckListScreen extends Component {
     this.popupDialog.dismiss()
   }
 
+  _pressG1 = () => {
+    if (this.state.color1 != 'green') {
+      this.setState({ color1: 'green', color2: 'lightgrey' })
+      count = 1
+      this.props.getHistory(1)
+    }
+  }
+  _pressG2 = () => {
+    if (this.state.color2 != 'green') {
+      this.setState({ color1: 'lightgrey', color2: 'green' })
+      count = 1
+      this.props.getListCerFromUser(1)
+    }
+  }
+
+  _reload2 = () => {
+    count = 1
+    this.props.getListCerFromUser(count)
+  }
+
+  _goToLicense = (item, index) => {
+    this.props.setDataCer(item)
+    this.props.navigation.navigate('certificate')
+  }
+
+  _renderItem2 = ({ item, index }) => {
+    return (
+      <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, height: 80 }} onPress={() => this._goToLicense(item, index)}>
+        <View style={{ flexDirection: 'row', paddingVertical: 10 }}>
+          <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + item.image }} style={{ height: 60, width: 60, marginLeft: 10, borderRadius: 12 }} />
+          <View style={{ paddingLeft: 10, justifyContent: 'center' }}>
+            <Text style={{ fontWeight: 'bold', color: Colors.brownText }}>{item.amuletName}<Text>{" ( " + item.qid + " )"}</Text></Text>
+            <Text style={{ fontWeight: 'bold', color: Colors.brownText }}>{item.temple}</Text>
+          </View>
+        </View>
+
+        <View style={{ justifyContent: 'center', paddingRight: 10 }}>
+          <Icon2 name={'chevron-right'} style={{}} size={25} />
+        </View>
+      </TouchableOpacity>
+    )
+  }
+
+  _onScrollEndList2 = () => {
+    if (this.props.data_getListCer && this.props.data_getListCer.length >= 10 && this.props.request10 == false) {
+      count++
+      this.props.getListCerFromUser(count)
+    }
+  }
+
   render() {
     I18n.locale = this.props.language
     // console.log(this.props.request2)
@@ -399,6 +453,18 @@ class CheckListScreen extends Component {
           width: width,
           height: width * 95.7 / 100
         }} resizeMode='contain' />
+
+        <View style={{ flexDirection: 'row', width: '100%', borderBottomColor: 'orange', borderBottomWidth: 1 }}>
+          <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 7, borderTopColor: this.state.color1, height: 40, flex: 1, borderRightColor: 'orange', borderRightWidth: 1 }}
+            onPress={this._pressG1}>
+            <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 17, color: Colors.brownText, alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('pendingList')}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 7, borderTopColor: this.state.color2, height: 40, flex: 1 }}
+            onPress={this._pressG2}>
+            <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 17, color: Colors.brownText, alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('certificateList')}</Text>
+          </TouchableOpacity>
+        </View>
 
         <PopupDialog
           dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
@@ -433,7 +499,23 @@ class CheckListScreen extends Component {
           </View>
         </PopupDialog>
 
-        <FlatList
+        {this.state.color2 == 'green' && <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.request10 == true}
+              onRefresh={this._reload2.bind(this)}
+            />
+          }
+          data={this.props.data_getListCer}
+          renderItem={this._renderItem2}
+          onEndReached={this._onScrollEndList2}
+          rightChevron={true}
+          // onEndReachedThreshold={0.025}
+          onEndReachedThreshold={1.2}
+          ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
+        />}
+
+        {this.state.color1 == 'green' && <FlatList
           refreshControl={
             <RefreshControl
               refreshing={this.props.request2 == true || this.props.request1 == true}
@@ -540,7 +622,7 @@ class CheckListScreen extends Component {
           onEndReached={this._onScrollEndList}
           // onEndReachedThreshold={1}  // 0.025 low but good
           onEndReachedThreshold={1.2}
-        />
+        />}
         {/* <Spinner
           visible={this.props.request2}
           textContent={'Loading...'}
@@ -568,6 +650,8 @@ const mapStateToProps = (state) => {
     request_edit: state.expert.fetch8,  // request edit type of  question
     data_edit: state.expert.data_group,
 
+    request10: state.trading.request10,  // get List certificate from user ( Admin Only !!)
+    data_getListCer: state.trading.data_getListCer,  // store list certificate from user
   }
 }
 
@@ -582,6 +666,9 @@ const mapDispatchToProps = (dispatch) => {
     getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
     editGroup: (type_id, qid) => dispatch(ExpertActions.editGroup(type_id, qid)),
     clearEditData: () => dispatch(ExpertActions.clearEditData()),
+
+    setDataCer: (data) => dispatch(TradingActions.setDataCer(data)),
+    getListCerFromUser: (page) => dispatch(TradingActions.getListCerFromUser(page)),
   }
 }
 

@@ -220,7 +220,7 @@ export function* getListLeasing(api, { page }) {
 
 export function* wantToBuy(api, { qid, interest }) {
   const aut = yield select(auth)
- 
+
   const data = {
     user_id: aut.user_id,
     qid,
@@ -234,5 +234,46 @@ export function* wantToBuy(api, { qid, interest }) {
     yield put(TradingActions.wantSuccess())
   } else {
     yield put(TradingActions.wantFailure())
+  }
+}
+
+
+export function* addDetailCertificateRequest(api, { qid, amuletName, temple, image, ownerName }) {
+  const aut = yield select(auth)
+
+  const data = {
+    user_id: aut.user_id,
+    qid,
+    amuletName,
+    temple,
+    image,
+    ownerName
+  }
+
+  const response = yield call(api.addDetailCertificate, data)
+  console.log(response)
+  console.log('================ ADD DETAIL CERTIFICATE ================')
+  if (response.ok) {
+    yield put(TradingActions.addDetailCertificateSuccess(response.data))
+  } else {
+    yield put(TradingActions.addDetailCertificateFailure())
+  }
+}
+
+export function* getListCerfromUserRequest(api, { page }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getListCerFromUser, data)
+  console.log(response)
+  console.log('=================== GET LIST CERTIFICATE (ADMIN) ====================')
+
+  if (response.ok) {
+    yield put(TradingActions.getListCerFromUserSuccess(response.data))
+  } else {
+    yield put(TradingActions.getListCerFromUserFailure())
   }
 }

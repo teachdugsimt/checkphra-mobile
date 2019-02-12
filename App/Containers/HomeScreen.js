@@ -38,6 +38,7 @@ class HomeScreen extends Component {
     return {
       title: I18n.t('home'),
     }
+<<<<<<< HEAD
   }
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
@@ -54,6 +55,17 @@ class HomeScreen extends Component {
 
     if (newProps.language != prevState.language) {
       newProps.getProfile()
+=======
+
+    _pressList = (item) => {
+        if (item.id == 1) {
+            this.props.navigation.navigate('uploadScreen')
+        } else if (item.id == 2) {
+            this.props.navigation.navigate('showroom')
+        } else if (item.id == 3) {
+            this.popupDialog.show()
+        }
+>>>>>>> b78da06bfc392acd3134c4b4b1888e2aa69be601
     }
 
     let profile = newProps.profile
@@ -69,14 +81,24 @@ class HomeScreen extends Component {
     }
   }
 
+<<<<<<< HEAD
   _pressList = (item) => {
     if (item.id == 1) {
       this.props.navigation.navigate('uploadScreen')
     } else if (item.id == 2) {
       this.props.navigation.navigate('showroom')
     } else if (item.id == 3) {
-
+=======
+    componentDidMount() {
+        this.props.getProfile()
     }
+>>>>>>> b78da06bfc392acd3134c4b4b1888e2aa69be601
+
+    _webBoard = () => {
+        this.props.navigation.navigate('webboard')
+        this.popupDialog.dismiss()
+    }
+<<<<<<< HEAD
   }
 
   _renderItem = ({ item, index }) => {
@@ -137,6 +159,69 @@ class HomeScreen extends Component {
                     textContent={'Loading...'}
                     textStyle={styles.spinnerText}
                 /> */}
+=======
+
+    _ownerAmulet = () => {
+        this.props.navigation.navigate('userContactOwner')
+        this.popupDialog.dismiss()
+    }
+
+    _contactAdmin = () => {
+        this.props.navigation.navigate('contactAdmin')
+        this.popupDialog.dismiss()
+    }
+
+    render() {
+        I18n.locale = this.props.language
+
+
+        return (
+            <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
+                <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
+                <FlatList
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.request_profile == true}
+                            onRefresh={this._reload}
+                        />
+                    }
+                    ListEmptyComponent={() => <Text style={styles.textEmptyData}>{I18n.t('nonePromotion')}</Text>}
+                    data={this.state.list_user ? this.state.list_user : []}
+                    renderItem={this._renderItem}
+                />
+
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('editType')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.2}
+                    height={height / 2.4}
+                    // height={150}
+                    onDismissed={() => { this.setState({}) }}
+                >
+                    <View style={{ flex: 1 }}>
+                        <ScrollView style={{ flex: 1 }}>
+                            <View style={{}}>
+                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._webBoard}>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._ownerAmulet}>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactOwnerAmulet')}</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._contactAdmin}>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactAdmin')}</Text>
+                                </TouchableOpacity>
+
+                            </View>
+
+                        </ScrollView>
+                    </View>
+                </PopupDialog>
+>>>>>>> b78da06bfc392acd3134c4b4b1888e2aa69be601
 
       </LinearGradient>
     )

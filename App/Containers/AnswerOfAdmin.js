@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, TextInput } from 'react-native'
+import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, TextInput, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -35,6 +35,11 @@ class AnswerOfAdmin extends Component {
       tmp: null,
       price: null,
       phra_bit: null,
+
+      color1: 'lightgrey',
+      color2: 'orange',
+      color3: 'orange',
+      color4: 'orange',
     }
   }
 
@@ -48,7 +53,7 @@ class AnswerOfAdmin extends Component {
   }
 
   static getDerivedStateFromProps(newProps, prevState) {
-    let plist = newProps.data_answer
+    // let plist = newProps.data_answer
     console.log(newProps)
     console.log(prevState)
     // newProps.getAnswer(1)
@@ -88,15 +93,10 @@ class AnswerOfAdmin extends Component {
 
 
     return {
-      answerData: plist,
+      answerData: newProps.data_answer,
       full_data
     }
   }
-
-  // _PressList = (item, index) => {
-  //     this.props.setDataPoint(item, index)
-  //     this.props.navigation.navigate('check2')
-  // }
 
   componentDidMount() {
     count = 1
@@ -105,6 +105,8 @@ class AnswerOfAdmin extends Component {
 
   componentWillUnmount() {
     count = 1
+    this.props.setTypeAnswer(1)
+    this.setState({ color1: 'lightgrey', color2: 'orange', color3: 'orange', color4: 'orange' })
   }
 
   onRefresh = () => {
@@ -166,11 +168,39 @@ class AnswerOfAdmin extends Component {
       name = I18n.t('LuangPhorLhew')
     }
     else {
-      name = item == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item)
+      name = item == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : I18n.t(item)
     }
     return name
   }
 
+  _pressList1 = () => {
+    this.setState({ color1: 'lightgrey', color2: 'orange', color3: 'orange', color4: 'orange' })
+    this.props.clearDataAnswer()
+    this.props.setTypeAnswer(1)
+    count = 1
+    this.props.getAnswer(count)
+  }
+  _pressList2 = () => {
+    this.setState({ color2: 'lightgrey', color1: 'orange', color3: 'orange', color4: 'orange' })
+    this.props.clearDataAnswer()
+    this.props.setTypeAnswer(2)
+    count = 1
+    this.props.getAnswer(count)
+  }
+  _pressList3 = () => {
+    this.setState({ color3: 'lightgrey', color2: 'orange', color1: 'orange', color4: 'orange' })
+    this.props.clearDataAnswer()
+    this.props.setTypeAnswer(3)
+    count = 1
+    this.props.getAnswer(count)
+  }
+  _pressList4 = () => {
+    this.setState({ color4: 'lightgrey', color2: 'orange', color3: 'orange', color1: 'orange' })
+    this.props.clearDataAnswer()
+    this.props.setTypeAnswer(0)
+    count = 1
+    this.props.getAnswer(count)
+  }
 
   render() {
     I18n.locale = this.props.language
@@ -221,6 +251,52 @@ class AnswerOfAdmin extends Component {
             </View>
           </View>
         </PopupDialog>
+        {(this.props.language == 'en' || this.props.language == 'en-US') ?
+          <View style={{ flexDirection: 'row', height: 45, width: '100%' }}>
+            <ScrollView style={{ flex: 1 }} horizontal={true} showsHorizontalScrollIndicator={false}>
+              <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color1, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList1}>
+                {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('realPhra')}</Text> */}
+                <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 10, marginTop: 7.5 }}>{I18n.t('realPhra')}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color2, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList2}>
+                {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('realPhraOld')}</Text> */}
+                <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 10, marginTop: 7.5 }}>{I18n.t('realPhraOld')}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color3, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList3}>
+                {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('realPhranowhere')}</Text> */}
+                <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 10, marginTop: 7.5 }}>{I18n.t('realPhranowhere')}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color4, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList4}>
+                {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('fakePhra')}</Text> */}
+                <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 10, marginTop: 7.5 }}>{I18n.t('fakePhra')}</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View> : <View style={{ flexDirection: 'row', height: 45, width: '100%' }}>
+            <ScrollView style={{ flex: 1 }} horizontal={true} showsHorizontalScrollIndicator={false}>
+              <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color1, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList1}>
+                {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('realPhra')}</Text> */}
+                <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 17, marginTop: 7.5 }}>{I18n.t('realPhra')}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color2, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList2}>
+                {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('realPhraOld')}</Text> */}
+                <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 17, marginTop: 7.5 }}>{I18n.t('realPhraOld')}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color3, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList3}>
+                {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('realPhranowhere')}</Text> */}
+                <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 17, marginTop: 7.5 }}>{I18n.t('realPhranowhere')}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color4, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList4}>
+                {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('fakePhra')}</Text> */}
+                <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 17, marginTop: 7.5 }}>{I18n.t('fakePhra')}</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>}
 
         <FlatList
           refreshControl={
@@ -366,6 +442,8 @@ const mapDispatchToProps = (dispatch) => {
     setFullData2: (data) => dispatch(TradingActions.setFullData2(data)),
     editFullData2: (qid) => dispatch(TradingActions.editFullData2(qid)),
     wantBuy: (qid, interest) => dispatch(TradingActions.wantBuy(qid, interest)),
+    setTypeAnswer: (data) => dispatch(ExpertActions.setTypeAnswer(data)),
+    clearDataAnswer: () => dispatch(ExpertActions.clearDataAnswer()),
     // setAnswer: (pack, q_id, argument, interested) => dispatch(ExpertActions.expertRequest(pack, q_id, argument, interested))
   }
 }

@@ -18,9 +18,10 @@ import { LinearGradient } from '../../node_modules/react-native-linear-gradient'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 const auth = state => state.auth
+const expert = state => state.expert
 I18n.locale = auth.language
 
-export function* expertRequest(api, { pack, q_id, argument, interested }) {   //   for add ANSWER ONLY!!!!!!!
+export function* expertRequest(api, { pack, q_id, argument, interested, permit }) {   //   for add in checkList screen ANSWER ONLY!!!!!!!
   const aut = yield select(auth)
   if (!aut.user_id) { return }
   // console.log(argument)
@@ -28,7 +29,7 @@ export function* expertRequest(api, { pack, q_id, argument, interested }) {   //
   // console.log(q_id)
   // console.log('SAGAS')
 
-  const response = yield call(api.addAnswer, pack, q_id, aut.user_id, argument, interested)
+  const response = yield call(api.addAnswer, pack, q_id, aut.user_id, argument, interested, permit)
   console.log(response)
   // success?
   if (response.ok) {
@@ -72,38 +73,54 @@ export function* updateAnswer(api, { pack, q_id, argument }) {   //   for UPDATE
 export function* getProfileRequest(api, { page }) {
   const aut = yield select(auth)
 
-  if (page == 1) {
-    if (!aut.user_id) { return }
+  // if (page == 1) {
+  //   if (!aut.user_id) { return }
 
-    const data = {
-      user_id: aut.user_id,
-      page_number: page
-    }
+  //   const data = {
+  //     user_id: aut.user_id,
+  //     page_number: page
+  //   }
 
-    const response = yield call(api.getVerify, data)
+  //   const response = yield call(api.getVerify, data)
 
-    if (response.ok) {
-      yield put(ExpertActions.verifySuccess(response.data))
-    } else {
-      yield put(ExpertActions.verifyFailure())
-    }
-  } else {
-    if (!aut.user_id) { return }
+  //   if (response.ok) {
+  //     yield put(ExpertActions.verifySuccess(response.data))
+  //   } else {
+  //     yield put(ExpertActions.verifyFailure())
+  //   }
+  // } else {
+  //   if (!aut.user_id) { return }
 
-    const data = {
-      user_id: aut.user_id,
-      page_number: page
-    }
+  //   const data = {
+  //     user_id: aut.user_id,
+  //     page_number: page
+  //   }
 
-    const response = yield call(api.getVerify, data)
+  //   const response = yield call(api.getVerify, data)
 
-    if (response.ok) {
-      yield put(ExpertActions.verifySuccess2(response.data))
-    } else {
-      yield put(ExpertActions.verifyFailure2())
-    }
+  //   if (response.ok) {
+  //     yield put(ExpertActions.verifySuccess2(response.data))
+  //   } else {
+  //     yield put(ExpertActions.verifyFailure2())
+  //   }
 
+  // }
+
+  if (!aut.user_id) { return }
+
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
   }
+
+  const response = yield call(api.getVerify, data)
+
+  if (response.ok) {
+    yield put(ExpertActions.verifySuccess(response.data))
+  } else {
+    yield put(ExpertActions.verifyFailure())
+  }
+
 }
 
 export function* acceptRequest(api, { id }) {
@@ -132,20 +149,23 @@ export function* acceptRequest(api, { id }) {
 
 }
 
-export function* getAnswerAdmin(api, { page }) {
+export function* getAnswerAdmin(api, { page }) {  // get answer for Admin Change api
   const aut = yield select(auth)
+  const ex = yield select(expert)
   console.log('PAGE')
   if (page == 1) {
 
     const data = {
       user_id: aut.user_id,
-      pageNumber: page,
+      page_number: page,
+      answer_type: ex.type_answer
     }
 
     const response = yield call(api.answerAdmin, data)
     console.log(response)
-    console.log("ANSWER OF ADMIN")
+    console.log("================ ANSWER OF ADMIN P1 =================")
     if (response.ok) {
+      // yield put(ExpertActions.clearDataAnswer())
       yield put(ExpertActions.answerSuccess(response.data))
       yield put(ExpertActions.clearGetAnswer())
     } else {
@@ -158,13 +178,15 @@ export function* getAnswerAdmin(api, { page }) {
 
     const data = {
       user_id: aut.user_id,
-      pageNumber: page,
+      page_number: page,
+      answer_type: ex.type_answer
     }
 
     const response = yield call(api.answerAdmin, data)
     console.log(response)
-    console.log("ANSWER OF ADMIN")
+    console.log("=================== ANSWER OF ADMIN P2 ========================")
     if (response.ok) {
+      // yield put(ExpertActions.clearDataAnswer())
       yield put(ExpertActions.answerSuccess2(response.data))
       yield put(ExpertActions.clearGetAnswer())
     } else {
@@ -217,8 +239,8 @@ export function* editTypeQuestion(api, { type_id, qid }) {
     user_id: aut.user_id,
     type_id,
     qid
-  } 
-  
+  }
+
   const response = yield call(api.editGroupQuestion, data)
   console.log('----------------- EDIT TYPE QUESTION --------------------')
   if (response.ok) {

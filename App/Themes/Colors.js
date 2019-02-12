@@ -30,6 +30,7 @@ const colors = {
   brownTextTran: '#66330099',
   riceWater: 'rgba(255,255,255, 0.35)',
   milk: 'rgba(255,255,255, 0.75)',
+  textInput: '#fff5',
 
   tabBar: '#7d571d',
   activeTab: 'white',

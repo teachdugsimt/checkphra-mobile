@@ -4,7 +4,7 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  expertRequest: ['pack', 'q_id', 'argument', 'interested'],
+  expertRequest: ['pack', 'q_id', 'argument', 'interested', 'permit'],
   expertSuccess: ['data'],
   expertFailure: null,
 
@@ -39,6 +39,7 @@ const { Types, Creators } = createActions({
 
   setFullData: ['data'],
   setAnswerDetail: ['data'],
+  setTypeAnswer: ['data'],
   editFullData: ['id'],
   // editFullData: ['id', 'status'],
 
@@ -54,6 +55,7 @@ const { Types, Creators } = createActions({
   clearGetAnswer: null,
   clearUpdateRequest: null,
   clearEditData: null,
+  clearDataAnswer: null,
 })
 
 export const ExpertTypes = Types
@@ -96,6 +98,8 @@ export const INITIAL_STATE = Immutable({
   fetch8: null,  // for edit type of question
   data_group: null,
 
+  type_answer: 1
+
 })
 
 /* ------------- Selectors ------------- */
@@ -105,6 +109,9 @@ export const ExpertSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const clearDataAnswer = state => state.merge({ data_answer: null })
+export const setTypeAnswer = (state, { data }) => state.merge({ type_answer: data })
 
 export const getAutoText = state => state.merge({ fetch7: true })
 export const getAutoTextSuccess = (state, { data }) => state.merge({ fetch7: false, data_text: data })
@@ -129,26 +136,44 @@ export const setDataPhra = (state, { data }) => {
   return state.merge({ data_phra: data })
 }
 
+// export const verifyRequest = state => state.merge({ fetch2: true })
+// export const verifySuccess = (state, { data }) => {
+//   return state.merge({ fetch2: false, data_verify: data })
+// }
+// export const verifyFailure = state => state.merge({ fetch2: false })
+// export const verifySuccess2 = (state, { data }) => {
+//   let tmp = [...state.data_verify]
+//   data.forEach(e => {
+//     if (tmp.find(b => b.id == e.id)) {
+//       console.log('SAME VALUE')
+//     } else { tmp.push(e) }
+//   })
+//   return state.merge({ data_verify: tmp, fetch2: false })
+// }
+// export const verifyFailure2 = state => state.merge({ fetch2: false })
+
 export const verifyRequest = state => state.merge({ fetch2: true })
-
 export const verifySuccess = (state, { data }) => {
-  return state.merge({ fetch2: false, data_verify: data })
-}
+  // let tmp = state.data_verify  // can use
+  // let tmp = [...state.data_verify]  // can use
 
+  let tmp
+  if (state.data_verify && state.data_verify != null) {
+    // data.forEach(e => tmp.push(e))
+    tmp = [...state.data_verify]
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  return state.merge({ fetch2: false, data_verify: tmp })
+}
 export const verifyFailure = state => state.merge({ fetch2: false })
-
-export const verifySuccess2 = (state, { data }) => {
-  let tmp = [...state.data_verify]
-  data.forEach(e => {
-    if (tmp.find(b => b.id == e.id)) {
-      console.log('SAME VALUE')
-    } else { tmp.push(e) }
-  })
-  return state.merge({ data_verify: tmp, fetch2: false })
-}
-
-export const verifyFailure2 = state => state.merge({ fetch2: false })
-
 
 export const setDataPoint = (state, { data, index }) => {
   return state.merge({ data_point: data, index_row: index })
@@ -227,8 +252,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE_REQUEST]: verifyRequest,
   [Types.VERIFY_SUCCESS]: verifySuccess,
   [Types.VERIFY_FAILURE]: verifyFailure,
-  [Types.VERIFY_SUCCESS2]: verifySuccess2,
-  [Types.VERIFY_FAILURE2]: verifyFailure2,
+  // [Types.VERIFY_SUCCESS2]: verifySuccess2,
+  // [Types.VERIFY_FAILURE2]: verifyFailure2,
 
   [Types.ACCEPT_REQUEST]: acceptRequest,
   [Types.ACCEPT_SUCCESS]: acceptSuccess,
@@ -257,4 +282,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_SEND_ANSWER]: clearSendAnswer,
   [Types.CLEAR_GET_ANSWER]: clearGetAnswer,
   [Types.CLEAR_UPDATE_REQUEST]: clearUpdateRequest,
+
+  [Types.SET_TYPE_ANSWER]: setTypeAnswer,
+  [Types.CLEAR_DATA_ANSWER]: clearDataAnswer,
 })

@@ -20,6 +20,7 @@ import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import QuestionActions from '../Redux/QuestionRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
+import ChatActions from '../Redux/ChatRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
 I18n.fallbacks = true;
@@ -30,7 +31,7 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
-class ChatMyAmulet extends Component {
+class AdminContactUser extends Component {
 
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
@@ -45,10 +46,8 @@ class ChatMyAmulet extends Component {
     }
 
     _goToChat = (item) => {
-        // this.props.setDetailPhra(item)
-        // this.props.navigation.navigate('')
         this.props.setDataGroupChat(item)
-        this.props.navigation.navigate('chatRoomMyAmuletSolo')
+        this.props.navigation.navigate('chat3')
     }
 
     componentDidMount() {
@@ -89,12 +88,6 @@ class ChatMyAmulet extends Component {
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
 
-                <View style={{ height: 40, backgroundColor: Colors.milk, }}>
-                    <TouchableOpacity style={{ borderColor: 'orange', borderWidth: 5, alignItems: 'center', justifyContent: 'center', flex: 1 }} onPress={() => this.props.navigation.navigate("chatRoomMyAmulet")}>
-                        <Text style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, fontSize: 18 }}>{I18n.t('chat')}</Text>
-                    </TouchableOpacity>
-                </View>
-
                 <FlatList
                     refreshControl={
                         <RefreshControl
@@ -102,7 +95,7 @@ class ChatMyAmulet extends Component {
                             onRefresh={this._reload}
                         />
                     }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePromotion')}</Text>}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                     data={this.props.data_myMessageFromOther}
                     renderItem={this._renderItem} />
             </LinearGradient>
@@ -117,22 +110,20 @@ const mapStateToProps = (state) => {
         // request_profile: state.question.request_profile,
         // data_amulet: state.question.amuletType,   // data request type amulet
         // request_type: state.question.request_type,  // request type
-        data_amulet: state.showroom.data_amulet,
+        // data_amulet: state.showroom.data_amulet,
 
-        request7: state.showroom.request7,  // request for get data my real amulet message from other person ( Chat Solo )
-        data_myMessageFromOther: state.showroom.data_myMessageFromOther,  // data for store my message from other person ( Chat Solo )
+        request7: state.chat.request3,  // request for get data my real amulet message from other person ( Chat Solo )
+        data_myMessageFromOther: state.chat.data_listUser,  // data for store my message from other person ( Chat Solo )
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
-        setRequestType: () => dispatch(QuestionActions.setRequestType()),
-        setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
-        setDetailPhra: (data) => dispatch(ShowRoomActions.setDetailPhra(data)),
-        getMyMessageFromOther: (page) => dispatch(ShowRoomActions.getMyMessageFromOther(page)),
-        setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
+        // setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
+        // setDetailPhra: (data) => dispatch(ShowRoomActions.setDetailPhra(data)),
+        getMyMessageFromOther: (page) => dispatch(ChatActions.getListUserContact(page)),
+        setDataGroupChat: (data) => dispatch(ChatActions.setGroupChatAdmin(data)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatMyAmulet)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminContactUser)

@@ -45,7 +45,21 @@ const { Types, Creators } = createActions({
   wantSuccess: ['data'],
   wantFailure: null,
 
+  setImage: ['data'],
+  deleteImage: null,
+
+  addDetailCertificate: ['qid', 'amuletName', 'temple', 'image', 'ownerName'],
+  addDetailCertificateSuccess: ['data'],
+  addDetailCertificateFailure: null,
+
+  getListCerFromUser: ['page'],
+  getListCerFromUserSuccess: ['data'],
+  getListCerFromUserFailure: null,
+
+  setDataCer: ['data'],
+
   clearDataBid: null,
+  clearDataCer: null,
 
   getLeasingAdmin: ['page'],
   getLeasingSuccess: ['data'],
@@ -90,6 +104,15 @@ export const INITIAL_STATE = Immutable({
 
   request8: null,  // want to buy api
   data_want: null,  // data want to buy
+
+  request9: null,  // request for add detail of certificate
+  data_certificate: null,  // store certificate detail data
+  image: null,  // set picture of certificate
+
+  request10: null,  // get List certificate from user ( Admin Only !!)
+  data_getListCer: null,  // store list certificate from user
+
+  data_setCer: null,  // set for pass to admin edit certificate from user data
 })
 
 /* ------------- Selectors ------------- */
@@ -99,9 +122,40 @@ export const TradingSelectors = {
 }
 
 /* ------------- Reducers ------------- */
-
+export const clearDataCer = state => state.merge({ data_certificate: null })
 export const clearDataBid = state => state.merge({ data: [] })
+export const setDataCer = (state, { data }) => state.merge({ data_setCer: data })
 // request the data from an api
+export const getListCerFromUser = state => state.merge({ request10: true })
+export const getListCerFromUserSuccess = (state, { data }) => {
+  let tmp
+  if (state.data_getListCer && state.data_getListCer != null && state.data_getListCer.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = JSON.parse(JSON.stringify(state.data_getListCer))
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  tmp.sort(function (a, b) {
+    return b.id - a.id;
+  })
+
+  return state.merge({ data_getListCer: tmp, request10: false })
+}
+export const getListCerFromUserFailure = state => state.merge({ request10: false })
+
+export const setImage = (state, { data }) => state.merge({ image: data })
+export const deleteImage = state => state.merge({ image: null })
+export const addDetailCertificate = state => state.merge({ request9: true })
+export const addDetailCertificateSuccess = (state, { data }) => state.merge({ request9: false, data_certificate: data })
+export const addDetailCertificateFailure = state => state.merge({ request9: false })
+
 export const getDetailRequest = (state) => state.merge({ request: true })
 export const getDetailSuccess = (state, { data }) => state.merge({ request: false, data_detail: data })
 export const getDetailFailure = (state) => state.merge({ request: false })
@@ -241,14 +295,26 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PRICE_SUCCESS]: getPriceSuccess,
   [Types.GET_PRICE_FAILURE]: getPriceFailure,
 
+  [Types.ADD_DETAIL_CERTIFICATE]: addDetailCertificate,
+  [Types.ADD_DETAIL_CERTIFICATE_SUCCESS]: addDetailCertificateSuccess,
+  [Types.ADD_DETAIL_CERTIFICATE_FAILURE]: addDetailCertificateFailure,
+
+  [Types.GET_LIST_CER_FROM_USER]: getListCerFromUser,
+  [Types.GET_LIST_CER_FROM_USER_SUCCESS]: getListCerFromUserSuccess,
+  [Types.GET_LIST_CER_FROM_USER_FAILURE]: getListCerFromUserFailure,
+
   [Types.GET_LEASING_ADMIN]: getLeasingAdmin,
   [Types.GET_LEASING_SUCCESS]: getLeasingSuccess,
   [Types.GET_LEASING_FAILURE]: getLeasingFailure,
   [Types.GET_LEASING_SUCCESS2]: getLeasingSuccess2,
   [Types.GET_LEASING_FAILURE2]: getLeasingFailure2,
 
+  [Types.SET_DATA_CER]: setDataCer,
   [Types.SET_DATA]: setData,
+  [Types.SET_IMAGE]: setImage,
+  [Types.DELETE_IMAGE]: deleteImage,
   [Types.SET_FULL_DATA2]: setFullData2,
   [Types.EDIT_FULL_DATA2]: editFullData2,
   [Types.CLEAR_DATA_BID]: clearDataBid,
+  [Types.CLEAR_DATA_CER]: clearDataCer,
 })

@@ -111,6 +111,7 @@ class HistoryScreen extends Component {
     }
   }
   _onScrollEndList = () => {
+    console.log('END PAGE HHISTORY SCREEN')
     if (this.props.history && this.props.history.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
       count++
       this.props.getHistory(count)

@@ -5,8 +5,10 @@ let b
 if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'
 } else {
-  b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
-  // b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
+  // b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
+  b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
+
+  // b = 'http://172.20.10.2/CheckPhraApi/web/index.php/v1/'
 }
 
 // our "constructor"
@@ -74,7 +76,7 @@ const create = (baseURL = b) => {
   const getProfile = (data) => api.get('user/profile', data)
   const cancelQuestion = (data) => api.get('question/cancel', data)
 
-  const addAnswer = (pack, q_id, user_id, argument, interested) => api.post('answer/check', { answer: pack, question_id: q_id, user_id, argument, interested })
+  const addAnswer = (pack, q_id, user_id, argument, interested, permit) => api.post('answer/check', { answer: pack, question_id: q_id, user_id, argument, interested, permit })
   const updateAnswer = (pack, q_id, user_id, argument) => api.post('answer/update-answer', { answer: pack, qid: q_id, user_id, argument })
 
   // const moneyTransfer = (user_id, price, bank, date, file, types) => {
@@ -93,7 +95,8 @@ const create = (baseURL = b) => {
   //   return api.post('transfer/add', body, { headers: { 'Content-Type': 'multipart/from-data'}})
   // }
 
-  const answerAdmin = (data) => api.get('answer/list', data)
+  // const answerAdmin = (data) => api.get('answer/list', data)
+  
 
   const getText = (data) => api.get('automatic-text/list', data)
 
@@ -110,7 +113,7 @@ const create = (baseURL = b) => {
     cancelQuestion,
 
     addAnswer,
-    answerAdmin,
+    // answerAdmin,
 
     updateAnswer,
     getText,

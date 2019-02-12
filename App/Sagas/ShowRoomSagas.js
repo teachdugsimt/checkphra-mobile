@@ -10,11 +10,21 @@
 *    you'll need to define a constant in that file.
 *************************************************************/
 
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
-// import { ShowRoomSelectors } from '../Redux/ShowRoomRedux'
+import WebboardActions from '../Redux/WebboardRedux'
+import I18n from '../I18n/i18n';
+I18n.fallbacks = true;
 
-export function * getShowRoom (api, action) {
+// import { ShowRoomSelectors } from '../Redux/ShowRoomRedux'
+const auth = state => state.auth
+const type = state => state.showroom.data_amulet
+const idDataAmulet = state => state.showroom.data_their
+const dataChat = state => state.showroom.data_groupChat
+const webboard = state => state.webboard
+I18n.locale = auth.language
+
+export function* getShowRoom(api, action) {
   const { data } = action
   // get current data from Store
   // const currentData = yield select(ShowRoomSelectors.getData)
@@ -28,5 +38,282 @@ export function * getShowRoom (api, action) {
     yield put(ShowRoomActions.showRoomSuccess(response.data))
   } else {
     yield put(ShowRoomActions.showRoomFailure())
+  }
+}
+
+export function* getListAmulet(api, { page }) {
+  const aut = yield select(auth)
+  const typ = yield select(type)
+
+  const data = {
+    user_id: aut.user_id,
+    page_number: page,
+    type_id: typ.id
+  }
+
+  const response = yield call(api.getListReal, data)
+  console.log('================= GET LIST THEIR REAL AMULET ==================')
+  console.log(response)
+  if (response.ok) {
+    yield put(ShowRoomActions.getListSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getListFailure())
+  }
+}
+
+export function* sendMessageTheirAmulet55(api, { qid, message }) {  // don't have name duplicate with redux
+  const aut = yield select(auth)
+  console.log(qid)
+  console.log(message)
+
+  const data = {
+    user_id: aut.user_id,
+    qid,
+    message
+  }
+  console.log(data)
+
+  const response = yield call(api.sendMessageChatAllTheirAmulet, data)
+  console.log(response)
+  console.log('=======================  SEND MESSAGE DURATION =======================')
+  if (response.ok) {
+    yield put(ShowRoomActions.sendMessageTheirAmuletSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.sendMessageTheirAmuletFailure())
+  }
+}
+
+
+export function* getMessageFromTheirAmulet(api, { page }) {
+  const aut = yield select(auth)
+  const id = yield select(idDataAmulet)
+  const data = {
+    user_id: aut.user_id,
+    qid: id.id,
+    page_number: page
+  }
+
+  const response = yield call(api.getMessageTheirAmulet, data)
+  console.log(response)
+  console.log('====================== GET MESSAGE FROM THEIR AMULET =============================')
+  if (response.ok) {
+    yield put(ShowRoomActions.getMessageTheirAmuletSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getMessageTheirAmuletFailure())
+  }
+}
+
+export function* sendMessageToOwner(api, { message }) {   // *****************************************************************************
+  const aut = yield select(auth)
+  const their = yield select(idDataAmulet)
+  const dgroup = yield select(dataChat)
+  const data = {
+    // user_id: aut.user_id,  // Mobile login now
+    user_id: aut.user_id,
+    message,
+    qid: their.id,
+    uid_contact: their.user_id == aut.user_id ? dgroup.user_id : their.user_id  // other person
+    //               เจ้าของ  =  ไอดีในอีมูนี้             me                 003
+  }
+  console.log(data)
+  console.log('============== SEND MESSAGE IN ROOM ===============')
+  const response = yield call(api.sendMessageChatOwner, data)
+  console.log(response)
+  console.log('=================== SEND MESSAGE TO OWNER ====================')
+  if (response.ok) {
+    yield put(ShowRoomActions.sendMessageOwnerSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.sendMessageOwnerFailure())
+  }
+}
+
+export function* getMessageFromOwner(api, { page }) {   // **********************************************************************
+  const aut = yield select(auth)
+  const their = yield select(idDataAmulet)
+  const dgroup = yield select(dataChat)
+  const data = {
+    qid: their.id,
+    // user_id: aut.user_id,  // mobile login now
+    user_id: aut.user_id == their.user_id ? dgroup.user_id : aut.user_id,
+    uid_owner: their.user_id,  // other person or Owner amulet only
+    page_number: page,
+
+  }
+  console.log(data)
+  console.log('============== GET MESSAGE IN ROOM ===============')
+  const response = yield call(api.getMessageOwner, data)
+  console.log(response)
+  console.log('======================= GET MESSAGE FROM OWNER =====================')
+  if (response.ok) {
+    yield put(ShowRoomActions.getMessageOwnerSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getMessageOwnerFailure())
+  }
+}
+
+
+export function* getMyRealAmulet(api, { page }) {
+  const aut = yield select(auth)
+
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+  const response = yield call(api.getMyRealAmulet, data)
+  console.log(response)
+  console.log('====================== GET MY REAL AMULET =======================')
+  if (response.ok) {
+    yield put(ShowRoomActions.getMyRealAmuletSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getMyRealAmuletFailure())
+  }
+}
+
+export function* getMyMessageFromOtherPerson(api, { page }) {
+  const aut = yield select(auth)
+  const id = yield select(idDataAmulet)
+
+  const data = {
+    user_id: aut.user_id,
+    qid: id.id,
+    page_number: page
+  }
+
+  const response = yield call(api.getMyMessageFromOther, data)
+  console.log(response)
+  console.log('===================== GET MY MESSAGE FROM OTHER PERSON =====================')
+  if (response.ok) {
+    yield put(ShowRoomActions.getMyMessageFromOtherSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getMyMessageFromOtherFailure())
+  }
+}
+
+export function* getListOwnerContactWithUser(api, { page }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getMyContact, data)
+
+
+  console.log(response)
+  console.log('======================  GET LIST USER CONTACT TO OWNER ========================')
+
+  if (response.ok) {
+    yield put(ShowRoomActions.getListOwnerContactSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getListOwnerContactFailure())
+  }
+}
+
+export function* getListAllBoard555(api, { page }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getListAll1, data)
+  console.log(response)
+  console.log('================ GET LIST ALL BOARD ================')
+  if (response.ok) {
+    yield put(WebboardActions.getListAllSuccess(response.data))
+  } else {
+    yield put(WebboardActions.getListAllFailure())
+  }
+}
+
+export function* getListMyBoard555(api, { page }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getListMe1, data)
+
+  console.log(response)
+  console.log('================== GET LIST ME BOARD ===================')
+
+  if (response.ok) {
+    yield put(WebboardActions.getListMeSuccess(response.data))
+  } else {
+    yield put(WebboardActions.getListMeFailure())
+  }
+}
+
+export function* getCommentRequest(api) {
+  const web = yield select(webboard)
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    post_id: web.data_webboard.id
+  }
+  const response = yield call(api.getComment, data)
+  console.log(response)
+  console.log('================== GET COMMENT ===================')
+  if (response.ok) {
+    yield put(WebboardActions.getCommentSuccess(response.data))
+  } else {
+    yield put(WebboardActions.getCommentFailure())
+  }
+}
+
+export function* addPostRequest(api, { topic, content }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    topic,
+    content
+  }
+  const response = yield call(api.addPost, data)
+  console.log(response)
+  console.log('================= POST ADD ==================')
+  if (response.ok) {
+    yield put(WebboardActions.addPostSuccess(response.data))
+  } else {
+    yield put(WebboardActions.addPostFailure())
+  }
+}
+
+export function* addCommentRequest(api, { comment }) {
+  const aut = yield select(auth)
+  const web = yield select(webboard)
+
+  const data = {
+    user_id: aut.user_id,
+    post_id: web.data_webboard.id,
+    text: comment
+  }
+
+  const response = yield call(api.addComment, data)
+  console.log(response)
+  console.log('================== ADD COMMENT ===================')
+  if(response.ok){
+    yield put(WebboardActions.addCommentSuccess(response.data))
+  } else {
+    yield put(WebboardActions.addCommentFailure)
+  }
+}
+
+export function* addLike(api, {id, from, status}){
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    id,
+    from,
+    status
+  }
+
+  const response = yield call(api.like, data)
+  console.log(response)
+  console.log('============ LIKE POST & COMMENT ============')
+  if(response.ok){
+    yield put(WebboardActions.likeSuccess(response.data))
+  } else {
+    yield put(WebboardActions.likeFailure())
   }
 }

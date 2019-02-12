@@ -5,8 +5,10 @@ let b
 if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/core-profile/web/index.php/v1/'
 } else {
-  b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
-  // b = 'http://192.168.1.45/core-profile/web/index.php/v1/'
+  // b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
+  b = 'http://192.168.1.45/core-profile/web/index.php/v1/'
+
+  // b = 'http://172.20.10.2/core-profile/web/index.php/v1/'
 }
 
 // our "constructor"
@@ -57,6 +59,8 @@ const create = (baseURL = b) => {
 
   const saveDeviceToken = (data) => api.post('user/add-registration-token', data)
 
+  const changeProfile = (data) => api.post('user/update-profile', data)
+
   // ------
   // STEP 3
   // ------
@@ -77,7 +81,8 @@ const create = (baseURL = b) => {
     senddataRealTime,
     changePassword,
     forgetPassword,
-    saveDeviceToken
+    saveDeviceToken,
+    changeProfile,
   }
 }
 

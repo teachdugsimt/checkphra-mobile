@@ -22,6 +22,7 @@ import ShowRoomActions from '../Redux/ShowRoomRedux'
 import MarketActions from '../Redux/MarketRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
+import ImageList from './ImageList/ImageList3'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -30,78 +31,99 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
-class MarketListShop extends Component {
+class MarketListShop2 extends Component {
     constructor(props) {
         super(props)
         this.state = {
             modalVisible: false,
             index: 0,
-            img: null,
+            img: null
         }
     }
 
-    _gotoShop = (item, index) => {
-        this.props.setShopId(item.id)
-        this.props.navigation.navigate("marketListShop2")
-        // go to list amulet in each shop
+    _goToChatTheirAmulet = (item) => {
+        this.props.setTheirAmuletData(item)
+        this.props.navigation.navigate('chatTheirAmulet')
     }
 
-    _showImg = (item, index) => {
-        let img = []
-        item.images.map(e => {
-            img.push({ url: e })
-        })
-        this.setState({ img, index, modalVisible: true })
-    }
 
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
+
         return (
-            <TouchableOpacity style={{ height: 160, marginTop: 10, marginHorizontal: 15, borderRadius: 10, backgroundColor: Colors.milk }} onPress={() => this._gotoShop(item, index)}>
-                <ScrollView style={{ flex: 1 }} horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {item.images && item.images.map((e, i) => {
-                        return (
-                            <TouchableOpacity style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} onPress={() => this._showImg(item, i)}>
-                                <Image source={{ uri: e }} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+            <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChatTheirAmulet(item)}>
+
+                <View style={{ flexDirection: 'row', flex: 1 }}>
+                    <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => {
+                        this._showImage(item.images)
+                    }}>
+                        <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: item.images[0] }} />
+                    </TouchableOpacity>
+
+                    <View style={{ justifyContent: 'center', width: '100%' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+                            <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
+                            <Text style={{ color: Colors.brownTextTran, fontSize: 14, fontFamily: 'Prompt-SemiBold', marginTop: 3 }}> ( {item.id} )</Text>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', width: '100%' }}>
+                            <Text style={{ marginLeft: 10, marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+                            <TouchableOpacity style={{ flex: 1, marginLeft: 10, marginTop: 4, width: '100%' }} onPress={() => this._pressSubList(item.images)}>
+                                <ImageList data={item.images} />
                             </TouchableOpacity>
-                        )
-                    })}
-                </ScrollView>
-
-                <View style={{ flex: 0.6, marginHorizontal: 7.5 }}>
-                    <Text style={{ fontSize: 18, fontFamily: 'Prompt-SemiBold', color: Colors.bloodOrange }}>{item.store_name}</Text>
-                    <Text style={{ fontSize: 14, color: Colors.brownTextTran }}>{item.contact + " ( " + date + " )"}</Text>
+                        </View>
+                    </View>
                 </View>
-            </TouchableOpacity>
 
+            </TouchableOpacity>
         )
     }
 
+    _showImage = (item) => {
+        let img = []
+        item.map(e => {
+            img.push({ url: e })
+        })
+        this.setState({ img, modalVisible: true })
+    }
+
+    _pressSubList = (item) => {
+        let img = []
+        item.map(e => {
+            img.push({ url: e })
+        })
+        this.setState({ img, index: 1, modalVisible: true })
+    }
 
     componentDidMount() {
         count = 1
-        this.props.getListStoreGroup(count)
+        this.props.getListAmuletStore(count)
     }
 
     componentWillUnmount() {
         count = 1
-        this.props.clearShopGroup()
+        // this.props.clearDataListTheirAmulet()
+        this.props.clearListAmuletShop()
+        // !!!!!!!!!!!!!!!!!! clear list !!!!!!!!!!!!!!
     }
 
     _reload = () => {
         count = 1
-        this.props.getListStoreGroup(count)
+        this.props.getListAmuletStore(count)
     }
 
     _onScrollEndList = () => {
-        if (this.props.data_shopgroup && this.props.data_shopgroup.length >= 10 && (this.props.request11 == false || this.props.request11 == null)) {
+        console.log('END LIST AGAIN')
+        if (this.props.data_amuletstore && this.props.data_amuletstore.length >= 10 && (this.props.request12 == false || this.props.request12 == null)) {
             count++
-            this.props.getListStoreGroup(count)
+            this.props.getListAmuletStore(count)
         }
     }
 
     render() {
-        console.log('----------- List Other Shop --------------')
+        console.log(this.props.data_amuletstore)
+        console.log('----------- List Other Shop 222 --------------')
+
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
@@ -119,7 +141,7 @@ class MarketListShop extends Component {
                         //     this.setState({ modalVisible: true })
                         // }}
 
-                        index={this.state.index} // index in array picture
+                        index={this.state.index} // add + 
                         onSwipeDown={() => {
                             console.log('onSwipeDown');
                             this.setState({ modalVisible: false })
@@ -133,17 +155,16 @@ class MarketListShop extends Component {
                 <FlatList
                     refreshControl={
                         <RefreshControl
-                            refreshing={this.props.request11 == true}
-                            onRefresh={this._reload.bind(this)}
+                            refreshing={this.props.request12 == true}
+                            onRefresh={this._reload}
                         />
                     }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
-                    data={this.props.data_shopgroup ? this.props.data_shopgroup : []}
+                    data={this.props.data_amuletstore}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
                     // onEndReachedThreshold={0.025}
-                    onEndReachedThreshold={1.0}
-                />
+                    onEndReachedThreshold={1.2} />
             </LinearGradient>
         )
     }
@@ -154,18 +175,17 @@ const mapStateToProps = (state) => {
         language: state.auth.language,
         profile: state.question.profile,
 
-        request11: state.market.request11,  // for get list store by province
-        data_shopgroup: state.market.data_shopgroup,  // store list shop by province
-
+        request12: state.market.request12,  // for get amulet in each shop
+        data_amuletstore: state.market.data_amuletstore,  // for store data list amulet in each store
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getListStoreGroup: (page) => dispatch(MarketActions.getListStoreGroup(page)),
-        setShopId: (data) => dispatch(MarketActions.setShopId(data)),
-        clearShopGroup: () => dispatch(MarketActions.clearShopGroup()),
+        getListAmuletStore: (page) => dispatch(MarketActions.getListAmuletStore(page)),
+        setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
+        clearListAmuletShop: () => dispatch(MarketActions.clearListAmuletShop()),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketListShop)
+export default connect(mapStateToProps, mapDispatchToProps)(MarketListShop2)

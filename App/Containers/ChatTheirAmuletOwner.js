@@ -92,6 +92,18 @@ class ChatTheirAmuletOwner extends Component {
             }
         }
 
+        if (newProps.data_vote && newProps.data_vote != null) {
+            if (prevState.tmp_vote != newProps.data_vote && newProps.data_their.id == newProps.data_vote.id && newProps.data_amuletstore && newProps.data_amuletstore != null) {
+                console.log('-------------- Come From List Shop OTHER PERSON 55555 -----------')
+                newProps.setTheirAmuletData(newProps.data_vote)
+                newProps.syncVoteData2(newProps.data_vote)
+                newProps.clearDataVote()
+                return {
+                    tmp_vote: newProps.data_vote
+                }
+            }
+        }
+
         return {
             // mlist: message_list,
             // mlist: newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet
@@ -481,6 +493,8 @@ const mapStateToProps = (state) => {
         data_areaAmulet: state.market.data_areaAmulet,
 
         data_contactOwner: state.showroom.data_listOwner,  // data for store my message from other person ( Chat Solo )
+
+        data_amuletstore: state.market.data_amuletstore,  // for store data list amulet in each store
     }
 }
 
@@ -497,6 +511,7 @@ const mapDispatchToProps = (dispatch) => {
         voteAmulet: (id, status) => dispatch(MarketActions.voteAmulet(id, status)),
 
         syncVoteData: (data) => dispatch(ShowRoomActions.syncVoteData(data)),
+        syncVoteData2: (data) => dispatch(MarketActions.syncVoteData2(data)),
     }
 }
 

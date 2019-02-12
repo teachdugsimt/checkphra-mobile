@@ -44,7 +44,7 @@ class MarketSelectType extends Component {
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
-                <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText, marginVertical: 15 }}>{I18n.t('selectAmuletType')}</Text>
+                <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText, marginTop: 10, marginBottom: 5 }}>{I18n.t('selectAmuletType')}</Text>
 
                 <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 8, width: '70%', alignSelf: 'center' }} onPress={this._ListShop}>
                     <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, alignSelf: 'center', textAlign: 'center', padding: 8 }}>Go to shop</Text>

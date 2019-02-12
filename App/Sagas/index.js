@@ -52,7 +52,8 @@ import {
 import {
   getTypeAmuletRequest, sendDataAmuletForMarket, getListAreaAmuletRequest,
   sendDataAmuletForMarket2, getProvinceRequest, openStoreRequest, getListMyMarketRequest, getRegionRequest,
-  voteAmuletRequest, pushAmuletToMarket, deleteAmuletMarketRequest, getListStoreGroupRequest
+  voteAmuletRequest, pushAmuletToMarket, deleteAmuletMarketRequest, getListStoreGroupRequest,
+  getListAmuletStoreRequest
 } from './MarketSagas'
 
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
@@ -84,6 +85,7 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    takeLatest(MarketTypes.GET_LIST_AMULET_STORE, getListAmuletStoreRequest, question2Api),
     takeLatest(MarketTypes.GET_LIST_STORE_GROUP, getListStoreGroupRequest, question2Api),
     takeLatest(MarketTypes.DELETE_AMULET_MARKET, deleteAmuletMarketRequest, question2Api),
     takeLatest(MarketTypes.VOTE_AMULET, voteAmuletRequest, showroomApi),

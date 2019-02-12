@@ -59,7 +59,7 @@ class ChatRoomMyAmuletSolo extends Component {
         console.log(prevState)
         console.log('------------- Chat Message Solo Owner => Other Person --------------')
         if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null && prevState.mlist != newProps.data_sendMessageTheirAmulet) {
-            console.log(newProps.data_sendMessageTheirAmulet)
+            // console.log(newProps.data_sendMessageTheirAmulet)
             newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
             return {
                 mlist: newProps.data_sendMessageTheirAmulet

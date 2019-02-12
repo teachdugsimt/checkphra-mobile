@@ -85,6 +85,7 @@ const create = (baseURL = b) => {
   const openStore = (data) => api.post('shop/add', data)
   const deleteAmuletMarket = (data) => api.post('shop/delete-amulet', data)
   const getListStore = (data) => api.get('shop/list-all', data)
+  const getAmuletStore = (data) => api.get('shop/amulet-store', data)
 
   return {
     // a list of the API functions from step 2
@@ -105,7 +106,8 @@ const create = (baseURL = b) => {
     openStore,
     pushAmuletMarket,
     deleteAmuletMarket,
-    getListStore
+    getListStore,
+    getAmuletStore
   }
 }
 

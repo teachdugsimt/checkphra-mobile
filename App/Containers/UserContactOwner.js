@@ -221,10 +221,10 @@ class UserContactOwner extends Component {
     }
 
     _goToChat = (item) => {
-        if (item.type == 1) {
+        if (item.type == 1) {   // CHAT PRIVATE
             this.props.setDetailPhra(item.amulet)
             this.props.navigation.navigate("chatTheirAmuletOwner")
-        } else if (item.type == 2) {
+        } else if (item.type == 2) {  // CHAT ALL
             this.props.setDetailPhra(item.amulet)
             this.props.navigation.navigate("chatTheirAmulet")
         }

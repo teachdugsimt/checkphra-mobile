@@ -256,7 +256,7 @@ export function* deleteAmuletMarketRequest(api, { market_id }) {
 export function* getListStoreGroupRequest(api, { page }) {
   const aut = yield select(auth)
   const img = yield select(image)
-  
+
   const data = {
     user_id: aut.user_id,
     province_id: img.pro_id,
@@ -270,6 +270,26 @@ export function* getListStoreGroupRequest(api, { page }) {
     yield put(MarketActions.getListStoreGroupSuccess(response.data))
   } else {
     yield put(MarketActions.getListStoreGroupFailure())
+  }
+}
+
+export function* getListAmuletStoreRequest(api, { page }) {
+  const aut = yield select(auth)
+  const img = yield select(image)
+  const data = {
+    user_id: aut.user_id,
+    shop_id: img.shop_id,
+    page_number: page
+  }
+
+  const response = yield call(api.getAmuletStore, data)
+
+  console.log(response)
+  console.log("================  GET LIST AMULET IN SHOP =================")
+  if (response.ok) {
+    yield put(MarketActions.getListAmuletStoreSuccess(response.data))
+  } else {
+    yield put(MarketActions.getListAmuletStoreFailure())
   }
 }
 

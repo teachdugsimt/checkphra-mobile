@@ -77,6 +77,14 @@ const { Types, Creators } = createActions({
   getListStoreGroupSuccess: ['data'],
   getListStoreGroupFailure: null,
 
+  getListAmuletStore: ['page'],
+  getListAmuletStoreSuccess: ['data'],
+  getListAmuletStoreFailure: null,
+  setShopId: ['data'],
+  syncVoteData2: ['data'],
+
+  clearShopGroup: null,
+  clearListAmuletShop: null,
   clearDataMyList: null,
   clearListMyAmulet: null,
   clearListAreaAmulet: null,
@@ -143,6 +151,10 @@ export const INITIAL_STATE = Immutable({
 
   request11: null,  // for get list store by province
   data_shopgroup: null,  // store list shop by province
+
+  request12: null,  // for get amulet in each shop
+  data_amuletstore: null,  // for store data list amulet in each store
+  shop_id: null,  // set shop id for get list amulet in that shop
 })
 
 /* ------------- Selectors ------------- */
@@ -154,6 +166,39 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+export const clearShopGroup = state => state.merge({ data_shopgroup: null })
+export const clearListAmuletShop = state => state.merge({ data_amuletstore: null })
+export const setShopId = (state, { data }) => state.merge({ shop_id: data })
+export const getListAmuletStore = state => state.merge({ request12: true })
+export const getListAmuletStoreSuccess = (state, { data }) => {
+  let tmp
+  if (state.data_amuletstore && state.data_amuletstore != null && state.data_amuletstore.length > 0) {
+    tmp = JSON.parse(JSON.stringify(state.data_amuletstore))
+
+    data.map((e, i) => {
+      tmp.map((c, index) => {
+        if (e.id == c.id && e != c) {  // 1. id เหมือนกัน แต่ข้อมูลข้างในต่างกัน
+          tmp.splice(index, 1, e)  // แทนที่ช่องนั้นด้วยข้อมูลใหม่คือ e
+        } else if (tmp.find(b => b.id == e.id) == undefined) {  // 2. ถ้าเป็นไอดีใหม่ ให้เพิ่มไปช่องบนสุด
+          tmp.splice(0, 0, e)
+        } else if (e.id == c.id && e == c) {
+          console.log('SAME VALUE')
+        }
+      })
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  // tmp.sort(function (a, b) {  // (b.id - a.id;) id มากไปน้อย 
+  //   return b.id - a.id;       // (a.id - b.id;) id น้อยไปมาก 
+  // })
+
+  return state.merge({ data_amuletstore: tmp, request12: false })
+}
+export const getListAmuletStoreFailure = state => state.merge({ request12: false })
+
 export const getListStoreGroup = state => state.merge({ request11: true })
 export const getListStoreGroupSuccess = (state, { data }) => {
   let tmp
@@ -198,6 +243,16 @@ export const deleteFromList = (state, { data }) => {
     console.log(" can't delete amulet ")
   }
   return state.merge({ data_mylist: tmp, request10: null })
+}
+
+export const syncVoteData2 = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_amuletstore))
+  tmp.map((e, i) => {
+    if (e.id == data.id) {
+      tmp.splice(i, 1, data)
+    }
+  })
+  return state.merge({ data_amuletstore: tmp })
 }
 
 export const editVoteData = (state, { data }) => {
@@ -358,6 +413,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   // [Types.MARKET_REQUEST]: request,
   // [Types.MARKET_SUCCESS]: success,
   // [Types.MARKET_FAILURE]: failure,
+  [Types.CLEAR_SHOP_GROUP]: clearShopGroup,
+  [Types.CLEAR_LIST_AMULET_SHOP]: clearListAmuletShop,
   [Types.EDIT_VOTE_DATA]: editVoteData,
   [Types.EDIT_VOTE_DATA2]: editVoteData2,
   [Types.CLEAR_DATA_MY_LIST]: clearDataMyList,
@@ -378,6 +435,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.DELETE_IMAGE_CARD]: deleteImageCard,
   [Types.SET_IMAGE2]: setImage2,
   [Types.DELETE_IMAGE2]: deleteImage2,
+
+  [Types.SET_SHOP_ID]: setShopId,
+  [Types.GET_LIST_AMULET_STORE]: getListAmuletStore,
+  [Types.GET_LIST_AMULET_STORE_SUCCESS]: getListAmuletStoreSuccess,
+  [Types.GET_LIST_AMULET_STORE_FAILURE]: getListAmuletStoreFailure,
 
   [Types.SEND_DATA_AMULET_MARKET]: sendDataAmuletMarket,
   [Types.SEND_DATA_AMULET_MARKET_SUCCESS]: sendDataAmuletMarketSuccess,
@@ -424,6 +486,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_LIST_STORE_GROUP]: getListStoreGroup,
   [Types.GET_LIST_STORE_GROUP_SUCCESS]: getListStoreGroupSuccess,
   [Types.GET_LIST_STORE_GROUP_FAILURE]: getListStoreGroupFailure,
+  [Types.SYNC_VOTE_DATA2]: syncVoteData2,
 
   [Types.VOTE_AMULET]: voteAmulet,
   [Types.VOTE_AMULET_SUCCESS]: voteAmuletSuccess,

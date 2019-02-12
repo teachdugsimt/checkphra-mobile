@@ -59,6 +59,7 @@ import AdminVerifyShop2 from '../Containers/AdminVerifyShop2'
 import MarketMyAmulet from '../Containers/MarketMyAmulet'
 import MarketSelectType from '../Containers/MarketSelectType'
 import MarketListShop from '../Containers/MarketListShop'
+import MarketListShop2 from '../Containers/MarketListShop2'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -271,8 +272,14 @@ const UploadStack = StackNavigator(  // main upload
         title: I18n.t('market')
       }
     },
-    marketListShop : {
+    marketListShop: {
       screen: MarketListShop,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketListShop2: {
+      screen: MarketListShop2,
       navigationOptions: {
         title: I18n.t('market')
       }

@@ -53,7 +53,16 @@ const create = (baseURL = b) => {
 
   const getMyContact = (data) => api.get('discuss/my-contact-list', data)
 
+  const voteAmulet = (data) => api.post('market/update-fact', data)
+ 
   //********************** Chat Api Zone ***********************/
+
+  //********************** Admin Verify Store *****************/
+  const getListShop = (data) => api.get('shop/list', data)
+  const verifyStore = (data) => api.post('shop/confirm', data)
+
+  const getListMarketMyAmulet = (data) => api.get('market/list-me', data)
+  //********************** Admin Verify Store *****************/
 
 
   return {
@@ -68,7 +77,11 @@ const create = (baseURL = b) => {
     chatToAdmin,
     getMessageAdmin,
     adminContactUser,
-    getMyContact
+    getMyContact,
+    verifyStore,
+    getListShop,
+    getListMarketMyAmulet,
+    voteAmulet
 
   }
 }

@@ -48,6 +48,17 @@ import UserContactOwner2 from '../Containers/UserContactOwner2'
 import Webboard from '../Containers/Webboard'
 import Webboard2 from '../Containers/Webboard2'
 import Certificate from '../Containers/Certificate'
+import MarketHome from '../Containers/MarketHome'
+import MarketUpload1 from '../Containers/MarketUpload1'
+import MarketHomeList1 from '../Containers/MarketHomeList1'
+import MarketUpload2 from '../Containers/MarketUpload2'
+import MarketUpload2n1 from '../Containers/MarketUpload2n1'
+import MarketOpenstore from '../Containers/MarketOpenstore'
+import AdminVerifyShop from '../Containers/AdminVerifyShop'
+import AdminVerifyShop2 from '../Containers/AdminVerifyShop2'
+import MarketMyAmulet from '../Containers/MarketMyAmulet'
+import MarketSelectType from '../Containers/MarketSelectType'
+import MarketListShop from '../Containers/MarketListShop'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -212,12 +223,60 @@ const UploadStack = StackNavigator(  // main upload
         title: I18n.t('contactOwnerAmulet')
       }
     },
-    // userContactOwner2: {
-    //   screen: UserContactOwner2,
-    //   navigationOptions: {
-    //     title: I18n.t("contactOwnerAmulet")
-    //   }
-    // },
+    marketHome: {
+      screen: MarketHome,
+      navigationOptions: {
+        title: I18n.t("market")
+      }
+    },
+    marketListArea1: {
+      screen: MarketHomeList1,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketUpload1: {
+      screen: MarketUpload1,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketUpload2: {
+      screen: MarketUpload2,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketUpload2n1: {
+      screen: MarketUpload2n1,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketStore: {
+      screen: MarketOpenstore,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketMylistAmulet: {
+      screen: MarketMyAmulet,
+      navigationOptions: {
+        title: I18n.t('myShop')
+      }
+    },
+    marketSelectType: {
+      screen: MarketSelectType,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
+    marketListShop : {
+      screen: MarketListShop,
+      navigationOptions: {
+        title: I18n.t('market')
+      }
+    },
     webboard: {
       screen: Webboard,
       navigationOptions: {
@@ -248,7 +307,7 @@ const UploadStack = StackNavigator(  // main upload
         color: Colors.headerTitleColor,
         fontFamily: 'Prompt-Regular'
       },
-      tabBarLabel: I18n.t('checkPhra')
+      tabBarLabel: I18n.t('home')
     })
   }
 )
@@ -681,7 +740,7 @@ const AdminHomeStack = StackNavigator({
       title: I18n.t('webBoard')
     }
   }
- 
+
 }, {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
@@ -909,11 +968,41 @@ const BitStack = StackNavigator({ // **********************FOR ADMIN ***********
     })
   })
 
+const SubmitShopStack = StackNavigator({ // **********************FOR ADMIN *************************
+  shop1: {
+    screen: AdminVerifyShop,
+    navigationOptions: {
+      title: I18n.t('submitShop')
+    }
+  },
+  shop2: {
+    screen: AdminVerifyShop2,
+    navigationOptions: {
+      title: I18n.t('submitShop')
+    }
+  }
+}, {
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
+      tabBarLabel: I18n.t('shop'),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
+    })
+  })
+
 const AdminStack = TabNavigator({  // *************** MAIN ADMIN *************************
   adhome: AdminHomeStack,
   // checklist: CheckListStack,
   // answeradmin: AdminAnswerStack,
   // pub: PublishStack,
+  shop: SubmitShopStack,
   bit: BitStack,
   // verify: VerifyStack,
   money: MoneyStack,
@@ -945,6 +1034,9 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
         }
         if (routeName == "adhome") {
           iconName = `home${focused ? "" : ""}`;
+        }
+        if (routeName == "shop") {
+          iconName = `shopping-cart${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       },

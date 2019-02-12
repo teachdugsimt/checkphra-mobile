@@ -299,7 +299,9 @@ class MyRealAmulet extends Component {
                     }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePromotion')}</Text>}
                     data={this.props.data_myRealAmulet}
-                    renderItem={this._renderItem} />
+                    renderItem={this._renderItem} 
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={1.2} />
 
                 <PopupDialog
                     dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{

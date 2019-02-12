@@ -424,7 +424,9 @@ class CheckListScreen extends Component {
         </View>
 
         <View style={{ justifyContent: 'center', paddingRight: 10 }}>
-          <Icon2 name={'chevron-right'} style={{}} size={25} />
+
+          {item.status == 1 && <Icon2 name={'chevron-right'} size={25} color={'black'} />}
+          {item.status == 5 && <Icon2 name={'check-circle-o'} size={30} color={'green'} />}
         </View>
       </TouchableOpacity>
     )
@@ -439,10 +441,9 @@ class CheckListScreen extends Component {
 
   render() {
     I18n.locale = this.props.language
-    // console.log(this.props.request2)
-    // console.log('HERE REQUEST2')
-    // console.log(JSON.parse(JSON.stringify(this.props.history)))
-    // let data = this.props.history ? JSON.parse(JSON.stringify(this.props.history)) : null
+
+    console.log(this.props.data_getListCer)
+    console.log('---------------------- LIST USER CERTIFICATE --------------------------')
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -454,7 +455,7 @@ class CheckListScreen extends Component {
           height: width * 95.7 / 100
         }} resizeMode='contain' />
 
-        <View style={{ flexDirection: 'row', width: '100%', borderBottomColor: 'orange', borderBottomWidth: 1 }}>
+        {/* <View style={{ flexDirection: 'row', width: '100%', borderBottomColor: 'orange', borderBottomWidth: 1 }}>
           <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 7, borderTopColor: this.state.color1, height: 40, flex: 1, borderRightColor: 'orange', borderRightWidth: 1 }}
             onPress={this._pressG1}>
             <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 17, color: Colors.brownText, alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('pendingList')}</Text>
@@ -464,7 +465,7 @@ class CheckListScreen extends Component {
             onPress={this._pressG2}>
             <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 17, color: Colors.brownText, alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('certificateList')}</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <PopupDialog
           dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{

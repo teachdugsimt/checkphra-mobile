@@ -277,3 +277,25 @@ export function* getListCerfromUserRequest(api, { page }) {
     yield put(TradingActions.getListCerFromUserFailure())
   }
 }
+
+export function* activeCerRequest(api, { qid, amuletName, temple }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    qid,
+    amuletName,
+    temple
+  }
+
+  const response = yield call(api.activeCertificate, data)
+  console.log(response)
+  console.log('================ ACTIVE CERTIFICATE ================')
+
+  if (response.ok) {
+    yield put(TradingActions.activeCertificateSuccess(response.data))
+    alert(I18n.t('sellSucc'))
+  } else {
+    yield put(TradingActions.activeCertificateFailure())
+    alert(I18n.t('sellFail'))
+  }
+}

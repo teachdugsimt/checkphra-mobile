@@ -16,11 +16,11 @@ const { Types, Creators } = createActions({
   getQuestionTypeSuccess: ['questionType'],
   getQuestionTypeFailure: null,
 
-  setImages: ['index', 'source'],
+  setImages: ['index', 'source'],    // SET IMAGEEEEEEEEEEEEEEEEEEEEEEE
   setQuestions: ['questions'],
   setAmuletType: ['amuletType'],
 
-  addQuestion: null,
+  addQuestion: null,     //  ADD QUESTION in SendImageScreen
   addQuestionSuccess: ['data'],
   addQuestionFailure: null,
 
@@ -38,7 +38,7 @@ const { Types, Creators } = createActions({
   getAnswer: ['qid'],
   getAnswerSuccess: ['answer'],
 
-  deleteImage: ['index'],
+  deleteImage: ['index'],   // DELETEEEEEEEEEEEEEEEEEEEEEEEEEEE
   clearImage: null,
   setUri: ['data', 'index'],
 
@@ -227,7 +227,7 @@ export const getProfile = state => state.merge({ request_profile: true })
 export const profileSuccess = (state, action) => {
 
   const { profile } = action
-  console.log(profile)
+  // console.log(profile)
   return state.merge({ profile, request_profile: false })
 }
 
@@ -248,8 +248,6 @@ export const deleteImage = (state, { index }) => {
   tmp[index] = undefined
   return state.merge({ images: tmp })
 }
-
-
 
 export const setImages = (state, { index, source }) => {
   let images
@@ -300,7 +298,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_AMULET_TYPE_FAILURE]: amuletFailure,
 
   [Types.SET_AMULET_TYPE]: setAmuletType,
-  [Types.SET_IMAGES]: setImages,
+  [Types.SET_IMAGES]: setImages,               /// SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
   [Types.SET_QUESTIONS]: setQuestions,
 
   [Types.GET_HISTORY]: requestGetHistory,
@@ -317,7 +315,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE]: getProfile,
   [Types.GET_PROFILE_SUCCESS]: profileSuccess,
 
-  [Types.DELETE_IMAGE]: deleteImage,
+  [Types.DELETE_IMAGE]: deleteImage,  // DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
   [Types.CLEAR_IMAGE]: clearImage,
   [Types.SET_URI]: setUri,
 

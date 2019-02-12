@@ -40,6 +40,10 @@ const images = {
   apple1: require('../Images/apple1.png'),
   user: require('../Images/userAccount.png'),
   cer: require('../Images/certificate.png'),
+  crown: require('../Images/crown2.png'),
+  map: require('../Images/map.png'),
+  pin: require('../Images/pin.png'),
+  chat: require('../Images/chat.png'),
 }
 
 export default images

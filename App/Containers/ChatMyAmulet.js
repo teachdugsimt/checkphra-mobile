@@ -35,13 +35,32 @@ class ChatMyAmulet extends Component {
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
         return (
-            <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }}
+            <TouchableOpacity style={{ height: 80, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
                 onPress={() => this._goToChat(item)}>
+                <View style={{ flexDirection: 'row' }}>
+                    {item.profile.facebook_id && <Image source={{ uri: 'https://graph.facebook.com/' + item.profile.facebook_id + '/picture?width=500&height=500' }} style={{ width: 60, height: 60, borderRadius: 10, margin: 10 }} />}
+                    {item.profile.facebook_id == null && item.profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.profile.image }} style={{ width: 60, height: 60, borderRadius: 10, margin: 10 }} />}
+                    {item.profile.facebook_id == null && !item.profile.image && <Image source={Images.user} style={{ width: 60, height: 60, borderRadius: 10, margin: 10 }} />}
+                    <View style={{ justifyContent: 'center' }}>
+                        <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.profile.fullname}</Text>
+                        <Text style={{ color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+                    </View>
+                </View>
 
-                <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{I18n.t('messages') + " " + (index + 1)}</Text>
-                <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+                
+                    <Icon2 name={'chevron-right'} size={30} style={{ alignSelf: 'center', marginRight: 15 }} />
+               
             </TouchableOpacity>
         )
+    }
+
+    static getDerivedStateFromProps(newProps, prevState){
+        console.log(newProps)
+        console.log(prevState)
+        console.log('---------------  LIST CHAT MY AMULET ----------------')
+        return {
+
+        }
     }
 
     _goToChat = (item) => {
@@ -58,6 +77,7 @@ class ChatMyAmulet extends Component {
 
     componentWillUnmount() {
         count = 1
+        this.props.clearDataListMyMessageFromOtherPerson()
     }
 
     _reload = () => {
@@ -76,7 +96,7 @@ class ChatMyAmulet extends Component {
     render() {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
-
+        console.log('------------ SEE LIST OTHER PERSON MESSAGE TO ME ----------------')
         // console.log('***************************************')
         return (
             <LinearGradient
@@ -102,9 +122,11 @@ class ChatMyAmulet extends Component {
                             onRefresh={this._reload}
                         />
                     }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePromotion')}</Text>}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                     data={this.props.data_myMessageFromOther}
-                    renderItem={this._renderItem} />
+                    renderItem={this._renderItem}
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={1.0} />
             </LinearGradient>
         )
     }
@@ -132,6 +154,7 @@ const mapDispatchToProps = (dispatch) => {
         setDetailPhra: (data) => dispatch(ShowRoomActions.setDetailPhra(data)),
         getMyMessageFromOther: (page) => dispatch(ShowRoomActions.getMyMessageFromOther(page)),
         setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
+        clearDataListMyMessageFromOtherPerson: () => dispatch(ShowRoomActions.clearDataListMyMessageFromOtherPerson()),
     }
 }
 

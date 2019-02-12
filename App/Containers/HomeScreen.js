@@ -9,8 +9,8 @@ import RoundedButton from '../Components/RoundedButton'
 import { Colors, Images } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import Icon2 from "react-native-vector-icons/FontAwesome";
-import * as RNIap from 'react-native-iap';
-//cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
+// import { Card } from 'react-native-elements'
+import GridView from "react-native-super-grid";
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import QuestionActions from '../Redux/QuestionRedux'
@@ -38,7 +38,6 @@ class HomeScreen extends Component {
     return {
       title: I18n.t('home'),
     }
-<<<<<<< HEAD
   }
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
@@ -49,23 +48,13 @@ class HomeScreen extends Component {
     // const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: (<View><Text>5555555555555555555555888</Text></View>) },
     // { name: I18n.t('showAmuletReal'), id: 2 },
     // { name: I18n.t('chat'), id: 3 }]
-    const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1 },
-    { name: I18n.t('showAmuletReal'), id: 2 },
-    { name: I18n.t('chat'), id: 3 }]
+    const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
+    // { name: I18n.t('showAmuletReal'), id: 2 },
+    { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
+    { name: I18n.t('chat'), id: 3, logo: 'wechat' },]
 
     if (newProps.language != prevState.language) {
       newProps.getProfile()
-=======
-
-    _pressList = (item) => {
-        if (item.id == 1) {
-            this.props.navigation.navigate('uploadScreen')
-        } else if (item.id == 2) {
-            this.props.navigation.navigate('showroom')
-        } else if (item.id == 3) {
-            this.popupDialog.show()
-        }
->>>>>>> b78da06bfc392acd3134c4b4b1888e2aa69be601
     }
 
     let profile = newProps.profile
@@ -81,49 +70,53 @@ class HomeScreen extends Component {
     }
   }
 
-<<<<<<< HEAD
   _pressList = (item) => {
     if (item.id == 1) {
       this.props.navigation.navigate('uploadScreen')
     } else if (item.id == 2) {
       this.props.navigation.navigate('showroom')
     } else if (item.id == 3) {
-=======
-    componentDidMount() {
-        this.props.getProfile()
+      this.popupDialog.show()
+    } else if (item.id == 4) {
+      this.props.navigation.navigate('marketHome')
     }
->>>>>>> b78da06bfc392acd3134c4b4b1888e2aa69be601
-
-    _webBoard = () => {
-        this.props.navigation.navigate('webboard')
-        this.popupDialog.dismiss()
-    }
-<<<<<<< HEAD
   }
 
+  // _renderItem = ({ item, index }) => {
+  //     return (
+  //         <TouchableOpacity style={{ height: 140, backgroundColor: 'transparent', backgroundColor: Colors.milk, borderRadius: 20, marginTop: 4, marginHorizontal: 7 }} onPress={() => this._pressList(item)}>
+  //             <View style={{ flex: 1, borderLeftColor: '#FF530D', borderLeftWidth: 5, borderTopColor: '#FF530D', borderTopWidth: 5, marginVertical: 8, marginHorizontal: 8, borderRadius: 12 }}>
+
+  //             </View>
+
+  //             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+  //                 <View style={{ height: 30, borderLeftWidth: 5, borderLeftColor: '#FF530D', borderBottomWidth: 5, borderBottomColor: '#FF530D', width: 20, marginRight: 12, borderRadius: 8 }}>
+  //                 </View>
+
+  //                 <View style={{ alignItems: 'center' }}>
+  //                     <Text style={{ alignSelf: 'center', fontSize: 20, fontWeight: 'bold', color: Colors.brownTextTran }}>{item.name}</Text>
+  //                     {item.logo}
+  //                 </View>
+
+  //                 <View style={{ height: 30, borderRightWidth: 5, borderRightColor: '#FF530D', borderTopWidth: 5, borderTopColor: '#FF530D', width: 20, marginLeft: 12, borderRadius: 8 }}>
+  //                 </View>
+  //             </View>
+
+  //             <View style={{ flex: 1, borderBottomColor: '#FF530D', borderBottomWidth: 5, borderRightColor: '#FF530D', borderRightWidth: 5, marginVertical: 8, marginHorizontal: 8, borderRadius: 12 }}>
+  //             </View>
+  //         </TouchableOpacity>
+  //     )
+  // }
+
   _renderItem = ({ item, index }) => {
-
     return (
-      <TouchableOpacity style={{ height: 140, backgroundColor: 'transparent', backgroundColor: Colors.milk, borderRadius: 20, marginTop: 4, marginHorizontal: 7 }} onPress={() => this._pressList(item)}>
-        <View style={{ flex: 1, borderLeftColor: '#FF530D', borderLeftWidth: 5, borderTopColor: '#FF530D', borderTopWidth: 5, marginVertical: 8, marginHorizontal: 8, borderRadius: 12 }}>
+      <TouchableOpacity style={{ height: 120, backgroundColor: Colors.milk, borderBottomColor: Colors.bloodOrange, borderBottomWidth: 1, justifyContent: 'center' }} onPress={() => this._pressList(item)}>
 
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+          <Icon2 name={item.logo} size={40} />
+          <Text style={{ alignSelf: 'center', fontSize: 20, fontWeight: 'bold', color: Colors.brownTextTran, marginLeft: 10 }}>{item.name}</Text>
         </View>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-          <View style={{ height: 30, borderLeftWidth: 5, borderLeftColor: '#FF530D', borderBottomWidth: 5, borderBottomColor: '#FF530D', width: 20, marginRight: 12, borderRadius: 8 }}>
-          </View>
-
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ alignSelf: 'center', fontSize: 20, fontWeight: 'bold', color: Colors.brownTextTran }}>{item.name}</Text>
-            {item.logo}
-          </View>
-
-          <View style={{ height: 30, borderRightWidth: 5, borderRightColor: '#FF530D', borderTopWidth: 5, borderTopColor: '#FF530D', width: 20, marginLeft: 12, borderRadius: 8 }}>
-          </View>
-        </View>
-
-        <View style={{ flex: 1, borderBottomColor: '#FF530D', borderBottomWidth: 5, borderRightColor: '#FF530D', borderRightWidth: 5, marginVertical: 8, marginHorizontal: 8, borderRadius: 12 }}>
-        </View>
       </TouchableOpacity>
     )
   }
@@ -134,8 +127,23 @@ class HomeScreen extends Component {
 
   componentDidMount() {
     this.props.getProfile()
-
   }
+
+  _webBoard = () => {
+    this.props.navigation.navigate('webboard')
+    this.popupDialog.dismiss()
+  }
+
+  _ownerAmulet = () => {
+    this.props.navigation.navigate('userContactOwner')
+    this.popupDialog.dismiss()
+  }
+
+  _contactAdmin = () => {
+    this.props.navigation.navigate('contactAdmin')
+    this.popupDialog.dismiss()
+  }
+
   render() {
     I18n.locale = this.props.language
 
@@ -143,42 +151,7 @@ class HomeScreen extends Component {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
         <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
-        <FlatList
-          refreshControl={
-            <RefreshControl
-              refreshing={this.props.request_profile == true}
-              onRefresh={this._reload}
-            />
-          }
-          ListEmptyComponent={() => <Text style={styles.textEmptyData}>{I18n.t('nonePromotion')}</Text>}
-          data={this.state.list_user ? this.state.list_user : []}
-          renderItem={this._renderItem}
-        />
-        {/* <Spinner
-                    visible={this.props.request_profile == true}
-                    textContent={'Loading...'}
-                    textStyle={styles.spinnerText}
-                /> */}
-=======
-
-    _ownerAmulet = () => {
-        this.props.navigation.navigate('userContactOwner')
-        this.popupDialog.dismiss()
-    }
-
-    _contactAdmin = () => {
-        this.props.navigation.navigate('contactAdmin')
-        this.popupDialog.dismiss()
-    }
-
-    render() {
-        I18n.locale = this.props.language
-
-
-        return (
-            <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
-                <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
-                <FlatList
+        {/* <FlatList
                     refreshControl={
                         <RefreshControl
                             refreshing={this.props.request_profile == true}
@@ -188,40 +161,56 @@ class HomeScreen extends Component {
                     ListEmptyComponent={() => <Text style={styles.textEmptyData}>{I18n.t('nonePromotion')}</Text>}
                     data={this.state.list_user ? this.state.list_user : []}
                     renderItem={this._renderItem}
-                />
+                /> */}
 
-                <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
-                        fontSize: 18, fontWeight: 'bold'
-                    }}>{I18n.t('editType')}</Text></View>}
-                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-                    dialogAnimation={slideAnimation}
-                    width={width / 1.2}
-                    height={height / 2.4}
-                    // height={150}
-                    onDismissed={() => { this.setState({}) }}
-                >
-                    <View style={{ flex: 1 }}>
-                        <ScrollView style={{ flex: 1 }}>
-                            <View style={{}}>
-                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._webBoard}>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
-                                </TouchableOpacity>
+        <GridView
+          itemDimension={width / 2.5}
+          items={this.state.list_user ? this.state.list_user : []}
+          renderItem={item => {
+            return (
 
-                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._ownerAmulet}>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactOwnerAmulet')}</Text>
-                                </TouchableOpacity>
+              <TouchableOpacity onPress={() => this._pressList(item)} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
+                  <Icon2 name={item.logo} size={40} />
+                  <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
+                    {item.name}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+        />
 
-                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._contactAdmin}>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactAdmin')}</Text>
-                                </TouchableOpacity>
+        <PopupDialog
+          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+            fontSize: 18, fontWeight: 'bold'
+          }}>{I18n.t('editType')}</Text></View>}
+          ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width / 1.2}
+          height={height / 2.4}
+          // height={150}
+          onDismissed={() => { this.setState({}) }}
+        >
+          <View style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }}>
+              <View style={{}}>
+                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._webBoard}>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
+                </TouchableOpacity>
 
-                            </View>
+                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._ownerAmulet}>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactOwnerAmulet')}</Text>
+                </TouchableOpacity>
 
-                        </ScrollView>
-                    </View>
-                </PopupDialog>
->>>>>>> b78da06bfc392acd3134c4b4b1888e2aa69be601
+                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 50, marginHorizontal: 10 }} onPress={this._contactAdmin}>
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactAdmin')}</Text>
+                </TouchableOpacity>
+
+              </View>
+
+            </ScrollView>
+          </View>
+        </PopupDialog>
 
       </LinearGradient>
     )

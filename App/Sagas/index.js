@@ -17,6 +17,7 @@ import { VersionTypes } from '../Redux/VersionRedux'
 import { ShowRoomTypes } from '../Redux/ShowRoomRedux'
 import { ChatTypes } from '../Redux/ChatRedux'
 import { WebboardTypes } from '../Redux/WebboardRedux'
+import { MarketTypes } from '../Redux/MarketRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -34,18 +35,25 @@ import {
 } from './PaymentSagas'
 import {
   expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
-  getAutoText55, editTypeQuestion
+  getAutoText55, editTypeQuestion, getListShop, verifyStoreRequest
 } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
-  getListLeasing, getPriceallday, wantToBuy, addDetailCertificateRequest, getListCerfromUserRequest
+  getListLeasing, getPriceallday, wantToBuy, addDetailCertificateRequest, getListCerfromUserRequest,
+  activeCerRequest
 } from './TradingSagas'
 
 import {
   getListAmulet, sendMessageTheirAmulet55, getMessageFromTheirAmulet, sendMessageToOwner,
   getMessageFromOwner, getMyRealAmulet, getMyMessageFromOtherPerson, getListOwnerContactWithUser,
-  getListAllBoard555, getListMyBoard555, getCommentRequest, addPostRequest, addCommentRequest, addLike
+  getListAllBoard555, getListMyBoard555, getCommentRequest, addPostRequest, addCommentRequest, addLike,
 } from './ShowRoomSagas'
+
+import {
+  getTypeAmuletRequest, sendDataAmuletForMarket, getListAreaAmuletRequest,
+  sendDataAmuletForMarket2, getProvinceRequest, openStoreRequest, getListMyMarketRequest, getRegionRequest,
+  voteAmuletRequest, pushAmuletToMarket, deleteAmuletMarketRequest, getListStoreGroupRequest
+} from './MarketSagas'
 
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
 import { getVersion } from './VersionSagas'
@@ -65,6 +73,7 @@ const versionApi = API.Version.create()
 const showroomApi = API.Showroom.create()
 const webboardApi = API.Webboard.create()
 const question2Api = API.Question2.create()
+const marketApi = API.Market.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -75,6 +84,16 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    takeLatest(MarketTypes.GET_LIST_STORE_GROUP, getListStoreGroupRequest, question2Api),
+    takeLatest(MarketTypes.DELETE_AMULET_MARKET, deleteAmuletMarketRequest, question2Api),
+    takeLatest(MarketTypes.VOTE_AMULET, voteAmuletRequest, showroomApi),
+    takeLatest(MarketTypes.GET_LIST_MY_MARKET, getListMyMarketRequest, showroomApi),
+    takeLatest(ExpertTypes.VERIFY_STORE, verifyStoreRequest, showroomApi),
+    takeLatest(MarketTypes.OPEN_STORE, openStoreRequest, question2Api),
+    takeLatest(MarketTypes.GET_PROVINCE, getProvinceRequest, marketApi),
+    takeLatest(MarketTypes.GET_REGION, getRegionRequest, marketApi),
+    takeLatest(MarketTypes.PUSH_AMULET_MARKET, pushAmuletToMarket, question2Api),
+
     takeLatest(WebboardTypes.ADD_COMMENT, addCommentRequest, webboardApi),
     takeLatest(WebboardTypes.ADD_POST, addPostRequest, webboardApi),
     takeLatest(WebboardTypes.GET_COMMENT, getCommentRequest, webboardApi),
@@ -82,6 +101,7 @@ export default function* root() {
     takeLatest(WebboardTypes.GET_LIST_ME, getListMyBoard555, webboardApi),
     takeLatest(WebboardTypes.LIKE, addLike, webboardApi),
 
+    takeLatest(ExpertTypes.GET_LIST_STORE, getListShop, showroomApi),
     takeLatest(ShowRoomTypes.GET_LIST_AMULET, getListAmulet, showroomApi),
     takeLatest(ShowRoomTypes.SEND_MESSAGE_THEIR_AMULET, sendMessageTheirAmulet55, showroomApi),
     takeLatest(ShowRoomTypes.GET_MESSAGE_THEIR_AMULET, getMessageFromTheirAmulet, showroomApi),
@@ -95,6 +115,11 @@ export default function* root() {
     takeLatest(ChatTypes.GET_LIST_USER_CONTACT, getListUserForAdmin, showroomApi),
     takeLatest(ShowRoomTypes.GET_LIST_OWNER_CONTACT, getListOwnerContactWithUser, showroomApi),
 
+    takeLatest(MarketTypes.SEND_DATA_AMULET_MARKET2, sendDataAmuletForMarket2, question2Api),
+    takeLatest(MarketTypes.GET_LIST_AREA_AMULET, getListAreaAmuletRequest, question2Api),
+    takeLatest(MarketTypes.SEND_DATA_AMULET_MARKET, sendDataAmuletForMarket, question2Api),
+    takeLatest(MarketTypes.GET_LIST_TYPE_AMULET, getTypeAmuletRequest, question2Api),
+    takeLatest(TradingTypes.ACTIVE_CERTIFICATE, activeCerRequest, question2Api),
     takeLatest(TradingTypes.TRADING_REQUEST, getTrading, tradeApi),
     takeLatest(TradingTypes.ADD_DETAIL_CERTIFICATE, addDetailCertificateRequest, question2Api),
     takeLatest(TradingTypes.GET_LIST_CER_FROM_USER, getListCerfromUserRequest, question2Api),
@@ -117,8 +142,6 @@ export default function* root() {
     takeLatest(AuthTypes.SAVE_DEVICE_TOKEN, saveDeviceToken, authApi),
 
     takeLatest(ExpertTypes.GET_AUTO_TEXT, getAutoText55, questionApi),
-    // takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, questionApi),
-    // takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, questionApi),
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, question2Api),  // new api v2
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, question2Api), // new api v2
     takeLatest(ExpertTypes.EDIT_GROUP, editTypeQuestion, question2Api),
@@ -150,6 +173,7 @@ export default function* root() {
     takeLatest(PaymentTypes.APPLE_HISTORY, appleHistoryRequest, promotionApi),
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
+
 
 
 

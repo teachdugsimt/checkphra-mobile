@@ -53,8 +53,39 @@ const create = (baseURL = b) => {
   const getAnswerGroup = (data) => api.get('answer/sort-by-answer', data)
   const answerAdmin = (data) => api.get('answer/sort-by-answer', data)  // new Edition
 
+  //**** CERTIFICATE ZONE */
   const addDetailCertificate = (data) => api.post('permit/add', data)
   const getListCerFromUser = (data) => api.get('permit/list-all', data)
+  const activeCertificate = (data) => api.post('permit/update-permit', data)
+
+  //**** MARKET PLACE ZONE */
+  const getTypeMarket = (user_id) => api.get('type/market-type', user_id)
+  const sendDataAmuletMarket = (name, temple, price, owner, contact, type, user_id, data_image) => {
+    console.log('COME To APIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
+    let body = new FormData()
+    body.append('user_id', user_id)
+    body.append('type', type)
+    // body.append('zone_id', zone)
+    data_image.forEach((element, i) => {
+      body.append('images[' + i + ']', element)
+    });
+    body.append('price', price)
+    body.append('owner', owner)
+    body.append('contact', contact)
+    body.append('amuletName', name)
+    body.append('temple', temple)
+
+    return api.post('market/add', body, { headers: { 'Content-Type': 'multipart/form-data' } })
+  }
+
+  const sendDataAmuletMarket2 = (data) => api.post('market/add', data)
+  const getListAreaAmulet = (data) => api.get('market/list-all', data)
+  const pushAmuletMarket = (data) => api.post('market/push-amulet', data)
+
+  const openStore = (data) => api.post('shop/add', data)
+  const deleteAmuletMarket = (data) => api.post('shop/delete-amulet', data)
+  const getListStore = (data) => api.get('shop/list-all', data)
+
   return {
     // a list of the API functions from step 2
     getAmuletType,
@@ -64,7 +95,17 @@ const create = (baseURL = b) => {
     answerAdmin,
 
     addDetailCertificate,
-    getListCerFromUser
+    getListCerFromUser,
+    activeCertificate,
+
+    getTypeMarket,
+    sendDataAmuletMarket,
+    getListAreaAmulet,
+    sendDataAmuletMarket2,
+    openStore,
+    pushAmuletMarket,
+    deleteAmuletMarket,
+    getListStore
   }
 }
 

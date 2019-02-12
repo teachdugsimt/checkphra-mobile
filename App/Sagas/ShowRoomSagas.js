@@ -68,14 +68,15 @@ export function* sendMessageTheirAmulet55(api, { qid, message }) {  // don't hav
 
   const data = {
     user_id: aut.user_id,
-    qid,
+    // qid,  //older
+    market_id: qid,
     message
   }
-  console.log(data)
-
-  const response = yield call(api.sendMessageChatAllTheirAmulet, data)
+  // console.log(data)
+  console.log('====================== SEND Chat ALL in Their Amulet ======================')
+  const response = yield call(api.sendMessageChatAllTheirAmulet, data)  // 'discuss/public-amulets-message'
   console.log(response)
-  console.log('=======================  SEND MESSAGE DURATION =======================')
+  console.log('======================= SEND MESSAGE DURATION =======================')
   if (response.ok) {
     yield put(ShowRoomActions.sendMessageTheirAmuletSuccess(response.data))
   } else {
@@ -89,11 +90,12 @@ export function* getMessageFromTheirAmulet(api, { page }) {
   const id = yield select(idDataAmulet)
   const data = {
     user_id: aut.user_id,
-    qid: id.id,
+    // qid: id.id, // older
+    market_id: id.id,
     page_number: page
   }
-
-  const response = yield call(api.getMessageTheirAmulet, data)
+  console.log('====================== GET Chat ALL in Their Amulet ======================')
+  const response = yield call(api.getMessageTheirAmulet, data)  // 'discuss/list-amulets-message'
   console.log(response)
   console.log('====================== GET MESSAGE FROM THEIR AMULET =============================')
   if (response.ok) {
@@ -108,16 +110,16 @@ export function* sendMessageToOwner(api, { message }) {   // *******************
   const their = yield select(idDataAmulet)
   const dgroup = yield select(dataChat)
   const data = {
-    // user_id: aut.user_id,  // Mobile login now
     user_id: aut.user_id,
     message,
-    qid: their.id,
+    // qid: their.id,  // older
+    market_id: their.id,
     uid_contact: their.user_id == aut.user_id ? dgroup.user_id : their.user_id  // other person
     //               เจ้าของ  =  ไอดีในอีมูนี้             me                 003
   }
-  console.log(data)
-  console.log('============== SEND MESSAGE IN ROOM ===============')
-  const response = yield call(api.sendMessageChatOwner, data)
+  // console.log(data)
+  console.log('============== SEND MESSAGE IN ROOM OWNER ===============')
+  const response = yield call(api.sendMessageChatOwner, data)  // 'discuss/private-message'
   console.log(response)
   console.log('=================== SEND MESSAGE TO OWNER ====================')
   if (response.ok) {
@@ -132,16 +134,16 @@ export function* getMessageFromOwner(api, { page }) {   // *********************
   const their = yield select(idDataAmulet)
   const dgroup = yield select(dataChat)
   const data = {
-    qid: their.id,
-    // user_id: aut.user_id,  // mobile login now
+    // qid: their.id,  // older
+    market_id: their.id,
     user_id: aut.user_id == their.user_id ? dgroup.user_id : aut.user_id,
     uid_owner: their.user_id,  // other person or Owner amulet only
     page_number: page,
 
   }
-  console.log(data)
-  console.log('============== GET MESSAGE IN ROOM ===============')
-  const response = yield call(api.getMessageOwner, data)
+  // console.log(data)
+  console.log('============== GET MESSAGE IN ROOM OWNER ===============')
+  const response = yield call(api.getMessageOwner, data)  // 'discuss/contact-owner'
   console.log(response)
   console.log('======================= GET MESSAGE FROM OWNER =====================')
   if (response.ok) {
@@ -175,11 +177,12 @@ export function* getMyMessageFromOtherPerson(api, { page }) {
 
   const data = {
     user_id: aut.user_id,
-    qid: id.id,
+    // qid: id.id,  // older
+    market_id: id.id,
     page_number: page
   }
 
-  const response = yield call(api.getMyMessageFromOther, data)
+  const response = yield call(api.getMyMessageFromOther, data)  //'discuss/my-amulet-contacter'
   console.log(response)
   console.log('===================== GET MY MESSAGE FROM OTHER PERSON =====================')
   if (response.ok) {
@@ -292,14 +295,14 @@ export function* addCommentRequest(api, { comment }) {
   const response = yield call(api.addComment, data)
   console.log(response)
   console.log('================== ADD COMMENT ===================')
-  if(response.ok){
+  if (response.ok) {
     yield put(WebboardActions.addCommentSuccess(response.data))
   } else {
     yield put(WebboardActions.addCommentFailure)
   }
 }
 
-export function* addLike(api, {id, from, status}){
+export function* addLike(api, { id, from, status }) {
   const aut = yield select(auth)
   const data = {
     user_id: aut.user_id,
@@ -311,7 +314,7 @@ export function* addLike(api, {id, from, status}){
   const response = yield call(api.like, data)
   console.log(response)
   console.log('============ LIKE POST & COMMENT ============')
-  if(response.ok){
+  if (response.ok) {
     yield put(WebboardActions.likeSuccess(response.data))
   } else {
     yield put(WebboardActions.likeFailure())

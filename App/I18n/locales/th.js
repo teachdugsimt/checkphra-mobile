@@ -239,7 +239,7 @@ export default {
   userFacebook: 'บัญชี facebook ไม่สามารถเปลี่ยนชื่อได้',
   certificate: 'ยินดีด้วย!! คุณได้รับใบรับรอง',
   certificateList: 'ใบรับรองพระ',
-  
+
   type: 'ประเภท',
   phra: 'พระ',
   templeKru: 'วัด/กรุ',
@@ -257,14 +257,42 @@ export default {
   webBoard: 'เว็บบอร์ด',
   userContact: 'ปัญหาจาก user',
 
+
   myBoard: 'โพสต์ของฉัน',
   allBoard: 'โพสต์ทั้งหมด',
   myAmulet: 'พระแท้ของฉัน',
-
-  amuletName: 'ชื่อพระ',
-  templeName: 'ชื่อวัด',
-  ownerName: 'ชื่อเจ้าของพระ',
+  market: 'ตลาดเช่าพระ',
   anywhere: 'ใส่หรือไม่ใส่ก็ได้',
+  priceMarket: 'ราคาเช่าพระ',
+  openStore: 'คุณไม่มีร้านค้า กรุณาทำการเปิดร้านค้า !!',
+
+  checkPrice: 'กรุณาใส่ราคาเช่าพระ',
+  checkZone: 'กรุณาเลือกภูมิภาคของท่าน',
+  checkType: 'กรุณาเลือกประเภทพระ',
+  fakeAmulet: 'พระไม่แท้ !!',
+
+  amuletName: 'พระ',
+  templeName: 'วัด',
+  ownerName: 'เจ้าของพระ',
+  contact: 'ติดต่อ',
+  zone: 'ภูมิภาค',
+  typeAmuletMarket: 'ประเภท',
+  costAmulet: 'ราคา',
+  wantMarket: 'ยืนยันการปล่อยเช่าพระสู่ตลาด ?',
+  wantMarketDetail: 'การปล่อยเช่าพระสู่ตลาด จะมีการเสีย coins จำนวนหนึ่ง',
+
+  uploadCardPerson: 'อัพโหลดรูปบัตรประชาชน',
+  storeName: 'ชื่อร้านค้า',
+  selectProvince: 'เลือกจังหวัด',
+  storeSuccess: 'ทำรายการสำเร็จ!! รอ admin อนุมัติ',
+  submitShop: 'อนุมัติร้านค้า',
+  shop: 'ร้านค้า',
+  myShop: 'ร้านค้าของฉัน',
+  waitShop: 'กรุณารอ Admin อนุมัติร้านค้า',
+
+  haveAmulet: 'พระที่มีอยู่',
+  notAmulet: 'เพิ่มพระใหม่',
+  yourAmuletImage: 'รูปพระเครื่องของคุณ',
 
   editType: 'กรุณาเลือกหมวดหมู่',
   editDetailPhra: 'แก้ไขรายละเอียดพระ',

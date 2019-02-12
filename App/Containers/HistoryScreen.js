@@ -196,6 +196,7 @@ class HistoryScreen extends Component {
                 }
                 }>
                   <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    {((item.permit == 1 || item.permit == 5) || item.permit == 10) && <Image source={Images.crown} style={{ position: 'absolute', top: -5, left: 50, width: 40, height: 40, zIndex: 1, transform: [{ rotate: '45deg' }] }} />}
                     <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 60, height: 60, margin: 10, borderRadius: 10 }} />
                     <View style={{ flex: 1, padding: 10 }}>
                       <Text style={{
@@ -211,12 +212,12 @@ class HistoryScreen extends Component {
                           color: Colors.brownText,
                           // margin: 20
                         }}>{date}</Text>
-                        {/* <Text style={{
+                        <Text style={{
                           fontFamily: 'Prompt-SemiBold',
                           fontSize: 12,
                           color: Colors.brownText,
                           // margin: 20
-                        }}> ( {item.id} )</Text> */}
+                        }}> ( {item.id} )</Text>
                       </View>
                     </View>
                     <Text style={{

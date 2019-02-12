@@ -7,4 +7,5 @@ import Face from './FaceApi'
 import Version from './VersionApi'
 import Showroom from './ShowroomApi'
 import Webboard from './WebboardApi'
-export default { Auth, Question, Promotion, Trade, Face, Version, Question2, Showroom, Webboard }
+import Market from './MarketApi'
+export default { Auth, Question, Promotion, Trade, Face, Version, Question2, Showroom, Webboard, Market }

@@ -56,10 +56,16 @@ const { Types, Creators } = createActions({
   getListCerFromUserSuccess: ['data'],
   getListCerFromUserFailure: null,
 
+  activeCertificate: ['qid', 'amuletName', 'temple'],
+  activeCertificateSuccess: ['data'],
+  activeCertificateFailure: null,
+
   setDataCer: ['data'],
+  editDataListCer: ['data'],
 
   clearDataBid: null,
   clearDataCer: null,
+  clearDataActiveCer: null,
 
   getLeasingAdmin: ['page'],
   getLeasingSuccess: ['data'],
@@ -112,6 +118,9 @@ export const INITIAL_STATE = Immutable({
   request10: null,  // get List certificate from user ( Admin Only !!)
   data_getListCer: null,  // store list certificate from user
 
+  request11: null,  // request for active certificate data
+  data_activeCer: null,  // store data when active certificate by admin
+
   data_setCer: null,  // set for pass to admin edit certificate from user data
 })
 
@@ -122,10 +131,36 @@ export const TradingSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+export const clearDataActiveCer = state => state.merge({ data_activeCer: null })
 export const clearDataCer = state => state.merge({ data_certificate: null })
 export const clearDataBid = state => state.merge({ data: [] })
 export const setDataCer = (state, { data }) => state.merge({ data_setCer: data })
 // request the data from an api
+
+export const editDataListCer = (state, { data }) => {
+
+  let tmp
+  let tmp2
+  if (state.data_getListCer && state.data_getListCer != null) {
+    tmp = JSON.parse(JSON.stringify(state.data_getListCer))
+    tmp2 = tmp
+    tmp.forEach((e, i) => {
+      if (e.qid == data.qid) {
+        console.log('Come to IF')
+        tmp2[i] = data
+      }
+    })
+
+  }
+  console.log(tmp2)
+  console.log('+++++ TMP2 AFTER ADAP +++++')
+  return state.merge({ data_getListCer: tmp2 })
+}
+
+export const activeCertificate = state => state.merge({ request11: true })
+export const activeCertificateSuccess = (state, { data }) => state.merge({ request11: false, data_activeCer: data })
+export const activeCertificateFailure = state => state.merge({ request11: false })
+
 export const getListCerFromUser = state => state.merge({ request10: true })
 export const getListCerFromUserSuccess = (state, { data }) => {
   let tmp
@@ -303,6 +338,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_LIST_CER_FROM_USER_SUCCESS]: getListCerFromUserSuccess,
   [Types.GET_LIST_CER_FROM_USER_FAILURE]: getListCerFromUserFailure,
 
+  [Types.ACTIVE_CERTIFICATE]: activeCertificate,
+  [Types.ACTIVE_CERTIFICATE_SUCCESS]: activeCertificateSuccess,
+  [Types.ACTIVE_CERTIFICATE_FAILURE]: activeCertificateFailure,
+
   [Types.GET_LEASING_ADMIN]: getLeasingAdmin,
   [Types.GET_LEASING_SUCCESS]: getLeasingSuccess,
   [Types.GET_LEASING_FAILURE]: getLeasingFailure,
@@ -317,4 +356,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.EDIT_FULL_DATA2]: editFullData2,
   [Types.CLEAR_DATA_BID]: clearDataBid,
   [Types.CLEAR_DATA_CER]: clearDataCer,
+  [Types.CLEAR_DATA_ACTIVE_CER]: clearDataActiveCer,
+  [Types.EDIT_DATA_LIST_CER]: editDataListCer,
 })

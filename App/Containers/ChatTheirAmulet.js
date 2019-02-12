@@ -17,7 +17,7 @@ import * as RNIap from 'react-native-iap';
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
-import QuestionActions from '../Redux/QuestionRedux'
+import MarketActions from '../Redux/MarketRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
@@ -42,51 +42,7 @@ class ChatTheirAmulet extends Component {
             img: null,
             mlist: null,
             tlist: null,
-        }
-    }
-
-    static getDerivedStateFromProps(newProps, prevState) {
-        console.log(newProps)
-        console.log(prevState)
-
-        // 1. ถ้ามีการส่งข้อความ ให้เก็บอาเรย์ response จากตั้ม ไว้ที่ เสตท message_list แล้วก้ เอาข้อความอันล่าสุด จาก response มาเก็บไว้ที่อาเรย์
-        // tmp ใน เสตท
-
-        if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null && prevState.mlist != newProps.data_sendMessageTheirAmulet) {
-            console.log(newProps.data_sendMessageTheirAmulet)
-            newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
-            return {
-                mlist: newProps.data_sendMessageTheirAmulet
-            }
-        }
-        // let tmp_messages = []
-        // let message_list = newProps.data_sendMessageTheirAmulet  //can't
-        // let message_list = null  //can't
-        // if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null) {
-
-        //     // if (newProps.data_messageTheirAmulet && newProps.data_messageTheirAmulet != null) {
-        //     //     let fuck = newProps.data_messageTheirAmulet.find(e => e.id == newProps.data_sendMessageTheirAmulet.id)
-
-        //     // }
-
-        //     if (prevState.mlist == newProps.data_sendMessageTheirAmulet) {
-        //         // let fuck = newProps.data_messageTheirAmulet.find(e => e.id == newProps.data_sendMessageTheirAmulet.id)
-        //         newProps.editTheirAmuletMessage(data_sendMessageTheirAmulet)
-        //     }
-
-        //     // if (prevState.mlist != newProps.data_sendMessageTheirAmulet) { // ข้อความที่ส่ง != ข้อความที่ส่งล่าสุด
-        //     //     console.log('MESSAGE LIST != newProps.data_sendMessageTheirAmulet')
-        //     //     message_list = newProps.data_sendMessageTheirAmulet
-        //     //     // newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
-        //     //     // tmp_messages.push(newProps.data_sendMessageTheirAmulet.messages[newProps.data_sendMessageTheirAmulet.messages.length - 1])
-        //     // }
-
-        // }
-
-        return {
-            // mlist: message_list,
-            // mlist: newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet
-            // tlist: tmp_messages
+            tmp_vote: null,
         }
     }
 
@@ -195,10 +151,6 @@ class ChatTheirAmulet extends Component {
         return name
     }
 
-    componentWillUnmount() {
-        this.setState({ text: null })
-    }
-
     _sendMessage = () => {
         if (this.state.text) {
             console.log('send message complete')
@@ -208,23 +160,76 @@ class ChatTheirAmulet extends Component {
         }
     }
 
+    static getDerivedStateFromProps(newProps, prevState) {
+        console.log(newProps)
+        console.log(prevState)
 
+        // 1. ถ้ามีการส่งข้อความ ให้เก็บอาเรย์ response จากตั้ม ไว้ที่ เสตท message_list แล้วก้ เอาข้อความอันล่าสุด จาก response มาเก็บไว้ที่อาเรย์
+        // tmp ใน เสตท
 
+        if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null && prevState.mlist != newProps.data_sendMessageTheirAmulet) {
+            // console.log(newProps.data_sendMessageTheirAmulet)
+            newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
+            return {
+                mlist: newProps.data_sendMessageTheirAmulet
+            }
+        }
 
+        if (newProps.data_vote && newProps.data_vote != null) {
+            if (prevState.tmp_vote != newProps.data_vote && newProps.data_their.id == newProps.data_vote.id && newProps.data_areaAmulet && newProps.data_areaAmulet != null) {
+                console.log('FUCK COME HERE')
+                newProps.setTheirAmuletData(newProps.data_vote)
+                newProps.editVoteData(newProps.data_vote)
+                newProps.clearDataVote()
+                return {
+                    tmp_vote: newProps.data_vote
+                }
+            }
+        }
+
+        if (newProps.data_vote && newProps.data_vote != null) {
+            if (prevState.tmp_vote != newProps.data_vote && newProps.data_their.id == newProps.data_vote.id && newProps.data_contactOwner && newProps.data_contactOwner != null) {
+                console.log('--------------Come From List User contact to Owner-----------')
+                newProps.setTheirAmuletData(newProps.data_vote)
+                // newProps.editVoteData(newProps.data_vote)
+                newProps.syncVoteData(newProps.data_vote)
+                newProps.clearDataVote()
+                return {
+                    tmp_vote: newProps.data_vote
+                }
+            }
+        }
+
+        return {
+            // mlist: message_list,
+            // mlist: newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet
+            // tlist: tmp_messages
+        }
+    }
 
     componentDidMount() {
         count = 1
         this.props.getMessageTheirAmulet(count)
         let img = []
+        // this.props.data_their.images.map(e => {
+        //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+        // })
         this.props.data_their.images.map(e => {
-            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+            img.push({ url: e })
         })
         this.setState({ img })
     }
 
     componentWillUnmount() {
+        this.setState({ text: null, tmp_vote: null })
         count = 1
-        this.props.clearTheirAmuletMessage()
+        // ปัญหาเดียวคือ รายการพระ ไม่โหลดข้อมูลใหม่ ทำให้ข้อมูลที่เซ็ทมาหน้านี้ไม่เป็นข้อมูลล่าสุด
+        // this.props.clearDataTheir()  // add clear data their
+        // this.props.clearDataVote()  // add   clear vote data
+        // this.props.clearDataAreaAmulet()  // add clear List Item before this screen
+        // this.props.getListAreaAmulet(1) // add   get list Item before this screen
+
+        this.props.clearTheirAmuletMessage() // clear message and send message
     }
 
     _reload = () => {
@@ -297,7 +302,13 @@ class ChatTheirAmulet extends Component {
         )
     }
 
+    _dislikeAmulet = () => {
+        this.props.voteAmulet(this.props.data_their.id, 'fake')
+    }
 
+    _likeAmulet = () => {
+        this.props.voteAmulet(this.props.data_their.id, 'real')
+    }
 
     render() {
         I18n.locale = this.props.language
@@ -353,46 +364,50 @@ class ChatTheirAmulet extends Component {
                         </View>
                     </PopupDialog>
 
-                    {this.state.hide == false && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', height: 135, width: '100%' }} onPress={() => this.setState({ hide: true })}>
+                    {this.state.hide == false && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', height: 150, width: '100%' }} onPress={() => this.setState({ hide: true })}>
                         <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, marginHorizontal: 8, flex: 1 }}>
 
                             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                 <TouchableOpacity style={{ height: 85, width: 85, borderRadius: 15 }} onPress={this._showPicture}>
-                                    <Image style={{ height: 85, width: 85, borderRadius: 15 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + this.props.data_their.images[0] }} />
+                                    <Image style={{ height: 85, width: 85, borderRadius: 15 }} source={{ uri: this.props.data_their.images[0] }} />
                                 </TouchableOpacity>
                             </View>
 
                             <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Name: <Text style={{ fontSize: 14 }}>{ChatTheirAmulet.rename(this.props.data_their.type) + " ( " + this.props.data_their.id + " )"}</Text></Text>
-                                {this.props.data_their && this.props.data_their.question_list && this.props.data_their.question_list.length > 0 && this.props.data_their.question_list.map((e, i) => {
-                                    return (
-                                        <View>
-                                            <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{e.answer}</Text>
-                                        </View>
-                                    )
-                                })}
-
-                                {/* <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Price: <Text style={{ fontSize: 14 }}>750,000 </Text>฿ </Text>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Priest Name: <Text style={{ fontSize: 14 }}>LuangPhor Ngern</Text></Text>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>Temple: <Text style={{ fontSize: 14 }}>Wat Mai Phin Greaw</Text></Text> */}
+                                {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('amuletName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.amuletName + " ( " + this.props.data_their.id + " )"}</Text></Text>}
+                                {this.props.data_their.amulet_detail.temple && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('templeName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.temple}</Text></Text>}
+                                {this.props.data_their.amulet_detail.price && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('costAmulet') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.price}</Text></Text>}
+                                {this.props.data_their.amulet_detail.owner && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('ownerName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.owner}</Text></Text>}
+                                {this.props.data_their.amulet_detail.contact && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('contact') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.contact}</Text></Text>}
 
                             </View>
                             {this.props.user_id != this.props.data_their.user_id && <TouchableOpacity onPress={this._chatOwnerAmulet} style={{ position: 'absolute', top: 0.2, right: 5 }}>
                                 <Icon2 name={'wechat'} color={Colors.bloodOrange} size={26} /></TouchableOpacity>}
                         </View>
 
-                        <Icon2 size={22} name={'chevron-up'} style={{ alignSelf: 'center', marginVertical: 2.5 }} />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                            <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginLeft: 10 }} onPress={this._likeAmulet}>
+                                <Icon2 name={'thumbs-up'} size={26} />
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.75 }}>{this.props.data_their.real}</Text>
+                            </TouchableOpacity>
+
+                            <Icon2 size={22} name={'chevron-up'} style={{ alignSelf: 'center', marginVertical: 2.5 }} />
+
+                            <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginRight: 10 }} onPress={this._dislikeAmulet}>
+                                <Icon2 name={'thumbs-down'} size={26} />
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 2.5 }}>{this.props.data_their.fake}</Text>
+                            </TouchableOpacity>
+
+                        </View>
                     </TouchableOpacity>}
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{ChatTheirAmulet.rename(this.props.data_their.type) + " ( " + this.props.data_their.id + " )"}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{this.props.data_their.amulet_detail.amuletName}</Text>}
+                        </View>
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
                     </TouchableOpacity>}
-
-
-
-                    {/* <Text style={{ alignSelf: 'center', marginVertical: 10 }}>Chat Room My Amulet Solo </Text> */}
-
 
                 </View>
 
@@ -416,6 +431,7 @@ class ChatTheirAmulet extends Component {
                             onRefresh={this._reload}
                         />
                     }
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                 />
                 <View style={{ marginBottom: 10 }}>
                 </View>
@@ -447,11 +463,18 @@ const mapStateToProps = (state) => {
 
         data_their: state.showroom.data_their,  // data set to this page (ChatTheirAmulet)
 
-        request2: state.showroom.request2,  //  request send message of their amulet 
+        request2: state.showroom.request2,  //  request send message of their amulet
         data_sendMessageTheirAmulet: state.showroom.data_sendMessageTheirAmulet,  // request send message of their amulet
 
         request3: state.showroom.request3,  // request for get message of this room
         data_messageTheirAmulet: state.showroom.data_messageTheirAmulet, // request for get message of this room
+
+        request8: state.market.request8,  // for vote amulet
+        data_vote: state.market.data_vote,  // store vote amulet
+
+        data_areaAmulet: state.market.data_areaAmulet,  // store area & type amulet zone
+
+        data_contactOwner: state.showroom.data_listOwner,  // data for store my message from other person ( Chat Solo )
     }
 }
 
@@ -461,6 +484,16 @@ const mapDispatchToProps = (dispatch) => {
         getMessageTheirAmulet: (page) => dispatch(ShowRoomActions.getMessageTheirAmulet(page)), // get message
         clearTheirAmuletMessage: () => dispatch(ShowRoomActions.clearTheirAmuletMessage()), // clear get&send data
         editTheirAmuletMessage: (data) => dispatch(ShowRoomActions.editTheirAmuletMessage(data)),
+
+        editVoteData: (data) => dispatch(MarketActions.editVoteData(data)),
+        voteAmulet: (id, status) => dispatch(MarketActions.voteAmulet(id, status)),
+        clearDataTheir: () => dispatch(ShowRoomActions.clearDataTheir()),
+        setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
+        clearDataVote: () => dispatch(MarketActions.clearDataVote()),
+        clearDataAreaAmulet: () => dispatch(MarketActions.clearDataAreaAmulet()),
+        getListAreaAmulet: (page) => dispatch(MarketActions.getListAreaAmulet(page)),
+
+        syncVoteData: (data) => dispatch(ShowRoomActions.syncVoteData(data)),
     }
 }
 

@@ -18,11 +18,12 @@ import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import QuestionActions from '../Redux/QuestionRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
+import MarketActions from '../Redux/MarketRedux'
 import styles from './Styles/HomeScreenStyle'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import moment from 'moment'
 import 'moment/locale/th'
-import ImageList from './ImageList/ImageList'
+import ImageList from './ImageList/ImageList3'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -31,7 +32,7 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
-class TheyAmuletRoom extends Component {
+class MarketSearch1 extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -162,12 +163,12 @@ class TheyAmuletRoom extends Component {
                     <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => {
                         this._showImage(item.images)
                     }}>
-                        <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} />
+                        <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: item.images[0] }} />
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: 'center', width: '100%' }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                            <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{TheyAmuletRoom.rename(item.type)}</Text>
+                            <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
                             <Text style={{ color: Colors.brownTextTran, fontSize: 14, fontFamily: 'Prompt-SemiBold', marginTop: 3 }}> ( {item.id} )</Text>
                         </View>
 
@@ -185,46 +186,45 @@ class TheyAmuletRoom extends Component {
     }
 
     _showImage = (item) => {
-        this.setState({ modalVisible: true })
         let img = []
         item.map(e => {
-            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+            img.push({ url: e })
         })
-        this.setState({ img })
-        this.popupDialog.show()
+        this.setState({ img, modalVisible: true })
+        // this.popupDialog.show()
     }
 
     _pressSubList = (item) => {
-        this.setState({ modalVisible: true })
         let img = []
         item.map(e => {
-            img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+            img.push({ url: e })
         })
-        this.setState({ img, index: 1 })
-        this.popupDialog.show()
+        this.setState({ img, index: 1, modalVisible: true })
+        // this.popupDialog.show()
     }
 
     componentDidMount() {
         count = 1
-        this.props.getListAmuletReal(count)
+        // this.props.getListAmuletReal(count)
     }
 
     componentWillUnmount() {
         count = 1
-        this.props.clearDataListTheirAmulet()
+        // this.props.clearDataListTheirAmulet()
+        this.props.clearListSearch()
     }
 
     _reload = () => {
         count = 1
-        this.props.getListAmuletReal(count)
+        // this.props.getListAmuletReal(count)
     }
 
     _onScrollEndList = () => {
-        console.log('END LIST AGAIN')
-        if (this.props.data_answer && this.props.data_answer.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
-            count++
-            this.props.getListAmuletReal(count)
-        }
+        // console.log('END LIST AGAIN')
+        // if (this.props.data_answer && this.props.data_answer.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
+        //     count++
+        //     this.props.getListAmuletReal(count)
+        // }
     }
 
     render() {
@@ -243,56 +243,45 @@ class TheyAmuletRoom extends Component {
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
 
-                <PopupDialog
-                    dialogTitle={<View></View>}
-                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-                    dialogAnimation={slideAnimation}
-                    width={0}
-                    height={0}
-                    // height={150}
-                    onDismissed={() => { this.setState({ img: null, modalVisible: false, index: 0 }) }}
-                >
-                    <View style={{ width: '100%', height: '80%', backgroundColor: 'transparent' }}>
-                        <Modal
-                            visible={this.state.modalVisible}
-                            transparent={true}
-                            onRequestClose={() => this.setState({ modalVisible: false })}>
-                            <ImageViewer
-                                saveToLocalByLongPress={false}
-                                imageUrls={this.state.img}
-                                backgroundColor={'lightgrey'}
-                                // onClick={(e) => {
-                                //     console.log('Show modal')
-                                //     this.setState({ modalVisible: true })
-                                // }}
 
-                                index={this.state.index} // add + 
-                                onSwipeDown={() => {
-                                    console.log('onSwipeDown');
-                                    this.setState({ modalVisible: false })
-                                    this.popupDialog.dismiss()
-                                }}
-                                enableSwipeDown={true}
-                                failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
-                            />
-                        </Modal>
+                <Modal
+                    visible={this.state.modalVisible}
+                    transparent={true}
+                    onRequestClose={() => this.setState({ modalVisible: false })}>
+                    <ImageViewer
+                        saveToLocalByLongPress={false}
+                        imageUrls={this.state.img}
+                        backgroundColor={'lightgrey'}
+                        // onClick={(e) => {
+                        //     console.log('Show modal')
+                        //     this.setState({ modalVisible: true })
+                        // }}
 
-                    </View>
-                </PopupDialog>
+                        index={this.state.index} // add + 
+                        onSwipeDown={() => {
+                            console.log('onSwipeDown');
+                            this.setState({ modalVisible: false })
+                            // this.popupDialog.dismiss()
+                        }}
+                        enableSwipeDown={true}
+                        failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
+                    />
+                </Modal>
 
                 <FlatList
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.props.request2 == true}
-                            onRefresh={this._reload}
-                        />
-                    }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
+                    // refreshControl={
+                    //     <RefreshControl
+                    //         refreshing={this.props.request2 == true}
+                    //         onRefresh={this._reload}
+                    //     />
+                    // }
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('noneSearching')}</Text>}
                     data={this.props.data_answer}
                     renderItem={this._renderItem}
-                    onEndReached={this._onScrollEndList}
-                    // onEndReachedThreshold={0.025}
-                    onEndReachedThreshold={1.2} />
+                // onEndReached={this._onScrollEndList}
+                // onEndReachedThreshold={0.025}
+                // onEndReachedThreshold={1.2} 
+                />
             </LinearGradient>
         )
     }
@@ -307,13 +296,15 @@ const mapStateToProps = (state) => {
         // request_type: state.question.request_type,  // request type
         data_amulet: state.showroom.data_amulet,
 
-        data_answer: state.showroom.data_list,  // get list their real amulet
-        request2: state.showroom.request,       // request get list their real amulet
+        data_answer: state.market.data_search,  // for store search data  13/02/2019 update comment
+        request2: state.market.request13,       // // for search data     13/02/2019 update comment
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        clearListSearch: () => dispatch(MarketActions.clearListSearch()),
+
         getAmuletType: () => dispatch(QuestionActions.getAmuletType()),
         setRequestType: () => dispatch(QuestionActions.setRequestType()),
         setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
@@ -323,4 +314,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TheyAmuletRoom)
+export default connect(mapStateToProps, mapDispatchToProps)(MarketSearch1)

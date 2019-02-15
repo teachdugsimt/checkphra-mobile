@@ -67,7 +67,7 @@ class MarketHomeList1 extends Component {
                         <View style={{ flexDirection: 'row', width: '100%' }}>
                             <Text style={{ marginLeft: 10, marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
                             <TouchableOpacity style={{ flex: 1, marginLeft: 10, marginTop: 4, width: '100%' }} onPress={() => this._pressSubList(item.images)}>
-                                <ImageList data={item.images} />
+                                <ImageList data={item.images_thumbs} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -147,8 +147,7 @@ class MarketHomeList1 extends Component {
                     position: 'absolute',
                     right: 0, bottom: 0,
                     width: width,
-                    height: width * 95.7 / 100
-                }} resizeMode='contain' />
+                    height: width * 95.7 / 100 }} resizeMode='contain' />
 
                 <PopupDialog
                     dialogTitle={<View></View>}
@@ -157,8 +156,8 @@ class MarketHomeList1 extends Component {
                     width={0}
                     height={0}
                     // height={150}
-                    onDismissed={() => { this.setState({ modalVisible: false, index: 0 }) }}
-                >
+                    onDismissed={() => { this.setState({ modalVisible: false, index: 0 }) }} >
+
                     <View style={{ width: '100%', height: '80%', backgroundColor: 'transparent' }}>
                         <Modal
                             visible={this.state.modalVisible}

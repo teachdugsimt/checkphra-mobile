@@ -48,6 +48,7 @@ import UserContactOwner2 from '../Containers/UserContactOwner2'
 import Webboard from '../Containers/Webboard'
 import Webboard2 from '../Containers/Webboard2'
 import Certificate from '../Containers/Certificate'
+
 import MarketHome from '../Containers/MarketHome'
 import MarketUpload1 from '../Containers/MarketUpload1'
 import MarketHomeList1 from '../Containers/MarketHomeList1'
@@ -60,6 +61,7 @@ import MarketMyAmulet from '../Containers/MarketMyAmulet'
 import MarketSelectType from '../Containers/MarketSelectType'
 import MarketListShop from '../Containers/MarketListShop'
 import MarketListShop2 from '../Containers/MarketListShop2'
+import MarketSearch1 from '../Containers/MarketSearch1'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -69,7 +71,6 @@ import styles from "./Styles/NavigationStyles";
 import React from "react";
 import { TouchableOpacity, View, Text, Image } from "react-native";
 import { Colors } from "../Themes";
-import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/FontAwesome";
 
 import { TabNavigator, TabBarBottom, StackNavigator, SwitchNavigator, Header, TabBarTop } from 'react-navigation';
@@ -82,7 +83,6 @@ import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 
 import { connect } from "react-redux";
-import IconBadge from 'react-native-icon-badge';
 
 
 const AuthStack = StackNavigator(
@@ -282,6 +282,12 @@ const UploadStack = StackNavigator(  // main upload
       screen: MarketListShop2,
       navigationOptions: {
         title: I18n.t('market')
+      }
+    },
+    marketSearch1: {
+      screen: MarketSearch1,
+      navigationOptions: {
+        title: I18n.t('searchResult')
       }
     },
     webboard: {

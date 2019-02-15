@@ -91,7 +91,7 @@ class UserContactOwner extends Component {
                             {item.amulet && <Text style={{ color: Colors.brownTextTran, fontSize: 14 }}>{date}{" ( id: " + item.amulet.id + " )"}</Text>}
 
                             {item.amulet && <TouchableOpacity style={{ marginTop: 10 }} onPress={() => this._showPicture(item.amulet.images)}>
-                                <ImageList2 data={item.amulet.images} />
+                                <ImageList2 data={item.amulet.images_thumbs} />
                             </TouchableOpacity>}
 
                         </View>

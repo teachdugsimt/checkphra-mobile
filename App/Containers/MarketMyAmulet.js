@@ -149,7 +149,7 @@ class MarketMyAmulet extends Component {
                         <View style={{ flexDirection: 'row', width: '100%' }}>
                             <Text style={{ marginLeft: 10, marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
                             {item.images != null && <TouchableOpacity style={{ flex: 1, marginLeft: 10, marginTop: 4, width: '100%' }} onPress={() => this._pressSubList(item.images)}>
-                                <ImageList data={item.images} />
+                                <ImageList data={item.images_thumbs} />
                             </TouchableOpacity>}
                         </View>
                     </View>

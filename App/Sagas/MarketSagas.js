@@ -293,3 +293,33 @@ export function* getListAmuletStoreRequest(api, { page }) {
   }
 }
 
+export function* searchRequestMarket(api, { text }) {
+  const aut = yield select(auth)
+  const img = yield select(image)
+  let data
+  if (img.pro_id && img.pro_id != null) {
+    data = {
+      user_id: aut.user_id,
+      text,
+      province_id: img.pro_id
+    }
+  } else {
+    data = {
+      user_id: aut.user_id,
+      text,
+    }
+  }
+
+  console.log(data)
+  console.log('============ HERE DATA SEND TO SEARCH =============')
+
+  const response = yield call(api.search, data)
+  console.log(response)
+  console.log('=============== SEARCH SAGA ==================')
+  if (response.ok) {
+    yield put(MarketActions.searchRequestSuccess(response.data))
+  } else {
+    yield put(MarketActions.searchRequestFailure())
+  }
+}
+

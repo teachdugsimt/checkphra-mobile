@@ -34,6 +34,9 @@ class MarketHome extends Component {
             id_province: null,
             area: null,
 
+            search_text: null,
+            show_icon: true,
+
             data_skin: null,
             tmp_region: null,
         }
@@ -103,6 +106,20 @@ class MarketHome extends Component {
         }
     }
 
+    handleInputFocus = () => this.setState({ show_icon: false })
+
+    handleInputBlur = () => this.setState({ show_icon: true })
+
+    _pressSearch = () => {
+        if (this.state.search_text) {
+            this.props.searchRequest(this.state.search_text)
+            this.setState({ search_text: null })
+            this.props.navigation.navigate("marketSearch1")
+        } else {
+
+        }
+    }
+
     render() {
         console.log(this.props.data_typeAmulet)
         console.log('--------------- SKIN AMULET --------------')
@@ -111,6 +128,19 @@ class MarketHome extends Component {
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
 
                 <Image source={Images.map} style={styles.map} />
+
+                <TextInput value={this.state.search_text} onChangeText={(text) => this.setState({ search_text: text })}
+                    style={{ width: '80%', height: 40, backgroundColor: '#fff5', paddingVertical: 8, paddingHorizontal: 30, borderRadius: 8, alignSelf: 'center', marginTop: 2.5, zIndex: 2 }}
+                    // onFocus={() => this.setState({ show_icon: false })} 
+                    ref={(textfield) => { this.textfield = textfield }}
+                    placeholder={I18n.t('amuletOrProvince')}
+                    placeholderStyle={{ marginLeft: 15 }}
+                    onFocus={this.handleInputFocus}  // when focus text input
+                    onBlur={this.handleInputBlur}  // when not focus text input
+                />
+                {!this.state.show_icon && <TouchableOpacity style={{ position: 'absolute', top: 5, right: width / 9, zIndex: 2 }} onPress={this._pressSearch}><Icon2 name={'arrow-right'} size={24} style={{}} /></TouchableOpacity>}
+
+                {this.state.show_icon && < Icon2 name={'search'} size={24} color={Colors.brownTextTran} style={{ position: 'absolute', top: 5, left: width / 9 }} />}
 
                 <TouchableOpacity style={styles.touchPin1} onPress={this._north}>
                     <Image source={Images.pin} style={styles.pin} />
@@ -203,6 +233,7 @@ const mapDispatchToProps = (dispatch) => {
         getListTypeAmulet: () => dispatch(MarketActions.getListTypeAmulet()),
         setZoneSkin: (zone, province) => dispatch(MarketActions.setZoneSkin(zone, province)),
         getRegion: (geo_id) => dispatch(MarketActions.getRegion(geo_id)),
+        searchRequest: (text) => dispatch(MarketActions.searchRequest(text)),
     }
 }
 

@@ -77,6 +77,20 @@ class ChatRoomMyAmuletSolo extends Component {
             }
         }
 
+         // for SEARCH FUNCTION
+         if (newProps.data_vote && newProps.data_vote != null) {
+            if (prevState.tmp_vote != newProps.data_vote && newProps.data_their.id == newProps.data_vote.id && newProps.data_answer && newProps.data_answer != null) {
+                console.log('-------------- Come From List Shop OTHER PERSON 55555 -----------')
+                newProps.setTheirAmuletData(newProps.data_vote)
+                newProps.editVoteSearch(newProps.data_vote)
+                newProps.clearDataVote()
+                return {
+                    tmp_vote: newProps.data_vote
+                }
+            }
+        }
+        // for SEARCH FUNCTION
+
         return {
             // mlist: message_list,
             // mlist: newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet
@@ -462,6 +476,8 @@ const mapStateToProps = (state) => {
         data_vote: state.market.data_vote,  // store vote amulet
 
         data_areaAmulet: state.market.data_mylist,  // store area & type amulet zone
+
+        data_answer: state.market.data_search,  // for store search data  13/02/2019 update comment
     }
 }
 
@@ -476,6 +492,8 @@ const mapDispatchToProps = (dispatch) => {
         setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
         voteAmulet: (id, status) => dispatch(MarketActions.voteAmulet(id, status)),
         clearDataVote: () => dispatch(MarketActions.clearDataVote()),
+
+        editVoteSearch: (data) => dispatch(MarketActions.editVoteSearch(data)),
     }
 }
 

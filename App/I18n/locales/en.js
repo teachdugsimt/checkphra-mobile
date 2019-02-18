@@ -264,6 +264,10 @@ export default {
   anywhere: 'Input or not input',
   priceMarket: 'Price Amulet',
   openStore: "You don't have store. Please open store !!",
+  amuletOrProvince: 'Amulet name or province',
+  searchResult: 'Search result',
+  noneSearching: 'None items found',
+  amuletSearch: 'Amulet name for Search',
 
   amuletName: 'Amulet',
   templeName: 'Temple',

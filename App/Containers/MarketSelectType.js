@@ -28,6 +28,18 @@ let { width, height } = Dimensions.get('window')
 
 class MarketSelectType extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            search_text: null,
+            show_icon: true,
+        }
+    }
+
+    componentWillUnmount() {
+        this.props.clearProvinceId()
+    }
+
     getTypePhra = (item) => {
         this.props.setSkinAmulet(item.id)
         this.props.navigation.navigate('marketListArea1')
@@ -38,16 +50,43 @@ class MarketSelectType extends Component {
         this.props.navigation.navigate("marketListShop")
     }
 
+    handleInputFocus = () => this.setState({ show_icon: false })
+
+    handleInputBlur = () => this.setState({ show_icon: true })
+
+    _pressSearch = () => {
+        if (this.state.search_text) {
+            this.props.searchRequest(this.state.search_text)
+            this.setState({ search_text: null })
+            this.props.navigation.navigate("marketSearch1")
+        } else {
+
+        }
+    }
+
     render() {
         console.log(this.props.skin)
         console.log('----------- SELECT TYPE AMULET --------------')
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
-                <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText, marginTop: 10, marginBottom: 5 }}>{I18n.t('selectAmuletType')}</Text>
 
-                <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 8, width: '70%', alignSelf: 'center' }} onPress={this._ListShop}>
-                    <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, alignSelf: 'center', textAlign: 'center', padding: 8 }}>Go to shop</Text>
+                <TextInput value={this.state.search_text} onChangeText={(text) => this.setState({ search_text: text })}
+                    style={{ width: '80%', height: 40, backgroundColor: '#fff5', paddingVertical: 8, paddingHorizontal: 30, borderRadius: 8, alignSelf: 'center', marginTop: 2.5, zIndex: 2 }}
+                    // onFocus={() => this.setState({ show_icon: false })} 
+                    ref={(textfield) => { this.textfield = textfield }}
+                    placeholder={I18n.t('amuletSearch')}
+                    placeholderStyle={{ marginLeft: 15 }}
+                    onFocus={this.handleInputFocus}  // when focus text input
+                    onBlur={this.handleInputBlur}  // when not focus text input
+                />
+                {!this.state.show_icon && <TouchableOpacity style={{ position: 'absolute', top: 5, right: width / 9, zIndex: 2 }} onPress={this._pressSearch}><Icon2 name={'arrow-right'} size={24} style={{}} /></TouchableOpacity>}
+
+                {this.state.show_icon && < Icon2 name={'search'} size={24} color={Colors.brownTextTran} style={{ position: 'absolute', top: 5, left: width / 9 }} />}
+
+                <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText, marginTop: 10, marginBottom: 5 }}>{I18n.t('selectAmuletType')}</Text>
+                <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 8, width: '80%', alignSelf: 'center' }} onPress={this._ListShop}>
+                    <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, alignSelf: 'center', textAlign: 'center', padding: 6.5 }}>Go to shop</Text>
                 </TouchableOpacity>
 
                 <GridView
@@ -101,6 +140,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setSkinAmulet: (skin) => dispatch(MarketActions.setSkinAmulet(skin)),
         getListStoreGroup: (page) => dispatch(MarketActions.getListStoreGroup(page)),
+        clearProvinceId: () => dispatch(MarketActions.clearProvinceId()),
+
+        searchRequest: (text) => dispatch(MarketActions.searchRequest(text)),
     }
 }
 

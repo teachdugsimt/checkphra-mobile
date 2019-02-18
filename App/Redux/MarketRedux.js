@@ -83,6 +83,13 @@ const { Types, Creators } = createActions({
   setShopId: ['data'],
   syncVoteData2: ['data'],
 
+  searchRequest: ['text'],
+  searchRequestSuccess: ['data'],
+  searchRequestFailure: null,
+  editVoteSearch: ['data'],
+
+  clearProvinceId: null,
+  clearListSearch: null,
   clearShopGroup: null,
   clearListAmuletShop: null,
   clearDataMyList: null,
@@ -155,6 +162,9 @@ export const INITIAL_STATE = Immutable({
   request12: null,  // for get amulet in each shop
   data_amuletstore: null,  // for store data list amulet in each store
   shop_id: null,  // set shop id for get list amulet in that shop
+
+  request13: null,  // for search data
+  data_search: null,  //  for store search data
 })
 
 /* ------------- Selectors ------------- */
@@ -166,6 +176,21 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const clearListSearch = state => state.merge({ data_search: null })
+export const searchRequest = state => state.merge({ request13: true })
+export const searchRequestSuccess = (state, { data }) => state.merge({ request13: false, data_search: data })
+export const searchRequestFailure = state => state.merge({ request13: false })
+export const editVoteSearch = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_search))
+  tmp.map((e, i) => {
+    if (e.id == data.id) {
+      tmp.splice(i, 1, data)
+    }
+  })
+  return state.merge({ data_search: tmp })
+}
+
 export const clearShopGroup = state => state.merge({ data_shopgroup: null })
 export const clearListAmuletShop = state => state.merge({ data_amuletstore: null })
 export const setShopId = (state, { data }) => state.merge({ shop_id: data })
@@ -405,6 +430,7 @@ export const deleteImageMarket = (state, { index }) => {
   return state.merge({ data_image: tmp })
 }
 
+export const clearProvinceId = state => state.merge({ pro_id: null })
 export const clearImageMarket = state => state.merge({ data_image: [] })
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -430,6 +456,12 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_ZONE_SKIN]: setZoneSkin,
   [Types.SET_SKIN_AMULET]: setSkinAmulet,
   [Types.SET_TMP_DATA_UPLOAD]: setTmpDataUpload,
+
+  [Types.EDIT_VOTE_SEARCH]: editVoteSearch,
+  [Types.CLEAR_LIST_SEARCH]: clearListSearch,
+  [Types.SEARCH_REQUEST]: searchRequest,
+  [Types.SEARCH_REQUEST_SUCCESS]: searchRequestSuccess,
+  [Types.SEARCH_REQUEST_FAILURE]: searchRequestFailure,
 
   [Types.SET_IMAGE_CARD_PERSON]: setImageCardPerson,
   [Types.DELETE_IMAGE_CARD]: deleteImageCard,
@@ -493,4 +525,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.VOTE_AMULET_FAILURE]: voteAmuletFailure,
   [Types.CLEAR_DATA_VOTE]: clearDataVote,
 
+  [Types.CLEAR_PROVINCE_ID]: clearProvinceId,
 })

@@ -265,6 +265,10 @@ export default {
   anywhere: 'ใส่หรือไม่ใส่ก็ได้',
   priceMarket: 'ราคาเช่าพระ',
   openStore: 'คุณไม่มีร้านค้า กรุณาทำการเปิดร้านค้า !!',
+  amuletOrProvince: 'ชื่อพระ หรือชื่อจังหวัด',
+  searchResult: 'ผลลัพธ์การค้นหา',
+  noneSearching: 'ไม่พบรายการที่ค้นหา',
+  amuletSearch: 'ชื่อพระที่ต้องการค้นหา',
 
   checkPrice: 'กรุณาใส่ราคาเช่าพระ',
   checkZone: 'กรุณาเลือกภูมิภาคของท่าน',

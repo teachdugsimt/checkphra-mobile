@@ -32,6 +32,7 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
+let count_render = 0
 class UserContactOwner extends Component {
     constructor(props) {
         super(props)
@@ -72,10 +73,22 @@ class UserContactOwner extends Component {
     //     }
     // }
 
+    static getDerivedStateFromProps(newProps, prevState) {
+        console.log(newProps)
+        console.log(prevState)
+        console.log('-------------- USER CONTACT OWNER ----------------')
+
+        return {
+
+        }
+    }
+
     _renderItem = ({ item, index }) => {
 
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
+
         if (item.uid_owner != this.props.user_id) {
+            count_render++
             return (
                 <TouchableOpacity style={{ height: 110, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
                     onPress={() => this._goToChat(item)}>
@@ -90,9 +103,21 @@ class UserContactOwner extends Component {
                             {!item.profile && item.amulet && <Text style={{ color: Colors.bloodOrange, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>Chat All {"( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
                             {item.amulet && <Text style={{ color: Colors.brownTextTran, fontSize: 14 }}>{date}{" ( id: " + item.amulet.id + " )"}</Text>}
 
-                            {item.amulet && <TouchableOpacity style={{ marginTop: 10 }} onPress={() => this._showPicture(item.amulet.images)}>
-                                <ImageList2 data={item.amulet.images_thumbs} />
-                            </TouchableOpacity>}
+                            <View style={{ flexDirection: 'row' }}>
+                                {item.amulet != null && item.amulet.images_thumbs.map((e, i) => {
+                                    console.log(e)
+                                    return (
+                                        <TouchableOpacity style={{ marginRight: 1.5, height: 30, width: 30 }} onPress={() => this._showPicture(item.amulet.images, i)}>
+                                            <Image source={{ uri: e }} style={{ width: 30, height: 30 }} />
+                                        </TouchableOpacity>
+                                    )
+                                })}
+                            </View>
+
+                            {/* <View style={{ flexDirection: 'row', width: 60, height: 30 }}>
+                                <Image source={{ url: this.props.data_myMessageFromOther[8].amulet.images_thumbs[0] }} style={{ width: 30, height: 30 }} />
+                                <Image source={{ uri: item.amulet.images_thumbs[1] }} style={{ width: 30, height: 30 }} />
+                            </View> */}
 
                         </View>
                     </View>
@@ -105,14 +130,12 @@ class UserContactOwner extends Component {
         }
     }
 
-    _showPicture = (item) => {
-        this.setState({ modalVisible: true })
+    _showPicture = (item, index) => {
         let img = []
         item.map(e => {
             img.push({ url: e })
         })
-        this.setState({ img })
-        this.popupDialog.show()
+        this.setState({ img, modalVisible: true, index })
     }
 
     static rename = (e) => {
@@ -247,7 +270,7 @@ class UserContactOwner extends Component {
 
     _onScrollEndList = () => {
         console.log('END LIST AGAIN')
-        if (this.props.data_myMessageFromOther && this.props.data_myMessageFromOther.length >= 10 && (this.props.request7 == false || this.props.request7 == null)) {
+        if (this.props.data_myMessageFromOther && count_render >= 10 && this.props.data_myMessageFromOther.length >= 10 && (this.props.request7 == false || this.props.request7 == null)) {
             count++
             this.props.getMyMessageFromOther(count)
         }
@@ -268,42 +291,31 @@ class UserContactOwner extends Component {
                     width: width,
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
-                <PopupDialog
-                    dialogTitle={<View></View>}
-                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-                    dialogAnimation={slideAnimation}
-                    width={0}
-                    height={0}
-                    // height={150}
-                    onDismissed={() => { this.setState({ modalVisible: false, index: 0 }) }}
-                >
-                    <View style={{ width: '100%', height: '80%', backgroundColor: 'transparent' }}>
-                        <Modal
-                            visible={this.state.modalVisible}
-                            transparent={true}
-                            onRequestClose={() => this.setState({ modalVisible: false })}>
-                            <ImageViewer
-                                saveToLocalByLongPress={false}
-                                imageUrls={this.state.img}
-                                backgroundColor={'lightgrey'}
-                                // onClick={(e) => {
-                                //     console.log('Show modal')
-                                //     this.setState({ modalVisible: true })
-                                // }}
 
-                                index={this.state.index} // index in array picture
-                                onSwipeDown={() => {
-                                    console.log('onSwipeDown');
-                                    this.setState({ modalVisible: false })
-                                    this.popupDialog.dismiss()
-                                }}
-                                enableSwipeDown={true}
-                                failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
-                            />
-                        </Modal>
+                <Modal
+                    visible={this.state.modalVisible}
+                    transparent={true}
+                    onRequestClose={() => this.setState({ modalVisible: false })}>
+                    <ImageViewer
+                        saveToLocalByLongPress={false}
+                        imageUrls={this.state.img}
+                        backgroundColor={'lightgrey'}
+                        // onClick={(e) => {
+                        //     console.log('Show modal')
+                        //     this.setState({ modalVisible: true })
+                        // }}
 
-                    </View>
-                </PopupDialog>
+                        index={this.state.index} // index in array picture
+                        onSwipeDown={() => {
+                            console.log('onSwipeDown');
+                            this.setState({ modalVisible: false })
+                            // this.popupDialog.dismiss()
+                        }}
+                        enableSwipeDown={true}
+                        failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
+                    />
+                </Modal>
+
                 <FlatList
                     refreshControl={
                         <RefreshControl
@@ -312,7 +324,7 @@ class UserContactOwner extends Component {
                         />
                     }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
-                    data={this.props.data_myMessageFromOther}
+                    data={this.props.data_myMessageFromOther ? this.props.data_myMessageFromOther : []}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
                     onEndReachedThreshold={1.0} />

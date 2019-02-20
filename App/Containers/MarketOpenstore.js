@@ -17,6 +17,7 @@ import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import QuestionActions from '../Redux/QuestionRedux'
 import MarketActions from '../Redux/MarketRedux'
+import ImageResizer from 'react-native-image-resizer';
 import styles from './Styles/HomeScreenStyle'
 
 var ImagePicker = require('react-native-image-picker');
@@ -74,11 +75,36 @@ class MarketOpenstore extends Component {
                     avatarSource: source
                 });
 
-                this.props.setImage({
-                    uri: response.uri,
-                    type: response.type,
-                    name: response.fileName
-                })
+                // this.props.setImage({
+                //     uri: response.uri,
+                //     type: response.type,
+                //     name: response.fileName
+                // })
+
+                // ----------------- ADD => 18/02/2019  17:41 -----------------
+                ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 100, 0, null)
+                    .then((response) => {
+                        // response.uri is the URI of the new image that can now be displayed, uploaded...
+                        // response.path is the path of the new image
+                        // response.name is the name of the new image with the extension
+                        // response.size is the size of the new image
+                        // console.log(response)
+                        this.props.setImage({
+                            uri: response.uri,
+                            type: 'image/jpeg',
+                            // name: response.fileName,
+                            name: response.name,
+                            // size: response.fileSize,
+                            size: response.size,
+                            tmp_name: response.path
+                        })
+                        // console.log(response)
+                    }).catch((err) => {
+                        // Oops, something went wrong. Check that the filename is correct and
+                        // inspect err to get more details.
+                        console.log(err)
+                    });
+                // ----------------- ADD => 18/02/2019  17:41 -----------------
             }
         });
     }
@@ -104,11 +130,37 @@ class MarketOpenstore extends Component {
                     avatarSource2: source
                 });
 
-                this.props.setImage2({
-                    uri: response.uri,
-                    type: response.type,
-                    name: response.fileName
-                })
+                // this.props.setImage2({
+                //     uri: response.uri,
+                //     type: response.type,
+                //     name: response.fileName
+                // })
+
+                 // ----------------- ADD => 18/02/2019  17:41 -----------------
+                 ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 100, 0, null)
+                 .then((response) => {
+                     // response.uri is the URI of the new image that can now be displayed, uploaded...
+                     // response.path is the path of the new image
+                     // response.name is the name of the new image with the extension
+                     // response.size is the size of the new image
+                     // console.log(response)
+                     this.props.setImage2({
+                         uri: response.uri,
+                         type: 'image/jpeg',
+                         // name: response.fileName,
+                         name: response.name,
+                         // size: response.fileSize,
+                         size: response.size,
+                         tmp_name: response.path
+                     })
+                     // console.log(response)
+                 }).catch((err) => {
+                     // Oops, something went wrong. Check that the filename is correct and
+                     // inspect err to get more details.
+                     console.log(err)
+                 });
+             // ----------------- ADD => 18/02/2019  17:41 -----------------
+
             }
         });
     }

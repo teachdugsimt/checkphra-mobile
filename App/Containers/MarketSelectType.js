@@ -75,6 +75,7 @@ class MarketSelectType extends Component {
                     style={{ width: '80%', height: 40, backgroundColor: '#fff5', paddingVertical: 8, paddingHorizontal: 30, borderRadius: 8, alignSelf: 'center', marginTop: 2.5, zIndex: 2 }}
                     // onFocus={() => this.setState({ show_icon: false })} 
                     ref={(textfield) => { this.textfield = textfield }}
+                    underlineColorAndroid={'transparent'}
                     placeholder={I18n.t('amuletSearch')}
                     placeholderStyle={{ marginLeft: 15 }}
                     onFocus={this.handleInputFocus}  // when focus text input
@@ -82,7 +83,7 @@ class MarketSelectType extends Component {
                 />
                 {!this.state.show_icon && <TouchableOpacity style={{ position: 'absolute', top: 5, right: width / 9, zIndex: 2 }} onPress={this._pressSearch}><Icon2 name={'arrow-right'} size={24} style={{}} /></TouchableOpacity>}
 
-                {this.state.show_icon && < Icon2 name={'search'} size={24} color={Colors.brownTextTran} style={{ position: 'absolute', top: 5, left: width / 9 }} />}
+                {this.state.show_icon && < Icon2 name={'search'} size={24} color={Colors.brownTextTran} style={{ position: 'absolute', top: 7.5, left: width / 9 }} />}
 
                 <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText, marginTop: 10, marginBottom: 5 }}>{I18n.t('selectAmuletType')}</Text>
                 <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 8, width: '80%', alignSelf: 'center' }} onPress={this._ListShop}>

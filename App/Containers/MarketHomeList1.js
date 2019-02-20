@@ -47,6 +47,7 @@ class MarketHomeList1 extends Component {
     _renderItem = ({ item, index }) => {
 
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
+        date = date.slice(0, 12)
         return (
             <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChat(item)}>
 
@@ -58,17 +59,27 @@ class MarketHomeList1 extends Component {
                         <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: item.images[0] }} />
                     </TouchableOpacity>
 
-                    <View style={{ justifyContent: 'center', width: '100%' }}>
+                    <View style={{ justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                             <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
                             <Text style={{ color: Colors.brownTextTran, fontSize: 14, fontFamily: 'Prompt-SemiBold', marginTop: 3 }}> ( {item.amulet_detail.id} )</Text>
                         </View>
 
-                        <View style={{ flexDirection: 'row', width: '100%' }}>
-                            <Text style={{ marginLeft: 10, marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
-                            <TouchableOpacity style={{ flex: 1, marginLeft: 10, marginTop: 4, width: '100%' }} onPress={() => this._pressSubList(item.images)}>
-                                <ImageList data={item.images_thumbs} />
-                            </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', width: width - 80, justifyContent: 'space-between' }}>
+                            <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                                {item.images_thumbs != null && item.images_thumbs.map((e, i) => {
+                                    if (i != 0) {
+                                        return (
+                                            <TouchableOpacity style={{ marginRight: 1.5, marginLeft: i == 1 ? 10 : 0 }} onPress={() => this._pressSubList(item.images, i)}>
+                                                <Image source={{ uri: e }} style={{ width: 26, height: 26, borderRadius: 8 }} />
+                                            </TouchableOpacity>
+                                        )
+                                    }
+                                })}
+                            </View>
+
+                            <Text style={{ marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+
                         </View>
                     </View>
                 </View>
@@ -78,17 +89,12 @@ class MarketHomeList1 extends Component {
 
     }
 
-    _pressSubList = (item) => {
-        this.setState({ modalVisible: true })
+    _pressSubList = (item, index) => {
         let img = []
-        // item.map(e => {
-        //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
-        // })
         item.map(e => {
             img.push({ url: e })
         })
-        this.setState({ img, index: 1 })
-        this.popupDialog.show()
+        this.setState({ img, index, modalVisible: true })
     }
 
     _showImage = (item) => {
@@ -147,44 +153,33 @@ class MarketHomeList1 extends Component {
                     position: 'absolute',
                     right: 0, bottom: 0,
                     width: width,
-                    height: width * 95.7 / 100 }} resizeMode='contain' />
+                    height: width * 95.7 / 100
+                }} resizeMode='contain' />
 
-                <PopupDialog
-                    dialogTitle={<View></View>}
-                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-                    dialogAnimation={slideAnimation}
-                    width={0}
-                    height={0}
-                    // height={150}
-                    onDismissed={() => { this.setState({ modalVisible: false, index: 0 }) }} >
 
-                    <View style={{ width: '100%', height: '80%', backgroundColor: 'transparent' }}>
-                        <Modal
-                            visible={this.state.modalVisible}
-                            transparent={true}
-                            onRequestClose={() => this.setState({ modalVisible: false })}>
-                            <ImageViewer
-                                saveToLocalByLongPress={false}
-                                imageUrls={this.state.img}
-                                backgroundColor={'lightgrey'}
-                                // onClick={(e) => {
-                                //     console.log('Show modal')
-                                //     this.setState({ modalVisible: true })
-                                // }}
+                <Modal
+                    visible={this.state.modalVisible}
+                    transparent={true}
+                    onRequestClose={() => this.setState({ modalVisible: false })}>
+                    <ImageViewer
+                        saveToLocalByLongPress={false}
+                        imageUrls={this.state.img}
+                        backgroundColor={'lightgrey'}
+                        // onClick={(e) => {
+                        //     console.log('Show modal')
+                        //     this.setState({ modalVisible: true })
+                        // }}
 
-                                index={this.state.index} // index in array picture
-                                onSwipeDown={() => {
-                                    console.log('onSwipeDown');
-                                    this.setState({ modalVisible: false })
-                                    this.popupDialog.dismiss()
-                                }}
-                                enableSwipeDown={true}
-                                failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
-                            />
-                        </Modal>
-
-                    </View>
-                </PopupDialog>
+                        index={this.state.index} // index in array picture
+                        onSwipeDown={() => {
+                            console.log('onSwipeDown');
+                            this.setState({ modalVisible: false })
+                            // this.popupDialog.dismiss()
+                        }}
+                        enableSwipeDown={true}
+                        failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
+                    />
+                </Modal>
 
                 <FlatList
                     refreshControl={

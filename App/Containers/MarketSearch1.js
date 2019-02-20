@@ -155,6 +155,7 @@ class MarketSearch1 extends Component {
 
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
+        date = date.slice(0, 12)
 
         return (
             <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChatTheirAmulet(item)}>
@@ -166,17 +167,27 @@ class MarketSearch1 extends Component {
                         <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: item.images[0] }} />
                     </TouchableOpacity>
 
-                    <View style={{ justifyContent: 'center', width: '100%' }}>
+                    <View style={{ justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                             <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
                             <Text style={{ color: Colors.brownTextTran, fontSize: 14, fontFamily: 'Prompt-SemiBold', marginTop: 3 }}> ( {item.id} )</Text>
                         </View>
 
-                        <View style={{ flexDirection: 'row', width: '100%' }}>
-                            <Text style={{ marginLeft: 10, marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
-                            <TouchableOpacity style={{ flex: 1, marginLeft: 10, marginTop: 4, width: '100%' }} onPress={() => this._pressSubList(item.images)}>
-                                <ImageList data={item.images_thumbs} />
-                            </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', width: width - 80, justifyContent: 'space-between' }}>
+                            <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                                {item.images_thumbs != null && item.images_thumbs.map((e, i) => {
+                                    if (i != 0) {
+                                        return (
+                                            <TouchableOpacity style={{ marginRight: 1.5, marginLeft: i == 1 ? 10 : 0 }} onPress={() => this._pressSubList(item.images, i)}>
+                                                <Image source={{ uri: e }} style={{ width: 26, height: 26, borderRadius: 8 }} />
+                                            </TouchableOpacity>
+                                        )
+                                    }
+                                })}
+                            </View>
+
+                            <Text style={{ marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+
                         </View>
                     </View>
                 </View>
@@ -194,12 +205,12 @@ class MarketSearch1 extends Component {
         // this.popupDialog.show()
     }
 
-    _pressSubList = (item) => {
+    _pressSubList = (item, index) => {
         let img = []
         item.map(e => {
             img.push({ url: e })
         })
-        this.setState({ img, index: 1, modalVisible: true })
+        this.setState({ img, index, modalVisible: true })
         // this.popupDialog.show()
     }
 

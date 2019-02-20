@@ -135,12 +135,13 @@ class MarketHome extends Component {
                     ref={(textfield) => { this.textfield = textfield }}
                     placeholder={I18n.t('amuletOrProvince')}
                     placeholderStyle={{ marginLeft: 15 }}
+                    underlineColorAndroid={'transparent'}
                     onFocus={this.handleInputFocus}  // when focus text input
                     onBlur={this.handleInputBlur}  // when not focus text input
                 />
                 {!this.state.show_icon && <TouchableOpacity style={{ position: 'absolute', top: 5, right: width / 9, zIndex: 2 }} onPress={this._pressSearch}><Icon2 name={'arrow-right'} size={24} style={{}} /></TouchableOpacity>}
 
-                {this.state.show_icon && < Icon2 name={'search'} size={24} color={Colors.brownTextTran} style={{ position: 'absolute', top: 5, left: width / 9 }} />}
+                {this.state.show_icon && < Icon2 name={'search'} size={24} color={Colors.brownTextTran} style={{ position: 'absolute', top: 7.5, left: width / 9 }} />}
 
                 <TouchableOpacity style={styles.touchPin1} onPress={this._north}>
                     <Image source={Images.pin} style={styles.pin} />

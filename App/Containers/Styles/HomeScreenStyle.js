@@ -34,10 +34,13 @@ export default StyleSheet.create({
   map: {
     position: 'absolute',
     alignSelf: 'center',
-    top: 0,
+    // top: 0,
     zIndex: 1,
-    width: width - 50,
-    height: height - 127.5
+    // width: width - 50,
+    // height: height - 127.5
+    top: 20,
+    width: width - 70,
+    height: height - 152,
   },
   pin: {
     width: 40,
@@ -45,35 +48,35 @@ export default StyleSheet.create({
   },
   touchPin1: {
     position: 'absolute',
-    top: height / 11,
+    top: height / 8.25,
     left: width / 3.3,
     zIndex: 2,
     flexDirection: 'row',
   },
   touchPin2: {
     position: 'absolute',
-    top: height / 6.75,
-    right: width / 20,
+    top: height / 5.5,
+    right: width / 19.00,
     zIndex: 2,
     flexDirection: 'row',
   },
   touchPin3: {
     position: 'absolute',
-    top: height / 3.75,
+    top: height / 3.50,
     left: width / 2.82,
     zIndex: 2,
     flexDirection: 'row',
   },
   touchPin4: {
     position: 'absolute',
-    top: height / 2.89,
+    top: height / 2.80,
     right: width / 3.49,
     zIndex: 2,
     flexDirection: 'row',
   },
   touchPin5: {
     position: 'absolute',
-    bottom: height / 7.78,
+    bottom: height / 7.15,
     left: width / 3.58,
     zIndex: 2,
     flexDirection: 'row',

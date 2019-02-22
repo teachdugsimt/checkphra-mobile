@@ -58,7 +58,7 @@ const { Types, Creators } = createActions({
   setStoreTmp: ['data'],
   editVerifyStore: ['data'],
 
-  verifyStore: ['shop_id'],
+  verifyStore: ['shop_id', 'status'],
   verifyStoreSuccess: ['data'],
   verifyStoreFailure: null,
 

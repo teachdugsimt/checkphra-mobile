@@ -80,15 +80,13 @@ class MarketSelectType extends Component {
                     placeholderStyle={{ marginLeft: 15 }}
                     onFocus={this.handleInputFocus}  // when focus text input
                     onBlur={this.handleInputBlur}  // when not focus text input
+                    onSubmitEditing={this._pressSearch}
                 />
                 {!this.state.show_icon && <TouchableOpacity style={{ position: 'absolute', top: 5, right: width / 9, zIndex: 2 }} onPress={this._pressSearch}><Icon2 name={'arrow-right'} size={24} style={{}} /></TouchableOpacity>}
 
                 {this.state.show_icon && < Icon2 name={'search'} size={24} color={Colors.brownTextTran} style={{ position: 'absolute', top: 7.5, left: width / 9 }} />}
 
                 <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText, marginTop: 10, marginBottom: 5 }}>{I18n.t('selectAmuletType')}</Text>
-                <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 8, width: '80%', alignSelf: 'center' }} onPress={this._ListShop}>
-                    <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, alignSelf: 'center', textAlign: 'center', padding: 6.5 }}>Go to shop</Text>
-                </TouchableOpacity>
 
                 <GridView
                     itemDimension={100}
@@ -121,6 +119,11 @@ class MarketSelectType extends Component {
                             </TouchableOpacity>
                         );
                     }} />
+
+                <TouchableOpacity style={{ position: 'absolute', bottom: 10, right: 10, backgroundColor: Colors.milk, borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10 }} onPress={this._ListShop}>
+                    <Icon2 name={'shopping-cart'} size={24} />
+                    <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, alignSelf: 'center', textAlign: 'center' }}> Shop</Text>
+                </TouchableOpacity>
 
             </LinearGradient>
         )

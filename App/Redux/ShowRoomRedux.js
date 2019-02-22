@@ -161,7 +161,13 @@ export const getListOwnerContactSuccess = (state, { data }) => {
     data.forEach(e => {
       if (tmp.find(b => b.id == e.id)) {
         console.log('SAME VALUE')
-      } else { tmp.push(e) }
+        if (tmp.find(b => b.id == e.id) != e) {  // id ใน redux state = id ใน new data แต่ข้อมูลข้างในไม่เท่ากัน
+          console.log('ID in redux = ID in new data, but data in redux do not same new data')
+        }
+      }
+      else {
+        tmp.push(e)
+      }
     })
     // main algorithm
   } else {

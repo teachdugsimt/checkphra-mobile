@@ -234,12 +234,13 @@ export function* getListShop(api, { page }) {
   }
 }
 
-export function* verifyStoreRequest(api, { shop_id }) {
+export function* verifyStoreRequest(api, { shop_id, status }) {
   const aut = yield select(auth)
 
   const data = {
     user_id: aut.user_id,
-    shop_id
+    shop_id,
+    status
   }
 
   const response = yield call(api.verifyStore, data)

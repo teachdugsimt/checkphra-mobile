@@ -42,8 +42,10 @@ const images = {
   cer: require('../Images/certificate.png'),
   crown: require('../Images/crown2.png'),
   map: require('../Images/map.png'),
+  map2: require('../Images/map2.png'),
   pin: require('../Images/pin.png'),
   chat: require('../Images/chat.png'),
+  logoCheckphra: require('../Images/logo-checkphra.jpg'),
 }
 
 export default images

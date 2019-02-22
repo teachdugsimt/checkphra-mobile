@@ -136,30 +136,30 @@ class MarketOpenstore extends Component {
                 //     name: response.fileName
                 // })
 
-                 // ----------------- ADD => 18/02/2019  17:41 -----------------
-                 ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 100, 0, null)
-                 .then((response) => {
-                     // response.uri is the URI of the new image that can now be displayed, uploaded...
-                     // response.path is the path of the new image
-                     // response.name is the name of the new image with the extension
-                     // response.size is the size of the new image
-                     // console.log(response)
-                     this.props.setImage2({
-                         uri: response.uri,
-                         type: 'image/jpeg',
-                         // name: response.fileName,
-                         name: response.name,
-                         // size: response.fileSize,
-                         size: response.size,
-                         tmp_name: response.path
-                     })
-                     // console.log(response)
-                 }).catch((err) => {
-                     // Oops, something went wrong. Check that the filename is correct and
-                     // inspect err to get more details.
-                     console.log(err)
-                 });
-             // ----------------- ADD => 18/02/2019  17:41 -----------------
+                // ----------------- ADD => 18/02/2019  17:41 -----------------
+                ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 100, 0, null)
+                    .then((response) => {
+                        // response.uri is the URI of the new image that can now be displayed, uploaded...
+                        // response.path is the path of the new image
+                        // response.name is the name of the new image with the extension
+                        // response.size is the size of the new image
+                        // console.log(response)
+                        this.props.setImage2({
+                            uri: response.uri,
+                            type: 'image/jpeg',
+                            // name: response.fileName,
+                            name: response.name,
+                            // size: response.fileSize,
+                            size: response.size,
+                            tmp_name: response.path
+                        })
+                        // console.log(response)
+                    }).catch((err) => {
+                        // Oops, something went wrong. Check that the filename is correct and
+                        // inspect err to get more details.
+                        console.log(err)
+                    });
+                // ----------------- ADD => 18/02/2019  17:41 -----------------
 
             }
         });
@@ -177,8 +177,10 @@ class MarketOpenstore extends Component {
 
     componentDidMount() {
         count = 1
+        // if (this.props.profile && this.props.profile.store == null) {
         this.props.getProvince()
-        alert(I18n.t('openStore'))
+        // }
+        // alert(I18n.t('openStore'))
     }
 
     componentWillUnmount() {
@@ -200,6 +202,7 @@ class MarketOpenstore extends Component {
             alert('Please select province')
         } else {
             this.props.openStore(this.state.store_name, this.state.province, this.props.image, this.props.image2, this.state.contact)
+            this.props.setDataStore(this.state.store_name, this.state.namep, this.state.contact)
             this.setState({
                 avatarSource: null,
                 avatarSource2: null,
@@ -210,7 +213,7 @@ class MarketOpenstore extends Component {
             })
             this.props.deleteImage()
             this.props.deleteImage2()
-            this.props.getProfile()
+            // this.props.getProfile()
             this.props.navigation.goBack()
         }
     }
@@ -347,14 +350,14 @@ class MarketOpenstore extends Component {
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-                        <View style={{ width: '40%', height: 40 }}>
+                        <View style={{ width: '40%', height: 40, marginRight: 5 }}>
                             <RoundedButton
                                 style={{ marginHorizontal: 10 }}
                                 title={I18n.t('ok')}
                                 onPress={this._onPressButton}
                             />
                         </View>
-                        <View style={{ width: '40%', height: 40 }}>
+                        <View style={{ width: '40%', height: 40, marginLeft: 5 }}>
                             <RoundedButton
                                 style={{ marginHorizontal: 10 }}
                                 title={I18n.t('cancel')}
@@ -366,7 +369,7 @@ class MarketOpenstore extends Component {
                 </View>
 
                 <Spinner
-                    visible={(this.props.request4 || this.props.request_profile)}
+                    visible={(this.props.request4 || this.props.request_profile || this.props.request5)}
                     textContent={'Loading...'}
                     textStyle={{ color: '#fff' }}
                 />
@@ -401,6 +404,7 @@ const mapDispatchToProps = (dispatch) => {
         // getProvince: (page) => dispatch(MarketActions.getProvince(page)),
         getProvince: () => dispatch(MarketActions.getProvince()),
         openStore: (store_name, province_id, img1, img2, contact) => dispatch(MarketActions.openStore(store_name, province_id, img1, img2, contact)),
+        setDataStore: (store_name, province, contact) => dispatch(MarketActions.setDataStore(store_name, province, contact)),
     }
 }
 

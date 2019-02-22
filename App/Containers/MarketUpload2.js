@@ -195,7 +195,7 @@ class MarketUpload2 extends Component {
                             name = (item.type == 'อื่นๆ หรือ ไม่ทราบ' || item.type == 'ไม่ระบุประเภท') ? I18n.t('otherOrUnknown') : I18n.t(item.type)
                         }
 
-                        if (item.status != "delete") {
+                        if (item.status != "delete" && item.real != 0 && item.real != null && item.market_status != 10) {
                             return (
                                 <TouchableOpacity onPress={() => this._checkPopup(item)} >
                                     <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

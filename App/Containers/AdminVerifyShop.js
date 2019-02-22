@@ -75,6 +75,7 @@ class AdminVerifyShop extends Component {
                     <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'center' }}>
                         {item.status == 1 && <Icon3 name={'chevron-right'} size={27} />}
                         {item.status == 5 && <Icon3 name={'check-circle-o'} size={30} color={'green'} />}
+                        {item.status == 0 && <Icon3 name={'user-times'} size={30} color={'red'} />}
                     </View>
                 </View>
             </TouchableOpacity>

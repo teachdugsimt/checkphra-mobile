@@ -63,11 +63,11 @@ export function* sendDataAmuletForMarket(api) {
   if (response.ok) {
     yield put(MarketActions.sendDataAmuletMarketSuccess(response.data))
     yield put(MarketActions.clearImageMarket())
-    alert(I18n.t('successTransaction'))
+    alert(I18n.t('succ'))
   } else {
     yield put(MarketActions.sendDataAmuletMarketFailure())
     yield put(MarketActions.clearImageMarket())
-    alert(I18n.t('failureTransaction'))
+    alert(I18n.t('fail'))
   }
 }
 

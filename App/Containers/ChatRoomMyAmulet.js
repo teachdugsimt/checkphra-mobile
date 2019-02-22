@@ -73,8 +73,8 @@ class ChatRoomMyAmulet extends Component {
             }
         }
 
-         // for SEARCH FUNCTION
-         if (newProps.data_vote && newProps.data_vote != null) {
+        // for SEARCH FUNCTION
+        if (newProps.data_vote && newProps.data_vote != null) {
             if (prevState.tmp_vote != newProps.data_vote && newProps.data_their.id == newProps.data_vote.id && newProps.data_answer && newProps.data_answer != null) {
                 console.log('-------------- Come From List Shop OTHER PERSON 55555 -----------')
                 newProps.setTheirAmuletData(newProps.data_vote)
@@ -376,7 +376,7 @@ class ChatRoomMyAmulet extends Component {
                             </View>
 
                             <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-                                {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('amuletName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.amuletName + " ( " + this.props.data_their.id + " )"}</Text></Text>}
+                                {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('amuletName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.amuletName}</Text></Text>}
                                 {this.props.data_their.amulet_detail.temple && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('templeName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.temple}</Text></Text>}
                                 {this.props.data_their.amulet_detail.price && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('costAmulet') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.price}</Text></Text>}
                                 {this.props.data_their.amulet_detail.owner && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('ownerName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.owner}</Text></Text>}
@@ -389,14 +389,14 @@ class ChatRoomMyAmulet extends Component {
 
                             <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginLeft: 10 }} onPress={this._likeAmulet}>
                                 <Icon2 name={'thumbs-up'} size={26} />
-                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.75 }}>{this.props.data_their.real}</Text>
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.75 }}>{this.props.data_their.real + " " + I18n.t('real')}</Text>
                             </TouchableOpacity>
 
                             <Icon2 size={22} name={'chevron-up'} style={{ alignSelf: 'center', marginVertical: 2.5 }} />
 
                             <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginRight: 10 }} onPress={this._dislikeAmulet}>
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginRight: 7.5, marginTop: 4 }}>{this.props.data_their.fake + " " + I18n.t('fake')}</Text>
                                 <Icon2 name={'thumbs-down'} size={26} />
-                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 2.5 }}>{this.props.data_their.fake}</Text>
                             </TouchableOpacity>
 
                         </View>
@@ -404,7 +404,7 @@ class ChatRoomMyAmulet extends Component {
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{this.props.data_their.amulet_detail.amuletName}</Text>}
+                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{this.props.data_their.amulet_detail.amuletName+" ( "+this.props.data_their.type_name+" )"}</Text>}
                         </View>
 
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
@@ -450,10 +450,10 @@ class ChatRoomMyAmulet extends Component {
                     <Icon2 name={'arrow-right'} size={22} style={{}} />
                 </TouchableOpacity>
 
-                <Spinner
+                {/* <Spinner
                     visible={this.props.request2}
                     textContent={'Loading...'}
-                    textStyle={{ color: '#fff' }} />
+                    textStyle={{ color: '#fff' }} /> */}
             </LinearGradient>
         )
     }

@@ -15,6 +15,7 @@ import * as RNIap from 'react-native-iap';
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import MarketActions from '../Redux/MarketRedux'
+import QuestionActions from '../Redux/QuestionRedux'
 import styles from './Styles/HomeScreenStyle'
 import Picker2 from '../Components/PickerMarket';
 I18n.fallbacks = true;
@@ -39,6 +40,7 @@ class MarketUpload2n1 extends Component {
             type: null,
 
             tmp_type: null,
+            tmp_sendAmulet: null,
         }
     }
 
@@ -51,6 +53,15 @@ class MarketUpload2n1 extends Component {
             tlist = newProps.data_typeAmulet
         }
 
+        if (newProps.data_sendAmulet2 && newProps.data_sendAmulet2 != null) {
+            if (prevState.tmp_sendAmulet != newProps.data_sendAmulet2 && newProps.data_sendAmulet2.qid == newProps.tmp_upload.id) {
+                newProps.editHistory(newProps.data_sendAmulet2)
+                return {
+                    tmp_sendAmulet: newProps.data_sendAmulet2
+                }
+            }
+        }
+
         return {
             tmp_type: tlist
         }
@@ -58,6 +69,18 @@ class MarketUpload2n1 extends Component {
 
     componentDidMount() {
         this.props.getListTypeAmulet()
+        if (this.props.profile && this.props.profile != null) {
+            if (this.props.profile.firstname && this.props.profile.lastname) {
+                let fullName = this.props.profile.firstname + " " + this.props.profile.lastname
+                this.setState({ owner: fullName })
+            } else if (this.props.profile.firstname && !this.props.profile.lastname) {
+                this.setState({ owner: this.props.profile.firstname })
+            }
+
+            if (this.props.profile.store && this.props.profile.store != null && this.props.profile.store.contact && this.props.profile.store.contact != null) {
+                this.setState({ contact: this.props.profile.store.contact })
+            }
+        }
     }
 
     _onPressButton = () => {
@@ -80,7 +103,7 @@ class MarketUpload2n1 extends Component {
         //     alert(I18n.t('atLeast2Image'))
         // }
 
-        if (this.state.price && this.state.type ) {
+        if (this.state.price && this.state.type) {
 
             // name, temple, price, owner, contact, zone, type
             this.props.setMainData({
@@ -144,8 +167,8 @@ class MarketUpload2n1 extends Component {
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             {this.props.tmp_upload && this.props.tmp_upload.images && this.props.tmp_upload.images.map((e, i) => {
                                 return (
-                                    <View style={{ marginRight: 10, flex: 1 }} >
-                                        <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e }} style={{ width: 100, height: 100, margin: 15 }} />
+                                    <View style={{ marginLeft: i == 0 ? 15 : 0, flex: 1 }} >
+                                        <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e }} style={{ width: 100, height: 100, marginRight: 10 }} />
                                     </View>
                                 )
                             })}
@@ -212,27 +235,31 @@ class MarketUpload2n1 extends Component {
                             <Picker.Item label="South" value="5" />
                         </Picker> */}
 
-                        {this.state.tmp_type && <Picker
-                            selectedValue={this.state.type}
-                            style={{ height: 45, width: width / 2, alignSelf: 'center', marginTop: 12 }}
-                            onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}>
-                            <Picker.Item label="Select your amulet type" value={null} />
-                            {this.state.tmp_type && this.state.tmp_type.map((e, i) => {
-                                return (
-                                    <Picker.Item label={e.name} value={e.id} />
-                                )
-                            })}
-                        </Picker>}
+                        {/* typeAmuletMarket */}
+                        <View style={{ marginTop: 12, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                            <Text style={{ fontFamily: 'Prompt-SemiBold', alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('typeAmuletMarket') + ": "}</Text>
+                            {this.state.tmp_type && <Picker
+                                selectedValue={this.state.type}
+                                style={{ height: 45, width: width / 2, alignSelf: 'center' }}
+                                onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}>
+                                <Picker.Item label="<Please Select>" value={null} />
+                                {this.state.tmp_type && this.state.tmp_type.map((e, i) => {
+                                    return (
+                                        <Picker.Item label={e.name} value={e.id} />
+                                    )
+                                })}
+                            </Picker>}
+                        </View>
 
                         <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-                            <View style={{ width: '40%', height: 40 }}>
+                            <View style={{ width: '40%', height: 40, marginRight: 7.5 }}>
                                 <RoundedButton
                                     style={{ marginHorizontal: 10 }}
                                     title={I18n.t('ok')}
                                     onPress={this._onPressButton}
                                 />
                             </View>
-                            <View style={{ width: '40%', height: 40 }}>
+                            <View style={{ width: '40%', height: 40, marginLeft: 7.5 }}>
                                 <RoundedButton
                                     style={{ marginHorizontal: 10 }}
                                     title={I18n.t('cancel')}
@@ -246,11 +273,11 @@ class MarketUpload2n1 extends Component {
                     </View>
                 </ScrollView>
 
-                <Spinner
+                {/* <Spinner
                     visible={this.props.request1 == true}
                     textContent={'Loading...'}
                     textStyle={{ color: '#fff' }}
-                />
+                /> */}
 
             </LinearGradient>
         )
@@ -267,7 +294,9 @@ const mapStateToProps = (state) => {
         request: state.market.request,  // for request to get type amulet
 
         request1: state.market.request1,  // send data amulet 
-        tmp_upload: state.market.tmp_upload //  store tmp screen before this page
+        tmp_upload: state.market.tmp_upload,  //  store tmp screen before this page
+
+        data_sendAmulet2: state.market.data_sendAmulet2,  // data send amulet to market
     }
 }
 
@@ -276,6 +305,7 @@ const mapDispatchToProps = (dispatch) => {
         getListTypeAmulet: () => dispatch(MarketActions.getListTypeAmulet()),
         sendDataAmuletMarket: () => dispatch(MarketActions.sendDataAmuletMarket2()),
         setMainData: (data) => dispatch(MarketActions.setMainData2(data)),
+        editHistory: (data) => dispatch(QuestionActions.editHistory(data)),
     }
 }
 

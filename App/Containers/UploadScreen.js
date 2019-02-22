@@ -306,7 +306,7 @@ class UploadScreen extends Component {
     this.props.getProfile()
     // this.props.setLanguage(I18n.locale)
     this.props.clearDataQuestion()
-    this.props.getPublish()
+    // this.props.getPublish()
     this.props.getLoginPro()
     this.getDeviceToken()
 
@@ -517,7 +517,7 @@ class UploadScreen extends Component {
         />
 
 
-        {this.state.kawsod != null && this.state.kawsod && this.state.kawsod.length > 0 && <Modal
+        {/* {this.state.kawsod != null && this.state.kawsod && this.state.kawsod.length > 0 && <Modal
           visible={this.state.modalVisible}
           transparent={true}
           onRequestClose={() => this.setState({ modalVisible: false })}
@@ -541,7 +541,7 @@ class UploadScreen extends Component {
               <TouchableOpacity onPress={() => this._pressLink(this.state.kawsod && this.state.kawsod.length > 0 && this.state.kawsod[0] && this.state.kawsod[0].link && this.state.kawsod[0].link)}><Text style={{ fontSize: 17, marginVertical: 10, alignSelf: 'center', marginHorizontal: 10, }}>{this.state.kawsod && this.state.kawsod.length > 0 && this.state.kawsod[0] && this.state.kawsod[0].link && this.state.kawsod[0].link}</Text></TouchableOpacity>
             </ScrollView>
           </View>
-        </Modal>}
+        </Modal>} */}
 
         <Spinner
           visible={((this.props.request_publish || this.props.request_amulet) || this.props.request_promotionlogin)}

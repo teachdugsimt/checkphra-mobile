@@ -46,32 +46,6 @@ class UserContactOwner extends Component {
             tlist: null,
         }
     }
-    // _renderItem = ({ item, index }) => {
-
-    //     let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
-    //     if (item.uid_owner != this.props.user_id) {
-    //         return (
-    //             <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
-    //                 onPress={() => this._goToChat(item)}>
-    //                 <View style={{ flex: 1 }}>
-    //                     <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{I18n.t('messages') + " " + (index + 1) + " ( " + item.type_id + " )"}</Text>
-    //                     <View style={{ flexDirection: 'row' }}>
-    //                         <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
-    //                         {item.type == 1 && <Icon2 name={'lock'} size={20} style={{ marginLeft: 5, marginTop: 10 }} />}
-    //                     </View>
-    //                 </View>
-
-    //                 <View style={{ flex: 1 }}>
-
-    //                     <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18, marginTop: 8.5 }}>{item.amulet && item.amulet.type}</Text>
-    //                     <TouchableOpacity style={{ flex: 1, width: 110 }} onPress={() => this._showPicture(item.amulet && item.amulet.images)}>
-    //                         <ImageList2 data={item.amulet && item.amulet.images} />
-    //                     </TouchableOpacity>
-    //                 </View>
-    //             </TouchableOpacity>
-    //         )
-    //     }
-    // }
 
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
@@ -105,23 +79,16 @@ class UserContactOwner extends Component {
 
                             <View style={{ flexDirection: 'row' }}>
                                 {item.amulet != null && item.amulet.images_thumbs.map((e, i) => {
-                                    console.log(e)
                                     return (
-                                        <TouchableOpacity style={{ marginRight: 1.5, height: 30, width: 30 }} onPress={() => this._showPicture(item.amulet.images, i)}>
-                                            <Image source={{ uri: e }} style={{ width: 30, height: 30 }} />
+                                        <TouchableOpacity style={{ marginRight: 1.5 }} onPress={() => this._showPicture(item.amulet.images, i)}>
+                                            <Image source={{ uri: e }} style={{ width: 27.5, height: 27.5, borderRadius: 8 }} />
                                         </TouchableOpacity>
                                     )
                                 })}
                             </View>
 
-                            {/* <View style={{ flexDirection: 'row', width: 60, height: 30 }}>
-                                <Image source={{ url: this.props.data_myMessageFromOther[8].amulet.images_thumbs[0] }} style={{ width: 30, height: 30 }} />
-                                <Image source={{ uri: item.amulet.images_thumbs[1] }} style={{ width: 30, height: 30 }} />
-                            </View> */}
-
                         </View>
                     </View>
-
 
                     <Icon2 name={'chevron-right'} size={30} style={{ alignSelf: 'center', marginRight: 15 }} />
 
@@ -323,7 +290,7 @@ class UserContactOwner extends Component {
                             onRefresh={this._reload}
                         />
                     }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('noMessages')}</Text>}
                     data={this.props.data_myMessageFromOther ? this.props.data_myMessageFromOther : []}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}

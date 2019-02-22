@@ -262,12 +262,20 @@ export default {
   myAmulet: 'My Real Amulet',
   market: 'Market for hire amulet',
   anywhere: 'Input or not input',
-  priceMarket: 'Price Amulet',
+  priceMarket: 'Price',
   openStore: "You don't have store. Please open store !!",
   amuletOrProvince: 'Amulet name or province',
   searchResult: 'Search result',
   noneSearching: 'None items found',
   amuletSearch: 'Amulet name for Search',
+
+  deleteAmulet: 'Delete this amulet',
+  sendToMarket: 'Send this amulet to market',
+  menu: 'Select menu',
+  detailShop: 'Detail of shop',
+  real: 'real amulet',
+  fake: 'fake amulet',
+  noMessages: 'No Messages',
 
   amuletName: 'Amulet',
   templeName: 'Temple',
@@ -299,6 +307,8 @@ export default {
 
   editType: 'Please choose new group',
   editDetailPhra: 'Edit detail of amulet',
+  failureOpen: 'Failure open store, please try again!!',
+  registerStore: 'Open Store!!',
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',
@@ -331,4 +341,6 @@ export default {
 
   successTransaction: 'Transaction Successful !!',
   failureTransaction: 'Transaction Failure',
+  succ: 'Successful!!',
+  fail: 'Failure!!',
 }

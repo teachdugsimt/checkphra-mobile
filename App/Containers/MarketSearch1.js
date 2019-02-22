@@ -280,12 +280,12 @@ class MarketSearch1 extends Component {
                 </Modal>
 
                 <FlatList
-                    // refreshControl={
-                    //     <RefreshControl
-                    //         refreshing={this.props.request2 == true}
-                    //         onRefresh={this._reload}
-                    //     />
-                    // }
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.request2 == true}
+                            onRefresh={this._reload}
+                        />
+                    }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('noneSearching')}</Text>}
                     data={this.props.data_answer}
                     renderItem={this._renderItem}

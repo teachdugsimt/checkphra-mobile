@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,
-    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform
+    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Alert
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -13,7 +13,9 @@ import * as RNIap from 'react-native-iap';
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
+import firebase from 'react-native-firebase';
 import QuestionActions from '../Redux/QuestionRedux'
+import AuthActions from '../Redux/AuthRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
 I18n.fallbacks = true;
@@ -113,6 +115,99 @@ class AdminHome extends Component {
 
     componentDidMount() {
         this.props.getProfile()
+        this.getDeviceToken()
+    }
+    //0
+    async getDeviceToken() {
+        this.checkPermission();
+        this.createNotificationListeners(); //add this line
+    }
+
+    //1
+    async checkPermission() {
+        console.log("check permission")
+        const enabled = await firebase.messaging().hasPermission();
+        if (enabled) {
+            this.getToken();
+        } else {
+            this.requestPermission();
+        }
+    }
+
+    //3
+    async getToken() {
+        console.log("get token")
+        let fcmToken = await AsyncStorage.getItem('fcmToken');
+        if (!fcmToken) {
+            fcmToken = await firebase.messaging().getToken();
+            if (fcmToken) {
+                console.log(fcmToken)
+                // user has a device token
+                this.props.saveDeviceToken(fcmToken)
+                await AsyncStorage.setItem('fcmToken', fcmToken);
+
+            }
+        } else {
+            console.log(fcmToken)
+            this.props.saveDeviceToken(fcmToken)
+        }
+    }
+
+    //2
+    async requestPermission() {
+        console.log("request permission")
+        try {
+            await firebase.messaging().requestPermission();
+            // User has authorised
+            this.getToken();
+        } catch (error) {
+            // User has rejected permissions
+            console.log('permission rejected');
+        }
+    }
+    //4
+    async createNotificationListeners() {
+        /*
+        * Triggered when a particular notification has been received in foreground
+        * */
+        this.notificationListener = firebase.notifications().onNotification((notification) => {
+            const { title, body } = notification;
+            this.showAlert(title, body);
+        });
+
+        /*
+        * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+        * */
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            const { title, body } = notificationOpen.notification;
+            this.showAlert(title, body);
+        });
+
+        /*
+        * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+        * */
+        const notificationOpen = await firebase.notifications().getInitialNotification();
+        if (notificationOpen) {
+            const { title, body } = notificationOpen.notification;
+            this.showAlert(title, body);
+        }
+        /*
+        * Triggered for data only payload in foreground
+        * */
+        this.messageListener = firebase.messaging().onMessage((message) => {
+            //process data message
+            console.log(JSON.stringify(message));
+        });
+    }
+
+    showAlert(title, body) {
+        Alert.alert(
+            title, body,
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+        );
     }
 
     _webBoard = () => {
@@ -213,6 +308,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getProfile: () => dispatch(QuestionActions.getProfile()),
+        saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
     }
 }
 

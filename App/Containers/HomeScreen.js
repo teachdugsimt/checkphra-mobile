@@ -18,6 +18,8 @@ import AuthActions from '../Redux/AuthRedux'
 import VersionActions from '../Redux/VersionRedux'
 import PromotionActions from '../Redux/PromotionRedux'
 import styles from './Styles/HomeScreenStyle'
+import moment from 'moment'
+import firebase from 'react-native-firebase';
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -27,10 +29,9 @@ const slideAnimation = new SlideAnimation({
 let { width, height } = Dimensions.get('window')
 const deviceWidth = Dimensions.get('window').width
 const deviceHeight = Dimensions.get('window').height
-const FIXED_BAR_WIDTH = 280
+const FIXED_BAR_WIDTH = 200
 const BAR_SPACE = 5
 let check = false
-// let barArray = []
 class HomeScreen extends Component {
 
     constructor(props) {
@@ -44,6 +45,8 @@ class HomeScreen extends Component {
             tmp_publish: null,
             itemWidth: null,
             barFull: null,
+
+            addBonusSuccess: false
         }
 
     }
@@ -87,8 +90,39 @@ class HomeScreen extends Component {
         //     }
         // }
 
+        let date_tmp = new Date()
+        let f1 = moment(date_tmp).format()
+        let time11 = f1.slice(0, 10)
+        if (newProps.day != time11) {
+            newProps.setTime(time11)
+            // return {
+            //   modalVisible: true,
+            // }
+        }
+
+        //************************ check alert login complete 7 days ******************************/
+        if (newProps.data_login != null) {
+            if (newProps.data_login.end_date == time11) {   // ถ้าวันที่ 7 คือ วันนี้ ให้เช็คการแสดงการแจ้งเตือนว่าถ้าเป็นจริง ให้แจ้งเตือนนะ
+                if (newProps.modal != undefined && newProps.modal == true) {
+                    newProps.setModal(false)  // แล้วก้เซทเป็น เท็จเลยเพราะในวันที่ 7 เราต้องการให้มันแจ้งเตือนแค่ครั้งเดียวก็พอ
+                    Alert.alert(
+                        'Check Phra',
+                        I18n.t('loginSuccess1') + newProps.data_login.period_of_time + " " + I18n.t('day') + I18n.t('loginSuccess2') + newProps.data_login.point + " " + I18n.t('coin'),
+                        [
+                            { text: I18n.t('ok'), onPress: () => { newProps.setModal(false) } }
+                        ],
+                        { cancelable: false }
+                    )
+                } else if (newProps.modal == undefined) { // กรณีที่ modal ใน redux เป็น undeifined ให้เซทเปน true ก่อน
+                    newProps.setModal(true)
+                }
+            } else {  // ถ้าไม่ใช่วันนี้ เซทการแจ้งเตือนเป็นจริงไว้ก่อนรอถึงวันที่ 7
+                newProps.setModal(true)
+            }
+        }
+        //************************ check alert login complete 7 days ******************************/
+
         return {
-            // listPromotion: plist
             dataProifle: profile,
             list_user,
             language: newProps.language,
@@ -112,9 +146,116 @@ class HomeScreen extends Component {
         this.props.getProfile()
     }
 
+    componentWillUnmount() {
+        this.notificationListener();
+        this.notificationOpenedListener();
+        // this.notificationOpen();
+    }
+
     componentDidMount() {
-        this.props.getProfile()
-        this.props.getPublish()
+        this.props.checkVersion()  // check new version end method in sagas
+
+        this.props.getProfile()   // get profile
+        this.props.getPublish()   // get new publish
+
+        this.props.getLoginPro()  // add get Login promotion 7 days
+
+        this.getDeviceToken()  // build push notifications end in three - four function
+    }
+    //0
+    async getDeviceToken() {
+        this.checkPermission();
+        this.createNotificationListeners(); //add this line
+        // this.notificationOpen();
+    }
+    //1
+    async checkPermission() {
+        console.log("check permission")
+        const enabled = await firebase.messaging().hasPermission();
+        if (enabled) {
+            this.getToken();
+        } else {
+            this.requestPermission();
+        }
+    }
+
+    //3
+    async getToken() {
+        console.log("get token")
+        let fcmToken = await AsyncStorage.getItem('fcmToken');
+        if (!fcmToken) {
+            fcmToken = await firebase.messaging().getToken();
+            if (fcmToken) {
+                console.log(fcmToken)
+                // user has a device token
+                this.props.saveDeviceToken(fcmToken)
+                await AsyncStorage.setItem('fcmToken', fcmToken);
+
+            }
+        } else {
+            console.log(fcmToken)
+            this.props.saveDeviceToken(fcmToken)
+        }
+    }
+
+    //2
+    async requestPermission() {
+        console.log("request permission")
+        try {
+            await firebase.messaging().requestPermission();
+            // User has authorised
+            this.getToken();
+        } catch (error) {
+            // User has rejected permissions
+            console.log('permission rejected');
+        }
+    }
+
+    async createNotificationListeners() {
+
+        // const channel = new firebase.notifications.Android.Channel(name, Desc, firebase.notifications.Android.Importance.High)
+        //   .setDescription(ChannelName)
+        //   .setSound("glass.mp3")
+
+        // firebase.notifications().android.createChannel(channel);
+
+        /*
+        * Triggered when a particular notification has been received in foreground
+        * */
+        this.notificationListener = firebase.notifications().onNotification((notification) => {
+            const { title, body } = notification;
+            console.log(title, body)
+            this.showAlert(title, body);
+        });
+        // .setSound(channel.sound);
+
+        /*
+        * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+        * */
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            // console.log(notificationOpen)
+            const { title, body } = notificationOpen.notification;
+            // console.log(title, body)
+            // this.showAlert(title, body);
+        });
+
+        /*
+        * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+        * */
+        this.notificationOpen = await firebase.notifications().getInitialNotification();
+        if (this.notificationOpen) {
+
+            const { title, body } = notificationOpen.notification;
+            console.log(title, body)
+            this.showAlert(title, body);
+        }
+        /*
+        * Triggered for data only payload in foreground
+        * */
+        this.messageListener = firebase.messaging().onMessage((message) => {
+            //process data message
+            console.log(JSON.stringify(message));
+        });
     }
 
     _webBoard = () => {
@@ -152,6 +293,10 @@ class HomeScreen extends Component {
         this.popupDialog2.show()
     }
 
+    onRefresh = () => {
+        this.props.getPublish()
+    }
+
     render() {
         I18n.locale = this.props.language
         console.log(this.state.kawsod)
@@ -175,7 +320,7 @@ class HomeScreen extends Component {
         //                     styles2.track,
         //                     {
         //                         // width: this.state.itemWidth - (this.state.itemWidth / 2) - (this.state.itemWidth / 3) - (this.state.itemWidth / 17),
-        //                         width: this.state.itemWidth - ((this.state.itemWidth / 2)),  // กำหนดแถบสีเทา
+        //                         width: this.state.itemWidth - ((this.state.itemWidth / 2) + this.state.kawsod.length * 10),  // กำหนดแถบสีเทา
         //                         marginLeft: i === 0 ? 0 : BAR_SPACE,
         //                     },
         //                 ]}
@@ -185,7 +330,7 @@ class HomeScreen extends Component {
         //                         styles2.bar,
         //                         {
         //                             // width: this.state.itemWidth - (this.state.itemWidth / 2) - (this.state.itemWidth / 3) - (this.state.itemWidth / 17),
-        //                             width: this.state.itemWidth + 0,  // กำหนด แถบสีส้ม
+        //                             width: this.state.itemWidth - ((this.state.itemWidth / 2) + this.state.kawsod.length * 10) + this.state.kawsod.length * 3,  // กำหนด แถบสีส้ม
         //                             transform: [
         //                                 { translateX: scrollBarVal },
         //                             ],
@@ -202,22 +347,27 @@ class HomeScreen extends Component {
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
 
-                <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.85, flexDirection: 'row' }}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} onScroll={
-                        Animated.event(
-                            [{ nativeEvent: { contentOffset: { x: this.animVal } } }]
-                        )
-                    }>
+                <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.78, flexDirection: 'row' }}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} pagingEnabled={true}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.props.request_publish == true}
+                                onRefresh={this.onRefresh.bind(this)}
+                            />
+                        }
+                        onScroll={
+                            Animated.event(
+                                [{ nativeEvent: { contentOffset: { x: this.animVal } } }]
+                            )
+                        }>
                         {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 ?
                             this.state.kawsod.map((e, i) => {
-
-
                                 return (
                                     <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
                                         <View style={{ flex: 1 }}>
                                             <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{e.topic}</Text>
-                                            <Image source={{ uri: e.image_link }} style={{ height: '60%', marginTop: 10, borderRadius: 5, width: width - (40) }} />
-                                            <Text numberOfLines={2} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{e.content}</Text>
+                                            <Image source={{ uri: e.image_link }} style={{ height: '55%', marginTop: 10, borderRadius: 5, width: width - (40) }} />
+                                            <Text numberOfLines={3} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{e.content}</Text>
                                         </View>
                                     </TouchableOpacity>
                                 )
@@ -229,9 +379,14 @@ class HomeScreen extends Component {
                                 </View>
                             </TouchableOpacity>}
                     </ScrollView>
-                    {/* <View style={styles2.barContainer}>
-                        {barArray && barArray}
-                    </View> */}
+                    {/* {barArray && <View style={{
+                        flexDirection: 'row',
+                        position: 'absolute',
+                        top: (height / 2.85) - 10,
+                        right: (width / 2) - 20,
+                    }}>
+                        {barArray}
+                    </View>} */}
                 </View>
 
                 <GridView
@@ -287,7 +442,11 @@ class HomeScreen extends Component {
                 <PopupDialog
                     dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
-                    }}>{I18n.t('publish')}</Text></View>}
+                    }}>{I18n.t('publish')}</Text>
+                        <TouchableOpacity style={{ position: "absolute", top: 5, right: 5 }} onPress={() => this.popupDialog2.dismiss()}>
+                            <Icon2 name={'close'} color={'red'} size={24} />
+                        </TouchableOpacity>
+                    </View>}
                     ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={width / 1.2}
@@ -308,6 +467,11 @@ class HomeScreen extends Component {
 
                 </PopupDialog>
 
+                <Spinner
+                    visible={((this.props.request_profile || this.props.request_promotionlogin))}
+                    textContent={'Loading...'}
+                    textStyle={{ color: '#fff' }}
+                />
             </LinearGradient>
         )
     }
@@ -321,6 +485,13 @@ const mapStateToProps = (state) => {
 
         data_publish: state.promotion.data_publish,  // data kawsod
         request_publish: state.promotion.request,  // data request kawsod
+
+        day: state.auth.day,  // get day in redux
+        data_login: state.promotion.data_login,  // data login
+        request_promotionlogin: state.promotion.request3,  // request promotion login
+
+        modal: state.auth.modal,   // modal alert login 7 days success
+        addBonusSuccess: state.promotion.addBonus  // data add bonus
     }
 }
 
@@ -329,6 +500,14 @@ const mapDispatchToProps = (dispatch) => {
         getProfile: () => dispatch(QuestionActions.getProfile()),
 
         getPublish: () => dispatch(PromotionActions.publishRequest()),  // get Kawsod
+
+        setTime: (day) => dispatch(AuthActions.setTime(day)),
+        getLoginPro: () => dispatch(PromotionActions.getLoginPro()),
+        setModal: (check) => dispatch(AuthActions.setModal(check)),
+        saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
+        checkVersion: () => dispatch(VersionActions.getVersion()),
+        addBonus: () => dispatch(PromotionActions.addBonus()),
+        getVersion: () => dispatch(VersionActions.getVersion())
 
     }
 }
@@ -346,7 +525,8 @@ const styles2 = StyleSheet.create({
         // zIndex: 2,
         // top: deviceHeight - 50,
         top: (height / 2.85) - 10,
-        right: (width / 2) - (20),
+        // right: (width / 2) - (20),
+        right: (width / 2),
         flexDirection: 'row',
     },
     track: {

@@ -127,16 +127,16 @@ class UserBit2 extends Component {
       'Check Phra',
       I18n.t('checkBid') + " ( " + this.commaSeparateNumber(this.state.price2) + " ฿ )",
       [
-      {
-        text: I18n.t('ok'), onPress: () => {
-          if (this.state.price2) {
-            this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
-          } else {
-            alert(I18n.t('checkData'))
+        {
+          text: I18n.t('ok'), onPress: () => {
+            if (this.state.price2) {
+              this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
+            } else {
+              alert(I18n.t('checkData'))
+            }
           }
-        }
-      },
-      { text: I18n.t('cancel'), onPress: () => {} }
+        },
+        { text: I18n.t('cancel'), onPress: () => { } }
       ]
     )
 
@@ -512,16 +512,16 @@ class UserBit2 extends Component {
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-                  <View style={{ width: '40%', height: 45 }}>
+                  <View style={{ width: '40%', height: 45, marginLeft: 10 }}>
                     <RoundedButton
-                      style={{ marginHorizontal: 10 }}
+                      style={{  }}
                       title={I18n.t('bid2')}
                       onPress={this._onPressButton}
                     />
                   </View>
-                  {this.props.data.status == 'interested' && <View style={{ width: '40%', height: 45 }}>
+                  {this.props.data.status == 'interested' && <View style={{ width: '40%', height: 45, marginLeft: 10 }}>
                     <RoundedButton
-                      style={{ marginHorizontal: 10 }}
+                      style={{  }}
                       title={I18n.t('cancelHire')}
                       onPress={this._onPressCancel}
                     />
@@ -532,16 +532,16 @@ class UserBit2 extends Component {
 
 
             {this.props.data.recent_bid == 'admin' && this.state.hide == false && this.props.data && this.props.data.status == 'bargain' && <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-              <View style={{ width: '40%', height: 45 }}>
+              <View style={{ width: '40%', height: 45, marginRight: 10 }}>
                 <RoundedButton
-                  style={{ marginHorizontal: 10 }}
+                  style={{}}
                   title={I18n.t('sellNow')}
                   onPress={this._onPressSell}
                 />
               </View>
-              <View style={{ width: '40%', height: 45 }}>
+              <View style={{ width: '40%', height: 45, marginLeft: 10 }}>
                 <RoundedButton
-                  style={{ marginHorizontal: 10 }}
+                  style={{}}
                   title={I18n.t('dontSell')}
                   onPress={this._onPressCancel}
                 />

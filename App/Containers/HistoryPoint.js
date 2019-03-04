@@ -10,6 +10,7 @@ import { Colors, Images } from "../Themes";
 import PaymentActions from '../Redux/PaymentRedux'
 import QuestionActions from '../Redux/QuestionRedux'
 import I18n from '../I18n/i18n';
+import styles2 from './Styles/HomeScreenStyle'
 I18n.fallbacks = true;
 // I18n.currentLocale();
 
@@ -181,7 +182,8 @@ class HistoryPoint extends Component {
         { name: 'เติม point ', value: 700000, day: '11-11-2018', key: 2 },
         { name: 'เติม point ', value: 350, day: '11-11-2018', key: 3 },]
         return (
-            <View>
+            <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles2.container}>
+                <Image source={Images.watermarkbg} style={styles2.imageBackground} resizeMode='contain' />
                 <FlatList
                     data={this.state.history_data}
                     renderItem={this._renderItem}
@@ -196,7 +198,7 @@ class HistoryPoint extends Component {
                     onEndReachedThreshold={1.2}
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                 />
-            </View>
+            </LinearGradient>
         )
     }
 }

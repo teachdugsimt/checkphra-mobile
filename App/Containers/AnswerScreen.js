@@ -47,7 +47,7 @@ var options = {
 };
 
 let isShared = false
-
+let check = true
 class AnswerScreen extends Component {
 
   constructor(props) {
@@ -154,6 +154,7 @@ class AnswerScreen extends Component {
   // }
 
   componentWillUnmount() {
+    this.setState({ index: 0 })
     this.props.navigation.goBack()
     if (isShared == true) {
       this.props.sharedAnswer(this.props.answer[0].q_id)
@@ -293,6 +294,7 @@ class AnswerScreen extends Component {
     let data = this.props.answer
     I18n.locale = this.props.language
     let coins = 0
+
     // console.log(isShared)
     // console.log('AND IS SHARED')
     return (
@@ -310,13 +312,24 @@ class AnswerScreen extends Component {
           <ImageViewer
             saveToLocalByLongPress={false}
             imageUrls={this.state.img2}
-            // imageUrls={img2}
             backgroundColor={'lightgrey'}
             onClick={(e) => {
               console.log('Show modal')
               this.setState({ modalVisible: true })
             }}
             index={this.state.index}
+            // renderHeader={(number) => {
+            //   <View style={{ justifyContent: 'center', flexDirection: 'row' }}><Text>{number}</Text></View>
+            // }}
+            // renderIndicator={(number, size) => {
+            //   // if (this.state.index != number - 1) {
+            //   //   let a = number - 1
+            //   //   this.setState({ index: a })
+            //   // }
+            //   return (
+            //     <View style={{ flexDirection: 'row', justifyContent: 'center' }}><Text style={{ fontSize: 30, alignSelf: 'center' }}>{number + " / " + size}</Text></View>
+            //   )
+            // }}
             // onSwipeDown={() => {
             //     console.log('onSwipeDown');
             //     this.setState({ modalVisible: false })
@@ -582,7 +595,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(AnswerScreen)
 
 
-// await ShareApi.canShare(shareLinkContent).then(
+    // await ShareApi.canShare(shareLinkContent).then(
 //   function (canShare) {
 //     if (canShare) {
 //       return ShareApi.share(shareLinkContent, '/Check Phra', 'Some message.');

@@ -51,7 +51,7 @@ class UploadScreen extends Component {
       kawsod: null,
       modalVisible: true,
       coin: null,
-      // spinnner: false,
+      
       disButton: false,
       addBonusSuccess: false
     }
@@ -182,11 +182,6 @@ class UploadScreen extends Component {
     let time11 = f1.slice(0, 10)
     I18n.locale = nextProps.language
 
-    // console.log(nextProps.addBonusSuccess)
-    // if (!nextProps.addBonusSuccess) {
-    //   nextProps.addBonus()
-    // }
-
     // console.log('-------------')
     console.log(nextProps)
     console.log(prevState)
@@ -197,21 +192,6 @@ class UploadScreen extends Component {
         modalVisible: true,
       }
     }
-
-
-    //***************************** check PUBLISH of the day ************************************/
-    // if (nextProps.day == time11) {
-    //   return {
-    //     modalVisible: false
-    //   }
-    // } else if (nextProps.day != time11) {
-    //   nextProps.setTime(time11)
-    //   return {
-    //     modalVisible: true,
-    //   }
-    // }
-    //***************************** check PUBLISH of the day ************************************/
-
 
     // ********************* GET AMULET TYPE ***************************************//
     let item = prevState.item
@@ -238,25 +218,25 @@ class UploadScreen extends Component {
      // ********************* GET AMULET TYPE ***************************************//
 
     //************************ check alert login complete 7 days ******************************/
-    if (nextProps.data_login != null) {
-      if (nextProps.data_login.end_date == time11) {   // ถ้าวันที่ 7 คือ วันนี้ ให้เช็คการแสดงการแจ้งเตือนว่าถ้าเป็นจริง ให้แจ้งเตือนนะ
-        if (nextProps.modal != undefined && nextProps.modal == true) {
-          nextProps.setModal(false)  // แล้วก้เซทเป็น เท็จเลยเพราะในวันที่ 7 เราต้องการให้มันแจ้งเตือนแค่ครั้งเดียวก็พอ
-          Alert.alert(
-            'Check Phra',
-            I18n.t('loginSuccess1') + nextProps.data_login.period_of_time + " " + I18n.t('day') + I18n.t('loginSuccess2') + nextProps.data_login.point + " " + I18n.t('coin'),
-            [
-              { text: I18n.t('ok'), onPress: () => { nextProps.setModal(false) } }
-            ],
-            { cancelable: false }
-          )
-        } else if (nextProps.modal == undefined) { // กรณีที่ modal ใน redux เป็น undeifined ให้เซทเปน true ก่อน
-          nextProps.setModal(true)
-        }
-      } else {  // ถ้าไม่ใช่วันนี้ เซทการแจ้งเตือนเป็นจริงไว้ก่อนรอถึงวันที่ 7
-        nextProps.setModal(true)
-      }
-    }
+    // if (nextProps.data_login != null) {
+    //   if (nextProps.data_login.end_date == time11) {   // ถ้าวันที่ 7 คือ วันนี้ ให้เช็คการแสดงการแจ้งเตือนว่าถ้าเป็นจริง ให้แจ้งเตือนนะ
+    //     if (nextProps.modal != undefined && nextProps.modal == true) {
+    //       nextProps.setModal(false)  // แล้วก้เซทเป็น เท็จเลยเพราะในวันที่ 7 เราต้องการให้มันแจ้งเตือนแค่ครั้งเดียวก็พอ
+    //       Alert.alert(
+    //         'Check Phra',
+    //         I18n.t('loginSuccess1') + nextProps.data_login.period_of_time + " " + I18n.t('day') + I18n.t('loginSuccess2') + nextProps.data_login.point + " " + I18n.t('coin'),
+    //         [
+    //           { text: I18n.t('ok'), onPress: () => { nextProps.setModal(false) } }
+    //         ],
+    //         { cancelable: false }
+    //       )
+    //     } else if (nextProps.modal == undefined) { // กรณีที่ modal ใน redux เป็น undeifined ให้เซทเปน true ก่อน
+    //       nextProps.setModal(true)
+    //     }
+    //   } else {  // ถ้าไม่ใช่วันนี้ เซทการแจ้งเตือนเป็นจริงไว้ก่อนรอถึงวันที่ 7
+    //     nextProps.setModal(true)
+    //   }
+    // }
     //************************ check alert login complete 7 days ******************************/
 
     return {
@@ -268,11 +248,11 @@ class UploadScreen extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.notificationListener();
-    this.notificationOpenedListener();
-    // this.notificationOpen();
-  }
+  // componentWillUnmount() {
+  //   this.notificationListener();
+  //   this.notificationOpenedListener();
+  //   // this.notificationOpen();
+  // }
 
   getTypePhra = (item) => {
     checkButton = true
@@ -298,115 +278,116 @@ class UploadScreen extends Component {
   }
 
   async componentDidMount() {
-    check_publish = true
+    // check_publish = true
     // check_login = true
 
-    this.props.checkVersion()
+    // this.props.checkVersion()
+
     this.props.getAmuletType()
     this.props.getProfile()
-    // this.props.setLanguage(I18n.locale)
+
     this.props.clearDataQuestion()
-    this.props.getPublish()
-    this.props.getLoginPro()
-    this.getDeviceToken()
+    // this.props.getLoginPro()
+
+    // this.getDeviceToken()
 
   }
-
-  async getDeviceToken() {
-    this.checkPermission();
-    this.createNotificationListeners(); //add this line
-    // this.notificationOpen();
-  }
+  //0
+  // async getDeviceToken() {
+  //   this.checkPermission();
+  //   this.createNotificationListeners(); //add this line
+  //   // this.notificationOpen();
+  // }
 
   //1
-  async checkPermission() {
-    console.log("check permission")
-    const enabled = await firebase.messaging().hasPermission();
-    if (enabled) {
-      this.getToken();
-    } else {
-      this.requestPermission();
-    }
-  }
+  // async checkPermission() {
+  //   console.log("check permission")
+  //   const enabled = await firebase.messaging().hasPermission();
+  //   if (enabled) {
+  //     this.getToken();
+  //   } else {
+  //     this.requestPermission();
+  //   }
+  // }
 
   //3
-  async getToken() {
-    console.log("get token")
-    let fcmToken = await AsyncStorage.getItem('fcmToken');
-    if (!fcmToken) {
-      fcmToken = await firebase.messaging().getToken();
-      if (fcmToken) {
-        console.log(fcmToken)
-        // user has a device token
-        this.props.saveDeviceToken(fcmToken)
-        await AsyncStorage.setItem('fcmToken', fcmToken);
+  // async getToken() {
+  //   console.log("get token")
+  //   let fcmToken = await AsyncStorage.getItem('fcmToken');
+  //   if (!fcmToken) {
+  //     fcmToken = await firebase.messaging().getToken();
+  //     if (fcmToken) {
+  //       console.log(fcmToken)
+  //       // user has a device token
+  //       this.props.saveDeviceToken(fcmToken)
+  //       await AsyncStorage.setItem('fcmToken', fcmToken);
 
-      }
-    } else {
-      console.log(fcmToken)
-      this.props.saveDeviceToken(fcmToken)
-    }
-  }
+  //     }
+  //   } else {
+  //     console.log(fcmToken)
+  //     this.props.saveDeviceToken(fcmToken)
+  //   }
+  // }
 
   //2
-  async requestPermission() {
-    console.log("request permission")
-    try {
-      await firebase.messaging().requestPermission();
-      // User has authorised
-      this.getToken();
-    } catch (error) {
-      // User has rejected permissions
-      console.log('permission rejected');
-    }
-  }
+  // async requestPermission() {
+  //   console.log("request permission")
+  //   try {
+  //     await firebase.messaging().requestPermission();
+  //     // User has authorised
+  //     this.getToken();
+  //   } catch (error) {
+  //     // User has rejected permissions
+  //     console.log('permission rejected');
+  //   }
+  // }
 
-  async createNotificationListeners() {
+  // async createNotificationListeners() {
 
-    // const channel = new firebase.notifications.Android.Channel(name, Desc, firebase.notifications.Android.Importance.High)
-    //   .setDescription(ChannelName)
-    //   .setSound("glass.mp3")
+  //   // const channel = new firebase.notifications.Android.Channel(name, Desc, firebase.notifications.Android.Importance.High)
+  //   //   .setDescription(ChannelName)
+  //   //   .setSound("glass.mp3")
 
-    // firebase.notifications().android.createChannel(channel);
+  //   // firebase.notifications().android.createChannel(channel);
 
-    /*
-    * Triggered when a particular notification has been received in foreground
-    * */
-    this.notificationListener = firebase.notifications().onNotification((notification) => {
-      const { title, body } = notification;
-      console.log(title, body)
-      this.showAlert(title, body);
-    });
-    // .setSound(channel.sound);
+  //   /*
+  //   * Triggered when a particular notification has been received in foreground
+  //   * */
+  //   this.notificationListener = firebase.notifications().onNotification((notification) => {
+  //     const { title, body } = notification;
+  //     console.log(title, body)
+  //     this.showAlert(title, body);
+  //   });
+  //   // .setSound(channel.sound);
 
-    /*
-    * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
-    * */
-    this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-      // console.log(notificationOpen)
-      const { title, body } = notificationOpen.notification;
-      // console.log(title, body)
-      // this.showAlert(title, body);
-    });
+  //   /*
+  //   * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+  //   * */
+  //   this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+  //     // console.log(notificationOpen)
+  //     const { title, body } = notificationOpen.notification;
+  //     // console.log(title, body)
+  //     // this.showAlert(title, body);
+  //   });
 
-    /*
-    * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
-    * */
-    this.notificationOpen = await firebase.notifications().getInitialNotification();
-    if (this.notificationOpen) {
+  //   /*
+  //   * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+  //   * */
+  //   this.notificationOpen = await firebase.notifications().getInitialNotification();
+  //   if (this.notificationOpen) {
 
-      const { title, body } = notificationOpen.notification;
-      console.log(title, body)
-      this.showAlert(title, body);
-    }
-    /*
-    * Triggered for data only payload in foreground
-    * */
-    this.messageListener = firebase.messaging().onMessage((message) => {
-      //process data message
-      console.log(JSON.stringify(message));
-    });
-  }
+  //     const { title, body } = notificationOpen.notification;
+  //     console.log(title, body)
+  //     this.showAlert(title, body);
+  //   }
+  //   /*
+  //   * Triggered for data only payload in foreground
+  //   * */
+  //   this.messageListener = firebase.messaging().onMessage((message) => {
+  //     //process data message
+  //     console.log(JSON.stringify(message));
+  //   });
+  // }
 
   _pressLink(link) {
     const url = link
@@ -516,33 +497,6 @@ class UploadScreen extends Component {
           }}
         />
 
-
-        {this.state.kawsod != null && this.state.kawsod && this.state.kawsod.length > 0 && <Modal
-          visible={this.state.modalVisible}
-          transparent={true}
-          onRequestClose={() => this.setState({ modalVisible: false })}
-          onDismiss={() => { this.setState({ modalVisible: false }) }}
-        >
-          <View style={{ backgroundColor: 'lightgrey', justifyContent: 'center', alignItems: 'center', borderRadius: 15, borderWidth: 5, borderColor: '#B7950B', top: height / 5, marginHorizontal: 15, height: height / 1.8 }}>
-
-            <ScrollView style={{ flex: 1, width: '100%' }}>
-              <Icon
-                name="close"
-                size={25}
-                color={Colors.brownText}
-                style={{ marginTop: 10, marginRight: 15, color: 'red', alignSelf: 'flex-end' }}
-                onPress={() => { this.setState({ modalVisible: false }) }} />
-
-              <Text style={{ alignSelf: 'center', fontSize: 20, fontWeight: 'bold', marginHorizontal: 10 }}>{this.props.data_publish && this.props.data_publish.length > 0 && this.props.data_publish[0].topic ? this.props.data_publish[0].topic : '-'}</Text>
-
-              {this.state.kawsod && this.state.kawsod.length > 0 && this.state.kawsod[0] && this.state.kawsod[0].image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + this.state.kawsod[0].image }}
-                style={{ width: height / 3, height: height / 3, marginTop: 10, marginHorizontal: 5, alignSelf: 'center', borderRadius: 10 }} />}
-              <Text style={{ fontSize: 17, marginVertical: 15, alignSelf: 'center', marginHorizontal: 10, }}>{this.state.kawsod && this.state.kawsod[0] && this.state.kawsod.length > 0 && this.state.kawsod[0].content}</Text>
-              <TouchableOpacity onPress={() => this._pressLink(this.state.kawsod && this.state.kawsod.length > 0 && this.state.kawsod[0] && this.state.kawsod[0].link && this.state.kawsod[0].link)}><Text style={{ fontSize: 17, marginVertical: 10, alignSelf: 'center', marginHorizontal: 10, }}>{this.state.kawsod && this.state.kawsod.length > 0 && this.state.kawsod[0] && this.state.kawsod[0].link && this.state.kawsod[0].link}</Text></TouchableOpacity>
-            </ScrollView>
-          </View>
-        </Modal>}
-
         <Spinner
           visible={((this.props.request_publish || this.props.request_amulet) || this.props.request_promotionlogin)}
           textContent={'Loading...'}
@@ -563,8 +517,10 @@ const mapStateToProps = state => {
     request_publish: state.promotion.request,
     request_amulet: state.question.request_type,
     day: state.auth.day,
+
     data_login: state.promotion.data_login,
     request_promotionlogin: state.promotion.request3,
+
     modal: state.auth.modal,
     addBonusSuccess: state.promotion.addBonus
   };

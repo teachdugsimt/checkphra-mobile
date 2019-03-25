@@ -158,13 +158,13 @@ class MarketSearch1 extends Component {
         date = date.slice(0, 12)
 
         return (
-            <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChatTheirAmulet(item)}>
+            <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChatTheirAmulet(item)}>
 
                 <View style={{ flexDirection: 'row', flex: 1 }}>
                     <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => {
                         this._showImage(item.images)
                     }}>
-                        <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: item.images[0] }} />
+                        <Image style={{ width: 72.5, height: 72.5, borderRadius: 12 }} source={{ uri: item.images[0] }} />
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: 'center' }}>
@@ -172,6 +172,11 @@ class MarketSearch1 extends Component {
                             <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
                             <Text style={{ color: Colors.brownTextTran, fontSize: 14, fontFamily: 'Prompt-SemiBold', marginTop: 3 }}> ( {item.id} )</Text>
                         </View>
+
+                        {item.shop_detail && <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ color: Colors.brownTextTran, fontSize: 14, marginLeft: 10 }}>{item.shop_detail.store_name}</Text>
+                            <Text style={{ color: Colors.brownTextTran, fontSize: 14, marginRight: 10 }}>{item.shop_detail.province_name}</Text>
+                        </View>}
 
                         <View style={{ flexDirection: 'row', width: width - 80, justifyContent: 'space-between' }}>
                             <View style={{ flexDirection: 'row', marginTop: 5 }}>
@@ -186,9 +191,10 @@ class MarketSearch1 extends Component {
                                 })}
                             </View>
 
-                            <Text style={{ marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+                            <Text style={{ marginTop: 10, color: Colors.brownTextTran, fontSize: 14, marginRight: 10 }}>{date}</Text>
 
                         </View>
+
                     </View>
                 </View>
 
@@ -280,12 +286,12 @@ class MarketSearch1 extends Component {
                 </Modal>
 
                 <FlatList
-                    // refreshControl={
-                    //     <RefreshControl
-                    //         refreshing={this.props.request2 == true}
-                    //         onRefresh={this._reload}
-                    //     />
-                    // }
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.request2 == true}
+                            onRefresh={this._reload}
+                        />
+                    }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('noneSearching')}</Text>}
                     data={this.props.data_answer}
                     renderItem={this._renderItem}

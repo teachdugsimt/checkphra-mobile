@@ -54,6 +54,8 @@ const { Types, Creators } = createActions({
   clearAll: null,
   clearGetHistory: null,
   setRequestType: null,
+  editHistory: ['data'],
+  editProfile: ['data'],
 })
 
 export const QuestionTypes = Types
@@ -101,6 +103,23 @@ export const QuestionSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const editProfile = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.profile))
+  tmp.store = data
+  return state.merge({ profile: tmp })
+}
+
+export const editHistory = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.history))
+  tmp.forEach((e, i) => {
+    if (e.id == data.qid && e.market_status == null) {
+      e.market_status = 10
+    }
+  })
+
+  return state.merge({ history: tmp })
+}
 
 export const setRequestType = state => state.merge({ request_type: null })
 
@@ -292,6 +311,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_QUESTION_TYPE]: questionRequest,
   [Types.GET_QUESTION_TYPE_SUCCESS]: questionSuccess,
   [Types.GET_QUESTION_TYPE_FAILURE]: questionFailure,
+
+  [Types.EDIT_HISTORY]: editHistory,
+  [Types.EDIT_PROFILE]: editProfile,
 
   [Types.GET_AMULET_TYPE]: amuletRequest,
   [Types.GET_AMULET_TYPE_SUCCESS]: amuletSuccess,

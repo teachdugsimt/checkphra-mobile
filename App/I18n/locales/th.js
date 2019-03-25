@@ -263,12 +263,20 @@ export default {
   myAmulet: 'พระแท้ของฉัน',
   market: 'ตลาดเช่าพระ',
   anywhere: 'ใส่หรือไม่ใส่ก็ได้',
-  priceMarket: 'ราคาเช่าพระ',
+  priceMarket: 'ราคาเช่า',
   openStore: 'คุณไม่มีร้านค้า กรุณาทำการเปิดร้านค้า !!',
   amuletOrProvince: 'ชื่อพระ หรือชื่อจังหวัด',
   searchResult: 'ผลลัพธ์การค้นหา',
   noneSearching: 'ไม่พบรายการที่ค้นหา',
   amuletSearch: 'ชื่อพระที่ต้องการค้นหา',
+  
+  deleteAmulet: 'ลบพระองค์นี้',
+  sendToMarket: 'ส่งพระเข้าสู่ตลาด',
+  menu: 'กรุณาเลือกรายการ',
+  detailShop: 'รายละเอียดร้านค้า',
+  real: 'พระแท้',
+  fake: 'พระไม่แท้',
+  noMessages: 'ไม่มีข้อความ',
 
   checkPrice: 'กรุณาใส่ราคาเช่าพระ',
   checkZone: 'กรุณาเลือกภูมิภาคของท่าน',
@@ -278,7 +286,7 @@ export default {
   amuletName: 'พระ',
   templeName: 'วัด',
   ownerName: 'เจ้าของพระ',
-  contact: 'ติดต่อ',
+  contact: 'ช่องทางติดต่อ',
   zone: 'ภูมิภาค',
   typeAmuletMarket: 'ประเภท',
   costAmulet: 'ราคา',
@@ -300,6 +308,8 @@ export default {
 
   editType: 'กรุณาเลือกหมวดหมู่',
   editDetailPhra: 'แก้ไขรายละเอียดพระ',
+  failureOpen: 'สมัครร้านค้าล้มเหลว กรุณาสมัครใหม่!!',
+  registerStore: 'เปิดร้านค้า!!',
 
   หลวงปู่ทวด: 'หลวงปู่ทวด',
   หลวงปู่หมุน: 'หลวงปู่หมุน',
@@ -332,5 +342,7 @@ export default {
 
   successTransaction: 'ทำรายการสำเร็จ !!',
   failureTransaction: 'ทำรายการล้มเหลว กรุณาลองอีกครั้ง',
+  succ: 'สำเร็จ!!',
+  fail: 'ล้มเหลว!!',
 
 }

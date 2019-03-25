@@ -93,7 +93,7 @@ class AdminVerifyShop2 extends Component {
             'Check Phra',
             I18n.t('submitTransaction'),
             [
-                { text: I18n.t('ok'), onPress: () => this.props.verifyStore(this.props.data_storetmp.id) },
+                { text: I18n.t('ok'), onPress: () => this.props.verifyStore(this.props.data_storetmp.id, 5) },
                 { text: I18n.t('cancel') }
             ]
         )
@@ -101,7 +101,14 @@ class AdminVerifyShop2 extends Component {
     }
 
     _onPressCancel = () => {
-        this.props.navigation.goBack()
+        Alert.alert(
+            'Check Phra',
+            I18n.t('submitTransaction'),
+            [
+                { text: I18n.t('ok'), onPress: () => this.props.verifyStore(this.props.data_storetmp.id, 0) },
+                { text: I18n.t('cancel') }
+            ]
+        )
     }
 
     render() {
@@ -190,17 +197,17 @@ class AdminVerifyShop2 extends Component {
                     </View>
 
                     {this.state.hideButton == false && <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-                        <View style={{ width: '40%', height: 40 }}>
+                        <View style={{ width: '40%', height: 40, marginRight: 5 }}>
                             <RoundedButton
-                                style={{ marginHorizontal: 10 }}
-                                title={I18n.t('ok')}
+                                style={{  }}
+                                title={I18n.t('approve')}
                                 onPress={this._onPressButton}
                             />
                         </View>
-                        <View style={{ width: '40%', height: 40 }}>
+                        <View style={{ width: '40%', height: 40, marginLeft: 5 }}>
                             <RoundedButton
-                                style={{ marginHorizontal: 10 }}
-                                title={I18n.t('cancel')}
+                                style={{  }}
+                                title={I18n.t('cancelHire')}
                                 onPress={this._onPressCancel}
                             />
                         </View>
@@ -241,7 +248,7 @@ const mapDispatchToProps = (dispatch) => {
         setFullData: (data) => dispatch(ExpertActions.setFullData(data)),
         // editFullData: (id, status) => dispatch(ExpertActions.editFullData(id, status)),
         cancelCoin: (id, argument) => dispatch(ExpertActions.cancelCoin(id, argument)),
-        verifyStore: (shop_id) => dispatch(ExpertActions.verifyStore(shop_id)),
+        verifyStore: (shop_id, status) => dispatch(ExpertActions.verifyStore(shop_id, status)),
 
         editVerifyStore: (data) => dispatch(ExpertActions.editVerifyStore(data)),
         clearVerifyStore: () => dispatch(ExpertActions.clearVerifyStore()),

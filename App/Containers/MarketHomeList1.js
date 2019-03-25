@@ -188,7 +188,7 @@ class MarketHomeList1 extends Component {
                             onRefresh={this._reload}
                         />
                     }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('noMessages')}</Text>}
                     data={this.props.data_areaAmulet}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}

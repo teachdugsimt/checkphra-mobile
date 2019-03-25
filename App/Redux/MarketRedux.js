@@ -88,6 +88,8 @@ const { Types, Creators } = createActions({
   searchRequestFailure: null,
   editVoteSearch: ['data'],
 
+  setDataStore: ['store_name', 'province', 'contact'],
+
   clearProvinceId: null,
   clearListSearch: null,
   clearShopGroup: null,
@@ -97,6 +99,7 @@ const { Types, Creators } = createActions({
   clearListAreaAmulet: null,
   clearDataVote: null,
   clearDataAreaAmulet: null,
+  clearDataOpen: null,
 })
 
 export const MarketTypes = Types
@@ -109,6 +112,10 @@ export const INITIAL_STATE = Immutable({
   // fetching: null,
   // payload: null,
   // error: null,
+
+  store_name: null,  // tmp store name open store
+  tmp_province: null,  // tmp province name about open store
+  tmp_contact: null,  // tmp contact about open store
 
   data_location: null,  // store location amulet to  MarketPlace
   data_image: [],
@@ -176,6 +183,11 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+export const clearDataOpen = state => state.merge({ data_open: null })
+
+export const setDataStore = (state, { store, province, contact }) => {
+  return state.merge({ store_name: store, tmp_province: province, tmp_contact: contact })
+}
 
 export const clearListSearch = state => state.merge({ data_search: null })
 export const searchRequest = state => state.merge({ request13: true })
@@ -439,6 +451,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   // [Types.MARKET_REQUEST]: request,
   // [Types.MARKET_SUCCESS]: success,
   // [Types.MARKET_FAILURE]: failure,
+  [Types.CLEAR_DATA_OPEN]: clearDataOpen,
+  [Types.SET_DATA_STORE]: setDataStore,
   [Types.CLEAR_SHOP_GROUP]: clearShopGroup,
   [Types.CLEAR_LIST_AMULET_SHOP]: clearListAmuletShop,
   [Types.EDIT_VOTE_DATA]: editVoteData,

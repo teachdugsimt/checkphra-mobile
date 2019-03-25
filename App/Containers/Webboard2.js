@@ -148,7 +148,7 @@ class Webboard2 extends Component {
                             <View style={styles.topRow}>
                                 <Text style={styles.topicText}>{this.props.data_comment.topic}</Text>
                                 <View style={styles.subTopRow}>
-                                    <Text style={styles.nameText}>{this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                                    <Text style={styles.nameText}>{this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
                                     <Text style={styles.dateText} >{moment.unix(this.props.data_comment.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
                                 </View>
 
@@ -174,7 +174,7 @@ class Webboard2 extends Component {
                     <View style={styles.commentContainer} onPress={() => this._goToBoard(item)}>
                         <View style={styles.commentContainer2}>
                             <View style={styles.commentTopRow}>
-                                <Text style={styles.nameText}>{item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                                <Text style={styles.nameText}>{item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
                                 <Text style={styles.dateText} >{date}</Text>
                             </View>
 
@@ -201,7 +201,7 @@ class Webboard2 extends Component {
                 <View style={styles.commentContainer} onPress={() => this._goToBoard(item)}>
                     <View style={styles.commentContainer2}>
                         <View style={styles.commentTopRow}>
-                            <Text style={styles.nameText}>{item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                            <Text style={styles.nameText}>{item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
                             <Text style={styles.dateText} >{date}</Text>
                         </View>
 
@@ -255,7 +255,7 @@ class Webboard2 extends Component {
                         <View style={styles.topRow}>
                             <Text style={styles.topicText}>{this.props.data_comment.topic}</Text>
                             <View style={styles.subTopRow}>
-                                <Text style={styles.nameText}>{this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                                <Text style={styles.nameText}>{this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
                                 <Text style={styles.dateText} >{moment.unix(this.props.data_comment.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
                             </View>
 

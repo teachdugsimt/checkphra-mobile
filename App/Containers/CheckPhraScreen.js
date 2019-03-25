@@ -314,7 +314,7 @@ class CheckPhraScreen extends Component {
             dialogStyle={{ backgroundColor: 'lightgrey', borderRadius: 10 }}
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
             dialogAnimation={slideAnimation}
-            width={0.7}
+            width={0.95}
             // height={height / (this.state.autoText ? (this.state.autoText.length + (1.5)) : 3.5)}
             height={this.props.autoText ? 30 * (this.props.autoText.length + 1) : height / 3}
             // height={150}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,
-    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform
+    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Alert
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -13,8 +13,11 @@ import * as RNIap from 'react-native-iap';
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
+import firebase from 'react-native-firebase';
 import QuestionActions from '../Redux/QuestionRedux'
+import AuthActions from '../Redux/AuthRedux'
 import styles from './Styles/HomeScreenStyle'
+import GridView from "react-native-super-grid";
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -48,9 +51,9 @@ class AdminHome extends Component {
         // const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: (<View><Text>5555555555555555555555888</Text></View>) },
         // { name: I18n.t('showAmuletReal'), id: 2 },
         // { name: I18n.t('chat'), id: 3 }]
-        const list_user = [{ name: I18n.t('pendingList'), id: 1 },
-        { name: I18n.t('editAnswer'), id: 2 },
-        { name: I18n.t('chat'), id: 3 }]
+        const list_user = [{ name: I18n.t('pendingList'), id: 1, logo: 'th-list' },
+        { name: I18n.t('editAnswer'), id: 2, logo: 'pencil-square-o' },
+        { name: I18n.t('chat'), id: 3, logo: 'wechat' }]
 
         if (newProps.language != prevState.language) {
             newProps.getProfile()
@@ -112,11 +115,104 @@ class AdminHome extends Component {
 
     componentDidMount() {
         this.props.getProfile()
+        this.getDeviceToken()
+    }
+    //0
+    async getDeviceToken() {
+        this.checkPermission();
+        this.createNotificationListeners(); //add this line
+    }
+
+    //1
+    async checkPermission() {
+        console.log("check permission")
+        const enabled = await firebase.messaging().hasPermission();
+        if (enabled) {
+            this.getToken();
+        } else {
+            this.requestPermission();
+        }
+    }
+
+    //3
+    async getToken() {
+        console.log("get token")
+        let fcmToken = await AsyncStorage.getItem('fcmToken');
+        if (!fcmToken) {
+            fcmToken = await firebase.messaging().getToken();
+            if (fcmToken) {
+                console.log(fcmToken)
+                // user has a device token
+                this.props.saveDeviceToken(fcmToken)
+                await AsyncStorage.setItem('fcmToken', fcmToken);
+
+            }
+        } else {
+            console.log(fcmToken)
+            this.props.saveDeviceToken(fcmToken)
+        }
+    }
+
+    //2
+    async requestPermission() {
+        console.log("request permission")
+        try {
+            await firebase.messaging().requestPermission();
+            // User has authorised
+            this.getToken();
+        } catch (error) {
+            // User has rejected permissions
+            console.log('permission rejected');
+        }
+    }
+    //4
+    async createNotificationListeners() {
+        /*
+        * Triggered when a particular notification has been received in foreground
+        * */
+        this.notificationListener = firebase.notifications().onNotification((notification) => {
+            const { title, body } = notification;
+            this.showAlert(title, body);
+        });
+
+        /*
+        * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+        * */
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            const { title, body } = notificationOpen.notification;
+            this.showAlert(title, body);
+        });
+
+        /*
+        * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+        * */
+        const notificationOpen = await firebase.notifications().getInitialNotification();
+        if (notificationOpen) {
+            const { title, body } = notificationOpen.notification;
+            this.showAlert(title, body);
+        }
+        /*
+        * Triggered for data only payload in foreground
+        * */
+        this.messageListener = firebase.messaging().onMessage((message) => {
+            //process data message
+            console.log(JSON.stringify(message));
+        });
+    }
+
+    showAlert(title, body) {
+        Alert.alert(
+            title, body,
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+        );
     }
 
     _webBoard = () => {
         this.props.navigation.navigate('web1'),
-        this.popupDialog.dismiss()
+            this.popupDialog.dismiss()
     }
 
     _editAnswer = () => {
@@ -135,7 +231,7 @@ class AdminHome extends Component {
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
-                <FlatList
+                {/* <FlatList
                     refreshControl={
                         <RefreshControl
                             refreshing={this.props.request_profile == true}
@@ -145,6 +241,23 @@ class AdminHome extends Component {
                     ListEmptyComponent={() => <Text style={styles.textEmptyData}>{I18n.t('nonePromotion')}</Text>}
                     data={this.state.list_user ? this.state.list_user : []}
                     renderItem={this._renderItem}
+                /> */}
+
+                <GridView
+                    itemDimension={width / 2.5}
+                    items={this.state.list_user ? this.state.list_user : []}
+                    renderItem={item => {
+                        return (
+
+                            <TouchableOpacity onPress={() => this._pressList(item)} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
+                                    <Icon2 name={item.logo} size={40} />
+                                    <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
+                                        {item.name}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        );
+                    }}
                 />
 
                 <PopupDialog
@@ -154,29 +267,29 @@ class AdminHome extends Component {
                     ref={(popupDialog) => { this.popupDialog = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={width / 1.05}
-                    height={height / 2}
+                    height={height / 3}
                     // height={150}
                     onDismissed={() => { this.setState({}) }}
                 >
-                    <View style={{ flex: 1 }}>
-                        <ScrollView style={{ flex: 1 }}>
-                            <View style={{}}>
-                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._webBoard}>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
-                                </TouchableOpacity>
 
-                                {/* <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._editAnswer}>
+                    <View style={{ flex: 1 }}>
+
+                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginHorizontal: 10, flex: 1, height: '100%' }} onPress={this._webBoard}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
+                        </TouchableOpacity>
+
+                        {/* <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._editAnswer}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('chat')}</Text>
                                 </TouchableOpacity> */}
 
-                                <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._userContact}>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('userContact')}</Text>
-                                </TouchableOpacity>
+                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: '100%' }} onPress={this._userContact}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('userContact')}</Text>
+                        </TouchableOpacity>
 
-                            </View>
 
-                        </ScrollView>
+
                     </View>
+
                 </PopupDialog>
 
             </LinearGradient>
@@ -195,6 +308,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getProfile: () => dispatch(QuestionActions.getProfile()),
+        saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
     }
 }
 

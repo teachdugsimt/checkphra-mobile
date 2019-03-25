@@ -106,7 +106,7 @@ const RegStack = StackNavigator(
   },
   {
     transitionConfig: getSlideFromRightTransition,
-    headerMode: "float",
+    headerMode: "none"
   },
 );
 

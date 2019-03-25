@@ -33,6 +33,11 @@ const slideAnimation = new SlideAnimation({
 let { width, height } = Dimensions.get('window')
 let count = 1
 let check = false
+
+// <View style={{ flexDirection: 'row' }}>
+//     <TouchableOpacity onPress={params.showShop} style={{ paddingRight: 7.5 }}>
+//         <Icon3 name={'ios-information-circle-outline'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+//     </TouchableOpacity>
 class MarketMyAmulet extends Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -40,9 +45,15 @@ class MarketMyAmulet extends Component {
 
         return {
             headerRight: (
-                <TouchableOpacity onPress={params.addAmulet}>
-                    <Icon3 name={'ios-add-circle-outline'} color={'white'} size={40} style={{ paddingRight: 10 }} />
-                </TouchableOpacity>
+                <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={params.showShop} style={{ paddingRight: 7.5 }}>
+                        <Icon3 name={'ios-information-circle-outline'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={params.addAmulet}>
+                        <Icon3 name={'ios-add-circle-outline'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+                    </TouchableOpacity>
+                </View>
             ),
         };
     };
@@ -93,6 +104,7 @@ class MarketMyAmulet extends Component {
     }
 
     componentWillMount() {
+        // this.props.navigation.setParams({ addAmulet: this._addAmulet });  // can't
         // this.props.navigation.setParams({ addAmulet: this._addAmulet });
     }
 
@@ -111,14 +123,11 @@ class MarketMyAmulet extends Component {
         this.popupDialog2.dismiss()
     }
 
-    _amuletToMarket = (item) => {
+    _pressSubMenu = (item) => {
         this.setState({ tmp_item: item })
-        this.popupDialog3.show()
+        this.popupDialog4.show()
     }
 
-    _deleteAmulet = (item, index) => {
-        this.props.deleteAmuletMarket(item.id)
-    }
     // 1. มี qid ไม่ต้องมี market
     // 2. ไม่มี qid ต้องมี market
     _renderItem = ({ item, index }) => {
@@ -128,12 +137,8 @@ class MarketMyAmulet extends Component {
         return (
             <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChat(item)}>
 
-                {item.display == 1 && <TouchableOpacity style={{ position: 'absolute', top: 10, right: 42 }} onPress={() => this._amuletToMarket(item)}>
-                    <Icon2 name={'truck'} size={28} color={'green'} />
-                </TouchableOpacity>}
-
-                <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10 }} onPress={() => this._deleteAmulet(item)}>
-                    <Icon2 name={'trash-o'} size={28} color={'red'} />
+                <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10 }} onPress={() => this._pressSubMenu(item)}>
+                    <Icon2 name={'ellipsis-h'} size={28} color={item.display == 1 ? 'green' : 'dark'} />
                 </TouchableOpacity>
 
                 <View style={{ flexDirection: 'row', flex: 1 }}>
@@ -181,16 +186,12 @@ class MarketMyAmulet extends Component {
     }
 
     _showImage = (item) => {
-        this.setState({ modalVisible: true })
         let img = []
-        // item.map(e => {
-        //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
-        // })
         item.map(e => {
             img.push({ url: e })
         })
-        this.setState({ img })
-        this.popupDialog.show()
+        this.setState({ img, modalVisible: true, index: 0 })
+        // this.popupDialog.show()
     }
 
     _goToChat = (item) => {
@@ -200,6 +201,7 @@ class MarketMyAmulet extends Component {
 
     componentDidMount() {
         this.props.navigation.setParams({ addAmulet: this._addAmulet });
+        this.props.navigation.setParams({ showShop: this._showShop });
         count = 1
         this.props.getListAreaAmulet(count)
     }
@@ -220,6 +222,10 @@ class MarketMyAmulet extends Component {
             count++
             this.props.getListAreaAmulet(count)
         }
+    }
+
+    _showShop = () => {
+        this.popupDialog3.show()
     }
 
     render() {
@@ -265,7 +271,7 @@ class MarketMyAmulet extends Component {
                 <PopupDialog
                     dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
-                    }}>{I18n.t('reason')}</Text></View>}
+                    }}>{I18n.t('menu')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={width / 1.5}
@@ -274,11 +280,11 @@ class MarketMyAmulet extends Component {
                     onDismissed={() => { this.setState({}) }}
                 >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
-                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderBottomColor: 'orange', borderBottomWidth: 1, flex: 1, width: '100%', justifyContent: 'center' }} onPress={this._goToUpload2}>
+                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, width: '95%', justifyContent: 'center', marginHorizontal: 7.5, marginVertical: 2.5, borderRadius: 8 }} onPress={this._goToUpload2}>
                             <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('haveAmulet')}</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, justifyContent: 'center', width: '100%' }} onPress={this._goToUpload}>
+                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, justifyContent: 'center', width: '95%', marginHorizontal: 7.5, marginBottom: 2.5, borderRadius: 8 }} onPress={this._goToUpload}>
                             <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('notAmulet')}</Text>
                         </TouchableOpacity>
                     </View>
@@ -287,35 +293,56 @@ class MarketMyAmulet extends Component {
                 <PopupDialog
                     dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
-                    }}>{I18n.t('confirmSell')}</Text></View>}
+                    }}>{I18n.t('detailShop')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog3 = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={width / 1.15}
                     height={height / 3}
                     onDismissed={() => { this.setState({ tmp_item: null }) }}
                 >
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
-
-                        <Text style={{ marginHorizontal: 10, alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('wantMarketDetail')}</Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-                            <View style={{ width: '40%', height: 45 }}>
-                                <RoundedButton
-                                    style={{ marginHorizontal: 10 }}
-                                    title={I18n.t('ok')}
-                                    onPress={() => {
-                                        this.props.pushAmuletMarket(this.state.tmp_item.id)
-                                        this.popupDialog3.dismiss()
-                                    }}
-                                />
-                            </View>
-                            <View style={{ width: '40%', height: 45 }}>
-                                <RoundedButton
-                                    style={{ marginHorizontal: 10 }}
-                                    title={I18n.t('cancel')}
-                                    onPress={() => this.popupDialog3.dismiss()}
-                                />
-                            </View>
+                    <View style={{ flex: 1, justifyContent: 'center', justifyContent: 'center' }}>
+                        {/* <View style={{ backgroundColor: '#FFA500', borderRadius: 10, padding: 12 }}> */}
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginLeft: 10 }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownText }}>{"Name : "}</Text>
+                            <Text style={{ fontSize: 18, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: -2.5 }}>{this.props.profile.store.store_name}</Text>
                         </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 10, marginLeft: 10 }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownText }}>{"Contact : "}</Text>
+                            <Text style={{ fontSize: 18, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: -2.5 }}>{this.props.profile.store.contact}</Text>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 10, marginLeft: 10 }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownText }}>{"Province : "}</Text>
+                            <Text style={{ fontSize: 18, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: -2.5 }}>{this.props.profile.store.province_name}</Text>
+                        </View>
+                    </View>
+                    {/* </View> */}
+                </PopupDialog>
+
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('menu')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog4 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={this.state.tmp_item && this.state.tmp_item.display == 1 ? height / 3 : (height / 4)}
+                    onDismissed={() => { this.setState({ tmp_item: null }) }}
+                >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        {this.state.tmp_item && this.state.tmp_item.display == 1 && <TouchableOpacity style={{ flex: 1, width: '95%', borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 5, justifyContent: 'center' }} onPress={() => {
+                            this.props.pushAmuletMarket(this.state.tmp_item.id)
+                            this.popupDialog4.dismiss()
+                        }}>
+                            <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('sendToMarket')}</Text>
+                        </TouchableOpacity>}
+                        <TouchableOpacity style={{ flex: 1, width: '95%', borderRadius: 10, backgroundColor: 'lightgrey', marginHorizontal: 5, marginBottom: 5, marginTop: 5, justifyContent: 'center' }} onPress={() => {
+                            this.props.deleteAmuletMarket(this.state.tmp_item.id)
+                            this.popupDialog4.dismiss()
+                        }}>
+                            <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('deleteAmulet')}</Text>
+                        </TouchableOpacity>
 
                     </View>
                 </PopupDialog>
@@ -327,7 +354,7 @@ class MarketMyAmulet extends Component {
                             onRefresh={this._reload}
                         />
                     }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('noMessages')}</Text>}
                     data={this.props.data_areaAmulet}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
@@ -342,7 +369,7 @@ const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
         user_id: state.auth.user_id,
-        // profile: state.question.profile,
+        profile: state.question.profile,
         // request_profile: state.question.request_profile,
         // data_amulet: state.question.amuletType,   // data request type amulet
         // request_type: state.question.request_type,  // request type

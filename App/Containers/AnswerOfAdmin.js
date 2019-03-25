@@ -346,7 +346,7 @@ class AnswerOfAdmin extends Component {
               name = I18n.t('LuangPhorLhew')
             }
             else {
-              name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
+              name = item.type == ('อื่นๆ หรือ ไม่ทราบ' || item.type == 'ไม่ระบุประเภท') ? I18n.t('otherOrUnknown') : I18n.t(item.type)
             }
 
             if (this.props.full_data2 != null && this.props.full_data2.length > 0)

@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,
-    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform
+    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Alert
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -39,6 +39,8 @@ class MarketHome extends Component {
 
             data_skin: null,
             tmp_region: null,
+            tmp_open: null,
+            canSee: false,
         }
     }
 
@@ -55,6 +57,15 @@ class MarketHome extends Component {
             slist = newProps.data_typeAmulet
         }
 
+        if (newProps.data_open && newProps.data_open != null) {
+            if (prevState.tmp_open != newProps.data_open) {
+                newProps.editProfile(newProps.data_open)
+                return {
+                    tmp_open: newProps.data_open
+                }
+            }
+        }
+
         return {
             data_skin: slist,
             tmp_region
@@ -64,6 +75,11 @@ class MarketHome extends Component {
     componentDidMount() {
         this.props.getListTypeAmulet()
         this.props.getProfile()
+    }
+
+    componentWillUnmount() {
+        this.props.getProfile()
+        this.props.clearDataOpen()
     }
 
     _north = () => {
@@ -99,10 +115,21 @@ class MarketHome extends Component {
     _openStore = () => {
         if (this.props.profile.store == null) {
             this.props.navigation.navigate("marketStore")
-        } else if (this.props.profile.store && this.props.profile.store.status == 1) {
-            alert(I18n.t('waitShop'))
-        } else if (this.props.profile.store && this.props.profile.store.status == 5) {
-            this.props.navigation.navigate("marketMylistAmulet")
+        } else {
+            if (this.props.profile.store && this.props.profile.store.status == 1) {
+                this.popupDialog3.show()
+            } else if (this.props.profile.store && this.props.profile.store.status == 5) {
+                this.props.navigation.navigate("marketMylistAmulet")
+            } else if (this.props.profile.store && this.props.profile.store.status == 0) {
+                Alert.alert(
+                    'Check Phra',
+                    I18n.t('failureOpen'),
+                    [
+                        { text: I18n.t('registerStore'), onPress: () => { this.props.navigation.navigate("marketStore") } },
+                        { text: I18n.t('cancel'), onPress: () => { } }
+                    ],
+                )
+            }
         }
     }
 
@@ -127,7 +154,7 @@ class MarketHome extends Component {
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
 
-                <Image source={Images.map} style={styles.map} />
+                <Image source={Images.map2} style={styles.map} />
 
                 <TextInput value={this.state.search_text} onChangeText={(text) => this.setState({ search_text: text })}
                     style={{ width: '80%', height: 40, backgroundColor: '#fff5', paddingVertical: 8, paddingHorizontal: 30, borderRadius: 8, alignSelf: 'center', marginTop: 2.5, zIndex: 2 }}
@@ -138,6 +165,7 @@ class MarketHome extends Component {
                     underlineColorAndroid={'transparent'}
                     onFocus={this.handleInputFocus}  // when focus text input
                     onBlur={this.handleInputBlur}  // when not focus text input
+                    onSubmitEditing={this._pressSearch}
                 />
                 {!this.state.show_icon && <TouchableOpacity style={{ position: 'absolute', top: 5, right: width / 9, zIndex: 2 }} onPress={this._pressSearch}><Icon2 name={'arrow-right'} size={24} style={{}} /></TouchableOpacity>}
 
@@ -180,7 +208,7 @@ class MarketHome extends Component {
                 <PopupDialog
                     dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
-                    }}>{I18n.t('reason')}</Text></View>}
+                    }}>{I18n.t('selectProvince')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={width / 1.15}
@@ -203,8 +231,42 @@ class MarketHome extends Component {
                     </ScrollView>
                 </PopupDialog>
 
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('detailShop')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog3 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={(height / 2.75)}
+                    // height={150}
+                    onDismissed={() => { this.setState({}) }}
+                >
+                    {this.props.profile && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 10, marginLeft: 10 }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownText }}>{"Status : "}</Text>
+                            {this.props.profile.store && <Text style={{ fontSize: 18, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: -2.5 }}>{this.props.profile.store.status == 1 ? I18n.t('waitVerify') : this.props.profile.store.status == 5 ? I18n.t('successVerify') : I18n.t('cancelHire')}</Text>}
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 10, marginLeft: 10 }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownText }}>{"Name : "}</Text>
+                            {this.props.profile.store && <Text style={{ fontSize: 18, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: -2.5 }}>{this.props.profile.store.store_name}</Text>}
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 10, marginLeft: 10 }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownText }}>{"Contact : "}</Text>
+                            {this.props.profile.store && <Text style={{ fontSize: 18, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: -2.5 }}>{this.props.profile.store.contact}</Text>}
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 10, marginLeft: 10 }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Prompt-SemiBold', color: Colors.brownText }}>{"Contact : "}</Text>
+                            {this.props.profile.store && <Text style={{ fontSize: 18, fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: -2.5 }}>{this.props.profile.store.province_name}</Text>}
+                        </View>
+                    </View>}
+                </PopupDialog>
+
                 <Spinner
-                    visible={(this.props.request || this.props.request_profile)}
+                    visible={(this.props.request || this.props.request_profile || this.props.request5)}
                     textContent={'Loading...'}
                     textStyle={{ color: '#fff' }}
                 />
@@ -219,6 +281,12 @@ const mapStateToProps = (state) => {
         language: state.auth.language,
         profile: state.question.profile,
         request_profile: state.question.request_profile,
+        request5: state.market.request5,
+        data_open: state.market.data_open,
+
+        store_name: null,  // tmp store name open store
+        tmp_province: null,  // tmp province name about open store
+        tmp_contact: null,  // tmp contact about open store
 
         data_typeAmulet: state.market.data_typeAmulet,  // store skin amulet 
         request: state.market.request,  // for request to get type amulet
@@ -235,6 +303,8 @@ const mapDispatchToProps = (dispatch) => {
         setZoneSkin: (zone, province) => dispatch(MarketActions.setZoneSkin(zone, province)),
         getRegion: (geo_id) => dispatch(MarketActions.getRegion(geo_id)),
         searchRequest: (text) => dispatch(MarketActions.searchRequest(text)),
+        editProfile: (data) => dispatch(QuestionActions.editProfile(data)),
+        clearDataOpen: () => dispatch(MarketActions.clearDataOpen()),
     }
 }
 

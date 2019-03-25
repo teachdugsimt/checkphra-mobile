@@ -258,28 +258,19 @@ class HomeScreen extends Component {
     });
   }
 
-    let profile = newProps.profile
-if (newProps.profile && newProps.profile != null) {
-  profile = newProps.profile
-}
-
-return {
-  // listPromotion: plist
-  dataProifle: profile,
-  list_user,
-  language: newProps.language
-}
+  _webBoard = () => {
+    this.props.navigation.navigate('webboard')
+    this.popupDialog.dismiss()
   }
 
-_pressList = (item) => {
-  if (item.id == 1) {
-    this.props.navigation.navigate('uploadScreen')
-  } else if (item.id == 2) {
-    this.props.navigation.navigate('showroom')
-  } else if (item.id == 3) {
-    this.popupDialog.show()
-  } else if (item.id == 4) {
-    this.props.navigation.navigate('marketHome')
+  _ownerAmulet = () => {
+    this.props.navigation.navigate('userContactOwner')
+    this.popupDialog.dismiss()
+  }
+
+  _contactAdmin = () => {
+    this.props.navigation.navigate('contactAdmin')
+    this.popupDialog.dismiss()
   }
 
   _pressLink(link) {

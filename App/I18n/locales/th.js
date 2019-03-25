@@ -250,6 +250,7 @@ export default {
   checkAmuletScreen: 'ตรวจสอบพระ',
   showAmuletReal: 'ห้องรวมพระแท้',
   chat: 'ห้องสนทนา',
+  commu: 'ติดต่อสื่อสาร',
   messages: 'ข้อความ',
   chatMyAmulet: 'สนทนาพระของฉัน',
 

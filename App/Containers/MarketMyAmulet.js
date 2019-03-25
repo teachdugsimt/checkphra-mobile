@@ -21,9 +21,9 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import MarketActions from '../Redux/MarketRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
 import styles from './Styles/HomeScreenStyle'
-import GridView from "react-native-super-grid";
 // import ImageList2 from './ImageList/ImageList2'
 import ImageList from './ImageList/ImageList3'
+import GridView from "react-native-super-grid";
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -81,7 +81,7 @@ class MarketMyAmulet extends Component {
         console.log('--------------- MY AMULET PAGE -----------------')
 
         if (newProps.data_push && newProps.data_push != null) {
-            if (newProps.data_push != prevState.tmp_push && newProps.request9 == false) {
+            if (newProps.data_push != prevState.tmp_push && (newProps.request9 == false || newProps.request9 == null)) {
                 newProps.editPushData(newProps.data_push)
                 return {
                     tmp_push: newProps.data_push
@@ -130,51 +130,73 @@ class MarketMyAmulet extends Component {
 
     // 1. มี qid ไม่ต้องมี market
     // 2. ไม่มี qid ต้องมี market
-    _renderItem = ({ item, index }) => {
+    // _renderItem = ({ item, index }) => {
 
+    //     let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
+    //     date = date.slice(0, 12)
+    //     return (
+    //         <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChat(item)}>
+
+    //             <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10 }} onPress={() => this._pressSubMenu(item)}>
+    //                 <Icon2 name={'ellipsis-h'} size={28} color={item.display == 1 ? 'green' : 'dark'} />
+    //             </TouchableOpacity>
+
+    //             <View style={{ flexDirection: 'row', flex: 1 }}>
+    //                 <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => { this._showImage(item.images) }}>
+    //                     {/* {item.images != null && <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + item.images[0] }} />} */}
+    //                     {item.images != null && <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: item.images[0] }} />}
+    //                 </TouchableOpacity>
+
+    //                 <View style={{ justifyContent: 'center' }}>
+    //                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+    //                         <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
+    //                         <Text style={{ color: Colors.brownTextTran, fontSize: 14, fontFamily: 'Prompt-SemiBold', marginTop: 3 }}> ( {item.amulet_detail.id} )</Text>
+    //                     </View>
+
+    //                     <View style={{ flexDirection: 'row', width: width - 80, justifyContent: 'space-between' }}>
+    //                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
+    //                             {item.images_thumbs != null && item.images_thumbs.map((e, i) => {
+    //                                 if (i != 0) {
+    //                                     return (
+    //                                         <TouchableOpacity style={{ marginRight: 1.5, marginLeft: i == 1 ? 10 : 0 }} onPress={() => this._pressSubList(item.images, i)}>
+    //                                             <Image source={{ uri: e }} style={{ width: 26, height: 26, borderRadius: 8 }} />
+    //                                         </TouchableOpacity>
+    //                                     )
+    //                                 }
+    //                             })}
+    //                         </View>
+
+    //                         <Text style={{ marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+
+    //                     </View>
+    //                 </View>
+    //             </View>
+
+    //         </TouchableOpacity>
+    //     )
+    // }
+
+    _renderItem = ({ item, index }) => {
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
         date = date.slice(0, 12)
+        let color = item.display == 1 ? 'green' : 'dark'
         return (
-            <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChat(item)}>
+            <TouchableOpacity style={{ height: 150, backgroundColor: Colors.milk, borderRadius: 10, flex: 1, marginLeft: 7.5, marginTop: 7.5, marginRight: index == 2 || index % 3 == 2 ? 7.5 : 0 }} onPress={() => this._goToChat(item)}>
 
-                <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10 }} onPress={() => this._pressSubMenu(item)}>
-                    <Icon2 name={'ellipsis-h'} size={28} color={item.display == 1 ? 'green' : 'dark'} />
+                <TouchableOpacity style={{ position: 'absolute', top: 1.5, right: 5, zIndex: 1 }} onPress={() => this._pressSubMenu(item)}>
+                    <Icon2 name={'gear'} size={28} color={color} />
                 </TouchableOpacity>
 
-                <View style={{ flexDirection: 'row', flex: 1 }}>
-                    <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => { this._showImage(item.images) }}>
-                        {/* {item.images != null && <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + item.images[0] }} />} */}
-                        {item.images != null && <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: item.images[0] }} />}
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <TouchableOpacity style={{ justifyContent: 'center', zIndex: 1 }} onPress={() => { this._showImage(item.images) }}>
+                        {item.images != null && <Image style={{ width: 100, height: 100, borderRadius: 12 }} source={{ uri: item.images[0] }} />}
                     </TouchableOpacity>
 
-                    <View style={{ justifyContent: 'center' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                            <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
-                            <Text style={{ color: Colors.brownTextTran, fontSize: 14, fontFamily: 'Prompt-SemiBold', marginTop: 3 }}> ( {item.amulet_detail.id} )</Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', width: width - 80, justifyContent: 'space-between' }}>
-                            <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                                {item.images_thumbs != null && item.images_thumbs.map((e, i) => {
-                                    if (i != 0) {
-                                        return (
-                                            <TouchableOpacity style={{ marginRight: 1.5, marginLeft: i == 1 ? 10 : 0 }} onPress={() => this._pressSubList(item.images, i)}>
-                                                <Image source={{ uri: e }} style={{ width: 26, height: 26, borderRadius: 8 }} />
-                                            </TouchableOpacity>
-                                        )
-                                    }
-                                })}
-                            </View>
-
-                            <Text style={{ marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
-
-                        </View>
-                    </View>
+                    <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
                 </View>
 
             </TouchableOpacity>
         )
-
     }
 
     _pressSubList = (item, index) => {
@@ -335,7 +357,7 @@ class MarketMyAmulet extends Component {
                             this.props.pushAmuletMarket(this.state.tmp_item.id)
                             this.popupDialog4.dismiss()
                         }}>
-                            <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('sendToMarket')}</Text>
+                            <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('sendToMarket') + " ( 40 coins )"}</Text>
                         </TouchableOpacity>}
                         <TouchableOpacity style={{ flex: 1, width: '95%', borderRadius: 10, backgroundColor: 'lightgrey', marginHorizontal: 5, marginBottom: 5, marginTop: 5, justifyContent: 'center' }} onPress={() => {
                             this.props.deleteAmuletMarket(this.state.tmp_item.id)
@@ -357,6 +379,7 @@ class MarketMyAmulet extends Component {
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('noMessages')}</Text>}
                     data={this.props.data_areaAmulet}
                     renderItem={this._renderItem}
+                    numColumns={3}
                     onEndReached={this._onScrollEndList}
                     onEndReachedThreshold={1.0} />
 

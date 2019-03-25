@@ -67,7 +67,7 @@ class HomeScreen extends Component {
         const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
         // { name: I18n.t('showAmuletReal'), id: 2 },
         { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
-        { name: I18n.t('chat'), id: 3, logo: 'wechat' },]
+        { name: I18n.t('commu'), id: 3, logo: 'wechat' },]
 
         if (newProps.language != prevState.language) {
             newProps.getProfile()

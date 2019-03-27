@@ -136,7 +136,7 @@ class MarketHome extends Component {
     handleInputFocus = () => this.setState({ show_icon: false })
 
     handleInputBlur = () => this.setState({ show_icon: true })
-
+    
     _pressSearch = () => {
         if (this.state.search_text) {
             this.props.searchRequest(this.state.search_text)

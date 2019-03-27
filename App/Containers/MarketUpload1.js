@@ -196,17 +196,20 @@ class MarketUpload1 extends Component {
                             <Picker.Item label="South" value="5" />
                         </Picker> */}
 
-                        {this.state.tmp_type && <Picker
-                            selectedValue={this.state.type}
-                            style={{ height: 45, width: width / 2, alignSelf: 'center', marginTop: 12 }}
-                            onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}>
-                            <Picker.Item label="Select your amulet type" value={null} />
-                            {this.state.tmp_type && this.state.tmp_type.map((e, i) => {
-                                return (
-                                    <Picker.Item label={e.name} value={e.id} />
-                                )
-                            })}
-                        </Picker>}
+                        <View style={{ marginTop: 12, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                            <Text style={{ fontFamily: 'Prompt-SemiBold', alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('typeAmuletMarket') + ": "}</Text>
+                            {this.state.tmp_type && <Picker
+                                selectedValue={this.state.type}
+                                style={{ height: 45, width: width / 2, alignSelf: 'center', marginTop: 12 }}
+                                onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}>
+                                <Picker.Item label="Select your amulet type" value={null} />
+                                {this.state.tmp_type && this.state.tmp_type.map((e, i) => {
+                                    return (
+                                        <Picker.Item label={e.name} value={e.id} />
+                                    )
+                                })}
+                            </Picker>}
+                        </View>
 
                         <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                             <View style={{ width: '40%', height: 40 }}>
@@ -247,10 +250,10 @@ const mapStateToProps = (state) => {
         profile: state.question.profile,
         data_image: state.market.data_image,
 
-        data_typeAmulet: state.market.data_typeAmulet,  // store skin amulet 
+        data_typeAmulet: state.market.data_typeAmulet,  // store skin amulet
         request: state.market.request,  // for request to get type amulet
 
-        request1: state.market.request1  // send data amulet 
+        request1: state.market.request1  // send data amulet
     }
 }
 
@@ -268,6 +271,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(MarketUpload1)
 
 
 
-// height: (width - 40) / 3,
-//     flexDirection: 'row',
+        // height: (width - 40) / 3,
+        //     flexDirection: 'row',
 //     paddingHorizontal: 10

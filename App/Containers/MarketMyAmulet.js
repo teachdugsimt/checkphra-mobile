@@ -128,60 +128,23 @@ class MarketMyAmulet extends Component {
         this.popupDialog4.show()
     }
 
-    // 1. มี qid ไม่ต้องมี market
-    // 2. ไม่มี qid ต้องมี market
-    // _renderItem = ({ item, index }) => {
-
-    //     let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
-    //     date = date.slice(0, 12)
-    //     return (
-    //         <TouchableOpacity style={{ height: 90, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }} onPress={() => this._goToChat(item)}>
-
-    //             <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10 }} onPress={() => this._pressSubMenu(item)}>
-    //                 <Icon2 name={'ellipsis-h'} size={28} color={item.display == 1 ? 'green' : 'dark'} />
-    //             </TouchableOpacity>
-
-    //             <View style={{ flexDirection: 'row', flex: 1 }}>
-    //                 <TouchableOpacity style={{ justifyContent: 'center', marginLeft: 10 }} onPress={() => { this._showImage(item.images) }}>
-    //                     {/* {item.images != null && <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + item.images[0] }} />} */}
-    //                     {item.images != null && <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={{ uri: item.images[0] }} />}
-    //                 </TouchableOpacity>
-
-    //                 <View style={{ justifyContent: 'center' }}>
-    //                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-    //                         <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
-    //                         <Text style={{ color: Colors.brownTextTran, fontSize: 14, fontFamily: 'Prompt-SemiBold', marginTop: 3 }}> ( {item.amulet_detail.id} )</Text>
-    //                     </View>
-
-    //                     <View style={{ flexDirection: 'row', width: width - 80, justifyContent: 'space-between' }}>
-    //                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
-    //                             {item.images_thumbs != null && item.images_thumbs.map((e, i) => {
-    //                                 if (i != 0) {
-    //                                     return (
-    //                                         <TouchableOpacity style={{ marginRight: 1.5, marginLeft: i == 1 ? 10 : 0 }} onPress={() => this._pressSubList(item.images, i)}>
-    //                                             <Image source={{ uri: e }} style={{ width: 26, height: 26, borderRadius: 8 }} />
-    //                                         </TouchableOpacity>
-    //                                     )
-    //                                 }
-    //                             })}
-    //                         </View>
-
-    //                         <Text style={{ marginTop: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
-
-    //                     </View>
-    //                 </View>
-    //             </View>
-
-    //         </TouchableOpacity>
-    //     )
-    // }
+    _addSlot = () => {
+        Alert.alert(
+            I18n.t('wantAddSlot'),
+            I18n.t('use10Coins'),
+            [
+                { text: I18n.t('ok'), onPress: () => console.log('OK want to add slot') },
+                { text: I18n.t('cancel') }
+            ]
+        )
+    }
 
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
         date = date.slice(0, 12)
         let color = item.display == 1 ? 'green' : 'dark'
         return (
-            <TouchableOpacity style={{ height: 150, backgroundColor: Colors.milk, borderRadius: 10, flex: 1, marginLeft: 7.5, marginTop: 7.5, marginRight: index == 2 || index % 3 == 2 ? 7.5 : 0 }} onPress={() => this._goToChat(item)}>
+            <TouchableOpacity style={{ height: 145, backgroundColor: Colors.milk, borderRadius: 10, marginLeft: 7.5, marginTop: 7.5, marginRight: index == 2 || index % 3 == 2 ? 7.5 : 0, width: (width / 3) - 10, justifyContent: 'center' }} onPress={() => this._goToChat(item)}>
 
                 <TouchableOpacity style={{ position: 'absolute', top: 1.5, right: 5, zIndex: 1 }} onPress={() => this._pressSubMenu(item)}>
                     <Icon2 name={'gear'} size={28} color={color} />
@@ -192,11 +155,13 @@ class MarketMyAmulet extends Component {
                         {item.images != null && <Image style={{ width: 100, height: 100, borderRadius: 12 }} source={{ uri: item.images[0] }} />}
                     </TouchableOpacity>
 
-                    <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
+                    <Text style={{ marginHorizontal: 5, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 16 }} numberOfLines={1}>{item.amulet_detail.amuletName}</Text>
                 </View>
-
             </TouchableOpacity>
         )
+
+
+
     }
 
     _pressSubList = (item, index) => {
@@ -368,6 +333,13 @@ class MarketMyAmulet extends Component {
 
                     </View>
                 </PopupDialog>
+
+                <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 40, paddingHorizontal: 10, paddingVertical: 7.5, borderRadius: 10, backgroundColor: Colors.milk, marginHorizontal: 7.5, marginTop: 7.5 }} onPress={this._addSlot}>
+                    <Text style={{ fontFamily: 'Prompt-SemiBold' }}>You have </Text>
+                    <Text style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16 }}>9</Text>
+                    <Text style={{ fontFamily: 'Prompt-SemiBold' }}> slot. click for add slot</Text>
+                    <Icon2 name={'plus-circle'} size={26} color={Colors.brownTextTran} style={{ paddingLeft: 7.5 }} />
+                </TouchableOpacity>
 
                 <FlatList
                     refreshControl={

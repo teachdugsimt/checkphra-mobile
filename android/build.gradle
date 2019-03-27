@@ -19,7 +19,7 @@ buildscript {
     dependencies {
         // classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.android.tools.build:gradle:3.1.4'
-        // classpath 'com.android.tools.build:gradle:3.2.1'  // new 21/03/2019
+        // classpath 'com.android.tools.build:gradle:3.2.1'  // new 3.2.1 => 21/03/2019
         // classpath 'com.google.gms:google-services:4.0.1'  // new 4.2.0 => 25/03/2019
         classpath 'com.google.gms:google-services:4.2.0'
         // classpath 'com.android.tools.build:gradle:3.1.2'

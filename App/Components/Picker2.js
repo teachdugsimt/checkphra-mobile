@@ -13,9 +13,9 @@ import { database } from 'react-native-firebase';
 var ImagePicker = require('react-native-image-picker');
 var options = {
   title: 'Select Avatar',
-  customButtons: [
-    { name: 'fb', title: 'Choose Photo from Facebook' },
-  ],
+  // customButtons: [
+  //   { name: 'fb', title: 'Choose Photo from Facebook' },
+  // ],
   storageOptions: {
     skipBackup: true,
     path: 'images'

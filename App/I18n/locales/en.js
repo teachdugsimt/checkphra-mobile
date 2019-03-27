@@ -310,6 +310,8 @@ export default {
   editDetailPhra: 'Edit detail of amulet',
   failureOpen: 'Failure open store, please try again!!',
   registerStore: 'Open Store!!',
+  wantAddSlot: 'Do you want to add slot?',
+  use10Coins: 'use 10 coins for add slot.',
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

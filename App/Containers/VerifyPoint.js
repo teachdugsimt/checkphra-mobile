@@ -242,13 +242,13 @@ class VerifyPoint extends Component {
                             onChangeText={(text) => this.setState({ reason: text })}
                             placeholder={I18n.t('inputReason')} />
 
-                        {this.state.reason && <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
+                        <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
                             <RoundedButton
                                 style={{ marginHorizontal: 10 }}
                                 title={I18n.t('ok')}
                                 onPress={this._pressCancel2}
                             />
-                        </View>}
+                        </View>
                     </View>
                 </PopupDialog>
             </LinearGradient>

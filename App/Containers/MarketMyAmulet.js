@@ -20,6 +20,7 @@ import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import MarketActions from '../Redux/MarketRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
+import QuestionActions from '../Redux/QuestionRedux'
 import styles from './Styles/HomeScreenStyle'
 // import ImageList2 from './ImageList/ImageList2'
 import ImageList from './ImageList/ImageList3'
@@ -142,7 +143,7 @@ class MarketMyAmulet extends Component {
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
         date = date.slice(0, 12)
-        let color = item.display == 1 ? 'green' : 'dark'
+        let color = item.display == 5 ? 'black' : 'green'
         return (
             <TouchableOpacity style={{ height: 145, backgroundColor: Colors.milk, borderRadius: 10, marginLeft: 7.5, marginTop: 7.5, marginRight: index == 2 || index % 3 == 2 ? 7.5 : 0, width: (width / 3) - 10, justifyContent: 'center' }} onPress={() => this._goToChat(item)}>
 
@@ -155,7 +156,7 @@ class MarketMyAmulet extends Component {
                         {item.images != null && <Image style={{ width: 100, height: 100, borderRadius: 12 }} source={{ uri: item.images[0] }} />}
                     </TouchableOpacity>
 
-                    <Text style={{ marginHorizontal: 5, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 16 }} numberOfLines={1}>{item.amulet_detail.amuletName}</Text>
+                    <Text style={{ marginHorizontal: 5, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 16, textAlign: 'center' }} numberOfLines={1}>{item.amulet_detail.amuletName}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -195,12 +196,14 @@ class MarketMyAmulet extends Component {
 
     componentWillUnmount() {
         this.props.clearListMyAmulet()
+        this.props.clearDataPushAmulet()
         count = 1
     }
 
     _reload = () => {
         count = 1
         this.props.getListAreaAmulet(count)
+        this.props.getProfile()
     }
 
     _onScrollEndList = () => {
@@ -261,18 +264,18 @@ class MarketMyAmulet extends Component {
                     }}>{I18n.t('menu')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
                     dialogAnimation={slideAnimation}
-                    width={width / 1.5}
+                    width={width / 1.15}
                     height={height / 4}
                     // height={150}
                     onDismissed={() => { this.setState({}) }}
                 >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
                         <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, width: '95%', justifyContent: 'center', marginHorizontal: 7.5, marginVertical: 2.5, borderRadius: 8 }} onPress={this._goToUpload2}>
-                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('haveAmulet')}</Text>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('haveAmulet') + (this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, justifyContent: 'center', width: '95%', marginHorizontal: 7.5, marginBottom: 2.5, borderRadius: 8 }} onPress={this._goToUpload}>
-                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('notAmulet')}</Text>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('notAmulet') + (this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
                         </TouchableOpacity>
                     </View>
                 </PopupDialog>
@@ -322,7 +325,7 @@ class MarketMyAmulet extends Component {
                             this.props.pushAmuletMarket(this.state.tmp_item.id)
                             this.popupDialog4.dismiss()
                         }}>
-                            <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('sendToMarket') + " ( 40 coins )"}</Text>
+                            <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('sendToMarket') + (this.state.tmp_item.qid == null ? " 40 coins" : " 20 coins")}</Text>
                         </TouchableOpacity>}
                         <TouchableOpacity style={{ flex: 1, width: '95%', borderRadius: 10, backgroundColor: 'lightgrey', marginHorizontal: 5, marginBottom: 5, marginTop: 5, justifyContent: 'center' }} onPress={() => {
                             this.props.deleteAmuletMarket(this.state.tmp_item.id)
@@ -334,12 +337,12 @@ class MarketMyAmulet extends Component {
                     </View>
                 </PopupDialog>
 
-                <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 40, paddingHorizontal: 10, paddingVertical: 7.5, borderRadius: 10, backgroundColor: Colors.milk, marginHorizontal: 7.5, marginTop: 7.5 }} onPress={this._addSlot}>
-                    <Text style={{ fontFamily: 'Prompt-SemiBold' }}>You have </Text>
-                    <Text style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16 }}>9</Text>
-                    <Text style={{ fontFamily: 'Prompt-SemiBold' }}> slot. click for add slot</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 40, paddingHorizontal: 10, paddingVertical: 7.5, borderRadius: 10, backgroundColor: Colors.milk, marginHorizontal: 7.5, marginTop: 7.5 }} onPress={this._addSlot}>
+                    <Text style={{ fontFamily: 'Prompt-SemiBold' }}>Use </Text>
+                    <Text style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16 }}>{this.props.profile.store ? this.props.profile.store.total_count + "/" + this.props.profile.store.limit : '?'}</Text>
+                    <Text style={{ fontFamily: 'Prompt-SemiBold' }}> slot. Upload for add slot</Text>
                     <Icon2 name={'plus-circle'} size={26} color={Colors.brownTextTran} style={{ paddingLeft: 7.5 }} />
-                </TouchableOpacity>
+                </View>
 
                 <FlatList
                     refreshControl={
@@ -387,6 +390,7 @@ const mapDispatchToProps = (dispatch) => {
         // setRequestType: () => dispatch(QuestionActions.setRequestType()),
         // setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
         // setDetailPhra: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
+        getProfile: () => dispatch(QuestionActions.getProfile()),
         setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
         getListAreaAmulet: (page) => dispatch(MarketActions.getListMyMarket(page)),
         clearListMyAmulet: () => dispatch(MarketActions.clearListMyAmulet()),
@@ -394,6 +398,8 @@ const mapDispatchToProps = (dispatch) => {
         editPushData: (data) => dispatch(MarketActions.editPushData(data)),
         deleteAmuletMarket: (market_id) => dispatch(MarketActions.deleteAmuletMarket(market_id)),
         deleteFromList: (data) => dispatch(MarketActions.deleteFromList(data)),
+
+        clearDataPushAmulet: () => dispatch(MarketActions.clearDataPushAmulet()),
         // setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
     }
 }

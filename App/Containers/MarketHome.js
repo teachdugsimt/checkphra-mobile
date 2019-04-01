@@ -39,6 +39,8 @@ class MarketHome extends Component {
 
             data_skin: null,
             tmp_region: null,
+            slist: null,
+            slist2: null,
             tmp_open: null,
             canSee: false,
         }
@@ -52,9 +54,15 @@ class MarketHome extends Component {
             tmp_region = newProps.data_region
         }
 
-        let slist = newProps.data_typeAmulet
+
+        let slist = newProps.data_typeAmulet2
+        if (newProps.data_typeAmulet2 && newProps.data_typeAmulet2 != null) {
+            slist = newProps.data_typeAmulet2
+        }
+
+        let slist2 = newProps.data_typeAmulet
         if (newProps.data_typeAmulet && newProps.data_typeAmulet != null) {
-            slist = newProps.data_typeAmulet
+            slist2 = newProps.data_typeAmulet
         }
 
         if (newProps.data_open && newProps.data_open != null) {
@@ -68,7 +76,9 @@ class MarketHome extends Component {
 
         return {
             data_skin: slist,
-            tmp_region
+            tmp_region,
+            slist,
+            slist2
         }
     }
 
@@ -84,31 +94,36 @@ class MarketHome extends Component {
 
     _north = () => {
         this.setState({ area: 1 })
-        this.props.getRegion(1)
+        // this.props.getRegion(1)
+        this.props.getListTypeAmulet2(1)
         this.popupDialog2.show()
     }
 
     _northEast = () => {
         this.setState({ area: 4 })
-        this.props.getRegion(4)
+        // this.props.getRegion(4)
+        this.props.getListTypeAmulet2(4)
         this.popupDialog2.show()
     }
 
     _central = () => {
         this.setState({ area: 2 })
-        this.props.getRegion(2)
+        // this.props.getRegion(2)
+        this.props.getListTypeAmulet2(2)
         this.popupDialog2.show()
     }
 
     _east = () => {
         this.setState({ area: 3 })
-        this.props.getRegion(3)
+        // this.props.getRegion(3)
+        this.props.getListTypeAmulet2(3)
         this.popupDialog2.show()
     }
 
     _south = () => {
         this.setState({ area: 5 })
-        this.props.getRegion(5)
+        // this.props.getRegion(5)
+        this.props.getListTypeAmulet2(5)
         this.popupDialog2.show()
     }
 
@@ -136,7 +151,7 @@ class MarketHome extends Component {
     handleInputFocus = () => this.setState({ show_icon: false })
 
     handleInputBlur = () => this.setState({ show_icon: true })
-    
+
     _pressSearch = () => {
         if (this.state.search_text) {
             this.props.searchRequest(this.state.search_text)
@@ -196,6 +211,11 @@ class MarketHome extends Component {
                     <Text style={styles.textMap}>South</Text>
                 </TouchableOpacity>
 
+                <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: Colors.milk, borderRadius: 12, padding: 10, width: width / 2.75, position: 'absolute', right: 10, bottom: 100, zIndex: 2 }} onPress={() => this.popupDialog4.show()}>
+                    <Icon2 name={"th"} size={28} />
+                    <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 16, marginLeft: 7.5 }}>{I18n.t('normalCate')}</Text>
+                </TouchableOpacity>
+
 
                 {/* *******************OPEN STORE ZONE******************* */}
                 <TouchableOpacity style={{ width: (width / 3.7), height: (height / 8.5), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
@@ -217,17 +237,28 @@ class MarketHome extends Component {
                     onDismissed={() => { this.setState({ id_type: null, area: null }) }}
                 >
                     <ScrollView style={{ flex: 1 }}>
-                        {this.state.tmp_region && this.state.tmp_region != null && this.state.tmp_region.map((e, i) => {
-                            return (
-                                <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
-                                    this.setState({ id_province: e.id })
-                                    this.props.setZoneSkin(this.state.area, e.id)  // zone & province
-                                    this.props.navigation.navigate('marketSelectType')
-                                    this.popupDialog2.dismiss()
-                                }}>
-                                    <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{e.name}</Text>
-                                </TouchableOpacity>)
-                        })}
+                        {this.state.slist && this.state.slist != null && this.state.slist.map((e, i) => {
+
+                            if (i != 0) {
+                                return (
+                                    <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                        this.setState({ id_province: e.id })
+                                        this.props.setZoneSkin(this.state.area, e.id)  // zone & province
+                                        // this.props.navigation.navigate('marketSelectType')
+                                        this.props.navigation.navigate('marketListArea1')
+                                        this.popupDialog2.dismiss()
+                                    }} >
+                                        <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{e.name}</Text>
+                                        <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
+
+                                        <TouchableOpacity style={{ position: 'absolute', right: 0, top: 0 }} onPress={() => this.props.followGroupAmulet(e.id)}>
+                                            <Icon2 name={"plus-square"} size={22} color={Colors.bloodOrange} />
+                                        </TouchableOpacity>
+                                    </TouchableOpacity>)
+
+                            }
+                        })
+                        }
                     </ScrollView>
                 </PopupDialog>
 
@@ -265,6 +296,49 @@ class MarketHome extends Component {
                     </View>}
                 </PopupDialog>
 
+
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>Select Normal Categories</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog4 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={height / 1.6}
+                    // height={150}
+                    onDismissed={() => { this.setState({}) }} >
+
+                    <ScrollView style={{ flex: 1 }}>
+                        {this.state.slist2 && this.state.slist2.map((e, i) => {
+                            if (e.parent_id == null) {
+                                return (
+                                    <View style={{ marginTop: 5, marginHorizontal: 5, marginBottom: 2.5, padding: 10, borderRadius: 10, backgroundColor: 'orange' }}>
+                                        <Text style={{ textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                    </View>
+                                )
+                            } else {
+                                return (
+                                    <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                        this.setState({ id_province: e.id })
+                                        this.props.setZoneSkin(this.state.area, e.id)  // zone & province => zone & id type amulet
+                                        // this.props.navigation.navigate('marketSelectType')
+                                        this.props.navigation.navigate('marketListArea1')
+                                        this.popupDialog4.dismiss()
+                                    }}>
+                                        <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                        <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
+                                        <TouchableOpacity style={{ position: 'absolute', right: 0, top: 0 }} onPress={() => this.props.followGroupAmulet(e.id)}>
+                                            <Icon2 name={"plus-square"} size={22} color={Colors.bloodOrange} />
+                                        </TouchableOpacity>
+                                    </TouchableOpacity>
+                                )
+                            }
+                        })}
+                    </ScrollView>
+
+                </PopupDialog>
+
+
                 <Spinner
                     visible={(this.props.request || this.props.request_profile || this.props.request5)}
                     textContent={'Loading...'}
@@ -289,6 +363,7 @@ const mapStateToProps = (state) => {
         tmp_contact: null,  // tmp contact about open store
 
         data_typeAmulet: state.market.data_typeAmulet,  // store skin amulet 
+        data_typeAmulet2: state.market.data_typeAmulet2, // store skin amulet 222222222
         request: state.market.request,  // for request to get type amulet
 
         request7: state.market.request7,  // get province in each region
@@ -299,12 +374,17 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getProfile: () => dispatch(QuestionActions.getProfile()),
-        getListTypeAmulet: () => dispatch(MarketActions.getListTypeAmulet()),
+        // getListTypeAmulet: () => dispatch(MarketActions.getListTypeAmulet()),  // here api get group amulet
+        getListTypeAmulet: () => dispatch(MarketActions.getListTypeAmulet()),  // here api get group amulet
+        getListTypeAmulet2: (geo_id) => dispatch(MarketActions.getListTypeAmulet2(geo_id)),
+
         setZoneSkin: (zone, province) => dispatch(MarketActions.setZoneSkin(zone, province)),
         getRegion: (geo_id) => dispatch(MarketActions.getRegion(geo_id)),
         searchRequest: (text) => dispatch(MarketActions.searchRequest(text)),
         editProfile: (data) => dispatch(QuestionActions.editProfile(data)),
         clearDataOpen: () => dispatch(MarketActions.clearDataOpen()),
+
+        followGroupAmulet: (type_id) => dispatch(MarketActions.followGroupAmulet(type_id)),
     }
 }
 

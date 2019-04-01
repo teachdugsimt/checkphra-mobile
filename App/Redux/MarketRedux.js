@@ -22,9 +22,17 @@ const { Types, Creators } = createActions({
   setImage2: ['data'],
   deleteImage2: null,
 
-  getListTypeAmulet: null,
+  // getListTypeAmulet: null,  // here api get group amulet
+  // getListTypeAmuletSuccess: ['data'],
+  // getListTypeAmuletFailure: null,
+
+  getListTypeAmulet: ['geo_id'],  // here api get group amulet
   getListTypeAmuletSuccess: ['data'],
   getListTypeAmuletFailure: null,
+
+  getListTypeAmulet2: ['geo_id'],  // here api get group amulet 22222222222222222222222222222
+  getListTypeAmuletSuccess2: ['data'],
+  getListTypeAmuletFailure2: null,
 
   setImageMarket: ['index', 'source'],
   deleteImageMarket: ['index'],
@@ -88,6 +96,10 @@ const { Types, Creators } = createActions({
   searchRequestFailure: null,
   editVoteSearch: ['data'],
 
+  followGroupAmulet: ['type_id'],
+  followGroupAmuletSuccess: ['data'],
+  followGroupAmuletFailure: null,
+
   setDataStore: ['store_name', 'province', 'contact'],
 
   clearProvinceId: null,
@@ -100,6 +112,7 @@ const { Types, Creators } = createActions({
   clearDataVote: null,
   clearDataAreaAmulet: null,
   clearDataOpen: null,
+  clearDataPushAmulet: null,
 })
 
 export const MarketTypes = Types
@@ -121,6 +134,7 @@ export const INITIAL_STATE = Immutable({
   data_image: [],
 
   data_typeAmulet: null,  // store skin amulet 
+  data_typeAmulet2: null, // store skin amulet 2
   request: null,  // for request to get type amulet
 
   maindata: null,  // array data set detail amulet before send to tum
@@ -172,6 +186,11 @@ export const INITIAL_STATE = Immutable({
 
   request13: null,  // for search data
   data_search: null,  //  for store search data
+
+  request14: null, // for folow group amulet 
+  data_follow: null, // store follow group amulet
+
+  FOLLOWER: null,  // check list my follow
 })
 
 /* ------------- Selectors ------------- */
@@ -183,6 +202,12 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const followGroupAmulet = state => state.merge({ request14: true })
+export const followGroupAmuletSuccess = (state, { data }) => state.merge({ request14: false, data_follow: data })
+export const followGroupAmuletFailure = state => state.merge({ request14: false })
+
+
 export const clearDataOpen = state => state.merge({ data_open: null })
 
 export const setDataStore = (state, { store, province, contact }) => {
@@ -341,6 +366,8 @@ export const pushAmuletMarket = state => state.merge({ request9: true })
 export const pushAmuletMarketSuccess = (state, { data }) => state.merge({ data_push: data, request9: false })
 export const pushAmuletMarketFailure = state => state.merge({ request9: false })
 export const editPushData = (state, { data }) => {
+  // console.log(data)
+  // console.log('++++++++++ DATA IN REDUX ++++++++++')
   let tmp = JSON.parse(JSON.stringify(state.data_mylist))
   let tmp2 = tmp
   tmp.map((e, i) => {
@@ -348,9 +375,11 @@ export const editPushData = (state, { data }) => {
       tmp2[i] = data
     }
   })
-
+  // console.log(tmp)
+  // console.log('++++++++++ AFTER EDIT ++++++++++')
   return state.merge({ data_mylist: tmp2, request9: null })
 }
+export const clearDataPushAmulet = state => state.merge({ data_push: null })
 
 export const getRegion = state => state.merge({ request7: true })
 export const getRegionSuccess = (state, { data }) => state.merge({ request7: false, data_region: data })
@@ -423,6 +452,10 @@ export const sendDataAmuletMarketFailure2 = state => state.merge({ request3: fal
 export const getListTypeAmulet = state => state.merge({ request: true })
 export const getListTypeAmuletSuccess = (state, { data }) => state.merge({ request: false, data_typeAmulet: data })
 export const getListTypeAmuletFailure = state => state.merge({ request: false })
+
+export const getListTypeAmulet2 = state => state.merge({ request: true })
+export const getListTypeAmuletSuccess2 = (state, { data }) => state.merge({ request: false, data_typeAmulet2: data })
+export const getListTypeAmuletFailure2 = state => state.merge({ request: false })
 
 export const setImageMarket = (state, { index, source }) => {
   let images
@@ -499,6 +532,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_LIST_TYPE_AMULET_SUCCESS]: getListTypeAmuletSuccess,
   [Types.GET_LIST_TYPE_AMULET_FAILURE]: getListTypeAmuletFailure,
 
+  [Types.GET_LIST_TYPE_AMULET2]: getListTypeAmulet2,
+  [Types.GET_LIST_TYPE_AMULET_SUCCESS2]: getListTypeAmuletSuccess2,
+  [Types.GET_LIST_TYPE_AMULET_FAILURE2]: getListTypeAmuletFailure2,
+
   [Types.GET_LIST_AREA_AMULET]: getListAreaAmulet,
   [Types.GET_LIST_AREA_AMULET_SUCCESS]: getListAreaAmuletSuccess,
   [Types.GET_LIST_AREA_AMULET_FAILURE]: getListAreaAmuletFailure,
@@ -540,4 +577,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_DATA_VOTE]: clearDataVote,
 
   [Types.CLEAR_PROVINCE_ID]: clearProvinceId,
+
+  [Types.CLEAR_DATA_PUSH_AMULET]: clearDataPushAmulet,
+
+  [Types.FOLLOW_GROUP_AMULET]: followGroupAmulet,
+  [Types.FOLLOW_GROUP_AMULET_SUCCESS]: followGroupAmuletSuccess,
+  [Types.FOLLOW_GROUP_AMULET_FAILURE]: followGroupAmuletFailure,
 })

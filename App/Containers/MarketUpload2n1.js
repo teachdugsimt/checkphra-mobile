@@ -25,7 +25,7 @@ const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
 });
 let { width, height } = Dimensions.get('window')
-
+let region = [{ name: "North", id: 1 }, { name: "Central & West", id: 2 }, { name: "East", id: 3 }, { name: "North East", id: 4 }, { name: "South", id: 5 }]
 class MarketUpload2n1 extends Component {
 
     constructor(props) {
@@ -37,9 +37,17 @@ class MarketUpload2n1 extends Component {
             owner: null,
             contact: null,
             zone: null,
+
             type: null,
+            type2: null,
 
             tmp_type: null,
+            tmp_type2: null,
+
+            type_name1: null,
+            type_name2: null,
+            zone_name: null,
+
             tmp_sendAmulet: null,
         }
     }
@@ -96,7 +104,7 @@ class MarketUpload2n1 extends Component {
         // else if (!this.state.zone) {
         //     alert(I18n.t('checkZone'))
         // }
-        else if (!this.state.type) {
+        else if (this.state.type == null && this.state.type2 == null) {
             alert(I18n.t('checkType'))
         }
         // else if (count < 2) {
@@ -113,7 +121,7 @@ class MarketUpload2n1 extends Component {
                 owner: this.state.owner,
                 contact: this.state.contact,
                 // zone: this.state.zone,
-                type: this.state.type
+                type: this.state.type ? this.state.type : this.state.type2
             })
             this.props.sendDataAmuletMarket()
 
@@ -121,10 +129,18 @@ class MarketUpload2n1 extends Component {
                 name: null,
                 temple: null,
                 price: null,
-                owner: null,
-                contact: null,
-                // zone: null,
+                // owner: null,
+                // contact: null,
+                zone: null,
                 type: null,
+                type2: null,
+
+                // tmp_type: null,
+                tmp_type2: null,
+
+                type_name1: null,
+                type_name2: null,
+                zone_name: null,
             })
             // this.props.sendDataAmuletMarket(this.state.name, this.state.temple, this.state.price, this.state.owner, this.state.contact, this.state.zone, this.state.type)
             this.props.navigation.goBack()
@@ -149,6 +165,103 @@ class MarketUpload2n1 extends Component {
                     width: width,
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
+
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>Select Amulet Region</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={height / 2}
+                    // height={150}
+                    onDismissed={() => { this.setState({}) }} >
+                    <ScrollView style={{ flex: 1 }}>
+                        {region.map((e, i) => {
+                            return (
+                                <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                    this.setState({
+                                        zone: e.id, type: null, zone_name: e.name,
+                                        tmp_type2: null, type_name2: null, type2: null
+                                    })
+                                    this.props.getListTypeAmulet2(e.id)
+                                    this.popupDialog.dismiss()
+                                }}>
+                                    <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                </TouchableOpacity>
+                            )
+                        })}
+                    </ScrollView>
+                </PopupDialog>
+
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>Select Amulet Type</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={height / 1.6}
+                    // height={150}
+                    onDismissed={() => { this.setState({ type_name1: null, }) }} >
+
+
+                    <ScrollView style={{ flex: 1 }}>
+                        {this.state.tmp_type2 && this.state.tmp_type2 != null && this.state.tmp_type2.map((e, i) => {
+                            if (i == 0 && (e.id == 45 || e.id == 46 || e.id == 47 || e.id == 48 || e.id == 49)) {
+                                // return (
+                                //     <View style={{ marginTop: 5, marginHorizontal: 5, marginBottom: 2.5, padding: 10, borderRadius: 10, backgroundColor: 'orange' }}>
+                                //         <Text style={{ textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                //     </View>
+                                // )
+                            } else {
+                                return (
+                                    <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                        this.setState({ type2: e.id, type: null, type_name2: e.name })
+                                        this.popupDialog2.dismiss()
+                                    }}>
+                                        <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                    </TouchableOpacity>
+                                )
+                            }
+                        })}
+                    </ScrollView>
+
+                </PopupDialog>
+
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>Select Region</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog3 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={height / 1.6}
+                    // height={150}
+                    onDismissed={() => { this.setState({ type_name2: null }) }} >
+
+                    <ScrollView style={{ flex: 1 }}>
+                        {this.state.tmp_type && this.state.tmp_type.map((e, i) => {
+                            if (e.parent_id == null) {
+                                return (
+                                    <View style={{ marginTop: 5, marginHorizontal: 5, marginBottom: 2.5, padding: 10, borderRadius: 10, backgroundColor: 'orange' }}>
+                                        <Text style={{ textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                    </View>
+                                )
+                            } else {
+                                return (
+                                    <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                        this.setState({ type: e.id, type2: null, tmp_type2: null, type_name1: e.name })
+                                        this.popupDialog3.dismiss()
+                                    }}>
+                                        <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                    </TouchableOpacity>
+                                )
+                            }
+                        })}
+                    </ScrollView>
+
+                </PopupDialog>
 
                 <ScrollView style={{ flex: 1 }}>
                     <View style={{ height: 60, justifyContent: "center" }}>
@@ -223,33 +336,18 @@ class MarketUpload2n1 extends Component {
                         </View>
 
 
-                        {/* <Picker
-                            selectedValue={this.state.zone}
-                            style={{ height: 45, width: width / 2, alignSelf: 'center', marginTop: 12 }}
-                            onValueChange={(itemValue, itemIndex) => this.setState({ zone: itemValue })}>
-                            <Picker.Item label="Select your region" value={null} />
-                            <Picker.Item label="North" value="1" />
-                            <Picker.Item label="Central + West" value="2" />
-                            <Picker.Item label="East" value="3" />
-                            <Picker.Item label="North East" value="4" />
-                            <Picker.Item label="South" value="5" />
-                        </Picker> */}
+                        {this.state.type == null && <TouchableOpacity style={{ padding: 10, backgroundColor: '#fff5', borderRadius: 10, marginTop: 10, marginHorizontal: 15 }} onPress={() => this.popupDialog.show()}>
+                            <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 16 }}>{this.state.zone_name ? this.state.zone_name : I18n.t('zone2')}</Text>
+                        </TouchableOpacity>}
 
-                        {/* typeAmuletMarket */}
-                        <View style={{ marginTop: 12, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-                            <Text style={{ fontFamily: 'Prompt-SemiBold', alignSelf: 'center', textAlignVertical: 'center' }}>{I18n.t('typeAmuletMarket') + ": "}</Text>
-                            {this.state.tmp_type && <Picker
-                                selectedValue={this.state.type}
-                                style={{ height: 45, width: width / 2, alignSelf: 'center' }}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}>
-                                <Picker.Item label="<Please Select>" value={null} />
-                                {this.state.tmp_type && this.state.tmp_type.map((e, i) => {
-                                    return (
-                                        <Picker.Item label={e.name} value={e.id} />
-                                    )
-                                })}
-                            </Picker>}
-                        </View>
+                        {this.state.type == null && this.state.zone && <TouchableOpacity style={{ padding: 10, backgroundColor: '#fff5', borderRadius: 10, marginTop: 10, marginHorizontal: 15 }} onPress={() => this.popupDialog2.show()}>
+                            <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 16 }}>{this.state.type_name2 ? this.state.type_name2 : I18n.t('typeAmuletMarket')}</Text>
+                        </TouchableOpacity>}
+
+                        {(this.state.type2 == null || this.state.zone == null) && <TouchableOpacity style={{ padding: 10, backgroundColor: '#fff5', borderRadius: 10, marginTop: 10, marginHorizontal: 15 }} onPress={() => this.popupDialog3.show()}>
+                            <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 16 }}>{this.state.type_name1 ? this.state.type_name1 : I18n.t('typeAmuletMarket2')}</Text>
+                        </TouchableOpacity>}
+
 
                         <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                             <View style={{ width: '40%', height: 40, marginRight: 7.5 }}>

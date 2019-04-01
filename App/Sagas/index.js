@@ -53,7 +53,7 @@ import {
   getTypeAmuletRequest, sendDataAmuletForMarket, getListAreaAmuletRequest,
   sendDataAmuletForMarket2, getProvinceRequest, openStoreRequest, getListMyMarketRequest, getRegionRequest,
   voteAmuletRequest, pushAmuletToMarket, deleteAmuletMarketRequest, getListStoreGroupRequest,
-  getListAmuletStoreRequest, searchRequestMarket
+  getListAmuletStoreRequest, searchRequestMarket, getTypeAmuletRequest2, followGroupAmuletRequest
 } from './MarketSagas'
 
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
@@ -85,6 +85,7 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    takeLatest(MarketTypes.FOLLOW_GROUP_AMULET, followGroupAmuletRequest, question2Api),
     takeLatest(MarketTypes.SEARCH_REQUEST, searchRequestMarket, question2Api),
     takeLatest(MarketTypes.GET_LIST_AMULET_STORE, getListAmuletStoreRequest, question2Api),
     takeLatest(MarketTypes.GET_LIST_STORE_GROUP, getListStoreGroupRequest, question2Api),
@@ -121,7 +122,8 @@ export default function* root() {
     takeLatest(MarketTypes.SEND_DATA_AMULET_MARKET2, sendDataAmuletForMarket2, question2Api),
     takeLatest(MarketTypes.GET_LIST_AREA_AMULET, getListAreaAmuletRequest, question2Api),
     takeLatest(MarketTypes.SEND_DATA_AMULET_MARKET, sendDataAmuletForMarket, question2Api),
-    takeLatest(MarketTypes.GET_LIST_TYPE_AMULET, getTypeAmuletRequest, question2Api),
+    takeLatest(MarketTypes.GET_LIST_TYPE_AMULET, getTypeAmuletRequest, question2Api), // here api get group amulet
+    takeLatest(MarketTypes.GET_LIST_TYPE_AMULET2, getTypeAmuletRequest2, question2Api),
     takeLatest(TradingTypes.ACTIVE_CERTIFICATE, activeCerRequest, question2Api),
     takeLatest(TradingTypes.TRADING_REQUEST, getTrading, tradeApi),
     takeLatest(TradingTypes.ADD_DETAIL_CERTIFICATE, addDetailCertificateRequest, question2Api),

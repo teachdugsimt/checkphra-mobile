@@ -255,6 +255,10 @@ class Bit2 extends Component {
               <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')} {this.props.data.qid ? ' ( ' + this.props.data.qid + ' )' : ''}</Text>
             </View>
 
+            <View style={{ backgroundColor: '#FFEFD5', borderRadius: 15, alignSelf: 'center' }}>
+              <Text style={{ fontSize: 16, color: Colors.brownTextTran, marginHorizontal: 18, marginVertical: 4 }}>{"Bid by : " + (this.props.data.proposer ? this.props.data.proposer : "")}</Text>
+            </View>
+
             {this.props.data && !this.props.data.recent_bid && this.props.data.status == 'interested' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('waitUser0') + "!!"}</Text>}
 
             {this.state.bidData && this.state.bidData.length > 0 && this.state.bidData.messages && this.props.bidData.messages.length > 0 ? this.props.data.messages.map.map((e, i) => {
@@ -319,13 +323,13 @@ class Bit2 extends Component {
 
             {this.state.hide == false && this.props.data.status == 'bargain' && this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 && <View>
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#fff5', margin: 10, borderRadius: 10 }} >
-                <TextInput style={{ width: '45%', height: 48, alignSelf: 'center' }}
+                <TextInput style={{ width: '45%', height: 48, alignSelf: 'center', padding: 10 }}
                   value={this.state.price}
                   textAlign={'center'}
                   onChangeText={(text) => this.setState({ price: text })}
                   placeholder={I18n.t('inputBit')} />
 
-                <TextInput style={{ width: '45%', height: 48, alignSelf: 'center' }}
+                <TextInput style={{ width: '45%', height: 48, alignSelf: 'center', padding: 10 }}
                   value={this.state.price2}
                   textAlign={'center'}
                   keyboardType={'numeric'}
@@ -345,14 +349,14 @@ class Bit2 extends Component {
             {this.state.hide == false && this.props.data && this.props.data.recent_bid && this.props.data.recent_bid == 'user' && this.props.data.status == 'bargain' && <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
               <View style={{ width: '40%', height: 45, marginRight: 10 }}>
                 <RoundedButton
-                  style={{  }}
+                  style={{}}
                   title={I18n.t('sellNow')}
                   onPress={this._onPressSell}
                 />
               </View>
               <View style={{ width: '40%', height: 45, marginLeft: 10 }}>
                 <RoundedButton
-                  style={{  }}
+                  style={{}}
                   title={I18n.t('dontSell')}
                   onPress={this._onPressCancel}
                 />

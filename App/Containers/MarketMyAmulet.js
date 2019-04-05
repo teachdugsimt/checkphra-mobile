@@ -73,6 +73,7 @@ class MarketMyAmulet extends Component {
             tmp_push: null,
             tmp_item: null,
             tmp_delete: null,
+            tmp_profile: null,
         }
     }
 
@@ -90,9 +91,12 @@ class MarketMyAmulet extends Component {
             }
         }
 
+        // if()
+
         if (newProps.data_delete && newProps.data_delete != null) {
             if (newProps.data_delete != prevState.tmp_delete && newProps.request10 == false) {
                 newProps.deleteFromList(newProps.data_delete)
+                newProps.getProfile()
                 return {
                     tmp_delete: newProps.data_delete
                 }
@@ -197,6 +201,7 @@ class MarketMyAmulet extends Component {
     componentWillUnmount() {
         this.props.clearListMyAmulet()
         this.props.clearDataPushAmulet()
+        this.props.getProfile()
         count = 1
     }
 
@@ -220,9 +225,9 @@ class MarketMyAmulet extends Component {
 
     render() {
         I18n.locale = this.props.language
-        // console.log(this.props.data_amulet)
+        console.log(this.props.data_areaAmulet)
 
-        // console.log('***************************************')
+        console.log('***************************************')
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}

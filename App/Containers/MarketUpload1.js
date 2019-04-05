@@ -9,6 +9,7 @@ import LinearGradient from "react-native-linear-gradient";
 import RoundedButton from '../Components/RoundedButton'
 import { Colors, Images } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import QuestionActions from '../Redux/QuestionRedux'
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import * as RNIap from 'react-native-iap';
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
@@ -46,6 +47,8 @@ class MarketUpload1 extends Component {
             type_name1: null,
             type_name2: null,
             zone_name: null,
+
+            tmp_sendAmulet: null,
         }
     }
 
@@ -63,6 +66,16 @@ class MarketUpload1 extends Component {
             tlist2 = newProps.data_typeAmulet2
         }
 
+        // if (newProps.data_sendAmulet && newProps.data_sendAmulet != null) {
+        //     if (prevState.tmp_sendAmulet != newProps.data_sendAmulet) {
+        //         console.log('----------- COME HERE TO UPDATE -----------')
+        //         newProps.editListMyMarket(newProps.data_sendAmulet)  // new redux
+        //         return {
+        //             tmp_sendAmulet: newProps.data_sendAmulet
+        //         }
+        //     }
+        // }
+
         return {
             tmp_type: tlist,
             tmp_type2: tlist2
@@ -70,6 +83,7 @@ class MarketUpload1 extends Component {
     }
 
     componentWillUnmount() {
+        this.props.getProfile()
         check = true
         this.setState({
             type: null, type2: null, tmp_type: null,
@@ -383,16 +397,19 @@ const mapStateToProps = (state) => {
         data_typeAmulet2: state.market.data_typeAmulet2, // store skin amulet 22222222
         request: state.market.request,  // for request to get type amulet
 
-        request1: state.market.request1  // send data amulet
+        request1: state.market.request1,  // send data amulet
+        data_sendAmulet: state.market.data_sendAmulet   // data send amulet to save to server
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        getProfile: () => dispatch(QuestionActions.getProfile()),
         getListTypeAmulet: (geo_id) => dispatch(MarketActions.getListTypeAmulet(geo_id)),
         getListTypeAmulet2: (geo_id) => dispatch(MarketActions.getListTypeAmulet2(geo_id)),
         sendDataAmuletMarket: () => dispatch(MarketActions.sendDataAmuletMarket()),
         setMainData: (data) => dispatch(MarketActions.setMainData(data)),
+        editListMyMarket: (data) => dispatch(MarketActions.editListMyMarket(data)),
     }
 }
 

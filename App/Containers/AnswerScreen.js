@@ -507,9 +507,9 @@ class AnswerScreen extends Component {
           <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 18, alignSelf: 'center', marginTop: 10, color: Colors.brownTextTran }}>{I18n.t('useCoins') + " " + coins + " coins"}</Text>
 
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 
-            {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View
+            {/* {this.props.answer && this.props.answer[0] && this.props.answer[0].share_status == "enabled" && <View
               style={{
                 backgroundColor: "red",
                 height: 45,
@@ -533,7 +533,7 @@ class AnswerScreen extends Component {
                     color: "white",
                     marginLeft: Metrics.baseMargin
                   }} > Share </Text>
-              </TouchableOpacity></View>}
+              </TouchableOpacity></View>} */}
 
             <View
               style={{

@@ -53,7 +53,8 @@ import {
   getTypeAmuletRequest, sendDataAmuletForMarket, getListAreaAmuletRequest,
   sendDataAmuletForMarket2, getProvinceRequest, openStoreRequest, getListMyMarketRequest, getRegionRequest,
   voteAmuletRequest, pushAmuletToMarket, deleteAmuletMarketRequest, getListStoreGroupRequest,
-  getListAmuletStoreRequest, searchRequestMarket, getTypeAmuletRequest2, followGroupAmuletRequest
+  getListAmuletStoreRequest, searchRequestMarket, getTypeAmuletRequest2, followGroupAmuletRequest,
+  requestAllTypeAmulet55, updateReadRequest
 } from './MarketSagas'
 
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
@@ -75,6 +76,7 @@ const showroomApi = API.Showroom.create()
 const webboardApi = API.Webboard.create()
 const question2Api = API.Question2.create()
 const marketApi = API.Market.create()
+const coreReadApi = API.CoreRead.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -85,6 +87,8 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    takeLatest(MarketTypes.UPDATE_READ, updateReadRequest, coreReadApi),
+    takeLatest(MarketTypes.REQUEST_ALL_TYPE_AMULET, requestAllTypeAmulet55, question2Api),
     takeLatest(MarketTypes.FOLLOW_GROUP_AMULET, followGroupAmuletRequest, question2Api),
     takeLatest(MarketTypes.SEARCH_REQUEST, searchRequestMarket, question2Api),
     takeLatest(MarketTypes.GET_LIST_AMULET_STORE, getListAmuletStoreRequest, question2Api),
@@ -164,7 +168,7 @@ export default function* root() {
     takeLatest(ExpertTypes.CANCEL_COIN, cancelPoint, promotionApi),
 
     takeLatest(PromotionTypes.PROMOTION_REQUEST, getPromotion, promotionApi),
-    takeLatest(PromotionTypes.SHARED_ANSWER, sharedAnswer, promotionApi),
+    takeLatest(PromotionTypes.SHARED_ANSWER, sharedAnswer, question2Api),  // old = promotionApi
     takeLatest(PromotionTypes.ADD_BONUS, addBonus, promotionApi),
     takeLatest(PromotionTypes.PUBLISH_REQUEST, getPublish, promotionApi),
     takeLatest(PromotionTypes.GET_LOGIN_PRO, getLoginPromotion, promotionApi),

@@ -238,10 +238,13 @@ class ChatTheirAmulet extends Component {
     componentDidMount() {
         count = 1
         this.props.getMessageTheirAmulet(count)
+        this.props.updateRead(this.props.data_their.type, this.props.data_their.id)
+        this.props.editUpdateRead(this.props.data_their.type, this.props.data_their.id)
         let img = []
         // this.props.data_their.images.map(e => {
         //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
         // })
+
         this.props.data_their.images.map(e => {
             img.push({ url: e })
         })
@@ -415,15 +418,15 @@ class ChatTheirAmulet extends Component {
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
 
-                          <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginLeft: 10 }} onPress={this._likeAmulet}>
+                            <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginLeft: 10 }} onPress={this._likeAmulet}>
                                 <Icon2 name={'thumbs-up'} size={26} />
-                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.75 }}>{this.props.data_their.real+" "+I18n.t('real')}</Text>
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.75 }}>{this.props.data_their.real + " " + I18n.t('real')}</Text>
                             </TouchableOpacity>
 
                             <Icon2 size={22} name={'chevron-up'} style={{ alignSelf: 'center', marginVertical: 2.5 }} />
 
                             <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginRight: 10 }} onPress={this._dislikeAmulet}>
-                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginRight: 7.5, marginTop: 4 }}>{this.props.data_their.fake+" "+I18n.t('fake')}</Text>
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginRight: 7.5, marginTop: 4 }}>{this.props.data_their.fake + " " + I18n.t('fake')}</Text>
                                 <Icon2 name={'thumbs-down'} size={26} />
                             </TouchableOpacity>
 
@@ -432,7 +435,7 @@ class ChatTheirAmulet extends Component {
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center', marginHorizontal: 7.5 }}>{this.props.data_their.amulet_detail.amuletName+" ( "+this.props.data_their.type_name+" )"}</Text>}
+                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center', marginHorizontal: 7.5 }}>{this.props.data_their.amulet_detail.amuletName + " ( " + this.props.data_their.type_name + " )"}</Text>}
                         </View>
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
                     </TouchableOpacity>}
@@ -528,6 +531,9 @@ const mapDispatchToProps = (dispatch) => {
         syncVoteData: (data) => dispatch(ShowRoomActions.syncVoteData(data)),
         syncVoteData2: (data) => dispatch(MarketActions.syncVoteData2(data)),
         editVoteSearch: (data) => dispatch(MarketActions.editVoteSearch(data)),
+        editUpdateRead: (type_id, market_id) => dispatch(MarketActions.editUpdateRead(type_id, market_id)),
+
+        updateRead: (type_id, market_id) => dispatch(MarketActions.updateRead(type_id, market_id)),
     }
 }
 

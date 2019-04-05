@@ -19,6 +19,7 @@ import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import MarketActions from '../Redux/MarketRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
+import QuestionActions from '../Redux/QuestionRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
 // import ImageList2 from './ImageList/ImageList2'
@@ -31,6 +32,7 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
+let check = false
 class MarketHomeList1 extends Component {
     constructor(props) {
         super(props)
@@ -42,8 +44,31 @@ class MarketHomeList1 extends Component {
             img: null,
             mlist: null,
             tlist: null,
+
+            checkTypeIsMyFollow: false,
         }
     }
+
+    static getDerivedStateFromProps(newProps, prevState) {
+        console.log(newProps)
+        console.log(prevState)
+
+        // if (newProps.data_areaAmulet && newProps.data_areaAmulet != null && newProps.data_areaAmulet.length > 0 && prevState.checkTypeIsMyFollow == true) {
+        //     console.log('FUCK YEAH first IF')
+        //     // ถ้า มีลิสพระหมวดนี้ และ เป้นหมวดที่เราติดตามอยู่ ให้ทำ
+        //     if (newProps.lastIDofGroupAmulet && newProps.lastIDofGroupAmulet != null && check == false) {
+        //         console.log('FUCK YOU second IF')
+        //         //ถ้ามีข้อมูลจำลองการติดตาม ให้...
+        //         // **** เซ็ทข้อมูลจำลองให้ 1. last_id = ไอดีบนสุดในลิสพระหมวดนี้ 2. status = true ****
+        //         check = true
+        //         newProps.editRedDotData(newProps.data_areaAmulet[0].id, true, newProps.pro_id)
+        //         // note: data change status to "FALSE" this *correct*
+        //         // console.log(newProps.lastIDofGroupAmulet)
+        //         // console.log('----- HERE DATA LAST... -----')
+        //     }
+        // }
+    }
+
     _renderItem = ({ item, index }) => {
 
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
@@ -83,6 +108,7 @@ class MarketHomeList1 extends Component {
                         </View>
                     </View>
                 </View>
+                {item.is_new == true && <View style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 2.5, right: 2.5 }}></View>}
 
             </TouchableOpacity>
         )
@@ -120,11 +146,19 @@ class MarketHomeList1 extends Component {
     componentDidMount() {
         count = 1
         this.props.getListAreaAmulet(count)
+
+        // if (this.props.profile && this.props.profile.my_follow) {
+        //     if (this.props.profile.my_follow.find((e, i) => e.type_id == this.props.pro_id) != undefined) {  // ถ้าสายนี้มีในประเภทที่เราติดตาม
+        //         this.setState({ checkTypeIsMyFollow: true })
+        //     }
+        // }
     }
 
     componentWillUnmount() {
         count = 1
+        check = false
         this.props.clearListAreaAmulet()
+        this.props.getProfile()
     }
 
     _reload = () => {
@@ -142,6 +176,7 @@ class MarketHomeList1 extends Component {
 
     render() {
         I18n.locale = this.props.language
+        console.log('-------------------------- MARKET HOME LIST1 -------------------------')
         // console.log(this.props.data_amulet)
 
         // console.log('***************************************')
@@ -203,7 +238,7 @@ const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
         user_id: state.auth.user_id,
-        // profile: state.question.profile,
+        profile: state.question.profile,
         // request_profile: state.question.request_profile,
         // data_amulet: state.question.amuletType,   // data request type amulet
         // request_type: state.question.request_type,  // request type
@@ -211,6 +246,10 @@ const mapStateToProps = (state) => {
 
         data_areaAmulet: state.market.data_areaAmulet,  // store area & type amulet zone
         request2: state.market.request2, // request for get list type*area amuletore my message from other person ( Chat Solo )
+
+        pro_id: state.market.pro_id,  // TYPE_ID
+
+        lastIDofGroupAmulet: state.question.data_follow,  // build new array save my_follow
     }
 }
 
@@ -220,9 +259,12 @@ const mapDispatchToProps = (dispatch) => {
         // setRequestType: () => dispatch(QuestionActions.setRequestType()),
         // setAmuletType: (data) => dispatch(ShowRoomActions.setAmuletType(data)),
         // setDetailPhra: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
+        getProfile: () => dispatch(QuestionActions.getProfile()),
         setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
         getListAreaAmulet: (page) => dispatch(MarketActions.getListAreaAmulet(page)),
         clearListAreaAmulet: () => dispatch(MarketActions.clearListAreaAmulet()),
+
+        editRedDotData: (id, status, type_id) => dispatch(QuestionActions.editRedDotData(id, status, type_id)),
         // setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
     }
 }

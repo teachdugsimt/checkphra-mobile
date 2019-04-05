@@ -11,7 +11,7 @@
 *************************************************************/
 
 import { call, put, select } from 'redux-saga/effects'
-import MarketActions, { getListMyMarket } from '../Redux/MarketRedux'
+import MarketActions, { getListMyMarket, requestAllTypeAmulet } from '../Redux/MarketRedux'
 // import { MarketSelectors } from '../Redux/MarketRedux'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
@@ -71,6 +71,23 @@ export function* getTypeAmuletRequest2(api, { geo_id }) {   // here api get grou
     yield put(MarketActions.getListTypeAmuletSuccess2(response.data))
   } else {
     yield put(MarketActions.getListTypeAmuletFailure2())
+  }
+}
+
+export function* requestAllTypeAmulet55(api) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    geo_id: "all"
+  }
+
+  const response = yield call(api.getTypeMarket, data)
+  console.log(response)
+  console.log('============= GET ALL TYPE AMULET ==============')
+  if (response.ok) {
+    yield put(MarketActions.requestAllSuccess(response.data))
+  } else {
+    yield put(MarketActions.requestAllFailure())
   }
 }
 
@@ -362,14 +379,36 @@ export function* followGroupAmuletRequest(api, { type_id }) {
   console.log(response)
   console.log('=============== FOLLOW GROUP AMULET =================')
 
-  if(response.ok){
+  if (response.ok) {
     alert(I18n.t('succ'))
     yield put(MarketActions.followGroupAmuletSuccess(response.data))
   } else {
-    if(response.data.message == 'You must follow at least 3 types of amulets'){
+    if (response.data.message == 'You must follow at least 3 types of amulets') {
       alert(I18n.t("follow3group"))
+    } else {
+      alert(I18n.t('fail'))
     }
     yield put(MarketActions.followGroupAmuletFailure())
+  }
+}
+
+export function* updateReadRequest(api, { type_id, market_id }) {
+  const aut = yield select(auth)
+
+  const data = {
+    user_id: aut.user_id,
+    type_id,
+    market_id
+  }
+  console.log(data)
+
+  const response = yield call(api.checkRead, data)
+  console.log(response)
+  console.log('============= UPDATE READ ==============')
+  if (response.ok) {
+    yield put(MarketActions.updateReadSuccess(response.data))
+  } else {
+    yield put(MarketActions.updateReadFailure())
   }
 }
 

@@ -5,11 +5,11 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
-import RoundedButton from '../Components/RoundedButton'
 import { Colors, Images } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 // import { Card } from 'react-native-elements'
+import { LoginButton, ShareDialog, ShareButton, ShareApi } from 'react-native-fbsdk';
 import GridView from "react-native-super-grid";
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -31,7 +31,15 @@ const deviceWidth = Dimensions.get('window').width
 const deviceHeight = Dimensions.get('window').height
 const FIXED_BAR_WIDTH = 200
 const BAR_SPACE = 5
-let check = false
+let check = true
+let check2 = true
+
+let shareLinkContent = {
+  contentType: 'link',
+  contentUrl: 'https://play.google.com/store/apps/details?id=com.infiltech.checkphra',
+  // contentDescription: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra',
+  quote: 'ฉันได้ทำการตรวจพระโดยแอพ CheckPhra ดูข้อมูลได้ที่ https://www.checkphra.com'
+}
 class HomeScreen extends Component {
 
   constructor(props) {
@@ -46,7 +54,8 @@ class HomeScreen extends Component {
       itemWidth: null,
       barFull: null,
 
-      addBonusSuccess: false
+      addBonusSuccess: false,
+      status: check,
     }
 
     const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
@@ -65,13 +74,13 @@ class HomeScreen extends Component {
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
     console.log(prevState)
-
     console.log('============  HOME PAGE =============')
 
     const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
     // { name: I18n.t('showAmuletReal'), id: 2 },
     { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
-    { name: I18n.t('chat'), id: 3, logo: 'wechat' },]
+    { name: I18n.t('chat'), id: 3, logo: 'wechat' },
+    { name: "Share +20 coins", id: 5, logo: 'facebook-square' }]
 
     if (newProps.language != prevState.language) {
       newProps.getProfile()
@@ -104,6 +113,14 @@ class HomeScreen extends Component {
       // }
     }
 
+    // if (JSON.stringify(newProps.time_shared) < JSON.stringify(date_tmp)) {
+    //   check = true
+    // }
+
+    // if (JSON.stringify(newProps.time_shared) < JSON.stringify(date_tmp) && newProps.status == false) {
+    //   newProps.setStatus(true)
+    // }
+
     //************************ check alert login complete 7 days ******************************/
     if (newProps.data_login != null) {
       if (newProps.data_login.end_date == time11) {   // ถ้าวันที่ 7 คือ วันนี้ ให้เช็คการแสดงการแจ้งเตือนว่าถ้าเป็นจริง ให้แจ้งเตือนนะ
@@ -126,6 +143,8 @@ class HomeScreen extends Component {
     }
     //************************ check alert login complete 7 days ******************************/
 
+
+
     return {
       dataProifle: profile,
       list_user,
@@ -143,7 +162,77 @@ class HomeScreen extends Component {
       this.popupDialog.show()
     } else if (item.id == 4) {
       this.props.navigation.navigate('marketHome')
+    } else if (item.id == 5) {
+      this.shareLinkWithShareDialog()
     }
+  }
+
+  async shareLinkWithShareDialog() {
+    var tmp = this;
+    await ShareDialog.canShow(shareLinkContent).then(
+      function (canShow) {
+        if (canShow) {
+          return ShareDialog.show(shareLinkContent);
+        }
+      }
+    ).then(
+      function (result) {
+        console.log(result)
+        console.log('HERE RESULT')
+        if (result.isCancelled) {
+          alert('Share operation was cancelled');
+        } else {
+          // alert('Share was successful with postId: '
+          //   + result.postId);
+          // alert('Share was successful');
+          // let time = new Date()
+          // console.log(time)
+          // console.log('-------- HERE TIME -----------')
+
+          // if (isShared == false) {
+          //   alert(I18n.t('sharedSuccess'))
+          //   // this.props.sharedAnswer("qid") // send to tum here
+          //   this.props.setTimeShared(new Date())
+          //   isShared = true
+          // } else if (isShared == true) {
+          //   alert(I18n.t('sharedSuccess2'))
+          // }
+
+          // if (this.props.status == true) {  // can't
+          //   console.log('FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
+          //   this.props.setTimeShared(new Date())  // 1.เซ็ทเวลา 2.แก้เสตตัสเป็น false
+          //   this.props.sharedAnswer("qid") // send to tum here
+          //   alert(I18n.t('sharedSuccess'))
+          // } else if (this.props.status == false) {
+          //   console.log('SUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
+          //   alert(I18n.t('sharedSuccess2'))
+          // }
+
+          // if (this.state.status == true) {  // can't
+          //   alert(I18n.t('sharedSuccess'))
+          //   console.log('FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
+          //   // this.props.sharedAnswer("qid") // send to tum here
+          //   this.props.setTimeShared(new Date())  // 1.เซ็ทเวลา 2.แก้เสตตัสเป็น false
+          // } else if (this.state.status == false) {
+          //   console.log('SUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
+          //   alert(I18n.t('sharedSuccess2'))
+          // }
+
+          if (check == true) {  // can & basic method
+            check = false
+            // alert(I18n.t('sharedSuccess'))
+            alert(I18n.t('sharedSuccess2'))
+            // this.props.sharedAnswer("qid") // send to tum here
+            // this.props.setTimeShared(new Date())  // 1.เซ็ทเวลา 2.แก้เสตตัสเป็น false
+          } else if (check == false) {
+            alert(I18n.t('sharedSuccess2'))
+          }
+        }
+      },
+      function (error) {
+        alert('Share failed with error: ' + error.message);
+      }
+    );
   }
 
   _reload = () => {
@@ -155,6 +244,10 @@ class HomeScreen extends Component {
     this.notificationOpenedListener();
     // this.notificationOpen();
   }
+
+  // componentWillMount(){         // ใช้ชั่วคราวเท่านั้น ต้องลบภายหลัง
+  //   this.props.setStatus(true)  // ใช้ชั่วคราวเท่านั้น ต้องลบภายหลัง
+  // }                             // ใช้ชั่วคราวเท่านั้น ต้องลบภายหลัง
 
   componentDidMount() {
     this.props.checkVersion()  // check new version end method in sagas
@@ -288,10 +381,6 @@ class HomeScreen extends Component {
     });
   }
 
-  componentWillUnmount() {
-    check = false
-  }
-
   _showPublish = (item) => {
     this.setState({ tmp_publish: item })
     this.popupDialog2.show()
@@ -304,6 +393,13 @@ class HomeScreen extends Component {
   render() {
     I18n.locale = this.props.language
     console.log(this.state.kawsod)
+    console.log(this.props.data_shared)
+    // let time = "2019-04-05 22:35:16"  // can check
+    // let time2 = "2019-04-05 22:35:56"
+    // console.log(time < time2)
+    // let time = JSON.stringify(new Date())                        //can check
+    // let time2 = "Thu Apr 11 2019 21:10:39 GMT+0700 (เวลาอินโดจีน)" //can check
+    // console.log(time > time2)                                    //can check
     console.log('--------------- KAWSOD HOME PAGE --------------')
 
     // let barArray = []
@@ -399,7 +495,14 @@ class HomeScreen extends Component {
           renderItem={item => {
             return (
 
-              <TouchableOpacity onPress={() => this._pressList(item)} style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <TouchableOpacity onPress={() => {
+                if (item.id == 5) {
+                  this._pressList(item)
+                  this.props.sharedAnswer("qid")
+                } else {
+                  this._pressList(item)
+                }
+              }} style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
                   <Icon2 name={item.logo} size={40} />
                   <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
@@ -495,7 +598,12 @@ const mapStateToProps = (state) => {
     request_promotionlogin: state.promotion.request3,  // request promotion login
 
     modal: state.auth.modal,   // modal alert login 7 days success
-    addBonusSuccess: state.promotion.addBonus  // data add bonus
+    addBonusSuccess: state.promotion.addBonus,  // data add bonus
+
+    time_shared: state.promotion.time_shared, // time shared 
+    status: state.promotion.status, // shared status
+
+    data_shared: state.promotion.data_shared,  // data after shared
   }
 }
 
@@ -511,7 +619,11 @@ const mapDispatchToProps = (dispatch) => {
     saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
     checkVersion: () => dispatch(VersionActions.getVersion()),
     addBonus: () => dispatch(PromotionActions.addBonus()),
-    getVersion: () => dispatch(VersionActions.getVersion())
+    getVersion: () => dispatch(VersionActions.getVersion()),
+
+    sharedAnswer: (qid) => dispatch(PromotionActions.sharedAnswer(qid)),
+    setTimeShared: (time) => dispatch(PromotionActions.setTimeShared(time)),
+    setStatus: (status) => dispatch(PromotionActions.setStatus(status)),
 
   }
 }

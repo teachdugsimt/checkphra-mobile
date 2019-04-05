@@ -394,7 +394,7 @@ const mapStateToProps = (state) => {
         request1: state.market.request1,  // send data amulet 
         tmp_upload: state.market.tmp_upload,  //  store tmp screen before this page
 
-        data_sendAmulet2: state.market.data_sendAmulet2,  // data send amulet to market
+        data_sendAmulet2: state.market.data_sendAmulet2,  // data send amulet to market to save to server
     }
 }
 

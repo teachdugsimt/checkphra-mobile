@@ -100,7 +100,17 @@ const { Types, Creators } = createActions({
   followGroupAmuletSuccess: ['data'],
   followGroupAmuletFailure: null,
 
+  requestAllTypeAmulet: null,
+  requestAllSuccess: ['data'],
+  requestAllFailure: null,
+
   setDataStore: ['store_name', 'province', 'contact'],
+
+  updateRead: ['type_id', 'market_id'],
+  updateReadSuccess: ['data'],
+  updateReadFailure: null,
+
+  editListMyMarket: ['data'],
 
   clearProvinceId: null,
   clearListSearch: null,
@@ -113,6 +123,10 @@ const { Types, Creators } = createActions({
   clearDataAreaAmulet: null,
   clearDataOpen: null,
   clearDataPushAmulet: null,
+  clearDataFollow: null,
+
+  editUpdateRead: ['type_id', 'market_id'],
+
 })
 
 export const MarketTypes = Types
@@ -150,6 +164,7 @@ export const INITIAL_STATE = Immutable({
   request3: null, // request for send data detail phra to tum
 
   data_areaAmulet: null,  // store area & type amulet data
+  data_areaAmulet_store: null, // store for red dot
   request2: null, // request for get list type*area amulet
 
   zone: null,  // store zone id
@@ -190,6 +205,12 @@ export const INITIAL_STATE = Immutable({
   request14: null, // for folow group amulet 
   data_follow: null, // store follow group amulet
 
+  request15: null,  // for request all type amulet
+  data_alltype: null,  // store all type amulet
+
+  request16: null,  // for  update read (Red dot)
+  data_read: null,  // store update read (red dot data)
+
   FOLLOWER: null,  // check list my follow
 })
 
@@ -202,6 +223,40 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const editListMyMarket = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_mylist))
+  if (tmp && tmp != null) {
+    // tmp.map((e, i) => {
+    tmp.splice(0, 0, data)
+    // })
+  }
+  // console.log(tmp)
+  // console.log('+++++++++++++ TMP AFTER UPDATE +++++++++++++++')
+  return state.merge({ data_mylist: tmp })
+}
+
+export const editUpdateRead = (state, { type_id, market_id }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_areaAmulet))
+  if (tmp && tmp != null) {
+    tmp.forEach((e, i) => {
+      if (e.type == type_id && e.id == market_id) {
+        e.is_new = false
+      }
+    })
+  }
+  return state.merge({ data_areaAmulet: tmp })
+}
+
+export const clearDataFollow = state => state.merge({ data_follow: null })
+
+export const updateRead = state => state.merge({ request16: true })
+export const updateReadSuccess = (state, { data }) => state.merge({ data_read: data })
+export const updateReadFailure = state => state.merge({ request16: false })
+
+export const requestAllTypeAmulet = (state) => state.merge({ request15: true })
+export const requestAllSuccess = (state, { data }) => state.merge({ request15: false, data_alltype: data })
+export const requestAllFailure = state => state.merge({ request15: false })
 
 export const followGroupAmulet = state => state.merge({ request14: true })
 export const followGroupAmuletSuccess = (state, { data }) => state.merge({ request14: false, data_follow: data })
@@ -438,7 +493,7 @@ export const getListAreaAmuletSuccess = (state, { data }) => {
     return b.id - a.id;
   })
 
-  return state.merge({ data_areaAmulet: tmp, request2: false })
+  return state.merge({ data_areaAmulet: tmp, data_areaAmulet_store: tmp[0] ? tmp[0].id : null, request2: false })
 }
 
 export const sendDataAmuletMarket = state => state.merge({ request1: true })
@@ -484,6 +539,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   // [Types.MARKET_REQUEST]: request,
   // [Types.MARKET_SUCCESS]: success,
   // [Types.MARKET_FAILURE]: failure,
+  [Types.CLEAR_DATA_FOLLOW]: clearDataFollow,
   [Types.CLEAR_DATA_OPEN]: clearDataOpen,
   [Types.SET_DATA_STORE]: setDataStore,
   [Types.CLEAR_SHOP_GROUP]: clearShopGroup,
@@ -503,6 +559,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_ZONE_SKIN]: setZoneSkin,
   [Types.SET_SKIN_AMULET]: setSkinAmulet,
   [Types.SET_TMP_DATA_UPLOAD]: setTmpDataUpload,
+
+  [Types.EDIT_UPDATE_READ]: editUpdateRead,
 
   [Types.EDIT_VOTE_SEARCH]: editVoteSearch,
   [Types.CLEAR_LIST_SEARCH]: clearListSearch,
@@ -576,6 +634,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.VOTE_AMULET_FAILURE]: voteAmuletFailure,
   [Types.CLEAR_DATA_VOTE]: clearDataVote,
 
+  [Types.REQUEST_ALL_TYPE_AMULET]: requestAllTypeAmulet,
+  [Types.REQUEST_ALL_SUCCESS]: requestAllSuccess,
+  [Types.REQUEST_ALL_FAILURE]: requestAllFailure,
+
   [Types.CLEAR_PROVINCE_ID]: clearProvinceId,
 
   [Types.CLEAR_DATA_PUSH_AMULET]: clearDataPushAmulet,
@@ -583,4 +645,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.FOLLOW_GROUP_AMULET]: followGroupAmulet,
   [Types.FOLLOW_GROUP_AMULET_SUCCESS]: followGroupAmuletSuccess,
   [Types.FOLLOW_GROUP_AMULET_FAILURE]: followGroupAmuletFailure,
+
+  [Types.UPDATE_READ]: updateRead,
+  [Types.UPDATE_READ_SUCCESS]: updateReadSuccess,
+  [Types.UPDATE_READ_FAILURE]: updateReadFailure,
+
+  [Types.EDIT_LIST_MY_MARKET]: editListMyMarket,
 })

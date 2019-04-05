@@ -52,6 +52,8 @@ export default StyleSheet.create({
     left: width / 3.3,
     zIndex: 2,
     flexDirection: 'row',
+    paddingTop: 5,
+    paddingRight: 5
   },
   touchPin2: {
     position: 'absolute',
@@ -59,6 +61,8 @@ export default StyleSheet.create({
     right: width / 19.00,
     zIndex: 2,
     flexDirection: 'row',
+    paddingTop: 5,
+    paddingRight: 5
   },
   touchPin3: {
     position: 'absolute',
@@ -66,6 +70,8 @@ export default StyleSheet.create({
     left: width / 2.99,
     zIndex: 2,
     flexDirection: 'row',
+    paddingTop: 5,
+    paddingRight: 5
   },
   touchPin4: {
     position: 'absolute',
@@ -73,6 +79,8 @@ export default StyleSheet.create({
     right: width / 3.25,
     zIndex: 2,
     flexDirection: 'row',
+    paddingTop: 5,
+    paddingRight: 5
   },
   touchPin5: {
     position: 'absolute',
@@ -80,6 +88,8 @@ export default StyleSheet.create({
     left: width / 3.58,
     zIndex: 2,
     flexDirection: 'row',
+    paddingTop: 5,
+    paddingRight: 5
   },
   iconView: {
     position: 'absolute',

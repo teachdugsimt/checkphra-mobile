@@ -90,8 +90,13 @@ const create = (baseURL = b) => {
   const search = (data) => api.post('market/search', data)
   const followRoom = (data) => api.post('market/follow-room', data)
 
+  const sharedAnswer = (data) => api.post('share-history/add', data)
+  
+
   return {
     // a list of the API functions from step 2
+    sharedAnswer,
+
     getAmuletType,
     getQuestionType,
     editGroupQuestion,

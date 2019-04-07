@@ -72,6 +72,7 @@ class Webboard2 extends Component {
         count = 1
         check = true
         this.setState({ tmp_comment: this.props.data_comment })
+        this.props.editRedDotData(this.props.data_webboard)
     }
 
     _reload = () => {
@@ -137,6 +138,11 @@ class Webboard2 extends Component {
         this.props.like(item.id, 'comment', 'dislike')
     }
 
+    tagname = (item) => {
+        this.popupDialog.show()
+        this.setState({ comment: "@" + item + " " })
+    }
+
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
         if (index == 0) {
@@ -174,7 +180,9 @@ class Webboard2 extends Component {
                     <View style={styles.commentContainer} onPress={() => this._goToBoard(item)}>
                         <View style={styles.commentContainer2}>
                             <View style={styles.commentTopRow}>
-                                <Text style={styles.nameText}>{item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                                <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
+                                    <Text style={styles.nameText}>{item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                                </TouchableOpacity>
                                 <Text style={styles.dateText} >{date}</Text>
                             </View>
 
@@ -201,7 +209,9 @@ class Webboard2 extends Component {
                 <View style={styles.commentContainer} onPress={() => this._goToBoard(item)}>
                     <View style={styles.commentContainer2}>
                         <View style={styles.commentTopRow}>
-                            <Text style={styles.nameText}>{item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                            <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
+                                <Text style={styles.nameText}>{item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                            </TouchableOpacity>
                             <Text style={styles.dateText} >{date}</Text>
                         </View>
 
@@ -242,8 +252,9 @@ class Webboard2 extends Component {
 
     render() {
         I18n.locale = this.props.language
+        // console.log(this.props.data_comment)
+        console.log(this.props.data_webboard)
         console.log('--------------- WEBBOARD2 Comment Data ----------------')
-        console.log(this.props.data_comment)
         // const data = [{ name: 'Olive oil', topic: "แฉพระชื่อดัง", detail: "เมื่อวันที่ 16 มกราคม 2562 เวลาประมาณ 16.24น. ได้มีการค้นพบพระชื่อดังจาก หลุมลึกขนาดใหญ่ บริเวณไซต์ก่อสร้าง เบื้องต้นคาดว่าน่าจะเป็นพระสมเด็จโต จากซากวัดในสมัยก่อน", comment: [{ com: '5555', like: 12 }, { com: '666', like: 13 }], date: '16/01/2562' },
         // { name: 'Doggy', topic: "New Amulet SOMDEJ", detail: "เมื่อวันที่ 16 มกราคม 2562 เวลาประมาณ 16.24น. ได้มีการค้นพบพระชื่อดังจาก หลุมลึกขนาดใหญ่ บริเวณไซต์ก่อสร้าง เบื้องต้นคาดว่าน่าจะเป็นพระสมเด็จโต จากซากวัดในสมัยก่อน", comment: [{ com: 'somdej to', like: 1229 }, { com: 'Sathu', like: 13000 }], date: '16/01/2562' }]
         return (
@@ -369,6 +380,8 @@ const mapDispatchToProps = (dispatch) => {
         editLikeData: (data) => dispatch(WebboardActions.editLikeData(data)),
         editLikeData2: (data) => dispatch(WebboardActions.editLikeData2(data)),
         getListAll: (page) => dispatch(WebboardActions.getListAll(page)),
+
+        editRedDotData: (data) => dispatch(WebboardActions.editRedDotData(data)),
     }
 }
 

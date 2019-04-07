@@ -252,8 +252,10 @@ export function* voteAmuletRequest(api, { id, status }) {
   console.log(response)
   console.log('============= VOTE AMULET ==============')
   if (response.ok) {
+    alert(I18n.t('succ'))
     yield put(MarketActions.voteAmuletSuccess(response.data))
   } else {
+    alert(I18n.t('fail'))
     yield put(MarketActions.voteAmuletFailure())
   }
 }

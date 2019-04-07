@@ -83,7 +83,6 @@ class ChatTheirAmuletOwner extends Component {
             if (prevState.tmp_vote != newProps.data_vote && newProps.data_their.id == newProps.data_vote.id && newProps.data_contactOwner && newProps.data_contactOwner != null) {
                 console.log('--------------Come From List User contact to Owner-----------')
                 newProps.setTheirAmuletData(newProps.data_vote)
-                // newProps.editVoteData(newProps.data_vote)
                 newProps.syncVoteData(newProps.data_vote)
                 newProps.clearDataVote()
                 return {
@@ -241,7 +240,18 @@ class ChatTheirAmuletOwner extends Component {
 
     componentDidMount() {
         count = 1
-        this.props.getMessageTheirAmulet(count)
+        if (this.props.data_contactOwner && this.props.data_contactOwner != null && this.props.data_their) {
+            // มีคนทักมาสนทนา 1-1 กับพระของเราเอง ต้องโหลดข้อมูล จาก API ใหม่ด้วยนะครับ
+            // console.log(this.props.data_their)
+            console.log('--------- 111111111111 ----------')
+            this.props.getMessageOtherContactMyAmulet(count)
+            // ต้องอัพเดทการอ่าน และแก้ is_new ที่นี่ ด้วย
+
+            this.props.updateIsNewUserContactOwner(this.props.discuss)
+        } else {
+            console.log('--------- 22222222222 ----------')
+            this.props.getMessageTheirAmulet(count)
+        }
         let img = []
         // this.props.data_their.images.map(e => {
         //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
@@ -250,6 +260,7 @@ class ChatTheirAmuletOwner extends Component {
             img.push({ url: e })
         })
         this.setState({ img })
+
     }
 
     componentWillUnmount() {
@@ -263,7 +274,11 @@ class ChatTheirAmuletOwner extends Component {
         // this.props.getMessageTheirAmulet(count)
         if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
             count++
-            this.props.getMessageTheirAmulet(count)
+            if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
+                this.props.getMessageOtherContactMyAmulet(count)
+            } else {
+                this.props.getMessageTheirAmulet(count)
+            }
         }
     }
 
@@ -271,7 +286,11 @@ class ChatTheirAmuletOwner extends Component {
         console.log('END LIST AGAIN')
         if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
             count++
-            this.props.getMessageTheirAmulet(count)
+            if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
+                this.props.getMessageOtherContactMyAmulet(count)
+            } else {
+                this.props.getMessageTheirAmulet(count)
+            }
         }
     }
 
@@ -492,6 +511,8 @@ const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
         user_id: state.auth.user_id,
+        profile: state.auth.profile,  // have "user id" and none "store"
+        profile1: state.question.profile,  // have "store" and "user id" in store, ,
 
         data_their: state.showroom.data_their,  // data set to this page (ChatTheirAmulet)
 
@@ -511,13 +532,16 @@ const mapStateToProps = (state) => {
         data_amuletstore: state.market.data_amuletstore,  // for store data list amulet in each store
 
         data_answer: state.market.data_search,  // for store search data  13/02/2019 update comment
+
+        discuss: state.showroom.discuss_id,  // discuss id
+        // data_myMessageFromOther: state.showroom.data_listOwner,  // data for store my message from other person ( Chat Solo )
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         sendMessageTheirAmulet: (message) => dispatch(ShowRoomActions.sendMessageOwner(message)),  // send message
-        getMessageTheirAmulet: (page) => dispatch(ShowRoomActions.getMessageOwner(page)), // get message
+        getMessageTheirAmulet: (page) => dispatch(ShowRoomActions.getMessageOwner(page)), // get message  main REQUEST
         clearTheirAmuletMessage: () => dispatch(ShowRoomActions.clearOwnerAmuletMessage()), // clear get&send data
         editTheirAmuletMessage: (data) => dispatch(ShowRoomActions.editOwnerAmuletMessage(data)),
 
@@ -529,6 +553,10 @@ const mapDispatchToProps = (dispatch) => {
         syncVoteData: (data) => dispatch(ShowRoomActions.syncVoteData(data)),
         syncVoteData2: (data) => dispatch(MarketActions.syncVoteData2(data)),
         editVoteSearch: (data) => dispatch(MarketActions.editVoteSearch(data)),
+        updateIsNewUserContactOwner: (id) => dispatch(ShowRoomActions.updateIsNewUserContactOwner(id)),
+
+        // สำหรับ มีคนอื่น ทักมาคุย 1-1 กับพระของเรา เท่านั้น !!!!
+        getMessageOtherContactMyAmulet: (page) => dispatch(ShowRoomActions.getMessageOtherContactMyAmulet(page)),
     }
 }
 

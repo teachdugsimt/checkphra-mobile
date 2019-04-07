@@ -323,6 +323,8 @@ export default {
   amuletSouth: 'Amulet in South',
   normalCate: 'Normal Categories',
   follow3group: 'You must follow at least 3 types of amulets!!',
+  banUser: 'Ban',
+  sureBan: "Do you want to ban this amulet ?",
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

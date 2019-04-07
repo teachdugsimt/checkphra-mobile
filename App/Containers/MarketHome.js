@@ -281,7 +281,7 @@ class MarketHome extends Component {
                         style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: Colors.milk, borderRadius: 12, padding: 10, width: width / 2.75, position: 'absolute', right: 10, bottom: 100, zIndex: 2 }} onPress={() => this.popupDialog4.show()}>
+                <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: Colors.milk, borderRadius: 12, padding: 10, width: width / 2.75, position: 'absolute', right: 10, bottom: this.props.profile && this.props.profile.role != "admin" ? 100 : 12, zIndex: 2 }} onPress={() => this.popupDialog4.show()}>
                     <Icon2 name={"th"} size={28} />
                     <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 16, marginLeft: 7.5 }}>{I18n.t('normalCate')}</Text>
                     {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == null).find(b => b.is_new == true) != undefined && <View
@@ -290,11 +290,11 @@ class MarketHome extends Component {
 
 
                 {/* *******************OPEN STORE ZONE******************* */}
-                <TouchableOpacity style={{ width: (width / 3.7), height: (height / 8.5), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
+                {this.props.profile && this.props.profile.role != "admin" && <TouchableOpacity style={{ width: (width / 3.7), height: (height / 8.5), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
                     <Image source={Images.chat} style={{ width: width / 3.7, height: height / 8.5 }} />
                     <Text style={{ position: 'absolute', bottom: height / 14, right: 34 }}>Go To.</Text>
                     <Text style={{ position: 'absolute', bottom: (height / 14) - 20, right: 22 }}>My store !!</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
                 {/* *******************OPEN STORE ZONE******************* */}
 
 
@@ -349,10 +349,14 @@ class MarketHome extends Component {
                             let icon_use
                             let color_use
                             if (this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow != null) {
-                                icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "plus-square" : "window-close"
+                                // icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "plus-square" : "window-close"
+                                // color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
+                                icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "ติดตาม" : "ยกเลิก"
                                 color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
                             } else {
-                                icon_use = "plus-square"
+                                // icon_use = "plus-square"
+                                // color_use = "green"
+                                icon_use = "ติดตาม"
                                 color_use = "green"
                             }
                             if (i != 0) {
@@ -363,11 +367,12 @@ class MarketHome extends Component {
                                         this.props.navigation.navigate('marketListArea1')
                                         this.popupDialog2.dismiss()
                                     }} >
-                                        <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{e.name}</Text>
+                                        <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText, marginTop: 10 }}>{e.name}</Text>
                                         <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
 
                                         <TouchableOpacity style={{ position: 'absolute', left: 0, top: -1.5 }} onPress={() => this.props.followGroupAmulet(e.id)}>
-                                            <Icon2 name={icon_use} size={20} color={color_use} />
+                                            {/* <Icon2 name={icon_use} size={20} color={color_use} /> */}
+                                            <Text style={{ borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, backgroundColor: color_use, color: "white", fontSize: 12 }}>{icon_use}</Text>
                                         </TouchableOpacity>
                                         {this.props.profile && this.props.profile.my_follow != null && this.props.profile.my_follow.find(b => b.type_id == e.id && b.is_new == true) != undefined && <View
                                             style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: -0.25, right: 0 }}></View>}
@@ -396,10 +401,14 @@ class MarketHome extends Component {
                             let icon_use
                             let color_use
                             if (this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow != null) {
-                                icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "plus-square" : "window-close"
+                                // icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "plus-square" : "window-close"
+                                // color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
+                                icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "ติดตาม" : "ยกเลิก"
                                 color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
                             } else {
-                                icon_use = "plus-square"
+                                // icon_use = "plus-square"
+                                // color_use = "green"
+                                icon_use = "ติดตาม"
                                 color_use = "green"
                             }
                             if (e.parent_id == null) {
@@ -416,12 +425,13 @@ class MarketHome extends Component {
                                         this.props.navigation.navigate('marketListArea1')
                                         this.popupDialog4.dismiss()
                                     }}>
-                                        <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                        <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold', marginTop: 10 }}>{e.name}</Text>
                                         <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
                                         <TouchableOpacity style={{ position: 'absolute', left: 0, top: -1.5 }} onPress={() => {
                                             this.props.followGroupAmulet(e.id)
                                         }}>
-                                            <Icon2 name={icon_use} size={20} color={color_use} />
+                                            {/* <Icon2 name={icon_use} size={20} color={color_use} /> */}
+                                            <Text style={{ borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, backgroundColor: color_use, color: "white", fontSize: 12 }}>{icon_use}</Text>
                                         </TouchableOpacity>
                                         {this.props.profile && this.props.profile.my_follow != null && this.props.profile.my_follow.find(b => b.type_id == e.id && b.is_new == true) != undefined && <View
                                             style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: -0.25, right: 0 }}></View>}
@@ -450,33 +460,40 @@ class MarketHome extends Component {
 
                     <ScrollView style={{ flex: 1 }}>
                         {this.state.slist3 && this.state.slist3.map((e, i) => {
+                            // let icon_use
+                            // let color_use
                             let icon_use
                             let color_use
                             if (this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow != null) {
-                                icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "plus-square" : "window-close"
+                                // icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "plus-square" : "window-close"
+                                // color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
+                                icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "ติดตาม" : "ยกเลิก"
                                 color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
                             } else {
-                                icon_use = "plus-square"
+                                // icon_use = "plus-square"
+                                // color_use = "green"
+                                icon_use = "ติดตาม"
                                 color_use = "green"
                             }
                             if ((e.parent_id == null || e.parent_id == 1) || (e.parent_id == 2 || e.parent_id == 3) || (e.parent_id == 4 || e.parent_id == 5)) {
 
                             } else {
                                 return (
-                                    <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                    <View style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
                                         this.setState({ id_province: e.id })
                                         this.props.setZoneSkin(this.state.area, e.id)  // zone & province => zone & id type amulet
                                         this.props.navigation.navigate('marketListArea1')
                                         this.popupDialog4.dismiss()
                                     }}>
-                                        <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                        <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold', marginTop: 10 }}>{e.name}</Text>
                                         <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
-                                        <TouchableOpacity style={{ position: 'absolute', left: 0, top: -1.5 }} onPress={() => {
+                                        <TouchableOpacity style={{ position: 'absolute', right: 0, top: -1.5 }} onPress={() => {
                                             this.props.followGroupAmulet(e.id)
                                         }}>
-                                            <Icon2 name={icon_use} size={20} color={color_use} />
+                                            {/* <Icon2 name={icon_use} size={20} color={color_use} /> */}
+                                            <Text style={{ borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, backgroundColor: color_use, color: "white", fontSize: 12 }}>{icon_use}</Text>
                                         </TouchableOpacity>
-                                    </TouchableOpacity>
+                                    </View>
                                 )
                             }
                         })}

@@ -47,6 +47,7 @@ import {
   getListAmulet, sendMessageTheirAmulet55, getMessageFromTheirAmulet, sendMessageToOwner,
   getMessageFromOwner, getMyRealAmulet, getMyMessageFromOtherPerson, getListOwnerContactWithUser,
   getListAllBoard555, getListMyBoard555, getCommentRequest, addPostRequest, addCommentRequest, addLike,
+  getMessageOtherContactMyAmuletRequest,
 } from './ShowRoomSagas'
 
 import {
@@ -77,6 +78,7 @@ const webboardApi = API.Webboard.create()
 const question2Api = API.Question2.create()
 const marketApi = API.Market.create()
 const coreReadApi = API.CoreRead.create()
+const coreDiscussApi = API.CoreDiscuss.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -87,6 +89,8 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    takeLatest(ShowRoomTypes.GET_MESSAGE_OTHER_CONTACT_MY_AMULET, getMessageOtherContactMyAmuletRequest, coreDiscussApi),
+
     takeLatest(MarketTypes.UPDATE_READ, updateReadRequest, coreReadApi),
     takeLatest(MarketTypes.REQUEST_ALL_TYPE_AMULET, requestAllTypeAmulet55, question2Api),
     takeLatest(MarketTypes.FOLLOW_GROUP_AMULET, followGroupAmuletRequest, question2Api),

@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,
-    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Modal, Linking
+    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Modal, Linking, Alert
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -403,7 +403,17 @@ class ChatTheirAmulet extends Component {
                                     <Image style={{ height: 85, width: 85, borderRadius: 15 }} source={{ uri: this.props.data_their.images[0] }} />
                                 </TouchableOpacity>
                             </View>
-
+                            {this.props.profile && this.props.profile.role == "admin" && this.props.data_their.is_fake == false && <TouchableOpacity style={{ position: 'absolute', top: 5, left: 2.5 }} onPress={() => {
+                                Alert.alert(
+                                    'Check Phra',
+                                    I18n.t('sureBan'),
+                                    [
+                                        { text: I18n.t('ok'), onPress: this._dislikeAmulet },
+                                        { text: I18n.t('cancel'), }
+                                    ]
+                                )
+                            }}><Text style={{ fontSize: 16, color: "white", backgroundColor: 'red', borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, }}>Ban</Text></TouchableOpacity>}
+                            {this.props.data_their.is_fake == true && <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 30, position: 'absolute', top: 30, left: 20, transform: [{ rotate: '-38deg' }] }}>{I18n.t('fakePhra')}</Text>}
                             <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
                                 {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('amuletName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.amuletName}</Text></Text>}
                                 {this.props.data_their.amulet_detail.temple && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('templeName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.temple}</Text></Text>}
@@ -412,7 +422,7 @@ class ChatTheirAmulet extends Component {
                                 {this.props.data_their.amulet_detail.contact && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('contact') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.contact}</Text></Text>}
 
                             </View>
-                            {this.props.user_id != this.props.data_their.user_id && <TouchableOpacity onPress={this._chatOwnerAmulet} style={{ position: 'absolute', top: 0.2, right: 5 }}>
+                            {this.props.user_id != this.props.data_their.user_id && this.props.profile && this.props.profile.role != "admin" && <TouchableOpacity onPress={this._chatOwnerAmulet} style={{ position: 'absolute', top: 0.2, right: 5 }}>
                                 <Icon2 name={'wechat'} color={Colors.bloodOrange} size={26} /></TouchableOpacity>}
                         </View>
 
@@ -491,6 +501,7 @@ const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
         user_id: state.auth.user_id,
+        profile: state.question.profile,
 
         data_their: state.showroom.data_their,  // data set to this page (ChatTheirAmulet)
 

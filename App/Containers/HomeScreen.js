@@ -79,7 +79,7 @@ class HomeScreen extends Component {
     const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
     // { name: I18n.t('showAmuletReal'), id: 2 },
     { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
-    { name: I18n.t('chat'), id: 3, logo: 'wechat' },
+    { name: I18n.t('commu'), id: 3, logo: 'wechat' },
     { name: "Share +20 coins", id: 5, logo: 'facebook-square' }]
 
     if (newProps.language != prevState.language) {
@@ -574,11 +574,11 @@ class HomeScreen extends Component {
 
         </PopupDialog>
 
-        <Spinner
+        {/* <Spinner
           visible={((this.props.request_profile || this.props.request_promotionlogin))}
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
-        />
+        /> */}
       </LinearGradient>
     )
   }

@@ -44,6 +44,8 @@ class UserContactOwner extends Component {
             img: null,
             mlist: null,
             tlist: null,
+
+            tmp_dataMyMessageFromOther: null,
         }
     }
 
@@ -51,6 +53,13 @@ class UserContactOwner extends Component {
         console.log(newProps)
         console.log(prevState)
         console.log('-------------- USER CONTACT OWNER ----------------')
+        if (newProps.data_myMessageFromOther && newProps.data_myMessageFromOther != null) {
+            if (prevState.tmp_dataMyMessageFromOther != newProps.data_myMessageFromOther) {
+                return {
+                    tmp_dataMyMessageFromOther: newProps.data_myMessageFromOther
+                }
+            }
+        }
 
         return {
 
@@ -58,9 +67,7 @@ class UserContactOwner extends Component {
     }
 
     _renderItem = ({ item, index }) => {
-
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
-
         if (item.uid_owner != this.props.user_id) {
             count_render++
             return (
@@ -73,9 +80,9 @@ class UserContactOwner extends Component {
                         {!item.profile && <Image source={Images.user} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
 
                         <View style={{ justifyContent: 'center' }}>
-                            {item.profile && item.amulet && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.profile.fullname}{" ( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
-                            {!item.profile && item.amulet && <Text style={{ color: Colors.bloodOrange, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>Chat All {"( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
-                            {item.amulet && <Text style={{ color: Colors.brownTextTran, fontSize: 14 }}>{date}{" ( id: " + item.amulet.id + " )"}</Text>}
+                            {item.profile && item.amulet && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 14 }}>{item.profile.fullname ? item.profile.fullname : item.profile.email ? item.profile.email : "Check Phra User"}{" ( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
+                            {!item.profile && item.amulet && <Text style={{ color: Colors.bloodOrange, fontFamily: 'Prompt-SemiBold', fontSize: 14 }}>{"Chat All " + "( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
+                            {/* {item.amulet && <Text style={{ color: Colors.brownTextTran, fontSize: 12 }}>{date}{" ( id: " + item.amulet.id + " )"}</Text>} */}
 
                             <View style={{ flexDirection: 'row' }}>
                                 {item.amulet != null && item.amulet.images_thumbs.map((e, i) => {
@@ -90,8 +97,44 @@ class UserContactOwner extends Component {
                         </View>
                     </View>
 
-                    <Icon2 name={'chevron-right'} size={30} style={{ alignSelf: 'center', marginRight: 15 }} />
+                    <Icon2 name={'chevron-right'} size={30} style={{ alignSelf: 'center', position: 'absolute', right: 10 }} />
+                    {item.is_new == true && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
+                </TouchableOpacity>
+            )
+        }
+        else {  // add 07/04/2562  เพื่อให้เห็น รายการพระ ที่ "คนอื่นทักมาคุย 1-1 กับพระของเรา"
+            count_render++
+            return (
+                <TouchableOpacity style={{ height: 110, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
+                    onPress={() => this._goToChat(item)}>
+                    <View style={{ flexDirection: 'row' }}>
+                        {item.profile && item.profile.facebook_id && <Image source={{ uri: 'https://graph.facebook.com/' + item.profile.facebook_id + '/picture?width=500&height=500' }} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+                        {item.profile && item.profile.facebook_id == null && item.profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.profile.image }} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+                        {item.profile && item.profile.facebook_id == null && !item.profile.image && <Image source={Images.user} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+                        {!item.profile && <Image source={Images.user} style={{ width: 80, height: 80, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
 
+                        <View style={{ justifyContent: 'center' }}>
+                            {item.profile && item.amulet && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 14 }}>{item.profile.fullname ? item.profile.fullname : item.profile.email ? item.profile.email : "Check Phra User"}{" ( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
+                            {!item.profile && item.amulet && <Text style={{ color: Colors.bloodOrange, fontFamily: 'Prompt-SemiBold', fontSize: 14 }}>{"Chat All " + "( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
+                            {/* {item.amulet && <Text style={{ color: Colors.brownTextTran, fontSize: 12 }}>{date}{" ( id: " + item.amulet.id + " )"}</Text>} */}
+
+                            <View style={{ flexDirection: 'row' }}>
+                                {item.amulet != null && item.amulet.images_thumbs.map((e, i) => {
+                                    return (
+                                        <TouchableOpacity style={{ marginRight: 1.5 }} onPress={() => this._showPicture(item.amulet.images, i)}>
+                                            <Image source={{ uri: e }} style={{ width: 27.5, height: 27.5, borderRadius: 8 }} />
+                                        </TouchableOpacity>
+                                    )
+                                })}
+                            </View>
+
+                        </View>
+                    </View>
+
+                    <Icon2 name={'chevron-right'} size={30} style={{ alignSelf: 'center', position: 'absolute', right: 10 }} />
+                    {item.is_new == true && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
             )
         }
@@ -213,6 +256,11 @@ class UserContactOwner extends Component {
     _goToChat = (item) => {
         if (item.type == 1) {   // CHAT PRIVATE
             this.props.setDetailPhra(item.amulet)
+            this.props.setDisscuss(item.id)
+            // this.props.getMessageOtherContactMyAmulet(count)
+            // // ต้องอัพเดทการอ่าน และแก้ is_new ที่นี่ ด้วย
+
+            // this.props.updateIsNewUserContactOwner(item.id)
             this.props.navigation.navigate("chatTheirAmuletOwner")
         } else if (item.type == 2) {  // CHAT ALL
             this.props.setDetailPhra(item.amulet)
@@ -246,8 +294,8 @@ class UserContactOwner extends Component {
     render() {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
-
-        // console.log('***************************************')
+        console.log(this.state.tmp_dataMyMessageFromOther)
+        console.log('***************************************')
         return (
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -291,7 +339,8 @@ class UserContactOwner extends Component {
                         />
                     }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('noMessages')}</Text>}
-                    data={this.props.data_myMessageFromOther ? this.props.data_myMessageFromOther : []}
+                    data={this.props.data_myMessageFromOther}
+                    // data={this.state.tmp_dataMyMessageFromOther ? this.state.tmp_dataMyMessageFromOther : []}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
                     onEndReachedThreshold={1.0} />
@@ -304,7 +353,8 @@ const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
         user_id: state.auth.user_id,
-        // profile: state.question.profile,
+        profile1: state.auth.profile,  // add now!!  // have "user id" and none "store"
+        profile: state.question.profile,  // have "store" and "user id" in store, 
         // request_profile: state.question.request_profile,
         // data_amulet: state.question.amuletType,   // data request type amulet
         // request_type: state.question.request_type,  // request type
@@ -324,6 +374,7 @@ const mapDispatchToProps = (dispatch) => {
         getMyMessageFromOther: (page) => dispatch(ShowRoomActions.getListOwnerContact(page)),
         setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
         clearDataListContactOwner: () => dispatch(ShowRoomActions.clearDataListContactOwner()),
+        setDisscuss: (id) => dispatch(ShowRoomActions.setDisscuss(id)),
     }
 }
 

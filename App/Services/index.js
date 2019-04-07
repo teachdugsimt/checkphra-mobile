@@ -9,4 +9,5 @@ import Showroom from './ShowroomApi'
 import Webboard from './WebboardApi'
 import Market from './MarketApi'
 import CoreRead from './CoreReadApi'
-export default { Auth, Question, Promotion, Trade, Face, Version, Question2, Showroom, Webboard, Market,CoreRead }
+import CoreDiscuss from './CoreDiscussApi'
+export default { Auth, Question, Promotion, Trade, Face, Version, Question2, Showroom, Webboard, Market,CoreRead, CoreDiscuss }

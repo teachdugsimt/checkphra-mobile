@@ -104,6 +104,7 @@ export default {
   realPhraOld: 'พระแท้ย้อนยุค',
   fakePhra: 'พระไม่แท้',
   realPhranowhere: 'พระแท้ไม่รู้ที่',
+  sureBan: "คุณต้องการแบนพระองค์นี้ ?",
 
   reason: 'เหตุผล',
   checkBy: 'ตรวจโดย',
@@ -324,6 +325,7 @@ export default {
   amuletSouth: 'พระในภาคใต้',
   normalCate: 'หมวดหมู่ทั่วไป',
   follow3group: 'ต้องติดตามอย่างน้อย 3 สาย!!',
+  banUser: 'แบน',
 
   หลวงปู่ทวด: 'หลวงปู่ทวด',
   หลวงปู่หมุน: 'หลวงปู่หมุน',

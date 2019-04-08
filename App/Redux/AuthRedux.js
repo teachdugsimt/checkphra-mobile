@@ -43,7 +43,14 @@ const { Types, Creators } = createActions({
   setImg: ['data'],
   setTime: ['day'],
   setModal: ['check'],
-  
+
+  changeProfile: ['firstname', 'lastname', 'file'],
+  changeProfileSuccess: ['data'],
+  changeProfileFailure: null,
+
+  saveDeviceToken: ['token'],
+  setCredentialData: ['data'],
+
 })
 
 export const AuthTypes = Types
@@ -78,6 +85,10 @@ export const INITIAL_STATE = Immutable({
   day: moment(new Date()).format().slice(0, 10),
   modal: true,
 
+  credential_data: null,
+
+  request5: null,  // request change profile (firstname, lastname, picture)
+  data_changeProfile: null, // store change profile data
 
   // day: null,
 })
@@ -89,6 +100,12 @@ export const AuthSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const changeProfile = state => state.merge({ request5: true })
+export const changeProfileSuccess = (state, { data }) => state.merge({ request5: false, data_changeProfile: data })
+export const changeProfileFailure = state => state.merge({ request5: false })
+
+export const setCredentialData = (state, { data }) => state.merge({ credential_data: data })
 
 export const setModal = (state, { check }) => {
   return state.merge({ modal: check })
@@ -123,7 +140,7 @@ export const setUserId = (state, { user_id }) => {
 export const clearRequest = state => state.merge({ request: null })
 export const startRequest = (state) => state.merge({ request: true })
 
-export const failureRequestSignup = (state, error ) => {
+export const failureRequestSignup = (state, error) => {
   return state.merge({ request: false, error_signup: error.type })
 }
 
@@ -162,6 +179,7 @@ export const setImg = (state, { data }) => state.merge({ picProfile: data })
 export const setTime = (state, { day }) => {
   return state.merge({ day })
 }
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -170,6 +188,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNIN_SUCCESS]: success,
   [Types.SIGNIN_FAILURE]: failure,
 
+  [Types.SET_CREDENTIAL_DATA]: setCredentialData,
   [Types.SET_USER_ID]: setUserId,
 
   [Types.SIGNUP]: startRequest,
@@ -187,6 +206,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.FORGET_PASSWORD]: forgetPassword,
   [Types.FORGET_SUCCESS]: forgetSuccess,
   [Types.FORGET_FAILURE]: forgetFailure,
+  
+  [Types.CHANGE_PROFILE]: changeProfile,
+  [Types.CHANGE_PROFILE_FAILURE]: changeProfileFailure,
+  [Types.CHANGE_PROFILE_SUCCESS]: changeProfileSuccess,
 
   [Types.SIGNOUT]: signout,
   [Types.SET_LANGUAGE]: setLanguage,

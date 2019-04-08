@@ -15,7 +15,7 @@ import { INITIAL_STATE } from '../../Redux/AuthRedux';
 import I18n from '../../I18n/i18n';
 I18n.fallbacks = true;
 // I18n.currentLocale("th");
-
+// import ImagePicker from 'react-native-image-picker'
 var ImagePicker = require('react-native-image-picker');
 var options = {
     title: 'Select Avatar',
@@ -365,26 +365,27 @@ class Banking extends Component {
                                 justifyContent: 'center', alignItems: 'center', borderWidth: 3,
                                 borderColor: Colors.brownTextTran, borderRadius: 10, margin: 5, overflow: 'hidden', height: 150, width: 150
                             }}>
-                                <Icon3
+                                <Image source={this.state.avatarSource && this.props.image ? this.state.avatarSource : ''} style={{ width: '80%', height: '80%', marginTop: 8, marginHorizontal: 10 }} />
+                                {!this.props.image && <Icon3
                                     name="camera"
                                     size={40}
                                     color={Colors.brownTextTran}
-                                />
-                                <View style={{ flexDirection: 'row' }}>
+                                />}
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                                     <Text style={{
-                                        fontFamily: 'Prompt-SemiBold', fontSize: 25, color: Colors.brownTextTran,
+                                        fontFamily: 'Prompt-SemiBold', fontSize: 20, color: Colors.brownText,
                                     }}>Slip</Text>
 
                                     {this.props.image && < Icon3
-                                        style={{ marginLeft: 40 }}
+                                        style={{ marginTop: 3.8, marginLeft: 3 }}
                                         name="squared-cross"
-                                        size={24}
-                                        color={'red'}
+                                        size={22}
+                                        color={Colors.brownTextTran}
                                         onPress={() => { this.props.deleteImage() }}
                                     />}
                                 </View>
 
-                                <Image source={this.state.avatarSource && this.props.image ? this.state.avatarSource : ''} style={{ width: '100%', height: '100%' }} />
+
                             </View>
                         </TouchableOpacity>
 

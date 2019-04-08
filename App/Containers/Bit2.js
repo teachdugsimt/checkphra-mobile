@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl, Modal, ScrollView, TextInput } from 'react-native'
+import {
+  Image, Text, View, FlatList, TouchableOpacity, Dimensions, RefreshControl,
+  Alert, Modal, ScrollView, TextInput, Linking
+} from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -11,6 +14,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { Colors, Images } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
+import TradingActions from '../Redux/TradingRedux'
 import CheckBox from 'react-native-check-box'
 // Styles
 import styles from './Styles/CheckListScreenStyle'
@@ -25,355 +29,390 @@ let count = 1
 
 class Bit2 extends Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            answer_other: null,
-            answer1: null,
-            answer2: null,
-            answer3: null,
-            answer4: null,
-            answer5: null,
-            question: this.props.data.answer,
-            index: 0,
-            modalVisible: false,
-            checkTrue1: false,
-            checkTrue2: false,
-            checkTrue3: false,
-            checkFalse: false,
-            spinner: false,
-            editing: true,
+  constructor(props) {
+    super(props)
+    this.state = {
+      answer_other: null,
+      answer1: null,
+      answer2: null,
+      answer3: null,
+      answer4: null,
+      answer5: null,
+      question: this.props.data.answer,
+      index: 0,
+      modalVisible: false,
+      checkTrue1: false,
+      checkTrue2: false,
+      checkTrue3: false,
+      checkFalse: false,
+      spinner: false,
+      editing: true,
+
+      hide: false,
+      updateData: null,
+      price: null,
+      price2: null,
+      bidData: null,
+    }
+  }
+
+  static navigationOptions = ({ navigation }) => {
+    // console.log(navigation)
+    // console.log(I18n.locale)
+
+    return {
+      title: I18n.t('bitPrice2'),
+    }
+  }
+
+  static getDerivedStateFromProps(newProps, prevState) {
+    console.log(newProps)
+    console.log(prevState)
+    console.log('************* BIT 2 ADMIN ****************')
+    let bidData = newProps.data_bid
+
+    if (newProps.data_bid && newProps.data_bid.qid) {
+      if (newProps.data.qid == newProps.data_bid.qid) {
+        if (prevState.bidData != newProps.data_bid) {
+          newProps.setData(newProps.data_bid)
+          return {
+            bidData: newProps.data_bid
+          }
         }
+      }
     }
 
-    static navigationOptions = ({ navigation }) => {
-        // console.log(navigation)
-        // console.log(I18n.locale)
-
+    if (newProps.data_status && newProps.data_status != null && newProps.data_status != undefined) {
+      if (newProps.data_status.qid == newProps.data.qid) {
         return {
-            title: I18n.t('detailAnswer'),
+          hide: true,
+          updateData: newProps.data_status
         }
+      }
     }
 
-    _onPressButton = () => {
-        let tmp = []
-        let pack = []
-
-        if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == false) {
-            tmp.push('พระแท้')
-        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-            tmp.push('พระแท้ย้อนยุค')
-        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == true) {
-            tmp.push('พระไม่แท้')
-        } else if (this.state.checkTrue3 == true && this.state.checkTrue1 == false && this.state.checkTrue2 == false && this.state.checkFalse == false) {
-            tmp.push('พระแท้ไม่รู้ที่')
-        }
-
-        if (this.state.answer2) {
-            tmp.push(this.state.answer2)
-        }
-        if (this.state.answer3) {
-            tmp.push(this.state.answer3)
-        }
-        if (this.state.answer_other) {
-            tmp.push(this.state.answer_other)
-        }
-
-        if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-            alert('Please choose one answer in check box')
-        } else if (this.state.checkTrue1 == false && this.state.checkTrue2 == true && this.state.checkFalse == true) {
-            alert('Please choose one answer in check box')
-        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == true && this.state.checkFalse == false) {
-            alert('Please choose one answer in check box')
-        } else if (this.state.checkTrue1 == true && this.state.checkTrue2 == false && this.state.checkFalse == true) {
-            alert('Please choose one answer in check box')
-        } else if (tmp.length == 0) {
-            alert('Please answer one question')
-        } else {
-
-            this.state.question.map((e, i) => {
-                pack.push({
-                    id: e.id,
-                    result: tmp[i] ? tmp[i] : ''
-                })
-            })
-
-            this.props.updateAnswer(pack, this.props.data.q_id, this.state.answer4)
-            this.setState({
-                answer_other: null,
-                answer1: null,
-                answer2: null,
-                answer3: null,
-                answer4: null,
-                answer5: null,
-                index: 0,
-                modalVisible: false,
-            })
-            // this.props.getAnswer(1)
-            this.props.navigation.goBack()
-        }
-        // console.log(pack)
+    return {
+      bidData
     }
+  }
 
-    componentWillMount() {
-        this.setState({ spinner: false })
+  commaSeparateNumber(val) {
+    while (/(\d+)(\d{3})/.test(val.toString())) {
+      val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
     }
+    return val;
+  }
 
-    componentDidMount() {
-        this.props.data.answer.map((e, i) => {
-            if(this.props.data.argument){
-                this.setState({ answer4: this.props.data.argument })
+  _onPressButton = () => {
+
+    Alert.alert(
+      'Check Phra',
+      I18n.t('checkBid') + " ( " + this.commaSeparateNumber(this.state.price2) + " ฿ )",
+      [
+        {
+          text: I18n.t('ok'), onPress: () => {
+            if (this.state.price2) {
+              this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
+            } else {
+              alert(I18n.t('checkData'))
             }
-            if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
-                if (e.result == 'พระแท้ย้อนยุค') {
-                    this.setState({ checkTrue1: false, checkTrue2: true, checkTrue3: false, checkFalse: false })
-                } else if (e.result == 'พระแท้') {
-                    this.setState({ checkTrue1: true, checkTrue2: false, checkTrue3: false, checkFalse: false })
-                } else if (e.result == 'พระไม่แท้') {
-                    this.setState({ checkTrue1: false, checkTrue2: false, checkTrue3: false, checkFalse: true })
-                } else if (e.result == 'พระแท้ไม่รู้ที่') {
-                    this.setState({ checkTrue1: false, checkTrue2: false, checkTrue3: true, checkFalse: false })
-                }
-            } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
-                this.setState({ answer2: e.result })
-            } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
-                this.setState({ answer3: e.result })
-            }
-        })
+          }
+        },
+        { text: I18n.t('cancel'), onPress: () => { } }
+      ]
+    )
+  }
 
-    }
+  componentWillMount() {
+    this.setState({ spinner: false })
+  }
 
-    render() {
-        I18n.locale = this.props.language
-        // console.log(this.props.data)
-        // console.log('HERE DATA EDITTTTTTTTTTT')
-        let img2 = []
-        this.props.data.images.map(e => {
-            img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
-        })
-        let tmp1 = null
-        let tmp2 = null
+  componentDidMount() {
+  }
 
-        if (this.props.data.answer[1]) {
-            tmp1 = this.props.data.answer[1].result
-        }
-        if (this.props.data.answer[2]) {
-            tmp2 = this.props.data.answer[2].result
-        }
-        return (
-            <LinearGradient
-                colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
-            >
-                <Image source={Images.watermarkbg} style={{
-                    position: 'absolute',
-                    right: 0, bottom: 0,
-                    width: width,
-                    height: width * 95.7 / 100
-                }} resizeMode='contain' />
-                <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
-                    <ImageViewer
-                        saveToLocalByLongPress={false}
-                        imageUrls={img2}
-                        backgroundColor={'lightgrey'}
-                        onClick={(e) => {
-                            console.log('Show modal')
-                            this.setState({ modalVisible: true })
-                        }}
-                        index={this.state.index}
-                    // onSwipeDown={() => {
-                    //     console.log('onSwipeDown');
-                    //     this.setState({ modalVisible: false })
-                    // }}
-                    // enableSwipeDown={true}
-                    />
-                    <Modal
-                        visible={this.state.modalVisible}
-                        transparent={true}
-                        onRequestClose={() => this.setState({ modalVisible: false })}>
-                        <ImageViewer
-                            saveToLocalByLongPress={false}
-                            imageUrls={img2}
-                            backgroundColor={'lightgrey'}
-                            // onClick={(e) => {
-                            //     console.log('Show modal')
-                            //     this.setState({ modalVisible: true })
-                            // }}
-                            index={this.state.index}
-                            onSwipeDown={() => {
-                                console.log('onSwipeDown');
-                                this.setState({ modalVisible: false })
-                            }}
-                            enableSwipeDown={true}
-                        />
-                    </Modal>
+  componentWillUnmount() {
+    this.props.clearDataBid()
+    this.props.getAnswer(1)
+  }
 
-                </View>
+  _onPressSell = () => {
+    Alert.alert(
+      'Check Phra',
+      I18n.t('wantGetOffer'),
+      [
+        {
+          text: I18n.t('ok'), onPress: () => {
+            this.props.update(this.props.data.qid, 'approve')
+          }
+        },
+        { text: I18n.t('cancel') }
+      ]
+    )
 
-                <View style={{ flex: 0.63 }}>
-                    <ScrollView>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('question')} </Text>
-                        </View>
-                        {this.props.data.answer.map((e, i) => {
-                            if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
-                                // }
-                                return (
+  }
 
-                                    <View style={{ marginLeft: 15 }}>
-                                        <Text style={{}}>{I18n.t('trueFalse')}</Text>
-                                        <CheckBox
-                                            style={{ flex: 1, marginLeft: 15, marginTop: 5 }}
-                                            onClick={() => {
-                                                this.setState({
-                                                    // checkTrue1: !this.state.checkTrue1,
-                                                    // checkTrue2: false,
-                                                    // checkTrue3: false,
-                                                    // checkFalse: false,
-                                                    // editing: true,
-                                                    // answer2: tmp1,
-                                                    // answer3: tmp2
-                                                })
-                                            }}
-                                            isChecked={this.state.checkTrue1}
-                                            rightText={I18n.t('realPhra')}
-                                            rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
-                                            checkBoxColor={Colors.brownText}
-                                        />
-                                        <CheckBox
-                                            style={{ flex: 1, marginLeft: 15 }}
-                                            onClick={() => {
-                                                this.setState({
-                                                    // checkTrue2: !this.state.checkTrue2,
-                                                    // checkTrue1: false,
-                                                    // checkTrue3: false,
-                                                    // checkFalse: false,
-                                                    // editing: true,
-                                                    // answer2: tmp1,
-                                                    // answer3: tmp2
-                                                })
-                                            }}
-                                            isChecked={this.state.checkTrue2}
-                                            rightText={I18n.t('realPhraOld')}
-                                            rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
-                                            checkBoxColor={Colors.brownText}
-                                        />
-                                        <CheckBox
-                                            style={{ flex: 1, marginLeft: 15 }}
-                                            onClick={() => {
-                                                this.setState({
-                                                    // checkTrue3: !this.state.checkTrue3,
-                                                    // checkTrue1: false,
-                                                    // checkTrue2: false,
-                                                    // checkFalse: false,
-                                                    // editing: true,
-                                                    // answer2: tmp1,
-                                                    // answer3: tmp2
-                                                })
-                                            }}
-                                            isChecked={this.state.checkTrue3}
-                                            rightText={I18n.t('realPhranowhere')}
-                                            rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
-                                            checkBoxColor={Colors.brownText}
-                                        />
-                                        <CheckBox
-                                            style={{ flex: 1, marginLeft: 15, marginBottom: 5 }}
-                                            onClick={() => {
-                                                this.setState({
-                                                    // checkFalse: !this.state.checkFalse,
-                                                    // checkTrue1: false,
-                                                    // checkTrue2: false,
-                                                    // checkTrue3: false,
-                                                    // editing: false,
-                                                    // answer2: "ไม่ออกผล",
-                                                    // answer3: "ไม่ออกผล",
-                                                })
-                                            }}
-                                            isChecked={this.state.checkFalse}
-                                            rightText={I18n.t('fakePhra')}
-                                            rightTextStyle={{ color: Colors.brownText, fontFamily: 'Prompt-SemiBold', fontSize: 16 }}
-                                            checkBoxColor={Colors.brownText}
-                                        />
-                                        <Text style={{ marginLeft: 15 }}>{I18n.t('reason')}</Text>
-                                        <TextInput key={i} value={this.state.answer4} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer4: text })} editable={false}/>
-                                    </View>
-                                )
-                            } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
-                                // this.setState({ answer2: e.result })
-                                return (
-                                    <View>
-                                        <Text style={{ marginLeft: 15 }}>{I18n.t('pricePhra')}</Text>
-                                        <TextInput key={i} value={this.state.answer2} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer2: text })} editable={false} />
-                                    </View>
-                                )
-                            } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ/ชื่อวัด/ปี พ.ศ. ที่สร้าง') {
-                                // this.setState({ answer3: e.result })
-                                return (
-                                    <View>
-                                        <Text style={{ marginLeft: 15 }}>{I18n.t('detailPhra')}</Text>
-                                        <TextInput key={i} value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer3: text })} editable={false} />
-                                    </View>
-                                )
-                            }
-                            else {
-                                return (
-                                    <View>
-                                        <Text style={{ marginLeft: 15 }}>{e.question_detail}</Text>
-                                        <TextInput key={i} value={this.state.answer_other} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                                            onChangeText={(text) => this.setState({ answer_other: text })} editable={false}/>
-                                    </View>
-                                )
-                            }
+  _onPressCancel = () => {
+    Alert.alert(
+      'Check Phra',
+      I18n.t('dontwantOffer'),
+      [
+        {
+          text: I18n.t('ok'), onPress: () => {
+            this.props.update(this.props.data.qid, 'cancel')
+          }
+        },
+        { text: I18n.t('cancel') }
+      ]
+    )
+  }
 
-                        })}
+  _goToURL = (item) => {
+    // const url = 'm.me/316834699141900'
+    // const url = 'https://www.messenger.com/t/' + item    // pc , mobile
+    const url = 'https://m.me?app_scoped_user_id=' + item
+    // const url = 'https://m.me/316834699141900' // pc , mobile can't use
+    console.log(url)
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log('Don\'t know how to open URI: ' + url);
+      }
+    });
 
-                        <View style={{ width: '65%', alignSelf: 'center', marginTop: 10 }}>
-                            <RoundedButton
-                                style={{ marginHorizontal: 10 }}
-                                title={I18n.t('edit')}
-                                onPress={this._onPressButton}
-                            />
-                        </View>
+  }
 
-                        <View style={{ height: 40 }}>
-                        </View>
+  render() {
+    I18n.locale = this.props.language
+    console.log(this.props.data)
+    console.log('HERE DATA BID PRICE')
+    let img2 = []
+    this.props.data.answer.images.map(e => {
+      img2.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+    })
+    let tmp1 = null
+    let tmp2 = null
+
+    // if (this.props.data.answer[1]) {
+    //     tmp1 = this.props.data.answer[1].result
+    // }
+    // if (this.props.data.answer[2]) {
+    //     tmp2 = this.props.data.answer[2].result
+    // }
+    return (
+      <LinearGradient
+        colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
+      >
+        <Image source={Images.watermarkbg} style={{
+          position: 'absolute',
+          right: 0, bottom: 0,
+          width: width,
+          height: width * 95.7 / 100
+        }} resizeMode='contain' />
+        <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
+          <ImageViewer
+            saveToLocalByLongPress={false}
+            imageUrls={img2}
+            backgroundColor={'lightgrey'}
+            onClick={(e) => {
+              console.log('Show modal')
+              this.setState({ modalVisible: true })
+            }}
+            index={this.state.index}
+          // onSwipeDown={() => {
+          //     console.log('onSwipeDown');
+          //     this.setState({ modalVisible: false })
+          // }}
+          // enableSwipeDown={true}
+          />
+          <Modal
+            visible={this.state.modalVisible}
+            transparent={true}
+            onRequestClose={() => this.setState({ modalVisible: false })}>
+            <ImageViewer
+              saveToLocalByLongPress={false}
+              imageUrls={img2}
+              backgroundColor={'lightgrey'}
+              // onClick={(e) => {
+              //     console.log('Show modal')
+              //     this.setState({ modalVisible: true })
+              // }}
+              index={this.state.index}
+              onSwipeDown={() => {
+                console.log('onSwipeDown');
+                this.setState({ modalVisible: false })
+              }}
+              enableSwipeDown={true}
+            />
+          </Modal>
+
+        </View>
+
+        <View style={{ flex: 0.63 }}>
+          <ScrollView>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginTop: 10 }}>{I18n.t('bidDetail')} {this.props.data.qid ? ' ( ' + this.props.data.qid + ' )' : ''}</Text>
+            </View>
+
+            <View style={{ backgroundColor: '#FFEFD5', borderRadius: 15, alignSelf: 'center' }}>
+              <Text style={{ fontSize: 16, color: Colors.brownTextTran, marginHorizontal: 18, marginVertical: 4 }}>{"Bid by : " + (this.props.data.proposer ? this.props.data.proposer : "")}</Text>
+            </View>
+
+            {this.props.data && !this.props.data.recent_bid && this.props.data.status == 'interested' && <Text style={{ fontSize: 18, color: Colors.brownText, fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{I18n.t('waitUser0') + "!!"}</Text>}
+
+            {this.state.bidData && this.state.bidData.length > 0 && this.state.bidData.messages && this.props.bidData.messages.length > 0 ? this.props.data.messages.map.map((e, i) => {
+              let date = moment.unix(e.date_time).format("HH:mm")
+              // console.log(e)
+              // console.log('********************************')
+              if (i % 2 != 0 && i == 0) {
+                return (
+                  <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-start' }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginLeft: 10, backgroundColor: '#E59866', borderRadius: 20, height: 40 }}>
+                      <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>Mr.Blue: <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 18,
+                      }}>{e.admin_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                    </View>
+                  </View>
+                )
+              } else {
+                return (
+                  <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-end' }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'flex-end', marginRight: 10, backgroundColor: 'lightgrey', borderRadius: 20, height: 40 }}>
+                      <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>user : <Text style={{
+                        fontFamily: 'Prompt-SemiBold',
+                        fontSize: 18,
+                      }}>{e.user_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                    </View>
+                  </View>
+                )
+              }
+            }) : this.props.data && this.props.data.messages && this.props.data.messages.map((e, i) => {
+              let date = moment.unix(e.date_time).format("HH:mm")
+              // console.log(e)
+              // console.log('********************************')
+              if (i % 2 != 0 && i != 0) {
+                return (
+                  <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-start' }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 10, backgroundColor: '#E59866', borderRadius: 15 }}>
+                      <View style={{ marginVertical: 7 }}>
+                        <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>Mr.Blue : <Text style={{
+                          fontFamily: 'Prompt-SemiBold',
+                          fontSize: 18,
+                        }}>{e.admin_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                      </View>
+                    </View>
+                  </View>
+                )
+              } else {
+                return (
+                  <View key={i} style={{ width: width, flex: 1, marginTop: 8, alignItems: 'flex-end' }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'flex-end', marginHorizontal: 10, backgroundColor: 'lightgrey', borderRadius: 15 }}>
+                      <View style={{ marginVertical: 7 }}>
+                        <Text style={{ fontSize: 16, color: Colors.brownText, marginHorizontal: 15 }}>user : <Text style={{
+                          fontFamily: 'Prompt-SemiBold',
+                          fontSize: 18,
+                        }}>{e.user_bid} <Text style={{ fontSize: 14, color: Colors.brownText }}> ( {date} )</Text></Text></Text>
+                      </View>
+                    </View>
+                  </View>
+                )
+              }
+            })}
+
+            {this.state.hide == false && this.props.data.status == 'bargain' && this.props.data && this.props.data.messages && (this.props.data.messages.length % 2 != 0) && this.props.data.messages.length < 4 && <View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: '#fff5', margin: 10, borderRadius: 10 }} >
+                <TextInput style={{ width: '45%', height: 48, alignSelf: 'center', padding: 10 }}
+                  value={this.state.price}
+                  textAlign={'center'}
+                  onChangeText={(text) => this.setState({ price: text })}
+                  placeholder={I18n.t('inputBit')} />
+
+                <TextInput style={{ width: '45%', height: 48, alignSelf: 'center', padding: 10 }}
+                  value={this.state.price2}
+                  textAlign={'center'}
+                  keyboardType={'numeric'}
+                  onChangeText={(text) => this.setState({ price2: text })}
+                  placeholder={I18n.t('inputBit2')} />
+              </View>
+
+              <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
+                <RoundedButton
+                  style={{ marginHorizontal: 10 }}
+                  title={I18n.t('ok')}
+                  onPress={this._onPressButton}
+                />
+              </View>
+            </View>}
+
+            {this.state.hide == false && this.props.data && this.props.data.recent_bid && this.props.data.recent_bid == 'user' && this.props.data.status == 'bargain' && <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+              <View style={{ width: '40%', height: 45, marginRight: 10 }}>
+                <RoundedButton
+                  style={{}}
+                  title={I18n.t('sellNow')}
+                  onPress={this._onPressSell}
+                />
+              </View>
+              <View style={{ width: '40%', height: 45, marginLeft: 10 }}>
+                <RoundedButton
+                  style={{}}
+                  title={I18n.t('dontSell')}
+                  onPress={this._onPressCancel}
+                />
+              </View>
+            </View>}
+
+            {this.state.updateData && this.state.updateData.status == 'approve' ? <Text style={{ fontSize: 18, color: 'green', fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userAccept') : I18n.t('adminAccept')}</Text> : this.props.data && this.props.data.status == 'approve' && <Text style={{ fontSize: 18, color: 'green', fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userAccept') : I18n.t('adminAccept')}</Text>}
+            {this.state.updateData && this.state.updateData.status == 'cancel' ? <Text style={{ fontSize: 18, color: 'red', fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.state.updateData.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text> : this.props.data && this.props.data.status == 'cancel' && <Text style={{ fontSize: 18, color: 'red', fontFamily: 'Prompt-SemiBold', alignSelf: 'center', marginTop: 15 }}>{this.props.data.recent_bid == 'admin' ? I18n.t('userCancel') : I18n.t('adminCancel')}</Text>}
+
+            <View style={{ height: 40 }}>
+            </View>
 
 
-                        <Spinner
-                            visible={this.props.request || this.state.spinner}
-                            textContent={'Loading...'}
-                            textStyle={{ color: '#fff' }}
-                        />
+            <Spinner
+              visible={(this.props.request1 || this.props.request2)}
+              textContent={'Loading...'}
+              textStyle={{ color: '#fff' }}
+            />
 
-                    </ScrollView>
-                </View>
+          </ScrollView>
+        </View>
 
 
 
-            </LinearGradient>
-        )
-    }
+      </LinearGradient>
+    )
+  }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        data: state.expert.answer_detail,
-        language: state.auth.language,
-        request: state.expert.fetch5,
-    }
+  return {
+    // data: state.expert.answer_detail,
+    language: state.auth.language,
+    request: state.expert.fetch5,
+    data: state.trading.data_answer,  // pass value from flatlist set to Bit 2
+    data_bid: state.trading.data,  // data trading/add or data _bid
+    data_detail: state.trading.data_detail,  // data when get detail by use bid id
+    request1: state.trading.fetching,  // trading/add
+    request2: state.trading.request,   // trading/detail
+    data_status: state.trading.data_status // after sell or cancel phra we get this data
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        //   getHistory: (count) => dispatch(QuestionActions.getHistory(count)),
-        //   getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
-        //   deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
-        //   setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
-        updateAnswer: (pack, q_id) => dispatch(ExpertActions.updateAnswer(pack, q_id)),
-        getAnswer: (page) => dispatch(ExpertActions.answerList(page)),
-    }
+  return {
+    //   getHistory: (count) => dispatch(QuestionActions.getHistory(count)),
+    //   getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
+    //   deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
+    //   setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
+    // updateAnswer: (pack, q_id) => dispatch(ExpertActions.updateAnswer(pack, q_id)),
+    getAnswer: (page) => dispatch(ExpertActions.answerList(page)),
+    setData: (data) => dispatch(TradingActions.setData(data)),
+    trading: (qid, message) => dispatch(TradingActions.tradingRequest(qid, message)),
+    update: (qid, status) => dispatch(TradingActions.updateStatus(qid, status)),
+    clearDataBid: () => dispatch(TradingActions.clearDataBid())
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bit2)

@@ -3,6 +3,12 @@ package com.infiltech.checkphra;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.sbugert.rnadmob.RNAdMobPackage;
+import com.smarkets.paypal.RNPaypalPackage;
+import com.github.pgengoux.huaweiprotectedapps.HuaweiProtectedAppsPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.dooboolab.RNIap.RNIapPackage;
+import com.taessina.paypal.RNPaypalWrapperPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -47,9 +53,16 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(),
-
-            new ImageResizerPackage(), new ImagePickerPackage(),
+      return Arrays.<ReactPackage>asList(//
+          new MainReactPackage(),
+            new RNAdMobPackage(),
+            new RNPaypalPackage(),
+            new HuaweiProtectedAppsPackage(),
+            new RNDeviceInfo(),
+            new RNIapPackage(),
+            new RNPaypalWrapperPackage(), //
+          new ImageResizerPackage(), //
+          new ImagePickerPackage(), //
           new FBSDKPackage(mCallbackManager), //
           new RNI18nPackage(), //
           new RNFirebasePackage(), //

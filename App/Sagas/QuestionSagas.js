@@ -29,16 +29,20 @@ export function* getAmuletType(api) {
   const data = {
     user_id: aut.user_id
   }
-  const response = yield call(api.getAmuletType, data)
+  // const response = yield call(api.getAmuletType, data)
+  const response = yield call(api.getAmuletType, data)  // new api v2
   console.log(response)
+  console.log('+++++++++++ REQUEST AMMULET TYPE ++++++++++++')
 
   // success?
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(QuestionActions.getAmuletTypeSuccess(response.data))
+    yield put(QuestionActions.setRequestType())
   } else {
     yield put(QuestionActions.getAmuletTypeFailure())
+    yield put(QuestionActions.setRequestType())
   }
 }
 
@@ -46,7 +50,9 @@ export function* getQuestionType(api) {
   // get current data from Store
   // const currentData = yield select(QuestionSelectors.getData)
   // make the call to the api
-  const response = yield call(api.getQuestionType)
+
+  // const response = yield call(api.getQuestionType)
+  const response = yield call(api.getQuestionType)  // new api v2
   console.log(response)
 
   // success?
@@ -63,33 +69,42 @@ export function* addQuestion(api) {
 
   const q = yield select(question)
   const a = yield select(auth)
-  console.log(q.questions)
-  console.log('SAGA Q')
 
-  const response = yield call(api.addQuestion, q.images, q.questions, q.amuletID, a.user_id)
-  console.log(response)
-
-  // success?
-  if (response.ok) {
-    // alert("ส่งพระตรวจ สำเร็จ!!")
-    // Alert.alert(
-    //   'Check Phra',
-    //   'ส่งพระตรวจ สำเร็จ!!',
-    //   [
-    //     { text: 'ตกลง' }
-    //   ],
-    //   // { cancelable: false }
-    // )
-    yield put(QuestionActions.addQuestionSuccess(response.data))
-    yield put(QuestionActions.clearForm())
-    yield put(QuestionActions.clearImage())
-
-  } else {
-
-    alert(response.problem)
+  if (q.questions.length == 1 && (!q.questions[0] || q.questions[0] == undefined || q.questions[0] == null)) {
+    // alert(I18n.t('doubleClick'))
     yield put(QuestionActions.addQuestionFailure())
     yield put(QuestionActions.clearForm())
     yield put(QuestionActions.clearImage())
+  } else {
+    console.log(q.questions)
+    console.log('SAGA Q')
+
+    const response = yield call(api.addQuestion, q.images, q.questions, q.amuletID, a.user_id)
+    console.log(response)
+
+    // success?
+    if (response.ok) {
+      // alert("ส่งพระตรวจ สำเร็จ!!")
+      // Alert.alert(
+      //   'Check Phra',
+      //   'ส่งพระตรวจ สำเร็จ!!',
+      //   [
+      //     { text: 'ตกลง' }
+      //   ],
+      //   // { cancelable: false }
+      // )
+      yield put(QuestionActions.addQuestionSuccess(response.data))
+      yield put(QuestionActions.clearForm())
+      yield put(QuestionActions.clearImage())
+
+    } else {
+
+      alert(response.problem)
+      yield put(QuestionActions.addQuestionFailure())
+      yield put(QuestionActions.clearForm())
+      yield put(QuestionActions.clearImage())
+
+    }
 
   }
 }
@@ -116,6 +131,8 @@ export function* getHistory(api, { count }) {
       yield put(QuestionActions.clearGetHistory())
     }
   } else {
+    console.log(count)
+    console.log('******************HERE COUNT AT SAGAS******************')
     const a = yield select(auth)
 
     const data = {
@@ -124,6 +141,7 @@ export function* getHistory(api, { count }) {
     }
 
     const response = yield call(api.getHistory, data)
+    // console.log("**************")
     console.log(response)
     if (response.ok) {
       yield put(QuestionActions.getHistorySuccess2(response.data))

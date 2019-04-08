@@ -6,6 +6,8 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
   // b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v1/'
+
+  // b = 'http://172.20.10.2/CheckPhraApi/web/index.php/v1/'
 }
 
 const create = (baseURL = b) => {
@@ -27,7 +29,7 @@ const create = (baseURL = b) => {
     timeout: 10000
   })
 
-  const getPromotion = () => api.get('package/list')
+  const getPromotion = (data) => api.get('package/list', data)
 
   const payment = (data) => api.post('payment-history/add', data)
 
@@ -49,6 +51,12 @@ const create = (baseURL = b) => {
 
   const cancelCoin = (data) => api.post('transfer/cancel', data)
 
+  const paypal = (data) => api.post('payment-history/paypal-checkout', data)
+
+  const addBonus = (data) => api.post('user/add-point', data)
+
+  const cardHistory = (data) => api.get('payment-history/credit-list', data)
+
   return {
     // a list of the API functions from step 2
     getPromotion,
@@ -61,7 +69,10 @@ const create = (baseURL = b) => {
     getPublish,
     sharedAnswer,
     getPromotionCoin,
-    cancelCoin
+    cancelCoin,
+    paypal,
+    addBonus,
+    cardHistory
   }
 }
 

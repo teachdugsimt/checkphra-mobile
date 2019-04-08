@@ -72,7 +72,8 @@ class HistoryScreen extends Component {
     let hlist = newProps.history
     console.log(newProps)
     console.log(PrevState)
-    newProps.getProfile()
+    // newProps.getProfile()
+
     // **************  newProps.data_slip.id != data_history.id  ***********//  not sure
     // if (newProps.data_question != null){
     //   let tmp = newProps.history.find(e=> e.id == newProps.data_question.id)
@@ -87,13 +88,23 @@ class HistoryScreen extends Component {
     // }
     // *********************************************************************//
 
-
+    // data_question
     //beta algorithm test version
-    if (newProps.request_question == false && newProps.data_question != null) {
-      newProps.getHistory(1)
-      newProps.getProfile()
-      return {
-        data_history: newProps.history
+    // if (newProps.request_question == false && newProps.data_question != null) {
+    //   newProps.getHistory(1)
+    //   newProps.getProfile()
+    //   return {
+    //     data_history: newProps.history
+    //   }
+    // }
+    
+    if (newProps.data_question && newProps.history && newProps.data_question.id && newProps.history[0]) {
+      if (newProps.data_question.id != newProps.history[0].id) {
+        newProps.getHistory(1)
+        newProps.getProfile()
+        return {
+          data_history: newProps.history
+        }
       }
     }
 
@@ -102,8 +113,11 @@ class HistoryScreen extends Component {
     }
   }
   _onScrollEndList = () => {
-    count++
-    this.props.getHistory(count)
+    console.log('END PAGE HHISTORY SCREEN')
+    if (this.props.history && this.props.history.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
+      count++
+      this.props.getHistory(count)
+    }
   }
 
   render() {
@@ -126,7 +140,8 @@ class HistoryScreen extends Component {
             />
           }
           onEndReached={this._onScrollEndList}
-          onEndReachedThreshold={0.05}
+          // onEndReachedThreshold={0.025}
+          onEndReachedThreshold={1.2}
           data={this.props.history}
           renderItem={({ item }) => {
             // console.log(item)
@@ -137,64 +152,39 @@ class HistoryScreen extends Component {
               status = I18n.t('success')
               color = 'green'
             }
-
             let name = ''
-            if (item.type == 'เบญจภาคี') {
-              name = I18n.t('benjapakee')
+            if (item.type == '100 ปี พ.ศ.2515') {
+              name = I18n.t('year100era2515')
             }
-            else if (item.type == 'พระสมเด็จ') {
-              name = I18n.t('phraSomdej')
+            else if (item.type == '108 ปี พ.ศ.2523') {
+              name = I18n.t('year108era2523')
             }
-            else if (item.type == 'นางพญา') {
-              name = I18n.t('phraNangPaya')
+            else if (item.type == '118 ปี พ.ศ.2533') {
+              name = I18n.t('year118era2533')
             }
-            else if (item.type == 'พระคง') {
-              name = I18n.t('phraKhong')
+            else if (item.type == '122 ปี พ.ศ.2537') {
+              name = I18n.t('year122era2537')
             }
-            else if (item.type == 'พระรอด') {
-              name = I18n.t('phraRod')
+            else if (item.type == 'เสาร์ 5 พ.ศ.2536') {
+              name = I18n.t('sat5era2536')
             }
-            else if (item.type == 'พระผงสุพรรณ') {
-              name = I18n.t('phraPhongSuphan')
+            else if (item.type == 'เสาร์ 5 พ.ศ.2539') {
+              name = I18n.t('sat5era2539')
             }
-            else if (item.type == 'พระซุ้มกอ') {
-              name = I18n.t('phraSoomkor')
+            else if (item.type == '214 ปีชาตกาล พ.ศ.2545') {
+              name = I18n.t('year214era2545')
             }
-            else if (item.type == 'พระกำแพงเม็ดขนุน') {
-              name = I18n.t('phraKampaengMedKanun')
+            else if (item.type == 'บางขุนพรหม ปี พ.ศ.2509') {
+              name = I18n.t('BangKhunProm2509')
             }
-            else if (item.type == 'หลวงปู่ทวด') {
-              name = I18n.t('luangPuTuad')
+            else if (item.type == 'บางขุนพรหม ปี พ.ศ.2517') {
+              name = I18n.t('BangKhunProm2517')
             }
-            else if (item.type == 'หลวงปู่หมุน') {
-              name = I18n.t('luangPuMoon')
+            else if (item.type == 'หลวงพ่อหลิว') {
+              name = I18n.t('LuangPhorLhew')
             }
-            else if (item.type == 'พระกรุ') {
-              name = I18n.t('phraKru')
-            }
-            else if (item.type == 'เหรียญปั้ม') {
-              name = I18n.t('pumpCoin')
-            }
-            else if (item.type == 'เหรียญหล่อ') {
-              name = I18n.t('castingCoin')
-            }
-            else if (item.type == 'พระผง') {
-              name = I18n.t('phraPhong')
-            }
-            else if (item.type == 'พระกริ่ง') {
-              name = I18n.t('phraKring')
-            }
-            else if (item.type == 'พระปิดตา') {
-              name = I18n.t('phraPidta')
-            }
-            else if (item.type == 'เครื่องราง') {
-              name = I18n.t('amulet')
-            }
-            else if (item.type == 'พระบูชา') {
-              name = I18n.t('phraBucha')
-            }
-            else if (item.type == 'อื่นๆ หรือ ไม่ทราบ') {
-              name = I18n.t('otherOrUnknown')
+            else {
+              name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
             }
 
             if (item.status != "delete") {
@@ -208,6 +198,7 @@ class HistoryScreen extends Component {
                 }
                 }>
                   <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    {((item.permit == 1 || item.permit == 5) || item.permit == 10) && <Image source={Images.crown} style={{ position: 'absolute', top: -5, left: 50, width: 40, height: 40, zIndex: 1, transform: [{ rotate: '45deg' }] }} />}
                     <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/thumbs/tmb_100x100_' + item.images[0] }} style={{ width: 60, height: 60, margin: 10, borderRadius: 10 }} />
                     <View style={{ flex: 1, padding: 10 }}>
                       <Text style={{
@@ -216,12 +207,20 @@ class HistoryScreen extends Component {
                         color: Colors.brownText,
                         // margin: 20
                       }}>{name}</Text>
-                      <Text style={{
-                        fontFamily: 'Prompt-SemiBold',
-                        fontSize: 12,
-                        color: Colors.brownText,
-                        // margin: 20
-                      }}>{date}</Text>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text style={{
+                          fontFamily: 'Prompt-SemiBold',
+                          fontSize: 12,
+                          color: Colors.brownText,
+                          // margin: 20
+                        }}>{date}</Text>
+                        <Text style={{
+                          fontFamily: 'Prompt-SemiBold',
+                          fontSize: 12,
+                          color: Colors.brownText,
+                          // margin: 20
+                        }}> ( {item.id} )</Text>
+                      </View>
                     </View>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
@@ -277,13 +276,13 @@ class HistoryScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    history: state.question.history,
+    history: state.question.history,  // main data
     answer: state.question.answer,
-    request2: state.question.request2,
+    request2: state.question.request2,  // get history 
     images: state.question.images,
     amulet: state.question.amuletType,
-    request_question: state.question.request,
-    data_question: state.question.data_question,
+    request_question: state.question.request,   // request add question
+    data_question: state.question.data_question,  // data when add question complete
     language: state.auth.language,
     // access_id: state.auth.user_id,
 

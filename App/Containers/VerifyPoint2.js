@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, TouchableOpacity, Image, TextInput, Modal, Alert } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity, Image, TextInput, Modal, Alert, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -15,27 +15,42 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 // I18n.currentLocale();
+const { width } = Dimensions.get('window')
+let check = false
 class VerifyPoint2 extends Component {
 
     static navigationOptions = ({ navigation }) => {
         // console.log(navigation)
         // console.log(I18n.locale)
-    
+
         return {
-          title: I18n.t('ansdetailCoinwer'),
+            title: I18n.t('ansdetailCoinwer'),
         }
-      }
-    
+    }
+
     constructor(props) {
         super(props)
         this.state = {
             modalVisible: false,
             index: 0,
             spinner: false,
+            tmp_accept: null,
         }
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
+
+        if (newProps.data_accept && newProps.data_accept != null) {
+            if (prevState.tmp_accept != newProps.data_accept && check == false) {
+                check = true
+                // console.log('------------ edit list payment by banking --------------')
+                newProps.editListBankPayment(newProps.data_accept)
+                return {
+                    tmp_accept: newProps.data_accept
+                }
+            }
+        }
+
         if (newProps.request) {
             return {
                 spinner: true
@@ -47,7 +62,12 @@ class VerifyPoint2 extends Component {
         }
     }
 
+    componentWillUnmount(){
+        check = false
+    }
+
     componentDidMount() {
+        check = false
         this.setState({ spinner: false })
     }
 
@@ -106,30 +126,48 @@ class VerifyPoint2 extends Component {
         // console.log(img2)
         return (
             <View style={{ flex: 1 }}>
-                <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', height: 75, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }}>
+
+
+                <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', height: 60, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }}>
                     <Text style={{ color: status_color, fontSize: 20 }}>{status}</Text>
                 </View>
 
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('priceProduct')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{product} ฿</Text>
                 </View>
 
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionTime')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{time}</Text>
                 </View>
 
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionType')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{type}</Text>
                 </View>
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 40, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
                     <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionID')}</Text>
                     <Text style={{ fontSize: 16, marginRight: 10 }}>{this.props.item.id}</Text>
                 </View>
 
-                <View style={{ flex: 0.65 }}>
+                <TouchableOpacity onPress={() => { this.props.navigation.goBack() }} style={{
+                    position: 'absolute',
+                    left: 10, top: 17.5,
+                    width: width / 4.5,
+                    height: 40,
+                    // backgroundColor: 'red',
+                    // borderRadius: 20,
+                    // zIndex:2
+                }}>
+                    <Text style={{
+                        fontSize: 18,
+                        fontFamily: "Prompt-SemiBold",
+                        color: Colors.brownText
+                    }}>{" < Back"}</Text>
+                </TouchableOpacity>
+
+                <View style={{ flex: 0.57 }}>
                     <ImageViewer
                         saveToLocalByLongPress={false}
                         imageUrls={img2}
@@ -185,6 +223,8 @@ const mapStateToProps = state => {
         request: state.expert.fetch3,
         full_data: state.expert.full_data,
         language: state.auth.language,
+
+        data_accept: state.expert.data_accept,
     };
 };
 
@@ -193,6 +233,7 @@ const mapDispatchToProps = dispatch => {
         addTransfer: (id) => dispatch(ExpertActions.acceptRequest(id)),
         // getVerify: () => dispatch(ExpertActions.getProfileRequest()),
         editFullData: (id) => dispatch(ExpertActions.editFullData(id)),
+        editListBankPayment: (data) => dispatch(ExpertActions.editListBankPayment(data)),
     };
 };
 

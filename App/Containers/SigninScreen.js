@@ -13,7 +13,11 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
 import LinearGradient from "react-native-linear-gradient";
 
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import {
+  AccessToken, LoginManager,
+  GraphRequest,
+  GraphRequestManager
+} from 'react-native-fbsdk';
 import firebase from 'react-native-firebase';
 import { Images, Metrics } from '../Themes'
 import AuthActions from '../Redux/AuthRedux'
@@ -31,7 +35,7 @@ import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // I18n.locale = "th";
-
+let tmp = null
 let { width, height } = Dimensions.get('window')
 
 class SigninScreen extends Component {
@@ -42,7 +46,8 @@ class SigninScreen extends Component {
       inputPass: "",
       profile: null,
       spinner: false,
-      forget_email: ""
+      forget_email: "",
+      data_credential: null,
       // language: I18n.currentLocale()
     };
   }
@@ -50,8 +55,7 @@ class SigninScreen extends Component {
   componentDidMount() {
     // this.setState({ spinner: false })
     // console.log(this.props.profile)
-
-    console.log(this.props)
+    this.hideSignin()
 
     if (this.props.profile) {
       if (this.props.profile.role == 'expert') {
@@ -77,8 +81,37 @@ class SigninScreen extends Component {
     // });
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  hideSignin = async () => {
+    // this.setState({ spinner: true })
+    const data = await AccessToken.getCurrentAccessToken();
 
+    if (!data) {
+      console.log('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
+    }
+
+    // create a new firebase credential with the token
+    const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+
+    // login with credential
+    const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+    const currentUserJson = currentUser.user.toJSON()
+    // this.props.setCredential(currentUserJson)
+    // console.log(data)
+    console.log(currentUserJson)
+    console.log('=========== DATA TEST HIDE SIGNIN ===========')
+    if (currentUserJson != null && this.props.profile != null && this.props.profile && this.props.profile.type == 'fb') {
+      // this.setState({ data_credential: currentUserJson ? currentUserJson : 'FUCK YOU' }) // can't => data come here
+      this.props.signinWithCredential(currentUserJson ? currentUserJson : null)
+    }
+    // this.setState({ spinner: false })
+
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log(nextProps)
+    console.log(prevState)
+    console.log('+++++++++++++++++++++++++++ SIGNIN PAGE ++++++++++++++++++++++++++++')
     // console.log(prevState.spinner)
     // let spinner = false
     if (!prevState.profile && nextProps.error && !nextProps.requestData) {
@@ -86,14 +119,17 @@ class SigninScreen extends Component {
     }
 
     if (!prevState.profile && prevState.profile != nextProps.profile) {
+      // SigninScreen.hideSignin()
       // spinner = false
       // console.log(nextProps.profile)
       if (nextProps.profile.role == 'expert') {
         nextProps.navigation.navigate('ExpertApp')
-      } else if (nextProps.profile.role == 'admin') {
+      }
+      else if (nextProps.profile.role == 'admin') {
         nextProps.navigation.navigate('AdminApp')
       }
       else if (nextProps.profile.role == 'user') {
+        console.log('GO TO APP FORM GETDERIVE...............')
         nextProps.navigation.navigate('App')
       }
     }
@@ -104,12 +140,34 @@ class SigninScreen extends Component {
     }
   }
 
+  graphRequestSuccess(error, result) {
+    console.log(result)
+    console.log(error)
+  }
+  async FBGraphRequest(fields, callback) {
+    const accessData = await AccessToken.getCurrentAccessToken();
+    // Create a graph request asking for user information
+    const infoRequest = new GraphRequest('/me', {
+      accessToken: accessData.accessToken,
+      parameters: {
+        fields: {
+          string: fields
+        }
+      }
+    }, callback.bind(this));
+    // Execute the graph request created above
+    let result = new GraphRequestManager().addRequest(infoRequest).start();
+    console.log(result)
+  }
+
   fbLogin = async () => {
     try {
-      const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+      const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_link']);
 
-      console.log(result)
+      // console.log(result)
+      console.log('--------------- RESULT LOGIN ----------------')
       if (result.isCancelled) {
+        alert('User canceled request')
         return
         // throw new Error('User cancelled request'); // Handle this however fits the flow of your app
       }
@@ -119,12 +177,13 @@ class SigninScreen extends Component {
 
       // get the access token
       const data = await AccessToken.getCurrentAccessToken();
-
+      // console.log(data)
       if (!data) {
         throw new Error('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
       }
 
       // create a new firebase credential with the token
+      // this.FBGraphRequest('id, email, link', this.graphRequestSuccess)
       const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
 
       // login with credential
@@ -150,8 +209,6 @@ class SigninScreen extends Component {
       console.log(currentUserJson.uid)
       this.props.setUserId(currentUserJson.uid)
       this.props.signinWithCredential(currentUserJson)
-
-
 
     } catch (e) {
       this.setState({ spinner: false })
@@ -238,7 +295,7 @@ class SigninScreen extends Component {
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
         <Spinner
-          visible={this.props.fetch || this.state.spinner}
+          visible={this.state.spinner}
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
         />
@@ -376,7 +433,8 @@ const mapDispatchToProps = dispatch => {
     setUserId: (user_id) => dispatch(AuthActions.setUserId(user_id)),
     signinWithCredential: (data) => dispatch(AuthActions.signinWithCredential(data)),
     signin: (email, password) => dispatch(AuthActions.signinRequest(email, password)),
-    clearError: () => dispatch(AuthActions.clearError())
+    clearError: () => dispatch(AuthActions.clearError()),
+    setCredential: (data) => dispatch(AuthActions.setCredentialData(data)),
     // setLanguage: (language) => dispatch(AuthActions.setLanguage(language))
   };
 };

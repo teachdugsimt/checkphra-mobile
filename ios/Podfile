@@ -33,6 +33,10 @@ target 'CheckPhra' do
   pod 'react-native-image-resizer', :path => '../node_modules/react-native-image-resizer'
   pod 'GoogleAppMeasurement', '~> 5.2.0'
   
+  pod 'RNIap', :path => '../node_modules/react-native-iap'
+
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
   target 'CheckPhraTests' do
     inherit! :search_paths
     # Pods for testing

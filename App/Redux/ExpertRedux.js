@@ -4,7 +4,7 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  expertRequest: ['pack', 'q_id', 'argument'],
+  expertRequest: ['pack', 'q_id', 'argument', 'interested', 'permit'],
   expertSuccess: ['data'],
   expertFailure: null,
 
@@ -12,7 +12,7 @@ const { Types, Creators } = createActions({
   updateSuccess: ['data'],
   updateFailure: null,
 
-  cancelCoin: ['id'],
+  cancelCoin: ['id', 'argument'],
   cancelCoinSuccess: ['data'],
   cancelCoinFailure: null,
 
@@ -39,12 +39,37 @@ const { Types, Creators } = createActions({
 
   setFullData: ['data'],
   setAnswerDetail: ['data'],
+  setTypeAnswer: ['data'],
   editFullData: ['id'],
   // editFullData: ['id', 'status'],
 
+  getAutoText: null,
+  getAutoTextSuccess: ['data'],
+  getAutoTextFailure: null,
+
+  editGroup: ['type_id', 'qid'],
+  editGroupSuccess: ['data'],
+  editGroupFailure: null,
+
+  getListStore: ['page'],
+  getListStoreSuccess: ['data'],
+  getListStoreFailure: null,
+
+  setStoreTmp: ['data'],
+  editVerifyStore: ['data'],
+
+  verifyStore: ['shop_id', 'status'],
+  verifyStoreSuccess: ['data'],
+  verifyStoreFailure: null,
+
+  clearVerifyStore: null,
   clearSendAnswer: null,
   clearGetAnswer: null,
-  clearUpdateRequest: null
+  clearUpdateRequest: null,
+  clearEditData: null,
+  clearDataAnswer: null,
+
+  editListBankPayment: ['data'],
 })
 
 export const ExpertTypes = Types
@@ -81,6 +106,22 @@ export const INITIAL_STATE = Immutable({
 
   answer_detail: null,
 
+  fetch7: null, // for request automatic text
+  data_text: null,
+
+  fetch8: null,  // for edit type of question
+  data_group: null,
+
+  data_storetmp: null,  // store tmp data to verify shop2
+
+  fetch9: null,  // request for verify store in admin
+  data_shop: null, // store verify shop for admin
+
+  fetch10: null,  // request for get list verify store
+  data_listStore: null,  // store list shop for verify
+
+  type_answer: 1
+
 })
 
 /* ------------- Selectors ------------- */
@@ -90,6 +131,71 @@ export const ExpertSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+export const editListBankPayment = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_verify))
+  // console.log(data)
+  // // console.log(tmp)
+  // console.log('+++++++++++ data come redux +++++++++++')
+  if (tmp && tmp != null)
+    tmp.map((e, i) => {
+      if (e.id == data.id) {
+        tmp.splice(i, 1, data)
+      }
+    })
+  // console.log(tmp)
+  // console.log('++++++++++++++++++ TMP AFter EDIT ++++++++++++++++++++')
+  return state.merge({ data_verify: tmp })
+}
+
+export const clearVerifyStore = state => state.merge({ data_shop: null })
+export const editVerifyStore = (state, { data }) => {
+  let tmp
+  let tmp2
+  if (state.data_listStore && state.data_listStore != null) {
+    tmp = JSON.parse(JSON.stringify(state.data_listStore))
+    tmp2 = tmp
+    tmp.forEach((e, i) => {
+      if (e.id == data.id) {
+        // console.log('Come to IF')
+        tmp2[i] = data
+      }
+    })
+
+  }
+
+  return state.merge({ data_listStore: tmp2 })
+}
+export const clearDataAnswer = state => state.merge({ data_answer: null })
+export const setTypeAnswer = (state, { data }) => state.merge({ type_answer: data })
+export const setStoreTmp = (state, { data }) => state.merge({ data_storetmp: data })
+
+export const verifyStore = state => state.merge({ fetch9: true })
+export const verifyStoreSuccess = (state, { data }) => state.merge({ data_shop: data, fetch9: false })
+export const verifyStoreFailure = state => state.merge({ fetch9: false })
+
+export const getListStore = state => state.merge({ fetch10: true })
+export const getListStoreSuccess = (state, { data }) => {
+  let tmp
+  if (state.data_listStore && state.data_listStore != null && state.data_listStore.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = [...state.data_listStore]
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  return state.merge({ fetch10: false, data_listStore: tmp })
+}
+export const getListStoreFailure = state => state.merge({ fetch10: false })
+
+export const getAutoText = state => state.merge({ fetch7: true })
+export const getAutoTextSuccess = (state, { data }) => state.merge({ fetch7: false, data_text: data })
+export const getAutoTextFailure = state => state.merge({ fetch7: false })
 
 export const clearSendAnswer = state => state.merge({ fetch: null })
 export const requestAnswer = (state) => state.merge({ fetch: true })
@@ -111,25 +217,27 @@ export const setDataPhra = (state, { data }) => {
 }
 
 export const verifyRequest = state => state.merge({ fetch2: true })
-
 export const verifySuccess = (state, { data }) => {
-  return state.merge({ fetch2: false, data_verify: data })
-}
+  // let tmp = state.data_verify  // can use
+  // let tmp = [...state.data_verify]  // can use
 
+  let tmp
+  if (state.data_verify && state.data_verify != null && state.data_verify.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = [...state.data_verify]
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  return state.merge({ fetch2: false, data_verify: tmp })
+}
 export const verifyFailure = state => state.merge({ fetch2: false })
-
-export const verifySuccess2 = (state, { data }) => {
-  let tmp = [...state.data_verify]
-  data.forEach(e => {
-    if (tmp.find(b => b.id == e.id)) {
-      console.log('SAME VALUE')
-    } else { tmp.push(e) }
-  })
-  return state.merge({ data_verify: tmp, fetch2: false })
-}
-
-export const verifyFailure2 = state => state.merge({ fetch2: false })
-
 
 export const setDataPoint = (state, { data, index }) => {
   return state.merge({ data_point: data, index_row: index })
@@ -157,7 +265,9 @@ export const answerSuccess2 = (state, { data }) => {
 }
 export const answerFailure2 = state => state.merge({ fetch4: false })
 
-
+export const editGroup = state => state.merge({ fetch8: true })
+export const editGroupSuccess = (state, { data }) => state.merge({ fetch8: false, data_group: data })
+export const editGroupFailure = state => state.merge({ fetch8: false })
 
 
 export const clearAcceptRequest = state => state.merge({ fetch3: null })
@@ -179,19 +289,7 @@ export const editFullData = (state, { id }) => {
   return state.merge({ full_data: tmp })
 }
 
-// export const editFullData = (state, { id, status }) => {
-//   let tmp = [...state.full_data]
-//   let index = state.index_row
-//   // console.log(tmp[index])
-//   // console.log('HERE TMP IN REDUX')
-//   let data = {
-//     id: id,
-//     status
-//   }
-//   tmp[index] = data
-//   return state.merge({ full_data: tmp })
-
-// }
+export const clearEditData = state => state.merge({ data_group: null })
 
 export const setAnswerDetail = (state, { data }) => {
   return state.merge({ answer_detail: data })
@@ -218,8 +316,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_PROFILE_REQUEST]: verifyRequest,
   [Types.VERIFY_SUCCESS]: verifySuccess,
   [Types.VERIFY_FAILURE]: verifyFailure,
-  [Types.VERIFY_SUCCESS2]: verifySuccess2,
-  [Types.VERIFY_FAILURE2]: verifyFailure2,
+  // [Types.VERIFY_SUCCESS2]: verifySuccess2,
+  // [Types.VERIFY_FAILURE2]: verifyFailure2,
 
   [Types.ACCEPT_REQUEST]: acceptRequest,
   [Types.ACCEPT_SUCCESS]: acceptSuccess,
@@ -231,6 +329,26 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ANSWER_SUCCESS2]: answerSuccess2,
   [Types.ANSWER_FAILURE2]: answerFailure2,
 
+  [Types.GET_AUTO_TEXT]: getAutoText,
+  [Types.GET_AUTO_TEXT_SUCCESS]: getAutoTextSuccess,
+  [Types.GET_AUTO_TEXT_FAILURE]: getAutoTextFailure,
+
+  [Types.EDIT_GROUP]: editGroup,
+  [Types.EDIT_GROUP_SUCCESS]: editGroupSuccess,
+  [Types.EDIT_GROUP_FAILURE]: editGroupFailure,
+
+  [Types.SET_STORE_TMP]: setStoreTmp,
+  [Types.GET_LIST_STORE]: getListStore,
+  [Types.GET_LIST_STORE_SUCCESS]: getListStoreSuccess,
+  [Types.GET_LIST_STORE_FAILURE]: getListStoreFailure,
+  [Types.VERIFY_STORE]: verifyStore,
+  [Types.VERIFY_STORE_SUCCESS]: verifyStoreSuccess,
+  [Types.VERIFY_STORE_FAILURE]: verifyStoreFailure,
+  [Types.CLEAR_VERIFY_STORE]: clearVerifyStore,
+  [Types.EDIT_VERIFY_STORE]: editVerifyStore,
+
+  [Types.CLEAR_EDIT_DATA]: clearEditData,
+
   [Types.CLEAR_ACCEPT_REQUEST]: clearAcceptRequest,
   [Types.SET_FULL_DATA]: setFullData,
   [Types.EDIT_FULL_DATA]: editFullData,
@@ -238,4 +356,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_SEND_ANSWER]: clearSendAnswer,
   [Types.CLEAR_GET_ANSWER]: clearGetAnswer,
   [Types.CLEAR_UPDATE_REQUEST]: clearUpdateRequest,
+
+  [Types.SET_TYPE_ANSWER]: setTypeAnswer,
+  [Types.CLEAR_DATA_ANSWER]: clearDataAnswer,
+  [Types.EDIT_LIST_BANK_PAYMENT]: editListBankPayment,
 })

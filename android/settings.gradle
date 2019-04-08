@@ -1,4 +1,16 @@
 rootProject.name = 'CheckPhra'
+include ':react-native-admob'
+project(':react-native-admob').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-admob/android')
+include ':react-native-paypal'
+project(':react-native-paypal').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-paypal/android')
+include ':react-native-huawei-protected-apps'
+project(':react-native-huawei-protected-apps').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-huawei-protected-apps/android')
+include ':react-native-device-info'
+project(':react-native-device-info').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-device-info/android')
+include ':react-native-iap'
+project(':react-native-iap').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-iap/android')
+include ':react-native-paypal-wrapper'
+project(':react-native-paypal-wrapper').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-paypal-wrapper/android')
 include ':react-native-image-resizer'
 project(':react-native-image-resizer').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-resizer/android')
 include ':react-native-image-picker'

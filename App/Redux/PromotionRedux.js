@@ -4,7 +4,7 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  promotionRequest: null,
+  promotionRequest: ['platform'],
   promotionSuccess: ['data'],
   promotionFailure: null,
 
@@ -20,8 +20,12 @@ const { Types, Creators } = createActions({
   getLoginProSuccess: ['data'],
   getLoginProFailure: null,
 
-  setMoney: ['data'],
+  setTimeShared: ['time'],
+  setStatus: ['status'],
 
+  setMoney: ['data'],
+  addBonus: null,
+  addBonusSuccess: null
 })
 
 export const PromotionTypes = Types
@@ -45,6 +49,11 @@ export const INITIAL_STATE = Immutable({
 
   request3: null,  // get promotion login complete X days
   data_login: null, // data promotion login complete
+
+  time_shared: null, // store time when we shared application reset 6.00 นาฬิกา
+  status: true,  // store shared status
+
+  addBonus: false
 })
 
 /* ------------- Selectors ------------- */
@@ -56,6 +65,13 @@ export const PromotionSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const setStatus = (state, { status }) => state.merge({ status })
+
+export const setTimeShared = (state, { time }) => {
+  return state.merge({ time_shared: time, status: false })
+}
+
 export const request = (state) =>
   state.merge({ fetching: true })
 
@@ -84,6 +100,10 @@ export const getLoginPro = state => state.merge({ request3: true })
 export const getLoginProSuccess = (state, { data }) => state.merge({ request3: false, data_login: data })
 export const getLoginProFailure = state => state.merge({ request3: false })
 
+
+export const addBonus = (state) => state.merge({ addBonus: false })
+export const addBonusSuccess = (state) => state.merge({ addBonus: true })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -104,5 +124,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_LOGIN_PRO_FAILURE]: getLoginProFailure,
 
   [Types.SET_MONEY]: setMoney,
+
+  [Types.ADD_BONUS]: addBonus,
+  [Types.ADD_BONUS_SUCCESS]: addBonusSuccess,
+
+  [Types.SET_TIME_SHARED]: setTimeShared,
+  [Types.SET_STATUS]: setStatus,
 
 })

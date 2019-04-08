@@ -15,10 +15,15 @@ import Icon3 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import I18n from '../I18n/i18n';
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import RoundedButton from '../Components/RoundedButton';
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // Styles
 // import styles from './Styles/CheckListScreenStyle'
+const slideAnimation = new SlideAnimation({
+    slideFrom: 'bottom',
+});
 const { width, height } = Dimensions.get('window')
 let count = 1
 let check = true
@@ -37,6 +42,8 @@ class VerifyPoint extends Component {
             verifyData: null,
             full_data: null,
             cancel: null,
+            reason: null,
+            id: null,
         }
     }
 
@@ -68,9 +75,13 @@ class VerifyPoint extends Component {
         }
 
         let clist = newProps.data_cancel
-        if (newProps.data_cancel) {
+        if (newProps.data_cancel && newProps.data_cancel != null) {
             if (newProps.data_cancel != prevState.cancel) {
-                newProps.getVerify(1)
+                // newProps.getVerify(1)
+                newProps.editListBankPayment(newProps.data_cancel)
+                return {
+                    cancel: newProps.data_cancel
+                }
             }
         }
         // if(newProps.data_accept != null){
@@ -103,19 +114,26 @@ class VerifyPoint extends Component {
         let tmp = null
         let status = null
         let color = null
-        if (this.props.data_fully != null) {
-            tmp = this.props.data_fully.find(e => e.id == item.id)
-            if (tmp) {
-                status = tmp.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
-                color = tmp.status == 10 ? 'green' : 'orange'
-            }
-        } else {
-            status = 'Loading...'
-            color = 'lightgrey'
-        }
+        // if (this.props.data_fully != null) {
+        //     tmp = this.props.data_fully.find(e => e.id == item.id)
+        //     if (tmp) {
+        //         status = tmp.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
+        //         color = tmp.status == 10 ? 'green' : 'orange'
+        //     }
+        // } else {
+        //     status = 'Loading...'
+        //     color = 'lightgrey'
+        // }
+
+        // status = item.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
+        // color = item.status == 10 ? 'green' : 'orange'
+
+        status = item.status == 10 ? I18n.t('successVerify') : item.status == 0 ? I18n.t('waitVerify') : "Declined"
+        color = item.status == 10 ? 'green' : item.status == 0 ? 'orange' : 'red'
 
         // let status = item.status == 10 ? 'อนุมัติแล้ว' : 'รออนุมัติ'
         // let color = item.status == 10 ? 'green' : 'orange'
+        // if(item.type == '1')
         return (
             <TouchableOpacity style={{ height: 60 }} onPress={() => this._PressList(item, index)}>
                 <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
@@ -134,29 +152,18 @@ class VerifyPoint extends Component {
                         </View>
 
                         {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}> */}
-                            { color == 'green' && <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}><Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold', marginRight: 25 }}>{item.price} ฿</Text></View>}
-                            { color == 'orange' && <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                        {color == 'green' && <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}><Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold', marginRight: 25 }}>{item.price} ฿</Text></View>}
+                        {color == 'orange' && <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
                             <Text style={{ fontSize: 16, color: 'orange', fontWeight: 'bold', marginRight: 0 }}>{item.price} ฿</Text>
-                                <Icon3
+                            <Icon3
                                 name="remove"
                                 size={24}
                                 color={'red'}
                                 style={{ marginLeft: 7, }}
                                 onPress={() => {
-                                    Alert.alert(
-                                        'Check Phra',
-                                        I18n.t('cancelCoin'),
-                                        [
-                                            {
-                                                text: I18n.t('ok'), onPress: () => {
-                                                    this.props.cancelCoin(item.id)
-                                                    // this.props.getVerify(1)
-                                                }
-                                            },
-                                            { text: I18n.t('cancel'), onPress: () => { } }
-                                        ]
-                                    )
-
+                                    // this.props.cancelCoin(item.id, this.state.argument)
+                                    this.setState({ id: item.id })
+                                    this.popupDialog.show()
                                 }}
 
                             /></View>}
@@ -184,8 +191,15 @@ class VerifyPoint extends Component {
     }
 
     _onScrollEndList = () => {
-        count++
-        this.props.getVerify(count)
+        if (this.props.data && this.props.data.length >= 10 && (this.props.request == false || this.props.request == null)) {
+            count++
+            this.props.getVerify(count)
+        }
+    }
+
+    _pressCancel2 = () => {
+        this.props.cancelCoin(this.state.id, this.state.reason)
+        this.popupDialog.dismiss()
     }
 
     render() {
@@ -193,6 +207,13 @@ class VerifyPoint extends Component {
         // console.log(this.state.verifyData)
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}>
+                <Image source={Images.watermarkbg} style={{
+                    position: 'absolute',
+                    right: 0, bottom: 0,
+                    width: width,
+                    height: width * 95.7 / 100
+                }} resizeMode='contain' />
+
                 <FlatList
                     refreshControl={
                         <RefreshControl
@@ -204,8 +225,42 @@ class VerifyPoint extends Component {
                     data={this.state.verifyData}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
-                    onEndReachedThreshold={0.05}
+                    // onEndReachedThreshold={0.025}
+                    onEndReachedThreshold={1.2}
                 />
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('reason')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.5}
+                    height={height / 3}
+                    // height={150}
+                    onDismissed={() => { this.setState({ reason: null, id: null }) }}
+                >
+                    <View style={{ flex: 1, paddingTop: 8 }}>
+                        <Text style={{
+                            color: Colors.brownText,
+                            fontSize: 18,
+                            fontFamily: 'Prompt-SemiBold',
+                            alignSelf: 'center',
+                        }}>{I18n.t('inputReason')}</Text>
+                        <TextInput style={{ width: '75%', alignSelf: 'center' }}
+                            value={this.state.reason}
+                            textAlign={'center'}
+                            onChangeText={(text) => this.setState({ reason: text })}
+                            placeholder={I18n.t('inputReason')} />
+
+                        <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
+                            <RoundedButton
+                                style={{ marginHorizontal: 10 }}
+                                title={I18n.t('ok')}
+                                onPress={this._pressCancel2}
+                            />
+                        </View>
+                    </View>
+                </PopupDialog>
             </LinearGradient>
         )
     }
@@ -219,7 +274,7 @@ const mapStateToProps = (state) => {
         // questionType: state.question.questionType,
         // fetching: state.expert.fetch,
         data: state.expert.data_verify,
-        request: state.expert.fetch2,
+        request: state.expert.fetch2,  // request history verify point
         data_accept: state.expert.data_accept,
         request2: state.expert.fetch3,
         data_fully: state.expert.full_data,
@@ -235,7 +290,8 @@ const mapDispatchToProps = (dispatch) => {
         setDataPoint: (data, index) => dispatch(ExpertActions.setDataPoint(data, index)),
         setFullData: (data) => dispatch(ExpertActions.setFullData(data)),
         // editFullData: (id, status) => dispatch(ExpertActions.editFullData(id, status)),
-        cancelCoin: (id) => dispatch(ExpertActions.cancelCoin(id)),
+        cancelCoin: (id, argument) => dispatch(ExpertActions.cancelCoin(id, argument)),
+        editListBankPayment: (data) => dispatch(ExpertActions.editListBankPayment(data)),
     }
 }
 

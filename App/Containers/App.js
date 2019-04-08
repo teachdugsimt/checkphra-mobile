@@ -5,7 +5,8 @@ import { Provider } from 'react-redux'
 import RootContainer from './RootContainer'
 import createStore from '../Redux'
 
-import { Notification, NotificationOpen } from 'react-native-firebase';
+// import { Notification, NotificationOpen } from 'react-native-firebase';
+import HuaweiProtectedApps from 'react-native-huawei-protected-apps';
 
 // create our store
 const store = createStore()
@@ -20,6 +21,17 @@ const store = createStore()
  * We separate like this to play nice with React Native's hot reloading.
  */
 class App extends Component {
+
+  componentDidMount() {
+    const config = {
+      title: "Huawei Protected Apps",
+      text: "This app requires to be enabled in 'Protected Apps' in order to receive push notifcations",
+      doNotShowAgainText: "Do not show again",
+      positiveText: "PROTECTED APPS",
+      negativeText: "CANCEL"
+    };
+    HuaweiProtectedApps.AlertIfHuaweiDevice(config);
+  }
 
   // async componentDidMount() {
   //   const notificationOpen = await firebase.notifications().getInitialNotification();
@@ -78,6 +90,16 @@ class App extends Component {
   //   this.notificationListener();
   //   this.notificationOpenedListener();
   // }
+
+
+
+  //Remove listeners allocated in createNotificationListeners()
+  componentWillUnmount() {
+    // this.notificationListener();
+    // this.notificationOpenedListener();
+  }
+
+
 
   render() {
     return (

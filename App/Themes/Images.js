@@ -35,6 +35,17 @@ const images = {
   coin3: require('../Images/coin3.jpg'),
   nonePic: require('../Images/none_1.png'),
   fb: require('../Images/fb_icon.png'),
+  card3: require('../Images/card3.png'),
+  applepay: require('../Images/applepay.png'),
+  apple1: require('../Images/apple1.png'),
+  user: require('../Images/userAccount.png'),
+  cer: require('../Images/certificate.png'),
+  crown: require('../Images/crown2.png'),
+  map: require('../Images/map.png'),
+  map2: require('../Images/map2.png'),
+  pin: require('../Images/pin.png'),
+  chat: require('../Images/chat.png'),
+  logoCheckphra: require('../Images/logo-checkphra.jpg'),
 }
 
 export default images

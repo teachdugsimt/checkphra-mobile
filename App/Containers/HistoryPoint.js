@@ -10,6 +10,7 @@ import { Colors, Images } from "../Themes";
 import PaymentActions from '../Redux/PaymentRedux'
 import QuestionActions from '../Redux/QuestionRedux'
 import I18n from '../I18n/i18n';
+import styles2 from './Styles/HomeScreenStyle'
 I18n.fallbacks = true;
 // I18n.currentLocale();
 
@@ -19,11 +20,11 @@ class HistoryPoint extends Component {
     static navigationOptions = ({ navigation }) => {
         // console.log(navigation)
         // console.log(I18n.locale)
-    
+
         return {
-          title: I18n.t('purchaseHistory'),
+            title: I18n.t('purchaseHistory'),
         }
-      }
+    }
     // static navigationOptions = ({ navigation }) => {
     //     // const params = navigation.state.params || {};
 
@@ -124,14 +125,26 @@ class HistoryPoint extends Component {
         // } else if(this.state.history_data.length < 11) {
         //     count = 1
         // }
-        console.log('END OF LIST AGAIN')
-        count++
-        this.props.getHistory(count)
+        if (this.props.data_history && this.props.data_history.length >= 10 && (this.props.request == false || this.props.request == null)) {
+            console.log('END OF LIST AGAIN')
+            count++
+            this.props.getHistory(count)
+        }
     }
 
     _renderItem = ({ item, index }) => {
-        // console.log(item)
+        // type=1 banking
+        // type=2 promptpay
+        // type=3 credit-card
+        console.log(item)
         let color = item.status == 0 ? 'orange' : 'green'
+        if (item.status == 0) {
+            color = 'orange'
+        } else if (item.status == 10) {
+            color = 'green'
+        } else if (item.status == 99) {
+            color = 'red'
+        }
         return (
             <TouchableOpacity onPress={() => this._nextPage(item)}>
                 <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
@@ -141,7 +154,7 @@ class HistoryPoint extends Component {
                             size={26}
                             color={Colors.brownText}
                             style={{ marginLeft: 15 }} /> */}
-                        <Image source={Images.coin0} style={{ width: 25, height: 25, marginLeft: 10 }} />
+                        <Image source={item.type == '3' ? Images.card3 : Images.coin0} style={{ width: 27, height: 27, marginLeft: 10 }} />
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, width: '85%' }}>
@@ -169,7 +182,8 @@ class HistoryPoint extends Component {
         { name: 'เติม point ', value: 700000, day: '11-11-2018', key: 2 },
         { name: 'เติม point ', value: 350, day: '11-11-2018', key: 3 },]
         return (
-            <View>
+            <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles2.container}>
+                <Image source={Images.watermarkbg} style={styles2.imageBackground} resizeMode='contain' />
                 <FlatList
                     data={this.state.history_data}
                     renderItem={this._renderItem}
@@ -180,19 +194,20 @@ class HistoryPoint extends Component {
                         />
                     }
                     onEndReached={this._onScrollEndList}
-                    onEndReachedThreshold={0.05}
+                    // onEndReachedThreshold={0.025}
+                    onEndReachedThreshold={1.2}
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                 />
-            </View>
+            </LinearGradient>
         )
     }
 }
 
 const mapStateToProps = state => {
     return {
-        data_history: state.payment.data_history,
+        data_history: state.payment.data_history,  // main data
         profile: state.question.profile,
-        request: state.payment.request,
+        request: state.payment.request,  // main request
         request2: state.payment.request2,
         data_slip: state.payment.data_slip,
         request3: state.payment.request3,

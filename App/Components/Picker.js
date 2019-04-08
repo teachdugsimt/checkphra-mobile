@@ -11,6 +11,7 @@ import { database } from 'react-native-firebase';
 
 import ImageResizer from 'react-native-image-resizer';
 
+// import ImagePicker from 'react-native-image-picker'
 var ImagePicker = require('react-native-image-picker');
 var options = {
   title: 'Select Avatar',
@@ -194,11 +195,3 @@ export default connect(
   mapDispatchToProps
 )(Picker);
 
-
-//   < Icon
-// style = {{ margin: 3 }}
-// name = "squared-cross"
-// size = { 24}
-// color = { 'red'}
-// onPress = {() => { console.log("Press close button") }}
-// />

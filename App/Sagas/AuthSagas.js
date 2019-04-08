@@ -13,6 +13,8 @@
 import { call, put, select } from 'redux-saga/effects'
 import AuthActions from '../Redux/AuthRedux'
 // import { AuthSelectors } from '../Redux/AuthRedux'
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import firebase from 'react-native-firebase';
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 const auth = state => state.auth
@@ -32,8 +34,9 @@ export function* signin(api, action) {
   console.log(data)
   console.log('start signin')
 
+  console.log(data)
   const response = yield call(api.signin, data)
-
+  console.log(response)
   // success?
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
@@ -46,9 +49,14 @@ export function* signin(api, action) {
   } else {
     console.log("SIGNIN FAIL")
     console.log(response)
-    
+
     // alert(response.data.message)
-    yield put(AuthActions.signinFailure(response.data.message))
+    if (response.data) {
+      yield put(AuthActions.signinFailure(response.data.message))
+    } else {
+      yield put(AuthActions.signinFailure(response.problem))
+    }
+
   }
 }
 
@@ -57,17 +65,32 @@ export function* signinWithCredential(api, action) {
   // get current data from Store
   // const currentData = yield select(AuthSelectors.getData)
   // make the call to the api
+  console.log(action)
+  console.log(data.providerData[0].uid)
+  console.log('----------------------HERE LOGIN WITH CREDENTIAL----------------------')
 
   const name = data.displayName.split(' ')
   const fname = name[0] ? name[0] : ''
   const lname = name[1] ? name[1] : ''
-
-  const d = {
-    email: data.email,
-    uid: data.uid,
-    firstname: fname,
-    lastname: lname,
-    project: 'check-phra'
+  let d = null
+  if (!data.email || data.email == null || data.email == undefined) {
+    d = {
+      email: data.uid + "@facebook.com",
+      uid: data.uid,
+      firstname: fname,
+      lastname: lname,
+      project: 'check-phra',
+      fbid: data.providerData[0].uid
+    }
+  } else {
+    d = {
+      email: data.email,
+      uid: data.uid,
+      firstname: fname,
+      lastname: lname,
+      project: 'check-phra',
+      fbid: data.providerData[0].uid
+    }
   }
 
   const response = yield call(api.signin, d)
@@ -84,7 +107,7 @@ export function* signinWithCredential(api, action) {
 
 export function* signup(api, { id, password }) {
 
-  
+
   const data = {
     email: id,
     password: password,
@@ -120,7 +143,7 @@ export function* createUser(api, { email, uid }) {
   console.log(uid)
   console.log('SEND TO CREATE CHECK PHRA USER')
 
-  if(!uid) { return }
+  if (!uid) { return }
 
   const data = {
     email: email,
@@ -184,3 +207,42 @@ export function* forgetPassword(api, { email }) {
     yield put(AuthActions.forgetFailure())
   }
 }
+
+export function* saveDeviceToken(api, { token }) {
+
+  // console.log(token)
+  const a = yield select(auth)
+  const data = {
+    user_id: a.user_id,
+    registration_token: token
+  }
+
+  const response = yield call(api.saveDeviceToken, data)
+  console.log(response)
+}
+
+export function* changeProfileRequest(api, { firstname, lastname, file }) {
+  const aut = yield select(auth)
+
+  let body = new FormData()
+
+  body.append('user_id', aut.user_id)
+  if (firstname)
+    body.append('firstname', firstname ? firstname : aut.profile.firstname)
+  if (lastname)
+    body.append('lastname', lastname ? lastname : aut.profile.lastname)
+  // body.append('display_name', '')
+  body.append('project_name', 'check-phra')
+  if (file)
+    body.append('file', file ? file : aut.image)
+
+  const response = yield call(api.changeProfile, body)
+  console.log(response)
+  console.log('===================== CHANGE PROFILE ======================')
+  if (response.ok) {
+    yield put(AuthActions.changeProfileSuccess(response.data))
+  } else {
+    yield put(AuthActions.changeProfileFailure())
+  }
+}
+

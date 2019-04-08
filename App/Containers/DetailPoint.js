@@ -57,11 +57,11 @@ class DetailPoint extends Component {
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // this.props.navigation.goBack()
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     // this.props.navigation.navigate('profileScreen')  //can't
     // this.props.navigation.goBack()   // can't
   }
@@ -69,8 +69,8 @@ class DetailPoint extends Component {
   render() {
     I18n.locale = this.props.language
     let id = this.props.item.id
-    let status = this.props.item.status == 0 ? I18n.t('waitVerify') : I18n.t('successVerify')
-    let status_color = this.props.item.status == 0 ? 'orange' : 'green'
+    let status = this.props.item.status == 0 ? I18n.t('waitVerify') : this.props.item.status == 10 ? I18n.t('successVerify') : I18n.t('fuckCoin')
+    let status_color = this.props.item.status == 0 ? 'orange' : this.props.item.status == 10 ? 'green' : 'red'
     let product = this.props.item.price
     let time = this.props.item.date.slice(11, this.props.item.date.length - 3)
     let type = ''
@@ -84,7 +84,7 @@ class DetailPoint extends Component {
     console.log(this.props.item)
     console.log(status)
     console.log('Detail point')
-    
+
     return (
       <View style={{}}>
         <ScrollView>
@@ -110,6 +110,10 @@ class DetailPoint extends Component {
             <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('transactionID')}</Text>
             <Text style={{ fontSize: 16, marginRight: 10 }}>{id}</Text>
           </View>
+          {status_color && status_color == 'red' && <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', height: 50, borderBottomColor: 'lightgrey', borderBottomWidth: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: 16, marginLeft: 10 }}>{I18n.t('reason')}</Text>
+            <Text style={{ fontSize: 16, marginHorizontal: 10, marginVertical: 10 }}>{this.props.item.argument}</Text>
+          </View>}
 
 
         </ScrollView>

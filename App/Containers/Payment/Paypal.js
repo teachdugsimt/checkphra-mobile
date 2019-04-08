@@ -9,14 +9,14 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import PaymentActions from '../../Redux/PaymentRedux'
 import styles from '../Styles/PaypalStyle'
 import { Colors, Images, Metrics } from '../../Themes';
-import PayPal from 'react-native-paypal-wrapper';
+// import PayPal from 'react-native-paypal-wrapper';
 
 import I18n from '../../I18n/i18n';
 I18n.fallbacks = true;
 const { width } = Dimensions.get('window')
 
 
-import { requestOneTimePayment } from 'react-native-paypal';
+// import { requestOneTimePayment } from 'react-native-paypal';
 
 
 class Paypal extends Component {
@@ -29,34 +29,34 @@ class Paypal extends Component {
 
   }
 
-  async requestPaypal() {
-    console.log('request paypal')
-    const token = 'Ac1JM3JixO2AThiCQwfJ5yINdV1hxwFQ7qkwaVO75iCOJohv04764za2uTIaYxOh3fiQduWv__BrJG4e'
-    const {
-      nonce,
-      payerId,
-      email,
-      firstName,
-      lastName,
-      phone
-    } = await requestOneTimePayment(
-      token,
-      {
-        amount: '100', // required
-        // any PayPal supported currency (see here: https://developer.paypal.com/docs/integration/direct/rest/currency-codes/#paypal-account-payments)
-        currency: 'THB',
-        // any PayPal supported locale (see here: https://braintree.github.io/braintree_ios/Classes/BTPayPalRequest.html#/c:objc(cs)BTPayPalRequest(py)localeCode)
-        localeCode: 'th_TH',
-        shippingAddressRequired: false,
-        userAction: 'commit', // display 'Pay Now' on the PayPal review page
-        // one of 'authorize', 'sale', 'order'. defaults to 'authorize'. see details here: https://developer.paypal.com/docs/api/payments/v1/#payment-create-request-body
-        intent: 'authorize',
-      }
-    );
-  }
+  // async requestPaypal() {
+  //   console.log('request paypal')
+  //   const token = 'Ac1JM3JixO2AThiCQwfJ5yINdV1hxwFQ7qkwaVO75iCOJohv04764za2uTIaYxOh3fiQduWv__BrJG4e'
+  //   const {
+  //     nonce,
+  //     payerId,
+  //     email,
+  //     firstName,
+  //     lastName,
+  //     phone
+  //   } = await requestOneTimePayment(
+  //     token,
+  //     {
+  //       amount: '100', // required
+  //       // any PayPal supported currency (see here: https://developer.paypal.com/docs/integration/direct/rest/currency-codes/#paypal-account-payments)
+  //       currency: 'THB',
+  //       // any PayPal supported locale (see here: https://braintree.github.io/braintree_ios/Classes/BTPayPalRequest.html#/c:objc(cs)BTPayPalRequest(py)localeCode)
+  //       localeCode: 'th_TH',
+  //       shippingAddressRequired: false,
+  //       userAction: 'commit', // display 'Pay Now' on the PayPal review page
+  //       // one of 'authorize', 'sale', 'order'. defaults to 'authorize'. see details here: https://developer.paypal.com/docs/api/payments/v1/#payment-create-request-body
+  //       intent: 'authorize',
+  //     }
+  //   );
+  // }
 
   componentDidMount() {
-    this.requestPaypal()
+    // this.requestPaypal()
     // 3 env available: NO_NETWORK, SANDBOX, PRODUCTION
     // PayPal.initialize(PayPal.PRODUCTION, "Ac1JM3JixO2AThiCQwfJ5yINdV1hxwFQ7qkwaVO75iCOJohv04764za2uTIaYxOh3fiQduWv__BrJG4e");
     // // PayPal.initialize(PayPal.SANDBOX, "AUwtvwghu-ggxeDzKl0FRRh0siucIypDHKr2IESwQ1pSCR407jYlh4rxg8A3MJ6-0PLw9lru6OLO_3pI");

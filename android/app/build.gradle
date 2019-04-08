@@ -151,11 +151,17 @@ android {
 
 dependencies {
     compile project(':react-native-admob')
+    // compile project(':react-native-vector-icons')
+    // compile project(':react-native-linear-gradient')
+    // compile project(':react-native-image-picker')
+    // compile project(':react-native-i18n')
+    // compile project(':react-native-firebase')
+    // compile project(':react-native-fbsdk')
+    compile project(':react-native-config')
     compile project(':react-native-paypal')
     compile project(':react-native-huawei-protected-apps')
     compile project(':react-native-device-info')
     compile project(':react-native-iap')
-    compile project(':react-native-paypal-wrapper')
     compile project(':react-native-image-resizer')
 
     implementation project(':react-native-image-picker')
@@ -195,6 +201,7 @@ dependencies {
     implementation ('com.facebook.android:facebook-android-sdk:4.34.0', {
         // exclude group: 'com.google.android.gms'
     })
+    implementation 'com.google.android.gms:play-services-ads:12.0.0'
 
 }
 

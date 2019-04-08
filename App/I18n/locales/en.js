@@ -254,7 +254,7 @@ export default {
   messages: 'Messages',
   chatMyAmulet: 'Chat about my amulet',
 
-  contactOwnerAmulet: 'Contact to owner amulet',
+  contactOwnerAmulet: 'Contact to amulet owner',
   webBoard: 'Web Board',
   userContact: 'Complaint',
 
@@ -359,4 +359,5 @@ export default {
   failureTransaction: 'Transaction Failure',
   succ: 'Successful!!',
   fail: 'Failure!!',
+  news: 'News'
 }

@@ -4,11 +4,17 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.sbugert.rnadmob.RNAdMobPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.smarkets.paypal.RNPaypalPackage;
 import com.github.pgengoux.huaweiprotectedapps.HuaweiProtectedAppsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.dooboolab.RNIap.RNIapPackage;
-import com.taessina.paypal.RNPaypalWrapperPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -56,11 +62,18 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(//
           new MainReactPackage(),
             new RNAdMobPackage(),
-            new RNPaypalPackage(),
-            new HuaweiProtectedAppsPackage(),
-            new RNDeviceInfo(),
-            new RNIapPackage(),
-            new RNPaypalWrapperPackage(), //
+          // new VectorIconsPackage(),
+          // new LinearGradientPackage(),
+          // new ImagePickerPackage(),
+          // new RNI18nPackage(),
+          // new RNFirebasePackage(),
+          // new FBSDKPackage(),
+          // new ReactNativeConfigPackage(),
+          // new RNAdMobPackage(),
+          new RNPaypalPackage(), //
+          new HuaweiProtectedAppsPackage(), //
+          new RNDeviceInfo(), //
+          new RNIapPackage(), //
           new ImageResizerPackage(), //
           new ImagePickerPackage(), //
           new FBSDKPackage(mCallbackManager), //

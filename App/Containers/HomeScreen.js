@@ -20,6 +20,11 @@ import PromotionActions from '../Redux/PromotionRedux'
 import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
+
+import {
+  AdMobRewarded,
+} from 'react-native-admob'
+
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -80,7 +85,9 @@ class HomeScreen extends Component {
     // { name: I18n.t('showAmuletReal'), id: 2 },
     { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
     { name: I18n.t('commu'), id: 3, logo: 'wechat' },
-    { name: "Share +20 coins", id: 5, logo: 'facebook-square' }]
+    { name: "Share +20 coins", id: 5, logo: 'facebook-square' }
+      // { name: "Get free +20 coins", id: 5, logo: 'database' }
+    ]
 
     if (newProps.language != prevState.language) {
       newProps.getProfile()
@@ -164,7 +171,23 @@ class HomeScreen extends Component {
       this.props.navigation.navigate('marketHome')
     } else if (item.id == 5) {
       this.shareLinkWithShareDialog()
+      // this.seeVideo()
     }
+  }
+
+  seeVideo() {
+    // Display a rewarded ad
+    AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
+    AdMobRewarded.requestAd().then((err) => {
+      // console.log('get ads success')
+      console.log(err)
+      // AdMobRewarded.showAd()
+    })
+      .catch((err) => {
+        console.log(err.message)
+      });
+
+
   }
 
   async shareLinkWithShareDialog() {
@@ -473,7 +496,7 @@ class HomeScreen extends Component {
                 )
               }) : <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }}>
                 <View style={{ flex: 1 }}>
-                  <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{I18n.t('nonePublish')}</Text>
+                  <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{I18n.t('news')}</Text>
                   <Image source={Images.logoCheckphra} style={{ height: (height / 3.8), marginTop: 10, borderRadius: 5, width: width - (40) }} />
                   {/* <Text numberOfLines={2} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{I18n.t('nonePublish')}</Text> */}
                 </View>
@@ -600,7 +623,7 @@ const mapStateToProps = (state) => {
     modal: state.auth.modal,   // modal alert login 7 days success
     addBonusSuccess: state.promotion.addBonus,  // data add bonus
 
-    time_shared: state.promotion.time_shared, // time shared 
+    time_shared: state.promotion.time_shared, // time shared
     status: state.promotion.status, // shared status
 
     data_shared: state.promotion.data_shared,  // data after shared

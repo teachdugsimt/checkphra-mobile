@@ -2,10 +2,10 @@ import apisauce from 'apisauce'
 
 let b
 if (process.env.NODE_ENV === 'production') {
-  b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'
+  b = 'https://infiltech.org/checkphra-api/web/index.php/v2/'
 } else {
-    // b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
-  b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v2/'
+  b = 'https://infiltech.org/checkphra-api/web/index.php/v2/'   //true
+  // b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v2/'
 
   // b = 'http://172.20.10.2/CheckPhraApi/web/index.php/v2/'
 }
@@ -54,7 +54,7 @@ const create = (baseURL = b) => {
   const getMyContact = (data) => api.get('discuss/my-contact-list', data)
 
   const voteAmulet = (data) => api.post('market/update-fact', data)
- 
+
   //********************** Chat Api Zone ***********************/
 
   //********************** Admin Verify Store *****************/

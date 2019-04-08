@@ -3,6 +3,8 @@ package com.infiltech.checkphra;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.sbugert.rnadmob.RNAdMobPackage;
+import com.smarkets.paypal.RNPaypalPackage;
 import com.github.pgengoux.huaweiprotectedapps.HuaweiProtectedAppsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.dooboolab.RNIap.RNIapPackage;
@@ -53,6 +55,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(//
           new MainReactPackage(),
+            new RNAdMobPackage(),
+            new RNPaypalPackage(),
             new HuaweiProtectedAppsPackage(),
             new RNDeviceInfo(),
             new RNIapPackage(),

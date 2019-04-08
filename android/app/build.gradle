@@ -96,11 +96,11 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    buildToolsVersion "27.0.2"
 
     defaultConfig {
         applicationId "com.infiltech.checkphra"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 20
         versionName "3.0.0"
@@ -193,7 +193,7 @@ dependencies {
 
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // <-- Add this line if you wish to use badge on Android
     implementation ('com.facebook.android:facebook-android-sdk:4.34.0', {
-        exclude group: 'com.google.android.gms'
+        // exclude group: 'com.google.android.gms'
     })
 
 }
@@ -207,4 +207,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 apply plugin: 'com.google.gms.google-services'
 
-com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
+// com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

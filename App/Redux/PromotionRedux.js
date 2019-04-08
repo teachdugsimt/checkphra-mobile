@@ -20,6 +20,9 @@ const { Types, Creators } = createActions({
   getLoginProSuccess: ['data'],
   getLoginProFailure: null,
 
+  setTimeShared: ['time'],
+  setStatus: ['status'],
+
   setMoney: ['data'],
   addBonus: null,
   addBonusSuccess: null
@@ -47,6 +50,8 @@ export const INITIAL_STATE = Immutable({
   request3: null,  // get promotion login complete X days
   data_login: null, // data promotion login complete
 
+  time_shared: null, // store time when we shared application reset 6.00 นาฬิกา
+  status: true,  // store shared status
 
   addBonus: false
 })
@@ -60,6 +65,13 @@ export const PromotionSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const setStatus = (state, { status }) => state.merge({ status })
+
+export const setTimeShared = (state, { time }) => {
+  return state.merge({ time_shared: time, status: false })
+}
+
 export const request = (state) =>
   state.merge({ fetching: true })
 
@@ -115,5 +127,8 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.ADD_BONUS]: addBonus,
   [Types.ADD_BONUS_SUCCESS]: addBonusSuccess,
+
+  [Types.SET_TIME_SHARED]: setTimeShared,
+  [Types.SET_STATUS]: setStatus,
 
 })

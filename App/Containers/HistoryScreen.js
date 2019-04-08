@@ -72,7 +72,8 @@ class HistoryScreen extends Component {
     let hlist = newProps.history
     console.log(newProps)
     console.log(PrevState)
-    newProps.getProfile()
+    // newProps.getProfile()
+
     // **************  newProps.data_slip.id != data_history.id  ***********//  not sure
     // if (newProps.data_question != null){
     //   let tmp = newProps.history.find(e=> e.id == newProps.data_question.id)
@@ -96,6 +97,7 @@ class HistoryScreen extends Component {
     //     data_history: newProps.history
     //   }
     // }
+    
     if (newProps.data_question && newProps.history && newProps.data_question.id && newProps.history[0]) {
       if (newProps.data_question.id != newProps.history[0].id) {
         newProps.getHistory(1)

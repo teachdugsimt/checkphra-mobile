@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import {
     ScrollView, Text, View, TouchableOpacity, Dimensions,
-    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Modal, Linking
+    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Modal, Linking, Alert
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -238,10 +238,13 @@ class ChatTheirAmulet extends Component {
     componentDidMount() {
         count = 1
         this.props.getMessageTheirAmulet(count)
+        this.props.updateRead(this.props.data_their.type, this.props.data_their.id)
+        this.props.editUpdateRead(this.props.data_their.type, this.props.data_their.id)
         let img = []
         // this.props.data_their.images.map(e => {
         //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
         // })
+
         this.props.data_their.images.map(e => {
             img.push({ url: e })
         })
@@ -400,7 +403,17 @@ class ChatTheirAmulet extends Component {
                                     <Image style={{ height: 85, width: 85, borderRadius: 15 }} source={{ uri: this.props.data_their.images[0] }} />
                                 </TouchableOpacity>
                             </View>
-
+                            {this.props.profile && this.props.profile.role == "admin" && this.props.data_their.is_fake == false && <TouchableOpacity style={{ position: 'absolute', top: 5, left: 2.5 }} onPress={() => {
+                                Alert.alert(
+                                    'Check Phra',
+                                    I18n.t('sureBan'),
+                                    [
+                                        { text: I18n.t('ok'), onPress: this._dislikeAmulet },
+                                        { text: I18n.t('cancel'), }
+                                    ]
+                                )
+                            }}><Text style={{ fontSize: 16, color: "white", backgroundColor: 'red', borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, }}>Ban</Text></TouchableOpacity>}
+                            {this.props.data_their.is_fake == true && <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 30, position: 'absolute', top: 30, left: 20, transform: [{ rotate: '-38deg' }] }}>{I18n.t('fakePhra')}</Text>}
                             <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
                                 {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('amuletName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.amuletName}</Text></Text>}
                                 {this.props.data_their.amulet_detail.temple && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('templeName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.temple}</Text></Text>}
@@ -409,21 +422,21 @@ class ChatTheirAmulet extends Component {
                                 {this.props.data_their.amulet_detail.contact && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('contact') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.contact}</Text></Text>}
 
                             </View>
-                            {this.props.user_id != this.props.data_their.user_id && <TouchableOpacity onPress={this._chatOwnerAmulet} style={{ position: 'absolute', top: 0.2, right: 5 }}>
+                            {this.props.user_id != this.props.data_their.user_id && this.props.profile && this.props.profile.role != "admin" && <TouchableOpacity onPress={this._chatOwnerAmulet} style={{ position: 'absolute', top: 0.2, right: 5 }}>
                                 <Icon2 name={'wechat'} color={Colors.bloodOrange} size={26} /></TouchableOpacity>}
                         </View>
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
 
-                          <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginLeft: 10 }} onPress={this._likeAmulet}>
+                            <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginLeft: 10 }} onPress={this._likeAmulet}>
                                 <Icon2 name={'thumbs-up'} size={26} />
-                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.75 }}>{this.props.data_their.real+" "+I18n.t('real')}</Text>
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.75 }}>{this.props.data_their.real + " " + I18n.t('real')}</Text>
                             </TouchableOpacity>
 
                             <Icon2 size={22} name={'chevron-up'} style={{ alignSelf: 'center', marginVertical: 2.5 }} />
 
                             <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginRight: 10 }} onPress={this._dislikeAmulet}>
-                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginRight: 7.5, marginTop: 4 }}>{this.props.data_their.fake+" "+I18n.t('fake')}</Text>
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginRight: 7.5, marginTop: 4 }}>{this.props.data_their.fake + " " + I18n.t('fake')}</Text>
                                 <Icon2 name={'thumbs-down'} size={26} />
                             </TouchableOpacity>
 
@@ -432,7 +445,7 @@ class ChatTheirAmulet extends Component {
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{this.props.data_their.amulet_detail.amuletName+" ( "+this.props.data_their.type_name+" )"}</Text>}
+                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center', marginHorizontal: 7.5 }}>{this.props.data_their.amulet_detail.amuletName + " ( " + this.props.data_their.type_name + " )"}</Text>}
                         </View>
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
                     </TouchableOpacity>}
@@ -488,6 +501,7 @@ const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
         user_id: state.auth.user_id,
+        profile: state.question.profile,
 
         data_their: state.showroom.data_their,  // data set to this page (ChatTheirAmulet)
 
@@ -528,6 +542,9 @@ const mapDispatchToProps = (dispatch) => {
         syncVoteData: (data) => dispatch(ShowRoomActions.syncVoteData(data)),
         syncVoteData2: (data) => dispatch(MarketActions.syncVoteData2(data)),
         editVoteSearch: (data) => dispatch(MarketActions.editVoteSearch(data)),
+        editUpdateRead: (type_id, market_id) => dispatch(MarketActions.editUpdateRead(type_id, market_id)),
+
+        updateRead: (type_id, market_id) => dispatch(MarketActions.updateRead(type_id, market_id)),
     }
 }
 

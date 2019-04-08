@@ -39,8 +39,15 @@ class MarketHome extends Component {
 
             data_skin: null,
             tmp_region: null,
+            slist: null,
+            slist2: null,
+            slist3: null,
             tmp_open: null,
             canSee: false,
+
+            tmp_follow: null,
+            tmp_profile: null,
+            check_follow: null,
         }
     }
 
@@ -52,9 +59,15 @@ class MarketHome extends Component {
             tmp_region = newProps.data_region
         }
 
-        let slist = newProps.data_typeAmulet
+
+        let slist = newProps.data_typeAmulet2
+        if (newProps.data_typeAmulet2 && newProps.data_typeAmulet2 != null) {
+            slist = newProps.data_typeAmulet2
+        }
+
+        let slist2 = newProps.data_typeAmulet
         if (newProps.data_typeAmulet && newProps.data_typeAmulet != null) {
-            slist = newProps.data_typeAmulet
+            slist2 = newProps.data_typeAmulet
         }
 
         if (newProps.data_open && newProps.data_open != null) {
@@ -66,49 +79,101 @@ class MarketHome extends Component {
             }
         }
 
+        if (newProps.data_follow && newProps.data_follow != null) {
+            if (prevState.tmp_follow != newProps.data_follow) {
+                newProps.getProfile()
+                return {
+                    tmp_follow: newProps.data_follow
+                }
+            }
+        }
+
+
+        if (newProps.profile && newProps.profile != null) {
+            if (prevState.tmp_profile != newProps.profile) {
+                newProps.editProfile2(newProps.profile)
+                let check_follow
+                if (newProps.profile && (!newProps.profile.my_follow || newProps.profile.my_follow == null)) {
+                    check_follow = "none"
+                } else if (newProps.profile && newProps.profile.my_follow && newProps.profile.my_follow != null) {
+                    if (newProps.profile.my_follow.length < 3) {
+                        check_follow = "none"
+                    } else if (newProps.profile.my_follow.length >= 3) {
+                        check_follow = "auto"
+                    }
+                }
+                return {
+                    tmp_profile: newProps.profile,
+                    check_follow
+                }
+
+            }
+        }
+
         return {
             data_skin: slist,
-            tmp_region
+            tmp_region,
+            slist,
+            slist2,
+            slist3: newProps.data_alltype
         }
     }
 
     componentDidMount() {
         this.props.getListTypeAmulet()
         this.props.getProfile()
+        if (!this.props.data_alltype) {
+            this.props.requestAllTypeAmulet()
+        }
+
+        if (this.props.profile && !this.props.profile.my_follow) {
+            this.popupDialogFix.show()
+        } else if (this.props.profile && this.props.profile.my_follow) {
+            if (this.props.profile.my_follow.length < 3) {
+                this.popupDialogFix.show()
+            }
+        }
+
     }
 
     componentWillUnmount() {
         this.props.getProfile()
         this.props.clearDataOpen()
+        this.props.clearDataFollow()
     }
 
     _north = () => {
         this.setState({ area: 1 })
-        this.props.getRegion(1)
+        // this.props.getRegion(1)
+        this.props.getListTypeAmulet2(1)
         this.popupDialog2.show()
     }
 
     _northEast = () => {
         this.setState({ area: 4 })
-        this.props.getRegion(4)
+        // this.props.getRegion(4)
+        this.props.getListTypeAmulet2(4)
         this.popupDialog2.show()
     }
 
     _central = () => {
         this.setState({ area: 2 })
-        this.props.getRegion(2)
+        // this.props.getRegion(2)
+        this.props.getListTypeAmulet2(2)
         this.popupDialog2.show()
     }
 
     _east = () => {
         this.setState({ area: 3 })
-        this.props.getRegion(3)
+        // this.props.getRegion(3)
+        this.props.getListTypeAmulet2(3)
         this.popupDialog2.show()
     }
 
     _south = () => {
         this.setState({ area: 5 })
-        this.props.getRegion(5)
+        // this.props.getRegion(5)
+        this.props.getListTypeAmulet2(5)
         this.popupDialog2.show()
     }
 
@@ -148,8 +213,18 @@ class MarketHome extends Component {
     }
 
     render() {
-        console.log(this.props.data_typeAmulet)
+        // console.log(this.props.profile)
+        console.log(this.state.tmp_profile)
+        if (this.props.profile && this.props.profile.my_follow) {
+            console.log(this.props.profile.my_follow.find(e => e.is_new == true))
+        }
         console.log('--------------- SKIN AMULET --------------')
+
+        // if(this.props.lastIDofGroupAmulet && this.props.lastIDofGroupAmulet != null){
+        //     console.log(this.props.lastIDofGroupAmulet.filter(e => e.region_id == null).find(b => b.status == false))
+        //     console.log('------------- HERE RESULT 55 --------------')
+        // }
+        // console.log()
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
@@ -174,62 +249,55 @@ class MarketHome extends Component {
                 <TouchableOpacity style={styles.touchPin1} onPress={this._north}>
                     <Image source={Images.pin} style={styles.pin} />
                     <Text style={styles.textMap}>North</Text>
+                    {this.props.profile && this.props.profile.my_follow != null && this.props.profile.my_follow.filter(e => e.region_id == 1).find(b => b.is_new == true) != undefined && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.touchPin2} onPress={this._northEast}>
                     <Image source={Images.pin} style={styles.pin} />
                     <Text style={styles.textMap}>North East</Text>
+                    {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == 4).find(b => b.is_new == true) != undefined && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.touchPin3} onPress={this._central}>
                     <Image source={Images.pin} style={styles.pin} />
                     <Text style={styles.textMap}>Central</Text>
+                    {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == 2).find(b => b.is_new == true) != undefined && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.touchPin4} onPress={this._east}>
                     <Image source={Images.pin} style={styles.pin} />
                     <Text style={styles.textMap}>East</Text>
+                    {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == 3).find(b => b.is_new == true) != undefined && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.touchPin5} onPress={this._south}>
                     <Image source={Images.pin} style={styles.pin} />
                     <Text style={styles.textMap}>South</Text>
+                    {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == 5).find(b => b.is_new == true) != undefined && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
+                </TouchableOpacity>
+
+                <TouchableOpacity style={{ flexDirection: 'row', backgroundColor: Colors.milk, borderRadius: 12, padding: 10, width: width / 2.75, position: 'absolute', right: 10, bottom: this.props.profile && this.props.profile.role != "admin" ? 100 : 12, zIndex: 2 }} onPress={() => this.popupDialog4.show()}>
+                    <Icon2 name={"th"} size={28} />
+                    <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 16, marginLeft: 7.5 }}>{I18n.t('normalCate')}</Text>
+                    {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == null).find(b => b.is_new == true) != undefined && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
 
                 {/* *******************OPEN STORE ZONE******************* */}
-                <TouchableOpacity style={{ width: (width / 3.7), height: (height / 8.5), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
+                {this.props.profile && this.props.profile.role != "admin" && <TouchableOpacity style={{ width: (width / 3.7), height: (height / 8.5), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
                     <Image source={Images.chat} style={{ width: width / 3.7, height: height / 8.5 }} />
                     <Text style={{ position: 'absolute', bottom: height / 14, right: 34 }}>Go To.</Text>
                     <Text style={{ position: 'absolute', bottom: (height / 14) - 20, right: 22 }}>My store !!</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
                 {/* *******************OPEN STORE ZONE******************* */}
 
-                <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
-                        fontSize: 18, fontWeight: 'bold'
-                    }}>{I18n.t('selectProvince')}</Text></View>}
-                    ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
-                    dialogAnimation={slideAnimation}
-                    width={width / 1.15}
-                    height={height / 1.75}
-                    // height={150}
-                    onDismissed={() => { this.setState({ id_type: null, area: null }) }}
-                >
-                    <ScrollView style={{ flex: 1 }}>
-                        {this.state.tmp_region && this.state.tmp_region != null && this.state.tmp_region.map((e, i) => {
-                            return (
-                                <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
-                                    this.setState({ id_province: e.id })
-                                    this.props.setZoneSkin(this.state.area, e.id)  // zone & province
-                                    this.props.navigation.navigate('marketSelectType')
-                                    this.popupDialog2.dismiss()
-                                }}>
-                                    <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{e.name}</Text>
-                                </TouchableOpacity>)
-                        })}
-                    </ScrollView>
-                </PopupDialog>
+
 
                 <PopupDialog
                     dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
@@ -265,8 +333,177 @@ class MarketHome extends Component {
                     </View>}
                 </PopupDialog>
 
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>Select Amulet Type</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={height / 1.75}
+                    // height={150}
+                    onDismissed={() => { this.setState({ id_type: null, area: null }) }}
+                >
+                    <ScrollView style={{ flex: 1 }}>
+                        {this.state.slist && this.state.slist != null && this.state.slist.map((e, i) => {
+                            let icon_use
+                            let color_use
+                            if (this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow != null) {
+                                // icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "plus-square" : "window-close"
+                                // color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
+                                icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "ติดตาม" : "ยกเลิก"
+                                color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
+                            } else {
+                                // icon_use = "plus-square"
+                                // color_use = "green"
+                                icon_use = "ติดตาม"
+                                color_use = "green"
+                            }
+                            if (i != 0) {
+                                return (
+                                    <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                        this.setState({ id_province: e.id })
+                                        this.props.setZoneSkin(this.state.area, e.id)  // zone & province
+                                        this.props.navigation.navigate('marketListArea1')
+                                        this.popupDialog2.dismiss()
+                                    }} >
+                                        <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText, marginTop: 10 }}>{e.name}</Text>
+                                        <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
+
+                                        <TouchableOpacity style={{ position: 'absolute', left: 0, top: -1.5 }} onPress={() => this.props.followGroupAmulet(e.id)}>
+                                            {/* <Icon2 name={icon_use} size={20} color={color_use} /> */}
+                                            <Text style={{ borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, backgroundColor: color_use, color: "white", fontSize: 12 }}>{icon_use}</Text>
+                                        </TouchableOpacity>
+                                        {this.props.profile && this.props.profile.my_follow != null && this.props.profile.my_follow.find(b => b.type_id == e.id && b.is_new == true) != undefined && <View
+                                            style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: -0.25, right: 0 }}></View>}
+                                    </TouchableOpacity>)
+
+                            }
+                        })
+                        }
+                    </ScrollView>
+                </PopupDialog>
+
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>Select Normal Categories</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog4 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={height / 1.6}
+                    // height={150}
+                    onDismissed={() => { this.setState({}) }} >
+
+                    <ScrollView style={{ flex: 1 }}>
+                        {this.state.slist2 && this.state.slist2.map((e, i) => {
+
+                            let icon_use
+                            let color_use
+                            if (this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow != null) {
+                                // icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "plus-square" : "window-close"
+                                // color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
+                                icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "ติดตาม" : "ยกเลิก"
+                                color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
+                            } else {
+                                // icon_use = "plus-square"
+                                // color_use = "green"
+                                icon_use = "ติดตาม"
+                                color_use = "green"
+                            }
+                            if (e.parent_id == null) {
+                                return (
+                                    <View style={{ marginTop: 5, marginHorizontal: 5, marginBottom: 2.5, padding: 10, borderRadius: 10, backgroundColor: 'orange' }}>
+                                        <Text style={{ textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold' }}>{e.name}</Text>
+                                    </View>
+                                )
+                            } else {
+                                return (
+                                    <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                        this.setState({ id_province: e.id })
+                                        this.props.setZoneSkin(this.state.area, e.id)  // zone & province => zone & id type amulet
+                                        this.props.navigation.navigate('marketListArea1')
+                                        this.popupDialog4.dismiss()
+                                    }}>
+                                        <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold', marginTop: 10 }}>{e.name}</Text>
+                                        <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
+                                        <TouchableOpacity style={{ position: 'absolute', left: 0, top: -1.5 }} onPress={() => {
+                                            this.props.followGroupAmulet(e.id)
+                                        }}>
+                                            {/* <Icon2 name={icon_use} size={20} color={color_use} /> */}
+                                            <Text style={{ borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, backgroundColor: color_use, color: "white", fontSize: 12 }}>{icon_use}</Text>
+                                        </TouchableOpacity>
+                                        {this.props.profile && this.props.profile.my_follow != null && this.props.profile.my_follow.find(b => b.type_id == e.id && b.is_new == true) != undefined && <View
+                                            style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: -0.25, right: 0 }}></View>}
+                                    </TouchableOpacity>
+                                )
+                            }
+                        })}
+                    </ScrollView>
+
+                </PopupDialog>
+
+                <PopupDialog
+                    dialogTitle={<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>Select follow at least 3 types</Text>
+                        {this.state.check_follow == "auto" && <TouchableOpacity style={{ position: 'absolute', right: 5 }} onPress={() => this.popupDialogFix.dismiss()}><Icon2 name={"window-close"} size={22} /></TouchableOpacity>}
+                    </View>}
+                    ref={(popupDialog) => { this.popupDialogFix = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={height / 1.6}
+                    // height={150}
+                    // overlayPointerEvents={"none"} // use to fix follow at least 3 type
+                    overlayPointerEvents={this.state.check_follow}
+                    onDismissed={() => { this.setState({}) }} >
+
+                    <ScrollView style={{ flex: 1 }}>
+                        {this.state.slist3 && this.state.slist3.map((e, i) => {
+                            // let icon_use
+                            // let color_use
+                            let icon_use
+                            let color_use
+                            if (this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow != null) {
+                                // icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "plus-square" : "window-close"
+                                // color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
+                                icon_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "ติดตาม" : "ยกเลิก"
+                                color_use = this.props.profile.my_follow.find(c => c.type_id == e.id) == undefined ? "green" : Colors.bloodOrange
+                            } else {
+                                // icon_use = "plus-square"
+                                // color_use = "green"
+                                icon_use = "ติดตาม"
+                                color_use = "green"
+                            }
+                            if ((e.parent_id == null || e.parent_id == 1) || (e.parent_id == 2 || e.parent_id == 3) || (e.parent_id == 4 || e.parent_id == 5)) {
+
+                            } else {
+                                return (
+                                    <View style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                        this.setState({ id_province: e.id })
+                                        this.props.setZoneSkin(this.state.area, e.id)  // zone & province => zone & id type amulet
+                                        this.props.navigation.navigate('marketListArea1')
+                                        this.popupDialog4.dismiss()
+                                    }}>
+                                        <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold', marginTop: 10 }}>{e.name}</Text>
+                                        <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
+                                        <TouchableOpacity style={{ position: 'absolute', right: 0, top: -1.5 }} onPress={() => {
+                                            this.props.followGroupAmulet(e.id)
+                                        }}>
+                                            {/* <Icon2 name={icon_use} size={20} color={color_use} /> */}
+                                            <Text style={{ borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, backgroundColor: color_use, color: "white", fontSize: 12 }}>{icon_use}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                )
+                            }
+                        })}
+                    </ScrollView>
+
+                </PopupDialog>
+
+
                 <Spinner
-                    visible={(this.props.request || this.props.request_profile || this.props.request5)}
+                    visible={(this.props.request || (this.props.request_profile || (this.props.request5 || this.props.request15)))}
                     textContent={'Loading...'}
                     textStyle={{ color: '#fff' }}
                 />
@@ -289,22 +526,45 @@ const mapStateToProps = (state) => {
         tmp_contact: null,  // tmp contact about open store
 
         data_typeAmulet: state.market.data_typeAmulet,  // store skin amulet 
+        data_typeAmulet2: state.market.data_typeAmulet2, // store skin amulet 222222222
         request: state.market.request,  // for request to get type amulet
 
         request7: state.market.request7,  // get province in each region
         data_region: state.market.data_region,  // store province n each region
+
+        data_follow: state.market.data_follow, // store follow group amulet
+        // data_areaAmulet_store: state.market.data_areaAmulet_store,  // store last amulet id from list area/group amulet
+
+        lastIDofGroupAmulet: state.question.data_follow,
+
+        request15: state.market.request15,  // for request all type amulet
+        data_alltype: state.market.data_alltype,  // store all type amulet
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getProfile: () => dispatch(QuestionActions.getProfile()),
-        getListTypeAmulet: () => dispatch(MarketActions.getListTypeAmulet()),
+        // getListTypeAmulet: () => dispatch(MarketActions.getListTypeAmulet()),  // here api get group amulet
+        getListTypeAmulet: () => dispatch(MarketActions.getListTypeAmulet()),  // here api get group amulet
+        getListTypeAmulet2: (geo_id) => dispatch(MarketActions.getListTypeAmulet2(geo_id)),
+
         setZoneSkin: (zone, province) => dispatch(MarketActions.setZoneSkin(zone, province)),
         getRegion: (geo_id) => dispatch(MarketActions.getRegion(geo_id)),
         searchRequest: (text) => dispatch(MarketActions.searchRequest(text)),
         editProfile: (data) => dispatch(QuestionActions.editProfile(data)),
+        editProfile2: (data) => dispatch(QuestionActions.editProfile2(data)),
         clearDataOpen: () => dispatch(MarketActions.clearDataOpen()),
+        clearDataFollow: () => dispatch(MarketActions.clearDataFollow()),
+
+        followGroupAmulet: (type_id) => dispatch(MarketActions.followGroupAmulet(type_id)),
+
+        updateProfileFollow: (data) => dispatch(QuestionActions.updateProfileFollow(data)),
+
+        addRedDotData: (data) => dispatch(QuestionActions.addRedDotData(data)),
+        deleteRedDotData: (type_id) => dispatch(QuestionActions.deleteRedDotData(type_id)),
+        editRedDotData2: (last_id, type_id) => dispatch(QuestionActions.editRedDotData2(last_id, type_id)),
+        requestAllTypeAmulet: () => dispatch(MarketActions.requestAllTypeAmulet()),
     }
 }
 

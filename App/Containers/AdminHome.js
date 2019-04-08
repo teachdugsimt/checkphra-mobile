@@ -53,7 +53,8 @@ class AdminHome extends Component {
         // { name: I18n.t('chat'), id: 3 }]
         const list_user = [{ name: I18n.t('pendingList'), id: 1, logo: 'th-list' },
         { name: I18n.t('editAnswer'), id: 2, logo: 'pencil-square-o' },
-        { name: I18n.t('chat'), id: 3, logo: 'wechat' }]
+        { name: I18n.t('commu'), id: 3, logo: 'wechat' },
+        { name: I18n.t('market'), id: 4, logo: 'cart-plus' }]
 
         if (newProps.language != prevState.language) {
             newProps.getProfile()
@@ -79,6 +80,8 @@ class AdminHome extends Component {
             this.props.navigation.navigate('answer')
         } else if (item.id == 3) {
             this.popupDialog.show()
+        } else if (item.id == 4) {
+            this.props.navigation.navigate('marketHome')
         }
     }
 

@@ -515,7 +515,7 @@ const UserBitStack = StackNavigator(  // Publish stack // ORIGINAL ONE BIT STACK
         color: Colors.headerTitleColor,
         fontFamily: 'Prompt-Regular'
       },
-      tabBarLabel: I18n.t('bitPrice2')
+      tabBarLabel: "Mr.Blue"
     })
   }
 );
@@ -752,7 +752,97 @@ const AdminHomeStack = StackNavigator({
     navigationOptions: {
       title: I18n.t('webBoard')
     }
-  }
+  },
+  marketHome: {
+    screen: MarketHome,
+    navigationOptions: {
+      title: I18n.t("market")
+    }
+  },
+  marketListArea1: {
+    screen: MarketHomeList1,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketUpload1: {
+    screen: MarketUpload1,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketUpload2: {
+    screen: MarketUpload2,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketUpload2n1: {
+    screen: MarketUpload2n1,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketStore: {
+    screen: MarketOpenstore,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketMylistAmulet: {
+    screen: MarketMyAmulet,
+    navigationOptions: {
+      title: I18n.t('myShop')
+    }
+  },
+  marketSelectType: {
+    screen: MarketSelectType,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketListShop: {
+    screen: MarketListShop,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketListShop2: {
+    screen: MarketListShop2,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketSearch1: {
+    screen: MarketSearch1,
+    navigationOptions: {
+      title: I18n.t('searchResult')
+    }
+  },
+  chatTheirAmulet: {
+    screen: ChatTheirAmulet,
+    navigationOptions: {
+      title: I18n.t('chat')
+    }
+  },
+  chatTheirAmuletOwner: {
+    screen: ChatTheirAmuletOwner,
+    navigationOptions: {
+      title: I18n.t('chat')
+    }
+  },
+  // chatRoomMyAmulet: {
+  //   screen: ChatRoomMyAmulet,
+  //   navigationOptions: {
+  //     title: I18n.t('chatMyAmulet')
+  //   }
+  // },
+  // chatRoomMyAmuletSolo: {
+  //   screen: ChatRoomMyAmuletSolo,
+  //   navigationOptions: {
+  //     title: I18n.t('chatMyAmulet')
+  //   }
+  // },
 
 }, {
     transitionConfig: getSlideFromRightTransition,

@@ -314,25 +314,19 @@ class CheckPhraScreen extends Component {
             dialogStyle={{ backgroundColor: 'lightgrey', borderRadius: 10 }}
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
             dialogAnimation={slideAnimation}
-            width={0.95}
+            width={width / 1.15}
             // height={height / (this.state.autoText ? (this.state.autoText.length + (1.5)) : 3.5)}
-            height={this.props.autoText ? 30 * (this.props.autoText.length + 1) : height / 3}
+            height={height / 1.6}
             // height={150}
             onDismissed={() => { this.setState({}) }}
           >
-            <View style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }}>
               {this.state.autoText && this.state.autoText.map((e, i) => {
                 return <TouchableOpacity key={'auto' + i} onPress={() => this.pressText(e.text)} style={{
-                  flex: 1,
-                  borderBottomWidth: 1,
-                  borderBottomColor: 'white',
-                  backgroundColor: 'lightgrey',
-                  borderRadius: 10,
-                  justifyContent: 'center',
-                  // alignItems: 'center'
-                }}><Text style={{ fontSize: 16, color: Colors.brownText, paddingHorizontal: 20 }}>{e.text}</Text></TouchableOpacity>
+                  padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5, borderBottomColor: 'white', borderBottomWidth: 1
+                }}><Text style={{ fontSize: 16, color: Colors.brownText, paddingHorizontal: 20, alignSelf: 'center', textAlignVertical: 'center', }}>{e.text}</Text></TouchableOpacity>
               })}
-            </View>
+            </ScrollView>
           </PopupDialog>
 
           <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>

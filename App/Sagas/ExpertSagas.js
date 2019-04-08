@@ -81,6 +81,8 @@ export function* getProfileRequest(api, { page }) {
   }
 
   const response = yield call(api.getVerify, data)
+  console.log(response)
+  console.log('============== GET LIST Verify By Banking ===============')
 
   if (response.ok) {
     yield put(ExpertActions.verifySuccess(response.data))
@@ -103,6 +105,7 @@ export function* acceptRequest(api, { id }) {
 
   const response = yield call(api.acceptPoint, data)
   console.log(response)
+  console.log('================== Accept Payment By Banking =======================')
 
   if (response.ok) {
     alert(I18n.t('verifySuccess'))

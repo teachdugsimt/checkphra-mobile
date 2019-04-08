@@ -59,7 +59,8 @@ const create = (baseURL = b) => {
   const activeCertificate = (data) => api.post('permit/update-permit', data)
 
   //**** MARKET PLACE ZONE */
-  const getTypeMarket = (user_id) => api.get('type/market-type', user_id)
+  // const getTypeMarket = (user_id) => api.get('type/market-type', user_id)
+  const getTypeMarket = (data) => api.get('type/market-type', data)   // here api get group amulet
   const sendDataAmuletMarket = (name, temple, price, owner, contact, type, user_id, data_image) => {
     console.log('COME To APIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
     let body = new FormData()
@@ -87,9 +88,15 @@ const create = (baseURL = b) => {
   const getListStore = (data) => api.get('shop/list-all', data)
   const getAmuletStore = (data) => api.get('shop/amulet-store', data)
   const search = (data) => api.post('market/search', data)
+  const followRoom = (data) => api.post('market/follow-room', data)
+
+  const sharedAnswer = (data) => api.post('share-history/add', data)
+  
 
   return {
     // a list of the API functions from step 2
+    sharedAnswer,
+
     getAmuletType,
     getQuestionType,
     editGroupQuestion,
@@ -109,7 +116,8 @@ const create = (baseURL = b) => {
     deleteAmuletMarket,
     getListStore,
     getAmuletStore,
-    search
+    search,
+    followRoom
   }
 }
 

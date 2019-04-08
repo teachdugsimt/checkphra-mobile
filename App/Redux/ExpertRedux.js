@@ -68,6 +68,8 @@ const { Types, Creators } = createActions({
   clearUpdateRequest: null,
   clearEditData: null,
   clearDataAnswer: null,
+
+  editListBankPayment: ['data'],
 })
 
 export const ExpertTypes = Types
@@ -129,6 +131,22 @@ export const ExpertSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+export const editListBankPayment = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_verify))
+  // console.log(data)
+  // // console.log(tmp)
+  // console.log('+++++++++++ data come redux +++++++++++')
+  if (tmp && tmp != null)
+    tmp.map((e, i) => {
+      if (e.id == data.id) {
+        tmp.splice(i, 1, data)
+      }
+    })
+  // console.log(tmp)
+  // console.log('++++++++++++++++++ TMP AFter EDIT ++++++++++++++++++++')
+  return state.merge({ data_verify: tmp })
+}
+
 export const clearVerifyStore = state => state.merge({ data_shop: null })
 export const editVerifyStore = (state, { data }) => {
   let tmp
@@ -341,4 +359,5 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.SET_TYPE_ANSWER]: setTypeAnswer,
   [Types.CLEAR_DATA_ANSWER]: clearDataAnswer,
+  [Types.EDIT_LIST_BANK_PAYMENT]: editListBankPayment,
 })

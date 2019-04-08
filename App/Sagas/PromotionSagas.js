@@ -60,12 +60,13 @@ export function* getPublish(api) {
 
 export function* sharedAnswer(api, { qid }) {
   const aut = yield select(auth)
-  console.log(qid)
-  console.log('SHARED QID')
   const data = {
     user_id: aut.user_id,
-    qid
+    // qid
   }
+
+  console.log(data)
+  console.log('HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe')
 
   const response = yield call(api.sharedAnswer, data)
   console.log(response)

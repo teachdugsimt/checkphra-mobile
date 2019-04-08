@@ -13,6 +13,8 @@ const { Types, Creators } = createActions({
   setTheirAmuletData: ['data'],
   setDataGroupChat: ['data'],
 
+  setDisscuss: ['id'],
+
   getListAmulet: ['page'],
   getListSuccess: ['data'],
   getListFailure: null,
@@ -59,6 +61,12 @@ const { Types, Creators } = createActions({
 
   clearDataListMyMessageFromOtherPerson: null, // clear list ที่โชว์ว่ามีคน x คน ทักมาหาเรา 
   clearDataListContactOwner: null,
+
+  updateIsNewUserContactOwner: ['id'],
+
+  getMessageOtherContactMyAmulet: ['page'],
+  getMessageOtherContactMyAmuletSuccess: ['data'],
+  getMessageOtherContactMyAmuletFailure: null,
 })
 
 export const ShowRoomTypes = Types
@@ -101,6 +109,11 @@ export const INITIAL_STATE = Immutable({
   request8: null,  // request for get list contact with user => owner
   data_listOwner: null, // store list user => owner
 
+  request9: null,  // request other chat with my amulet
+  data_other_chat_my: null,  // เก็บข้อมูลที่ คนอื่นทักมาคุย 1-1 กับพระของเรา
+
+  discuss_id: null,  // discuss id
+
 })
 
 /* ------------- Selectors ------------- */
@@ -110,6 +123,58 @@ export const ShowRoomSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+
+export const setDisscuss = (state, { id }) => {
+  return state.merge({ discuss_id: id })
+}
+
+
+export const getMessageOtherContactMyAmulet = state => state.merge({ request5: true })
+export const getMessageOtherContactMyAmuletSuccess = (state, { data }) => {
+  let tmp
+  if (state.data_messageOwner && state.data_messageOwner != null && state.data_messageOwner.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = JSON.parse(JSON.stringify(state.data_messageOwner))
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  tmp.sort(function (a, b) {
+    return a.id - b.id;
+  })
+
+  return state.merge({ data_messageOwner: tmp, request5: false })
+}
+export const getMessageOtherContactMyAmuletFailure = state => state.merge({ request5: false })
+
+
+
+
+export const updateIsNewUserContactOwner = (state, { id }) => {
+  console.log(id)
+  console.log('+++++++++++++ ID REDUX ++++++++++++++++++')
+  let tmp = JSON.parse(JSON.stringify(state.data_listOwner))
+  console.log(tmp)
+  if (tmp && tmp != null) {
+    tmp.forEach((e, i) => {
+      if (e.id == id) {
+        e.is_new = false
+        // console.log(e.id)
+        // console.log('FUCKKKKKKKKKKERRRRRRRRRRRR')
+      }
+    })
+  }
+  console.log(tmp)
+  console.log('+++++++++++++++++++ TMP AFTER EDIT RED DOT 55 +++++++++++++++++++++')
+  return state.merge({ data_listOwner: tmp })
+}
 
 export const syncVoteData = (state, { data }) => {
   let tmp = JSON.parse(JSON.stringify(state.data_listOwner))
@@ -436,6 +501,13 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_DATA_LIST_MY_MESSAGE_FROM_OTHER_PERSON]: clearDataListMyMessageFromOtherPerson,
   [Types.CLEAR_DATA_THEIR]: clearDataTheir,
   [Types.SYNC_VOTE_DATA]: syncVoteData,
+  [Types.UPDATE_IS_NEW_USER_CONTACT_OWNER]: updateIsNewUserContactOwner,
   // [Types.GET_LIST_SUCCESS2]: getListSuccess2,
   // [Types.GET_LIST_FAILURE2]: getListFailure2,
+
+  [Types.GET_MESSAGE_OTHER_CONTACT_MY_AMULET]: getMessageOtherContactMyAmulet,
+  [Types.GET_MESSAGE_OTHER_CONTACT_MY_AMULET_SUCCESS]: getMessageOtherContactMyAmuletSuccess,
+  [Types.GET_MESSAGE_OTHER_CONTACT_MY_AMULET_FAILURE]: getMessageOtherContactMyAmuletFailure,
+
+  [Types.SET_DISSCUSS]: setDisscuss,
 })

@@ -83,7 +83,6 @@ class ChatTheirAmuletOwner extends Component {
             if (prevState.tmp_vote != newProps.data_vote && newProps.data_their.id == newProps.data_vote.id && newProps.data_contactOwner && newProps.data_contactOwner != null) {
                 console.log('--------------Come From List User contact to Owner-----------')
                 newProps.setTheirAmuletData(newProps.data_vote)
-                // newProps.editVoteData(newProps.data_vote)
                 newProps.syncVoteData(newProps.data_vote)
                 newProps.clearDataVote()
                 return {
@@ -241,7 +240,18 @@ class ChatTheirAmuletOwner extends Component {
 
     componentDidMount() {
         count = 1
-        this.props.getMessageTheirAmulet(count)
+        if (this.props.data_contactOwner && this.props.data_contactOwner != null && this.props.data_their) {
+            // มีคนทักมาสนทนา 1-1 กับพระของเราเอง ต้องโหลดข้อมูล จาก API ใหม่ด้วยนะครับ
+            // console.log(this.props.data_their)
+            console.log('--------- 111111111111 ----------')
+            this.props.getMessageOtherContactMyAmulet(count)
+            // ต้องอัพเดทการอ่าน และแก้ is_new ที่นี่ ด้วย
+
+            this.props.updateIsNewUserContactOwner(this.props.discuss)
+        } else {
+            console.log('--------- 22222222222 ----------')
+            this.props.getMessageTheirAmulet(count)
+        }
         let img = []
         // this.props.data_their.images.map(e => {
         //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
@@ -250,6 +260,7 @@ class ChatTheirAmuletOwner extends Component {
             img.push({ url: e })
         })
         this.setState({ img })
+
     }
 
     componentWillUnmount() {
@@ -263,7 +274,11 @@ class ChatTheirAmuletOwner extends Component {
         // this.props.getMessageTheirAmulet(count)
         if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
             count++
-            this.props.getMessageTheirAmulet(count)
+            if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
+                this.props.getMessageOtherContactMyAmulet(count)
+            } else {
+                this.props.getMessageTheirAmulet(count)
+            }
         }
     }
 
@@ -271,7 +286,11 @@ class ChatTheirAmuletOwner extends Component {
         console.log('END LIST AGAIN')
         if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
             count++
-            this.props.getMessageTheirAmulet(count)
+            if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
+                this.props.getMessageOtherContactMyAmulet(count)
+            } else {
+                this.props.getMessageTheirAmulet(count)
+            }
         }
     }
 
@@ -414,13 +433,13 @@ class ChatTheirAmuletOwner extends Component {
 
                             <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginLeft: 10 }} onPress={this._likeAmulet}>
                                 <Icon2 name={'thumbs-up'} size={26} />
-                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.75 }}>{this.props.data_their.real+" "+I18n.t('real')}</Text>
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginLeft: 7.5, marginTop: 3.75 }}>{this.props.data_their.real + " " + I18n.t('real')}</Text>
                             </TouchableOpacity>
 
                             <Icon2 size={22} name={'chevron-up'} style={{ alignSelf: 'center', marginVertical: 2.5 }} />
 
                             <TouchableOpacity style={{ zIndex: 1, flexDirection: 'row', marginTop: -10, marginRight: 10 }} onPress={this._dislikeAmulet}>
-                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginRight: 7.5, marginTop: 4 }}>{this.props.data_their.fake+" "+I18n.t('fake')}</Text>
+                                <Text style={{ fontFamily: 'Prompt-SemiBold', marginRight: 7.5, marginTop: 4 }}>{this.props.data_their.fake + " " + I18n.t('fake')}</Text>
                                 <Icon2 name={'thumbs-down'} size={26} />
                             </TouchableOpacity>
 
@@ -429,7 +448,7 @@ class ChatTheirAmuletOwner extends Component {
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center' }}>{this.props.data_their.amulet_detail.amuletName+" ( "+this.props.data_their.type_name+" )"}</Text>}
+                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center', marginHorizontal: 7.5 }}>{this.props.data_their.amulet_detail.amuletName + " ( " + this.props.data_their.type_name + " )"}</Text>}
                         </View>
 
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
@@ -492,6 +511,8 @@ const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
         user_id: state.auth.user_id,
+        profile: state.auth.profile,  // have "user id" and none "store"
+        profile1: state.question.profile,  // have "store" and "user id" in store, ,
 
         data_their: state.showroom.data_their,  // data set to this page (ChatTheirAmulet)
 
@@ -511,13 +532,16 @@ const mapStateToProps = (state) => {
         data_amuletstore: state.market.data_amuletstore,  // for store data list amulet in each store
 
         data_answer: state.market.data_search,  // for store search data  13/02/2019 update comment
+
+        discuss: state.showroom.discuss_id,  // discuss id
+        // data_myMessageFromOther: state.showroom.data_listOwner,  // data for store my message from other person ( Chat Solo )
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         sendMessageTheirAmulet: (message) => dispatch(ShowRoomActions.sendMessageOwner(message)),  // send message
-        getMessageTheirAmulet: (page) => dispatch(ShowRoomActions.getMessageOwner(page)), // get message
+        getMessageTheirAmulet: (page) => dispatch(ShowRoomActions.getMessageOwner(page)), // get message  main REQUEST
         clearTheirAmuletMessage: () => dispatch(ShowRoomActions.clearOwnerAmuletMessage()), // clear get&send data
         editTheirAmuletMessage: (data) => dispatch(ShowRoomActions.editOwnerAmuletMessage(data)),
 
@@ -529,6 +553,10 @@ const mapDispatchToProps = (dispatch) => {
         syncVoteData: (data) => dispatch(ShowRoomActions.syncVoteData(data)),
         syncVoteData2: (data) => dispatch(MarketActions.syncVoteData2(data)),
         editVoteSearch: (data) => dispatch(MarketActions.editVoteSearch(data)),
+        updateIsNewUserContactOwner: (id) => dispatch(ShowRoomActions.updateIsNewUserContactOwner(id)),
+
+        // สำหรับ มีคนอื่น ทักมาคุย 1-1 กับพระของเรา เท่านั้น !!!!
+        getMessageOtherContactMyAmulet: (page) => dispatch(ShowRoomActions.getMessageOtherContactMyAmulet(page)),
     }
 }
 

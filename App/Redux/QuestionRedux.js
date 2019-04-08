@@ -56,6 +56,14 @@ const { Types, Creators } = createActions({
   setRequestType: null,
   editHistory: ['data'],
   editProfile: ['data'],
+  editProfile2: ['data'],
+
+  updateProfileFollow: ['data'],
+
+  editRedDotData: ['id', 'status', 'type_id'],
+  addRedDotData: ['data'],
+  deleteRedDotData: ['type_id'],
+  editRedDotData2: ['last_id', 'type_id'],
 })
 
 export const QuestionTypes = Types
@@ -91,7 +99,9 @@ export const INITIAL_STATE = Immutable({
   request2: false,  //for get History
   request3: false,  // for cancel Question
 
-  dataDeleteq: []
+  dataDeleteq: [],
+
+  data_follow: null,  // save red dot data
 })
 
 /* ------------- Selectors ------------- */
@@ -103,6 +113,79 @@ export const QuestionSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+export const addRedDotData = (state, { data }) => {
+  console.log(data)
+  console.log('++++++++++++++ DATA FOLLOWER +++++++++++++++')
+  let tmp = JSON.parse(JSON.stringify(state.data_follow))
+  if (!tmp || tmp == null || tmp == undefined) {  // ฟอลครั้งแรก
+    tmp = data
+  } else {  // ฟอลคครั้งต่อมา
+    // tmp.splice(0, 0, data)
+    tmp.splice(0, 0, data[data.length - 1]) 
+    // or
+    // build two loop check
+  }
+
+  console.log(tmp)
+  console.log('+++++++++++ FOLLOW TMP +++++++++++')
+
+  return state.merge({ data_follow: tmp })
+}
+
+export const deleteRedDotData = (state, { type_id }) => {
+  console.log(type_id)
+  console.log('++++++++++++++ DATA UNFOLLOW +++++++++++++++')
+  let tmp = JSON.parse(JSON.stringify(state.data_follow))
+  if (tmp && tmp != null) {  // Unfollow
+    tmp.map((e, i) => {
+      if (e.type_id == type_id) {
+        tmp.splice(i, 1)
+      }
+    })
+  }
+  console.log(tmp)
+  console.log('++++++++++++ UNFOLLOW TMP +++++++++++++')
+  return state.merge({ data_follow: tmp })
+}
+
+export const editRedDotData2 = (state, { last_id, type_id }) => {
+  console.log(last_id)
+  console.log(type_id)
+  console.log('++++++++++++++ DATA UPDATE LAST ID +++++++++++++++')
+  let tmp = JSON.parse(JSON.stringify(state.data_follow))
+  if (tmp && tmp != null) {
+    tmp.forEach((e, i) => {
+      if (e.type_id == type_id) {
+        e.last_id = last_id,
+          e.status = false
+      }
+    })
+  }
+  console.log(tmp)
+  console.log('+++++++++++++ UPDATE LAST ID TMP +++++++++++++')
+  return state.merge({ data_follow: tmp })
+}
+
+export const editRedDotData = (state, { id, status, type_id }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_follow))
+  // let tmp2 = tmp
+  if (tmp != null) {
+    tmp.forEach(((e, i) => {
+      if (e.type_id == type_id) {
+        e.last_id = id
+        e.status = status
+      }
+      if (e.last_id == null) {
+        e.status = true
+      }
+    }))
+  }
+  console.log(tmp)
+  console.log('++++++++++++++ TMP IN REDUX EDIT RED DOT +++++++++++++')
+  return state.merge({ data_follow: tmp })
+}
+
+export const updateProfileFollow = (state, { data }) => state.merge({ data_follow: data })
 
 export const editProfile = (state, { data }) => {
   let tmp = JSON.parse(JSON.stringify(state.profile))
@@ -305,6 +388,8 @@ export const clearProfile = state => state.merge({ profile: null })
 export const clearDataQuestion = state => state.merge({ data_question: null })
 
 export const clearAll = state => INITIAL_STATE
+
+export const editProfile2 = (state, { data }) => state.merge({ profile: data })
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -312,8 +397,12 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_QUESTION_TYPE_SUCCESS]: questionSuccess,
   [Types.GET_QUESTION_TYPE_FAILURE]: questionFailure,
 
+  [Types.EDIT_RED_DOT_DATA]: editRedDotData,
+  [Types.UPDATE_PROFILE_FOLLOW]: updateProfileFollow,
+
   [Types.EDIT_HISTORY]: editHistory,
   [Types.EDIT_PROFILE]: editProfile,
+  [Types.EDIT_PROFILE2]: editProfile2,
 
   [Types.GET_AMULET_TYPE]: amuletRequest,
   [Types.GET_AMULET_TYPE_SUCCESS]: amuletSuccess,
@@ -354,4 +443,8 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.SET_START_QUESTION]: setStartQuestion,
   [Types.SET_REQUEST_TYPE]: setRequestType,
+
+  [Types.ADD_RED_DOT_DATA]: addRedDotData,
+  [Types.DELETE_RED_DOT_DATA]: deleteRedDotData,
+  [Types.EDIT_RED_DOT_DATA2]: editRedDotData2,
 })

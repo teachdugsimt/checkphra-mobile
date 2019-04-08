@@ -281,6 +281,9 @@ export const listTradingSuccess2 = (state, { data }) => {
       console.log('SAME VALUE')
     } else { tmp.push(e) }
   })
+  // tmp.sort(function (a, b) {  // (b.id - a.id;) id มากไปน้อย 
+  //   return b.id - a.id;       // (a.id - b.id;) id น้อยไปมาก 
+  // })
   return state.merge({ data_tradelist: tmp, request2: false })
 }
 export const listTradingFailure2 = state => state.merge({ request2: false })

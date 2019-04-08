@@ -36,6 +36,17 @@ const { Types, Creators } = createActions({
   editLikeData: ['data'],
   editLikeData2: ['data'],
 
+  setMyBoard: ['data'],
+  setAllBoard: ['data'],
+
+  updateMyBoard: ['id', 'updated_at', 'status'],  // my post actions
+  updateAllBoard: ['id', 'updated_at', 'status'],   // all actions
+
+  addMyNewPost: ['data'],  // my post actions
+  editRedDotData: ['data'],
+
+  clearListMyAll: null,
+
 })
 
 export const WebboardTypes = Types
@@ -64,6 +75,9 @@ export const INITIAL_STATE = Immutable({
   request5: null, //for like post,
   data_like: null, // store like comment ans post data
 
+  tmp_my: null,  // store temp my webboard
+  tmp_all: null,  // store temp all webboard
+
 })
 
 /* ------------- Selectors ------------- */
@@ -73,6 +87,78 @@ export const WebboardSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const clearListMyAll = (state) => state.merge({ data_meBoard: null, data_allBoard: null })
+
+export const editRedDotData = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.tmp_my))
+  let tmp2 = JSON.parse(JSON.stringify(state.tmp_all))
+
+  tmp.forEach((e, i) => {
+    if (e.id == data.id) {
+      e.status = false
+      e.updated_at = data.updated_at
+    }
+  })
+
+  tmp2.forEach((e, i) => {
+    if (e.id == data.id) {
+      e.status = false
+      e.updated_at = data.updated_at
+    }
+  })
+
+  return state.merge({ tmp_my: tmp, tmp_all: tmp2 })
+
+}
+
+export const addMyNewPost = (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.tmp_my))
+  let tmp2 = JSON.parse(JSON.stringify(state.tmp_all))
+  tmp.push({
+    id: data.id,
+    status: false,
+    updated_at: data.updated_at
+  })
+
+  tmp2.push({
+    id: data.id,
+    status: false,
+    updated_at: data.updated_at
+  })
+  return state.merge({ tmp_my: tmp, tmp_all: tmp2 })
+}
+
+export const updateAllBoard = (state, { id, updated_at, status }) => {
+  let tmp = JSON.parse(JSON.stringify(state.tmp_all))
+  if (tmp && tmp != null) {
+    tmp.forEach((e, i) => {
+      if (e.id == id) {
+        e.status = status
+        e.updated_at = updated_at
+      }
+    })
+  }
+  console.log('+++++++++++++++++ UPDATE ALL BOARD ERROR ++++++++++++++++++++++')
+  return state.merge({ tmp_all: tmp })
+}
+
+export const updateMyBoard = (state, { id, updated_at, status }) => {
+  let tmp = JSON.parse(JSON.stringify(state.tmp_my))
+  if (tmp && tmp != null) {
+    tmp.forEach((e, i) => {
+      if (e.id == id) {
+        e.status = status
+        e.updated_at = updated_at
+      }
+    })
+  }
+  console.log('+++++++++++++++++++++ UPDATE MY BOARD ERROR ++++++++++++++++++++++++++++')
+  return state.merge({ tmp_my: tmp })
+}
+
+export const setMyBoard = (state, { data }) => state.merge({ tmp_my: data })
+export const setAllBoard = (state, { data }) => state.merge({ tmp_all: data })
 
 export const editLikeData2 = (state, { data }) => {
   let tmp = JSON.parse(JSON.stringify(state.data_comment))
@@ -95,24 +181,14 @@ export const editLikeData = (state, { data }) => {
 }
 
 export const editDataComment = (state, { data }) => {
-  let tmp
-  if (state.data_comment && state.data_comment != null && state.data_comment.comments && state.data_comment.comments != null && state.data_comment.comments.length > 0) {
-    tmp = JSON.parse(JSON.stringify(state.data_comment))  // if can't push to array user JSON .....
+  let tmp = JSON.parse(JSON.stringify(state.data_comment))
+  if (tmp && tmp != null && tmp.comments && tmp.comments != null && tmp.comments.length > 0) {
     tmp.comments.push(data)
-
   } else {
-    tmp = JSON.parse(JSON.stringify(state.data_comment)) // if can't push to array user JSON .....
     tmp.comments.push(data)
-    // console.log(tmp)
   }
-
-  // let temp = JSON.parse(JSON.stringify(state.data_allBoard))
-  // let temp2 = JSON.parse(JSON.stringify(state.data_meBoard))
-
-  // temp.map((e, i) => {
-
-  // })
-
+  console.log(tmp)
+  console.log('+++++++++++++++ TMP AFTER ADD COMMENT ++++++++++++++++')
   return state.merge({ data_comment: tmp })
 }
 
@@ -287,4 +363,16 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.EDIT_DATA_COMMENT]: editDataComment,
 
   [Types.CLEAR_COMMENT]: clearComment,
+
+  [Types.SET_MY_BOARD]: setMyBoard,
+  [Types.SET_ALL_BOARD]: setAllBoard,
+
+  [Types.UPDATE_MY_BOARD]: updateMyBoard,
+  [Types.UPDATE_ALL_BOARD]: updateAllBoard,
+
+  [Types.ADD_MY_NEW_POST]: addMyNewPost,
+  [Types.EDIT_RED_DOT_DATA]: editRedDotData,
+
+  [Types.CLEAR_LIST_MY_ALL]: clearListMyAll,
+
 })

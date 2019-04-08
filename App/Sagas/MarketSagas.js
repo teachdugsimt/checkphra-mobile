@@ -11,7 +11,7 @@
 *************************************************************/
 
 import { call, put, select } from 'redux-saga/effects'
-import MarketActions, { getListMyMarket } from '../Redux/MarketRedux'
+import MarketActions, { getListMyMarket, requestAllTypeAmulet } from '../Redux/MarketRedux'
 // import { MarketSelectors } from '../Redux/MarketRedux'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
@@ -19,36 +19,76 @@ const auth = state => state.auth
 const image = state => state.market
 I18n.locale = auth.language
 
-// export function* getMarket(api, action) {
-//   const { data } = action
-//   // get current data from Store
-//   // const currentData = yield select(MarketSelectors.getData)
-//   // make the call to the api
-//   const response = yield call(api.getmarket, data)
+// export function* getTypeAmuletRequest(api) {
+//   const aut = yield select(auth)
 
-//   // success?
+//   const response = yield call(api.getTypeMarket, aut.user_id)
+//   console.log(response)
+//   console.log('============ GET TYPE MARKET =============')
+
 //   if (response.ok) {
-//     // You might need to change the response here - do this with a 'transform',
-//     // located in ../Transforms/. Otherwise, just pass the data back from the api.
-//     yield put(MarketActions.marketSuccess(response.data))
+//     yield put(MarketActions.getListTypeAmuletSuccess(response.data))
 //   } else {
-//     yield put(MarketActions.marketFailure())
+//     yield put(MarketActions.getListTypeAmuletFailure())
 //   }
+
 // }
 
-export function* getTypeAmuletRequest(api) {
+export function* getTypeAmuletRequest(api, { geo_id }) {   // here api get group amulet
   const aut = yield select(auth)
+  let data
 
-  const response = yield call(api.getTypeMarket, aut.user_id)
+  data = {
+    user_id: aut.user_id,
+    geo_id
+  }
+
+  const response = yield call(api.getTypeMarket, data)
   console.log(response)
-  console.log('============ GET TYPE MARKET =============')
+  console.log('============ GET GROUP TYPE Amulet IN MARKET =============')
 
   if (response.ok) {
     yield put(MarketActions.getListTypeAmuletSuccess(response.data))
   } else {
     yield put(MarketActions.getListTypeAmuletFailure())
   }
+}
 
+export function* getTypeAmuletRequest2(api, { geo_id }) {   // here api get group amulet
+  const aut = yield select(auth)
+  let data
+
+  data = {
+    user_id: aut.user_id,
+    geo_id
+  }
+
+  const response = yield call(api.getTypeMarket, data)
+  console.log(response)
+  console.log('============ GET GROUP TYPE Amulet IN MARKET 2222222 =============')
+
+  if (response.ok) {
+    yield put(MarketActions.getListTypeAmuletSuccess2(response.data))
+  } else {
+    yield put(MarketActions.getListTypeAmuletFailure2())
+  }
+}
+
+export function* requestAllTypeAmulet55(api) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    geo_id: "all"
+  }
+
+  const response = yield call(api.getTypeMarket, data)
+  console.log(response)
+  console.log('============= GET ALL TYPE AMULET ==============')
+  if (response.ok) {
+    yield put(MarketActions.requestAllSuccess(response.data))
+  } else {
+    yield put(MarketActions.requestAllFailure())
+  }
 }
 
 export function* sendDataAmuletForMarket(api) {
@@ -58,7 +98,7 @@ export function* sendDataAmuletForMarket(api) {
   const response = yield call(api.sendDataAmuletMarket, img.maindata.name, img.maindata.temple, img.maindata.price, img.maindata.owner, img.maindata.contact, img.maindata.type, aut.user_id, img.data_image)
   // const response = yield call(api.sendDataAmuletMarket, name, temple, price, owner, contact, zone, type, aut.user_id, img.data_image)
   console.log(response)
-  console.log('============= SEND DATA AMULET MARKET ==============')
+  console.log('============= SEND DATA AMULET TO MY MARKET ==============')
 
   if (response.ok) {
     yield put(MarketActions.sendDataAmuletMarketSuccess(response.data))
@@ -108,8 +148,8 @@ export function* getListAreaAmuletRequest(api, { page }) {
   const data = {
     user_id: aut.user_id,
     zone_id: img.zone,
-    type: img.skin,
-    province_id: img.pro_id,
+    type: img.pro_id,
+    province_id: null, // don't use
     page_number: page,
   }
 
@@ -212,8 +252,10 @@ export function* voteAmuletRequest(api, { id, status }) {
   console.log(response)
   console.log('============= VOTE AMULET ==============')
   if (response.ok) {
+    alert(I18n.t('succ'))
     yield put(MarketActions.voteAmuletSuccess(response.data))
   } else {
+    alert(I18n.t('fail'))
     yield put(MarketActions.voteAmuletFailure())
   }
 }
@@ -229,8 +271,12 @@ export function* pushAmuletToMarket(api, { market_id }) {
   console.log(response)
   console.log('================ PUSH AMULET TO MARKET =================')
   if (response.ok) {
+    alert(I18n.t('succ'))
     yield put(MarketActions.pushAmuletMarketSuccess(response.data))
   } else {
+    if (response.data.message == "There is not enough money for the transaction.") {
+      alert('You have not enough coins.')
+    }
     yield put(MarketActions.pushAmuletMarketFailure())
   }
 
@@ -320,6 +366,51 @@ export function* searchRequestMarket(api, { text }) {
     yield put(MarketActions.searchRequestSuccess(response.data))
   } else {
     yield put(MarketActions.searchRequestFailure())
+  }
+}
+
+export function* followGroupAmuletRequest(api, { type_id }) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id,
+    type_id
+  }
+
+  const response = yield call(api.followRoom, data)
+
+  console.log(response)
+  console.log('=============== FOLLOW GROUP AMULET =================')
+
+  if (response.ok) {
+    alert(I18n.t('succ'))
+    yield put(MarketActions.followGroupAmuletSuccess(response.data))
+  } else {
+    if (response.data.message == 'You must follow at least 3 types of amulets') {
+      alert(I18n.t("follow3group"))
+    } else {
+      alert(I18n.t('fail'))
+    }
+    yield put(MarketActions.followGroupAmuletFailure())
+  }
+}
+
+export function* updateReadRequest(api, { type_id, market_id }) {
+  const aut = yield select(auth)
+
+  const data = {
+    user_id: aut.user_id,
+    type_id,
+    market_id
+  }
+  console.log(data)
+
+  const response = yield call(api.checkRead, data)
+  console.log(response)
+  console.log('============= UPDATE READ ==============')
+  if (response.ok) {
+    yield put(MarketActions.updateReadSuccess(response.data))
+  } else {
+    yield put(MarketActions.updateReadFailure())
   }
 }
 

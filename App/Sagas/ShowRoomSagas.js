@@ -21,6 +21,7 @@ const auth = state => state.auth
 const type = state => state.showroom.data_amulet
 const idDataAmulet = state => state.showroom.data_their
 const dataChat = state => state.showroom.data_groupChat
+const show = state => state.showroom
 const webboard = state => state.webboard
 I18n.locale = auth.language
 
@@ -129,19 +130,18 @@ export function* sendMessageToOwner(api, { message }) {   // *******************
   }
 }
 
-export function* getMessageFromOwner(api, { page }) {   // **********************************************************************
+export function* getMessageFromOwner(api, { page }) {   // FOCUS NOW !!!!!!!!!!**********************************************************************
   const aut = yield select(auth)
-  const their = yield select(idDataAmulet)
+  const their = yield select(idDataAmulet)  // data_their
   const dgroup = yield select(dataChat)
+
   const data = {
-    // qid: their.id,  // older
     market_id: their.id,
     user_id: aut.user_id == their.user_id ? dgroup.user_id : aut.user_id,
-    uid_owner: their.user_id,  // other person or Owner amulet only
+    uid_owner: their.user_id,  // other person or Owner amulet only 
     page_number: page,
 
   }
-  // console.log(data)
   console.log('============== GET MESSAGE IN ROOM OWNER ===============')
   const response = yield call(api.getMessageOwner, data)  // 'discuss/contact-owner'
   console.log(response)
@@ -152,6 +152,37 @@ export function* getMessageFromOwner(api, { page }) {   // *********************
     yield put(ShowRoomActions.getMessageOwnerFailure())
   }
 }
+//********************************* FOCUS NOW !!!!!!!!!!*************************************
+
+
+
+
+export function* getMessageOtherContactMyAmuletRequest(api, { page }) {   // 22 FOCUS NOW 22 !!!!!!!!!!**********************************************************************
+  const aut = yield select(auth)
+  const their = yield select(idDataAmulet)  // data_their
+  // const dgroup = yield select(dataChat)
+ const sho = yield select(show)
+  const data = {
+    user_id: aut.user_id,
+    discuss_id: sho.discuss_id,
+    page_number: page,
+  }
+  console.log(data)
+  console.log('HERE PAGE SAGA===================')
+
+  const response = yield call(api.getMessageOtherToMy, data)
+  console.log(response)
+  console.log('============== GET MESSAGE Other Chat My Amulet ===============')
+  if (response.ok) {
+    yield put(ShowRoomActions.getMessageOtherContactMyAmuletSuccess(response.data))
+  } else {
+    yield put(ShowRoomActions.getMessageOtherContactMyAmuletFailure())
+  }
+}
+//********************************* 22 FOCUS NOW 22 !!!!!!!!!!*************************************
+
+
+
 
 
 export function* getMyRealAmulet(api, { page }) {

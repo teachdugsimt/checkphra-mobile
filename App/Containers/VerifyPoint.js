@@ -75,9 +75,13 @@ class VerifyPoint extends Component {
         }
 
         let clist = newProps.data_cancel
-        if (newProps.data_cancel) {
+        if (newProps.data_cancel && newProps.data_cancel != null) {
             if (newProps.data_cancel != prevState.cancel) {
-                newProps.getVerify(1)
+                // newProps.getVerify(1)
+                newProps.editListBankPayment(newProps.data_cancel)
+                return {
+                    cancel: newProps.data_cancel
+                }
             }
         }
         // if(newProps.data_accept != null){
@@ -110,16 +114,22 @@ class VerifyPoint extends Component {
         let tmp = null
         let status = null
         let color = null
-        if (this.props.data_fully != null) {
-            tmp = this.props.data_fully.find(e => e.id == item.id)
-            if (tmp) {
-                status = tmp.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
-                color = tmp.status == 10 ? 'green' : 'orange'
-            }
-        } else {
-            status = 'Loading...'
-            color = 'lightgrey'
-        }
+        // if (this.props.data_fully != null) {
+        //     tmp = this.props.data_fully.find(e => e.id == item.id)
+        //     if (tmp) {
+        //         status = tmp.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
+        //         color = tmp.status == 10 ? 'green' : 'orange'
+        //     }
+        // } else {
+        //     status = 'Loading...'
+        //     color = 'lightgrey'
+        // }
+
+        // status = item.status == 10 ? I18n.t('successVerify') : I18n.t('waitVerify')
+        // color = item.status == 10 ? 'green' : 'orange'
+
+        status = item.status == 10 ? I18n.t('successVerify') : item.status == 0 ? I18n.t('waitVerify') : "Declined"
+        color = item.status == 10 ? 'green' : item.status == 0 ? 'orange' : 'red'
 
         // let status = item.status == 10 ? 'อนุมัติแล้ว' : 'รออนุมัติ'
         // let color = item.status == 10 ? 'green' : 'orange'
@@ -203,7 +213,7 @@ class VerifyPoint extends Component {
                     width: width,
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
-                
+
                 <FlatList
                     refreshControl={
                         <RefreshControl
@@ -242,13 +252,13 @@ class VerifyPoint extends Component {
                             onChangeText={(text) => this.setState({ reason: text })}
                             placeholder={I18n.t('inputReason')} />
 
-                        {this.state.reason && <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
+                        <View style={{ width: '45%', alignSelf: 'center', marginTop: 10 }}>
                             <RoundedButton
                                 style={{ marginHorizontal: 10 }}
                                 title={I18n.t('ok')}
                                 onPress={this._pressCancel2}
                             />
-                        </View>}
+                        </View>
                     </View>
                 </PopupDialog>
             </LinearGradient>
@@ -281,6 +291,7 @@ const mapDispatchToProps = (dispatch) => {
         setFullData: (data) => dispatch(ExpertActions.setFullData(data)),
         // editFullData: (id, status) => dispatch(ExpertActions.editFullData(id, status)),
         cancelCoin: (id, argument) => dispatch(ExpertActions.cancelCoin(id, argument)),
+        editListBankPayment: (data) => dispatch(ExpertActions.editListBankPayment(data)),
     }
 }
 

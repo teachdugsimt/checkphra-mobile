@@ -256,6 +256,8 @@ class AnswerOfAdmin2 extends Component {
                 {this.props.data && this.props.data.fb_id && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', borderRadius: 15 }} onPress={() => this._goToURL(this.props.data.fb_id)}>
                   <Text style={{ fontSize: 16, color: Colors.brownTextTran, marginHorizontal: 18, marginVertical: 4 }}> {this.props.data.name} </Text>
                 </TouchableOpacity>}
+                {this.props.data && this.props.data.personal && this.props.data.personal.profile && <Text style={{ marginTop: 10, paddingVertical: 5, paddingHorizontal: 7.5, backgroundColor: '#FFEFD5', borderRadius: 15, alignSelf: 'center', textAlignVertical: 'center', color: Colors.brownTextTran }}>
+                  {"check by : " + this.props.data.personal.profile.firstname + " " + (this.props.data.personal.profile.lastname ? this.props.data.personal.profile.lastname : "")}</Text>}
               </View>
 
               {this.props.data.answer.map((e, i) => {

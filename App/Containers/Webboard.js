@@ -27,6 +27,9 @@ const slideAnimation = new SlideAnimation({
 let { width, height } = Dimensions.get('window')
 let count = 1
 
+let is_new = true
+let is_new1 = true
+
 class Webboard extends Component {
 
     constructor(props) {
@@ -38,6 +41,14 @@ class Webboard extends Component {
 
             color1: 'green',
             color2: 'lightgrey',
+
+            tmp_meBoard: null,
+            tmp_allBoard: null,
+
+            tmp_addpost: null,
+
+            // suck_allboard: null,
+            // suck_myboard: null,
         }
     }
 
@@ -45,6 +56,116 @@ class Webboard extends Component {
         console.log(newProps)
         console.log(prevState)
         console.log('++++++++++++ WEBBOARD 1 ++++++++++++')
+
+        if (newProps.data_addpost && newProps.data_addpost != null) {
+            if (prevState.tmp_addpost != newProps.data_addpost) {
+                // newProps.addNewPost(newProps.data_addpost)
+                newProps.addMyNewPost(newProps.data_addpost)
+                return {
+                    tmp_addpost: newProps.data_addpost
+                }
+            }
+        }
+
+        //****************************** DATA MY BOARD *****************************//
+        if (newProps.data_meBoard && newProps.data_meBoard != null) {
+            if (prevState.tmp_meBoard != newProps.data_meBoard && (!newProps.tmp_my || newProps.tmp_my == null)) {
+                let data = []
+                newProps.data_meBoard.map((e, i) => {
+                    data.push({
+                        id: e.id,
+                        updated_at: e.updated_at,
+                        status: false,
+                    })
+                })
+                newProps.setMyBoard(data)
+                return {
+                    tmp_meBoard: newProps.data_meBoard
+                }
+            }
+            else if (prevState.tmp_meBoard != newProps.data_meBoard && newProps.tmp_my && newProps.tmp_my != null) {
+                return {
+                    tmp_meBoard: newProps.data_meBoard
+                }
+            }
+
+            if (newProps.tmp_my && newProps.tmp_my != null) {
+                if (newProps.tmp_my.length == newProps.data_meBoard.length && is_new1 == true) {  // กรณี คอมเม้น
+                    is_new1 = false
+                    newProps.data_meBoard.map((e, i) => {
+                        newProps.tmp_my.map((b, index) => {
+                            if (e.id == b.id && e.updated_at != b.updated_at) {
+                                newProps.updateMyBoard(e.id, e.updated_at, true)  // new redux
+                            }
+                        })
+                    })
+                } else if (newProps.tmp_my.length != newProps.data_meBoard.length) { // กรณีสร้างโพสใหม่
+                    // เพิ่ม ข้อมูลโพสใหม่อีกช่องใส่ tmp_my แล้ว => รอเช็คจาก IF อันบน
+
+                    // ** ส่วน my post เรียบร้อยแล้ว เหลือ 1. สร้างวิวจุดแดงมาโชว์ 2.เมื่อเข้าไปหน้าคอมเม้น ให้เซ็ต status จุดแดง=false **
+                } else if (!newProps.data_meBoard || newProps.data_meBoard.length == 0) {
+                    // กรณีไม่มีโพสของฉัน
+                }
+            }
+        }
+        //****************************** DATA MY BOARD *********************************//
+
+
+        //****************************** DATA ALL BOARD ********************************//
+        if (newProps.data_allBoard && newProps.data_allBoard != null) {
+            if (prevState.tmp_allBoard != newProps.data_allBoard && (!newProps.tmp_all || newProps.tmp_all == null)) {
+                let data = []
+                newProps.data_allBoard.map((e, i) => {
+                    if (newProps.profile.user_id == e.user_id) {  // เก็บโพส เฉพาะโพสของเรา ใน data_allpost
+                        data.push({
+                            id: e.id,
+                            updated_at: e.updated_at,
+                            status: false,
+                        })
+                    }
+                })
+                newProps.setAllBoard(data)
+                return {
+                    tmp_allBoard: newProps.data_allBoard
+                }
+            }
+            else if (prevState.tmp_allBoard != newProps.data_allBoard && newProps.tmp_all && newProps.tmp_all != null) {
+                return {
+                    tmp_allBoard: newProps.data_allBoard
+                }
+            }
+
+            // ส่วน all post เราจะต้องมี tmp_my เพื่อเอามาอ้างอิง โพสของเรา ในกระทู้ทั้งหมด
+            // filter id ใน all post == tmp_my
+            if (newProps.tmp_all && newProps.tmp_all != null) {
+                let tmp = newProps.data_allBoard.filter(e => e.user_id == newProps.profile.user_id)
+                // ใน data_allBoard เราเอาแค่ กระทู้ของเรา มาเช็ค UPDATE_AT กับ tmp_all 
+                if (tmp && tmp != null && newProps.tmp_all.length == tmp.length && is_new == true) {  // กรณี คอมเม้น
+                    // console.log('FAILURE 00')
+                    is_new = false
+                    if (tmp && tmp != null) {
+                        tmp.map((e, i) => {
+                            // console.log('FAILURE 1')
+                            newProps.tmp_all.map((b, index) => {
+                                // console.log('FAILURE 2')
+                                if (e.id == b.id && e.updated_at != b.updated_at) {  // e ใหม่ , b เก่า
+                                    newProps.updateAllBoard(e.id, e.updated_at, true)
+                                }
+                            })
+                        })
+                    }
+
+                } else if (newProps.tmp_all.length != tmp.length) { // กรณีสร้างโพสใหม่
+                    // ** ให้เพิ่ม โพสของเราอันใหม่ใน tmp_all แล้ว
+                    // ** เหลือ 1. สร้างวิวจุดแดง 2. เข้าไปดูเนื้อหา แล้วเปลี่ยน status จุดแดง = false **
+                } else if (!tmp) {
+                    // กรณีมีแต่โพสคนอื่น
+                }
+
+            }
+        }
+        //****************************** DATA ALL BOARD ********************************//
+
 
         return {
 
@@ -79,7 +200,10 @@ class Webboard extends Component {
     }
 
     componentWillUnmount() {
+        this.props.clearListMyAll()
         count = 1
+        is_new = true
+        is_new1 = true
     }
 
     _reload = () => {
@@ -173,6 +297,10 @@ class Webboard extends Component {
                         </View>
                     </View>
                 </View>
+
+                {/* MY BOARD */}
+                {this.props.tmp_my && this.props.tmp_my.find(e => e.id == item.id).status == true && <View
+                    style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 1, right: 1 }}></View>}
             </TouchableOpacity>
         )
     }
@@ -207,6 +335,9 @@ class Webboard extends Component {
                     </View>
 
                 </View>
+                {/* ALL BOARD */}
+                {this.props.tmp_all && this.props.tmp_all.find(e => e.id == item.id).status == true && <View
+                    style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 1, right: 1 }}></View>}
             </TouchableOpacity>
         )
     }
@@ -333,6 +464,9 @@ const mapStateToProps = (state) => {
 
         request3: state.webboard.request3, // for add post 
         data_addpost: state.webboard.data_addpost, // store my add post board
+
+        tmp_my: state.webboard.tmp_my,  // store temp my webboard
+        tmp_all: state.webboard.tmp_all,  // store temp all webboard
     }
 }
 
@@ -344,6 +478,15 @@ const mapDispatchToProps = (dispatch) => {
         getListAll: (page) => dispatch(WebboardActions.getListAll(page)),
         addPost: (topic, content) => dispatch(WebboardActions.addPost(topic, content)),
         getListMe: (page) => dispatch(WebboardActions.getListMe(page)),
+        setMyBoard: (data) => dispatch(WebboardActions.setMyBoard(data)),
+        setAllBoard: (data) => dispatch(WebboardActions.setAllBoard(data)),
+
+        updateMyBoard: (id, updated_at, status) => dispatch(WebboardActions.updateMyBoard(id, updated_at, status)),
+        updateAllBoard: (id, updated_at, status) => dispatch(WebboardActions.updateAllBoard(id, updated_at, status)),
+
+        addMyNewPost: (data) => dispatch(WebboardActions.addMyNewPost(data)),
+        clearListMyAll: () => dispatch(WebboardActions.clearListMyAll()),
+
     }
 }
 

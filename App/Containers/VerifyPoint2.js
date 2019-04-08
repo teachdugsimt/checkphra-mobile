@@ -16,6 +16,7 @@ import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 // I18n.currentLocale();
 const { width } = Dimensions.get('window')
+let check = false
 class VerifyPoint2 extends Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -33,10 +34,23 @@ class VerifyPoint2 extends Component {
             modalVisible: false,
             index: 0,
             spinner: false,
+            tmp_accept: null,
         }
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
+
+        if (newProps.data_accept && newProps.data_accept != null) {
+            if (prevState.tmp_accept != newProps.data_accept && check == false) {
+                check = true
+                // console.log('------------ edit list payment by banking --------------')
+                newProps.editListBankPayment(newProps.data_accept)
+                return {
+                    tmp_accept: newProps.data_accept
+                }
+            }
+        }
+
         if (newProps.request) {
             return {
                 spinner: true
@@ -48,7 +62,12 @@ class VerifyPoint2 extends Component {
         }
     }
 
+    componentWillUnmount(){
+        check = false
+    }
+
     componentDidMount() {
+        check = false
         this.setState({ spinner: false })
     }
 
@@ -107,7 +126,7 @@ class VerifyPoint2 extends Component {
         // console.log(img2)
         return (
             <View style={{ flex: 1 }}>
-                
+
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', height: 60, borderBottomColor: 'lightgrey', borderBottomWidth: 1 }}>
                     <Text style={{ color: status_color, fontSize: 20 }}>{status}</Text>
@@ -204,6 +223,8 @@ const mapStateToProps = state => {
         request: state.expert.fetch3,
         full_data: state.expert.full_data,
         language: state.auth.language,
+
+        data_accept: state.expert.data_accept,
     };
 };
 
@@ -212,6 +233,7 @@ const mapDispatchToProps = dispatch => {
         addTransfer: (id) => dispatch(ExpertActions.acceptRequest(id)),
         // getVerify: () => dispatch(ExpertActions.getProfileRequest()),
         editFullData: (id) => dispatch(ExpertActions.editFullData(id)),
+        editListBankPayment: (data) => dispatch(ExpertActions.editListBankPayment(data)),
     };
 };
 

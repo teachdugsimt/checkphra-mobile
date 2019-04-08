@@ -2,10 +2,12 @@ import apisauce from 'apisauce'
 
 let b
 if (process.env.NODE_ENV === 'production') {
-  b = 'https://infiltech.org/core-shop/web/index.php/v1/'
+  b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'
 } else {
-  b = 'https://infiltech.org/core-shop/web/index.php/v1/'   //true
-  // b = 'http://192.168.1.45/core-shop/web/index.php/v1/'
+  b = 'https://infiltech.org/checkphra-api/web/index.php/v1/'   //true
+  // b = 'http://192.168.1.45/core-discuss/web/index.php/v1/'
+
+  // b = 'http://172.20.10.2/CheckPhraApi/web/index.php/v2/'
 }
 
 const create = (baseURL = b) => {
@@ -27,18 +29,18 @@ const create = (baseURL = b) => {
     timeout: 10000
   })
 
-  const getProvince = () => api.get('province/list')
-  const getRegion = (data) => api.get('province/check-phra-region', data)
+  //   const getListReal = (data) => api.get('amulets/list-all', data)
+  const getMessageOtherToMy = (data) => api.get('discuss/views', data)
+
 
   return {
     // a list of the API functions from step 2
-    getProvince,
-    getRegion
+    // getListReal,
+    getMessageOtherToMy
+
   }
 }
 
 export default {
   create
 }
-  // let's return back our create method as the default.
-

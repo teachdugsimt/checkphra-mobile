@@ -56,7 +56,7 @@ class Webboard2 extends Component {
         return {
             headerRight: (
                 <TouchableOpacity onPress={params.newPost}>
-                    <Icon2 name={'plus-square-o'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+                    <Icon2 name={'plus-circle'} color={'white'} size={40} style={{ paddingRight: 10 }} />
                 </TouchableOpacity>
             ),
         };

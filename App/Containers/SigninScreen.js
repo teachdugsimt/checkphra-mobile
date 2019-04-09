@@ -55,7 +55,9 @@ class SigninScreen extends Component {
   componentDidMount() {
     // this.setState({ spinner: false })
     // console.log(this.props.profile)
-    this.hideSignin()
+    if (this.props.profile) {
+      this.hideSignin()
+    }
 
     if (this.props.profile) {
       if (this.props.profile.role == 'expert') {
@@ -162,7 +164,9 @@ class SigninScreen extends Component {
 
   fbLogin = async () => {
     try {
+
       const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_link']);
+      console.log(result)
 
       // console.log(result)
       console.log('--------------- RESULT LOGIN ----------------')
@@ -212,7 +216,9 @@ class SigninScreen extends Component {
 
     } catch (e) {
       this.setState({ spinner: false })
-      console.error(e);
+      // console.error(e);
+      console.log(e)
+      console.log('----------------------- HERE "E" ------------------------')
     }
   }
 

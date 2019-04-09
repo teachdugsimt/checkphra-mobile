@@ -321,7 +321,7 @@ export default {
   amuletNorthEast: 'Amulet in North East',
   amuletEast: 'Amulet in East',
   amuletSouth: 'Amulet in South',
-  normalCate: 'Normal Categories',
+  normalCate: 'General Categories',
   follow3group: 'You must follow at least 3 types of amulets!!',
   banUser: 'Ban',
   sureBan: "Do you want to ban this amulet ?",

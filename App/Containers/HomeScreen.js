@@ -21,9 +21,9 @@ import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
 
-import {
-  AdMobRewarded,
-} from 'react-native-admob'
+// import {
+//   AdMobRewarded,
+// } from 'react-native-admob'
 
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
@@ -175,20 +175,20 @@ class HomeScreen extends Component {
     }
   }
 
-  seeVideo() {
-    // Display a rewarded ad
-    AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
-    AdMobRewarded.requestAd().then((err) => {
-      // console.log('get ads success')
-      console.log(err)
-      // AdMobRewarded.showAd()
-    })
-      .catch((err) => {
-        console.log(err.message)
-      });
+  // seeVideo() {
+  //   // Display a rewarded ad
+  //   AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
+  //   AdMobRewarded.requestAd().then((err) => {
+  //     // console.log('get ads success')
+  //     console.log(err)
+  //     // AdMobRewarded.showAd()
+  //   })
+  //     .catch((err) => {
+  //       console.log(err.message)
+  //     });
 
 
-  }
+  // }
 
   async shareLinkWithShareDialog() {
     var tmp = this;

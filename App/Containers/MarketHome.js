@@ -114,7 +114,7 @@ class MarketHome extends Component {
             data_skin: slist,
             tmp_region,
             slist,
-            slist2,
+            slist2, 
             slist3: newProps.data_alltype
         }
     }

@@ -77,7 +77,6 @@
 		F672B911C5E84599B6C76384 /* Prompt-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1CD31A8B4E749BB8800FD31 /* Prompt-MediumItalic.ttf */; };
 		FDC922A9CF9D407DB34A6F86 /* Prompt-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD64A868E35A438E99E833E0 /* Prompt-ExtraBoldItalic.ttf */; };
 		CAD83665D116485D87DF0F04 /* libRNPaypal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A772C83C9A91483BAE782B8A /* libRNPaypal.a */; };
-		19AD6FC58E7244368E0834B1 /* libRNAdMobManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC316C13A18344E58E4A7670 /* libRNAdMobManager.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -490,8 +489,6 @@
 		FF2FDDEA3F1B40CFB7D1870B /* Prompt-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Prompt-Regular.ttf"; path = "../assets/Fonts/Prompt-Regular.ttf"; sourceTree = "<group>"; };
 		1B3600BD1AC0425E891E10CA /* RNPaypal.xcodeproj */ = {isa = PBXFileReference; name = "RNPaypal.xcodeproj"; path = "../node_modules/react-native-paypal/ios/RNPaypal.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		A772C83C9A91483BAE782B8A /* libRNPaypal.a */ = {isa = PBXFileReference; name = "libRNPaypal.a"; path = "libRNPaypal.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		2BAF503B050A4A5A8AD1388A /* RNAdMobManager.xcodeproj */ = {isa = PBXFileReference; name = "RNAdMobManager.xcodeproj"; path = "../node_modules/react-native-admob/ios/RNAdMobManager.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		AC316C13A18344E58E4A7670 /* libRNAdMobManager.a */ = {isa = PBXFileReference; name = "libRNAdMobManager.a"; path = "libRNAdMobManager.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -529,7 +526,6 @@
 				F1C7AAE344F34095B0D1F792 /* libRNFirebase.a in Frameworks */,
 				50F062A8178141B525C31DC6 /* libPods-CheckPhra.a in Frameworks */,
 				CAD83665D116485D87DF0F04 /* libRNPaypal.a in Frameworks */,
-				19AD6FC58E7244368E0834B1 /* libRNAdMobManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,7 +841,6 @@
 				2ED21ED7430944A6A5AEAE4B /* BVLinearGradient.xcodeproj */,
 				BCC88B2165FB476C9FA7DCA0 /* RNFirebase.xcodeproj */,
 				1B3600BD1AC0425E891E10CA /* RNPaypal.xcodeproj */,
-				2BAF503B050A4A5A8AD1388A /* RNAdMobManager.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1804,7 +1799,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1836,7 +1830,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1937,7 +1930,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1978,7 +1970,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2018,7 +2009,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2058,7 +2048,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

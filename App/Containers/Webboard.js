@@ -137,7 +137,7 @@ class Webboard extends Component {
 
             // ส่วน all post เราจะต้องมี tmp_my เพื่อเอามาอ้างอิง โพสของเรา ในกระทู้ทั้งหมด
             // filter id ใน all post == tmp_my
-            if (newProps.tmp_all && newProps.tmp_all != null) {
+            if (newProps.tmp_all && newProps.tmp_all != null && newProps.profile) {
                 let tmp = newProps.data_allBoard.filter(e => e.user_id == newProps.profile.user_id)
                 // ใน data_allBoard เราเอาแค่ กระทู้ของเรา มาเช็ค UPDATE_AT กับ tmp_all 
                 if (tmp && tmp != null && newProps.tmp_all.length == tmp.length && is_new == true) {  // กรณี คอมเม้น
@@ -178,7 +178,7 @@ class Webboard extends Component {
         return {
             headerRight: (
                 <TouchableOpacity onPress={params.newItem}>
-                    <Icon2 name={'plus-square-o'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+                    <Icon2 name={'plus-circle'} color={'white'} size={40} style={{ paddingRight: 10 }} />
                 </TouchableOpacity>
             ),
         };
@@ -336,7 +336,7 @@ class Webboard extends Component {
 
                 </View>
                 {/* ALL BOARD */}
-                {this.props.tmp_all && this.props.tmp_all.find(e => e.id == item.id).status == true && <View
+                {this.props.tmp_all && this.props.tmp_all != null && this.props.tmp_all.find(e => e.id == item.id) && this.props.tmp_all.find(e => e.id == item.id).status == true && <View
                     style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 1, right: 1 }}></View>}
             </TouchableOpacity>
         )

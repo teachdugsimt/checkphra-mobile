@@ -14,6 +14,11 @@ import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dia
 import I18n from '../I18n/i18n';
 import { getLanguages } from 'react-native-i18n';
 import RoundedButton from "../Components/RoundedButton";
+import {
+  AccessToken, LoginManager,
+  GraphRequest,
+  GraphRequestManager
+} from 'react-native-fbsdk';
 
 // import ImagePicker from 'react-native-image-picker'
 I18n.fallbacks = true;
@@ -131,6 +136,18 @@ class ProfileScreen extends Component {
     this.props.getProfile()
   }
 
+  clearFacebook = async () => {
+    // const data = await AccessToken.getCurrentAccessToken();
+    // if (data != null) {
+    //   LoginManager.getInstance().logOut();
+    // }
+
+    LoginManager.logOut();
+    return {
+      type: LOGOUT,
+    };
+  }
+
   _onSignout = () => {
     Alert.alert(
       'Check Phra',
@@ -141,6 +158,7 @@ class ProfileScreen extends Component {
             this.props.signout()
             this.props.signout2()
             this.props.clearAll()
+            this.clearFacebook()
             this.props.navigation.navigate('Auth')
           }
         },

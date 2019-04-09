@@ -5,8 +5,8 @@ let b
 if (process.env.NODE_ENV === 'production') {
   b = 'https://infiltech.org/core-profile/web/index.php/v1/'
 } else {
-  // b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
-  b = 'http://192.168.1.45/core-profile/web/index.php/v1/'
+  b = 'https://infiltech.org/core-profile/web/index.php/v1/'   //true
+  // b = 'http://192.168.1.45/core-profile/web/index.php/v1/'
 
   // b = 'http://172.20.10.2/core-profile/web/index.php/v1/'
 }

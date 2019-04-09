@@ -271,7 +271,7 @@ export default {
   searchResult: 'ผลลัพธ์การค้นหา',
   noneSearching: 'ไม่พบรายการที่ค้นหา',
   amuletSearch: 'ชื่อพระที่ต้องการค้นหา',
-  
+
   deleteAmulet: 'ลบพระองค์นี้',
   sendToMarket: 'ส่งพระเข้าสู่ตลาด',
   menu: 'กรุณาเลือกรายการ',
@@ -362,5 +362,5 @@ export default {
   failureTransaction: 'ทำรายการล้มเหลว กรุณาลองอีกครั้ง',
   succ: 'สำเร็จ!!',
   fail: 'ล้มเหลว!!',
-
+  news: 'ข่าวสาร'
 }

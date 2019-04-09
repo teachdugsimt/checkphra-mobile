@@ -44,6 +44,8 @@
 
       <meta-data android:name="com.facebook.sdk.ApplicationId"
         android:value="@string/facebook_app_id"/>
+      <meta-data android:name="com.google.android.gms.ads.com.infiltech.checkphra"
+        android:value="ca-app-pub-3195623586470373~8055302739"/>
 
       <activity android:name="com.facebook.FacebookActivity"
         android:configChanges=

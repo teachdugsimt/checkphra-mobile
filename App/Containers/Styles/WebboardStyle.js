@@ -188,7 +188,8 @@ export default StyleSheet.create({
         backgroundColor: Colors.textInput,
         margin: 10,
         height: height / 2.5,
-        width: '75%'
+        width: '75%',
+        lineHeight: 30
     },
     textBox3: {
         // borderWidth: 1,,
@@ -197,7 +198,8 @@ export default StyleSheet.create({
         backgroundColor: Colors.textInput,
         margin: 10,
         height: height / 3.85,
-        width: '75%'
+        width: '75%',
+        lineHeight: 30
     },
     buttonPost: {
         width: '40%',

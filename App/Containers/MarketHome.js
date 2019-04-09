@@ -126,9 +126,9 @@ class MarketHome extends Component {
             this.props.requestAllTypeAmulet()
         }
 
-        if (this.props.profile && !this.props.profile.my_follow) {
+        if (this.props.profile && !this.props.profile.my_follow && this.props.profile.role != "admin") {
             this.popupDialogFix.show()
-        } else if (this.props.profile && this.props.profile.my_follow) {
+        } else if (this.props.profile && this.props.profile.my_follow && this.props.profile.role != "admin") {
             if (this.props.profile.my_follow.length < 3) {
                 this.popupDialogFix.show()
             }
@@ -387,7 +387,7 @@ class MarketHome extends Component {
                 <PopupDialog
                     dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
-                    }}>Select Normal Categories</Text></View>}
+                    }}>{I18n.t('normalCate')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog4 = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={width / 1.15}
@@ -446,7 +446,7 @@ class MarketHome extends Component {
                 <PopupDialog
                     dialogTitle={<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
-                    }}>Select follow at least 3 types</Text>
+                    }}>{I18n.t("f3t")}</Text>
                         {this.state.check_follow == "auto" && <TouchableOpacity style={{ position: 'absolute', right: 5 }} onPress={() => this.popupDialogFix.dismiss()}><Icon2 name={"window-close"} size={22} /></TouchableOpacity>}
                     </View>}
                     ref={(popupDialog) => { this.popupDialogFix = popupDialog; }}

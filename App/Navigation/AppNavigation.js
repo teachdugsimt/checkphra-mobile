@@ -257,7 +257,7 @@ const UploadStack = StackNavigator(  // main upload
     marketStore: {
       screen: MarketOpenstore,
       navigationOptions: {
-        title: I18n.t('market')
+        title: I18n.t('marketOpen')
       }
     },
     marketMylistAmulet: {

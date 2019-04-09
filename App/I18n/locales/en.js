@@ -325,6 +325,8 @@ export default {
   follow3group: 'You must follow at least 3 types of amulets!!',
   banUser: 'Ban',
   sureBan: "Do you want to ban this amulet ?",
+  marketOpen: "Register open store",
+  f3t: "Select follow at least 3 types",
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

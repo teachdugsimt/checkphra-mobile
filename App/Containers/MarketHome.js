@@ -47,9 +47,30 @@ class MarketHome extends Component {
 
             tmp_follow: null,
             tmp_profile: null,
+            tmp_province: null,
             check_follow: null,
         }
     }
+
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+        return {
+            // title: params.getName,  // change title => String
+            // headerTitle: (
+            //     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            //         <Text style={{ fontSize: 18, color: "white" }} numberOfLines={1}>
+            //             {params.getName}
+            //         </Text>
+            //     </View>
+            // ),
+            headerRight: (
+                <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 5, marginRight: 7.5 }} onPress={params.showDialog}>
+                    <Text style={{ fontSize: 18, color: Colors.brownText, fontWeight: 'bold' }}>{I18n.t("shop")}</Text>
+                    <Icon2 name={'shopping-cart'} size={20} style={{ paddingLeft: 5 }} />
+                </TouchableOpacity>
+            )
+        };
+    };
 
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
@@ -57,6 +78,13 @@ class MarketHome extends Component {
         let tmp_region = null
         if (newProps.data_region && newProps.data_region != null) {
             tmp_region = newProps.data_region
+        }
+
+        let tmp_province = newProps.province
+        if (newProps.province && newProps.province != null) {
+            if (prevState.tmp_province != newProps.province) {
+                tmp_province = newProps.province
+            }
         }
 
 
@@ -114,14 +142,21 @@ class MarketHome extends Component {
             data_skin: slist,
             tmp_region,
             slist,
-            slist2, 
-            slist3: newProps.data_alltype
+            slist2,
+            slist3: newProps.data_alltype,
+            tmp_province
         }
+    }
+
+    showDialog = () => {
+        this.props.getProvince()
+        this.popupDialogProvince.show()
     }
 
     componentDidMount() {
         this.props.getListTypeAmulet()
         this.props.getProfile()
+        this.props.navigation.setParams({ showDialog: this.showDialog })
         if (!this.props.data_alltype) {
             this.props.requestAllTypeAmulet()
         }
@@ -248,35 +283,35 @@ class MarketHome extends Component {
 
                 <TouchableOpacity style={styles.touchPin1} onPress={this._north}>
                     <Image source={Images.pin} style={styles.pin} />
-                    <Text style={styles.textMap}>North</Text>
+                    <Text style={styles.textMap}>{I18n.t("north")}</Text>
                     {this.props.profile && this.props.profile.my_follow != null && this.props.profile.my_follow.filter(e => e.region_id == 1).find(b => b.is_new == true) != undefined && <View
                         style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.touchPin2} onPress={this._northEast}>
                     <Image source={Images.pin} style={styles.pin} />
-                    <Text style={styles.textMap}>North East</Text>
+                    <Text style={styles.textMap}>{I18n.t("north_east")}</Text>
                     {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == 4).find(b => b.is_new == true) != undefined && <View
                         style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.touchPin3} onPress={this._central}>
                     <Image source={Images.pin} style={styles.pin} />
-                    <Text style={styles.textMap}>Central</Text>
+                    <Text style={styles.textMap}>{I18n.t("central")}</Text>
                     {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == 2).find(b => b.is_new == true) != undefined && <View
                         style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.touchPin4} onPress={this._east}>
                     <Image source={Images.pin} style={styles.pin} />
-                    <Text style={styles.textMap}>East</Text>
+                    <Text style={styles.textMap}>{I18n.t("east")}</Text>
                     {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == 3).find(b => b.is_new == true) != undefined && <View
                         style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.touchPin5} onPress={this._south}>
                     <Image source={Images.pin} style={styles.pin} />
-                    <Text style={styles.textMap}>South</Text>
+                    <Text style={styles.textMap}>{I18n.t("south")}</Text>
                     {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == 5).find(b => b.is_new == true) != undefined && <View
                         style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
@@ -292,8 +327,8 @@ class MarketHome extends Component {
                 {/* *******************OPEN STORE ZONE******************* */}
                 {this.props.profile && this.props.profile.role != "admin" && <TouchableOpacity style={{ width: (width / 3.7), height: (height / 8.5), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
                     <Image source={Images.chat} style={{ width: width / 3.7, height: height / 8.5 }} />
-                    <Text style={{ position: 'absolute', bottom: height / 14, right: 34 }}>Go To.</Text>
-                    <Text style={{ position: 'absolute', bottom: (height / 14) - 20, right: 22 }}>My store !!</Text>
+                    <Text style={{ position: 'absolute', bottom: height / 14, right: 34, fontFamily: "Prompt-SemiBold" }}>{this.props.profile.store == null ? I18n.t("registerOpenStore1") : I18n.t("goto")}</Text>
+                    <Text style={{ position: 'absolute', bottom: (height / 14) - 20, right: 22, fontFamily: "Prompt-SemiBold" }}>{this.props.profile.store == null ? I18n.t("registerOpenStore2") : I18n.t('mystore')}</Text>
                 </TouchableOpacity>}
                 {/* *******************OPEN STORE ZONE******************* */}
 
@@ -336,7 +371,7 @@ class MarketHome extends Component {
                 <PopupDialog
                     dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
-                    }}>Select Amulet Type</Text></View>}
+                    }}>{I18n.t("selectAmuletType")}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={width / 1.15}
@@ -365,6 +400,7 @@ class MarketHome extends Component {
                                         this.setState({ id_province: e.id })
                                         this.props.setZoneSkin(this.state.area, e.id)  // zone & province
                                         this.props.navigation.navigate('marketListArea1')
+                                        this.props.setTypeName(e.name)
                                         this.popupDialog2.dismiss()
                                     }} >
                                         <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText, marginTop: 10 }}>{e.name}</Text>
@@ -423,6 +459,7 @@ class MarketHome extends Component {
                                         this.setState({ id_province: e.id })
                                         this.props.setZoneSkin(this.state.area, e.id)  // zone & province => zone & id type amulet
                                         this.props.navigation.navigate('marketListArea1')
+                                        this.props.setTypeName(e.name)
                                         this.popupDialog4.dismiss()
                                     }}>
                                         <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold', marginTop: 10 }}>{e.name}</Text>
@@ -501,9 +538,36 @@ class MarketHome extends Component {
 
                 </PopupDialog>
 
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('selectProvince')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialogProvince = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={height / 1.6}
+                    // height={150}
+                    onDismissed={() => { this.setState({}) }} >
+
+                    <ScrollView style={{ flex: 1 }}>
+                        {this.state.tmp_province && this.state.tmp_province.map((e, i) => {
+                            return (
+                                <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
+                                    this.props.setJangwad(e.id, e.name)
+                                    this.props.navigation.navigate("marketListShop")
+                                }}>
+                                    <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold', marginTop: 10 }}>{e.name}</Text>
+                                </TouchableOpacity>
+                            )
+
+                        })}
+                    </ScrollView>
+
+                </PopupDialog>
+
 
                 <Spinner
-                    visible={(this.props.request || (this.props.request_profile || (this.props.request5 || this.props.request15)))}
+                    visible={(this.props.request || (this.props.request_profile || (this.props.request5 || (this.props.request15 || this.props.request4))))}
                     textContent={'Loading...'}
                     textStyle={{ color: '#fff' }}
                 />
@@ -539,6 +603,9 @@ const mapStateToProps = (state) => {
 
         request15: state.market.request15,  // for request all type amulet
         data_alltype: state.market.data_alltype,  // store all type amulet
+
+        request4: state.market.request4,  // request get province
+        province: state.market.province,  // store province
     }
 }
 
@@ -565,6 +632,9 @@ const mapDispatchToProps = (dispatch) => {
         deleteRedDotData: (type_id) => dispatch(QuestionActions.deleteRedDotData(type_id)),
         editRedDotData2: (last_id, type_id) => dispatch(QuestionActions.editRedDotData2(last_id, type_id)),
         requestAllTypeAmulet: () => dispatch(MarketActions.requestAllTypeAmulet()),
+        setTypeName: (name) => dispatch(MarketActions.setTypeName(name)),
+        getProvince: () => dispatch(MarketActions.getProvince()),
+        setJangwad: (id, name) => dispatch(MarketActions.setJangwad(id, name)),
     }
 }
 

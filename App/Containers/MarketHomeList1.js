@@ -46,8 +46,28 @@ class MarketHomeList1 extends Component {
             tlist: null,
 
             checkTypeIsMyFollow: false,
+            type_name: this.props.type_name
         }
     }
+
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+        return {
+            // title: params.getName,  // change title => String
+            headerTitle: (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 18, color: "white" }} numberOfLines={1}>
+                        {params.getName}
+                    </Text>
+                </View>
+            ),
+            // headerRight: (
+            //     <TouchableOpacity style={{ backgroundColor: Colors.brownTone, marginRight: 10, borderRadius: 10, justifyContent: 'center' }} onPress={params.getName}>
+            //         <Text style={{ fontSize: 18, color: Colors.whiteTone, paddingVertical: 3.5, paddingHorizontal: 7.5, fontWeight: 'bold' }}>ตรวจ</Text>
+            //     </TouchableOpacity>
+            // )
+        };
+    };
 
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
@@ -145,6 +165,7 @@ class MarketHomeList1 extends Component {
 
     componentDidMount() {
         count = 1
+        this.props.navigation.setParams({ getName: this.state.type_name })
         this.props.getListAreaAmulet(count)
 
         // if (this.props.profile && this.props.profile.my_follow) {
@@ -176,6 +197,7 @@ class MarketHomeList1 extends Component {
 
     render() {
         I18n.locale = this.props.language
+        console.log(this.state.type_name)
         console.log('-------------------------- MARKET HOME LIST1 -------------------------')
         // console.log(this.props.data_amulet)
 
@@ -250,6 +272,8 @@ const mapStateToProps = (state) => {
         pro_id: state.market.pro_id,  // TYPE_ID
 
         lastIDofGroupAmulet: state.question.data_follow,  // build new array save my_follow
+
+        type_name: state.market.type_name,  // store type name
     }
 }
 

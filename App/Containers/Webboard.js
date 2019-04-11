@@ -59,7 +59,6 @@ class Webboard extends Component {
 
         if (newProps.data_addpost && newProps.data_addpost != null) {
             if (prevState.tmp_addpost != newProps.data_addpost) {
-                // newProps.addNewPost(newProps.data_addpost)
                 newProps.addMyNewPost(newProps.data_addpost)
                 return {
                     tmp_addpost: newProps.data_addpost
@@ -148,7 +147,7 @@ class Webboard extends Component {
                             // console.log('FAILURE 1')
                             newProps.tmp_all.map((b, index) => {
                                 // console.log('FAILURE 2')
-                                if (e.id == b.id && e.updated_at != b.updated_at) {  // e ใหม่ , b เก่า
+                                if (e.id == b.id && e.updated_at != b.updated_at) {  // e/tmp ใหม่ , b/tmp_all เก่า
                                     newProps.updateAllBoard(e.id, e.updated_at, true)
                                 }
                             })
@@ -299,7 +298,7 @@ class Webboard extends Component {
                 </View>
 
                 {/* MY BOARD */}
-                {this.props.tmp_my && this.props.tmp_my.find(e => e.id == item.id).status == true && <View
+                {this.props.tmp_my && this.props.tmp_my != null && this.props.tmp_my.length > 0 && this.props.tmp_my.find(e => e.id == item.id).status == true && <View
                     style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 1, right: 1 }}></View>}
             </TouchableOpacity>
         )
@@ -336,7 +335,7 @@ class Webboard extends Component {
 
                 </View>
                 {/* ALL BOARD */}
-                {this.props.tmp_all && this.props.tmp_all != null && this.props.tmp_all.find(e => e.id == item.id) && this.props.tmp_all.find(e => e.id == item.id).status == true && <View
+                {this.props.tmp_all && this.props.tmp_all != null && this.props.tmp_all.length > 0 && this.props.tmp_all.find(e => e.id == item.id) && this.props.tmp_all.find(e => e.id == item.id).status == true && <View
                     style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 1, right: 1 }}></View>}
             </TouchableOpacity>
         )
@@ -437,7 +436,7 @@ class Webboard extends Component {
                     </ScrollView>
                 </PopupDialog>
 
-                {/* <TouchableOpacity style={styles.iconView} onPress={this._newPost}>
+                {/* <TouchableOpacity style={styles.iconView} onPress={() => this.props.clearTmp()}>
                     <Icon2 name={'plus-square-o'} color={'dark'} size={34} />
                 </TouchableOpacity> */}
                 <Spinner
@@ -486,6 +485,7 @@ const mapDispatchToProps = (dispatch) => {
 
         addMyNewPost: (data) => dispatch(WebboardActions.addMyNewPost(data)),
         clearListMyAll: () => dispatch(WebboardActions.clearListMyAll()),
+        clearTmp: () => dispatch(WebboardActions.clearTmp()),
 
     }
 }

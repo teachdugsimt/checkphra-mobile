@@ -262,11 +262,30 @@ class ChatTheirAmulet extends Component {
 
         this.props.clearTheirAmuletMessage() // clear message and send message
     }
+    // ********************* OLD SCHOOL *************************** //
+    // _reload = () => {
+    //     // count = 1
+    //     // this.props.getMessageTheirAmulet(count)
+    //     if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+    //         count++
+    //         this.props.getMessageTheirAmulet(count)
+    //     }
+    // }
 
+    // _onScrollEndList = () => {
+    //     console.log('END LIST AGAIN')
+    //     if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+    //         count++
+    //         this.props.getMessageTheirAmulet(count)
+    //     }
+    // }
+    // ********************* OLD SCHOOL *************************** //
+
+    // ************************ NEW SCHOOL ************************** //
     _reload = () => {
         // count = 1
         // this.props.getMessageTheirAmulet(count)
-        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
             count++
             this.props.getMessageTheirAmulet(count)
         }
@@ -274,12 +293,12 @@ class ChatTheirAmulet extends Component {
 
     _onScrollEndList = () => {
         console.log('END LIST AGAIN')
-        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
-            count++
+        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
+            count = 1
             this.props.getMessageTheirAmulet(count)
         }
     }
-
+    // ************************ NEW SCHOOL ************************** //
 
 
     _chatOwnerAmulet = () => {
@@ -464,8 +483,8 @@ class ChatTheirAmulet extends Component {
                             this.myFaltList.scrollToEnd()
                     }}
                     // inverted={true}
-                    // onEndReached={this._onScrollEndList}
-                    // onEndReachedThreshold={0.3}
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={0.1}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.props.request3 == true}

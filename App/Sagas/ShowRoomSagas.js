@@ -168,7 +168,7 @@ export function* getMessageOtherContactMyAmuletRequest(api, { page }) {   // 22 
     page_number: page,
   }
   console.log(data)
-  console.log('HERE PAGE SAGA===================')
+  console.log('===================HERE PAGE SAGA===================')
 
   const response = yield call(api.getMessageOtherToMy, data)
   console.log(response)

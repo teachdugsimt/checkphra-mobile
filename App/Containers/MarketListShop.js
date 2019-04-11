@@ -66,6 +66,10 @@ class MarketListShop extends Component {
                             </TouchableOpacity>
                         )
                     })}
+
+                    {item.images == null && <TouchableOpacity style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} onPress={() => this._showImg(item, i)}>
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </TouchableOpacity>}
                 </ScrollView>
 
                 <View style={{ flex: 0.6, marginHorizontal: 7.5 }}>

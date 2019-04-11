@@ -305,7 +305,7 @@ export function* getListStoreGroupRequest(api, { page }) {
 
   const data = {
     user_id: aut.user_id,
-    province_id: img.pro_id,
+    province_id: img.jangwad_id,
     page_number: page,
   }
 

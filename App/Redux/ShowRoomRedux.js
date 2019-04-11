@@ -67,6 +67,8 @@ const { Types, Creators } = createActions({
   getMessageOtherContactMyAmulet: ['page'],
   getMessageOtherContactMyAmuletSuccess: ['data'],
   getMessageOtherContactMyAmuletFailure: null,
+
+  updateUserContactOwnerList: ['old_id', 'new_id'],
 })
 
 export const ShowRoomTypes = Types
@@ -129,6 +131,19 @@ export const setDisscuss = (state, { id }) => {
   return state.merge({ discuss_id: id })
 }
 
+export const updateUserContactOwnerList = (state, { old_id, new_id }) => {
+  let tmp = JSON.parse(JSON.stringify(state.data_listOwner))
+  if (tmp && tmp != null) {
+    tmp.forEach((e, i) => {
+      if (e.id == old_id) {
+        e.id = new_id
+      }
+    })
+  }
+  console.log(tmp)
+  console.log('++++++++++++++++++ TMP DATA_LISTOWNER +++++++++++++++++++')
+  return state.merge({ data_listOwner: tmp })
+}
 
 export const getMessageOtherContactMyAmulet = state => state.merge({ request5: true })
 export const getMessageOtherContactMyAmuletSuccess = (state, { data }) => {
@@ -219,6 +234,7 @@ export const getMyMessageFromOtherFailure = state => state.merge({ request7: fal
 
 export const getListOwnerContact = state => state.merge({ request8: true })
 export const getListOwnerContactSuccess = (state, { data }) => {
+
   let tmp
   if (state.data_listOwner && state.data_listOwner != null && state.data_listOwner.length > 0) {
     // data.forEach(e => tmp.push(e))
@@ -231,7 +247,16 @@ export const getListOwnerContactSuccess = (state, { data }) => {
         }
       }
       else {
-        tmp.push(e)
+        tmp.map((el, ind) => {
+          if (e.amulet && el.amulet && e.amulet.id == el.amulet.id) {
+            if (e != el) {
+              tmp.splice(ind, 1, e)
+            }
+          } else {
+            tmp.push(e)
+          }
+        })
+
       }
     })
     // main algorithm
@@ -359,14 +384,25 @@ export const setTheirAmuletData = (state, { data }) => state.merge({ data_their:
 export const getMessageTheirAmulet = state => state.merge({ request3: true })
 export const getMessageTheirAmuletSuccess = (state, { data }) => {
   // let tmp = [...state.data_list] // if don't have value it ERROR!!
+  console.log(data)
+  console.log('++++++++++++++++++ DATA MESSAGE %% +++++++++++++++++')
   let tmp
   if (state.data_messageTheirAmulet && state.data_messageTheirAmulet != null && state.data_messageTheirAmulet.length > 0) {
     // data.forEach(e => tmp.push(e))
     tmp = JSON.parse(JSON.stringify(state.data_messageTheirAmulet))
     data.forEach(e => {
-      if (tmp.find(b => b.id == e.id)) {
+
+      if (tmp.find(b => b.id == e.id)) {   // กรณีมี discuss id ใน new data == discuss id ใน old data
         console.log('SAME VALUE')
-      } else { tmp.push(e) }
+        // tmp.forEach((el, ind) => {
+        //   if (e.messages != el.messages ) {
+        //     el.messages = e.messages  // render ERROR!!!!!
+        //   }
+        // })
+
+      } else {
+        tmp.push(e)
+      }  // กรณี มี discuss id อันใหม่เข้ามาให้พุชใส่เรย
     })
     // main algorithm
   } else {
@@ -376,7 +412,8 @@ export const getMessageTheirAmuletSuccess = (state, { data }) => {
   tmp.sort(function (a, b) {
     return a.id - b.id;
   })
-
+  console.log(tmp)
+  console.log('++++++++++++++++++++ TMP DATA MESSAGES #@#@#@#@#@#@#@#@ +++++++++++++++++++++++')
   return state.merge({ data_messageTheirAmulet: tmp, request3: false })
 }
 export const getMessageTheirAmuletFailure = state => state.merge({ request3: false })
@@ -510,4 +547,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_MESSAGE_OTHER_CONTACT_MY_AMULET_FAILURE]: getMessageOtherContactMyAmuletFailure,
 
   [Types.SET_DISSCUSS]: setDisscuss,
+  [Types.UPDATE_USER_CONTACT_OWNER_LIST]: updateUserContactOwnerList,
 })

@@ -248,7 +248,7 @@ export default {
   date2: 'วันที่ปัจจุบัน',
 
   home: 'หน้าหลัก',
-  checkAmuletScreen: 'ตรวจสอบพระ',
+  checkAmuletScreen: 'เช็คพระ',
   showAmuletReal: 'ห้องรวมพระแท้',
   chat: 'ห้องสนทนา',
   commu: 'ติดต่อสื่อสาร',
@@ -328,6 +328,18 @@ export default {
   banUser: 'แบน',
   marketOpen: "สมัครเปิดร้านค้า",
   f3t: "เลือกติดตามอย่างน้อย 3 สาย",
+  idcard: "บัตรประชาชน",
+  idcard2: "บัตรประชาชนแนบหน้า",
+  goto: "ไปหน้า",
+  mystore: "ร้านค้าของฉัน",
+  registerOpenStore1: "สมัคร",
+  registerOpenStore2: "เปิดร้านค้า",
+
+  north: "ภาคเหนือ",
+  north_east: "ภาคอีสาน",
+  central: "ภาคกลาง",
+  east: "ภาคตะวันออก",
+  south: "ภาคใต้",  
 
   หลวงปู่ทวด: 'หลวงปู่ทวด',
   หลวงปู่หมุน: 'หลวงปู่หมุน',

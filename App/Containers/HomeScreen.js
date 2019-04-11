@@ -17,6 +17,7 @@ import QuestionActions from '../Redux/QuestionRedux'
 import AuthActions from '../Redux/AuthRedux'
 import VersionActions from '../Redux/VersionRedux'
 import PromotionActions from '../Redux/PromotionRedux'
+import WebboardActions from '../Redux/WebboardRedux'
 import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
@@ -281,6 +282,7 @@ class HomeScreen extends Component {
     this.props.getLoginPro()  // add get Login promotion 7 days
 
     this.getDeviceToken()  // build push notifications end in three - four function
+    // this.props.clearTmp()  ///////// MUST DELETE ////////////
   }
   //0
   async getDeviceToken() {
@@ -647,7 +649,7 @@ const mapDispatchToProps = (dispatch) => {
     sharedAnswer: (qid) => dispatch(PromotionActions.sharedAnswer(qid)),
     setTimeShared: (time) => dispatch(PromotionActions.setTimeShared(time)),
     setStatus: (status) => dispatch(PromotionActions.setStatus(status)),
-
+    clearTmp: () => dispatch(WebboardActions.clearTmp()),
   }
 }
 

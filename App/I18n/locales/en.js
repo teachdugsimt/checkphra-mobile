@@ -327,6 +327,18 @@ export default {
   sureBan: "Do you want to ban this amulet ?",
   marketOpen: "Register open store",
   f3t: "Select follow at least 3 types",
+  idcard: "ID card",
+  idcard2: "ID card & face",
+  goto: "Go to",
+  mystore: "My store !!",
+  registerOpenStore1: "Register",
+  registerOpenStore2: "Open store !!",
+
+  north: "North",
+  north_east: "North East",
+  central: "Central",
+  east: "East",
+  south: "South",  
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

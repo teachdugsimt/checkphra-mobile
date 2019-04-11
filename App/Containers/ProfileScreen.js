@@ -5,6 +5,7 @@ import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import QuestionActions from '../Redux/QuestionRedux'
 import AuthActions from '../Redux/AuthRedux'
+import WebboardActions from '../Redux/WebboardRedux'
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon3 from "react-native-vector-icons/FontAwesome";
@@ -158,6 +159,7 @@ class ProfileScreen extends Component {
             this.props.signout()
             this.props.signout2()
             this.props.clearAll()
+            this.props.clearTmp()
             this.clearFacebook()
             this.props.navigation.navigate('Auth')
           }
@@ -540,6 +542,7 @@ const mapDispatchToProps = dispatch => {
     setCoin: (coin) => dispatch(AuthActions.setCoin(coin)),
     setImg: (img) => dispatch(AuthActions.setImg(img)),
     changeProfile: (firstname, lastname, file) => dispatch(AuthActions.changeProfile(firstname, lastname, file)),
+    clearTmp: () => dispatch(WebboardActions.clearTmp()),
   };
 };
 

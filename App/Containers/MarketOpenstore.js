@@ -261,13 +261,13 @@ class MarketOpenstore extends Component {
                                 />}
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                                     <Text style={{
-                                        fontFamily: 'Prompt-SemiBold', fontSize: 20, color: Colors.brownText,
-                                    }}>ID card</Text>
+                                        fontFamily: 'Prompt-SemiBold', fontSize: 12, color: Colors.brownText,
+                                    }}>{I18n.t('idcard')}</Text>
 
                                     {this.props.image && < Icon3
-                                        style={{ marginTop: 3.8, marginLeft: 3 }}
+                                        style={{ marginTop: 1.5, marginLeft: 2.5 }}
                                         name="squared-cross"
-                                        size={22}
+                                        size={20}
                                         color={Colors.brownTextTran}
                                         onPress={() => { this.props.deleteImage() }}
                                     />}
@@ -290,8 +290,8 @@ class MarketOpenstore extends Component {
                                 />}
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                                     <Text style={{
-                                        fontFamily: 'Prompt-SemiBold', fontSize: 16, color: Colors.brownText,
-                                    }}>card and face</Text>
+                                        fontFamily: 'Prompt-SemiBold', fontSize: 12, color: Colors.brownText,
+                                    }}>{I18n.t("idcard2")}</Text>
 
                                     {this.props.image2 && < Icon3
                                         style={{ marginTop: 1.5, marginLeft: 2.5 }}
@@ -309,7 +309,7 @@ class MarketOpenstore extends Component {
                     <PopupDialog
                         dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
                             fontSize: 18, fontWeight: 'bold'
-                        }}>Select Province</Text></View>}
+                        }}>{I18n.t("selectProvince")}</Text></View>}
                         ref={(popupDialog) => { this.popupDialog = popupDialog; }}
                         dialogAnimation={slideAnimation}
                         width={width / 1.15}

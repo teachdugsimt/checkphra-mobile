@@ -10,7 +10,7 @@ import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dia
 import Icon2 from "react-native-vector-icons/FontAwesome";
 // import { Card } from 'react-native-elements'
 import { LoginButton, ShareDialog, ShareButton, ShareApi } from 'react-native-fbsdk';
-import GridView from "react-native-super-grid";
+import GridView, { SectionGrid } from "react-native-super-grid";
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import QuestionActions from '../Redux/QuestionRedux'
@@ -62,6 +62,7 @@ class HomeScreen extends Component {
 
       addBonusSuccess: false,
       status: check,
+      // tempIndex: 0
     }
 
     const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
@@ -82,12 +83,12 @@ class HomeScreen extends Component {
     console.log(prevState)
     console.log('============  HOME PAGE =============')
 
-    const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
-    // { name: I18n.t('showAmuletReal'), id: 2 },
-    { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
-    { name: I18n.t('commu'), id: 3, logo: 'wechat' },
-    { name: "Share +20 coins", id: 5, logo: 'facebook-square' }
-      // { name: "Get free +20 coins", id: 5, logo: 'database' }
+    const list_user = [
+      { name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
+      // { name: I18n.t('showAmuletReal'), id: 2 },
+      { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
+      { name: I18n.t('commu'), id: 3, logo: 'wechat' },
+      { name: "Share +20 coins", id: 5, logo: 'facebook-square' }
     ]
 
     if (newProps.language != prevState.language) {
@@ -472,39 +473,45 @@ class HomeScreen extends Component {
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
         <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
 
-        <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.78, flexDirection: 'row' }}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} pagingEnabled={true}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.props.request_publish == true}
-                onRefresh={this.onRefresh.bind(this)}
-              />
-            }
-            onScroll={
-              Animated.event(
-                [{ nativeEvent: { contentOffset: { x: this.animVal } } }]
-              )
-            }>
-            {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 ?
-              this.state.kawsod.map((e, i) => {
-                return (
-                  <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
-                    <View style={{ flex: 1 }}>
-                      <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{e.topic}</Text>
-                      <Image source={{ uri: e.image_link }} style={{ height: '55%', marginTop: 10, borderRadius: 5, width: width - (40) }} />
-                      <Text numberOfLines={3} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{e.content}</Text>
-                    </View>
-                  </TouchableOpacity>
-                )
-              }) : <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }}>
-                <View style={{ flex: 1 }}>
-                  <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{I18n.t('news')}</Text>
-                  <Image source={Images.logoCheckphra} style={{ height: (height / 3.8), marginTop: 10, borderRadius: 5, width: width - (40) }} />
-                  {/* <Text numberOfLines={2} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{I18n.t('nonePublish')}</Text> */}
-                </View>
-              </TouchableOpacity>}
-          </ScrollView>
-          {/* {barArray && <View style={{
+        <ScrollView>
+          <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.8, width: width - 20, flexDirection: 'row' }}>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={true} pagingEnabled={true}
+              ref={(snapScroll) => { this.snapScroll = snapScroll; }}
+              decelerationRate={0}
+              snapToInterval={width - 20}
+              snapToAlignment={"center"}
+              // refreshControl={
+              //   <RefreshControl
+              //     refreshing={this.props.request_publish == true}
+              //     onRefresh={this.onRefresh.bind(this)}
+              //   />
+              // }
+              // onScroll={
+              //   Animated.event(
+              //     [{ nativeEvent: { contentOffset: { x: this.animVal } } }]
+              //   )
+              // }
+            >
+              {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 ?
+                this.state.kawsod.map((e, i) => {
+                  return (
+                    <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
+                      <View style={{ flex: 1 }}>
+                        <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{e.topic}</Text>
+                        <Image source={{ uri: e.image_link }} style={{ height: '55%', marginTop: 10, borderRadius: 5, width: width - (40) }} />
+                        <Text numberOfLines={3} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{e.content}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  )
+                }) : <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }}>
+                  <View style={{ flex: 1 }}>
+                    <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{I18n.t('news')}</Text>
+                    <Image source={Images.logoCheckphra} style={{ height: (height / 3.8), marginTop: 10, borderRadius: 5, width: width - (40) }} />
+                    {/* <Text numberOfLines={2} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{I18n.t('nonePublish')}</Text> */}
+                  </View>
+                </TouchableOpacity>}
+            </ScrollView>
+            {/* {barArray && <View style={{
                         flexDirection: 'row',
                         position: 'absolute',
                         top: (height / 2.85) - 10,
@@ -512,31 +519,55 @@ class HomeScreen extends Component {
                     }}>
                         {barArray}
                     </View>} */}
-        </View>
+          </View>
 
-        <GridView
-          itemDimension={width / 2.5}
-          items={this.state.list_user ? this.state.list_user : []}
-          renderItem={item => {
-            return (
 
-              <TouchableOpacity onPress={() => {
-                if (item.id == 5) {
-                  this._pressList(item)
-                  this.props.sharedAnswer("qid")
-                } else {
-                  this._pressList(item)
-                }
-              }} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
-                  <Icon2 name={item.logo} size={40} />
-                  <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
-                    {item.name}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
+          <View style={{ flexDirection: 'row' }}>
+            {this.state.list_user && this.state.list_user.map((item, index) => {
+              if (index == 0 || index == 1)
+                return (
+                  <TouchableOpacity onPress={() => {
+                    if (item.id == 5) {
+                      this._pressList(item)
+                      this.props.sharedAnswer("qid")
+                    } else {
+                      this._pressList(item)
+                    }
+                  }} style={{ justifyContent: 'center', alignItems: 'center', flex: 1, width: width / 2.5, marginTop: 10, marginLeft: 10, marginRight: index == 1 ? 10 : 0 }}>
+                    <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
+                      <Icon2 name={item.logo} size={40} />
+                      <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
+                        {item.name}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )
+            })}
+          </View>
+
+          <View style={{ flexDirection: 'row' }}>
+            {this.state.list_user && this.state.list_user.map((item, index) => {
+              if (index == 2 || index == 3)
+                return (
+                  <TouchableOpacity onPress={() => {
+                    if (item.id == 5) {
+                      this._pressList(item)
+                      this.props.sharedAnswer("qid")
+                    } else {
+                      this._pressList(item)
+                    }
+                  }} style={{ justifyContent: 'center', alignItems: 'center', flex: 1, width: width / 2.5, marginTop: 10, marginLeft: 10, marginRight: index == 3 ? 10 : 0, marginBottom: 10 }}>
+                    <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
+                      <Icon2 name={item.logo} size={40} />
+                      <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
+                        {item.name}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )
+            })}
+          </View>
+
+          <View style={{ height: 30 }}></View>
+        </ScrollView>
 
         <PopupDialog
           dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
@@ -695,3 +726,48 @@ const styles2 = StyleSheet.create({
     alignSelf: 'center',
   }
 })
+
+
+//   < View style = {{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.78, flexDirection: 'row' }}>
+//     < ScrollView horizontal = { true} showsHorizontalScrollIndicator = { false} pagingEnabled = { true}
+// refreshControl = {
+//               < RefreshControl
+// refreshing = { this.props.request_publish == true }
+// onRefresh = { this.onRefresh.bind(this) }
+//   />
+//             }
+// onScroll = {
+//   Animated.event(
+//     [{ nativeEvent: { contentOffset: { x: this.animVal } } }]
+//   )
+// } >
+//   {
+//     this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 ?
+//       this.state.kawsod.map((e, i) => {
+//         return (
+//           <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
+//             <View style={{ flex: 1 }}>
+//               <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{e.topic}</Text>
+//               <Image source={{ uri: e.image_link }} style={{ height: '55%', marginTop: 10, borderRadius: 5, width: width - (40) }} />
+//               <Text numberOfLines={3} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{e.content}</Text>
+//             </View>
+//           </TouchableOpacity>
+//         )
+//       }) : <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }}>
+//         <View style={{ flex: 1 }}>
+//           <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{I18n.t('news')}</Text>
+//           <Image source={Images.logoCheckphra} style={{ height: (height / 3.8), marginTop: 10, borderRadius: 5, width: width - (40) }} />
+//           {/* <Text numberOfLines={2} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{I18n.t('nonePublish')}</Text> */}
+//         </View>
+//       </TouchableOpacity>
+//   }
+//           </ScrollView >
+//   {/* {barArray && <View style={{
+//                         flexDirection: 'row',
+//                         position: 'absolute',
+//                         top: (height / 2.85) - 10,
+//                         right: (width / 2) - 20,
+//                     }}>
+//                         {barArray}
+//                     </View>} */}
+//         </View >

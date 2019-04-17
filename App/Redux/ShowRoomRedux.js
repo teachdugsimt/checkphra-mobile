@@ -154,7 +154,12 @@ export const getMessageOtherContactMyAmuletSuccess = (state, { data }) => {
     data.forEach(e => {
       if (tmp.find(b => b.id == e.id)) {
         console.log('SAME VALUE')
-      } else { tmp.push(e) }
+        if (tmp.find(b => b.id == e.id).messages != e.messages && tmp.find(b => b.id == e.id).messages.length != e.messages.length) {  // มี message ใหม่เข้ามาใน new data
+          tmp.find(b => b.id == e.id).messages.splice(tmp.find(b => b.id == e.id).messages.length, 0, e.messages[e.messages.length - 1])
+        }
+      } else {
+        tmp.push(e)
+      }
     })
     // main algorithm
   } else {
@@ -164,7 +169,8 @@ export const getMessageOtherContactMyAmuletSuccess = (state, { data }) => {
   tmp.sort(function (a, b) {
     return a.id - b.id;
   })
-
+  console.log(tmp)
+  console.log("++++++++++++++++++== TMP PRIVATE CHAT ++++++++++++++++++++++")
   return state.merge({ data_messageOwner: tmp, request5: false })
 }
 export const getMessageOtherContactMyAmuletFailure = state => state.merge({ request5: false })
@@ -390,16 +396,12 @@ export const getMessageTheirAmuletSuccess = (state, { data }) => {
   if (state.data_messageTheirAmulet && state.data_messageTheirAmulet != null && state.data_messageTheirAmulet.length > 0) {
     // data.forEach(e => tmp.push(e))
     tmp = JSON.parse(JSON.stringify(state.data_messageTheirAmulet))
-    data.forEach(e => {
-
+    data.forEach((e, i) => {
       if (tmp.find(b => b.id == e.id)) {   // กรณีมี discuss id ใน new data == discuss id ใน old data
         console.log('SAME VALUE')
-        // tmp.forEach((el, ind) => {
-        //   if (e.messages != el.messages ) {
-        //     el.messages = e.messages  // render ERROR!!!!!
-        //   }
-        // })
-
+        if (tmp.find(b => b.id == e.id).messages != e.messages && tmp.find(b => b.id == e.id).messages.length != e.messages.length) {  // มี message ใหม่เข้ามาใน new data
+          tmp.find(b => b.id == e.id).messages.splice(tmp.find(b => b.id == e.id).messages.length, 0, e.messages[e.messages.length - 1])
+        }
       } else {
         tmp.push(e)
       }  // กรณี มี discuss id อันใหม่เข้ามาให้พุชใส่เรย
@@ -427,6 +429,9 @@ export const getMessageOwnerSuccess = (state, { data }) => {
     data.forEach(e => {
       if (tmp.find(b => b.id == e.id)) {
         console.log('SAME VALUE')
+        if (tmp.find(b => b.id == e.id).messages != e.messages && tmp.find(b => b.id == e.id).messages.length != e.messages.length) {  // มี message ใหม่เข้ามาใน new data
+          tmp.find(b => b.id == e.id).messages.splice(tmp.find(b => b.id == e.id).messages.length, 0, e.messages[e.messages.length - 1])
+        }
       } else { tmp.push(e) }
     })
     // main algorithm

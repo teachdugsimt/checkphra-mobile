@@ -277,7 +277,7 @@ class MarketHome extends Component {
                     onBlur={this.handleInputBlur}  // when not focus text input
                     onSubmitEditing={this._pressSearch}
                 />
-                {!this.state.show_icon && <TouchableOpacity style={{ position: 'absolute', top: 5, right: width / 9, zIndex: 2 }} onPress={this._pressSearch}><Icon2 name={'arrow-right'} size={24} style={{}} /></TouchableOpacity>}
+                {!this.state.show_icon && <TouchableOpacity style={{ position: 'absolute', top: 7.5, right: width / 9, zIndex: 2 }} onPress={this._pressSearch}><Icon2 name={'arrow-right'} size={24} style={{}} /></TouchableOpacity>}
 
                 {this.state.show_icon && < Icon2 name={'search'} size={24} color={Colors.brownTextTran} style={{ position: 'absolute', top: 7.5, left: width / 9 }} />}
 

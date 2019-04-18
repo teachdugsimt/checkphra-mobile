@@ -18,6 +18,7 @@ import QuestionActions from '../Redux/QuestionRedux'
 import AuthActions from '../Redux/AuthRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
+import Reactotron from 'reactotron-react-native'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true

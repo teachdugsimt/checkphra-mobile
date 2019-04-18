@@ -127,6 +127,9 @@ export const getMessageSuccess = (state, { data }) => {
     data.forEach(e => {
       if (tmp.find(b => b.id == e.id)) {
         console.log('SAME VALUE')
+        if (tmp.find(b => b.id == e.id).messages != e.messages && tmp.find(b => b.id == e.id).messages.length != e.messages.length) {  // มี message ใหม่เข้ามาใน new data
+          tmp.find(b => b.id == e.id).messages.splice(tmp.find(b => b.id == e.id).messages.length, 0, e.messages[e.messages.length - 1])
+        }
       } else { tmp.push(e) }
     })
     // main algorithm
@@ -134,6 +137,10 @@ export const getMessageSuccess = (state, { data }) => {
     tmp = data
   }
 
+  tmp.sort(function (a, b) {
+    return a.id - b.id;
+  })
+  
   return state.merge({ data_message: tmp, request2: false })
 }
 export const getMessageFailure = state => state.merge({ request2: false })

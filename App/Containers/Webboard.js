@@ -18,6 +18,7 @@ import QuestionActions from '../Redux/QuestionRedux'
 import WebboardActions from '../Redux/WebboardRedux'
 import styles from './Styles/WebboardStyle'
 import ImageList2 from './ImageList/ImageList2'
+import Reactotron from 'reactotron-react-native'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true

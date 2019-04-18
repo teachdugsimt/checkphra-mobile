@@ -22,6 +22,7 @@ import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
 import { messaging } from 'react-native-firebase';
 import AdminContactUser from './AdminContactUser';
+import Reactotron from 'reactotron-react-native'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -48,6 +49,8 @@ class AdminContactUser2 extends Component {
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
+        Reactotron.warn(newProps)
+        Reactotron.warn(prevState)
         console.log('----------------- Admin Chat With user ------------------')
         // 1. ถ้ามีการส่งข้อความ ให้เก็บอาเรย์ response จากตั้ม ไว้ที่ เสตท message_list แล้วก้ เอาข้อความอันล่าสุด จาก response มาเก็บไว้ที่อาเรย์
         // tmp ใน เสตท
@@ -76,10 +79,6 @@ class AdminContactUser2 extends Component {
         }
     }
 
-
-
-
-
     componentDidMount() {
         count = 1
         // if (this.props.data_sendMessageToUser && this.props.data_sendMessageToUser != null) {
@@ -98,9 +97,7 @@ class AdminContactUser2 extends Component {
     }
 
     _reload = () => {
-        // count = 1
-        // this.props.getMessageTheirAmulet(count)
-        if (this.props.data_getMessageFromUser && this.props.data_getMessageFromUser.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+        if (this.props.data_getMessageFromUser && this.props.data_getMessageFromUser.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
             count++
             this.props.getMessageTheirAmulet(count)
         }
@@ -109,7 +106,7 @@ class AdminContactUser2 extends Component {
     _onScrollEndList = () => {
         console.log('END LIST AGAIN')
         if (this.props.data_getMessageFromUser && this.props.data_getMessageFromUser.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
-            count++
+            count = 1
             this.props.getMessageTheirAmulet(count)
         }
     }
@@ -200,6 +197,8 @@ class AdminContactUser2 extends Component {
                             onRefresh={this._reload}
                         />
                     }
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={0.1}
                 />
                 <View style={{ marginBottom: 10 }}>
                 </View>

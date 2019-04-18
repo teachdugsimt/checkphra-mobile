@@ -302,7 +302,7 @@ class MarketHome extends Component {
                         style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.touchPin4} onPress={this._east}>
+                <TouchableOpacity style={[styles.touchPin4, { right: this.props.language == "th" ? width / 6.25 : width / 3.6 }]} onPress={this._east}>
                     <Image source={Images.pin} style={styles.pin} />
                     <Text style={styles.textMap}>{I18n.t("east")}</Text>
                     {this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.filter(e => e.region_id == 3).find(b => b.is_new == true) != undefined && <View
@@ -325,11 +325,13 @@ class MarketHome extends Component {
 
 
                 {/* *******************OPEN STORE ZONE******************* */}
-                {this.props.profile && this.props.profile.role != "admin" && <TouchableOpacity style={{ width: (width / 3.7), height: (height / 8.5), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
-                    <Image source={Images.chat} style={{ width: width / 3.7, height: height / 8.5 }} />
-                    <Text style={{ position: 'absolute', bottom: height / 14, right: 34, fontFamily: "Prompt-SemiBold" }}>{this.props.profile.store == null ? I18n.t("registerOpenStore1") : I18n.t("goto")}</Text>
-                    <Text style={{ position: 'absolute', bottom: (height / 14) - 20, right: 22, fontFamily: "Prompt-SemiBold" }}>{this.props.profile.store == null ? I18n.t("registerOpenStore2") : I18n.t('mystore')}</Text>
-                </TouchableOpacity>}
+                {
+                    this.props.profile && this.props.profile.role != "admin" && <TouchableOpacity style={{ width: (width / 3.7), height: (height / 8.5), position: 'absolute', bottom: 7.5, right: 10, zIndex: 2 }} onPress={this._openStore}>
+                        <Image source={Images.chat} style={{ width: width / 3.7, height: height / 8.5 }} />
+                        <Text style={{ position: 'absolute', bottom: height / 14, right: 34, fontFamily: "Prompt-SemiBold" }}>{this.props.profile.store == null ? I18n.t("registerOpenStore1") : I18n.t("goto")}</Text>
+                        <Text style={{ position: 'absolute', bottom: (height / 14) - 20, right: 22, fontFamily: "Prompt-SemiBold" }}>{this.props.profile.store == null ? I18n.t("registerOpenStore2") : I18n.t('mystore')}</Text>
+                    </TouchableOpacity>
+                }
                 {/* *******************OPEN STORE ZONE******************* */}
 
 

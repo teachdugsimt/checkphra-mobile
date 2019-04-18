@@ -18,6 +18,7 @@ import QuestionActions from '../Redux/QuestionRedux'
 import WebboardActions from '../Redux/WebboardRedux'
 import styles from './Styles/WebboardStyle'
 import ImageList2 from './ImageList/ImageList2'
+import Reactotron from 'reactotron-react-native'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -85,15 +86,26 @@ class Webboard2 extends Component {
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
-        console.log(newProps)
-        console.log(prevState)
+        // console.log(newProps)
+        Reactotron.warn(newProps)
+        Reactotron.warn(prevState)
+        // console.log(prevState)
 
+
+        // if (newProps.data_addcomment && newProps.data_addcomment != null) {
+        //     if (Number(newProps.data_addcomment.post_id) == prevState.tmp_comment.id && prevState.tmp_addcomment != newProps.data_addcomment) {
+        //         newProps.editDataComment(newProps.data_addcomment)
+        //         return {
+        //             tmp_comment: newProps.data_comment,
+        //             tmp_addcomment: newProps.data_addcomment
+        //         }
+        //     }
+        // }
 
         if (newProps.data_addcomment && newProps.data_addcomment != null) {
-            if (Number(newProps.data_addcomment.post_id) == prevState.tmp_comment.id && prevState.tmp_addcomment != newProps.data_addcomment) {
+            if (prevState.tmp_addcomment != newProps.data_addcomment) {
                 newProps.editDataComment(newProps.data_addcomment)
                 return {
-                    tmp_comment: newProps.data_comment,
                     tmp_addcomment: newProps.data_addcomment
                 }
             }
@@ -154,7 +166,9 @@ class Webboard2 extends Component {
                             <View style={styles.topRow}>
                                 <Text style={styles.topicText}>{this.props.data_comment.topic}</Text>
                                 <View style={styles.subTopRow}>
-                                    <Text style={styles.nameText}>{this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                                    <TouchableOpacity onPress={() => this.tagname(this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User')}>
+                                        <Text style={styles.nameText}>{this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                                    </TouchableOpacity>
                                     <Text style={styles.dateText} >{moment.unix(this.props.data_comment.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
                                 </View>
 
@@ -180,8 +194,8 @@ class Webboard2 extends Component {
                     <View style={styles.commentContainer} onPress={() => this._goToBoard(item)}>
                         <View style={styles.commentContainer2}>
                             <View style={styles.commentTopRow}>
-                                <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
-                                    <Text style={styles.nameText}>{item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                                <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
+                                    <Text style={styles.nameText}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
                                 </TouchableOpacity>
                                 <Text style={styles.dateText} >{date}</Text>
                             </View>
@@ -209,8 +223,8 @@ class Webboard2 extends Component {
                 <View style={styles.commentContainer} onPress={() => this._goToBoard(item)}>
                     <View style={styles.commentContainer2}>
                         <View style={styles.commentTopRow}>
-                            <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
-                                <Text style={styles.nameText}>{item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                            <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
+                                <Text style={[styles.nameText, { color: item.profile && item.profile.display_name ? "red" : Colors.brownTextTran }]}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
                             </TouchableOpacity>
                             <Text style={styles.dateText} >{date}</Text>
                         </View>
@@ -355,6 +369,9 @@ const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
         user_id: state.auth.user_id,
+        profile: state.auth.profile,   // access token & user_id 
+        profile2: state.question.profile,  // detail of admin [store, display name, name - last name]
+
         data_webboard: state.webboard.data_webboard,
 
         request2: state.webboard.request2, // for request comment post
@@ -364,6 +381,8 @@ const mapStateToProps = (state) => {
         data_addcomment: state.webboard.data_addcomment, // store add comment data
 
         data_like: state.webboard.data_like,  // like post and comment
+        tmp_my: state.webboard.tmp_my,  // store temp my webboard
+        tmp_all: state.webboard.tmp_all,  // store temp all webboard
     }
 }
 

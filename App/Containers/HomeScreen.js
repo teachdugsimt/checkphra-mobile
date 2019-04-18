@@ -21,7 +21,8 @@ import WebboardActions from '../Redux/WebboardRedux'
 import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
-
+import VersatileActions from '../Redux/VersatileRedux'
+import Reactotron from 'reactotron-react-native'
 // import {
 //   AdMobRewarded,
 // } from 'react-native-admob'
@@ -81,6 +82,16 @@ class HomeScreen extends Component {
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
     console.log(prevState)
+    Reactotron.display({
+      name: 'New Props',
+      preview: 'NewPropsZone',
+      value: newProps
+    })
+    Reactotron.display({
+      name: 'Prev state',
+      preview: 'PrevStateZone',
+      value: prevState
+    })
     console.log('============  HOME PAGE =============')
 
     const list_user = [
@@ -100,18 +111,6 @@ class HomeScreen extends Component {
       profile = newProps.profile
     }
 
-    // if (newProps.data_publish && newProps.data_publish != null) {
-    //     if (prevState.tmp_publish != newProps.data_publish && check == false) {
-    //         check = true
-    //         numItems = newProps.data_publish.length
-    //         itemWidth = (FIXED_BAR_WIDTH / numItems) - ((numItems - 1) * BAR_SPACE)
-    //         return {
-    //             kawsod: newProps.data_publish,
-    //             itemWidth,
-    //         }
-    //     }
-    // }
-
     let date_tmp = new Date()
     let f1 = moment(date_tmp).format()
     let time11 = f1.slice(0, 10)
@@ -129,6 +128,13 @@ class HomeScreen extends Component {
     // if (JSON.stringify(newProps.time_shared) < JSON.stringify(date_tmp) && newProps.status == false) {
     //   newProps.setStatus(true)
     // }
+    if (newProps.data_versatile && newProps.data_versatile != null) {
+      shareLinkContent = {
+        contentType: 'link',
+        contentUrl: newProps.data_versatile.link,
+        quote: newProps.data_versatile.topic
+      }
+    }
 
     //************************ check alert login complete 7 days ******************************/
     if (newProps.data_login != null) {
@@ -276,7 +282,7 @@ class HomeScreen extends Component {
 
   componentDidMount() {
     this.props.checkVersion()  // check new version end method in sagas
-
+    this.props.getVersatile()
     this.props.getProfile()   // get profile
     this.props.getPublish()   // get new publish
 
@@ -428,47 +434,6 @@ class HomeScreen extends Component {
     // console.log(time > time2)                                    //can check
     console.log('--------------- KAWSOD HOME PAGE --------------')
 
-    // let barArray = []
-    // if (this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0) {
-
-    //     this.state.kawsod.forEach((e, i) => {
-
-    //         const scrollBarVal = this.animVal.interpolate({
-    //             inputRange: [deviceWidth * (i - 1), deviceWidth * (i + 1)],
-    //             outputRange: [-this.state.itemWidth, this.state.itemWidth],
-    //             extrapolate: 'clamp',
-    //         })
-
-    //         const thisBar = (
-    //             <View
-    //                 key={`bar${i}`}
-    //                 style={[
-    //                     styles2.track,
-    //                     {
-    //                         // width: this.state.itemWidth - (this.state.itemWidth / 2) - (this.state.itemWidth / 3) - (this.state.itemWidth / 17),
-    //                         width: this.state.itemWidth - ((this.state.itemWidth / 2) + this.state.kawsod.length * 10),  // กำหนดแถบสีเทา
-    //                         marginLeft: i === 0 ? 0 : BAR_SPACE,
-    //                     },
-    //                 ]}
-    //             >
-    //                 <Animated.View
-    //                     style={[
-    //                         styles2.bar,
-    //                         {
-    //                             // width: this.state.itemWidth - (this.state.itemWidth / 2) - (this.state.itemWidth / 3) - (this.state.itemWidth / 17),
-    //                             width: this.state.itemWidth - ((this.state.itemWidth / 2) + this.state.kawsod.length * 10) + this.state.kawsod.length * 3,  // กำหนด แถบสีส้ม
-    //                             transform: [
-    //                                 { translateX: scrollBarVal },
-    //                             ],
-    //                         },
-    //                     ]}
-    //                 />
-    //             </View>
-    //         )
-    //         barArray.push(thisBar)
-    //     })
-    // }
-
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
         <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
@@ -480,17 +445,12 @@ class HomeScreen extends Component {
               decelerationRate={0}
               snapToInterval={width - 20}
               snapToAlignment={"center"}
-              // refreshControl={
-              //   <RefreshControl
-              //     refreshing={this.props.request_publish == true}
-              //     onRefresh={this.onRefresh.bind(this)}
-              //   />
-              // }
-              // onScroll={
-              //   Animated.event(
-              //     [{ nativeEvent: { contentOffset: { x: this.animVal } } }]
-              //   )
-              // }
+            // refreshControl={
+            //   <RefreshControl
+            //     refreshing={this.props.request_publish == true}
+            //     onRefresh={this.onRefresh.bind(this)}
+            //   />
+            // }
             >
               {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 ?
                 this.state.kawsod.map((e, i) => {
@@ -511,14 +471,6 @@ class HomeScreen extends Component {
                   </View>
                 </TouchableOpacity>}
             </ScrollView>
-            {/* {barArray && <View style={{
-                        flexDirection: 'row',
-                        position: 'absolute',
-                        top: (height / 2.85) - 10,
-                        right: (width / 2) - 20,
-                    }}>
-                        {barArray}
-                    </View>} */}
           </View>
 
 
@@ -660,6 +612,7 @@ const mapStateToProps = (state) => {
     status: state.promotion.status, // shared status
 
     data_shared: state.promotion.data_shared,  // data after shared
+    data_versatile: state.versatile.data_versatile,  // store versatile data
   }
 }
 
@@ -681,93 +634,8 @@ const mapDispatchToProps = (dispatch) => {
     setTimeShared: (time) => dispatch(PromotionActions.setTimeShared(time)),
     setStatus: (status) => dispatch(PromotionActions.setStatus(status)),
     clearTmp: () => dispatch(WebboardActions.clearTmp()),
+    getVersatile: () => dispatch(VersatileActions.getNormalData()),
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
-
-const styles2 = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  barContainer: {
-    position: 'absolute',
-    // zIndex: 2,
-    // top: deviceHeight - 50,
-    top: (height / 2.85) - 10,
-    // right: (width / 2) - (20),
-    right: (width / 2),
-    flexDirection: 'row',
-  },
-  track: {
-    backgroundColor: '#ccc',
-    overflow: 'hidden',
-    height: 7,  //old 2
-    borderRadius: 45, //add
-  },
-  bar: {
-    // backgroundColor: '#229954',
-    backgroundColor: Colors.bloodOrange,
-    height: 7,  //old 2
-    borderRadius: 45,  // add
-    position: 'absolute',
-    left: 0,
-    top: 0,
-  },
-  rbutton: {
-    width: '69%',
-    borderRadius: 15,
-    borderWidth: 2,
-    backgroundColor: 'transparent',
-    marginTop: (deviceHeight / 2) + (deviceHeight / 3),
-    borderColor: 'white',
-    alignSelf: 'center',
-  }
-})
-
-
-//   < View style = {{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.78, flexDirection: 'row' }}>
-//     < ScrollView horizontal = { true} showsHorizontalScrollIndicator = { false} pagingEnabled = { true}
-// refreshControl = {
-//               < RefreshControl
-// refreshing = { this.props.request_publish == true }
-// onRefresh = { this.onRefresh.bind(this) }
-//   />
-//             }
-// onScroll = {
-//   Animated.event(
-//     [{ nativeEvent: { contentOffset: { x: this.animVal } } }]
-//   )
-// } >
-//   {
-//     this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 ?
-//       this.state.kawsod.map((e, i) => {
-//         return (
-//           <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
-//             <View style={{ flex: 1 }}>
-//               <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{e.topic}</Text>
-//               <Image source={{ uri: e.image_link }} style={{ height: '55%', marginTop: 10, borderRadius: 5, width: width - (40) }} />
-//               <Text numberOfLines={3} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{e.content}</Text>
-//             </View>
-//           </TouchableOpacity>
-//         )
-//       }) : <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }}>
-//         <View style={{ flex: 1 }}>
-//           <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{I18n.t('news')}</Text>
-//           <Image source={Images.logoCheckphra} style={{ height: (height / 3.8), marginTop: 10, borderRadius: 5, width: width - (40) }} />
-//           {/* <Text numberOfLines={2} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{I18n.t('nonePublish')}</Text> */}
-//         </View>
-//       </TouchableOpacity>
-//   }
-//           </ScrollView >
-//   {/* {barArray && <View style={{
-//                         flexDirection: 'row',
-//                         position: 'absolute',
-//                         top: (height / 2.85) - 10,
-//                         right: (width / 2) - 20,
-//                     }}>
-//                         {barArray}
-//                     </View>} */}
-//         </View >

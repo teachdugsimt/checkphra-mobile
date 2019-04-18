@@ -23,6 +23,7 @@ import ShowRoomActions from '../Redux/ShowRoomRedux'
 import ChatActions from '../Redux/ChatRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
+import Reactotron from 'reactotron-react-native'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -36,13 +37,24 @@ class AdminContactUser extends Component {
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
         return (
-            <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1 }}
+            <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', alignItems: 'center' }}
                 onPress={() => this._goToChat(item)}>
-
-                <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{I18n.t('messages') + " " + (index + 1)}</Text>
-                <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+                <View style={{ margin: 7.5 }}>
+                    {item.profile && item.profile.image ? <Image source={{ uri: "https://s3-ap-southeast-1.amazonaws.com/core-profile/images/" + item.profile.image }} style={{ height: 75, width: 75, borderRadius: 10 }} /> :
+                        (item.profile && item.profile.facebook_id) ? <Image source={{ uri: 'https://graph.facebook.com/' + item.profile.facebook_id + '/picture?width=500&height=500' }} style={{ height: 75, width: 75, borderRadius: 10 }} /> :
+                            (!item.profile.facebook_id && !item.profile.image && <Image source={Images.user} style={{ height: 75, width: 75, borderRadius: 10 }} />)}
+                </View>
+                <View>
+                    <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.profile && item.profile.fullname ? item.profile.fullname : (item.profile.email ? item.profile.email : "CheckPhraUser")}</Text>
+                    <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+                </View>
             </TouchableOpacity>
         )
+    }
+
+    static getDerivedStateFromProps(newProps, prevState) {
+        Reactotron.warn(newProps)
+        Reactotron.warn(prevState)
     }
 
     _goToChat = (item) => {
@@ -97,7 +109,10 @@ class AdminContactUser extends Component {
                     }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                     data={this.props.data_myMessageFromOther}
-                    renderItem={this._renderItem} />
+                    renderItem={this._renderItem}
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={0.5}
+                />
             </LinearGradient>
         )
     }

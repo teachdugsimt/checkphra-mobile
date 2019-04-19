@@ -39,6 +39,8 @@ class AdminContactUser extends Component {
         return (
             <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', alignItems: 'center' }}
                 onPress={() => this._goToChat(item)}>
+                {item.is_new == true && < View
+                    style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 2.5, right: 2.5, zIndex: 1 }}></View>}
                 <View style={{ margin: 7.5 }}>
                     {item.profile && item.profile.image ? <Image source={{ uri: "https://s3-ap-southeast-1.amazonaws.com/core-profile/images/" + item.profile.image }} style={{ height: 75, width: 75, borderRadius: 10 }} /> :
                         (item.profile && item.profile.facebook_id) ? <Image source={{ uri: 'https://graph.facebook.com/' + item.profile.facebook_id + '/picture?width=500&height=500' }} style={{ height: 75, width: 75, borderRadius: 10 }} /> :
@@ -48,7 +50,7 @@ class AdminContactUser extends Component {
                     <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.profile && item.profile.fullname ? item.profile.fullname : (item.profile.email ? item.profile.email : "CheckPhraUser")}</Text>
                     <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
                 </View>
-            </TouchableOpacity>
+            </TouchableOpacity >
         )
     }
 
@@ -68,6 +70,7 @@ class AdminContactUser extends Component {
     }
 
     componentWillUnmount() {
+        this.props.clearDataListUser()
         count = 1
     }
 
@@ -87,7 +90,11 @@ class AdminContactUser extends Component {
     render() {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
-
+        Reactotron.display({
+            name: "List User Contact",
+            preview: "in render",
+            value: this.props.data_myMessageFromOther,
+        })
         // console.log('***************************************')
         return (
             <LinearGradient
@@ -138,6 +145,7 @@ const mapDispatchToProps = (dispatch) => {
         // setDetailPhra: (data) => dispatch(ShowRoomActions.setDetailPhra(data)),
         getMyMessageFromOther: (page) => dispatch(ChatActions.getListUserContact(page)),
         setDataGroupChat: (data) => dispatch(ChatActions.setGroupChatAdmin(data)),
+        clearDataListUser: () => dispatch(ChatActions.clearDataListUser()),
     }
 }
 

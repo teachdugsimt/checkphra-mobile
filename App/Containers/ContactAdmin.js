@@ -23,6 +23,7 @@ import ChatActions from '../Redux/ChatRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
 import { messaging } from 'react-native-firebase';
+import VersatileActions from '../Redux/VersatileRedux'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -98,6 +99,7 @@ class ContactAdmin extends Component {
     componentWillUnmount() {
         count = 1
         this.props.clearTheirAmuletMessage()
+        this.props.getVersatile()
     }
 
     // ********************* OLD SCHOOL *************************** //
@@ -273,6 +275,7 @@ const mapDispatchToProps = (dispatch) => {
         getMessageTheirAmulet: (page) => dispatch(ChatActions.getMessageAdmin(page)), // get message
         clearTheirAmuletMessage: () => dispatch(ChatActions.clearCacheGetData()),
         editTheirAmuletMessage: (data) => dispatch(ChatActions.editDataMessage(data)), // edit array
+        getVersatile: () => dispatch(VersatileActions.getNormalData()),
     }
 }
 

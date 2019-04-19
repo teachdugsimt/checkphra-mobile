@@ -1,5 +1,6 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
+import Reactotron from 'reactotron-react-native'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -17,8 +18,11 @@ const { Types, Creators } = createActions({
   getListUserContactFailure: null,
 
   setGroupChatAdmin: ['data'],
+  clearDataListUser: null,
 
   editDataMessage: ['data'],
+
+  editRedDotAtoU: ['data'],
   clearCacheGetData: null,
 })
 
@@ -48,6 +52,28 @@ export const ChatSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+export const editRedDotAtoU = (state, { data }) => {
+  Reactotron.display({
+    name: "data come to Redux",
+    preview: "Edit Red dot in Redux",
+    value: data
+  })
+  let tmp = JSON.parse(JSON.stringify(state.data_listUser))
+  if (tmp && tmp != null) {
+    tmp.forEach((e, i) => {
+      if (e.id == data.id) {
+        e.is_new = false
+      }
+    })
+  }
+  Reactotron.display({
+    name: "Tmp After Edit Red Dot",
+    preview: "Edit Red dot in Redux",
+    value: tmp
+  })
+  return state.merge({ data_listUser: tmp })
+}
+export const clearDataListUser = state => state.merge({ data_listUser: null })
 
 export const clearCacheGetData = state => state.merge({ data_message: null, data_sendMessage: null })
 export const setGroupChatAdmin = (state, { data }) => state.merge({ data_gChatAdmin: data })
@@ -140,7 +166,7 @@ export const getMessageSuccess = (state, { data }) => {
   tmp.sort(function (a, b) {
     return a.id - b.id;
   })
-  
+
   return state.merge({ data_message: tmp, request2: false })
 }
 export const getMessageFailure = state => state.merge({ request2: false })
@@ -165,4 +191,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.EDIT_DATA_MESSAGE]: editDataMessage,
   [Types.SET_GROUP_CHAT_ADMIN]: setGroupChatAdmin,
   [Types.CLEAR_CACHE_GET_DATA]: clearCacheGetData,
+
+  [Types.CLEAR_DATA_LIST_USER]: clearDataListUser,
+  [Types.EDIT_RED_DOT_ATO_U]: editRedDotAtoU,
 })

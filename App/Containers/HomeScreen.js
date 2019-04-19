@@ -18,10 +18,10 @@ import AuthActions from '../Redux/AuthRedux'
 import VersionActions from '../Redux/VersionRedux'
 import PromotionActions from '../Redux/PromotionRedux'
 import WebboardActions from '../Redux/WebboardRedux'
+import VersatileActions from '../Redux/VersatileRedux'
 import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
-import VersatileActions from '../Redux/VersatileRedux'
 import Reactotron from 'reactotron-react-native'
 // import {
 //   AdMobRewarded,
@@ -159,6 +159,44 @@ class HomeScreen extends Component {
     //************************ check alert login complete 7 days ******************************/
 
 
+    //****************************** SET TEMP PUBLISH ***************************//
+    if (newProps.data_publish && newProps.data_publish != null) {
+      if (!newProps.tmp_publish || newProps.tmp_publish == null) {  // สร้าง temp_publish ข่าวใหม่
+        Reactotron.warn("GENERATE TEMP PUBLISH")
+        let data = []
+        newProps.data_publish.map(e => {
+          data.push({
+            id: e.id,
+            topic: e.topic,
+            status: false,
+          })
+        })
+        newProps.setTempPublish(data)
+        Reactotron.warn(data)
+      } else if (newProps.tmp_publish && newProps.tmp_publish != null) {
+        Reactotron.warn("CHECK & UPDATE TEMP PUBLISH")
+        if (newProps.tmp_publish.length == newProps.data_publish.length) { // ไม่มีข่าวใหม่
+          // ไม่ต้องทำไร
+        } else if (newProps.tmp_publish.length < newProps.data_publish.length) {  // มีข่าวใหม่
+          newProps.data_publish.map((e, i) => {
+            if (newProps.tmp_publish.find(b => b.id == e.id) == undefined || !newProps.tmp_publish.find(b => b.id == e.id)) {
+              newProps.addPublish({
+                id: e.id,
+                topic: e.topic,
+                status: false
+              })  // เพิ่มข่าวใหม่ไปใน tmp_publish
+            }
+          })
+        } else if (newProps.tmp_publish.length > newProps.data_publish.length) {  // ลบข่าว
+          newProps.tmp_publish.map((e, i) => {
+            if (newProps.data_publish.find(b => b.id == e.id) == undefined) {
+              newProps.deletePublish(e)
+            }
+          })
+        }
+      }
+    }
+    //****************************** SET TEMP PUBLISH ***************************//
 
     return {
       dataProifle: profile,
@@ -414,6 +452,7 @@ class HomeScreen extends Component {
   }
 
   _showPublish = (item) => {
+    this.props.editRedDotPublish(item)
     this.setState({ tmp_publish: item })
     this.popupDialog2.show()
   }
@@ -426,6 +465,12 @@ class HomeScreen extends Component {
     I18n.locale = this.props.language
     console.log(this.state.kawsod)
     console.log(this.props.data_shared)
+    Reactotron.display({
+      name: "VERSATILE",
+      preview: "log in render",
+      value: this.props.data_versatile
+    })
+    // console.log(this.props.tmp_publish)
     // let time = "2019-04-05 22:35:16"  // can check
     // let time2 = "2019-04-05 22:35:56"
     // console.log(time < time2)
@@ -452,10 +497,13 @@ class HomeScreen extends Component {
             //   />
             // }
             >
+
               {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 ?
                 this.state.kawsod.map((e, i) => {
                   return (
                     <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
+                      {this.props.tmp_publish != undefined && this.props.tmp_publish != null && this.props.tmp_publish.find(b => b.status == false) != undefined && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                       <View style={{ flex: 1 }}>
                         <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{e.topic}</Text>
                         <Image source={{ uri: e.image_link }} style={{ height: '55%', marginTop: 10, borderRadius: 5, width: width - (40) }} />
@@ -508,6 +556,8 @@ class HomeScreen extends Component {
                       this._pressList(item)
                     }
                   }} style={{ justifyContent: 'center', alignItems: 'center', flex: 1, width: width / 2.5, marginTop: 10, marginLeft: 10, marginRight: index == 3 ? 10 : 0, marginBottom: 10 }}>
+                    {item.id == 3 && this.props.data_versatile && this.props.data_versatile != null && this.props.data_versatile.is_new_contact_officer == true && <View
+                      style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 2.5, right: 2.5, zIndex: 1 }}></View>}
                     <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
                       <Icon2 name={item.logo} size={40} />
                       <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
@@ -544,6 +594,8 @@ class HomeScreen extends Component {
               </TouchableOpacity>
 
               <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, flex: 1, marginHorizontal: 10 }} onPress={this._contactAdmin}>
+                {this.props.data_versatile && this.props.data_versatile != null && this.props.data_versatile.is_new_contact_officer == true && <View
+                  style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 1.5, right: 1.5, zIndex: 1 }}></View>}
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactAdmin')}</Text>
               </TouchableOpacity>
 
@@ -613,6 +665,8 @@ const mapStateToProps = (state) => {
 
     data_shared: state.promotion.data_shared,  // data after shared
     data_versatile: state.versatile.data_versatile,  // store versatile data
+
+    tmp_publish: state.versatile.tmp_publish, // data temp publish
   }
 }
 
@@ -634,7 +688,12 @@ const mapDispatchToProps = (dispatch) => {
     setTimeShared: (time) => dispatch(PromotionActions.setTimeShared(time)),
     setStatus: (status) => dispatch(PromotionActions.setStatus(status)),
     clearTmp: () => dispatch(WebboardActions.clearTmp()),
+
     getVersatile: () => dispatch(VersatileActions.getNormalData()),
+    setTempPublish: (data) => dispatch(VersatileActions.setTempPublish(data)),
+    addPublish: (data) => dispatch(VersatileActions.addPublish(data)),
+    editRedDotPublish: (data) => dispatch(VersatileActions.editRedDotPublish(data)),
+    deletePublish: (data) => dispatch(VersatileActions.deletePublish(data)),
   }
 }
 

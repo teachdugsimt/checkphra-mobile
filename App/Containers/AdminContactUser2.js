@@ -83,6 +83,7 @@ class AdminContactUser2 extends Component {
         count = 1
         // if (this.props.data_sendMessageToUser && this.props.data_sendMessageToUser != null) {
         this.props.getMessageTheirAmulet(count)
+        this.props.editRedDotAtoU(this.props.data)
         // }
         // let img = []
         // this.props.data_their.images.map(e => {
@@ -141,7 +142,7 @@ class AdminContactUser2 extends Component {
             <View style={{}}>
                 {item.messages.map((e, i) => {  //myArray.slice(0).reverse().map(
                     return (
-                        <View style={{ flexDirection: 'row', justifyContent: e.uid == 'admin@check-phra' ? 'flex-end' : 'flex-start' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: e.uid == 'admin@check-phra' ? 'flex-end' : 'flex-start', marginHorizontal: 10 }}>
                             {e.uid != 'admin@check-phra' && !e.fb_id && <TouchableOpacity style={{ height: 32, width: 32, borderRadius: 16 }} onPress={() => { }}><Image style={{ height: 32, width: 32, borderRadius: 16, alignSelf: 'flex-start' }}
                                 source={Images.user} /></TouchableOpacity>}
 
@@ -168,6 +169,11 @@ class AdminContactUser2 extends Component {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
         // console.log(this.props.data_their)
+        Reactotron.display({
+            name: "DATA PASS TO THIS PAGE",
+            preview: "Log in render",
+            value: this.props.data
+        })
         console.log('--------------------- Contact Admin -------------------------')
         return (
             <LinearGradient
@@ -214,10 +220,10 @@ class AdminContactUser2 extends Component {
                     <Icon2 name={'arrow-right'} size={22} style={{}} />
                 </TouchableOpacity>
 
-                <Spinner
+                {/* <Spinner
                     visible={this.props.request2}
                     textContent={'Loading...'}
-                    textStyle={{ color: '#fff' }} />
+                    textStyle={{ color: '#fff' }} /> */}
             </LinearGradient>
         )
     }
@@ -235,6 +241,8 @@ const mapStateToProps = (state) => {
 
         request3: state.chat.request2,  // request for get message of this room
         data_getMessageFromUser: state.chat.data_message, // request for get message of this room
+
+        data: state.chat.data_gChatAdmin,  // data pass to this screen
     }
 }
 
@@ -245,6 +253,7 @@ const mapDispatchToProps = (dispatch) => {
         // clearTheirAmuletMessage: () => dispatch(ChatActions.clearTheirAmuletMessage()), 
         editTheirAmuletMessage: (data) => dispatch(ChatActions.editDataMessage(data)), // edit array
         clearCacheGetData: () => dispatch(ChatActions.clearCacheGetData()),
+        editRedDotAtoU: (data) => dispatch(ChatActions.editRedDotAtoU(data)),
     }
 }
 

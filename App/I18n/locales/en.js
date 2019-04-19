@@ -261,7 +261,7 @@ export default {
   myBoard: 'My Post',
   allBoard: 'All Post',
   myAmulet: 'My Real Amulet',
-  market: 'Market for hire amulet',
+  market: 'Market',
   anywhere: 'Input or not input',
   priceMarket: 'Price',
   openStore: "You don't have store. Please open store !!",

@@ -115,6 +115,7 @@ class SigninScreen extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     console.log(nextProps)
     console.log(prevState)
+    console.log('แอบมองเธออยู่นะจ๊ะ ')
     console.log('+++++++++++++++++++++++++++ SIGNIN PAGE ++++++++++++++++++++++++++++')
     Reactotron.display({
       name: "newProps",

@@ -112,6 +112,7 @@ class ProfileScreen extends Component {
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
     console.log(prevState)
+    console.log('แอบมองเธออยู่นะจ๊ะ 555')
     // console.log('HAHAHA SUCCCCC')
     if (newProps.profile && newProps.profile.point) {
       if (newProps.profile.point != prevState.point) {

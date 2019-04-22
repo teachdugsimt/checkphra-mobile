@@ -89,6 +89,7 @@ class Webboard2 extends Component {
     // console.log(newProps)
     // Reactotron.warn(newProps)
     // Reactotron.warn(prevState)
+    console.log('แอบมองเธออยู่นะจ๊ะ 55ห')
     // console.log(prevState)
 
 

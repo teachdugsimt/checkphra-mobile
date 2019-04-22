@@ -56,6 +56,7 @@ class Webboard extends Component {
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
+        console.log('แอบมองเธออยู่นะจ๊ะ ')
         console.log('++++++++++++ WEBBOARD 1 ++++++++++++')
 
         if (newProps.data_addpost && newProps.data_addpost != null) {
@@ -70,7 +71,7 @@ class Webboard extends Component {
         //****************************** DATA MY BOARD *****************************//
         if (newProps.data_meBoard && newProps.data_meBoard != null) {
             if (prevState.tmp_meBoard != newProps.data_meBoard && (!newProps.tmp_my || newProps.tmp_my == null)) {
-                let data = []
+                let data = []   // 1. generate array tmp_my
                 newProps.data_meBoard.map((e, i) => {
                     data.push({
                         id: e.id,

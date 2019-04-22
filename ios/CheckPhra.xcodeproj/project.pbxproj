@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -66,6 +67,7 @@
 		BBBD2755698E48BFA831CB32 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2E40FF0004F38AD1F165B /* MaterialIcons.ttf */; };
 		BD15CF8F25DC48D58B1AA1ED /* Prompt-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF2FDDEA3F1B40CFB7D1870B /* Prompt-Regular.ttf */; };
 		BE0DDFDBC5314060A6FD6672 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3CFC7977F7834DEEA6AF7D42 /* EvilIcons.ttf */; };
+		CAD83665D116485D87DF0F04 /* libRNPaypal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A772C83C9A91483BAE782B8A /* libRNPaypal.a */; };
 		D7D0F0163755484CA1335CC4 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7DA5D012D9AA45B182784A96 /* Foundation.ttf */; };
 		D8AD04B459674B049D457A08 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D75E360C6C34D0D89B23293 /* Zocial.ttf */; };
 		E325AAD17240430390D10774 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64ABC38DCB094BA7A6F7EAF6 /* libBVLinearGradient.a */; };
@@ -76,7 +78,6 @@
 		F4A5684BCEDF4DBB884CDC94 /* Prompt-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86DC705969BB4D549014A999 /* Prompt-ThinItalic.ttf */; };
 		F672B911C5E84599B6C76384 /* Prompt-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1CD31A8B4E749BB8800FD31 /* Prompt-MediumItalic.ttf */; };
 		FDC922A9CF9D407DB34A6F86 /* Prompt-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD64A868E35A438E99E833E0 /* Prompt-ExtraBoldItalic.ttf */; };
-		CAD83665D116485D87DF0F04 /* libRNPaypal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A772C83C9A91483BAE782B8A /* libRNPaypal.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -367,6 +368,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
+		55E7A079226DE36E00800901 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1B3600BD1AC0425E891E10CA /* RNPaypal.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNPaypal;
+		};
 		5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
@@ -426,6 +434,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CheckPhra/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CheckPhra/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		1B3600BD1AC0425E891E10CA /* RNPaypal.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNPaypal.xcodeproj; path = "../node_modules/react-native-paypal/ios/RNPaypal.xcodeproj"; sourceTree = "<group>"; };
 		2363A543F2E64C669F9A37E8 /* Prompt-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Prompt-ExtraLight.ttf"; path = "../assets/Fonts/Prompt-ExtraLight.ttf"; sourceTree = "<group>"; };
 		2B803A9BF28040708BBE6B24 /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* CheckPhra-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CheckPhra-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -467,6 +476,7 @@
 		A04DFB8BE51246E4B71A2F3A /* Prompt-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Prompt-Black.ttf"; path = "../assets/Fonts/Prompt-Black.ttf"; sourceTree = "<group>"; };
 		A0569D85ABE63CF884971EB0 /* Pods-CheckPhra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CheckPhra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CheckPhra/Pods-CheckPhra.debug.xcconfig"; sourceTree = "<group>"; };
 		A247EDF62A0842099E77CAEC /* Prompt-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Prompt-Medium.ttf"; path = "../assets/Fonts/Prompt-Medium.ttf"; sourceTree = "<group>"; };
+		A772C83C9A91483BAE782B8A /* libRNPaypal.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNPaypal.a; sourceTree = "<group>"; };
 		AB6F64B27193B96A940C5CF7 /* libPods-CheckPhra-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CheckPhra-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD64A868E35A438E99E833E0 /* Prompt-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Prompt-ExtraBoldItalic.ttf"; path = "../assets/Fonts/Prompt-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -487,8 +497,6 @@
 		DFC5E51FF6AA45EF9058574B /* Prompt-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Prompt-SemiBoldItalic.ttf"; path = "../assets/Fonts/Prompt-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		EAC2DF9FCAF34F7B9926A8E2 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		FF2FDDEA3F1B40CFB7D1870B /* Prompt-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Prompt-Regular.ttf"; path = "../assets/Fonts/Prompt-Regular.ttf"; sourceTree = "<group>"; };
-		1B3600BD1AC0425E891E10CA /* RNPaypal.xcodeproj */ = {isa = PBXFileReference; name = "RNPaypal.xcodeproj"; path = "../node_modules/react-native-paypal/ios/RNPaypal.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		A772C83C9A91483BAE782B8A /* libRNPaypal.a */ = {isa = PBXFileReference; name = "libRNPaypal.a"; path = "libRNPaypal.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -748,7 +756,7 @@
 				2B803A9BF28040708BBE6B24 /* libReactNativeConfig.a */,
 				64ABC38DCB094BA7A6F7EAF6 /* libBVLinearGradient.a */,
 				43A55FD5D5C340299E054276 /* libRNFirebase.a */,
-				A2AB92DFB6164D6E86B32CE9 /* libRNPaypalWrapper.a */,
+				A772C83C9A91483BAE782B8A /* libRNPaypal.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -782,6 +790,14 @@
 			isa = PBXGroup;
 			children = (
 				55B549A72160C51000E4F1F2 /* libRNFirebase.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		55E7A076226DE36E00800901 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				55E7A07A226DE36E00800901 /* libRNPaypal.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1021,8 +1037,10 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
+				th,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -1095,6 +1113,10 @@
 				{
 					ProductGroup = 551DBEF72177D2E100F0A8DD /* Products */;
 					ProjectRef = 551DBEF62177D2E100F0A8DD /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = 55E7A076226DE36E00800901 /* Products */;
+					ProjectRef = 1B3600BD1AC0425E891E10CA /* RNPaypal.xcodeproj */;
 				},
 				{
 					ProductGroup = 55B549642160C51000E4F1F2 /* Products */;
@@ -1383,6 +1405,13 @@
 			fileType = archive.ar;
 			path = libRNFirebase.a;
 			remoteRef = 55B549A62160C51000E4F1F2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		55E7A07A226DE36E00800901 /* libRNPaypal.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNPaypal.a;
+			remoteRef = 55E7A079226DE36E00800901 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
@@ -1797,9 +1826,7 @@
 				INFOPLIST_FILE = CheckPhraTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1828,9 +1855,7 @@
 				INFOPLIST_FILE = CheckPhraTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1928,9 +1953,7 @@
 				);
 				INFOPLIST_FILE = "CheckPhra-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1968,9 +1991,7 @@
 				);
 				INFOPLIST_FILE = "CheckPhra-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2007,9 +2028,7 @@
 				);
 				INFOPLIST_FILE = "CheckPhra-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2046,9 +2065,7 @@
 				);
 				INFOPLIST_FILE = "CheckPhra-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",

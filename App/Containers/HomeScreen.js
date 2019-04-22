@@ -22,7 +22,7 @@ import VersatileActions from '../Redux/VersatileRedux'
 import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
-import Reactotron from 'reactotron-react-native'
+// import Reactotron from 'reactotron-react-native'
 // import {
 //   AdMobRewarded,
 // } from 'react-native-admob'
@@ -82,16 +82,16 @@ class HomeScreen extends Component {
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
     console.log(prevState)
-    Reactotron.display({
-      name: 'New Props',
-      preview: 'NewPropsZone',
-      value: newProps
-    })
-    Reactotron.display({
-      name: 'Prev state',
-      preview: 'PrevStateZone',
-      value: prevState
-    })
+    // Reactotron.display({
+    //   name: 'New Props',
+    //   preview: 'NewPropsZone',
+    //   value: newProps
+    // })
+    // Reactotron.display({
+    //   name: 'Prev state',
+    //   preview: 'PrevStateZone',
+    //   value: prevState
+    // })
     console.log('============  HOME PAGE =============')
 
     const list_user = [
@@ -162,19 +162,19 @@ class HomeScreen extends Component {
     //****************************** SET TEMP PUBLISH ***************************//
     if (newProps.data_publish && newProps.data_publish != null) {
       if (!newProps.tmp_publish || newProps.tmp_publish == null) {  // สร้าง temp_publish ข่าวใหม่
-        Reactotron.warn("GENERATE TEMP PUBLISH")
-        let data = []
-        newProps.data_publish.map(e => {
-          data.push({
-            id: e.id,
-            topic: e.topic,
-            status: false,
-          })
-        })
+        // Reactotron.warn("GENERATE TEMP PUBLISH")
+        // let data = []
+        // newProps.data_publish.map(e => {
+        //   data.push({
+        //     id: e.id,
+        //     topic: e.topic,
+        //     status: false,
+        //   })
+        // })
         newProps.setTempPublish(data)
-        Reactotron.warn(data)
+        // Reactotron.warn(data)
       } else if (newProps.tmp_publish && newProps.tmp_publish != null) {
-        Reactotron.warn("CHECK & UPDATE TEMP PUBLISH")
+        // Reactotron.warn("CHECK & UPDATE TEMP PUBLISH")
         if (newProps.tmp_publish.length == newProps.data_publish.length) { // ไม่มีข่าวใหม่
           // ไม่ต้องทำไร
         } else if (newProps.tmp_publish.length < newProps.data_publish.length) {  // มีข่าวใหม่
@@ -465,11 +465,11 @@ class HomeScreen extends Component {
     I18n.locale = this.props.language
     console.log(this.state.kawsod)
     console.log(this.props.data_shared)
-    Reactotron.display({
-      name: "VERSATILE",
-      preview: "log in render",
-      value: this.props.data_versatile
-    })
+    // Reactotron.display({
+    //   name: "VERSATILE",
+    //   preview: "log in render",
+    //   value: this.props.data_versatile
+    // })
     // console.log(this.props.tmp_publish)
     // let time = "2019-04-05 22:35:16"  // can check
     // let time2 = "2019-04-05 22:35:56"

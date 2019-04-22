@@ -14,7 +14,7 @@ import { call, put, select } from 'redux-saga/effects'
 import VersatileActions from '../Redux/VersatileRedux'
 // import { VersatileSelectors } from '../Redux/VersatileRedux'
 import I18n from '../I18n/i18n';
-import Reactotron from 'reactotron-react-native'
+// import Reactotron from 'reactotron-react-native'
 I18n.fallbacks = true;
 const auth = state => state.auth
 I18n.locale = auth.language
@@ -43,7 +43,7 @@ export function* getNormalDataRequest(api) {
   }
 
   const response = yield call(api.getVersatile, data)
-  Reactotron.warn(response)
+  // Reactotron.warn(response)
   if (response.ok) {
     yield put(VersatileActions.getNormalDataSuccess(response.data))
   } else {

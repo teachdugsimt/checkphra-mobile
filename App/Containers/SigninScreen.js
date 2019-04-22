@@ -22,7 +22,7 @@ import firebase from 'react-native-firebase';
 import { Images, Metrics } from '../Themes'
 import AuthActions from '../Redux/AuthRedux'
 import Spinner from 'react-native-loading-spinner-overlay';
-import Reactotron from 'reactotron-react-native'
+// import Reactotron from 'reactotron-react-native'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -56,7 +56,7 @@ class SigninScreen extends Component {
   componentDidMount() {
     // this.setState({ spinner: false })
     // console.log(this.props.profile)
-    
+
     if (this.props.profile && this.props.profile != null) {
       this.hideSignin()
     }
@@ -116,16 +116,16 @@ class SigninScreen extends Component {
     console.log(nextProps)
     console.log(prevState)
     console.log('+++++++++++++++++++++++++++ SIGNIN PAGE ++++++++++++++++++++++++++++')
-    Reactotron.display({
-      name: "newProps",
-      preview: "Signin Screen",
-      value: nextProps
-    })
-    Reactotron.display({
-      name: "prevState",
-      preview: "Signin Screen",
-      value: prevState
-    })
+    // Reactotron.display({
+    //   name: "newProps",
+    //   preview: "Signin Screen",
+    //   value: nextProps
+    // })
+    // Reactotron.display({
+    //   name: "prevState",
+    //   preview: "Signin Screen",
+    //   value: prevState
+    // })
     // console.log(prevState.spinner)
     // let spinner = false
     if (!prevState.profile && nextProps.error && !nextProps.requestData) {

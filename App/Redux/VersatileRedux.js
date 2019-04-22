@@ -1,6 +1,6 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import Reactotron from 'reactotron-react-native'
+// import Reactotron from 'reactotron-react-native'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -54,11 +54,11 @@ export const deletePublish = (state, { data }) => {
       }
     })
   }
-  Reactotron.display({
-    name: "TMP AFTER DELETE",
-    preview: "TEMP PUBLISH AFTER DELETE",
-    value: tmp
-  })
+  // Reactotron.display({
+  //   name: "TMP AFTER DELETE",
+  //   preview: "TEMP PUBLISH AFTER DELETE",
+  //   value: tmp
+  // })
   return state.merge({ tmp_publish: tmp })
 }
 
@@ -71,11 +71,11 @@ export const editRedDotPublish = (state, { data }) => {
       }
     })
   }
-  Reactotron.display({
-    name: "TMP EDIT RED DOT PUBLISH",
-    display: "tmp after edit red dot publish",
-    value: tmp
-  })
+  // Reactotron.display({
+  //   name: "TMP EDIT RED DOT PUBLISH",
+  //   display: "tmp after edit red dot publish",
+  //   value: tmp
+  // })
   return state.merge({ tmp_publish: tmp })
 }
 
@@ -84,11 +84,11 @@ export const addPublish = (state, { data }) => {
   if (tmp && tmp != null) {
     tmp.push(data)
   }
-  Reactotron.display({
-    name: "TMP ADD PUBLISH",
-    display: "tmp  after add new publish",
-    value: tmp
-  })
+  // Reactotron.display({
+  //   name: "TMP ADD PUBLISH",
+  //   display: "tmp  after add new publish",
+  //   value: tmp
+  // })
   return state.merge({ tmp_publish: tmp })
 }
 export const setTempPublish = (state, { data }) => state.merge({ tmp_publish: data })

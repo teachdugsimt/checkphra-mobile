@@ -1,6 +1,6 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import Reactotron from 'reactotron-react-native'
+// import Reactotron from 'reactotron-react-native'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -53,11 +53,11 @@ export const ChatSelectors = {
 
 /* ------------- Reducers ------------- */
 export const editRedDotAtoU = (state, { data }) => {
-  Reactotron.display({
-    name: "data come to Redux",
-    preview: "Edit Red dot in Redux",
-    value: data
-  })
+  // Reactotron.display({
+  //   name: "data come to Redux",
+  //   preview: "Edit Red dot in Redux",
+  //   value: data
+  // })
   let tmp = JSON.parse(JSON.stringify(state.data_listUser))
   if (tmp && tmp != null) {
     tmp.forEach((e, i) => {
@@ -66,11 +66,11 @@ export const editRedDotAtoU = (state, { data }) => {
       }
     })
   }
-  Reactotron.display({
-    name: "Tmp After Edit Red Dot",
-    preview: "Edit Red dot in Redux",
-    value: tmp
-  })
+  // Reactotron.display({
+  //   name: "Tmp After Edit Red Dot",
+  //   preview: "Edit Red dot in Redux",
+  //   value: tmp
+  // })
   return state.merge({ data_listUser: tmp })
 }
 export const clearDataListUser = state => state.merge({ data_listUser: null })
@@ -81,7 +81,7 @@ export const editDataMessage = (state, { data }) => {  // new data
   console.log('DATA ABOUT COME TO REDUX BEFORE EDIT')
   console.log(data)
 
-  let tmp  // old data 
+  let tmp  // old data
 
   if (state.data_message && state.data_message != null && state.data_message.length > 0) {
     tmp = JSON.parse(JSON.stringify(state.data_message))
@@ -90,7 +90,7 @@ export const editDataMessage = (state, { data }) => {  // new data
       console.log('FUCK YEAH DO NOT COME THIS IF')
       tmp.forEach((e, i) => {
         if (e.id == data.id && tmp.find(c => c.id == data.id) != -1) {
-          // console.log(e) // เจอ id ที่ตรงกัน ระหว่าง old data(tmp) และ new data(data)แล้ว 
+          // console.log(e) // เจอ id ที่ตรงกัน ระหว่าง old data(tmp) และ new data(data)แล้ว
           console.log('E.MESSAGE => data.messages')
           console.log(e)
           console.log(data)

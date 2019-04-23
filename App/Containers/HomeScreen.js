@@ -163,15 +163,16 @@ class HomeScreen extends Component {
     if (newProps.data_publish && newProps.data_publish != null) {
       if (!newProps.tmp_publish || newProps.tmp_publish == null) {  // สร้าง temp_publish ข่าวใหม่
         // Reactotron.warn("GENERATE TEMP PUBLISH")
-        // let data = []
-        // newProps.data_publish.map(e => {
-        //   data.push({
-        //     id: e.id,
-        //     topic: e.topic,
-        //     status: false,
-        //   })
-        // })
-        newProps.setTempPublish(newProps.tmp_publish)
+        let data = []
+        newProps.data_publish.map(e => {
+          data.push({
+            id: e.id,
+            topic: e.topic,
+            status: false,
+          })
+        })
+        newProps.setTempPublish(data)
+        // newProps.setTempPublish(newProps.tmp_publish)
         // Reactotron.warn(data)
       } else if (newProps.tmp_publish && newProps.tmp_publish != null) {
         // Reactotron.warn("CHECK & UPDATE TEMP PUBLISH")

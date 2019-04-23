@@ -171,7 +171,7 @@ class HomeScreen extends Component {
         //     status: false,
         //   })
         // })
-        newProps.setTempPublish(data)
+        newProps.setTempPublish(newProps.tmp_publish)
         // Reactotron.warn(data)
       } else if (newProps.tmp_publish && newProps.tmp_publish != null) {
         // Reactotron.warn("CHECK & UPDATE TEMP PUBLISH")

@@ -18,6 +18,7 @@ import { ShowRoomTypes } from '../Redux/ShowRoomRedux'
 import { ChatTypes } from '../Redux/ChatRedux'
 import { WebboardTypes } from '../Redux/WebboardRedux'
 import { MarketTypes } from '../Redux/MarketRedux'
+import { VersatileTypes } from '../Redux/VersatileRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -60,6 +61,7 @@ import {
 
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
 import { getVersion } from './VersionSagas'
+import { getNormalDataRequest } from './VersatileSagas'
 
 // import { getListAllBoard, getListMeBoard } from './WebboardSagas'
 // import { getListAllBoard555 } from './WebboardSagas'
@@ -90,6 +92,7 @@ export default function* root() {
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
     takeLatest(ShowRoomTypes.GET_MESSAGE_OTHER_CONTACT_MY_AMULET, getMessageOtherContactMyAmuletRequest, coreDiscussApi),
+    takeLatest(VersatileTypes.GET_NORMAL_DATA, getNormalDataRequest, question2Api),
 
     takeLatest(MarketTypes.UPDATE_READ, updateReadRequest, coreReadApi),
     takeLatest(MarketTypes.REQUEST_ALL_TYPE_AMULET, requestAllTypeAmulet55, question2Api),

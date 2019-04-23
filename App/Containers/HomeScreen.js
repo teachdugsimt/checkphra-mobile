@@ -10,16 +10,23 @@ import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dia
 import Icon2 from "react-native-vector-icons/FontAwesome";
 // import { Card } from 'react-native-elements'
 import { LoginButton, ShareDialog, ShareButton, ShareApi } from 'react-native-fbsdk';
-import GridView from "react-native-super-grid";
+import GridView, { SectionGrid } from "react-native-super-grid";
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import QuestionActions from '../Redux/QuestionRedux'
 import AuthActions from '../Redux/AuthRedux'
 import VersionActions from '../Redux/VersionRedux'
 import PromotionActions from '../Redux/PromotionRedux'
+import WebboardActions from '../Redux/WebboardRedux'
+import VersatileActions from '../Redux/VersatileRedux'
 import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
+// import Reactotron from 'reactotron-react-native'
+// import {
+//   AdMobRewarded,
+// } from 'react-native-admob'
+
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -56,6 +63,7 @@ class HomeScreen extends Component {
 
       addBonusSuccess: false,
       status: check,
+      // tempIndex: 0
     }
 
     const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
@@ -74,13 +82,25 @@ class HomeScreen extends Component {
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
     console.log(prevState)
+    // Reactotron.display({
+    //   name: 'New Props',
+    //   preview: 'NewPropsZone',
+    //   value: newProps
+    // })
+    // Reactotron.display({
+    //   name: 'Prev state',
+    //   preview: 'PrevStateZone',
+    //   value: prevState
+    // })
     console.log('============  HOME PAGE =============')
 
-    const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
-    // { name: I18n.t('showAmuletReal'), id: 2 },
-    { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
-    { name: I18n.t('commu'), id: 3, logo: 'wechat' },
-    { name: "Share +20 coins", id: 5, logo: 'facebook-square' }]
+    const list_user = [
+      { name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
+      // { name: I18n.t('showAmuletReal'), id: 2 },
+      { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
+      { name: I18n.t('commu'), id: 3, logo: 'wechat' },
+      { name: "Share +20 coins", id: 5, logo: 'facebook-square' }
+    ]
 
     if (newProps.language != prevState.language) {
       newProps.getProfile()
@@ -90,18 +110,6 @@ class HomeScreen extends Component {
     if (newProps.profile && newProps.profile != null) {
       profile = newProps.profile
     }
-
-    // if (newProps.data_publish && newProps.data_publish != null) {
-    //     if (prevState.tmp_publish != newProps.data_publish && check == false) {
-    //         check = true
-    //         numItems = newProps.data_publish.length
-    //         itemWidth = (FIXED_BAR_WIDTH / numItems) - ((numItems - 1) * BAR_SPACE)
-    //         return {
-    //             kawsod: newProps.data_publish,
-    //             itemWidth,
-    //         }
-    //     }
-    // }
 
     let date_tmp = new Date()
     let f1 = moment(date_tmp).format()
@@ -120,6 +128,13 @@ class HomeScreen extends Component {
     // if (JSON.stringify(newProps.time_shared) < JSON.stringify(date_tmp) && newProps.status == false) {
     //   newProps.setStatus(true)
     // }
+    if (newProps.data_versatile && newProps.data_versatile != null) {
+      shareLinkContent = {
+        contentType: 'link',
+        contentUrl: newProps.data_versatile.link,
+        quote: newProps.data_versatile.topic
+      }
+    }
 
     //************************ check alert login complete 7 days ******************************/
     if (newProps.data_login != null) {
@@ -144,6 +159,44 @@ class HomeScreen extends Component {
     //************************ check alert login complete 7 days ******************************/
 
 
+    //****************************** SET TEMP PUBLISH ***************************//
+    if (newProps.data_publish && newProps.data_publish != null) {
+      if (!newProps.tmp_publish || newProps.tmp_publish == null) {  // สร้าง temp_publish ข่าวใหม่
+        // Reactotron.warn("GENERATE TEMP PUBLISH")
+        // let data = []
+        // newProps.data_publish.map(e => {
+        //   data.push({
+        //     id: e.id,
+        //     topic: e.topic,
+        //     status: false,
+        //   })
+        // })
+        newProps.setTempPublish(newProps.tmp_publish)
+        // Reactotron.warn(data)
+      } else if (newProps.tmp_publish && newProps.tmp_publish != null) {
+        // Reactotron.warn("CHECK & UPDATE TEMP PUBLISH")
+        if (newProps.tmp_publish.length == newProps.data_publish.length) { // ไม่มีข่าวใหม่
+          // ไม่ต้องทำไร
+        } else if (newProps.tmp_publish.length < newProps.data_publish.length) {  // มีข่าวใหม่
+          newProps.data_publish.map((e, i) => {
+            if (newProps.tmp_publish.find(b => b.id == e.id) == undefined || !newProps.tmp_publish.find(b => b.id == e.id)) {
+              newProps.addPublish({
+                id: e.id,
+                topic: e.topic,
+                status: false
+              })  // เพิ่มข่าวใหม่ไปใน tmp_publish
+            }
+          })
+        } else if (newProps.tmp_publish.length > newProps.data_publish.length) {  // ลบข่าว
+          newProps.tmp_publish.map((e, i) => {
+            if (newProps.data_publish.find(b => b.id == e.id) == undefined) {
+              newProps.deletePublish(e)
+            }
+          })
+        }
+      }
+    }
+    //****************************** SET TEMP PUBLISH ***************************//
 
     return {
       dataProifle: profile,
@@ -164,8 +217,24 @@ class HomeScreen extends Component {
       this.props.navigation.navigate('marketHome')
     } else if (item.id == 5) {
       this.shareLinkWithShareDialog()
+      // this.seeVideo()
     }
   }
+
+  // seeVideo() {
+  //   // Display a rewarded ad
+  //   AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
+  //   AdMobRewarded.requestAd().then((err) => {
+  //     // console.log('get ads success')
+  //     console.log(err)
+  //     // AdMobRewarded.showAd()
+  //   })
+  //     .catch((err) => {
+  //       console.log(err.message)
+  //     });
+
+
+  // }
 
   async shareLinkWithShareDialog() {
     var tmp = this;
@@ -251,13 +320,14 @@ class HomeScreen extends Component {
 
   componentDidMount() {
     this.props.checkVersion()  // check new version end method in sagas
-
+    this.props.getVersatile()
     this.props.getProfile()   // get profile
     this.props.getPublish()   // get new publish
 
     this.props.getLoginPro()  // add get Login promotion 7 days
 
     this.getDeviceToken()  // build push notifications end in three - four function
+    // this.props.clearTmp()  ///////// MUST DELETE ////////////
   }
   //0
   async getDeviceToken() {
@@ -382,6 +452,7 @@ class HomeScreen extends Component {
   }
 
   _showPublish = (item) => {
+    this.props.editRedDotPublish(item)
     this.setState({ tmp_publish: item })
     this.popupDialog2.show()
   }
@@ -394,6 +465,12 @@ class HomeScreen extends Component {
     I18n.locale = this.props.language
     console.log(this.state.kawsod)
     console.log(this.props.data_shared)
+    // Reactotron.display({
+    //   name: "VERSATILE",
+    //   preview: "log in render",
+    //   value: this.props.data_versatile
+    // })
+    // console.log(this.props.tmp_publish)
     // let time = "2019-04-05 22:35:16"  // can check
     // let time2 = "2019-04-05 22:35:56"
     // console.log(time < time2)
@@ -402,116 +479,97 @@ class HomeScreen extends Component {
     // console.log(time > time2)                                    //can check
     console.log('--------------- KAWSOD HOME PAGE --------------')
 
-    // let barArray = []
-    // if (this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0) {
-
-    //     this.state.kawsod.forEach((e, i) => {
-
-    //         const scrollBarVal = this.animVal.interpolate({
-    //             inputRange: [deviceWidth * (i - 1), deviceWidth * (i + 1)],
-    //             outputRange: [-this.state.itemWidth, this.state.itemWidth],
-    //             extrapolate: 'clamp',
-    //         })
-
-    //         const thisBar = (
-    //             <View
-    //                 key={`bar${i}`}
-    //                 style={[
-    //                     styles2.track,
-    //                     {
-    //                         // width: this.state.itemWidth - (this.state.itemWidth / 2) - (this.state.itemWidth / 3) - (this.state.itemWidth / 17),
-    //                         width: this.state.itemWidth - ((this.state.itemWidth / 2) + this.state.kawsod.length * 10),  // กำหนดแถบสีเทา
-    //                         marginLeft: i === 0 ? 0 : BAR_SPACE,
-    //                     },
-    //                 ]}
-    //             >
-    //                 <Animated.View
-    //                     style={[
-    //                         styles2.bar,
-    //                         {
-    //                             // width: this.state.itemWidth - (this.state.itemWidth / 2) - (this.state.itemWidth / 3) - (this.state.itemWidth / 17),
-    //                             width: this.state.itemWidth - ((this.state.itemWidth / 2) + this.state.kawsod.length * 10) + this.state.kawsod.length * 3,  // กำหนด แถบสีส้ม
-    //                             transform: [
-    //                                 { translateX: scrollBarVal },
-    //                             ],
-    //                         },
-    //                     ]}
-    //                 />
-    //             </View>
-    //         )
-    //         barArray.push(thisBar)
-    //     })
-    // }
-
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
         <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
 
-        <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.78, flexDirection: 'row' }}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} pagingEnabled={true}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.props.request_publish == true}
-                onRefresh={this.onRefresh.bind(this)}
-              />
-            }
-            onScroll={
-              Animated.event(
-                [{ nativeEvent: { contentOffset: { x: this.animVal } } }]
-              )
-            }>
-            {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 ?
-              this.state.kawsod.map((e, i) => {
+        <ScrollView>
+          <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.8, width: width - 20, flexDirection: 'row' }}>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={true} pagingEnabled={true}
+              ref={(snapScroll) => { this.snapScroll = snapScroll; }}
+              decelerationRate={0}
+              snapToInterval={width - 20}
+              snapToAlignment={"center"}
+            // refreshControl={
+            //   <RefreshControl
+            //     refreshing={this.props.request_publish == true}
+            //     onRefresh={this.onRefresh.bind(this)}
+            //   />
+            // }
+            >
+
+              {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 ?
+                this.state.kawsod.map((e, i) => {
+                  return (
+                    <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
+                      {this.props.tmp_publish != undefined && this.props.tmp_publish != null && this.props.tmp_publish.find(b => b.status == false) != undefined && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
+                      <View style={{ flex: 1 }}>
+                        <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{e.topic}</Text>
+                        <Image source={{ uri: e.image_link }} style={{ height: '55%', marginTop: 10, borderRadius: 5, width: width - (40) }} />
+                        <Text numberOfLines={3} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{e.content}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  )
+                }) : <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }}>
+                  <View style={{ flex: 1 }}>
+                    <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{I18n.t('news')}</Text>
+                    <Image source={Images.logoCheckphra} style={{ height: (height / 3.8), marginTop: 10, borderRadius: 5, width: width - (40) }} />
+                    {/* <Text numberOfLines={2} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{I18n.t('nonePublish')}</Text> */}
+                  </View>
+                </TouchableOpacity>}
+            </ScrollView>
+          </View>
+
+
+          <View style={{ flexDirection: 'row' }}>
+            {this.state.list_user && this.state.list_user.map((item, index) => {
+              if (index == 0 || index == 1)
                 return (
-                  <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
-                    <View style={{ flex: 1 }}>
-                      <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{e.topic}</Text>
-                      <Image source={{ uri: e.image_link }} style={{ height: '55%', marginTop: 10, borderRadius: 5, width: width - (40) }} />
-                      <Text numberOfLines={3} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{e.content}</Text>
+                  <TouchableOpacity onPress={() => {
+                    if (item.id == 5) {
+                      this._pressList(item)
+                      this.props.sharedAnswer("qid")
+                    } else {
+                      this._pressList(item)
+                    }
+                  }} style={{ justifyContent: 'center', alignItems: 'center', flex: 1, width: width / 2.5, marginTop: 10, marginLeft: 10, marginRight: index == 1 ? 10 : 0 }}>
+                    <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
+                      <Icon2 name={item.logo} size={40} />
+                      <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
+                        {item.name}</Text>
                     </View>
                   </TouchableOpacity>
                 )
-              }) : <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }}>
-                <View style={{ flex: 1 }}>
-                  <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{I18n.t('nonePublish')}</Text>
-                  <Image source={Images.logoCheckphra} style={{ height: (height / 3.8), marginTop: 10, borderRadius: 5, width: width - (40) }} />
-                  {/* <Text numberOfLines={2} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{I18n.t('nonePublish')}</Text> */}
-                </View>
-              </TouchableOpacity>}
-          </ScrollView>
-          {/* {barArray && <View style={{
-                        flexDirection: 'row',
-                        position: 'absolute',
-                        top: (height / 2.85) - 10,
-                        right: (width / 2) - 20,
-                    }}>
-                        {barArray}
-                    </View>} */}
-        </View>
+            })}
+          </View>
 
-        <GridView
-          itemDimension={width / 2.5}
-          items={this.state.list_user ? this.state.list_user : []}
-          renderItem={item => {
-            return (
+          <View style={{ flexDirection: 'row' }}>
+            {this.state.list_user && this.state.list_user.map((item, index) => {
+              if (index == 2 || index == 3)
+                return (
+                  <TouchableOpacity onPress={() => {
+                    if (item.id == 5) {
+                      this._pressList(item)
+                      this.props.sharedAnswer("qid")
+                    } else {
+                      this._pressList(item)
+                    }
+                  }} style={{ justifyContent: 'center', alignItems: 'center', flex: 1, width: width / 2.5, marginTop: 10, marginLeft: 10, marginRight: index == 3 ? 10 : 0, marginBottom: 10 }}>
+                    {item.id == 3 && this.props.data_versatile && this.props.data_versatile != null && this.props.data_versatile.is_new_contact_officer == true && <View
+                      style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 2.5, right: 2.5, zIndex: 1 }}></View>}
+                    <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
+                      <Icon2 name={item.logo} size={40} />
+                      <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
+                        {item.name}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )
+            })}
+          </View>
 
-              <TouchableOpacity onPress={() => {
-                if (item.id == 5) {
-                  this._pressList(item)
-                  this.props.sharedAnswer("qid")
-                } else {
-                  this._pressList(item)
-                }
-              }} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
-                  <Icon2 name={item.logo} size={40} />
-                  <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
-                    {item.name}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
+          <View style={{ height: 30 }}></View>
+        </ScrollView>
 
         <PopupDialog
           dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
@@ -536,6 +594,8 @@ class HomeScreen extends Component {
               </TouchableOpacity>
 
               <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, flex: 1, marginHorizontal: 10 }} onPress={this._contactAdmin}>
+                {this.props.data_versatile && this.props.data_versatile != null && this.props.data_versatile.is_new_contact_officer == true && <View
+                  style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 1.5, right: 1.5, zIndex: 1 }}></View>}
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactAdmin')}</Text>
               </TouchableOpacity>
 
@@ -600,10 +660,13 @@ const mapStateToProps = (state) => {
     modal: state.auth.modal,   // modal alert login 7 days success
     addBonusSuccess: state.promotion.addBonus,  // data add bonus
 
-    time_shared: state.promotion.time_shared, // time shared 
+    time_shared: state.promotion.time_shared, // time shared
     status: state.promotion.status, // shared status
 
     data_shared: state.promotion.data_shared,  // data after shared
+    data_versatile: state.versatile.data_versatile,  // store versatile data
+
+    tmp_publish: state.versatile.tmp_publish, // data temp publish
   }
 }
 
@@ -624,49 +687,14 @@ const mapDispatchToProps = (dispatch) => {
     sharedAnswer: (qid) => dispatch(PromotionActions.sharedAnswer(qid)),
     setTimeShared: (time) => dispatch(PromotionActions.setTimeShared(time)),
     setStatus: (status) => dispatch(PromotionActions.setStatus(status)),
+    clearTmp: () => dispatch(WebboardActions.clearTmp()),
 
+    getVersatile: () => dispatch(VersatileActions.getNormalData()),
+    setTempPublish: (data) => dispatch(VersatileActions.setTempPublish(data)),
+    addPublish: (data) => dispatch(VersatileActions.addPublish(data)),
+    editRedDotPublish: (data) => dispatch(VersatileActions.editRedDotPublish(data)),
+    deletePublish: (data) => dispatch(VersatileActions.deletePublish(data)),
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
-
-const styles2 = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  barContainer: {
-    position: 'absolute',
-    // zIndex: 2,
-    // top: deviceHeight - 50,
-    top: (height / 2.85) - 10,
-    // right: (width / 2) - (20),
-    right: (width / 2),
-    flexDirection: 'row',
-  },
-  track: {
-    backgroundColor: '#ccc',
-    overflow: 'hidden',
-    height: 7,  //old 2
-    borderRadius: 45, //add
-  },
-  bar: {
-    // backgroundColor: '#229954',
-    backgroundColor: Colors.bloodOrange,
-    height: 7,  //old 2
-    borderRadius: 45,  // add
-    position: 'absolute',
-    left: 0,
-    top: 0,
-  },
-  rbutton: {
-    width: '69%',
-    borderRadius: 15,
-    borderWidth: 2,
-    backgroundColor: 'transparent',
-    marginTop: (deviceHeight / 2) + (deviceHeight / 3),
-    borderColor: 'white',
-    alignSelf: 'center',
-  }
-})

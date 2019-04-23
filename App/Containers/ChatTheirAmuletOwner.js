@@ -59,7 +59,14 @@ class ChatTheirAmuletOwner extends Component {
         console.log(prevState)
         console.log('------------- SEND MESSAGE OWNER --------------')
         if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null && prevState.mlist != newProps.data_sendMessageTheirAmulet) {
-            console.log(newProps.data_sendMessageTheirAmulet)
+            // กรณี ผู้ใช้คุยกับเจ้าของพระ ต้องปรับ discuss_id ด้วยเสมอ
+            if (newProps.data_contactOwner && newProps.data_contactOwner != null) {
+                if (newProps.discuss != newProps.data_sendMessageTheirAmulet.id) {
+                    newProps.updateUserContactOwnerList(newProps.discuss, newProps.data_sendMessageTheirAmulet.id)
+                    newProps.setDisscuss(newProps.data_sendMessageTheirAmulet.id)
+                }
+            }
+
             newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
             return {
                 mlist: newProps.data_sendMessageTheirAmulet
@@ -115,6 +122,10 @@ class ChatTheirAmuletOwner extends Component {
                 }
             }
         }
+
+        // data_contactOwner // main data user contact owner
+        // setDisscuss
+
         // for SEARCH FUNCTION
 
         return {
@@ -267,8 +278,39 @@ class ChatTheirAmuletOwner extends Component {
         this.setState({ text: null, tmp_vote: null })
         count = 1
         this.props.clearTheirAmuletMessage()
+        // if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
+        //     this.props.getMyMessageFromOther(1)
+        // }
     }
 
+    // ********************* OLD SCHOOL *************************** //
+    // _reload = () => {
+    //     // count = 1
+    //     // this.props.getMessageTheirAmulet(count)
+    //     if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
+    //         count++
+    //         if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
+    //             this.props.getMessageOtherContactMyAmulet(count)
+    //         } else {
+    //             this.props.getMessageTheirAmulet(count)
+    //         }
+    //     }
+    // }
+
+    // _onScrollEndList = () => {
+    //     console.log('END LIST AGAIN')
+    //     if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+    //         count++
+    //         if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
+    //             this.props.getMessageOtherContactMyAmulet(count)
+    //         } else {
+    //             this.props.getMessageTheirAmulet(count)
+    //         }
+    //     }
+    // }
+    // ********************* OLD SCHOOL *************************** //
+
+    // ************************ NEW SCHOOL ************************** //
     _reload = () => {
         // count = 1
         // this.props.getMessageTheirAmulet(count)
@@ -284,8 +326,8 @@ class ChatTheirAmuletOwner extends Component {
 
     _onScrollEndList = () => {
         console.log('END LIST AGAIN')
-        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
-            count++
+        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
+            count = 1
             if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
                 this.props.getMessageOtherContactMyAmulet(count)
             } else {
@@ -293,6 +335,7 @@ class ChatTheirAmuletOwner extends Component {
             }
         }
     }
+    // ************************ NEW SCHOOL ************************** //
 
 
 
@@ -474,8 +517,8 @@ class ChatTheirAmuletOwner extends Component {
                     }}
                     // ref={"myList"}
                     // inverted={true}
-                    // onEndReached={this._onScrollEndList}
-                    // onEndReachedThreshold={0.3}
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={0.1}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.props.request3 == true}
@@ -557,6 +600,10 @@ const mapDispatchToProps = (dispatch) => {
 
         // สำหรับ มีคนอื่น ทักมาคุย 1-1 กับพระของเรา เท่านั้น !!!!
         getMessageOtherContactMyAmulet: (page) => dispatch(ShowRoomActions.getMessageOtherContactMyAmulet(page)),
+        setDisscuss: (id) => dispatch(ShowRoomActions.setDisscuss(id)),
+        getMyMessageFromOther: (page) => dispatch(ShowRoomActions.getListOwnerContact(page)),
+
+        updateUserContactOwnerList: (old_id, new_id) => dispatch(ShowRoomActions.updateUserContactOwnerList(old_id, new_id))
     }
 }
 

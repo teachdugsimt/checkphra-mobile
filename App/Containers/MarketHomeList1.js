@@ -11,6 +11,7 @@ import RoundedButton from '../Components/RoundedButton'
 import { Colors, Images } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import Icon2 from "react-native-vector-icons/FontAwesome";
+import Icon3 from "react-native-vector-icons/Ionicons"
 import moment from 'moment'
 import 'moment/locale/th'
 import * as RNIap from 'react-native-iap';
@@ -46,8 +47,28 @@ class MarketHomeList1 extends Component {
             tlist: null,
 
             checkTypeIsMyFollow: false,
+            type_name: this.props.type_name
         }
     }
+
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+        return {
+            // title: params.getName,  // change title => String
+            headerTitle: (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 18, color: "white" }} numberOfLines={1}>
+                        {params.getName}
+                    </Text>
+                </View>
+            ),
+            headerRight: (
+                <TouchableOpacity onPress={params.addAmulet}>
+                    <Icon3 name={'ios-add-circle-outline'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+                </TouchableOpacity>
+            )
+        };
+    };
 
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
@@ -68,6 +89,22 @@ class MarketHomeList1 extends Component {
         //     }
         // }
     }
+
+    _addAmulet = () => {
+        // add amulet here
+        this.popupDialog2.show()
+    };
+
+    _goToUpload = () => {
+        this.props.navigation.navigate('marketUpload1')
+        this.popupDialog2.dismiss()
+    }
+
+    _goToUpload2 = () => {
+        this.props.navigation.navigate("marketUpload2")
+        this.popupDialog2.dismiss()
+    }
+
 
     _renderItem = ({ item, index }) => {
 
@@ -145,6 +182,7 @@ class MarketHomeList1 extends Component {
 
     componentDidMount() {
         count = 1
+        this.props.navigation.setParams({ getName: this.state.type_name, addAmulet: this._addAmulet })
         this.props.getListAreaAmulet(count)
 
         // if (this.props.profile && this.props.profile.my_follow) {
@@ -176,6 +214,7 @@ class MarketHomeList1 extends Component {
 
     render() {
         I18n.locale = this.props.language
+        console.log(this.state.type_name)
         console.log('-------------------------- MARKET HOME LIST1 -------------------------')
         // console.log(this.props.data_amulet)
 
@@ -229,6 +268,28 @@ class MarketHomeList1 extends Component {
                     onEndReached={this._onScrollEndList}
                     onEndReachedThreshold={1.2} />
 
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('menu')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.15}
+                    height={height / 4}
+                    // height={150}
+                    onDismissed={() => { this.setState({}) }}
+                >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
+                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, width: '95%', justifyContent: 'center', marginHorizontal: 7.5, marginVertical: 2.5, borderRadius: 8 }} onPress={this._goToUpload2}>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('haveAmulet') + (this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, justifyContent: 'center', width: '95%', marginHorizontal: 7.5, marginBottom: 2.5, borderRadius: 8 }} onPress={this._goToUpload}>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('notAmulet') + (this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </PopupDialog>
+
             </LinearGradient>
         )
     }
@@ -250,6 +311,8 @@ const mapStateToProps = (state) => {
         pro_id: state.market.pro_id,  // TYPE_ID
 
         lastIDofGroupAmulet: state.question.data_follow,  // build new array save my_follow
+
+        type_name: state.market.type_name,  // store type name
     }
 }
 

@@ -5,6 +5,7 @@ import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import QuestionActions from '../Redux/QuestionRedux'
 import AuthActions from '../Redux/AuthRedux'
+import WebboardActions from '../Redux/WebboardRedux'
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon3 from "react-native-vector-icons/FontAwesome";
@@ -14,6 +15,11 @@ import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dia
 import I18n from '../I18n/i18n';
 import { getLanguages } from 'react-native-i18n';
 import RoundedButton from "../Components/RoundedButton";
+import {
+  AccessToken, LoginManager,
+  GraphRequest,
+  GraphRequestManager
+} from 'react-native-fbsdk';
 
 // import ImagePicker from 'react-native-image-picker'
 I18n.fallbacks = true;
@@ -106,6 +112,7 @@ class ProfileScreen extends Component {
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
     console.log(prevState)
+    console.log('แอบมองเธออยู่นะจ๊ะ 555')
     // console.log('HAHAHA SUCCCCC')
     if (newProps.profile && newProps.profile.point) {
       if (newProps.profile.point != prevState.point) {
@@ -131,6 +138,18 @@ class ProfileScreen extends Component {
     this.props.getProfile()
   }
 
+  clearFacebook = async () => {
+    // const data = await AccessToken.getCurrentAccessToken();
+    // if (data != null) {
+    //   LoginManager.getInstance().logOut();
+    // }
+
+    LoginManager.logOut();
+    return {
+      type: LOGOUT,
+    };
+  }
+
   _onSignout = () => {
     Alert.alert(
       'Check Phra',
@@ -141,6 +160,8 @@ class ProfileScreen extends Component {
             this.props.signout()
             this.props.signout2()
             this.props.clearAll()
+            this.props.clearTmp()
+            this.clearFacebook()
             this.props.navigation.navigate('Auth')
           }
         },
@@ -522,6 +543,7 @@ const mapDispatchToProps = dispatch => {
     setCoin: (coin) => dispatch(AuthActions.setCoin(coin)),
     setImg: (img) => dispatch(AuthActions.setImg(img)),
     changeProfile: (firstname, lastname, file) => dispatch(AuthActions.changeProfile(firstname, lastname, file)),
+    clearTmp: () => dispatch(WebboardActions.clearTmp()),
   };
 };
 

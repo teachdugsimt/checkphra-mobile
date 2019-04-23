@@ -82,13 +82,13 @@ class UserContactOwner extends Component {
                         <View style={{ justifyContent: 'center' }}>
                             {item.profile && item.amulet && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 14 }}>{item.profile.fullname ? item.profile.fullname : item.profile.email ? item.profile.email : "Check Phra User"}{" ( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
                             {!item.profile && item.amulet && <Text style={{ color: Colors.bloodOrange, fontFamily: 'Prompt-SemiBold', fontSize: 14 }}>{"Chat All " + "( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
-                            {/* {item.amulet && <Text style={{ color: Colors.brownTextTran, fontSize: 12 }}>{date}{" ( id: " + item.amulet.id + " )"}</Text>} */}
+                            {item.amulet && <Text style={{ color: Colors.brownTextTran, fontSize: 12 }}>{date}</Text>}
 
-                            <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'row', marginTop: 2.5 }}>
                                 {item.amulet != null && item.amulet.images_thumbs.map((e, i) => {
                                     return (
                                         <TouchableOpacity style={{ marginRight: 1.5 }} onPress={() => this._showPicture(item.amulet.images, i)}>
-                                            <Image source={{ uri: e }} style={{ width: 27.5, height: 27.5, borderRadius: 8 }} />
+                                            <Image source={{ uri: e }} style={{ width: 35, height: 35, borderRadius: 8 }} />
                                         </TouchableOpacity>
                                     )
                                 })}
@@ -117,13 +117,13 @@ class UserContactOwner extends Component {
                         <View style={{ justifyContent: 'center' }}>
                             {item.profile && item.amulet && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 14 }}>{item.profile.fullname ? item.profile.fullname : item.profile.email ? item.profile.email : "Check Phra User"}{" ( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
                             {!item.profile && item.amulet && <Text style={{ color: Colors.bloodOrange, fontFamily: 'Prompt-SemiBold', fontSize: 14 }}>{"Chat All " + "( " + item.amulet.amulet_detail.amuletName + " )"}</Text>}
-                            {/* {item.amulet && <Text style={{ color: Colors.brownTextTran, fontSize: 12 }}>{date}{" ( id: " + item.amulet.id + " )"}</Text>} */}
+                            {item.amulet && <Text style={{ color: Colors.brownTextTran, fontSize: 12 }}>{date}</Text>}
 
-                            <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'row', marginTop: 2.5 }}>
                                 {item.amulet != null && item.amulet.images_thumbs.map((e, i) => {
                                     return (
                                         <TouchableOpacity style={{ marginRight: 1.5 }} onPress={() => this._showPicture(item.amulet.images, i)}>
-                                            <Image source={{ uri: e }} style={{ width: 27.5, height: 27.5, borderRadius: 8 }} />
+                                            <Image source={{ uri: e }} style={{ width: 35, height: 35, borderRadius: 8 }} />
                                         </TouchableOpacity>
                                     )
                                 })}
@@ -257,6 +257,8 @@ class UserContactOwner extends Component {
         if (item.type == 1) {   // CHAT PRIVATE
             this.props.setDetailPhra(item.amulet)
             this.props.setDisscuss(item.id)
+            console.log(item.id)
+            console.log('------------ FUCK DISCUSS ID ----------------------------------------------------------')
             // this.props.getMessageOtherContactMyAmulet(count)
             // // ต้องอัพเดทการอ่าน และแก้ is_new ที่นี่ ด้วย
 

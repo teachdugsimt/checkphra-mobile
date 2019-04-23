@@ -23,6 +23,7 @@ import ChatActions from '../Redux/ChatRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
 import { messaging } from 'react-native-firebase';
+import VersatileActions from '../Redux/VersatileRedux'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -84,7 +85,7 @@ class ContactAdmin extends Component {
     componentDidMount() {
         count = 1
         // if (this.props.data_sendMessageTheirAmulet && this.props.data_sendMessageTheirAmulet != null) {
-            this.props.getMessageTheirAmulet(count)
+        this.props.getMessageTheirAmulet(count)
         // }
 
 
@@ -97,34 +98,56 @@ class ContactAdmin extends Component {
 
     componentWillUnmount() {
         count = 1
-        // this.props.clearTheirAmuletMessage()
+        this.props.clearTheirAmuletMessage()
+        this.props.getVersatile()
     }
 
-    _reload = () => {
+    // ********************* OLD SCHOOL *************************** //
+    // _reload = () => {  // reload เพื่อดูข้อความเก่า
+    //     // count = 1
+    //     // this.props.getMessageTheirAmulet(count)
+    //     if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+    //         count++
+    //         this.props.getMessageTheirAmulet(count)
+    //     }
+    // }
+
+    // _onScrollEndList = () => {  // เลื่อนลงสุดเพื่อดูข้อความใหม่
+    //     console.log('END LIST AGAIN')
+    //     if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+    //         count++
+    //         this.props.getMessageTheirAmulet(count)
+    //     }
+    // }
+    // ********************* OLD SCHOOL *************************** //
+
+    // ************************ NEW SCHOOL ************************** //
+    _reload = () => {  // reload เพื่อดูข้อความเก่า
         // count = 1
         // this.props.getMessageTheirAmulet(count)
-        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
             count++
             this.props.getMessageTheirAmulet(count)
         }
     }
 
-    _onScrollEndList = () => {
+    _onScrollEndList = () => {  // เลื่อนลงสุดเพื่อดูข้อความใหม่
         console.log('END LIST AGAIN')
-        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
-            count++
+        if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 1 && (this.props.request3 == false || this.props.request3 == null)) {
+            count = 1
             this.props.getMessageTheirAmulet(count)
         }
     }
+    // ************************ NEW SCHOOL ************************** //
 
-    _chatOwnerAmulet = () => {
-        this.props.navigation.navigate("chatTheirAmuletOwner")
-    }
+    // _chatOwnerAmulet = () => {
+    //     this.props.navigation.navigate("chatTheirAmuletOwner")
+    // }
 
-    _showPicture = () => {
-        this.setState({ modalVisible: true })
-        this.popupDialog.show()
-    }
+    // _showPicture = () => {
+    //     this.setState({ modalVisible: true })
+    //     this.popupDialog.show()
+    // }
 
     _goToURL = (item) => {
         // const url = 'm.me/316834699141900'
@@ -174,6 +197,7 @@ class ContactAdmin extends Component {
         I18n.locale = this.props.language
         // console.log(this.props.data_amulet)
         // console.log(this.props.data_their)
+        console.log(count)
         console.log('--------------------- Contact Admin -------------------------')
         return (
             <LinearGradient
@@ -203,6 +227,8 @@ class ContactAdmin extends Component {
                             onRefresh={this._reload}
                         />
                     }
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={0.1}
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                 />
                 <View style={{ marginBottom: 10 }}>
@@ -247,8 +273,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         sendMessageTheirAmulet: (message) => dispatch(ChatActions.sendMessageAdmin(message)),  // send message **
         getMessageTheirAmulet: (page) => dispatch(ChatActions.getMessageAdmin(page)), // get message
-        // clearTheirAmuletMessage: () => dispatch(ChatActions.clearTheirAmuletMessage()), 
+        clearTheirAmuletMessage: () => dispatch(ChatActions.clearCacheGetData()),
         editTheirAmuletMessage: (data) => dispatch(ChatActions.editDataMessage(data)), // edit array
+        getVersatile: () => dispatch(VersatileActions.getNormalData()),
     }
 }
 

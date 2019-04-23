@@ -3,12 +3,18 @@ package com.infiltech.checkphra;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.sbugert.rnadmob.RNAdMobPackage;
+
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.smarkets.paypal.RNPaypalPackage;
 import com.github.pgengoux.huaweiprotectedapps.HuaweiProtectedAppsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.dooboolab.RNIap.RNIapPackage;
-import com.taessina.paypal.RNPaypalWrapperPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -37,6 +43,9 @@ import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
@@ -55,12 +64,19 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(//
           new MainReactPackage(),
-            new RNAdMobPackage(),
-            new RNPaypalPackage(),
-            new HuaweiProtectedAppsPackage(),
-            new RNDeviceInfo(),
-            new RNIapPackage(),
-            new RNPaypalWrapperPackage(), //
+            // new RNAdMobPackage(),
+          // new VectorIconsPackage(),
+          // new LinearGradientPackage(),
+          // new ImagePickerPackage(),
+          // new RNI18nPackage(),
+          // new RNFirebasePackage(),
+          // new FBSDKPackage(),
+          // new ReactNativeConfigPackage(),
+          // new RNAdMobPackage(),
+          new RNPaypalPackage(), //
+          new HuaweiProtectedAppsPackage(), //
+          new RNDeviceInfo(), //
+          new RNIapPackage(), //
           new ImageResizerPackage(), //
           new ImagePickerPackage(), //
           new FBSDKPackage(mCallbackManager), //
@@ -89,6 +105,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    Fabric.with(this, new Crashlytics());
     AppEventsLogger.activateApp(this);
     SoLoader.init(this, /* native exopackage */ false);
   }

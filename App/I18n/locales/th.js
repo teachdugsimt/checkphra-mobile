@@ -248,7 +248,7 @@ export default {
   date2: 'วันที่ปัจจุบัน',
 
   home: 'หน้าหลัก',
-  checkAmuletScreen: 'ตรวจสอบพระ',
+  checkAmuletScreen: 'เช็คพระ',
   showAmuletReal: 'ห้องรวมพระแท้',
   chat: 'ห้องสนทนา',
   commu: 'ติดต่อสื่อสาร',
@@ -267,11 +267,11 @@ export default {
   anywhere: 'ใส่หรือไม่ใส่ก็ได้',
   priceMarket: 'ราคาเช่า',
   openStore: 'คุณไม่มีร้านค้า กรุณาทำการเปิดร้านค้า !!',
-  amuletOrProvince: 'ชื่อพระ หรือชื่อจังหวัด',
+  amuletOrProvince: 'ชื่อพระ',
   searchResult: 'ผลลัพธ์การค้นหา',
   noneSearching: 'ไม่พบรายการที่ค้นหา',
   amuletSearch: 'ชื่อพระที่ต้องการค้นหา',
-  
+
   deleteAmulet: 'ลบพระองค์นี้',
   sendToMarket: 'ส่งพระเข้าสู่ตลาด',
   menu: 'กรุณาเลือกรายการ',
@@ -326,6 +326,20 @@ export default {
   normalCate: 'หมวดหมู่ทั่วไป',
   follow3group: 'ต้องติดตามอย่างน้อย 3 สาย!!',
   banUser: 'แบน',
+  marketOpen: "สมัครเปิดร้านค้า",
+  f3t: "เลือกติดตามอย่างน้อย 3 สาย",
+  idcard: "บัตรประชาชน",
+  idcard2: "บัตรประชาชนแนบหน้า",
+  goto: "ไปหน้า",
+  mystore: "ร้านค้าของฉัน",
+  registerOpenStore1: "สมัคร",
+  registerOpenStore2: "เปิดร้านค้า",
+
+  north: "ภาคเหนือ",
+  north_east: "ภาคอีสาน",
+  central: "ภาคกลาง",
+  east: "ภาคตะวันออก",
+  south: "ภาคใต้",  
 
   หลวงปู่ทวด: 'หลวงปู่ทวด',
   หลวงปู่หมุน: 'หลวงปู่หมุน',
@@ -360,5 +374,5 @@ export default {
   failureTransaction: 'ทำรายการล้มเหลว กรุณาลองอีกครั้ง',
   succ: 'สำเร็จ!!',
   fail: 'ล้มเหลว!!',
-
+  news: 'ข่าวสาร'
 }

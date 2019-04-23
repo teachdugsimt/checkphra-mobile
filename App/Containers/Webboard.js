@@ -18,6 +18,7 @@ import QuestionActions from '../Redux/QuestionRedux'
 import WebboardActions from '../Redux/WebboardRedux'
 import styles from './Styles/WebboardStyle'
 import ImageList2 from './ImageList/ImageList2'
+import Reactotron from 'reactotron-react-native'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -55,11 +56,11 @@ class Webboard extends Component {
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
+        console.log('แอบมองเธออยู่นะจ๊ะ ')
         console.log('++++++++++++ WEBBOARD 1 ++++++++++++')
 
         if (newProps.data_addpost && newProps.data_addpost != null) {
             if (prevState.tmp_addpost != newProps.data_addpost) {
-                // newProps.addNewPost(newProps.data_addpost)
                 newProps.addMyNewPost(newProps.data_addpost)
                 return {
                     tmp_addpost: newProps.data_addpost
@@ -70,7 +71,7 @@ class Webboard extends Component {
         //****************************** DATA MY BOARD *****************************//
         if (newProps.data_meBoard && newProps.data_meBoard != null) {
             if (prevState.tmp_meBoard != newProps.data_meBoard && (!newProps.tmp_my || newProps.tmp_my == null)) {
-                let data = []
+                let data = []   // 1. generate array tmp_my
                 newProps.data_meBoard.map((e, i) => {
                     data.push({
                         id: e.id,
@@ -137,7 +138,7 @@ class Webboard extends Component {
 
             // ส่วน all post เราจะต้องมี tmp_my เพื่อเอามาอ้างอิง โพสของเรา ในกระทู้ทั้งหมด
             // filter id ใน all post == tmp_my
-            if (newProps.tmp_all && newProps.tmp_all != null) {
+            if (newProps.tmp_all && newProps.tmp_all != null && newProps.profile) {
                 let tmp = newProps.data_allBoard.filter(e => e.user_id == newProps.profile.user_id)
                 // ใน data_allBoard เราเอาแค่ กระทู้ของเรา มาเช็ค UPDATE_AT กับ tmp_all 
                 if (tmp && tmp != null && newProps.tmp_all.length == tmp.length && is_new == true) {  // กรณี คอมเม้น
@@ -148,7 +149,7 @@ class Webboard extends Component {
                             // console.log('FAILURE 1')
                             newProps.tmp_all.map((b, index) => {
                                 // console.log('FAILURE 2')
-                                if (e.id == b.id && e.updated_at != b.updated_at) {  // e ใหม่ , b เก่า
+                                if (e.id == b.id && e.updated_at != b.updated_at) {  // e/tmp ใหม่ , b/tmp_all เก่า
                                     newProps.updateAllBoard(e.id, e.updated_at, true)
                                 }
                             })
@@ -178,7 +179,7 @@ class Webboard extends Component {
         return {
             headerRight: (
                 <TouchableOpacity onPress={params.newItem}>
-                    <Icon2 name={'plus-square-o'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+                    <Icon2 name={'plus-circle'} color={'white'} size={40} style={{ paddingRight: 10 }} />
                 </TouchableOpacity>
             ),
         };
@@ -299,7 +300,7 @@ class Webboard extends Component {
                 </View>
 
                 {/* MY BOARD */}
-                {this.props.tmp_my && this.props.tmp_my.find(e => e.id == item.id).status == true && <View
+                {this.props.tmp_my && this.props.tmp_my != null && this.props.tmp_my.length > 0 && this.props.tmp_my.find(e => e.id == item.id).status == true && <View
                     style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 1, right: 1 }}></View>}
             </TouchableOpacity>
         )
@@ -336,7 +337,7 @@ class Webboard extends Component {
 
                 </View>
                 {/* ALL BOARD */}
-                {this.props.tmp_all && this.props.tmp_all.find(e => e.id == item.id).status == true && <View
+                {this.props.tmp_all && this.props.tmp_all != null && this.props.tmp_all.length > 0 && this.props.tmp_all.find(e => e.id == item.id) && this.props.tmp_all.find(e => e.id == item.id).status == true && <View
                     style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 1, right: 1 }}></View>}
             </TouchableOpacity>
         )
@@ -437,7 +438,7 @@ class Webboard extends Component {
                     </ScrollView>
                 </PopupDialog>
 
-                {/* <TouchableOpacity style={styles.iconView} onPress={this._newPost}>
+                {/* <TouchableOpacity style={styles.iconView} onPress={() => this.props.clearTmp()}>
                     <Icon2 name={'plus-square-o'} color={'dark'} size={34} />
                 </TouchableOpacity> */}
                 <Spinner
@@ -486,6 +487,7 @@ const mapDispatchToProps = (dispatch) => {
 
         addMyNewPost: (data) => dispatch(WebboardActions.addMyNewPost(data)),
         clearListMyAll: () => dispatch(WebboardActions.clearListMyAll()),
+        clearTmp: () => dispatch(WebboardActions.clearTmp()),
 
     }
 }

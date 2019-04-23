@@ -22,6 +22,7 @@ export const reducers = combineReducers({
   chat: require('./ChatRedux').reducer,
   webboard: require('./WebboardRedux').reducer,
   market: require('./MarketRedux').reducer,
+  versatile: require('./VersatileRedux').reducer,
 })
 
 export default () => {

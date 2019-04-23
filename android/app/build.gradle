@@ -96,14 +96,14 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    buildToolsVersion "27.0.2"
 
     defaultConfig {
         applicationId "com.infiltech.checkphra"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 26
-        versionCode 20
-        versionName "3.0.0"
+        versionCode 25
+        versionName "3.1"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -149,13 +149,25 @@ android {
     }
 }
 
+apply plugin: 'io.fabric'
+
+repositories {
+  maven { url 'https://maven.fabric.io/public' }
+}
+
 dependencies {
-    compile project(':react-native-admob')
+    // compile project(':react-native-admob')
+    // compile project(':react-native-vector-icons')
+    // compile project(':react-native-linear-gradient')
+    // compile project(':react-native-image-picker')
+    // compile project(':react-native-i18n')
+    // compile project(':react-native-firebase')
+    // compile project(':react-native-fbsdk')
+    compile project(':react-native-config')
     compile project(':react-native-paypal')
     compile project(':react-native-huawei-protected-apps')
     compile project(':react-native-device-info')
     compile project(':react-native-iap')
-    compile project(':react-native-paypal-wrapper')
     compile project(':react-native-image-resizer')
 
     implementation project(':react-native-image-picker')
@@ -193,8 +205,12 @@ dependencies {
 
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // <-- Add this line if you wish to use badge on Android
     implementation ('com.facebook.android:facebook-android-sdk:4.34.0', {
-        exclude group: 'com.google.android.gms'
+        // exclude group: 'com.google.android.gms'
     })
+    implementation 'com.google.android.gms:play-services-ads:12.0.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
+        transitive = true;
+    }
 
 }
 
@@ -207,4 +223,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 apply plugin: 'com.google.gms.google-services'
 
-com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
+// com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

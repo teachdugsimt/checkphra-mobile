@@ -151,7 +151,7 @@ class MarketMyAmulet extends Component {
         return (
             <TouchableOpacity style={{ height: 145, backgroundColor: Colors.milk, borderRadius: 10, marginLeft: 7.5, marginTop: 7.5, marginRight: index == 2 || index % 3 == 2 ? 7.5 : 0, width: (width / 3) - 10, justifyContent: 'center' }} onPress={() => this._goToChat(item)}>
 
-                <TouchableOpacity style={{ position: 'absolute', top: 1.5, right: 5, zIndex: 1 }} onPress={() => this._pressSubMenu(item)}>
+                <TouchableOpacity style={{ position: 'absolute', top: 1.5, right: 5, zIndex: 2 }} onPress={() => this._pressSubMenu(item)}>
                     <Icon2 name={'gear'} size={28} color={color} />
                 </TouchableOpacity>
 

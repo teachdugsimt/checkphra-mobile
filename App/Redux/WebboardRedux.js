@@ -46,7 +46,7 @@ const { Types, Creators } = createActions({
   editRedDotData: ['data'],
 
   clearListMyAll: null,
-
+  clearTmp: null,
 })
 
 export const WebboardTypes = Types
@@ -88,25 +88,29 @@ export const WebboardSelectors = {
 
 /* ------------- Reducers ------------- */
 
-export const clearListMyAll = (state) => state.merge({ data_meBoard: null, data_allBoard: null })
+export const clearTmp = state => state.merge({ tmp_all: null, tmp_my: null })
+
+export const clearListMyAll = (state) => state.merge({ data_meBoard: null, data_allBoard: null, data_addpost: null })
 
 export const editRedDotData = (state, { data }) => {
   let tmp = JSON.parse(JSON.stringify(state.tmp_my))
   let tmp2 = JSON.parse(JSON.stringify(state.tmp_all))
 
-  tmp.forEach((e, i) => {
-    if (e.id == data.id) {
-      e.status = false
-      e.updated_at = data.updated_at
-    }
-  })
+  if (tmp && tmp != null)
+    tmp.forEach((e, i) => {
+      if (e.id == data.id) {
+        e.status = false
+        e.updated_at = data.updated_at
+      }
+    })
 
-  tmp2.forEach((e, i) => {
-    if (e.id == data.id) {
-      e.status = false
-      e.updated_at = data.updated_at
-    }
-  })
+  if (tmp2 && tmp2 != null)
+    tmp2.forEach((e, i) => {
+      if (e.id == data.id) {
+        e.status = false
+        e.updated_at = data.updated_at
+      }
+    })
 
   return state.merge({ tmp_my: tmp, tmp_all: tmp2 })
 
@@ -115,17 +119,42 @@ export const editRedDotData = (state, { data }) => {
 export const addMyNewPost = (state, { data }) => {
   let tmp = JSON.parse(JSON.stringify(state.tmp_my))
   let tmp2 = JSON.parse(JSON.stringify(state.tmp_all))
-  tmp.push({
-    id: data.id,
-    status: false,
-    updated_at: data.updated_at
-  })
+  if ((tmp == null || !tmp)) {
+    tmp = []
+    tmp.push({
+      id: data.id,
+      status: false,
+      updated_at: data.updated_at
+    })
+  } else {
+    console.log(tmp)
+    console.log("HERERERERERERERERER+++++++++++++++++++++++++=")
+    tmp.push({
+      id: data.id,
+      status: false,
+      updated_at: data.updated_at
+    })
+  }
 
-  tmp2.push({
-    id: data.id,
-    status: false,
-    updated_at: data.updated_at
-  })
+  if ((tmp2 == null || !tmp2)) {
+    tmp2 = []
+    tmp2.push({
+      id: data.id,
+      status: false,
+      updated_at: data.updated_at
+    })
+  } else {
+    console.log(tmp2)
+    console.log("HERERERERERERERERER+++++++++++++++++++++++++=")
+    tmp2.push({
+      id: data.id,
+      status: false,
+      updated_at: data.updated_at
+    })
+  }
+  console.log(tmp)
+  console.log(tmp2)
+  console.log("+++++++++++++++++ TMP1 & TMP2 ++++++++++++++++++++")
   return state.merge({ tmp_my: tmp, tmp_all: tmp2 })
 }
 
@@ -374,5 +403,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.EDIT_RED_DOT_DATA]: editRedDotData,
 
   [Types.CLEAR_LIST_MY_ALL]: clearListMyAll,
-
+  [Types.CLEAR_TMP]: clearTmp,
 })

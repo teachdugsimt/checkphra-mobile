@@ -310,21 +310,22 @@ class CheckPhraScreen extends Component {
         }} resizeMode='contain' />
         <View style={{ flex: 1 }}>
           <PopupDialog
-            dialogTitle={<DialogTitle title={I18n.t('autoText')} titleTextStyle={{ fontSize: 18, fontWeight: 'bold' }} containerStyle={{ backgroundColor: 'red' }} />}
-            dialogStyle={{ backgroundColor: 'lightgrey', borderRadius: 10 }}
+            dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+              fontSize: 18, fontWeight: 'bold'
+            }}>{I18n.t('autoText')}</Text></View>}
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
             dialogAnimation={slideAnimation}
             width={width / 1.15}
             // height={height / (this.state.autoText ? (this.state.autoText.length + (1.5)) : 3.5)}
-            height={height / 1.6}
+            height={height / 2.5}
             // height={150}
             onDismissed={() => { this.setState({}) }}
           >
             <ScrollView style={{ flex: 1 }}>
               {this.state.autoText && this.state.autoText.map((e, i) => {
                 return <TouchableOpacity key={'auto' + i} onPress={() => this.pressText(e.text)} style={{
-                  padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5, borderBottomColor: 'white', borderBottomWidth: 1
-                }}><Text style={{ fontSize: 16, color: Colors.brownText, paddingHorizontal: 20, alignSelf: 'center', textAlignVertical: 'center', }}>{e.text}</Text></TouchableOpacity>
+                  borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, padding: 10
+                }}><Text style={{ fontSize: 16, color: Colors.brownText, alignSelf: 'center', textAlignVertical: 'center', }}>{e.text}</Text></TouchableOpacity>
               })}
             </ScrollView>
           </PopupDialog>

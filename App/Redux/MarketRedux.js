@@ -126,7 +126,8 @@ const { Types, Creators } = createActions({
   clearDataFollow: null,
 
   editUpdateRead: ['type_id', 'market_id'],
-
+  setTypeName: ['name'],
+  setJangwad: ['id', 'name'],
 })
 
 export const MarketTypes = Types
@@ -212,6 +213,9 @@ export const INITIAL_STATE = Immutable({
   data_read: null,  // store update read (red dot data)
 
   FOLLOWER: null,  // check list my follow
+  type_name: null,  // store type name
+  jangwad_id: null,  // set province id 11/04/2562 !!
+  jangwad_name: null, // set province name
 })
 
 /* ------------- Selectors ------------- */
@@ -223,6 +227,14 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const setJangwad = (state, { id, name }) => {
+  return state.merge({ jangwad_id: id, jangwad_name: name })
+}
+
+export const setTypeName = (state, data) => {
+  return state.merge({ type_name: data.name })
+}
 
 export const editListMyMarket = (state, { data }) => {
   let tmp = JSON.parse(JSON.stringify(state.data_mylist))
@@ -651,4 +663,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.UPDATE_READ_FAILURE]: updateReadFailure,
 
   [Types.EDIT_LIST_MY_MARKET]: editListMyMarket,
+  [Types.SET_TYPE_NAME]: setTypeName,
+  [Types.SET_JANGWAD]: setJangwad,
 })

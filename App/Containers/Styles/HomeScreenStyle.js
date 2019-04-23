@@ -76,7 +76,7 @@ export default StyleSheet.create({
   touchPin4: {
     position: 'absolute',
     top: height / 2.75,
-    right: width / 3.25,
+    // right: width / 6.25,
     zIndex: 2,
     flexDirection: 'row',
     paddingTop: 5,

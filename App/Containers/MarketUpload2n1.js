@@ -151,6 +151,10 @@ class MarketUpload2n1 extends Component {
         this.props.navigation.goBack()
     }
 
+    componentWillUnmount(){
+        this.props.getProfile()
+    }
+
     render() {
         console.log(this.props.tmp_upload)
         console.log('-------------  MARKET UPLOAD 1 ---------------')
@@ -400,6 +404,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        getProfile: () => dispatch(QuestionActions.getProfile()),
         getListTypeAmulet: () => dispatch(MarketActions.getListTypeAmulet()),
         sendDataAmuletMarket: () => dispatch(MarketActions.sendDataAmuletMarket2()),
         setMainData: (data) => dispatch(MarketActions.setMainData2(data)),

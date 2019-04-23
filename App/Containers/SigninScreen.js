@@ -22,6 +22,7 @@ import firebase from 'react-native-firebase';
 import { Images, Metrics } from '../Themes'
 import AuthActions from '../Redux/AuthRedux'
 import Spinner from 'react-native-loading-spinner-overlay';
+// import Reactotron from 'reactotron-react-native'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -55,9 +56,12 @@ class SigninScreen extends Component {
   componentDidMount() {
     // this.setState({ spinner: false })
     // console.log(this.props.profile)
-    this.hideSignin()
 
-    if (this.props.profile) {
+    if (this.props.profile && this.props.profile != null) {
+      this.hideSignin()
+    }
+
+    if (this.props.profile && this.props.profile != null) {
       if (this.props.profile.role == 'expert') {
         this.props.navigation.navigate('ExpertApp')
       } else if (this.props.profile.role == 'admin') {
@@ -111,7 +115,18 @@ class SigninScreen extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     console.log(nextProps)
     console.log(prevState)
+    console.log('แอบมองเธออยู่นะจ๊ะ ')
     console.log('+++++++++++++++++++++++++++ SIGNIN PAGE ++++++++++++++++++++++++++++')
+    // Reactotron.display({
+    //   name: "newProps",
+    //   preview: "Signin Screen",
+    //   value: nextProps
+    // })
+    // Reactotron.display({
+    //   name: "prevState",
+    //   preview: "Signin Screen",
+    //   value: prevState
+    // })
     // console.log(prevState.spinner)
     // let spinner = false
     if (!prevState.profile && nextProps.error && !nextProps.requestData) {
@@ -129,7 +144,7 @@ class SigninScreen extends Component {
         nextProps.navigation.navigate('AdminApp')
       }
       else if (nextProps.profile.role == 'user') {
-        console.log('GO TO APP FORM GETDERIVE...............')
+        // console.log('GO TO APP FORM GETDERIVE...............')
         nextProps.navigation.navigate('App')
       }
     }
@@ -162,7 +177,9 @@ class SigninScreen extends Component {
 
   fbLogin = async () => {
     try {
+
       const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_link']);
+      console.log(result)
 
       // console.log(result)
       console.log('--------------- RESULT LOGIN ----------------')
@@ -212,7 +229,9 @@ class SigninScreen extends Component {
 
     } catch (e) {
       this.setState({ spinner: false })
-      console.error(e);
+      // console.error(e);
+      console.log(e)
+      console.log('----------------------- HERE "E" ------------------------')
     }
   }
 

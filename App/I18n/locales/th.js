@@ -334,6 +334,7 @@ export default {
   mystore: "ร้านค้าของฉัน",
   registerOpenStore1: "สมัคร",
   registerOpenStore2: "เปิดร้านค้า",
+  privateChat: "พูดคุยส่วนตัว",
 
   north: "ภาคเหนือ",
   north_east: "ภาคอีสาน",

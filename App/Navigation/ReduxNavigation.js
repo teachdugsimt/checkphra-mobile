@@ -1,5 +1,5 @@
 import React from 'react'
-import { BackHandler, Platform } from 'react-native'
+import { BackHandler, Platform, Linking } from 'react-native'
 import { addNavigationHelpers } from 'react-navigation'
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers'
 import { connect } from 'react-redux'
@@ -9,6 +9,14 @@ I18n.fallbacks = true;
 
 class ReduxNavigation extends React.Component {
   componentWillMount() {
+    // if (Platform.OS === 'android') {   // A11
+    //   Linking.getInitialURL().then(url => {
+    //     this.navigate(url);
+    //   });
+    // } else {
+    //   Linking.addEventListener('url', this.handleOpenURL);
+    // }
+
     if (Platform.OS === 'ios') return
     BackHandler.addEventListener('hardwareBackPress', () => {
       const { dispatch, nav } = this.props
@@ -20,9 +28,29 @@ class ReduxNavigation extends React.Component {
       dispatch({ type: 'Navigation/BACK' })
       return true
     })
+    
   }
+  // handleOpenURL = (event) => { // C33
+  //   this.navigate(event.url);
+  // }
+  // navigate = (url) => { // D44
+  //   console.log('----------------NAVIGATE SUCC-----------------')
+  //   const { navigate } = this.props.navigation;
+  //   const route = url.replace(/.*?:\/\//g, '');
+  //   // const id = route.match(/\/([^\/]+)\/?$/)[1];
+  //   const routeName = route.split('/')[0];
+  //   console.log(navigate)
+  //   console.log(routeName)
+  //   console.log(route)
+  //   console.log('---------------- LINKING NAVIGATE -----------------')
 
+  //   if (routeName === 'home') {
+  //     // navigate('home', { id, name: 'chris' })
+  //     navigate('home')
+  //   };
+  // }
   componentWillUnmount() {
+    // Linking.removeEventListener('url', this.handleOpenURL);  // B22
     if (Platform.OS === 'ios') return
     BackHandler.removeEventListener('hardwareBackPress')
   }

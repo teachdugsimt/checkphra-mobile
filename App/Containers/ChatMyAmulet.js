@@ -42,19 +42,19 @@ class ChatMyAmulet extends Component {
                     {item.profile.facebook_id == null && item.profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.profile.image }} style={{ width: 60, height: 60, borderRadius: 10, margin: 10 }} />}
                     {item.profile.facebook_id == null && !item.profile.image && <Image source={Images.user} style={{ width: 60, height: 60, borderRadius: 10, margin: 10 }} />}
                     <View style={{ justifyContent: 'center' }}>
-                        <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.profile.fullname}</Text>
+                        <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.profile.fullname ? item.profile.fullname : item.profile.email}</Text>
                         <Text style={{ color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
                     </View>
                 </View>
 
-                
-                    <Icon2 name={'chevron-right'} size={30} style={{ alignSelf: 'center', marginRight: 15 }} />
-               
+
+                <Icon2 name={'chevron-right'} size={30} style={{ alignSelf: 'center', marginRight: 15 }} />
+
             </TouchableOpacity>
         )
     }
 
-    static getDerivedStateFromProps(newProps, prevState){
+    static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
         console.log('---------------  LIST CHAT MY AMULET ----------------')
@@ -78,6 +78,7 @@ class ChatMyAmulet extends Component {
     componentWillUnmount() {
         count = 1
         this.props.clearDataListMyMessageFromOtherPerson()
+        this.props.clearDataGroupChat()
     }
 
     _reload = () => {
@@ -154,7 +155,9 @@ const mapDispatchToProps = (dispatch) => {
         setDetailPhra: (data) => dispatch(ShowRoomActions.setDetailPhra(data)),
         getMyMessageFromOther: (page) => dispatch(ShowRoomActions.getMyMessageFromOther(page)),
         setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
+        clearDataGroupChat: () => dispatch(ShowRoomActions.clearDataGroupChat()),
         clearDataListMyMessageFromOtherPerson: () => dispatch(ShowRoomActions.clearDataListMyMessageFromOtherPerson()),
+        // setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
     }
 }
 

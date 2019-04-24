@@ -54,6 +54,25 @@ class ChatTheirAmuletOwner extends Component {
     //     this.myFaltList.scrollToEnd()
     // }
 
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+        return {
+            // title: params.getName,  // change title => String
+            headerTitle: (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 18, color: "white" }} numberOfLines={1}>
+                        {I18n.t("privateChat")}
+                    </Text>
+                </View>
+            ),
+            // headerRight: (
+            //     <TouchableOpacity onPress={params.addAmulet}>
+            //         <Icon3 name={'ios-add-circle-outline'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+            //     </TouchableOpacity>
+            // )
+        };
+    };
+
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
@@ -278,6 +297,7 @@ class ChatTheirAmuletOwner extends Component {
         this.setState({ text: null, tmp_vote: null })
         count = 1
         this.props.clearTheirAmuletMessage()
+        this.props.clearDataGroupChat()
         // if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
         //     this.props.getMyMessageFromOther(1)
         // }
@@ -603,7 +623,8 @@ const mapDispatchToProps = (dispatch) => {
         setDisscuss: (id) => dispatch(ShowRoomActions.setDisscuss(id)),
         getMyMessageFromOther: (page) => dispatch(ShowRoomActions.getListOwnerContact(page)),
 
-        updateUserContactOwnerList: (old_id, new_id) => dispatch(ShowRoomActions.updateUserContactOwnerList(old_id, new_id))
+        updateUserContactOwnerList: (old_id, new_id) => dispatch(ShowRoomActions.updateUserContactOwnerList(old_id, new_id)),
+        clearDataGroupChat: () => dispatch(ShowRoomActions.clearDataGroupChat()),
     }
 }
 

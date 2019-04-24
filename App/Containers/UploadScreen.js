@@ -290,7 +290,6 @@ class UploadScreen extends Component {
     // this.props.getLoginPro()
 
     // this.getDeviceToken()
-
   }
   //0
   // async getDeviceToken() {
@@ -310,7 +309,7 @@ class UploadScreen extends Component {
   //   }
   // }
 
-  //3
+  //2
   // async getToken() {
   //   console.log("get token")
   //   let fcmToken = await AsyncStorage.getItem('fcmToken');
@@ -329,7 +328,7 @@ class UploadScreen extends Component {
   //   }
   // }
 
-  //2
+  //3
   // async requestPermission() {
   //   console.log("request permission")
   //   try {
@@ -341,7 +340,7 @@ class UploadScreen extends Component {
   //     console.log('permission rejected');
   //   }
   // }
-
+  // 4
   // async createNotificationListeners() {
 
   //   // const channel = new firebase.notifications.Android.Channel(name, Desc, firebase.notifications.Android.Importance.High)

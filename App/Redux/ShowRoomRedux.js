@@ -69,6 +69,7 @@ const { Types, Creators } = createActions({
   getMessageOtherContactMyAmuletFailure: null,
 
   updateUserContactOwnerList: ['old_id', 'new_id'],
+  clearDataGroupChat: null,
 })
 
 export const ShowRoomTypes = Types
@@ -217,6 +218,7 @@ export const clearDataTheir = state => state.merge({ data_their: null })
 export const clearDataListMyMessageFromOtherPerson = state => state.merge({ data_myMessageFromOther: null })
 export const clearDataMyRealAmulet = state => state.merge({ data_myRealAmulet: null })
 export const setDataGroupChat = (state, { data }) => state.merge({ data_groupChat: data })
+export const clearDataGroupChat = (state) => state.merge({ data_groupChat: null })
 
 export const getMyMessageFromOther = state => state.merge({ request7: true })
 export const getMyMessageFromOtherSuccess = (state, { data }) => {
@@ -501,6 +503,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_DETAIL_PHRA]: setDetailPhra,
   [Types.SET_THEIR_AMULET_DATA]: setTheirAmuletData,
   [Types.SET_DATA_GROUP_CHAT]: setDataGroupChat,
+  [Types.CLEAR_DATA_GROUP_CHAT]: clearDataGroupChat,
 
   [Types.GET_LIST_AMULET]: getListAmulet,
   [Types.GET_LIST_SUCCESS]: getListSuccess,

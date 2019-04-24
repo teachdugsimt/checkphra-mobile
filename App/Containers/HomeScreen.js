@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
-  ScrollView, Text, View, TouchableOpacity, Dimensions,
-  TextInput, StyleSheet, RefreshControl, ImageBackground, Image, Platform, Linking, Animated,
+  ScrollView, Text, View, TouchableOpacity, Dimensions, AsyncStorage, Alert,
+  TextInput, RefreshControl, Linking, Image, Platform, Animated,
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -252,48 +252,9 @@ class HomeScreen extends Component {
         if (result.isCancelled) {
           alert('Share operation was cancelled');
         } else {
-          // alert('Share was successful with postId: '
-          //   + result.postId);
-          // alert('Share was successful');
-          // let time = new Date()
-          // console.log(time)
-          // console.log('-------- HERE TIME -----------')
-
-          // if (isShared == false) {
-          //   alert(I18n.t('sharedSuccess'))
-          //   // this.props.sharedAnswer("qid") // send to tum here
-          //   this.props.setTimeShared(new Date())
-          //   isShared = true
-          // } else if (isShared == true) {
-          //   alert(I18n.t('sharedSuccess2'))
-          // }
-
-          // if (this.props.status == true) {  // can't
-          //   console.log('FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
-          //   this.props.setTimeShared(new Date())  // 1.เซ็ทเวลา 2.แก้เสตตัสเป็น false
-          //   this.props.sharedAnswer("qid") // send to tum here
-          //   alert(I18n.t('sharedSuccess'))
-          // } else if (this.props.status == false) {
-          //   console.log('SUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
-          //   alert(I18n.t('sharedSuccess2'))
-          // }
-
-          // if (this.state.status == true) {  // can't
-          //   alert(I18n.t('sharedSuccess'))
-          //   console.log('FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
-          //   // this.props.sharedAnswer("qid") // send to tum here
-          //   this.props.setTimeShared(new Date())  // 1.เซ็ทเวลา 2.แก้เสตตัสเป็น false
-          // } else if (this.state.status == false) {
-          //   console.log('SUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK')
-          //   alert(I18n.t('sharedSuccess2'))
-          // }
-
           if (check == true) {  // can & basic method
             check = false
-            // alert(I18n.t('sharedSuccess'))
             alert(I18n.t('sharedSuccess2'))
-            // this.props.sharedAnswer("qid") // send to tum here
-            // this.props.setTimeShared(new Date())  // 1.เซ็ทเวลา 2.แก้เสตตัสเป็น false
           } else if (check == false) {
             alert(I18n.t('sharedSuccess2'))
           }
@@ -309,15 +270,42 @@ class HomeScreen extends Component {
     this.props.getProfile()
   }
 
+
+
+
+
+
+
+  // static navigationOptions = { // E55
+  //   title: 'home',
+  // };
   componentWillUnmount() {
     this.notificationListener();
     this.notificationOpenedListener();
+    // Linking.removeEventListener('url', this.handleOpenURL);  // B22
     // this.notificationOpen();
   }
 
-  // componentWillMount(){         // ใช้ชั่วคราวเท่านั้น ต้องลบภายหลัง
-  //   this.props.setStatus(true)  // ใช้ชั่วคราวเท่านั้น ต้องลบภายหลัง
-  // }                             // ใช้ชั่วคราวเท่านั้น ต้องลบภายหลัง
+  // handleOpenURL = (event) => { // C33
+  //   this.navigate(event.url);
+  // }
+
+  // navigate = (url) => { // D44
+  //   console.log('----------------NAVIGATE SUCC-----------------')
+  //   const { navigate } = this.props.navigation;
+  //   const route = url.replace(/.*?:\/\//g, '');
+  //   // const id = route.match(/\/([^\/]+)\/?$/)[1];
+  //   const routeName = route.split('/')[0];
+  //   console.log(navigate)
+  //   console.log(routeName)
+  //   console.log(route)
+  //   console.log('---------------- LINKING NAVIGATE -----------------')
+
+  //   if (routeName === 'home') {
+  //     // navigate('home', { id, name: 'chris' })
+  //     navigate('home')
+  //   };
+  // }
 
   componentDidMount() {
     this.props.checkVersion()  // check new version end method in sagas
@@ -328,14 +316,38 @@ class HomeScreen extends Component {
     this.props.getLoginPro()  // add get Login promotion 7 days
 
     this.getDeviceToken()  // build push notifications end in three - four function
-    // this.props.clearTmp()  ///////// MUST DELETE ////////////
+
+    // if (Platform.OS === 'android') {   // A11
+    //   Linking.getInitialURL().then(url => {
+    //     this.navigate(url);
+    //   });
+    // } else {
+    //   Linking.addEventListener('url', this.handleOpenURL);
+    // }
   }
+
+
+
+
+
+  showAlert(title, body) {
+    Alert.alert(
+      title, body,
+      [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ],
+      { cancelable: false },
+    );
+  }
+
   //0
   async getDeviceToken() {
+    console.log('----------------- MANAGE NOTIFICATION ------------------')
     this.checkPermission();
     this.createNotificationListeners(); //add this line
     // this.notificationOpen();
   }
+
   //1
   async checkPermission() {
     console.log("check permission")
@@ -347,7 +359,7 @@ class HomeScreen extends Component {
     }
   }
 
-  //3
+  //2
   async getToken() {
     console.log("get token")
     let fcmToken = await AsyncStorage.getItem('fcmToken');
@@ -356,31 +368,36 @@ class HomeScreen extends Component {
       if (fcmToken) {
         console.log(fcmToken)
         // user has a device token
+        console.log('-------------- SAVE TOKEN 1 ------------------')
         this.props.saveDeviceToken(fcmToken)
         await AsyncStorage.setItem('fcmToken', fcmToken);
 
       }
     } else {
+      console.log('-------------- SAVE TOKEN 2 ------------------')
       console.log(fcmToken)
       this.props.saveDeviceToken(fcmToken)
     }
   }
 
-  //2
+  //3
   async requestPermission() {
     console.log("request permission")
     try {
       await firebase.messaging().requestPermission();
       // User has authorised
+      console.log('---------------- REQUEST PERMISSION 1 ------------------')
       this.getToken();
     } catch (error) {
       // User has rejected permissions
+      console.log('---------------- REQUEST PERMISSION 2 ------------------')
       console.log('permission rejected');
     }
   }
 
+  // 4
   async createNotificationListeners() {
-
+    console.log('------------ COME TO NOTIFICATION FUNCTION ---------------')
     // const channel = new firebase.notifications.Android.Channel(name, Desc, firebase.notifications.Android.Importance.High)
     //   .setDescription(ChannelName)
     //   .setSound("glass.mp3")
@@ -392,7 +409,11 @@ class HomeScreen extends Component {
     * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       const { title, body } = notification;
-      console.log(title, body)
+      console.log("------------ NOTIFICATION 1 ---------------")
+      // console.log(title, body)
+      console.log(notification)
+      console.log(title)
+      console.log(body)
       this.showAlert(title, body);
     });
     // .setSound(channel.sound);
@@ -403,7 +424,11 @@ class HomeScreen extends Component {
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
       // console.log(notificationOpen)
       const { title, body } = notificationOpen.notification;
+      console.log("------------ NOTIFICATION 2 ---------------")
       // console.log(title, body)
+      console.log(notification)
+      console.log(title)
+      console.log(body)
       // this.showAlert(title, body);
     });
 
@@ -414,7 +439,11 @@ class HomeScreen extends Component {
     if (this.notificationOpen) {
 
       const { title, body } = notificationOpen.notification;
-      console.log(title, body)
+      console.log("------------ NOTIFICATION 3 ---------------")
+      // console.log(title, body)
+      console.log(notification)
+      console.log(title)
+      console.log(body)
       this.showAlert(title, body);
     }
     /*

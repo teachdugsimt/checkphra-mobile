@@ -333,6 +333,7 @@ export default {
   mystore: "My store !!",
   registerOpenStore1: "Register",
   registerOpenStore2: "Open store !!",
+  privateChat: "Private Chat",
 
   north: "North",
   north_east: "North East",

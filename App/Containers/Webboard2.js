@@ -86,11 +86,10 @@ class Webboard2 extends Component {
   }
 
   static getDerivedStateFromProps(newProps, prevState) {
-    // console.log(newProps)
+    console.log(newProps)
     // Reactotron.warn(newProps)
     // Reactotron.warn(prevState)
-    console.log('แอบมองเธออยู่นะจ๊ะ 55ห')
-    // console.log(prevState)
+    console.log(prevState)
 
 
     // if (newProps.data_addcomment && newProps.data_addcomment != null) {
@@ -168,7 +167,7 @@ class Webboard2 extends Component {
                 <Text style={styles.topicText}>{this.props.data_comment.topic}</Text>
                 <View style={styles.subTopRow}>
                   <TouchableOpacity onPress={() => this.tagname(this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User')}>
-                    <Text style={styles.nameText}>{this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                    <Text style={[styles.nameText, { color: this.props.data_comment.profile && this.props.data_comment.profile.display_name ? "red" : Colors.brownTextTran }]}>{this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
                   </TouchableOpacity>
                   <Text style={styles.dateText} >{moment.unix(this.props.data_comment.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
                 </View>
@@ -196,7 +195,7 @@ class Webboard2 extends Component {
             <View style={styles.commentContainer2}>
               <View style={styles.commentTopRow}>
                 <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
-                  <Text style={styles.nameText}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                  <Text style={[styles.nameText, { color: item.profile && item.profile.display_name ? "red" : Colors.brownTextTran }]}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
                 </TouchableOpacity>
                 <Text style={styles.dateText} >{date}</Text>
               </View>
@@ -281,7 +280,9 @@ class Webboard2 extends Component {
             <View style={styles.topRow}>
               <Text style={styles.topicText}>{this.props.data_comment.topic}</Text>
               <View style={styles.subTopRow}>
-                <Text style={styles.nameText}>{this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                <TouchableOpacity onPress={() => this.tagname(this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User')}>
+                  <Text style={[styles.nameText, { color: this.props.data_comment.profile && this.props.data_comment.profile.display_name ? "red" : Colors.brownTextTran }]}>{this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                </TouchableOpacity>
                 <Text style={styles.dateText} >{moment.unix(this.props.data_comment.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
               </View>
 

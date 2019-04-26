@@ -62,6 +62,7 @@ import MarketSelectType from '../Containers/MarketSelectType'
 import MarketListShop from '../Containers/MarketListShop'
 import MarketListShop2 from '../Containers/MarketListShop2'
 import MarketSearch1 from '../Containers/MarketSearch1'
+import LinkNewAmulet from '../Containers/LinkNewAmulet'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -129,10 +130,13 @@ const UploadStack = StackNavigator(  // main upload
   {
     home: {
       screen: HomeScreen,
-      path: "home", //<!-- add 24/04/2019 -->
+      // path: "home", //<!-- add 24/04/2019 -->
       navigationOptions: {
         title: I18n.t('home'),
       },
+    },
+    people: {    // add new 25/04/2019!!
+      screen: LinkNewAmulet
     },
     uploadScreen: {
       screen: UploadScreen,

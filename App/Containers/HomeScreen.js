@@ -276,36 +276,38 @@ class HomeScreen extends Component {
 
 
 
-  // static navigationOptions = { // E55
-  //   title: 'home',
-  // };
+  static navigationOptions = { // E55
+    title: 'home',
+  };
   componentWillUnmount() {
     this.notificationListener();
     this.notificationOpenedListener();
-    // Linking.removeEventListener('url', this.handleOpenURL);  // B22
+    Linking.removeEventListener('url', this.handleOpenURL);  // B22
     // this.notificationOpen();
   }
 
-  // handleOpenURL = (event) => { // C33
-  //   this.navigate(event.url);
-  // }
+  handleOpenURL = (event) => { // C33
+    this.navigate(event.url);
+  }
 
-  // navigate = (url) => { // D44
-  //   console.log('----------------NAVIGATE SUCC-----------------')
-  //   const { navigate } = this.props.navigation;
-  //   const route = url.replace(/.*?:\/\//g, '');
-  //   // const id = route.match(/\/([^\/]+)\/?$/)[1];
-  //   const routeName = route.split('/')[0];
-  //   console.log(navigate)
-  //   console.log(routeName)
-  //   console.log(route)
-  //   console.log('---------------- LINKING NAVIGATE -----------------')
+  navigate = (url) => { // D44
+    console.log('----------------NAVIGATE SUCC-----------------')
+    const { navigate } = this.props.navigation;
+    const route = url.replace(/.*?:\/\//g, '');
+    const id = route.match(/\/([^\/]+)\/?$/)[1];
+    const routeName = route.split('/')[0];
+    console.log(navigate)
+    console.log(routeName)
+    console.log(route)
+    console.log('---------------- LINKING NAVIGATE -----------------')
 
-  //   if (routeName === 'home') {
-  //     // navigate('home', { id, name: 'chris' })
-  //     navigate('home')
-  //   };
-  // }
+    // if (routeName == 'people') {
+    //   navigate('people', { id })
+    // };
+    if( routeName == 'checkphra.thaiamulet') {
+      navigate("people", { id })
+    }
+  }
 
   componentDidMount() {
     this.props.checkVersion()  // check new version end method in sagas
@@ -317,24 +319,49 @@ class HomeScreen extends Component {
 
     this.getDeviceToken()  // build push notifications end in three - four function
 
-    // if (Platform.OS === 'android') {   // A11
-    //   Linking.getInitialURL().then(url => {
-    //     this.navigate(url);
-    //   });
-    // } else {
-    //   Linking.addEventListener('url', this.handleOpenURL);
-    // }
+    if (Platform.OS === 'android') {   // A11
+      Linking.getInitialURL().then(url => {
+        this.navigate(url);
+      });
+    } else {
+      Linking.addEventListener('url', this.handleOpenURL);
+    }
   }
 
 
 
+  // navigate2 = (data, url) => { // D44
+  //   console.log('----------------NAVIGATE 2222 2222 2222 222 -----------------')
+  //   const { navigate } = this.props.navigation;
+  //   const id = data
+  //   const routeName = url
+  //   console.log(id)
+  //   console.log(routeName)
 
+  //   if( routeName == 'https://checkphra.thaiamulet') {
+  //     navigate("people", { id })
+  //   }
+  // }
+
+  // showAlert2(title, body, data, url) {
+  //   console.log("-------------- SHOW ALERT 2 -----------------")
+  //   console.log(data, url)
+  //   Alert.alert(
+  //     title, body,
+  //     [
+  //       { text: 'OK', onPress: () => this.navigate2(data, url) },
+  //       { text: "SKIP", onPress: () => console.log("SKIP PRESSED")}
+  //     ],
+  //     { cancelable: false },
+  //   );
+  // }
 
   showAlert(title, body) {
     Alert.alert(
       title, body,
       [
         { text: 'OK', onPress: () => console.log('OK Pressed') },
+        { text: "SKIP", onPress: () => console.log("SKIP PRESSED")}
       ],
       { cancelable: false },
     );
@@ -408,13 +435,12 @@ class HomeScreen extends Component {
     * Triggered when a particular notification has been received in foreground
     * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
-      const { title, body } = notification;
-      console.log("------------ NOTIFICATION 1 ---------------")
-      // console.log(title, body)
+      const { title, body, data } = notification;
+      console.log("------------ NOTIFICATION 1 ---------------")  // 1. ตอนที่เราเปิดหน้าแอพอยู่
+      console.log(title, body)
       console.log(notification)
-      console.log(title)
-      console.log(body)
       this.showAlert(title, body);
+      // this.showAlert2(title, body, data.b, data.click_action)
     });
     // .setSound(channel.sound);
 
@@ -424,9 +450,9 @@ class HomeScreen extends Component {
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
       // console.log(notificationOpen)
       const { title, body } = notificationOpen.notification;
-      console.log("------------ NOTIFICATION 2 ---------------")
+      console.log("------------ NOTIFICATION 2 ---------------") // 2. ตอนที่เราเข้าแอพอื่น แต่ไม่ได้ปิดแอพเช็คพระ
       // console.log(title, body)
-      console.log(notification)
+      console.log(notificationOpen)
       console.log(title)
       console.log(body)
       // this.showAlert(title, body);
@@ -439,9 +465,9 @@ class HomeScreen extends Component {
     if (this.notificationOpen) {
 
       const { title, body } = notificationOpen.notification;
-      console.log("------------ NOTIFICATION 3 ---------------")
+      console.log("------------ NOTIFICATION 3 ---------------")  // 3. ตอนที่เราปิดแอะเช็คพระ
       // console.log(title, body)
-      console.log(notification)
+      console.log(this.notificationOpen)
       console.log(title)
       console.log(body)
       this.showAlert(title, body);

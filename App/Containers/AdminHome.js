@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
-    ScrollView, Text, View, TouchableOpacity, Dimensions,
-    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Alert
+    ScrollView, Text, View, TouchableOpacity, Dimensions, AsyncStorage,
+    TextInput, Linking, ImageBackground, Image, Platform, Alert
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -138,7 +138,7 @@ class AdminHome extends Component {
         }
     }
 
-    //3
+    //2
     async getToken() {
         console.log("get token")
         let fcmToken = await AsyncStorage.getItem('fcmToken');
@@ -157,7 +157,7 @@ class AdminHome extends Component {
         }
     }
 
-    //2
+    //3
     async requestPermission() {
         console.log("request permission")
         try {
@@ -176,6 +176,7 @@ class AdminHome extends Component {
         * */
         this.notificationListener = firebase.notifications().onNotification((notification) => {
             const { title, body } = notification;
+            console.log("------------ NOTIFICATION 1 ---------------")  // 1. ตอนที่เราเปิดหน้าแอพอยู่
             this.showAlert(title, body);
         });
 
@@ -184,6 +185,7 @@ class AdminHome extends Component {
         * */
         this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
             const { title, body } = notificationOpen.notification;
+            console.log("------------ NOTIFICATION 2 ---------------") // 2. ตอนที่เราเข้าแอพอื่น แต่ไม่ได้ปิดแอพเช็คพระ
             this.showAlert(title, body);
         });
 
@@ -192,6 +194,7 @@ class AdminHome extends Component {
         * */
         const notificationOpen = await firebase.notifications().getInitialNotification();
         if (notificationOpen) {
+            console.log("------------ NOTIFICATION 3 ---------------")  // 3. ตอนที่เราปิดแอะเช็คพระ
             const { title, body } = notificationOpen.notification;
             this.showAlert(title, body);
         }
@@ -206,13 +209,14 @@ class AdminHome extends Component {
 
     showAlert(title, body) {
         Alert.alert(
-            title, body,
-            [
-                { text: 'OK', onPress: () => console.log('OK Pressed') },
-            ],
-            { cancelable: false },
+          title, body,
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+            { text: "SKIP", onPress: () => console.log("SKIP PRESSED")}
+          ],
+          { cancelable: false },
         );
-    }
+      }
 
     _webBoard = () => {
         this.props.navigation.navigate('web1'),

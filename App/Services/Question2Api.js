@@ -91,6 +91,7 @@ const create = (baseURL = b) => {
   const followRoom = (data) => api.post('market/follow-room', data)
 
   const sharedAnswer = (data) => api.post('share-history/add', data)
+  const getText = (data) => api.get('automatic-text/list', data)
 
   // ***************************** Versatile Zone **************************** //
   const getVersatile = (data) => api.get('versatile/list', data)
@@ -120,6 +121,7 @@ const create = (baseURL = b) => {
     getAmuletStore,
     search,
     followRoom,
+    getText,
 
     getVersatile,
   }

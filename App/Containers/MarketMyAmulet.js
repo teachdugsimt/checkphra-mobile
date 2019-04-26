@@ -346,7 +346,7 @@ class MarketMyAmulet extends Component {
                     <Text style={{ fontFamily: 'Prompt-SemiBold' }}>Use </Text>
                     <Text style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16 }}>{this.props.profile.store ? this.props.profile.store.total_count + "/" + this.props.profile.store.limit : '?'}</Text>
                     <Text style={{ fontFamily: 'Prompt-SemiBold' }}> slot. Upload for add slot</Text>
-                    <Icon2 name={'plus-circle'} size={26} color={Colors.brownTextTran} style={{ paddingLeft: 7.5 }} />
+                    {/* <Icon2 name={'plus-circle'} size={26} color={Colors.brownTextTran} style={{ paddingLeft: 7.5 }} /> */}
                 </View>
 
                 <FlatList

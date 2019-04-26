@@ -157,7 +157,7 @@ export default function* root() {
     takeLatest(AuthTypes.FORGET_PASSWORD, forgetPassword, authApi),
     takeLatest(AuthTypes.SAVE_DEVICE_TOKEN, saveDeviceToken, authApi),
 
-    takeLatest(ExpertTypes.GET_AUTO_TEXT, getAutoText55, questionApi),
+    takeLatest(ExpertTypes.GET_AUTO_TEXT, getAutoText55, question2Api),
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, question2Api),  // new api v2
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, question2Api), // new api v2
     takeLatest(ExpertTypes.EDIT_GROUP, editTypeQuestion, question2Api),

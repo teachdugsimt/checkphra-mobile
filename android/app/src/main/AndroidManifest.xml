@@ -27,11 +27,11 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         <!-- add 24/04/2019 -->
-        <intent-filter android:label="filter_react_native">
+        <intent-filter android:autoVerify="true">
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="checkphra.scheme" android:host="checkphra.com" />
+          <data android:scheme="https" android:host="checkphra.thaiamulet" />
         </intent-filter>
         <!-- add 24/04/2019 -->
       </activity>

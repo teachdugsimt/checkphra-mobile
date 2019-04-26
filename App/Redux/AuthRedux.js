@@ -75,6 +75,7 @@ export const INITIAL_STATE = Immutable({
   data_create: null,  // data create user
 
   language: I18n.currentLocale(),
+  // language: "th",
 
   request3: null, // change password request
   data_changepass: null,

@@ -97,7 +97,7 @@ class HistoryScreen extends Component {
     //     data_history: newProps.history
     //   }
     // }
-    
+
     if (newProps.data_question && newProps.history && newProps.data_question.id && newProps.history[0]) {
       if (newProps.data_question.id != newProps.history[0].id) {
         newProps.getHistory(1)
@@ -192,6 +192,7 @@ class HistoryScreen extends Component {
                 <TouchableOpacity onPress={() => {
                   if (item.status == 'success') {
                     this.goToAnswer(item.id)
+                    this.props.updateReadHistory(item)
                   } else {
                     alert(I18n.t('cantSeeResult'))
                   }
@@ -262,6 +263,8 @@ class HistoryScreen extends Component {
 
                     />} */}
                   </View>
+                  {item.read == 0 && <View
+                    style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                 </TouchableOpacity>
               )
             }
@@ -296,6 +299,7 @@ const mapDispatchToProps = (dispatch) => {
     deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
     clearDataQuestion: () => dispatch(QuestionActions.clearDataQuestion()),
     getProfile: () => dispatch(QuestionActions.getProfile()),
+    updateReadHistory: (data) => dispatch(QuestionActions.updateReadHistory(data)),
   }
 }
 

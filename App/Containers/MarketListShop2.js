@@ -37,9 +37,25 @@ class MarketListShop2 extends Component {
         this.state = {
             modalVisible: false,
             index: 0,
-            img: null
+            img: null,
+
+            store_name: this.props.tmp_store.store_name,
         }
     }
+
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+        return {
+            // title: params.getName,  // change title => String
+            headerTitle: (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 18, color: "white" }} numberOfLines={1}>
+                        {params.getName}
+                    </Text>
+                </View>
+            )
+        };
+    };
 
     _goToChatTheirAmulet = (item) => {
         this.props.setTheirAmuletData(item)
@@ -150,6 +166,7 @@ class MarketListShop2 extends Component {
 
     componentDidMount() {
         count = 1
+        this.props.navigation.setParams({ getName: this.state.store_name })
         this.props.getListAmuletStore(count)
     }
 
@@ -213,7 +230,7 @@ class MarketListShop2 extends Component {
                         />
                     }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
-                    data={this.props.data_amuletstore}
+                    data={this.props.data_amuletstore ? this.props.data_amuletstore : []}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
                     // onEndReachedThreshold={0.025}
@@ -230,6 +247,7 @@ const mapStateToProps = (state) => {
 
         request12: state.market.request12,  // for get amulet in each shop
         data_amuletstore: state.market.data_amuletstore,  // for store data list amulet in each store
+        tmp_store: state.market.tmp_store, // store tmp of STORE
     }
 }
 

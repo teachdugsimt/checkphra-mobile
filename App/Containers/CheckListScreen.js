@@ -17,6 +17,7 @@ import AuthActions from '../Redux/AuthRedux'
 import TradingActions from '../Redux/TradingRedux'
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 // Styles
+import VersatileActions from '../Redux/VersatileRedux'
 import Spinner from 'react-native-loading-spinner-overlay';
 import styles from './Styles/CheckListScreenStyle'
 import firebase from 'react-native-firebase';
@@ -166,6 +167,7 @@ class CheckListScreen extends Component {
   // }
 
   componentWillUnmount() {
+    this.props.getNormalData()
     count = 1
   }
 
@@ -670,6 +672,7 @@ const mapDispatchToProps = (dispatch) => {
 
     setDataCer: (data) => dispatch(TradingActions.setDataCer(data)),
     getListCerFromUser: (page) => dispatch(TradingActions.getListCerFromUser(page)),
+    getNormalData: () => dispatch(VersatileActions.getNormalData()),
   }
 }
 

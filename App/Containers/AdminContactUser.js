@@ -118,7 +118,7 @@ class AdminContactUser extends Component {
           data={this.props.data_myMessageFromOther}
           renderItem={this._renderItem}
           onEndReached={this._onScrollEndList}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.25}
         />
       </LinearGradient>
     )

@@ -22,6 +22,7 @@ import VersatileActions from '../Redux/VersatileRedux'
 import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
+import Swiper from 'react-native-swiper';
 // import Reactotron from 'reactotron-react-native'
 // import {
 //   AdMobRewarded,
@@ -64,7 +65,19 @@ class HomeScreen extends Component {
       addBonusSuccess: false,
       status: check,
       // tempIndex: 0
+
+      height: 0,
+      autoPlay: false,
+      _childrenCount: null
     }
+
+    // this._goToNextPage = this._goToNextPage.bind(this)
+    // this._onScroll = this._onScroll.bind(this)
+    // this._startAutoPlay = this._startAutoPlay.bind(this)
+    // this._stopAutoPlay = this._stopAutoPlay.bind(this)
+    // this._onScrollViewLayout = this._onScrollViewLayout.bind(this)
+    // this._currentIndex = 0
+    // this._childrenCount = this.state.kawsod ? this.state.kawsod.length : 3
 
     const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
     // { name: I18n.t('showAmuletReal'), id: 2 },
@@ -196,14 +209,24 @@ class HomeScreen extends Component {
           })
         }
       }
+
     }
     //****************************** SET TEMP PUBLISH ***************************//
+    if (newProps.data_publish && newProps.data_publish != null) {
+      if (prevState.kawsod != newProps.data_publish) {
+        // this._childrenCount = newProps.data_publish.lengthF
+        return {
+          kawsod: newProps.data_publish,
+          autoPlay: true,
+          _childrenCount: newProps.data_publish.length,
+        }
+      }
+    }
 
     return {
       dataProifle: profile,
       list_user,
       language: newProps.language,
-      kawsod: newProps.data_publish,
     }
   }
 
@@ -215,7 +238,8 @@ class HomeScreen extends Component {
     } else if (item.id == 3) {
       this.popupDialog.show()
     } else if (item.id == 4) {
-      this.props.navigation.navigate('marketHome')
+      // this.props.navigation.navigate('marketHome')
+      this.props.navigation.navigate("empty")
     } else if (item.id == 5) {
       this.shareLinkWithShareDialog()
       // this.seeVideo()
@@ -304,7 +328,7 @@ class HomeScreen extends Component {
     // if (routeName == 'people') {
     //   navigate('people', { id })
     // };
-    if( routeName == 'checkphra.thaiamulet') {
+    if (routeName == 'checkphra.thaiamulet') {
       navigate("people", { id })
     }
   }
@@ -314,6 +338,8 @@ class HomeScreen extends Component {
     this.props.getVersatile()
     this.props.getProfile()   // get profile
     this.props.getPublish()   // get new publish
+    // if (this.state.autoPlay) this._startAutoPlay()
+    // else this._stopAutoPlay()
 
     this.props.getLoginPro()  // add get Login promotion 7 days
 
@@ -328,6 +354,38 @@ class HomeScreen extends Component {
     }
   }
 
+  // _onScroll = (event) => {
+  //   let { x } = event.nativeEvent.contentOffset, offset, position = Math.floor(x / this.state.height)
+  //   if (x == this._prevScrolly) return;
+  //   this._prevScrolly = x
+  //   offset = (x / this.state.height) - position  // 33.90 / width800 - 0
+
+  //   if (offset === 0) {
+  //     this._currentIndex = position
+  //     this._timerId = setInterval(this._goToNextPage, 3000)
+  //   }
+  // }
+  // _onScrollViewLayout = (event) => {
+  //   let { width } = event.nativeEvent.layout
+  //   this.setState({ height: width })
+  // }
+
+  // _goToNextPage = () => {
+  //   this._stopAutoPlay()
+  //   let nextIndex = (this._currentIndex + 1) % this.state._childrenCount
+  //   this.snapScroll.scrollTo({ x: this.state.height * nextIndex })
+
+  // }
+  // _startAutoPlay = () => {
+  //   this._timerId = setInterval(this._goToNextPage, 3000)
+  // }
+
+  // _stopAutoPlay = () => {
+  //   if (this._timerId) {
+  //     clearInterval(this._timerId)
+  //     this._timerId = null
+  //   }
+  // }
 
 
   // navigate2 = (data, url) => { // D44
@@ -361,7 +419,7 @@ class HomeScreen extends Component {
       title, body,
       [
         { text: 'OK', onPress: () => console.log('OK Pressed') },
-        { text: "SKIP", onPress: () => console.log("SKIP PRESSED")}
+        { text: "SKIP", onPress: () => console.log("SKIP PRESSED") }
       ],
       { cancelable: false },
     );
@@ -541,25 +599,14 @@ class HomeScreen extends Component {
 
         <ScrollView>
           <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.8, width: width - 20, flexDirection: 'row' }}>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={true} pagingEnabled={true}
-              ref={(snapScroll) => { this.snapScroll = snapScroll; }}
-              decelerationRate={0}
-              snapToInterval={width - 20}
-              snapToAlignment={"center"}
-            // refreshControl={
-            //   <RefreshControl
-            //     refreshing={this.props.request_publish == true}
-            //     onRefresh={this.onRefresh.bind(this)}
-            //   />
-            // }
-            >
 
-              {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 ?
+            <Swiper style={{}} showsButtons={true} autoplay={true}>
+              {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 && this.state.autoPlay == true ?
                 this.state.kawsod.map((e, i) => {
                   return (
                     <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
-                      {this.props.tmp_publish != undefined && this.props.tmp_publish != null && this.props.tmp_publish.find(b => b.status == false) != undefined && <View
-                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
+                      {/* {this.props.tmp_publish != undefined && this.props.tmp_publish != null && this.props.tmp_publish.find(b => b.status == false) != undefined && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>} */}
                       <View style={{ flex: 1 }}>
                         <Text numberOfLines={1} style={{ fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, width: width - (40) }}>{e.topic}</Text>
                         <Image source={{ uri: e.image_link }} style={{ height: '55%', marginTop: 10, borderRadius: 5, width: width - (40) }} />
@@ -574,7 +621,7 @@ class HomeScreen extends Component {
                     {/* <Text numberOfLines={2} style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, width: width - (40) }}>{I18n.t('nonePublish')}</Text> */}
                   </View>
                 </TouchableOpacity>}
-            </ScrollView>
+            </Swiper>
           </View>
 
 
@@ -591,6 +638,8 @@ class HomeScreen extends Component {
                     }
                   }} style={{ justifyContent: 'center', alignItems: 'center', flex: 1, width: width / 2.5, marginTop: 10, marginLeft: 10, marginRight: index == 1 ? 10 : 0 }}>
                     <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
+                      {item.id == 4 && this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.find(b => b.is_new == true) != undefined && <View
+                        style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                       <Icon2 name={item.logo} size={40} />
                       <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
                         {item.name}</Text>
@@ -619,6 +668,8 @@ class HomeScreen extends Component {
                       <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
                         {item.name}</Text>
                     </View>
+                    {((this.props.tmp_all && item.id == 3 && this.props.tmp_all.find(b => b.status == true) != undefined) || (this.props.tmp_my && item.id == 3 && this.props.tmp_my.find(b => b.status == true) != undefined)) && <View
+                      style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                   </TouchableOpacity>
                 )
             })}
@@ -642,12 +693,14 @@ class HomeScreen extends Component {
           <ScrollView style={{ flex: 1 }}>
             <View style={{ flex: 1, height: (height / 2.4) - 50 }}>
               <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, flex: 1, marginHorizontal: 10 }} onPress={this._webBoard}>
+                {((this.props.tmp_all && this.props.tmp_all.find(b => b.status == true) != undefined) || (this.props.tmp_my && this.props.tmp_my.find(b => b.status == true) != undefined)) && <View
+                  style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 1.5, right: 1.5, zIndex: 1 }}></View>}
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, flex: 1, marginHorizontal: 10 }} onPress={this._ownerAmulet}>
+              {/* <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, flex: 1, marginHorizontal: 10 }} onPress={this._ownerAmulet}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactOwnerAmulet')}</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, flex: 1, marginHorizontal: 10 }} onPress={this._contactAdmin}>
                 {this.props.data_versatile && this.props.data_versatile != null && this.props.data_versatile.is_new_contact_officer == true && <View
@@ -723,6 +776,9 @@ const mapStateToProps = (state) => {
     data_versatile: state.versatile.data_versatile,  // store versatile data
 
     tmp_publish: state.versatile.tmp_publish, // data temp publish
+
+    tmp_my: state.webboard.tmp_my,  // store temp my webboard
+    tmp_all: state.webboard.tmp_all,  // store temp all webboard
   }
 }
 

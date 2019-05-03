@@ -162,8 +162,8 @@ export default function* root() {
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, question2Api), // new api v2
     takeLatest(ExpertTypes.EDIT_GROUP, editTypeQuestion, question2Api),
     takeLatest(QuestionTypes.ADD_QUESTION, addQuestion, questionApi),
-    takeLatest(QuestionTypes.GET_HISTORY, getHistory, questionApi),
-    takeLatest(QuestionTypes.GET_ANSWER, getAnswer, questionApi),
+    takeLatest(QuestionTypes.GET_HISTORY, getHistory, question2Api),  // edit new 2019
+    takeLatest(QuestionTypes.GET_ANSWER, getAnswer, question2Api), // edit new 2019
     takeLatest(QuestionTypes.GET_PROFILE, getProfile, questionApi),
     takeLatest(QuestionTypes.DELETE_QUESTION, deleteQuestion, questionApi),
 

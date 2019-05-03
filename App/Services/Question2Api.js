@@ -46,7 +46,8 @@ const create = (baseURL = b) => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
-
+  const getHistory = (data) => api.get('question/list', data)
+  const getAnswer = (data) => api.get('answer/detail', data)
   const getAmuletType = (data) => api.get('type/list', data)
   const getQuestionType = () => api.get('manage-question/list')
   const editGroupQuestion = (data) => api.post('type/update-type', data)
@@ -99,7 +100,9 @@ const create = (baseURL = b) => {
   return {
     // a list of the API functions from step 2
     sharedAnswer,
-
+    getHistory,  // new
+    getAnswer, // new
+    
     getAmuletType,
     getQuestionType,
     editGroupQuestion,

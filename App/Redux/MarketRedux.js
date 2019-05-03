@@ -127,6 +127,7 @@ const { Types, Creators } = createActions({
 
   editUpdateRead: ['type_id', 'market_id'],
   setTypeName: ['name'],
+  setStoreName: ['data'],
   setJangwad: ['id', 'name'],
 })
 
@@ -216,6 +217,7 @@ export const INITIAL_STATE = Immutable({
   type_name: null,  // store type name
   jangwad_id: null,  // set province id 11/04/2562 !!
   jangwad_name: null, // set province name
+  tmp_store: null,
 })
 
 /* ------------- Selectors ------------- */
@@ -227,6 +229,11 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const setStoreName = (state, { data }) => {
+  console.log("++++++++++++++ DATA TMP STORE ++++++++++++++++++++++")
+  return state.merge({ tmp_store: data })
+}
 
 export const setJangwad = (state, { id, name }) => {
   return state.merge({ jangwad_id: id, jangwad_name: name })
@@ -665,4 +672,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.EDIT_LIST_MY_MARKET]: editListMyMarket,
   [Types.SET_TYPE_NAME]: setTypeName,
   [Types.SET_JANGWAD]: setJangwad,
+  [Types.SET_STORE_NAME]: setStoreName,
 })

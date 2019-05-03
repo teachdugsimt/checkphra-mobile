@@ -92,7 +92,10 @@ class MarketHomeList1 extends Component {
 
     _addAmulet = () => {
         // add amulet here
-        this.popupDialog2.show()
+        // this.popupDialog2.show()
+        if (this.props.profile && this.props.profile.role != "admin")
+            this.props.navigation.navigate("marketMylistAmulet")
+        else alert("You don't have permission")
     };
 
     _goToUpload = () => {

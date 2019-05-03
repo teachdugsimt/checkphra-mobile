@@ -259,7 +259,7 @@ class UserContactOwner extends Component {
             this.props.setDisscuss(item.id)
             this.props.setDataGroupChat(item)
             console.log(item.id)
-            console.log('------------ FUCK DISCUSS ID ----------------------------------------------------------')
+            console.log('-----------OHH DISSCUSS ID---------------------------------------------')
             // this.props.getMessageOtherContactMyAmulet(count)
             // // ต้องอัพเดทการอ่าน และแก้ is_new ที่นี่ ด้วย
 

@@ -74,8 +74,8 @@ export const INITIAL_STATE = Immutable({
   request2: null,  // create user check phra with access token form FIREBASE
   data_create: null,  // data create user
 
-  language: I18n.currentLocale(),
-  // language: "th",
+  // language: I18n.currentLocale(),
+  language: "th",
 
   request3: null, // change password request
   data_changepass: null,

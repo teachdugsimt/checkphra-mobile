@@ -147,17 +147,20 @@ class MarketMyAmulet extends Component {
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
         date = date.slice(0, 12)
-        let color = item.display == 5 ? 'black' : 'green'
+        let color = item.display == 5 ? 'orange' : 'green'
         return (
             <TouchableOpacity style={{ height: 145, backgroundColor: Colors.milk, borderRadius: 10, marginLeft: 7.5, marginTop: 7.5, marginRight: index == 2 || index % 3 == 2 ? 7.5 : 0, width: (width / 3) - 10, justifyContent: 'center' }} onPress={() => this._goToChat(item)}>
 
-                <TouchableOpacity style={{ position: 'absolute', top: 1.5, right: 5, zIndex: 2 }} onPress={() => this._pressSubMenu(item)}>
+                {/* <TouchableOpacity style={{ position: 'absolute', top: 1.5, right: 5, zIndex: 2 }} onPress={() => this._pressSubMenu(item)}>
                     <Icon2 name={'gear'} size={28} color={color} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity style={{ justifyContent: 'center', zIndex: 1 }} onPress={() => { this._showImage(item.images) }}>
+                    {/* <TouchableOpacity style={{ justifyContent: 'center', zIndex: 1 }} onPress={() => { this._showImage(item.images) }}>
                         {item.images != null && <Image style={{ width: 100, height: 100, borderRadius: 12 }} source={{ uri: item.images[0] }} />}
+                    </TouchableOpacity> */}
+                    <TouchableOpacity style={{ justifyContent: 'center', zIndex: 1 }} onPress={() => this._pressSubMenu(item)}>
+                        {item.images != null && <Image style={{ width: 100, height: 100, borderRadius: 12, borderColor: color, borderWidth: 2.5 }} source={{ uri: item.images[0] }} />}
                     </TouchableOpacity>
 
                     <Text style={{ marginHorizontal: 5, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 16, textAlign: 'center' }} numberOfLines={1}>{item.amulet_detail.amuletName}</Text>
@@ -276,11 +279,11 @@ class MarketMyAmulet extends Component {
                 >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
                         <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, width: '95%', justifyContent: 'center', marginHorizontal: 7.5, marginVertical: 2.5, borderRadius: 8 }} onPress={this._goToUpload2}>
-                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('haveAmulet') + (this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('haveAmulet') + (this.props.profile && this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, justifyContent: 'center', width: '95%', marginHorizontal: 7.5, marginBottom: 2.5, borderRadius: 8 }} onPress={this._goToUpload}>
-                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('notAmulet') + (this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('notAmulet') + (this.props.profile && this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
                         </TouchableOpacity>
                     </View>
                 </PopupDialog>
@@ -322,24 +325,56 @@ class MarketMyAmulet extends Component {
                     ref={(popupDialog) => { this.popupDialog4 = popupDialog; }}
                     dialogAnimation={slideAnimation}
                     width={width / 1.15}
-                    height={this.state.tmp_item && this.state.tmp_item.display == 1 ? height / 3 : (height / 4)}
+                    // height={this.state.tmp_item && this.state.tmp_item.display == 1 ? height / 3 : (height / 4)}
+                    height={height / 1.65}
                     onDismissed={() => { this.setState({ tmp_item: null }) }}
                 >
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        {this.state.tmp_item && this.state.tmp_item.display == 1 && <TouchableOpacity style={{ flex: 1, width: '95%', borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 5, justifyContent: 'center' }} onPress={() => {
-                            this.props.pushAmuletMarket(this.state.tmp_item.id)
-                            this.popupDialog4.dismiss()
-                        }}>
-                            <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('sendToMarket') + (this.state.tmp_item.qid == null ? " 40 coins" : " 20 coins")}</Text>
-                        </TouchableOpacity>}
-                        <TouchableOpacity style={{ flex: 1, width: '95%', borderRadius: 10, backgroundColor: 'lightgrey', marginHorizontal: 5, marginBottom: 5, marginTop: 5, justifyContent: 'center' }} onPress={() => {
-                            this.props.deleteAmuletMarket(this.state.tmp_item.id)
-                            this.popupDialog4.dismiss()
-                        }}>
-                            <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('deleteAmulet')}</Text>
-                        </TouchableOpacity>
 
-                    </View>
+                    {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                            {this.state.tmp_item && this.state.tmp_item.display == 1 && <TouchableOpacity style={{ flex: 1, width: '95%', borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 5, justifyContent: 'center' }} onPress={() => {
+                                this.props.pushAmuletMarket(this.state.tmp_item.id)
+                                this.popupDialog4.dismiss()
+                            }}>
+                                <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('sendToMarket') + (this.state.tmp_item.qid == null ? " 40 coins" : " 20 coins")}</Text>
+                            </TouchableOpacity>}
+                            <TouchableOpacity style={{ flex: 1, width: '95%', borderRadius: 10, backgroundColor: 'lightgrey', marginHorizontal: 5, marginBottom: 5, marginTop: 5, justifyContent: 'center' }} onPress={() => {
+                                this.props.deleteAmuletMarket(this.state.tmp_item.id)
+                                this.popupDialog4.dismiss()
+                            }}>
+                                <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('deleteAmulet')}</Text>
+                            </TouchableOpacity>
+                        </View> */}
+
+                    <ScrollView>
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
+                            <ScrollView style={{ flex: 0.7 }} horizontal={true}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'center', margin: 10 }}>
+                                    {this.state.tmp_item && this.state.tmp_item.images && this.state.tmp_item.images.map((e, i) => {
+                                        return (
+                                            <Image source={{ uri: e }} style={{ width: 90, height: 90, marginRight: 10 }} />
+                                        )
+                                    })}
+                                </View>
+                            </ScrollView>
+
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                {this.state.tmp_item && this.state.tmp_item.display == 1 && <TouchableOpacity style={{ flex: 1, width: '95%', padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 5, justifyContent: 'center', height: 60 }} onPress={() => {
+                                    this.props.pushAmuletMarket(this.state.tmp_item.id)
+                                    this.popupDialog4.dismiss()
+                                }}>
+                                    <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('sendToMarket') + (this.state.tmp_item.qid == null ? " 40 coins" : " 20 coins")}</Text>
+                                </TouchableOpacity>}
+                                <TouchableOpacity style={{ flex: 1, width: '95%', padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginHorizontal: 5, marginTop: 5, justifyContent: 'center', height: 60 }} onPress={() => {
+                                    this.props.deleteAmuletMarket(this.state.tmp_item.id)
+                                    this.popupDialog4.dismiss()
+                                }}>
+                                    <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText }}>{I18n.t('deleteAmulet')}</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        </View>
+                    </ScrollView>
                 </PopupDialog>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 40, paddingHorizontal: 10, paddingVertical: 7.5, borderRadius: 10, backgroundColor: Colors.milk, marginHorizontal: 7.5, marginTop: 7.5 }} onPress={this._addSlot}>

@@ -42,6 +42,7 @@ class MarketListShop extends Component {
 
     _gotoShop = (item, index) => {
         this.props.setShopId(item.id)
+        this.props.setStoreName(item)
         this.props.navigation.navigate("marketListShop2")
         // go to list amulet in each shop
     }
@@ -67,9 +68,9 @@ class MarketListShop extends Component {
                         )
                     })}
 
-                    {item.images == null && <TouchableOpacity style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} onPress={() => this._showImg(item, i)}>
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
                         <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
-                    </TouchableOpacity>}
+                    </View>}
                 </ScrollView>
 
                 <View style={{ flex: 0.6, marginHorizontal: 7.5 }}>
@@ -169,6 +170,7 @@ const mapDispatchToProps = (dispatch) => {
         getListStoreGroup: (page) => dispatch(MarketActions.getListStoreGroup(page)),
         setShopId: (data) => dispatch(MarketActions.setShopId(data)),
         clearShopGroup: () => dispatch(MarketActions.clearShopGroup()),
+        setStoreName: (data) => dispatch(MarketActions.setStoreName(data)),
     }
 }
 

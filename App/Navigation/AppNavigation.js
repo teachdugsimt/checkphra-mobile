@@ -49,6 +49,7 @@ import Webboard from '../Containers/Webboard'
 import Webboard2 from '../Containers/Webboard2'
 import Certificate from '../Containers/Certificate'
 
+import EmptyScreen from '../Containers/EmptyScreen'
 import MarketHome from '../Containers/MarketHome'
 import MarketUpload1 from '../Containers/MarketUpload1'
 import MarketHomeList1 from '../Containers/MarketHomeList1'
@@ -134,6 +135,12 @@ const UploadStack = StackNavigator(  // main upload
       navigationOptions: {
         title: I18n.t('home'),
       },
+    },
+    empty: {
+      screen: EmptyScreen,
+      navigationOptions: {
+        title: "Coming Soon...",
+      }
     },
     people: {    // add new 25/04/2019!!
       screen: LinkNewAmulet

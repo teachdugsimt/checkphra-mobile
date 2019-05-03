@@ -81,8 +81,8 @@ class ChatTheirAmuletOwner extends Component {
             // กรณี ผู้ใช้คุยกับเจ้าของพระ ต้องปรับ discuss_id ด้วยเสมอ
             if (newProps.data_contactOwner && newProps.data_contactOwner != null) {
                 if (newProps.discuss != newProps.data_sendMessageTheirAmulet.id) {
-                    newProps.updateUserContactOwnerList(newProps.discuss, newProps.data_sendMessageTheirAmulet.id)
-                    newProps.setDisscuss(newProps.data_sendMessageTheirAmulet.id)
+                    // newProps.updateUserContactOwnerList(newProps.discuss, newProps.data_sendMessageTheirAmulet.id)
+                    // newProps.setDisscuss(newProps.data_sendMessageTheirAmulet.id)
                 }
             }
 

@@ -257,8 +257,9 @@ class UserContactOwner extends Component {
         if (item.type == 1) {   // CHAT PRIVATE
             this.props.setDetailPhra(item.amulet)
             this.props.setDisscuss(item.id)
+            this.props.setDataGroupChat(item)
             console.log(item.id)
-            console.log('------------ FUCK DISCUSS ID ----------------------------------------------------------')
+            console.log('-----------OHH DISSCUSS ID---------------------------------------------')
             // this.props.getMessageOtherContactMyAmulet(count)
             // // ต้องอัพเดทการอ่าน และแก้ is_new ที่นี่ ด้วย
 
@@ -278,6 +279,7 @@ class UserContactOwner extends Component {
     componentWillUnmount() {
         count = 1
         this.props.clearDataListContactOwner()
+        this.props.clearDataGroupChat()
     }
 
     _reload = () => {
@@ -377,6 +379,7 @@ const mapDispatchToProps = (dispatch) => {
         setDataGroupChat: (data) => dispatch(ShowRoomActions.setDataGroupChat(data)),
         clearDataListContactOwner: () => dispatch(ShowRoomActions.clearDataListContactOwner()),
         setDisscuss: (id) => dispatch(ShowRoomActions.setDisscuss(id)),
+        clearDataGroupChat: () => dispatch(ShowRoomActions.clearDataGroupChat()),
     }
 }
 

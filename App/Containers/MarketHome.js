@@ -557,6 +557,7 @@ class MarketHome extends Component {
                                 <TouchableOpacity style={{ padding: 10, borderRadius: 10, backgroundColor: 'lightgrey', marginTop: 5, marginHorizontal: 5, marginBottom: 2.5 }} onPress={() => {
                                     this.props.setJangwad(e.id, e.name)
                                     this.props.navigation.navigate("marketListShop")
+                                    this.popupDialogProvince.dismiss()
                                 }}>
                                     <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold', marginTop: 10 }}>{e.name}</Text>
                                 </TouchableOpacity>
@@ -635,6 +636,7 @@ const mapDispatchToProps = (dispatch) => {
         editRedDotData2: (last_id, type_id) => dispatch(QuestionActions.editRedDotData2(last_id, type_id)),
         requestAllTypeAmulet: () => dispatch(MarketActions.requestAllTypeAmulet()),
         setTypeName: (name) => dispatch(MarketActions.setTypeName(name)),
+        
         getProvince: () => dispatch(MarketActions.getProvince()),
         setJangwad: (id, name) => dispatch(MarketActions.setJangwad(id, name)),
     }

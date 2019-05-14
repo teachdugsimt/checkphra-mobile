@@ -49,6 +49,7 @@ import Webboard from '../Containers/Webboard'
 import Webboard2 from '../Containers/Webboard2'
 import Certificate from '../Containers/Certificate'
 
+import EmptyScreen from '../Containers/EmptyScreen'
 import MarketHome from '../Containers/MarketHome'
 import MarketUpload1 from '../Containers/MarketUpload1'
 import MarketHomeList1 from '../Containers/MarketHomeList1'
@@ -62,6 +63,7 @@ import MarketSelectType from '../Containers/MarketSelectType'
 import MarketListShop from '../Containers/MarketListShop'
 import MarketListShop2 from '../Containers/MarketListShop2'
 import MarketSearch1 from '../Containers/MarketSearch1'
+import LinkNewAmulet from '../Containers/LinkNewAmulet'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -69,7 +71,7 @@ import Creditcard from '../Containers/Payment/Creditcard'
 
 import styles from "./Styles/NavigationStyles";
 import React from "react";
-import { TouchableOpacity, View, Text, Image } from "react-native";
+import { TouchableOpacity, View, Text, Image, Linking } from "react-native";
 import { Colors } from "../Themes";
 import Icon2 from "react-native-vector-icons/FontAwesome";
 
@@ -83,7 +85,6 @@ import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
 
 import { connect } from "react-redux";
-
 
 const AuthStack = StackNavigator(
   {
@@ -130,9 +131,19 @@ const UploadStack = StackNavigator(  // main upload
   {
     home: {
       screen: HomeScreen,
+      // path: "home", //<!-- add 24/04/2019 -->
       navigationOptions: {
-        title: I18n.t('home')
+        title: I18n.t('home'),
+      },
+    },
+    empty: {
+      screen: EmptyScreen,
+      navigationOptions: {
+        title: "Coming Soon...",
       }
+    },
+    people: {    // add new 25/04/2019!!
+      screen: LinkNewAmulet
     },
     uploadScreen: {
       screen: UploadScreen,
@@ -618,7 +629,9 @@ const UserBitStack = StackNavigator(  // Publish stack // ORIGINAL ONE BIT STACK
 
 const DashStack = TabNavigator(   // **************  USER STACK *******************
   {
-    upload: UploadStack,
+    // upload: UploadStack,
+    upload: { screen: UploadStack,
+    path: "listhome" },
     his: HistoryStack,
     // trade: TradingStack,  //  PHASE 2 wait for person more than now person
     // pub: PublishStack,
@@ -1228,21 +1241,15 @@ const PrimaryNav = SwitchNavigator(
   }
 );
 
-const mapStateToProps = state => {
-  return {
-    // lang: state.auth.language,
-  };
-};
+// const prefix = Expo.Linking.makeUrl('checkphra');
 
-const mapDispatchToProps = dispatch => {
-  return {
-  };
-};
+// const MainApp = () => <PrimaryNav uriPrefix={prefix} />;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PrimaryNav);
+// const prefix = 'checkphra://';
+
+// const MainApp = () => <PrimaryNav uriPrefix={prefix} />;
+
+export default PrimaryNav;
 
 
 

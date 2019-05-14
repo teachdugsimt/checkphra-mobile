@@ -64,6 +64,7 @@ const { Types, Creators } = createActions({
   addRedDotData: ['data'],
   deleteRedDotData: ['type_id'],
   editRedDotData2: ['last_id', 'type_id'],
+  updateReadHistory: ['data'],
 })
 
 export const QuestionTypes = Types
@@ -112,6 +113,18 @@ export const QuestionSelectors = {
 
 /* ------------- Reducers ------------- */
 
+export const updateReadHistory= (state, { data }) => {
+  let tmp = JSON.parse(JSON.stringify(state.history))
+  if (tmp && tmp != null) {
+    tmp.forEach((e, i) => {
+      if (e.id == data.id) {
+        e.read = 1
+      }
+    })
+  }
+  return state.merge({ history: tmp })
+}
+
 // request the data from an api
 export const addRedDotData = (state, { data }) => {
   console.log(data)
@@ -121,7 +134,7 @@ export const addRedDotData = (state, { data }) => {
     tmp = data
   } else {  // ฟอลคครั้งต่อมา
     // tmp.splice(0, 0, data)
-    tmp.splice(0, 0, data[data.length - 1]) 
+    tmp.splice(0, 0, data[data.length - 1])
     // or
     // build two loop check
   }
@@ -447,4 +460,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ADD_RED_DOT_DATA]: addRedDotData,
   [Types.DELETE_RED_DOT_DATA]: deleteRedDotData,
   [Types.EDIT_RED_DOT_DATA2]: editRedDotData2,
+
+  [Types.UPDATE_READ_HISTORY]: updateReadHistory,
 })

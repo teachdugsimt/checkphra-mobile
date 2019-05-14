@@ -178,7 +178,7 @@ class SigninScreen extends Component {
   fbLogin = async () => {
     try {
 
-      const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_link']);
+      const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
       console.log(result)
 
       // console.log(result)

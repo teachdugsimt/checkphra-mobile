@@ -1,4 +1,5 @@
 import '../Config'
+import { Linking, Platform } from 'react-native'
 import DebugConfig from '../Config/DebugConfig'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
@@ -20,9 +21,17 @@ const store = createStore()
  *
  * We separate like this to play nice with React Native's hot reloading.
  */
+
 class App extends Component {
 
   componentDidMount() {
+    // if (Platform.OS === 'android') {   // A11
+    //   Linking.getInitialURL().then(url => {
+    //     this.navigate(url);
+    //   });
+    // } else {
+    //   Linking.addEventListener('url', this.handleOpenURL);
+    // }
     const config = {
       title: "Huawei Protected Apps",
       text: "This app requires to be enabled in 'Protected Apps' in order to receive push notifcations",
@@ -31,7 +40,29 @@ class App extends Component {
       negativeText: "CANCEL"
     };
     HuaweiProtectedApps.AlertIfHuaweiDevice(config);
+
   }
+
+  // handleOpenURL = (event) => { // C33
+  //   this.navigate(event.url);
+  // }
+
+  // navigate = (url) => { // D44
+  //   console.log('----------------NAVIGATE SUCC-----------------')
+  //   const { navigate } = this.props.navigation;
+  //   const route = url.replace(/.*?:\/\//g, '');
+  //   // const id = route.match(/\/([^\/]+)\/?$/)[1];
+  //   const routeName = route.split('/')[0];
+  //   console.log(navigate)
+  //   console.log(routeName)
+  //   console.log(route)
+  //   console.log('---------------- LINKING NAVIGATE -----------------')
+
+  //   if (routeName === 'home') {
+  //     // navigate('home', { id, name: 'chris' })
+  //     navigate('home')
+  //   };
+  // }
 
   // async componentDidMount() {
   //   const notificationOpen = await firebase.notifications().getInitialNotification();
@@ -95,6 +126,7 @@ class App extends Component {
 
   //Remove listeners allocated in createNotificationListeners()
   componentWillUnmount() {
+    // Linking.removeEventListener('url', this.handleOpenURL);  // B22
     // this.notificationListener();
     // this.notificationOpenedListener();
   }

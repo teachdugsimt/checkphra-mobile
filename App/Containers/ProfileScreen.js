@@ -213,6 +213,7 @@ class ProfileScreen extends Component {
     this.props.setLanguage('en')
     this.popupDialog.dismiss()
   }
+  
   render() {
     // let data = []
     // console.log(this.props.profile)

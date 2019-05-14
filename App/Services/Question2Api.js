@@ -46,7 +46,8 @@ const create = (baseURL = b) => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
-
+  const getHistory = (data) => api.get('question/list', data)
+  const getAnswer = (data) => api.get('answer/detail', data)
   const getAmuletType = (data) => api.get('type/list', data)
   const getQuestionType = () => api.get('manage-question/list')
   const editGroupQuestion = (data) => api.post('type/update-type', data)
@@ -91,6 +92,7 @@ const create = (baseURL = b) => {
   const followRoom = (data) => api.post('market/follow-room', data)
 
   const sharedAnswer = (data) => api.post('share-history/add', data)
+  const getText = (data) => api.get('automatic-text/list', data)
 
   // ***************************** Versatile Zone **************************** //
   const getVersatile = (data) => api.get('versatile/list', data)
@@ -98,7 +100,9 @@ const create = (baseURL = b) => {
   return {
     // a list of the API functions from step 2
     sharedAnswer,
-
+    getHistory,  // new
+    getAnswer, // new
+    
     getAmuletType,
     getQuestionType,
     editGroupQuestion,
@@ -120,6 +124,7 @@ const create = (baseURL = b) => {
     getAmuletStore,
     search,
     followRoom,
+    getText,
 
     getVersatile,
   }

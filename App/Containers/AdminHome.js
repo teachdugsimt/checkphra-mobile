@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
-    ScrollView, Text, View, TouchableOpacity, Dimensions,
-    TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Alert
+    ScrollView, Text, View, TouchableOpacity, Dimensions, AsyncStorage,
+    TextInput, Linking, ImageBackground, Image, Platform, Alert
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -18,6 +18,7 @@ import QuestionActions from '../Redux/QuestionRedux'
 import AuthActions from '../Redux/AuthRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
+import VersatileActions from '../Redux/VersatileRedux'
 import Reactotron from 'reactotron-react-native'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
@@ -118,6 +119,7 @@ class AdminHome extends Component {
     }
 
     componentDidMount() {
+        this.props.getNormalData()
         this.props.getProfile()
         this.getDeviceToken()
     }
@@ -138,7 +140,7 @@ class AdminHome extends Component {
         }
     }
 
-    //3
+    //2
     async getToken() {
         console.log("get token")
         let fcmToken = await AsyncStorage.getItem('fcmToken');
@@ -157,7 +159,7 @@ class AdminHome extends Component {
         }
     }
 
-    //2
+    //3
     async requestPermission() {
         console.log("request permission")
         try {
@@ -176,6 +178,7 @@ class AdminHome extends Component {
         * */
         this.notificationListener = firebase.notifications().onNotification((notification) => {
             const { title, body } = notification;
+            console.log("------------ NOTIFICATION 1 ---------------")  // 1. ตอนที่เราเปิดหน้าแอพอยู่
             this.showAlert(title, body);
         });
 
@@ -184,6 +187,7 @@ class AdminHome extends Component {
         * */
         this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
             const { title, body } = notificationOpen.notification;
+            console.log("------------ NOTIFICATION 2 ---------------") // 2. ตอนที่เราเข้าแอพอื่น แต่ไม่ได้ปิดแอพเช็คพระ
             this.showAlert(title, body);
         });
 
@@ -192,6 +196,7 @@ class AdminHome extends Component {
         * */
         const notificationOpen = await firebase.notifications().getInitialNotification();
         if (notificationOpen) {
+            console.log("------------ NOTIFICATION 3 ---------------")  // 3. ตอนที่เราปิดแอะเช็คพระ
             const { title, body } = notificationOpen.notification;
             this.showAlert(title, body);
         }
@@ -209,6 +214,7 @@ class AdminHome extends Component {
             title, body,
             [
                 { text: 'OK', onPress: () => console.log('OK Pressed') },
+                { text: "SKIP", onPress: () => console.log("SKIP PRESSED") }
             ],
             { cancelable: false },
         );
@@ -259,6 +265,7 @@ class AdminHome extends Component {
                                     <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
                                         {item.name}</Text>
                                 </View>
+                                {item.id == 1 && this.props.data_versatile && this.props.data_versatile.new_question && <View style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'red', borderRadius: 10, borderColor: 'white', borderWidth: 1 }}><Text style={{ color: 'white', fontFamily: 'Prompt-Semibold', fontSize: 14, padding: 5 }}>{this.props.data_versatile.new_question}</Text></View>}
                             </TouchableOpacity>
                         );
                     }}
@@ -306,12 +313,14 @@ const mapStateToProps = (state) => {
         language: state.auth.language,
         profile: state.question.profile,
         request_profile: state.question.request_profile,
+        data_versatile: state.versatile.data_versatile
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getProfile: () => dispatch(QuestionActions.getProfile()),
+        getNormalData: () => dispatch(VersatileActions.getNormalData()),
         saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
     }
 }

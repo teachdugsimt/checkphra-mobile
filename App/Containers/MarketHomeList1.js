@@ -92,7 +92,10 @@ class MarketHomeList1 extends Component {
 
     _addAmulet = () => {
         // add amulet here
-        this.popupDialog2.show()
+        // this.popupDialog2.show()
+        if (this.props.profile && this.props.profile.role != "admin")
+            this.props.navigation.navigate("marketMylistAmulet")
+        else alert("You don't have permission")
     };
 
     _goToUpload = () => {
@@ -161,16 +164,11 @@ class MarketHomeList1 extends Component {
     }
 
     _showImage = (item) => {
-        this.setState({ modalVisible: true })
         let img = []
-        // item.map(e => {
-        //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/market/' + e })
-        // })
         item.map(e => {
             img.push({ url: e })
         })
-        this.setState({ img })
-        this.popupDialog.show()
+        this.setState({ img, modalVisible: true, index: 0 })
     }
 
     _goToChat = (item) => {

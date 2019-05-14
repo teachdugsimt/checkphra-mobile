@@ -156,10 +156,10 @@ class AnswerScreen extends Component {
   componentWillUnmount() {
     this.setState({ index: 0 })
     this.props.navigation.goBack()
-    if (isShared == true) {
-      this.props.sharedAnswer(this.props.answer[0].q_id)
-      this.props.getProfile()
-    }
+    // if (isShared == true) {
+    //   this.props.sharedAnswer(this.props.answer[0].q_id)
+    //   this.props.getProfile()
+    // }
     isShared = false
     this.props.clearDataCer()
     // console.log(isShared)

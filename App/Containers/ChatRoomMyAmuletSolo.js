@@ -54,6 +54,25 @@ class ChatRoomMyAmuletSolo extends Component {
     //     this.myFaltList.scrollToEnd()
     // }
 
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+        return {
+            // title: params.getName,  // change title => String
+            headerTitle: (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 18, color: "white" }} numberOfLines={1}>
+                        {I18n.t("privateChat")}
+                    </Text>
+                </View>
+            ),
+            // headerRight: (
+            //     <TouchableOpacity onPress={params.addAmulet}>
+            //         <Icon3 name={'ios-add-circle-outline'} color={'white'} size={40} style={{ paddingRight: 10 }} />
+            //     </TouchableOpacity>
+            // )
+        };
+    };
+
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
@@ -203,10 +222,6 @@ class ChatRoomMyAmuletSolo extends Component {
         return name
     }
 
-    componentWillUnmount() {
-        this.setState({ text: null })
-    }
-
     _sendMessage = () => {
         if (this.state.text) {
             console.log('send message complete')
@@ -215,10 +230,6 @@ class ChatRoomMyAmuletSolo extends Component {
             this.setState({ text: null })
         }
     }
-
-
-
-
 
     componentDidMount() {
         count = 1
@@ -232,6 +243,8 @@ class ChatRoomMyAmuletSolo extends Component {
 
     componentWillUnmount() {
         count = 1
+        this.setState({ text: null })
+        this.props.clearDataGroupChat()
         this.props.clearTheirAmuletMessage()
     }
 
@@ -405,7 +418,7 @@ class ChatRoomMyAmuletSolo extends Component {
 
                     {this.state.hide && <TouchableOpacity style={{ backgroundColor: '#FFEFD5', width: '100%' }} onPress={() => this.setState({ hide: false })}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center', marginHorizontal: 7.5 }}>{this.props.data_their.amulet_detail.amuletName+" ( "+this.props.data_their.type_name+" )"}</Text>}
+                            {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 18, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran, marginTop: 10, marginBottom: 1, alignSelf: 'center', marginHorizontal: 7.5 }}>{this.props.data_their.amulet_detail.amuletName + " ( " + this.props.data_their.type_name + " )"}</Text>}
                         </View>
 
                         <Icon2 size={22} name={'chevron-down'} style={{ alignSelf: 'center', marginBottom: 2.5 }} />
@@ -492,7 +505,7 @@ const mapDispatchToProps = (dispatch) => {
         setTheirAmuletData: (data) => dispatch(ShowRoomActions.setTheirAmuletData(data)),
         voteAmulet: (id, status) => dispatch(MarketActions.voteAmulet(id, status)),
         clearDataVote: () => dispatch(MarketActions.clearDataVote()),
-
+        clearDataGroupChat: () => dispatch(ShowRoomActions.clearDataGroupChat()),
         editVoteSearch: (data) => dispatch(MarketActions.editVoteSearch(data)),
     }
 }

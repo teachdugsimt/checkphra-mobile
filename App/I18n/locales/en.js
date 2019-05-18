@@ -289,6 +289,7 @@ export default {
   costAmulet: 'Price',
   wantMarket: 'Do you want to rent out ?',
   wantMarketDetail: 'Rent out of amulet must be pay a little bit coins !!',
+  noneCategory: "None Category",
 
   uploadCardPerson: 'Upload id card',
   storeName: 'Store name',
@@ -369,6 +370,7 @@ export default {
   หลวงปู่หลิว: 'Luangpu Lhew',
   หลวงพ่อกวย: 'LuangPhor Kauy',
   บางขุนพรหม: 'Bang Khun Prom',
+  newGroup1: "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร",
 
   successTransaction: 'Transaction Successful !!',
   failureTransaction: 'Transaction Failure',

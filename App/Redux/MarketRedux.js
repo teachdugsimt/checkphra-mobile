@@ -71,9 +71,10 @@ const { Types, Creators } = createActions({
   editVoteData: ['data'],
   editVoteData2: ['data'],
 
-  pushAmuletMarket: ['market_id'],
+  pushAmuletMarket: ['market_id', 'type'],
   pushAmuletMarketSuccess: ['data'],
   pushAmuletMarketFailure: null,
+  setTmpTypeAmulet: ['t_id'],
   editPushData: ['data'],
 
   deleteAmuletMarket: ['market_id'],
@@ -213,6 +214,7 @@ export const INITIAL_STATE = Immutable({
   request16: null,  // for  update read (Red dot)
   data_read: null,  // store update read (red dot data)
 
+  tmp_typeID: null,  // store tmp type id before push amulet to market
   FOLLOWER: null,  // check list my follow
   type_name: null,  // store type name
   jangwad_id: null,  // set province id 11/04/2562 !!
@@ -229,6 +231,10 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const setTmpTypeAmulet = (state, data) => {
+  return state.merge({ tmp_typeID: data.t_id })
+}
 
 export const setStoreName = (state, { data }) => {
   console.log("++++++++++++++ DATA TMP STORE ++++++++++++++++++++++")
@@ -673,4 +679,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_TYPE_NAME]: setTypeName,
   [Types.SET_JANGWAD]: setJangwad,
   [Types.SET_STORE_NAME]: setStoreName,
+  [Types.SET_TMP_TYPE_AMULET]: setTmpTypeAmulet,
 })

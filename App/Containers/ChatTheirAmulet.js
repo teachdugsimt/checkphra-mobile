@@ -8,7 +8,6 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
-import RoundedButton from '../Components/RoundedButton'
 import { Colors, Images } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -19,9 +18,8 @@ import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import MarketActions from '../Redux/MarketRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
-import styles from './Styles/HomeScreenStyle'
-import GridView from "react-native-super-grid";
-import { messaging } from 'react-native-firebase';
+import { GiftedChat } from 'react-native-gifted-chat';
+import firebase, { messaging } from 'react-native-firebase';
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -44,7 +42,41 @@ class ChatTheirAmulet extends Component {
             tlist: null,
             tmp_vote: null,
         }
+
+        // let privateKeyUid = '';
+        // console.log(this.props.data_their.user_id + " " + this.props.user_id)
+        // if (this.props.data_their.user_id < this.props.user_id) {
+        //     privateKeyUid = this.props.data_their.user_id + this.props.user_id;
+        // } else {
+        //     privateKeyUid = this.props.user_id + this.props.data_their.user_id;
+        // }
+        // console.log(privateKeyUid)
+        // this.messageRef = firebase.database().ref('messages').child(privateKeyUid);
+        // this.myContactList = firebase.database().ref('contacts/' + this.props.user_id)
+        // // this.listenMessages();
+
+        // console.log(this.messageRef)
+        // console.log(this.myContactList)
+        // console.log('----------- THIS MESSAGES REF ---------------')
     }
+
+    // _sendMessage = () => {
+    //     if (this.state.text) {
+    //         this.props.sendMessageTheirAmulet(this.props.data_their.id, this.state.text)
+    //         // this.setState({ text: null })
+    //         var newItem = {
+    //             userName: this.props.profile.firstname ? this.props.profile.firstname : "Check Phra User",
+    //             message: this.state.text,
+    //             timestamp: new Date(),
+    //             uid: this.props.user_id
+    //         }
+    //         this.messageRef.push(newItem);
+    //         this.myContactList.child(this.props.data_their.user_id).set({
+    //             uid: this.props.data_their.user_id,
+    //         });
+    //         this.setState({ text: null });
+    //     }
+    // }
 
     static rename = (e) => {
         let name = ''
@@ -151,14 +183,14 @@ class ChatTheirAmulet extends Component {
         return name
     }
 
-    _sendMessage = () => {
-        if (this.state.text) {
-            console.log('send message complete')
-            console.log(this.state.text)
-            this.props.sendMessageTheirAmulet(this.props.data_their.id, this.state.text)
-            this.setState({ text: null })
-        }
-    }
+    // _sendMessage = () => {
+    //     if (this.state.text) {
+    //         console.log('send message complete')
+    //         console.log(this.state.text)
+    //         this.props.sendMessageTheirAmulet(this.props.data_their.id, this.state.text)
+    //         this.setState({ text: null })
+    //     }
+    // }
 
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
@@ -434,8 +466,8 @@ class ChatTheirAmulet extends Component {
                             }}><Text style={{ fontSize: 16, color: "white", backgroundColor: 'red', borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, }}>Ban</Text></TouchableOpacity>}
                             {this.props.data_their.is_fake == true && <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 30, position: 'absolute', top: 30, left: 20, transform: [{ rotate: '-38deg' }] }}>{I18n.t('fakePhra')}</Text>}
                             <View style={{ marginHorizontal: 15, justifyContent: 'center', alignItems: 'flex-start' }}>
-                                {this.props.data_their.amulet_detail.amuletName && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('amuletName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.amuletName}</Text></Text>}
-                                {this.props.data_their.amulet_detail.temple && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('templeName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.temple}</Text></Text>}
+                                <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('amuletName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.amuletName ? this.props.data_their.amulet_detail.amuletName : I18n.t('noneSpecify')}</Text></Text>
+                                <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('templeName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.temple ? this.props.data_their.amulet_detail.temple : I18n.t("noneSpecify")}</Text></Text>
                                 {this.props.data_their.amulet_detail.price && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('costAmulet') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.price}</Text></Text>}
                                 {this.props.data_their.amulet_detail.owner && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('ownerName') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.owner}</Text></Text>}
                                 {this.props.data_their.amulet_detail.contact && <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'Prompt-SemiBold', color: Colors.brownTextTran }}>{I18n.t('contact') + ": "}<Text style={{ fontSize: 14 }}>{this.props.data_their.amulet_detail.contact}</Text></Text>}

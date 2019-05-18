@@ -95,7 +95,7 @@ export function* sendDataAmuletForMarket(api) {
   const aut = yield select(auth)
   const img = yield select(image)
 
-  const response = yield call(api.sendDataAmuletMarket, img.maindata.name, img.maindata.temple, img.maindata.price, img.maindata.owner, img.maindata.contact, img.maindata.type, aut.user_id, img.data_image)
+  const response = yield call(api.sendDataAmuletMarket, img.maindata.name, img.maindata.temple, img.maindata.price, img.maindata.owner, img.maindata.contact, aut.user_id, img.data_image)
   // const response = yield call(api.sendDataAmuletMarket, name, temple, price, owner, contact, zone, type, aut.user_id, img.data_image)
   console.log(response)
   console.log('============= SEND DATA AMULET TO MY MARKET ==============')
@@ -117,7 +117,7 @@ export function* sendDataAmuletForMarket2(api) {
 
   const data = {
     user_id: aut.user_id,
-    type: img.maindata2.type,
+    // type: img.maindata2.type,
     // zone_id: img.maindata2.zone,
     qid: img.tmp_upload.id,
     price: img.maindata2.price,
@@ -262,10 +262,14 @@ export function* voteAmuletRequest(api, { id, status }) {
 
 export function* pushAmuletToMarket(api, { market_id }) {
   const aut = yield select(auth)
+  const imag = yield select(image)
   const data = {
     user_id: aut.user_id,
+    type: imag.tmp_typeID,
     market_id
   }
+  console.log(data)
+  console.log('=============== DATA PUSH AMULET ===============')
 
   const response = yield call(api.pushAmuletMarket, data)
   console.log(response)

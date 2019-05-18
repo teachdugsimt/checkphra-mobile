@@ -68,23 +68,14 @@ class HomeScreen extends Component {
 
       height: 0,
       autoPlay: false,
-      _childrenCount: null
+      _childrenCount: null,
+
+      tmp_email: null,
+      tmp_password: null,
+      tmp_name: "User test001",
     }
-
-    // this._goToNextPage = this._goToNextPage.bind(this)
-    // this._onScroll = this._onScroll.bind(this)
-    // this._startAutoPlay = this._startAutoPlay.bind(this)
-    // this._stopAutoPlay = this._stopAutoPlay.bind(this)
-    // this._onScrollViewLayout = this._onScrollViewLayout.bind(this)
-    // this._currentIndex = 0
-    // this._childrenCount = this.state.kawsod ? this.state.kawsod.length : 3
-
-    const list_user = [{ name: I18n.t('checkAmuletScreen'), id: 1, logo: 'search' },
-    // { name: I18n.t('showAmuletReal'), id: 2 },
-    { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
-    { name: I18n.t('commu'), id: 3, logo: 'wechat' },]
+    this.profile = firebase.database().ref('profile/' + this.props.user_id)
   }
-  animVal = new Animated.Value(0)
 
   static navigationOptions = ({ navigation }) => {
 
@@ -92,19 +83,10 @@ class HomeScreen extends Component {
       title: I18n.t('home'),
     }
   }
+
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
     console.log(prevState)
-    // Reactotron.display({
-    //   name: 'New Props',
-    //   preview: 'NewPropsZone',
-    //   value: newProps
-    // })
-    // Reactotron.display({
-    //   name: 'Prev state',
-    //   preview: 'PrevStateZone',
-    //   value: prevState
-    // })
     console.log('============  HOME PAGE =============')
 
     const list_user = [
@@ -238,8 +220,8 @@ class HomeScreen extends Component {
     } else if (item.id == 3) {
       this.popupDialog.show()
     } else if (item.id == 4) {
-      // this.props.navigation.navigate('marketHome')
-      this.props.navigation.navigate("empty")
+      this.props.navigation.navigate('marketHome')
+      // this.props.navigation.navigate("empty")
     } else if (item.id == 5) {
       this.shareLinkWithShareDialog()
       // this.seeVideo()
@@ -340,9 +322,7 @@ class HomeScreen extends Component {
     this.props.getPublish()   // get new publish
     // if (this.state.autoPlay) this._startAutoPlay()
     // else this._stopAutoPlay()
-
     this.props.getLoginPro()  // add get Login promotion 7 days
-
     this.getDeviceToken()  // build push notifications end in three - four function
 
     if (Platform.OS === 'android') {   // A11
@@ -353,40 +333,6 @@ class HomeScreen extends Component {
       Linking.addEventListener('url', this.handleOpenURL);
     }
   }
-
-  // _onScroll = (event) => {
-  //   let { x } = event.nativeEvent.contentOffset, offset, position = Math.floor(x / this.state.height)
-  //   if (x == this._prevScrolly) return;
-  //   this._prevScrolly = x
-  //   offset = (x / this.state.height) - position  // 33.90 / width800 - 0
-
-  //   if (offset === 0) {
-  //     this._currentIndex = position
-  //     this._timerId = setInterval(this._goToNextPage, 3000)
-  //   }
-  // }
-  // _onScrollViewLayout = (event) => {
-  //   let { width } = event.nativeEvent.layout
-  //   this.setState({ height: width })
-  // }
-
-  // _goToNextPage = () => {
-  //   this._stopAutoPlay()
-  //   let nextIndex = (this._currentIndex + 1) % this.state._childrenCount
-  //   this.snapScroll.scrollTo({ x: this.state.height * nextIndex })
-
-  // }
-  // _startAutoPlay = () => {
-  //   this._timerId = setInterval(this._goToNextPage, 3000)
-  // }
-
-  // _stopAutoPlay = () => {
-  //   if (this._timerId) {
-  //     clearInterval(this._timerId)
-  //     this._timerId = null
-  //   }
-  // }
-
 
   // navigate2 = (data, url) => { // D44
   //   console.log('----------------NAVIGATE 2222 2222 2222 222 -----------------')
@@ -545,7 +491,8 @@ class HomeScreen extends Component {
   }
 
   _ownerAmulet = () => {
-    this.props.navigation.navigate('userContactOwner')
+    // this.props.navigation.navigate('userContactOwner')
+    this.props.navigation.navigate("listMyContact")
     this.popupDialog.dismiss()
   }
 
@@ -579,11 +526,6 @@ class HomeScreen extends Component {
     I18n.locale = this.props.language
     console.log(this.state.kawsod)
     console.log(this.props.data_shared)
-    // Reactotron.display({
-    //   name: "VERSATILE",
-    //   preview: "log in render",
-    //   value: this.props.data_versatile
-    // })
     // console.log(this.props.tmp_publish)
     // let time = "2019-04-05 22:35:16"  // can check
     // let time2 = "2019-04-05 22:35:56"
@@ -596,11 +538,10 @@ class HomeScreen extends Component {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
         <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
-
         <ScrollView>
           <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.8, width: width - 20, flexDirection: 'row' }}>
 
-            <Swiper style={{}} showsButtons={true} autoplay={true}>
+            <Swiper style={{}} showsButtons={false} autoplay={true} >
               {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 && this.state.autoPlay == true ?
                 this.state.kawsod.map((e, i) => {
                   return (
@@ -651,7 +592,16 @@ class HomeScreen extends Component {
 
           <View style={{ flexDirection: 'row' }}>
             {this.state.list_user && this.state.list_user.map((item, index) => {
-              if (index == 2 || index == 3)
+              if (index == 2 || index == 3) {
+                if (this.props.profile) {
+                  this.profile.set({
+                    uid: this.props.user_id,
+                    name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                    email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
+                    fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+                    image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-"
+                  })
+                }
                 return (
                   <TouchableOpacity onPress={() => {
                     if (item.id == 5) {
@@ -672,10 +622,12 @@ class HomeScreen extends Component {
                       style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
                   </TouchableOpacity>
                 )
+              }
             })}
           </View>
 
           <View style={{ height: 30 }}></View>
+
         </ScrollView>
 
         <PopupDialog
@@ -756,6 +708,7 @@ class HomeScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.auth.language,
+    user_id: state.auth.user_id,
     profile: state.question.profile,
     request_profile: state.question.request_profile,
 

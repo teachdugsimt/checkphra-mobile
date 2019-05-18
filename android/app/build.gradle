@@ -199,6 +199,7 @@ dependencies {
     // implementation "com.google.firebase:firebase-auth:15.0.1"
     // implementation "com.google.firebase:firebase-messaging:17.3.2"
     implementation "com.google.firebase:firebase-messaging:17.6.0"
+    implementation "com.google.firebase:firebase-database:16.1.0"
 
     // implementation 'com.android.support:multidex:1.0.3'
     // implementation 'com.android.support:design:27.1.0'

@@ -293,6 +293,8 @@ class CheckListScreen extends Component {
       }
       else if (e.name == 'อื่นๆ หรือ ไม่ทราบ') {
         name = I18n.t('otherOrUnknown')
+      } else {
+        name = e.name
       }
       item.push({
         "id": e.id,
@@ -566,6 +568,8 @@ class CheckListScreen extends Component {
             }
             else if (item.type == 'หลวงพ่อหลิว') {
               name = I18n.t('LuangPhorLhew')
+            } else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+              name = I18n.t("newGroup1")
             }
             else {
               name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)

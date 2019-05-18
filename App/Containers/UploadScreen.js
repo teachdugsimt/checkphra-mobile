@@ -51,7 +51,7 @@ class UploadScreen extends Component {
       kawsod: null,
       modalVisible: true,
       coin: null,
-      
+
       disButton: false,
       addBonusSuccess: false
     }
@@ -163,6 +163,12 @@ class UploadScreen extends Component {
       else if (e.name == 'อื่นๆ หรือ ไม่ทราบ') {
         name = I18n.t('otherOrUnknown')
       }
+      else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+        name = I18n.t("newGroup1")
+      }
+      else {
+        name = e.name
+      }
       item.push({
         "id": e.id,
         "name": name,
@@ -215,7 +221,7 @@ class UploadScreen extends Component {
         item = UploadScreen.rename(amuletTypes)
       }
     }
-     // ********************* GET AMULET TYPE ***************************************//
+    // ********************* GET AMULET TYPE ***************************************//
 
     //************************ check alert login complete 7 days ******************************/
     // if (nextProps.data_login != null) {

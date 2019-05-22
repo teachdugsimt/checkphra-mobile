@@ -19,6 +19,13 @@ const { Types, Creators } = createActions({
   setListMyContact: ['data'],
   setTmpListMyContact: ['data'],
   setListMyContact2: ['data'],
+
+  setAdminMessage: ['data'],  // for user save message from admin
+
+  setListUser: ['data'],  // for admin get list user
+
+  setTmpAdminData: ['data'],  // for store tmp user before go next screen
+  setUserMessage: ['data'], // set user tmp message to admin
 })
 
 export const RealtimeTypes = Types
@@ -38,6 +45,12 @@ export const INITIAL_STATE = Immutable({
   data_listMyContact: null,  // store List My contact
   tmp_listMyContact: null, // set tmp list my contact for list my contact 2
   data_listMyContact2: null, // store data message my contact 2
+
+  data_messageAdmin: null,  // store message of admin
+
+  data_listuser: null,  // store list user contact to admin
+  tmp_user: null,  // store tmp user before go next screen (for admin!!)
+  data_adminmessage: null,  // stoer data admin = user messages
 })
 
 /* ------------- Selectors ------------- */
@@ -49,8 +62,30 @@ export const RealtimeSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+export const setUserMessage = (state, {data}) => {
+  data.sort(function (a, b) {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+  return state.merge({ data_adminmessage: data })
+}
 
-export const setTmpListMyContact = (state, {data}) => state.merge({ tmp_listMyContact: data })
+export const setTmpAdminData = (state, { data }) => state.merge({ tmp_user: data })
+
+export const setListUser = (state, { data }) => {
+  data.sort(function (a, b) {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+  return state.merge({ data_listuser: data })
+}
+
+export const setAdminMessage = (state, { data }) => {
+  data.sort(function (a, b) {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+  return state.merge({ data_messageAdmin: data })
+}
+
+export const setTmpListMyContact = (state, { data }) => state.merge({ tmp_listMyContact: data })
 
 export const setListMyContact2 = (state, { data }) => {
   data.sort(function (a, b) {
@@ -133,4 +168,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_LIST_MY_CONTACT]: setListMyContact,
   [Types.SET_LIST_MY_CONTACT2]: setListMyContact2,
   [Types.SET_TMP_LIST_MY_CONTACT]: setTmpListMyContact,
+
+  [Types.SET_ADMIN_MESSAGE]: setAdminMessage,
+  [Types.SET_LIST_USER]: setListUser,
+  [Types.SET_TMP_ADMIN_DATA]: setTmpAdminData,
+  [Types.SET_USER_MESSAGE]: setUserMessage,
 })

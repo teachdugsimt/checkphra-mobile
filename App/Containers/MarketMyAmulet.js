@@ -245,7 +245,8 @@ class MarketMyAmulet extends Component {
 
     _goToChat = (item) => {
         this.props.setTheirAmuletData(item)
-        this.props.navigation.navigate('chatMyAmulet')
+        // this.props.navigation.navigate('chatMyAmulet')
+        this.props.navigation.navigate("chatRoomMyAmulet")
     }
 
     componentDidMount() {

@@ -162,19 +162,15 @@ class UploadScreen extends Component {
       }
       else if (e.name == 'อื่นๆ หรือ ไม่ทราบ' || e.name == 'ไม่ระบุประเภท') {
         name = I18n.t('otherOrUnknown')
-      } else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+      }
+      else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
         name = e.name
-      } else if (e.name == "พระเครื่องภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+      }
+      else if (e.name == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
         name = e.name
       } else {
         name = e.name
       }
-      // else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
-      //   name = I18n.t("newGroup1")
-      // }
-      // else {
-      //   name = e.name
-      // }
       item.push({
         "id": e.id,
         "name": name,
@@ -267,24 +263,24 @@ class UploadScreen extends Component {
   // }
 
   getTypePhra = (item) => {
-    checkButton = true
+    // checkButton = true
 
     if (item.name == "เบญจภาคี" || item.name == "Benja pakee") {
       this.props.navigation.navigate("detail")
-      checkButton = false
+      // checkButton = false
     }
     else if (item.name == "พระวัดระฆัง" || item.name == "PhraWad Rakung") {
       this.props.navigation.navigate("detail2")
-      checkButton = false
+      // checkButton = false
     }
     else if (item.name == "บางขุนพรหม" || item.name == "Bang Khun Prom") {
       this.props.navigation.navigate("detail3")
-      checkButton = false
+      // checkButton = false
     }
     else {
       this.props.setAmuletType(item.id)
       this.props.navigation.navigate("send")
-      checkButton = false
+      // checkButton = false
     }
 
   }
@@ -480,7 +476,7 @@ class UploadScreen extends Component {
           items={this.state.item ? this.state.item : []}
           renderItem={item => {
             return (
-              <TouchableOpacity onPress={() => this.getTypePhra(item)} disabled={checkButton}>
+              <TouchableOpacity onPress={() => this.getTypePhra(item)}>
                 <View
                   style={{
                     height: 85,

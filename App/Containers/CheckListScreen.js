@@ -294,7 +294,7 @@ class CheckListScreen extends Component {
       else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
         name = e.name
       }
-      else if (e.name == "พระเครื่องภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+      else if (e.name == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
         name = e.name
       }
       else if (e.name == 'อื่นๆ หรือ ไม่ทราบ' || e.name == "ไม่ระบุประเภท") {

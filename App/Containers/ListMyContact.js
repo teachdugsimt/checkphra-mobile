@@ -32,6 +32,7 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
+let count2 = 10
 let count_render = 0
 class ListMyContact extends Component {
     constructor(props) {
@@ -45,45 +46,82 @@ class ListMyContact extends Component {
             mlist: null,
             tlist: null,
 
+            loading: false,
+
             tmp_dataMyMessageFromOther: null,
         }
         this.myContactList = firebase.database().ref('contacts/' + this.props.user_id)
     }
 
     getListContact = () => {
+        this.setState({ loading: true })
         this.myContactList.limitToLast(10).on('value', data => {
             // console.log(data) // raw data
-            // console.log(Object.values(data))  // confuse data, spread data
-            console.log(Object.values(data._value)) //  normal data
-            // console.log(Object.values(data.val())) // normal data same!!
-            this.props.setListMyContact(Object.values(data._value))
+            if (data.val()) {
+                // console.log(Object.values(data))  // confuse data, spread data
+                console.log(Object.values(data._value)) //  normal data
+                // console.log(Object.values(data.val())) // normal data same!!
+                this.props.setListMyContact(Object.values(data._value))
+                this.setState({ loading: false })
+            } else {
+                this.setState({ loading: false })
+            }
+            console.log('----------------- HERE DATA LIST MESSAGE --------------------')
+        })
+    }
+
+    getListContact2 = () => {
+        this.setState({ loading: true })
+        count2 = count2 + 10
+        this.myContactList.limitToLast(count2).on('value', data => {
+            // console.log(data) // raw data
+            if (data.val()) {
+                // console.log(Object.values(data))  // confuse data, spread data
+                console.log(Object.values(data._value)) //  normal data
+                // console.log(Object.values(data.val())) // normal data same!!
+                this.props.setListMyContact(Object.values(data._value))
+                this.setState({ loading: false })
+            } else {
+                this.setState({ loading: false })
+            }
             console.log('----------------- HERE DATA LIST MESSAGE --------------------')
         })
     }
 
     componentDidMount() {
         count = 1
+        count2 = 10
         this.getListContact()
         // this.props.getMyMessageFromOther(count)
     }
 
     componentWillUnmount() {
         count = 1
+        count2 = 10
         this.props.clearDataListContactOwner()
         this.props.clearDataGroupChat()
     }
 
+    // _reload = () => {
+    //     count = 1
+    //     this.props.getMyMessageFromOther(count)
+    // }
+
     _reload = () => {
-        count = 1
-        this.props.getMyMessageFromOther(count)
+        // count2 = 10
+        // this.getListContact2()
     }
 
+    // _onScrollEndList = () => {
+    //     console.log('END LIST AGAIN')
+    //     if (this.props.data_myMessageFromOther && this.props.data_myMessageFromOther.length >= 10 && (this.props.request7 == false || this.props.request7 == null)) {
+    //         count++
+    //         this.props.getMyMessageFromOther(count)
+    //     }
+    // }
+
     _onScrollEndList = () => {
-        console.log('END LIST AGAIN')
-        if (this.props.data_myMessageFromOther && this.props.data_myMessageFromOther.length >= 10 && (this.props.request7 == false || this.props.request7 == null)) {
-            count++
-            this.props.getMyMessageFromOther(count)
-        }
+        this.getListContact2()
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
@@ -196,18 +234,17 @@ class ListMyContact extends Component {
                 </Modal>
 
                 <FlatList
-                    // refreshControl={
-                    //     <RefreshControl
-                    //         refreshing={this.props.request7 == true}
-                    //         onRefresh={this._reload}
-                    //     />
-                    // }
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.loading}
+                            onRefresh={this._reload}
+                        />
+                    }
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('noMessages')}</Text>}
                     data={this.props.data_listMyContact}
-                    // data={this.state.tmp_dataMyMessageFromOther ? this.state.tmp_dataMyMessageFromOther : []}
                     renderItem={this._renderItem}
-                // onEndReached={this._onScrollEndList}
-                // onEndReachedThreshold={1.0} 
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={0.25}
                 />
             </LinearGradient>
         )

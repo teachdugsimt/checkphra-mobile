@@ -31,6 +31,7 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
+let count2 = 10
 let check = true
 
 class ListMyContact2 extends Component {
@@ -241,13 +242,48 @@ class ListMyContact2 extends Component {
     listenMessages = async () => {
         console.log('---------------- GET LISTEN MESSAGE 5555 ----------------')
         this.profile.on('value', profile => {
-            console.log(profile._value)
-            // let data = Object.values(profile.val()) // confuse data
-            this.setState({
-                owner_profile: profile._value
-            })
+            if (profile.val()) {
+                console.log(profile._value)
+
+                // let data = Object.values(profile.val()) // confuse data
+                this.setState({
+                    owner_profile: profile._value
+                })
+            }
         })
         this.messageRef.limitToLast(10).on('value', message => {
+            if (message.val()) {
+                // console.log(message.val())
+                if (this._isMounted === true) {
+                    this.setState({
+                        list: Object.values(message.val()),
+                        message: Object.values(message.val())
+                    });
+                }
+                // this.props.setDataMessage2(Object.values(message.val()))
+                // console.log(message.val())  // already sort
+                this.props.setListMyContact2(Object.values(message.val()))
+                console.log(Object.values(message.val()))  // not sort
+                console.log('----------------------- FRUCK HERE ------------------------')
+            }
+        })
+        // get Facebook id from this.myContactList..... && get FB id and send it when send message
+    }
+
+    listenMessages2 = async () => {
+        count2 = count2 + 10
+        // console.log('---------------- GET LISTEN MESSAGE 5555 ----------------')
+        // this.profile.on('value', profile => {
+        //     if (profile.val()) {
+        //         console.log(profile._value)
+
+        //         // let data = Object.values(profile.val()) // confuse data
+        //         this.setState({
+        //             owner_profile: profile._value
+        //         })
+        //     }
+        // })
+        this.messageRef.limitToLast(count2).on('value', message => {
             if (message.val()) {
                 // console.log(message.val())
                 if (this._isMounted === true) {
@@ -278,6 +314,7 @@ class ListMyContact2 extends Component {
     componentDidMount() {
         this.listenMessages()
         count = 1
+        count2 = 10
         // if (this.props.data_contactOwner && this.props.data_contactOwner != null && this.props.data_their) {
         //     // มีคนทักมาสนทนา 1-1 กับพระของเราเอง ต้องโหลดข้อมูล จาก API ใหม่ด้วยนะครับ
         //     // console.log(this.props.data_their)
@@ -302,6 +339,7 @@ class ListMyContact2 extends Component {
         // this.props.clearDataMessage2()
         this.setState({ text: null, tmp_vote: null })
         count = 1
+        count2 = 10
         this.props.clearTheirAmuletMessage()
         this.props.clearDataGroupChat()
         // if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
@@ -428,6 +466,8 @@ class ListMyContact2 extends Component {
                         this.handleSend(message)
                     }}
                     showUserAvatar={false}
+                    loadEarlier={true}
+                    onLoadEarlier={this.listenMessages2}
                 />
 
             </LinearGradient>

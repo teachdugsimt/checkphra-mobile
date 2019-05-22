@@ -55,22 +55,23 @@ class MarketHome extends Component {
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
     return {
-      title: I18n.t("market"),  // change title => String
+      // title: params.getName,  // change title => String
       // headerTitle: (
-      //   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-      //     <Text style={{ fontSize: 18, color: "white" }} numberOfLines={1}>
-      //       {I18n.t("market")}
-      //     </Text>
-      //   </View>
+      //     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+      //         <Text style={{ fontSize: 18, color: "white" }} numberOfLines={1}>
+      //             {params.getName}
+      //         </Text>
+      //     </View>
       // ),
-      // headerRight: (
-      //   <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 5, marginRight: 7.5 }} onPress={params.showDialog}>
-      //     <Text style={{ fontSize: 18, color: Colors.brownText, fontWeight: 'bold' }}>{I18n.t("shop")}</Text>
-      //     <Icon2 name={'shopping-cart'} size={20} style={{ paddingLeft: 5 }} />
-      //   </TouchableOpacity>
-      // )
+      headerRight: (
+        <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 5, marginRight: 7.5 }} onPress={params.showDialog}>
+          <Text style={{ fontSize: 18, color: Colors.brownText, fontWeight: 'bold' }}>{I18n.t("shop")}</Text>
+          <Icon2 name={'shopping-cart'} size={20} style={{ paddingLeft: 5 }} />
+        </TouchableOpacity>
+      )
     };
   };
+
 
   static getDerivedStateFromProps(newProps, prevState) {
     console.log(newProps)
@@ -137,20 +138,6 @@ class MarketHome extends Component {
 
       }
     }
-
-    return {
-      data_skin: slist,
-      tmp_region,
-      slist,
-      slist2,
-      slist3: newProps.data_alltype,
-      tmp_province
-    }
-  }
-
-  showDialog = () => {
-    this.props.getProvince()
-    this.popupDialogProvince.show()
   }
 
   componentDidMount() {
@@ -168,7 +155,6 @@ class MarketHome extends Component {
         this.popupDialogFix.show()
       }
     }
-
   }
 
   componentWillUnmount() {
@@ -176,6 +162,7 @@ class MarketHome extends Component {
     this.props.clearDataOpen()
     this.props.clearDataFollow()
   }
+
 
   _north = () => {
     this.setState({ area: 1 })
@@ -260,6 +247,8 @@ class MarketHome extends Component {
     //     console.log('------------- HERE RESULT 55 --------------')
     // }
     // console.log()
+
+
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
         <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
@@ -268,7 +257,7 @@ class MarketHome extends Component {
 
         <TextInput value={this.state.search_text} onChangeText={(text) => this.setState({ search_text: text })}
           style={{ width: '80%', height: 40, backgroundColor: '#fff5', paddingVertical: 8, paddingHorizontal: 30, borderRadius: 8, alignSelf: 'center', marginTop: 2.5, zIndex: 2 }}
-          // onFocus={() => this.setState({ show_icon: false })}
+          // onFocus={() => this.setState({ show_icon: false })} 
           ref={(textfield) => { this.textfield = textfield }}
           placeholder={I18n.t('amuletOrProvince')}
           placeholderStyle={{ marginLeft: 15 }}

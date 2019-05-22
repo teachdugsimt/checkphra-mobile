@@ -31,6 +31,7 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
+let count2 = 10
 let check = true
 
 class ChatTheirAmuletOwner2 extends Component {
@@ -196,10 +197,10 @@ class ChatTheirAmuletOwner2 extends Component {
             this.myContactList.child(this.props.data_their.user_id).set({  // user => owner amulet 
                 uid: this.props.data_their.user_id,
                 owner_profile: {
-                    email: this.state.owner_profile.email,
-                    fb_id: this.state.owner_profile.fb_id,
-                    image: this.state.owner_profile.image,
-                    name: this.state.owner_profile.name
+                    email: this.state.owner_profile.email ? this.state.owner_profile.email : "-",
+                    fb_id: this.state.owner_profile.fb_id ? this.state.owner_profile.fb_id : "-",
+                    image: this.state.owner_profile.image ? this.state.owner_profile.image : "-",
+                    name: this.state.owner_profile.name ? this.state.owner_profile.name : "-"
                 },
                 lastes_amulet: {
                     mid: this.props.data_their.amulet_detail.mid,
@@ -238,13 +239,17 @@ class ChatTheirAmuletOwner2 extends Component {
         }
     }
 
-    listenMessages = async () => {
+    listenMessages = () => {
         console.log('---------------- GET LISTEN MESSAGE 5555 ----------------')
         this.profile.on('value', profile => {
+            console.log(profile)
+            console.log('-------------------- HERE OWNER PROFILE -----------------------')
             // let data = Object.values(profile.val())  // confuse data
-            this.setState({
-                owner_profile: profile._value
-            })
+            if (profile.val()) {
+                this.setState({
+                    owner_profile: profile._value
+                })
+            }
         })
         this.messageRef.limitToLast(10).on('value', message => {
             if (message.val()) {
@@ -264,6 +269,32 @@ class ChatTheirAmuletOwner2 extends Component {
         // get Facebook id from this.myContactList..... && get FB id and send it when send message
     }
 
+    listenMessages2 = () => {
+        count2 = count2 + 10
+        console.log('---------------- GET LISTEN MESSAGE 5555 ----------------')
+        // this.profile.on('value', profile => {
+        //     // let data = Object.values(profile.val())  // confuse data
+        //     this.setState({
+        //         owner_profile: profile._value
+        //     })
+        // })
+        this.messageRef.limitToLast(count2).on('value', message => {
+            if (message.val()) {
+                if (this._isMounted === true) {
+                    this.setState({
+                        list: Object.values(message.val()),
+                        message: Object.values(message.val())
+                    });
+                }
+                this.props.setDataMessage2(Object.values(message.val()))
+                // console.log(message.val())  // already sort
+                // console.log(Object.values(message.val()))  // not sort
+                // console.log('----------------------- FRUCK HERE ------------------------')
+            }
+        })
+        // get Facebook id from this.myContactList..... && get FB id and send it when send message
+    }
+
     _sendMessage = () => {
         if (this.state.text) {
             console.log('send message complete')
@@ -275,6 +306,7 @@ class ChatTheirAmuletOwner2 extends Component {
 
     componentDidMount() {
         this.listenMessages()
+        count2 = 10
         count = 1
         if (this.props.data_contactOwner && this.props.data_contactOwner != null && this.props.data_their) {
             // มีคนทักมาสนทนา 1-1 กับพระของเราเอง ต้องโหลดข้อมูล จาก API ใหม่ด้วยนะครับ
@@ -300,6 +332,7 @@ class ChatTheirAmuletOwner2 extends Component {
         this.props.clearDataMessage2()
         this.setState({ text: null, tmp_vote: null })
         count = 1
+        count2 = 10
         this.props.clearTheirAmuletMessage()
         this.props.clearDataGroupChat()
         // if (this.props.data_contactOwner && this.props.data_contactOwner != null) {
@@ -508,6 +541,8 @@ class ChatTheirAmuletOwner2 extends Component {
                         this.handleSend(message)
                     }}
                     showUserAvatar={false}
+                    loadEarlier={true}
+                    onLoadEarlier={this.listenMessages2}
                 />
 
             </LinearGradient>

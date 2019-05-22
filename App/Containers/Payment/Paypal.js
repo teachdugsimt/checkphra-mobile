@@ -97,7 +97,7 @@ class Paypal extends Component {
       >
         <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
         <ScrollView style={styles.container}>
-          <Text style={styles.paypalText}>Paypal Container</Text>
+          <Text style={styles.paypalText}>Comming Soon!</Text>
           <Spinner
             visible={this.props.request == true}
             textContent={'Loading...'}

@@ -182,6 +182,13 @@ class HistoryScreen extends Component {
             }
             else if (item.type == 'หลวงพ่อหลิว') {
               name = I18n.t('LuangPhorLhew')
+            } else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+              name = item.type
+            } else if (item.type == "พระเครื่องภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+              name = item.type
+            }
+            else if (item.type == 'อื่นๆ หรือ ไม่ทราบ') {
+              name = I18n.t('otherOrUnknown')
             }
             else if (item.type == "อื่นๆ หรือ ไม่ทราบ" || item.type == "ไม่ระบุประเภท") {
               name = I18n.t('otherOrUnknown')
@@ -287,7 +294,7 @@ const mapStateToProps = (state) => {
   return {
     history: state.question.history,  // main data
     answer: state.question.answer,
-    request2: state.question.request2,  // get history 
+    request2: state.question.request2,  // get history
     images: state.question.images,
     amulet: state.question.amuletType,
     request_question: state.question.request,   // request add question

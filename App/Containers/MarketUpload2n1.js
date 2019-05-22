@@ -104,14 +104,14 @@ class MarketUpload2n1 extends Component {
         // else if (!this.state.zone) {
         //     alert(I18n.t('checkZone'))
         // }
-        else if (this.state.type == null && this.state.type2 == null) {
-            alert(I18n.t('checkType'))
-        }
+        // else if (this.state.type == null && this.state.type2 == null) {
+        //     alert(I18n.t('checkType'))
+        // }
         // else if (count < 2) {
         //     alert(I18n.t('atLeast2Image'))
         // }
 
-        if (this.state.price && this.state.type) {
+        if (this.state.price) {
 
             // name, temple, price, owner, contact, zone, type
             this.props.setMainData({
@@ -121,7 +121,7 @@ class MarketUpload2n1 extends Component {
                 owner: this.state.owner,
                 contact: this.state.contact,
                 // zone: this.state.zone,
-                type: this.state.type ? this.state.type : this.state.type2
+                // type: this.state.type ? this.state.type : this.state.type2
             })
             this.props.sendDataAmuletMarket()
 
@@ -151,7 +151,7 @@ class MarketUpload2n1 extends Component {
         this.props.navigation.goBack()
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.getProfile()
     }
 
@@ -280,17 +280,19 @@ class MarketUpload2n1 extends Component {
                         </Text>
                     </View>
 
-                    <ScrollView style={{ flex: 1 }} horizontal={true}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            {this.props.tmp_upload && this.props.tmp_upload.images && this.props.tmp_upload.images.map((e, i) => {
-                                return (
-                                    <View style={{ marginLeft: i == 0 ? 15 : 0, flex: 1 }} >
-                                        <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e }} style={{ width: 100, height: 100, marginRight: 10 }} />
-                                    </View>
-                                )
-                            })}
-                        </View>
-                    </ScrollView>
+                    <View style={{ height: 100, alignItems: 'center' }}>
+                        <ScrollView style={{ flex: 1 }} horizontal={true}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                {this.props.tmp_upload && this.props.tmp_upload.images && this.props.tmp_upload.images.map((e, i) => {
+                                    return (
+                                        <View style={{ marginLeft: i == 0 ? 15 : 0, flex: 1 }} >
+                                            <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e }} style={{ width: 100, height: 100, marginRight: 10 }} />
+                                        </View>
+                                    )
+                                })}
+                            </View>
+                        </ScrollView>
+                    </View>
 
                     {this.props.tmp_upload && this.props.tmp_upload.question_list && this.props.tmp_upload.question_list.map((e, i) => {
                         return (
@@ -340,7 +342,7 @@ class MarketUpload2n1 extends Component {
                         </View>
 
 
-                        {this.state.type == null && <TouchableOpacity style={{ padding: 10, backgroundColor: '#fff5', borderRadius: 10, marginTop: 10, marginHorizontal: 15 }} onPress={() => this.popupDialog.show()}>
+                        {/* {this.state.type == null && <TouchableOpacity style={{ padding: 10, backgroundColor: '#fff5', borderRadius: 10, marginTop: 10, marginHorizontal: 15 }} onPress={() => this.popupDialog.show()}>
                             <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 16 }}>{this.state.zone_name ? this.state.zone_name : I18n.t('zone2')}</Text>
                         </TouchableOpacity>}
 
@@ -350,7 +352,7 @@ class MarketUpload2n1 extends Component {
 
                         {(this.state.type2 == null || this.state.zone == null) && <TouchableOpacity style={{ padding: 10, backgroundColor: '#fff5', borderRadius: 10, marginTop: 10, marginHorizontal: 15 }} onPress={() => this.popupDialog3.show()}>
                             <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 16 }}>{this.state.type_name1 ? this.state.type_name1 : I18n.t('typeAmuletMarket2')}</Text>
-                        </TouchableOpacity>}
+                        </TouchableOpacity>} */}
 
 
                         <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>

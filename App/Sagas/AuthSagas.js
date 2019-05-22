@@ -112,7 +112,8 @@ export function* signup(api, { id, password }) {
     email: id,
     password: password,
   }
-
+  console.log(data)
+  console.log('==================== DATA EMAIL ==========================')
   const response = yield call(api.signup, data)
   console.log(response)
   if (response.ok) {

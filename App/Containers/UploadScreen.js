@@ -169,6 +169,12 @@ class UploadScreen extends Component {
       } else {
         name = e.name
       }
+      else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+        name = I18n.t("newGroup1")
+      }
+      else {
+        name = e.name
+      }
       item.push({
         "id": e.id,
         "name": name,

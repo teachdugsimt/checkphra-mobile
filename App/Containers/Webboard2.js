@@ -274,7 +274,7 @@ class Webboard2 extends Component {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container} >
         <Image source={Images.watermarkbg} style={styles.mainBackground} resizeMode='contain' />
-        {this.props.data_comment && (this.props.data_comment.comments || this.props.data_comment.comments == null) && this.props.data_comment.comments.length == 0 && <View style={styles.topicViewRender}>
+        {this.props.data_comment && (!this.props.data_comment.comments || this.props.data_comment.comments == null) && <View style={styles.topicViewRender}>
           <View style={styles.commentContainer2}>
 
             <View style={styles.topRow}>

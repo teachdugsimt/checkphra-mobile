@@ -126,7 +126,7 @@ class MarketHomeList1 extends Component {
 
                     <View style={{ justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                            <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName}</Text>
+                            <Text style={{ marginLeft: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.amulet_detail.amuletName ? item.amulet_detail.amuletName : I18n.t('noneSpecify')}</Text>
                             <Text style={{ color: Colors.brownTextTran, fontSize: 14, fontFamily: 'Prompt-SemiBold', marginTop: 3 }}> ( {item.amulet_detail.id} )</Text>
                         </View>
 
@@ -175,7 +175,8 @@ class MarketHomeList1 extends Component {
         console.log(item)
         console.log('Item Before go to Chat')
         this.props.setTheirAmuletData(item)
-        this.props.navigation.navigate('chatTheirAmulet')
+        // this.props.navigation.navigate('chatTheirAmulet')
+        this.props.navigation.navigate('chatTheirAmulet2')
     }
 
     componentDidMount() {
@@ -279,11 +280,11 @@ class MarketHomeList1 extends Component {
                 >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
                         <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, width: '95%', justifyContent: 'center', marginHorizontal: 7.5, marginVertical: 2.5, borderRadius: 8 }} onPress={this._goToUpload2}>
-                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('haveAmulet') + (this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('haveAmulet') + (this.props.profile && this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={{ backgroundColor: 'lightgrey', flex: 1, justifyContent: 'center', width: '95%', marginHorizontal: 7.5, marginBottom: 2.5, borderRadius: 8 }} onPress={this._goToUpload}>
-                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('notAmulet') + (this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
+                            <Text style={{ alignSelf: 'center', fontFamily: 'Prompt-SemiBold', fontSize: 18, color: Colors.brownText }}>{I18n.t('notAmulet') + (this.props.profile && this.props.profile.store && this.props.profile.store.total_count == this.props.profile.store.limit ? " (add slot - 10 coins)" : "")}</Text>
                         </TouchableOpacity>
                     </View>
                 </PopupDialog>

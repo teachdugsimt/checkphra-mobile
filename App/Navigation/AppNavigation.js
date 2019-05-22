@@ -64,6 +64,10 @@ import MarketListShop from '../Containers/MarketListShop'
 import MarketListShop2 from '../Containers/MarketListShop2'
 import MarketSearch1 from '../Containers/MarketSearch1'
 import LinkNewAmulet from '../Containers/LinkNewAmulet'
+import ChatTheirAmulet2 from '../Containers/ChatTheirAmulet2'
+import ChatTheirAmuletOwner2 from '../Containers/ChatTheirAmuletOwner2'
+import ListMyContact from '../Containers/ListMyContact'
+import ListMyContact2 from '../Containers/ListMyContact2'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -217,6 +221,18 @@ const UploadStack = StackNavigator(  // main upload
         title: I18n.t('chat')
       }
     },
+    chatTheirAmulet2: {
+      screen: ChatTheirAmulet2,
+      navigationOptions: {
+        title: I18n.t('chat')
+      }
+    },
+    chatTheirAmuletOwner2: {
+      screen: ChatTheirAmuletOwner2,
+      navigationOptions: {
+        title: I18n.t('chat')
+      }
+    },
     chatTheirAmuletOwner: {
       screen: ChatTheirAmuletOwner,
       navigationOptions: {
@@ -227,6 +243,18 @@ const UploadStack = StackNavigator(  // main upload
       screen: ContactAdmin,
       navigationOptions: {
         title: I18n.t('contactAdmin')
+      }
+    },
+    listMyContact: {
+      screen: ListMyContact,
+      navigationOptions: {
+        title: I18n.t("contactOwnerAmulet")
+      }
+    },
+    listMyContact2: {
+      screen: ListMyContact2,
+      navigationOptions: {
+        title: I18n.t("contactOwnerAmulet")
       }
     },
     userContactOwner: {
@@ -630,8 +658,10 @@ const UserBitStack = StackNavigator(  // Publish stack // ORIGINAL ONE BIT STACK
 const DashStack = TabNavigator(   // **************  USER STACK *******************
   {
     // upload: UploadStack,
-    upload: { screen: UploadStack,
-    path: "listhome" },
+    upload: {
+      screen: UploadStack,
+      path: "listhome"
+    },
     his: HistoryStack,
     // trade: TradingStack,  //  PHASE 2 wait for person more than now person
     // pub: PublishStack,

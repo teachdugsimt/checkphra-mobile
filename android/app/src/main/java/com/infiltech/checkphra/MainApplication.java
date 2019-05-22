@@ -21,6 +21,7 @@ import com.imagepicker.ImagePickerPackage;
 // import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 
+import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
@@ -64,7 +65,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(//
           new MainReactPackage(),
-            // new RNAdMobPackage(),
+          // new RNAdMobPackage(),
           // new VectorIconsPackage(),
           // new LinearGradientPackage(),
           // new ImagePickerPackage(),
@@ -88,7 +89,8 @@ public class MainApplication extends Application implements ReactApplication {
           new LinearGradientPackage(), //
           new ReactNativeConfigPackage(), //
           // new ReactNativeI18n(),
-          new VectorIconsPackage());
+          new VectorIconsPackage(),
+          new RNFirebaseDatabasePackage());
     }
 
     @Override

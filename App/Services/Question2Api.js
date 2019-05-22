@@ -66,7 +66,7 @@ const create = (baseURL = b) => {
     console.log('COME To APIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
     let body = new FormData()
     body.append('user_id', user_id)
-    body.append('type', type)
+    // body.append('type', type)
     // body.append('zone_id', zone)
     data_image.forEach((element, i) => {
       body.append('images[' + i + ']', element)

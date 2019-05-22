@@ -23,6 +23,7 @@ export const reducers = combineReducers({
   webboard: require('./WebboardRedux').reducer,
   market: require('./MarketRedux').reducer,
   versatile: require('./VersatileRedux').reducer,
+  realtime: require('./RealtimeRedux').reducer,
 })
 
 export default () => {

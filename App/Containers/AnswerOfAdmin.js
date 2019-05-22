@@ -166,6 +166,8 @@ class AnswerOfAdmin extends Component {
     }
     else if (item == 'หลวงพ่อหลิว') {
       name = I18n.t('LuangPhorLhew')
+    } else if (item == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+      name = I18n.t("newGroup1")
     }
     else if (item == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
       name = item
@@ -177,7 +179,7 @@ class AnswerOfAdmin extends Component {
       name = I18n.t('otherOrUnknown')
     }
     else {
-      name = item == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : I18n.t(item)
+      name = item == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : (I18n.t(item) ? I18n.t(item) : item)
     }
     return name
   }

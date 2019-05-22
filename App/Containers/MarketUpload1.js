@@ -121,14 +121,14 @@ class MarketUpload1 extends Component {
         // else if (!this.state.zone) {
         //     alert(I18n.t('checkZone'))
         // }
-        else if (this.state.type == null && this.state.type2 == null) {
-            alert(I18n.t('checkType'))
-        }
+        // else if (this.state.type == null && this.state.type2 == null) {
+        //     alert(I18n.t('checkType'))
+        // }
         else if (count < 2) {
             alert(I18n.t('atLeast2Image'))
         }
 
-        if (this.state.price && (this.state.type || this.state.type2) && count >= 2) {
+        if (this.state.price && count >= 2) {
 
             // name, temple, price, owner, contact, zone, type
             this.props.setMainData({
@@ -138,7 +138,7 @@ class MarketUpload1 extends Component {
                 owner: this.state.owner,
                 contact: this.state.contact,
                 // zone: this.state.zone,
-                type: this.state.type ? this.state.type : this.state.type2
+                // type: this.state.type ? this.state.type : this.state.type2
             })
             this.props.sendDataAmuletMarket()
 
@@ -339,7 +339,7 @@ class MarketUpload1 extends Component {
 
 
 
-                        {this.state.type == null && <TouchableOpacity style={{ padding: 10, backgroundColor: '#fff5', borderRadius: 10, marginTop: 10, marginHorizontal: 15 }} onPress={() => this.popupDialog.show()}>
+                        {/* {this.state.type == null && <TouchableOpacity style={{ padding: 10, backgroundColor: '#fff5', borderRadius: 10, marginTop: 10, marginHorizontal: 15 }} onPress={() => this.popupDialog.show()}>
                             <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 16 }}>{this.state.zone_name ? this.state.zone_name : I18n.t('zone2')}</Text>
                         </TouchableOpacity>}
 
@@ -349,7 +349,7 @@ class MarketUpload1 extends Component {
 
                         {(this.state.type2 == null || this.state.zone == null) && <TouchableOpacity style={{ padding: 10, backgroundColor: '#fff5', borderRadius: 10, marginTop: 10, marginHorizontal: 15 }} onPress={() => this.popupDialog3.show()}>
                             <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 16 }}>{this.state.type_name1 ? this.state.type_name1 : I18n.t('typeAmuletMarket2')}</Text>
-                        </TouchableOpacity>}
+                        </TouchableOpacity>} */}
 
 
 

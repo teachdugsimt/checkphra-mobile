@@ -20,8 +20,7 @@ import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import QuestionActions from '../Redux/QuestionRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
-import styles from './Styles/HomeScreenStyle'
-import GridView from "react-native-super-grid";
+import firebase from 'react-native-firebase'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
 // I18n.locale = 'th'  // true
@@ -31,6 +30,25 @@ const slideAnimation = new SlideAnimation({
 let { width, height } = Dimensions.get('window')
 let count = 1
 class ChatMyAmulet extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+
+        }
+        this.myContactList = firebase.database().ref('contacts/' + this.props.user_id)
+    }
+
+    getListContact = () => {
+        this.myContactList.limitToLast(10).on('value', data => {
+            // console.log(data) // raw data
+            // console.log(Object.values(data))  // confuse data, spread data
+            console.log(Object.values(data._value)) //  normal data
+            // console.log(Object.values(data.val())) // normal data same!!
+            this.props.setListMyContact(Object.values(data._value))
+            console.log('----------------- HERE DATA LIST MESSAGE --------------------')
+        })
+    }
 
     _renderItem = ({ item, index }) => {
         let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
@@ -62,16 +80,14 @@ class ChatMyAmulet extends Component {
 
         }
     }
-
     _goToChat = (item) => {
-        // this.props.setDetailPhra(item)
-        // this.props.navigation.navigate('')
-        this.props.setDataGroupChat(item)
-        this.props.navigation.navigate('chatRoomMyAmuletSolo')
+        this.props.setTmpListMyContact(item)
+        this.props.navigation.navigate("listMyContact2")
     }
 
     componentDidMount() {
         count = 1
+        this.getListContact()
         this.props.getMyMessageFromOther(count)
     }
 

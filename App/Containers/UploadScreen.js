@@ -160,13 +160,15 @@ class UploadScreen extends Component {
       else if (e.name == 'บางขุนพรหม ปี พ.ศ.2517') {
         name = I18n.t('BangKhunProm2517')
       }
-      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ') {
+      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ'|| e.name == "ไม่ระบุประเภท") {
         name = I18n.t('otherOrUnknown')
       }
       else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
-        name = I18n.t("newGroup1")
+        name = e.name
       }
-      else {
+      else if (e.name == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+        name = e.name
+      } else {
         name = e.name
       }
       item.push({
@@ -489,7 +491,7 @@ class UploadScreen extends Component {
                     style={{
                       color: Colors.brownText,
                       fontFamily: "Prompt-Regular",
-                      fontSize: 16,
+                      fontSize: item.id == 1124 || item.id == 10 ? 12 : 16,
                       alignSelf: "center",
                       textAlign: 'center'
                     }}

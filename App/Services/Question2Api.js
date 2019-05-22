@@ -3,9 +3,9 @@ import apisauce from 'apisauce'
 
 let b
 if (process.env.NODE_ENV === 'production') {
-  b = 'https://infiltech.org/checkphra-api/web/index.php/v2/'
+  b = 'https://infiltech.org/checkphra-api/web/index.php/'
 } else {
-  b = 'https://infiltech.org/checkphra-api/web/index.php/v2/'   //true
+  b = 'https://infiltech.org/checkphra-api/web/index.php/'   //true
   // b = 'http://192.168.1.45/CheckPhraApi/web/index.php/v2/'
 
   // b = 'http://172.20.10.2/CheckPhraApi/web/index.php/v2/'
@@ -46,23 +46,23 @@ const create = (baseURL = b) => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
-  const getHistory = (data) => api.get('question/list', data)
-  const getAnswer = (data) => api.get('answer/detail', data)
-  const getAmuletType = (data) => api.get('type/list', data)
-  const getQuestionType = () => api.get('manage-question/list')
-  const editGroupQuestion = (data) => api.post('type/update-type', data)
-  const getAnswerGroup = (data) => api.get('answer/sort-by-answer', data)
-  const answerAdmin = (data) => api.get('answer/sort-by-answer', data)  // new Edition
+  const getHistory = (data) => api.get('v2/question/list', data)
+  const getAnswer = (data) => api.get('v2/answer/detail', data)
+  const getAmuletType = (data) => api.get('v3/type/list', data)
+  const getQuestionType = () => api.get('v2/manage-question/list')
+  const editGroupQuestion = (data) => api.post('v2/type/update-type', data)
+  const getAnswerGroup = (data) => api.get('v2/answer/sort-by-answer', data)
+  const answerAdmin = (data) => api.get('v2/answer/sort-by-answer', data)  // new Edition
 
   //**** CERTIFICATE ZONE */
-  const addDetailCertificate = (data) => api.post('permit/add', data)
-  const getListCerFromUser = (data) => api.get('permit/list-all', data)
-  const activeCertificate = (data) => api.post('permit/update-permit', data)
+  const addDetailCertificate = (data) => api.post('v2/permit/add', data)
+  const getListCerFromUser = (data) => api.get('v2/permit/list-all', data)
+  const activeCertificate = (data) => api.post('v2/permit/update-permit', data)
 
   //**** MARKET PLACE ZONE */
   // const getTypeMarket = (user_id) => api.get('type/market-type', user_id)
-  const getTypeMarket = (data) => api.get('type/market-type', data)   // here api get group amulet
-  const sendDataAmuletMarket = (name, temple, price, owner, contact, user_id, data_image) => {
+  const getTypeMarket = (data) => api.get('v2/type/market-type', data)   // here api get group amulet
+  const sendDataAmuletMarket = (name, temple, price, owner, contact, type, user_id, data_image) => {
     console.log('COME To APIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
     let body = new FormData()
     body.append('user_id', user_id)
@@ -77,32 +77,32 @@ const create = (baseURL = b) => {
     body.append('amuletName', name)
     body.append('temple', temple)
 
-    return api.post('market/add', body, { headers: { 'Content-Type': 'multipart/form-data' } })
+    return api.post('v2/market/add', body, { headers: { 'Content-Type': 'multipart/form-data' } })
   }
 
-  const sendDataAmuletMarket2 = (data) => api.post('market/add', data)
-  const getListAreaAmulet = (data) => api.get('market/list-all', data)
-  const pushAmuletMarket = (data) => api.post('market/push-amulet', data)
+  const sendDataAmuletMarket2 = (data) => api.post('v2/market/add', data)
+  const getListAreaAmulet = (data) => api.get('v2/market/list-all', data)
+  const pushAmuletMarket = (data) => api.post('v2/market/push-amulet', data)
 
-  const openStore = (data) => api.post('shop/add', data)
-  const deleteAmuletMarket = (data) => api.post('shop/delete-amulet', data)
-  const getListStore = (data) => api.get('shop/list-all', data)
-  const getAmuletStore = (data) => api.get('shop/amulet-store', data)
-  const search = (data) => api.post('market/search', data)
-  const followRoom = (data) => api.post('market/follow-room', data)
+  const openStore = (data) => api.post('v2/shop/add', data)
+  const deleteAmuletMarket = (data) => api.post('v2/shop/delete-amulet', data)
+  const getListStore = (data) => api.get('v2/shop/list-all', data)
+  const getAmuletStore = (data) => api.get('v2/shop/amulet-store', data)
+  const search = (data) => api.post('v2/market/search', data)
+  const followRoom = (data) => api.post('v2/market/follow-room', data)
 
-  const sharedAnswer = (data) => api.post('share-history/add', data)
-  const getText = (data) => api.get('automatic-text/list', data)
+  const sharedAnswer = (data) => api.post('v2/share-history/add', data)
+  const getText = (data) => api.get('v2/automatic-text/list', data)
 
   // ***************************** Versatile Zone **************************** //
-  const getVersatile = (data) => api.get('versatile/list', data)
+  const getVersatile = (data) => api.get('v2/versatile/list', data)
 
   return {
     // a list of the API functions from step 2
     sharedAnswer,
     getHistory,  // new
     getAnswer, // new
-    
+
     getAmuletType,
     getQuestionType,
     editGroupQuestion,

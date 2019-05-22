@@ -16,7 +16,7 @@ export default StyleSheet.create({
   },
   paypalText: {
     fontFamily: 'Prompt-SemiBold',
-    fontSize: 17,
+    fontSize: 20,
     color: Colors.brownText,
     alignSelf: 'center',
     marginVertical: 15

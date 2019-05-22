@@ -166,11 +166,15 @@ class AnswerOfAdmin extends Component {
     }
     else if (item == 'หลวงพ่อหลิว') {
       name = I18n.t('LuangPhorLhew')
-    } else if (item == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
-      name = I18n.t("newGroup1")
+    } 
+    else if (item == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+      name = item
+    }
+    else if (item == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+      name = item
     }
     else {
-      name = item == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : (I18n.t(item) ? I18n.t(item) : item)
+      name = (item == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท') ? I18n.t('otherOrUnknown') : I18n.t(item)
     }
     return name
   }
@@ -346,6 +350,12 @@ class AnswerOfAdmin extends Component {
             }
             else if (item.type == 'หลวงพ่อหลิว') {
               name = I18n.t('LuangPhorLhew')
+            }
+            else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+              name = item.type
+            }
+            else if (item.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+              name = item.type
             }
             else {
               name = item.type == ('อื่นๆ หรือ ไม่ทราบ' || item.type == 'ไม่ระบุประเภท') ? I18n.t('otherOrUnknown') : I18n.t(item.type)

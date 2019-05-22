@@ -51,7 +51,7 @@ class UploadScreen extends Component {
       kawsod: null,
       modalVisible: true,
       coin: null,
-      
+
       disButton: false,
       addBonusSuccess: false
     }
@@ -162,6 +162,12 @@ class UploadScreen extends Component {
       }
       else if (e.name == 'อื่นๆ หรือ ไม่ทราบ') {
         name = I18n.t('otherOrUnknown')
+      } else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+        name = e.name
+      } else if (e.name == "พระเครื่องภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+        name = e.name
+      } else {
+        name = e.name
       }
       item.push({
         "id": e.id,
@@ -215,7 +221,7 @@ class UploadScreen extends Component {
         item = UploadScreen.rename(amuletTypes)
       }
     }
-     // ********************* GET AMULET TYPE ***************************************//
+    // ********************* GET AMULET TYPE ***************************************//
 
     //************************ check alert login complete 7 days ******************************/
     // if (nextProps.data_login != null) {
@@ -483,7 +489,7 @@ class UploadScreen extends Component {
                     style={{
                       color: Colors.brownText,
                       fontFamily: "Prompt-Regular",
-                      fontSize: 16,
+                      fontSize: item.id == 1124 || item.id == 10 ? 12 : 16,
                       alignSelf: "center",
                       textAlign: 'center'
                     }}

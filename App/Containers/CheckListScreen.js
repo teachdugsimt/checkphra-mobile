@@ -291,8 +291,16 @@ class CheckListScreen extends Component {
       else if (e.name == 'บางขุนพรหม ปี พ.ศ.2517') {
         name = I18n.t('BangKhunProm2517')
       }
+      else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+        name = e.name
+      }
+      else if (e.name == "พระเครื่องภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+        name = e.name
+      }
       else if (e.name == 'อื่นๆ หรือ ไม่ทราบ') {
         name = I18n.t('otherOrUnknown')
+      } else {
+        name = e.name
       }
       item.push({
         "id": e.id,
@@ -362,7 +370,7 @@ class CheckListScreen extends Component {
 
   _onScrollEndList = () => {
     // console.log('END OF LIST AGAIN')
-    // console.log(this.props.request2)  // request2 is change => true / false 
+    // console.log(this.props.request2)  // request2 is change => true / false
     // console.log(count)
 
     if (this.props.history && this.props.history.length >= 10 && this.props.request2 == false) {

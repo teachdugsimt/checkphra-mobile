@@ -600,7 +600,7 @@ class HomeScreen extends Component {
         <ScrollView>
           <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.8, width: width - 20, flexDirection: 'row' }}>
 
-            <Swiper style={{}} showsButtons={true} autoplay={true}>
+            <Swiper style={{}} showsButtons={false} autoplay={true}>
               {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 && this.state.autoPlay == true ?
                 this.state.kawsod.map((e, i) => {
                   return (

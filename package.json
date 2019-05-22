@@ -26,7 +26,9 @@
     "lint": "standard --verbose | snazzy",
     "lintdiff": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard | snazzy",
     "fixcode": "standard --fix",
-    "git-hook": "npm run lint -s && npm run test -s"
+    "git-hook": "npm run lint -s && npm run test -s",
+    "emu:ios": "xcrun simctl list devices",
+    "run:iphonex": "react-native run-ios --simulator='iPhone X'"
   },
   "dependencies": {
     "apisauce": "^0.16.0",

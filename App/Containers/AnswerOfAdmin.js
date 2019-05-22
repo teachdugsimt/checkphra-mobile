@@ -167,6 +167,15 @@ class AnswerOfAdmin extends Component {
     else if (item == 'หลวงพ่อหลิว') {
       name = I18n.t('LuangPhorLhew')
     }
+    else if (item == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+      name = item
+    }
+    else if (item == "พระเครื่องภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+      name = item
+    }
+    else if (item == "อื่นๆ หรือ ไม่ทราบ" || item == 'ไม่ระบุประเภท') {
+      name = I18n.t('otherOrUnknown')
+    }
     else {
       name = item == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท' ? I18n.t('otherOrUnknown') : I18n.t(item)
     }

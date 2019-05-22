@@ -297,7 +297,7 @@ class CheckListScreen extends Component {
       else if (e.name == "พระเครื่องภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
         name = e.name
       }
-      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ') {
+      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ' || e.name == "ไม่ระบุประเภท") {
         name = I18n.t('otherOrUnknown')
       } else {
         name = e.name

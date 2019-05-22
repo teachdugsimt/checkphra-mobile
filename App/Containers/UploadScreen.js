@@ -160,7 +160,7 @@ class UploadScreen extends Component {
       else if (e.name == 'บางขุนพรหม ปี พ.ศ.2517') {
         name = I18n.t('BangKhunProm2517')
       }
-      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ') {
+      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ' || e.name == 'ไม่ระบุประเภท') {
         name = I18n.t('otherOrUnknown')
       } else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
         name = e.name
@@ -169,12 +169,12 @@ class UploadScreen extends Component {
       } else {
         name = e.name
       }
-      else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
-        name = I18n.t("newGroup1")
-      }
-      else {
-        name = e.name
-      }
+      // else if (e.name == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+      //   name = I18n.t("newGroup1")
+      // }
+      // else {
+      //   name = e.name
+      // }
       item.push({
         "id": e.id,
         "name": name,

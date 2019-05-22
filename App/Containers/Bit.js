@@ -206,7 +206,7 @@ class Bit extends Component {
               name = item.answer.type
             }
             else {
-              name = item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
+              name = (item.answer.type == 'อื่นๆ หรือ ไม่ทราบ'||item.answer.type == 'ไม่ระบุประเภท') ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
             }
 
             return (

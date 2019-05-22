@@ -261,24 +261,24 @@ class UploadScreen extends Component {
   // }
 
   getTypePhra = (item) => {
-    checkButton = true
+    // checkButton = true
 
     if (item.name == "เบญจภาคี" || item.name == "Benja pakee") {
       this.props.navigation.navigate("detail")
-      checkButton = false
+      // checkButton = false
     }
     else if (item.name == "พระวัดระฆัง" || item.name == "PhraWad Rakung") {
       this.props.navigation.navigate("detail2")
-      checkButton = false
+      // checkButton = false
     }
     else if (item.name == "บางขุนพรหม" || item.name == "Bang Khun Prom") {
       this.props.navigation.navigate("detail3")
-      checkButton = false
+      // checkButton = false
     }
     else {
       this.props.setAmuletType(item.id)
       this.props.navigation.navigate("send")
-      checkButton = false
+      // checkButton = false
     }
 
   }
@@ -474,7 +474,7 @@ class UploadScreen extends Component {
           items={this.state.item ? this.state.item : []}
           renderItem={item => {
             return (
-              <TouchableOpacity onPress={() => this.getTypePhra(item)} disabled={checkButton}>
+              <TouchableOpacity onPress={() => this.getTypePhra(item)}>
                 <View
                   style={{
                     height: 85,

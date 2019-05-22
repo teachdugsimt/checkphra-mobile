@@ -29,6 +29,7 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
+let count2 = 10
 let check = true
 class ChatTheirAmulet2 extends Component {
     constructor(props) {
@@ -103,11 +104,32 @@ class ChatTheirAmulet2 extends Component {
         }
     }
 
-    listenMessages = async () => {
+    listenMessages = () => {
         console.log('---------------- GET LISTEN MESSAGE 5555 ----------------')
         this.messageRef.limitToLast(10).on('value', message => {
             if (message.val()) {
                 console.log(message.val())
+                if (this._isMounted === true) {
+                    this.setState({
+                        list: Object.values(message.val()),
+                        message: Object.values(message.val())
+                    });
+                }
+                this.props.setDataMessage(Object.values(message.val()))
+                console.log(message.val())  // already sort
+                console.log(Object.values(message.val()))  // not sort
+                console.log('----------------------- FRUCK HERE ------------------------')
+            }
+        })
+        // get Facebook id from this.myContactList..... && get FB id and send it when send message
+    }
+
+    listenMessages2 = () => {
+        count2 = count2 + 10
+        
+        this.messageRef.limitToLast(count2).on('value', message => {
+            if (message.val()) {
+               
                 if (this._isMounted === true) {
                     this.setState({
                         list: Object.values(message.val()),
@@ -210,6 +232,7 @@ class ChatTheirAmulet2 extends Component {
         this.listenMessages()
         this.setState({ _isMounted: true })
         count = 1
+        count2 = 10
         this.props.getMessageTheirAmulet(count)
         this.props.updateRead(this.props.data_their.type, this.props.data_their.id)
         this.props.editUpdateRead(this.props.data_their.type, this.props.data_their.id)
@@ -228,6 +251,7 @@ class ChatTheirAmulet2 extends Component {
         this.props.clearDataMessage()
         this.setState({ text: null, tmp_vote: null, _isMounted: false })
         count = 1
+        count2 = 10
         // ปัญหาเดียวคือ รายการพระ ไม่โหลดข้อมูลใหม่ ทำให้ข้อมูลที่เซ็ทมาหน้านี้ไม่เป็นข้อมูลล่าสุด
         // this.props.clearDataTheir()  // add clear data their
         // this.props.clearDataVote()  // add   clear vote data
@@ -327,6 +351,42 @@ class ChatTheirAmulet2 extends Component {
             <LinearGradient
                 colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
             >
+                <PopupDialog
+                    dialogTitle={<View></View>}
+                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={0}
+                    height={0}
+                    // height={150}
+                    onDismissed={() => { this.setState({ modalVisible: false, index: 0 }) }}
+                >
+                    <View style={{ width: '100%', height: '80%', backgroundColor: 'transparent' }}>
+                        <Modal
+                            visible={this.state.modalVisible}
+                            transparent={true}
+                            onRequestClose={() => this.setState({ modalVisible: false })}>
+                            <ImageViewer
+                                saveToLocalByLongPress={false}
+                                imageUrls={this.state.img}
+                                backgroundColor={'lightgrey'}
+                                // onClick={(e) => {
+                                //     console.log('Show modal')
+                                //     this.setState({ modalVisible: true })
+                                // }}
+
+                                index={this.state.index} // index in array picture
+                                onSwipeDown={() => {
+                                    console.log('onSwipeDown');
+                                    this.setState({ modalVisible: false })
+                                    this.popupDialog.dismiss()
+                                }}
+                                enableSwipeDown={true}
+                                failImageSource={'https://www.img.live/images/2018/11/08/none_1.png'}
+                            />
+                        </Modal>
+
+                    </View>
+                </PopupDialog>
                 <Image source={Images.watermarkbg} style={{
                     position: 'absolute',
                     right: 0, bottom: 0,
@@ -403,6 +463,8 @@ class ChatTheirAmulet2 extends Component {
                         this.handleSend(message)
                     }}
                     showUserAvatar={false}
+                    loadEarlier={true}
+                    onLoadEarlier={this.listenMessages2}
                 />
 
             </LinearGradient>

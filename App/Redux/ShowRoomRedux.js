@@ -68,6 +68,8 @@ const { Types, Creators } = createActions({
   getMessageOtherContactMyAmuletSuccess: ['data'],
   getMessageOtherContactMyAmuletFailure: null,
 
+  editDataTheir: ['data'],
+
   updateUserContactOwnerList: ['old_id', 'new_id'],
   clearDataGroupChat: null,
 })
@@ -127,6 +129,9 @@ export const ShowRoomSelectors = {
 
 /* ------------- Reducers ------------- */
 
+export const editDataTheir = (state, { data }) => {
+  return state.merge({ data_their: data })
+}
 
 export const setDisscuss = (state, { id }) => {
   return state.merge({ discuss_id: id })
@@ -556,4 +561,5 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.SET_DISSCUSS]: setDisscuss,
   [Types.UPDATE_USER_CONTACT_OWNER_LIST]: updateUserContactOwnerList,
+  [Types.EDIT_DATA_THEIR]: editDataTheir,
 })

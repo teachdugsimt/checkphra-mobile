@@ -265,7 +265,7 @@ class AdminHome extends Component {
                                     <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
                                         {item.name}</Text>
                                 </View>
-                                {item.id == 1 && this.props.data_versatile && this.props.data_versatile.new_question && <View style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'red', borderRadius: 10, borderColor: 'white', borderWidth: 1 }}><Text style={{ color: 'white', fontFamily: 'Prompt-Semibold', fontSize: 14, padding: 5 }}>{this.props.data_versatile.new_question}</Text></View>}
+                                {item.id == 1 && this.props.data_versatile && this.props.data_versatile.new_question && <View style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'red', borderRadius: 16, borderColor: 'white', borderWidth: 1, height: 32, justifyContent: 'center' }}><Text style={{ color: 'white', fontFamily: 'Prompt-Semibold', fontSize: 14, padding: 7.5, paddingHorizontal: 16, textAlign: 'center', textAlignVertical: 'center' }}>{this.props.data_versatile.new_question}</Text></View>}
                             </TouchableOpacity>
                         );
                     }}

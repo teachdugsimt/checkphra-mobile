@@ -309,7 +309,6 @@ class CheckListScreen extends Component {
         "image": null
       })
     })
-
     return item
   }
   static getDerivedStateFromProps(newProps, prevState) {
@@ -599,23 +598,23 @@ class CheckListScreen extends Component {
                       <TouchableOpacity style={{ backgroundColor: 'orange', borderRadius: 15 }} onPress={() => this._pressEdit(item.id)}>
                         <Text style={{
                           fontFamily: 'Prompt-SemiBold',
-                          fontSize: 17,
+                          fontSize: 14,
                           color: Colors.brownText,
                           marginVertical: 2.5,
-                          marginHorizontal: 10,
+                          marginHorizontal: 7.5,
                           // margin: 20
                         }}>{name}</Text>
                       </TouchableOpacity>
                       <Text style={{
                         fontFamily: 'Prompt-SemiBold',
-                        fontSize: 17,
+                        fontSize: 14,
                         color: Colors.brownText,
                         // margin: 20
                       }}> ( {item.id} )</Text>
                     </View>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
-                      fontSize: 13,
+                      fontSize: 12,
                       color: Colors.brownText,
                       // margin: 20
                     }}>{item.name ? item.name : item.email}</Text>

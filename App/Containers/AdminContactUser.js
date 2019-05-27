@@ -126,7 +126,8 @@ class AdminContactUser extends Component {
   // }
 
   _reload = () => {
-    // count2 = 10
+    count2 = 10
+    this.getListUser()
     // this.getListUser2()
   }
 

@@ -138,6 +138,21 @@ class MarketHome extends Component {
 
       }
     }
+
+    return {
+      data_skin: slist,
+      tmp_region,
+      slist,
+      slist2,
+      slist3: newProps.data_alltype,
+      tmp_province
+    }
+
+  }
+
+  showDialog = () => {
+    this.props.getProvince()
+    this.popupDialogProvince.show()
   }
 
   componentDidMount() {

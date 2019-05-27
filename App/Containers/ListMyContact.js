@@ -108,8 +108,8 @@ class ListMyContact extends Component {
     // }
 
     _reload = () => {
-        // count2 = 10
-        // this.getListContact2()
+        count2 = 10
+        this.getListContact()
     }
 
     // _onScrollEndList = () => {

@@ -108,8 +108,8 @@ class ListMyContact extends Component {
     // }
 
     _reload = () => {
-        // count2 = 10
-        // this.getListContact2()
+        count2 = 10
+        this.getListContact()
     }
 
     // _onScrollEndList = () => {
@@ -143,14 +143,14 @@ class ListMyContact extends Component {
 
     _renderItem = ({ item, index }) => {
         let date = moment(item.updated_at).format("DD MMM YYYY (HH:mm)")
-
+        console.log('https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.owner_profile.image)
         return (
             <TouchableOpacity style={{ height: 85, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
                 onPress={() => this._goToChat(item)}>
                 <View style={{ flexDirection: 'row' }}>
-                    {item.owner_profile && item.owner_profile.fb_id && <Image source={{ uri: 'https://graph.facebook.com/' + item.owner_profile.fb_id + '/picture?width=500&height=500' }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
-                    {item.owner_profile && item.owner_profile.fb_id == null && item.owner_profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.owner_profile.image }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
-                    {item.owner_profile && item.owner_profile.fb_id == null && !item.owner_profile.image && <Image source={Images.user} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+                    {item.owner_profile && item.owner_profile.fb_id != "-" && <Image source={{ uri: 'https://graph.facebook.com/' + item.owner_profile.fb_id + '/picture?width=500&height=500' }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+                    {item.owner_profile && item.owner_profile.fb_id == "-" && item.owner_profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.owner_profile.image }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+                    {item.owner_profile && item.owner_profile.fb_id == "-" && !item.owner_profile.image && <Image source={Images.user} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
                     {!item.owner_profile && <Image source={Images.user} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
 
                     <View style={{ justifyContent: 'center' }}>
@@ -176,7 +176,9 @@ class ListMyContact extends Component {
                 {/* <Icon2 name={'chevron-right'} size={30} style={{ alignSelf: 'center', position: 'absolute', right: 10 }} /> */}
                 {/* {item.is_new == true && <View
                     style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>} */}
+                
             </TouchableOpacity>
+
         )
     }
 

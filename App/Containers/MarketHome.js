@@ -138,6 +138,21 @@ class MarketHome extends Component {
 
       }
     }
+
+    return {
+      data_skin: slist,
+      tmp_region,
+      slist,
+      slist2,
+      slist3: newProps.data_alltype,
+      tmp_province
+    }
+
+  }
+
+  showDialog = () => {
+    this.props.getProvince()
+    this.popupDialogProvince.show()
   }
 
   componentDidMount() {
@@ -150,7 +165,8 @@ class MarketHome extends Component {
 
     if (this.props.profile && !this.props.profile.my_follow && this.props.profile.role != "admin") {
       this.popupDialogFix.show()
-    } else if (this.props.profile && this.props.profile.my_follow && this.props.profile.role != "admin") {
+    } 
+    else if (this.props.profile && this.props.profile.my_follow && this.props.profile.role != "admin") {
       if (this.props.profile.my_follow.length < 3) {
         this.popupDialogFix.show()
       }

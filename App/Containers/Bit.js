@@ -222,7 +222,7 @@ class Bit extends Component {
 
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
-                      fontSize: 17,
+                      fontSize: 14,
                       color: Colors.brownText,
                       // margin: 20
                     }}>{name}</Text>

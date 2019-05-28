@@ -374,7 +374,7 @@ class AnswerOfAdmin extends Component {
 
                       <Text style={{
                         fontFamily: 'Prompt-SemiBold',
-                        fontSize: 18,
+                        fontSize: 14,
                         color: Colors.brownText,
                         // margin: 20
                       }}>{name}</Text>
@@ -399,7 +399,7 @@ class AnswerOfAdmin extends Component {
                       }} onPress={() => this._pressBit(item)}>
                         <Text style={{
                           fontFamily: 'Prompt-SemiBold',
-                          fontSize: 15, color: 'white', alignSelf: 'center'
+                          fontSize: 14, color: 'white', alignSelf: 'center'
                         }}>{I18n.t('bid2')}</Text>
                       </TouchableOpacity>}
 

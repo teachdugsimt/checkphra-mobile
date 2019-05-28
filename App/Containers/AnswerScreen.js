@@ -308,11 +308,12 @@ class AnswerScreen extends Component {
           height: width * 95.7 / 100
         }} resizeMode='contain' />
 
-        {this.state.img2 != null && <View style={{ width: '100%', height: 230, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
+        {this.state.img2 != null && <View style={{ width: '100%', height: 230, paddingTop: 10 }}>
           <ImageViewer
             saveToLocalByLongPress={false}
             imageUrls={this.state.img2}
-            backgroundColor={'lightgrey'}
+            backgroundColor={'transparents'}
+            onChange={index => this.setState({ index })}
             onClick={(e) => {
               console.log('Show modal')
               this.setState({ modalVisible: true })

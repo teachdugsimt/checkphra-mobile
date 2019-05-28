@@ -165,7 +165,8 @@ class MarketHome extends Component {
 
     if (this.props.profile && !this.props.profile.my_follow && this.props.profile.role != "admin") {
       this.popupDialogFix.show()
-    } else if (this.props.profile && this.props.profile.my_follow && this.props.profile.role != "admin") {
+    } 
+    else if (this.props.profile && this.props.profile.my_follow && this.props.profile.role != "admin") {
       if (this.props.profile.my_follow.length < 3) {
         this.popupDialogFix.show()
       }

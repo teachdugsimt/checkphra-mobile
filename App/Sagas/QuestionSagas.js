@@ -185,7 +185,7 @@ export function* getProfile(api) {
 
   const response = yield call(api.getProfile, data)
   console.log(response)
-
+  console.log('===================== GET PROFILE ========================')
   // success?
   if (response.ok) {
     yield put(QuestionActions.getProfileSuccess(response.data))

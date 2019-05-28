@@ -330,11 +330,12 @@ class CheckPhraScreen extends Component {
             </ScrollView>
           </PopupDialog>
 
-          <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
+          <View style={{ flex: 0.37, paddingTop: 10 }}>
             <ImageViewer
               saveToLocalByLongPress={false}
               imageUrls={img2}
-              backgroundColor={'lightgrey'}
+              backgroundColor={'transparents'}
+              onChange={index => this.setState({ index })}
               onClick={(e) => {
                 console.log('Show modal')
                 this.setState({ modalVisible: true })

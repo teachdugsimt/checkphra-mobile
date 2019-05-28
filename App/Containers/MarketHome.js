@@ -607,7 +607,7 @@ const mapStateToProps = (state) => {
     data_follow: state.market.data_follow, // store follow group amulet
     // data_areaAmulet_store: state.market.data_areaAmulet_store,  // store last amulet id from list area/group amulet
 
-    lastIDofGroupAmulet: state.question.data_follow,
+    // lastIDofGroupAmulet: state.question.data_follow,
 
     request15: state.market.request15,  // for request all type amulet
     data_alltype: state.market.data_alltype,  // store all type amulet

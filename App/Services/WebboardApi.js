@@ -50,7 +50,8 @@ const create = (baseURL = b) => {
   const getListAll1 = (data) => api.get('post/list', data)
   const getListMe1 = (data) => api.get('post/list-me', data)
   const postContent = (data) => api.post('post/add', data)
-  const getComment = (data) => api.get('post/detail', data)
+  // const getComment = (data) => api.get('post/detail', data)
+  const getComment = (data) => api.get('comment/list-item', data)
 
   const addPost = (data) => api.post('post/add', data)
   const addComment = (data) => api.post('comment/add', data)

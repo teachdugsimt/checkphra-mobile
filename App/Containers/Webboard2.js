@@ -45,8 +45,9 @@ class Webboard2 extends Component {
 
   componentWillUnmount() {
     this.props.clearComment()  // clear comment, add comment , like ...
+    this.props.clearDataLike()
     // this.props.getProfile()
-    // count = 1
+    count = 1
     // this.props.getListAll(count)
     check = true
   }
@@ -68,6 +69,8 @@ class Webboard2 extends Component {
   }
 
   componentDidMount() {
+    this.setState({ tmp_like: null, tmp_like2: null })
+    this.props.clearDataLike()
     this.props.navigation.setParams({ newPost: this._newPost });
     this.props.getComment()
     count = 1
@@ -77,7 +80,16 @@ class Webboard2 extends Component {
   }
 
   _reload = () => {
-    this.props.getComment()
+    count = 1
+    this.props.getComment(count)
+  }
+
+  _onScrollEndList = () => {
+    console.log('END LIST AGAIN')
+    if (this.props.data_comment && this.props.data_comment.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
+      count++
+      this.props.getComment(count)
+    }
   }
 
   _goToBoard = (item) => {
@@ -112,14 +124,32 @@ class Webboard2 extends Component {
     }
 
     if (newProps.data_like && newProps.data_like != null && newProps.data_comment) {
-      if (prevState.tmp_like != newProps.data_like && newProps.data_like.id == newProps.data_comment.id && newProps.data_like.comments) {  // Like post only
+
+      // if (prevState.tmp_like != newProps.data_like && newProps.data_like.id == newProps.data_comment.id && newProps.data_like.comments) {  // Like post only
+      //   console.log('--------- LIKE POST  -----------')
+      //   newProps.editLikeData(newProps.data_like)
+      //   return {
+      //     tmp_like: newProps.data_like
+      //   }
+      // }
+
+      // else if (prevState.tmp_like2 != newProps.data_like && newProps.data_like.post_id == newProps.data_comment.id && !newProps.data_like.comments) {  // Like comment only
+      //   console.log('--------- LIKE COMMENT -----------')
+      //   newProps.editLikeData2(newProps.data_like)
+
+      //   return {
+      //     tmp_like2: newProps.data_like
+      //   }
+      // }
+      if (prevState.tmp_like != newProps.data_like && newProps.data_webboard.topic && newProps.data_webboard.content && newProps.data_like.id == newProps.data_webboard.id) {  // Like post only
         console.log('--------- LIKE POST  -----------')
         newProps.editLikeData(newProps.data_like)
         return {
           tmp_like: newProps.data_like
         }
       }
-      else if (prevState.tmp_like2 != newProps.data_like && newProps.data_like.post_id == newProps.data_comment.id && !newProps.data_like.comments) {  // Like comment only
+
+      else if (prevState.tmp_like2 != newProps.data_like && newProps.data_like.text && newProps.data_like.id == newProps.data_comment.find(c => c.id == newProps.data_like.id).id) {  // Like comment only
         console.log('--------- LIKE COMMENT -----------')
         newProps.editLikeData2(newProps.data_like)
 
@@ -135,11 +165,11 @@ class Webboard2 extends Component {
   }
 
   _likePost = (item) => {
-    this.props.like(this.props.data_comment.id, 'post', 'like')
+    this.props.like(this.props.data_webboard.id, 'post', 'like')
   }
 
   _dislikePost = (item) => {
-    this.props.like(this.props.data_comment.id, 'post', 'dislike')
+    this.props.like(this.props.data_webboard.id, 'post', 'dislike')
   }
 
   _likeComment = (item) => {
@@ -164,26 +194,26 @@ class Webboard2 extends Component {
             <View style={styles.commentContainer2}>
 
               <View style={styles.topRow}>
-                <Text style={styles.topicText}>{this.props.data_comment.topic}</Text>
+                <Text style={styles.topicText}>{this.props.data_webboard.topic}</Text>
                 <View style={styles.subTopRow}>
-                  <TouchableOpacity onPress={() => this.tagname(this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User')}>
-                    <Text style={[styles.nameText, { color: this.props.data_comment.profile && this.props.data_comment.profile.display_name ? "red" : Colors.brownTextTran }]}>{this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                  <TouchableOpacity onPress={() => this.tagname(this.props.data_webboard.profile && this.props.data_webboard.profile.display_name ? this.props.data_webboard.profile.display_name : this.props.data_webboard.profile && this.props.data_webboard.profile.firstname ? (this.props.data_webboard.profile.firstname + " " + (this.props.data_webboard.profile.lastname ? this.props.data_webboard.profile.lastname : "")) : 'CheckPhra User')}>
+                    <Text style={[styles.nameText, { color: this.props.data_webboard.profile && this.props.data_webboard.profile.display_name ? "red" : Colors.brownTextTran }]}>{this.props.data_webboard.profile && this.props.data_webboard.profile.display_name ? this.props.data_webboard.profile.display_name : this.props.data_webboard.profile && this.props.data_webboard.profile.firstname ? (this.props.data_webboard.profile.firstname + " " + (this.props.data_webboard.profile.lastname ? this.props.data_webboard.profile.lastname : "")) : 'CheckPhra User'}</Text>
                   </TouchableOpacity>
-                  <Text style={styles.dateText} >{moment.unix(this.props.data_comment.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
+                  <Text style={styles.dateText} >{moment.unix(this.props.data_webboard.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
                 </View>
 
               </View>
 
               <View style={styles.row2View}>
-                <Text style={styles.commentText}>{this.props.data_comment.content}</Text>
+                <Text style={styles.commentText}>{this.props.data_webboard.content}</Text>
               </View>
 
               <View style={styles.row3View}>
                 <View style={styles.likeView}>
                   <TouchableOpacity style={styles.likeTouch} onPress={() => this._likePost(item)}><Icon2 name={'thumbs-o-up'} size={20} />
-                    <Text style={styles.numLikeText}>{this.props.data_comment.like}</Text></TouchableOpacity>
+                    <Text style={styles.numLikeText}>{this.props.data_webboard.like}</Text></TouchableOpacity>
                   <TouchableOpacity style={styles.likeTouch2} onPress={() => this._dislikePost(item)}><Icon2 name={'thumbs-o-down'} size={20} />
-                    <Text style={styles.numLikeText2}>{this.props.data_comment.dislike}</Text></TouchableOpacity>
+                    <Text style={styles.numLikeText2}>{this.props.data_webboard.dislike}</Text></TouchableOpacity>
                 </View>
               </View>
 
@@ -219,33 +249,33 @@ class Webboard2 extends Component {
         </View>
       )
     } else {
-      return (
-        <View style={styles.commentContainer} onPress={() => this._goToBoard(item)}>
-          <View style={styles.commentContainer2}>
-            <View style={styles.commentTopRow}>
-              <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
-                <Text style={[styles.nameText, { color: item.profile && item.profile.display_name ? "red" : Colors.brownTextTran }]}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
-              </TouchableOpacity>
-              <Text style={styles.dateText} >{date}</Text>
-            </View>
-
-            <View style={styles.row2View}>
-              <Text style={styles.commentText}>{item.text}</Text>
-            </View>
-
-            <View style={styles.row3View}>
-              {/* <TouchableOpacity style={styles.answerView}><Text>คำตอบ()</Text></TouchableOpacity> */}
-              <View style={styles.likeView}>
-                <TouchableOpacity style={styles.likeTouch} onPress={() => this._likeComment(item)}><Icon2 name={'thumbs-o-up'} size={20} />
-                  <Text style={styles.numLikeText}>{item.like}</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.likeTouch2} onPress={() => this._dislikeComment(item)}><Icon2 name={'thumbs-o-down'} size={20} />
-                  <Text style={styles.numLikeText2}>{item.dislike}</Text></TouchableOpacity>
-              </View>
-            </View>
-
+    return (
+      <View style={styles.commentContainer} onPress={() => this._goToBoard(item)}>
+        <View style={styles.commentContainer2}>
+          <View style={styles.commentTopRow}>
+            <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
+              <Text style={[styles.nameText, { color: item.profile && item.profile.display_name ? "red" : Colors.brownTextTran }]}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+            </TouchableOpacity>
+            <Text style={styles.dateText} >{date}</Text>
           </View>
+
+          <View style={styles.row2View}>
+            <Text style={styles.commentText}>{item.text}</Text>
+          </View>
+
+          <View style={styles.row3View}>
+            {/* <TouchableOpacity style={styles.answerView}><Text>คำตอบ()</Text></TouchableOpacity> */}
+            <View style={styles.likeView}>
+              <TouchableOpacity style={styles.likeTouch} onPress={() => this._likeComment(item)}><Icon2 name={'thumbs-o-up'} size={20} />
+                <Text style={styles.numLikeText}>{item.like}</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.likeTouch2} onPress={() => this._dislikeComment(item)}><Icon2 name={'thumbs-o-down'} size={20} />
+                <Text style={styles.numLikeText2}>{item.dislike}</Text></TouchableOpacity>
+            </View>
+          </View>
+
         </View>
-      )
+      </View>
+    )
     }
   }
 
@@ -274,49 +304,51 @@ class Webboard2 extends Component {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container} >
         <Image source={Images.watermarkbg} style={styles.mainBackground} resizeMode='contain' />
-        {this.props.data_comment && (!this.props.data_comment.comments || this.props.data_comment.comments == null) && <View style={styles.topicViewRender}>
+        {/* <View style={styles.topicViewRender}>
           <View style={styles.commentContainer2}>
 
             <View style={styles.topRow}>
-              <Text style={styles.topicText}>{this.props.data_comment.topic}</Text>
+              <Text style={styles.topicText}>{this.props.data_webboard.topic}</Text>
               <View style={styles.subTopRow}>
-                <TouchableOpacity onPress={() => this.tagname(this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User')}>
-                  <Text style={[styles.nameText, { color: this.props.data_comment.profile && this.props.data_comment.profile.display_name ? "red" : Colors.brownTextTran }]}>{this.props.data_comment.profile && this.props.data_comment.profile.display_name ? this.props.data_comment.profile.display_name : this.props.data_comment.profile && this.props.data_comment.profile.firstname ? (this.props.data_comment.profile.firstname + " " + (this.props.data_comment.profile.lastname ? this.props.data_comment.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                <TouchableOpacity onPress={() => this.tagname(this.props.data_webboard.profile && this.props.data_webboard.profile.display_name ? this.props.data_webboard.profile.display_name : this.props.data_webboard.profile && this.props.data_webboard.profile.firstname ? (this.props.data_webboard.profile.firstname + " " + (this.props.data_webboard.profile.lastname ? this.props.data_webboard.profile.lastname : "")) : 'CheckPhra User')}>
+                  <Text style={[styles.nameText, { color: this.props.data_webboard.profile && this.props.data_webboard.profile.display_name ? "red" : Colors.brownTextTran }]}>{this.props.data_webboard.profile && this.props.data_webboard.profile.display_name ? this.props.data_webboard.profile.display_name : this.props.data_webboard.profile && this.props.data_webboard.profile.firstname ? (this.props.data_webboard.profile.firstname + " " + (this.props.data_webboard.profile.lastname ? this.props.data_webboard.profile.lastname : "")) : 'CheckPhra User'}</Text>
                 </TouchableOpacity>
-                <Text style={styles.dateText} >{moment.unix(this.props.data_comment.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
+                <Text style={styles.dateText} >{moment.unix(this.props.data_webboard.created_at).format("DD MMM YYYY (HH:mm)")}</Text>
               </View>
 
             </View>
 
             <View style={styles.row2View}>
-              <Text style={styles.commentText}>{this.props.data_comment.content}</Text>
+              <Text style={styles.commentText}>{this.props.data_webboard.content}</Text>
             </View>
 
             <View style={styles.row3View}>
               <View style={styles.likeView}>
                 <TouchableOpacity style={styles.likeTouch} onPress={() => this._likePost()}><Icon2 name={'thumbs-o-up'} size={20} />
-                  <Text style={styles.numLikeText}>{this.props.data_comment.like}</Text></TouchableOpacity>
+                  <Text style={styles.numLikeText}>{this.props.data_webboard.like}</Text></TouchableOpacity>
                 <TouchableOpacity style={styles.likeTouch2} onPress={() => this._dislikePost()}><Icon2 name={'thumbs-o-down'} size={20} />
-                  <Text style={styles.numLikeText2}>{this.props.data_comment.dislike}</Text></TouchableOpacity>
+                  <Text style={styles.numLikeText2}>{this.props.data_webboard.dislike}</Text></TouchableOpacity>
               </View>
             </View>
 
           </View>
-        </View>}
+        </View> */}
 
 
 
         <FlatList
-          data={this.props.data_comment && this.props.data_comment.comments ? this.props.data_comment.comments : []}
+          data={this.props.data_comment ? this.props.data_comment : []}
           renderItem={this._renderItem}
-          RefreshControl={
+          refreshControl={
             <RefreshControl
               refreshing={this.props.request2 == true}
               onRefresh={this._reload.bind(this)}
             />
           }
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
-        />
+          onEndReached={this._onScrollEndList.bind(this)}
+          onEndReachedThreshold={0.3} />
+      
 
         <PopupDialog
           dialogTitle={<View style={styles.popupHead}><Text style={styles.popupTextHead}>{I18n.t('webBoard')}</Text></View>}
@@ -392,7 +424,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getProfile: () => dispatch(QuestionActions.getProfile()),
     setWebboard: (data) => dispatch(WebboardActions.setWebboard(data)),
-    getComment: () => dispatch(WebboardActions.getComment()),
+    getComment: (page) => dispatch(WebboardActions.getComment(page)),
     clearComment: () => dispatch(WebboardActions.clearComment()),
     addComment: (comment) => dispatch(WebboardActions.addComment(comment)),
     editDataComment: (data) => dispatch(WebboardActions.editDataComment(data)),
@@ -403,6 +435,7 @@ const mapDispatchToProps = (dispatch) => {
     getListAll: (page) => dispatch(WebboardActions.getListAll(page)),
 
     editRedDotData: (data) => dispatch(WebboardActions.editRedDotData(data)),
+    clearDataLike: () => dispatch(WebboardActions.clearDataLike()),
   }
 }
 

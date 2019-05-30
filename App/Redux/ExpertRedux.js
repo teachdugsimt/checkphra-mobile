@@ -110,7 +110,7 @@ export const INITIAL_STATE = Immutable({
   data_text: null,
 
   fetch8: null,  // for edit type of question
-  data_group: null,
+  data_group: null,  // for store edit type data
 
   data_storetmp: null,  // store tmp data to verify shop2
 

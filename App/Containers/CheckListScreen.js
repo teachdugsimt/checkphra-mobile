@@ -318,15 +318,15 @@ class CheckListScreen extends Component {
     console.log(prevState)
 
 
-    if (newProps.data_answer != null) {
-      if (newProps.request1 == false || newProps.request1 == true) {
-        let tmp = newProps.history.find(e => e.id == newProps.data_answer.q_id)
-        if (tmp && tmp != undefined && newProps.data_answer.q_id == tmp.id) {
-          newProps.getHistory(1)
-          plist = newProps.history
-        }
-      }
-    }
+    // if (newProps.data_answer != null) {
+    //   if (newProps.request1 == false || newProps.request1 == true) {
+    //     let tmp = newProps.history.find(e => e.id == newProps.data_answer.q_id)
+    //     if (tmp && tmp != undefined && newProps.data_answer.q_id == tmp.id) {
+    //       newProps.getHistory(1)
+    //       plist = newProps.history
+    //     }
+    //   }
+    // }
 
 
 
@@ -354,10 +354,10 @@ class CheckListScreen extends Component {
       // }
     }
 
-    if (newProps.data_edit && newProps.data_edit != null && newProps.data_edit != undefined) {
-      newProps.getHistory(1)
-      newProps.clearEditData()
-    }
+    // if (newProps.data_edit && newProps.data_edit != null && newProps.data_edit != undefined) {
+    //   newProps.getHistory(1)
+    //   newProps.clearEditData()
+    // }
 
     return {
       // fetch: checkRequest,

@@ -13,6 +13,7 @@ import RoundedButton from "../Components/RoundedButton";
 
 import { call, put, select } from 'redux-saga/effects'
 import ExpertActions, { verifyRequest, cancelCoin } from '../Redux/ExpertRedux'
+import QuestionActions from '../Redux/QuestionRedux'
 import { LinearGradient } from '../../node_modules/react-native-linear-gradient';
 // import { ExpertSelectors } from '../Redux/ExpertRedux'
 import I18n from '../I18n/i18n';
@@ -28,16 +29,17 @@ export function* expertRequest(api, { pack, q_id, argument, interested, permit }
   // console.log(pack)
   // console.log(q_id)
   // console.log('SAGAS')
-
   const response = yield call(api.addAnswer, pack, q_id, aut.user_id, argument, interested, permit)
   console.log(response)
-  // success?
+  console.log('==================== SEND ANSWER =========================')
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     alert(I18n.t('answerSuccess'))
     yield put(ExpertActions.expertSuccess(response.data))
+    yield put(QuestionActions.clearAmuletChecked(response.data)) // FOCUS
     yield put(ExpertActions.clearSendAnswer())
+    // clearAmuletChecked  // Question
   } else {
     alert(I18n.t('answerFailure'))
     yield put(ExpertActions.expertFailure())
@@ -212,9 +214,11 @@ export function* editTypeQuestion(api, { type_id, qid }) {
   }
 
   const response = yield call(api.editGroupQuestion, data)
+  console.log(response)
   console.log('==================== EDIT TYPE QUESTION ======================')
   if (response.ok) {
     yield put(ExpertActions.editGroupSuccess(response.data))
+    yield put(QuestionActions.editTypeAmulet(response.data))
   } else {
     yield put(ExpertActions.editGroupFailure())
   }

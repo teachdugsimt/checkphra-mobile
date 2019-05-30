@@ -143,7 +143,7 @@ const UploadStack = StackNavigator(  // main upload
     empty: {
       screen: EmptyScreen,
       navigationOptions: {
-        title: "Coming Soon...",
+        title: "Market",
       }
     },
     people: {    // add new 25/04/2019!!

@@ -102,13 +102,8 @@ android {
         applicationId "com.infiltech.checkphra"
         minSdkVersion 16
         targetSdkVersion 26
-<<<<<<< HEAD
-        versionCode 34
-        versionName "3.2.1"
-=======
         versionCode 35
         versionName "3.2.2"
->>>>>>> 58c10013da47b4a31c11c3d97ca5092edb42b2e7
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"

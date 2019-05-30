@@ -65,6 +65,9 @@ const { Types, Creators } = createActions({
   deleteRedDotData: ['type_id'],
   editRedDotData2: ['last_id', 'type_id'],
   updateReadHistory: ['data'],
+
+  clearAmuletChecked: ['id'],
+  editTypeAmulet: ['data'],
 })
 
 export const QuestionTypes = Types
@@ -113,7 +116,32 @@ export const QuestionSelectors = {
 
 /* ------------- Reducers ------------- */
 
-export const updateReadHistory= (state, { data }) => {
+export const editTypeAmulet = (state, { data }) => {
+  console.log(data)
+  console.log('++++++++++++++++++= DATA = ++++++++++++++++++++++++')
+  let tmp = JSON.parse(JSON.stringify(state.history))
+  tmp.forEach((e, i) => {
+    if (e.id == data.id) {
+      e.type = data.type
+      e.updated_at = data.updated_at
+    }
+  })
+  console.log(tmp)
+  console.log('++++++++++++++ TMP AFTER EDIT TYPE ++++++++++++++++++++++')
+  return state.merge({ history: tmp })
+}
+
+export const clearAmuletChecked = (state, data) => {
+  let tmp = JSON.parse(JSON.stringify(state.history))
+  tmp.map((e, i) => {
+    if (e.id == data.id.q_id) {
+      tmp.splice(i, 1)
+    }
+  })
+  return state.merge({ history: tmp })
+}
+
+export const updateReadHistory = (state, { data }) => {
   let tmp = JSON.parse(JSON.stringify(state.history))
   if (tmp && tmp != null) {
     tmp.forEach((e, i) => {
@@ -462,4 +490,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.EDIT_RED_DOT_DATA2]: editRedDotData2,
 
   [Types.UPDATE_READ_HISTORY]: updateReadHistory,
+  [Types.CLEAR_AMULET_CHECKED]: clearAmuletChecked,
+  [Types.EDIT_TYPE_AMULET]: editTypeAmulet,
 })

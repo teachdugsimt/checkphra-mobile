@@ -13,6 +13,7 @@ import moment from 'moment'
 import Spinner from 'react-native-loading-spinner-overlay';
 import { INITIAL_STATE } from '../../Redux/AuthRedux';
 import I18n from '../../I18n/i18n';
+import ImageResizer from 'react-native-image-resizer';
 I18n.fallbacks = true;
 // I18n.currentLocale("th");
 // import ImagePicker from 'react-native-image-picker'
@@ -196,11 +197,46 @@ class Banking extends Component {
                     avatarSource: source
                 });
 
-                this.props.setImage({
-                    uri: response.uri,
-                    type: response.type,
-                    name: response.fileName
-                })
+                ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 100, 0, null)
+                    .then((response) => {
+                        // response.uri is the URI of the new image that can now be displayed, uploaded...
+                        // response.path is the path of the new image
+                        // response.name is the name of the new image with the extension
+                        // response.size is the size of the new image
+                        // console.log(response)
+                        //   this.setState({ spinner: false })
+                        // this.props.setImages(this.props.id, {
+                        //     uri: response.uri,
+                        //     type: 'image/jpeg',
+                        //     // name: response.fileName,
+                        //     name: response.name,
+                        //     // size: response.fileSize,
+                        //     size: response.size,
+                        //     tmp_name: response.path
+                        // })
+
+                        this.props.setImage({
+                            uri: response.uri,
+                            type: 'image/jpeg',
+                            // name: response.fileName,
+                            name: response.name,
+                            // size: response.fileSize,
+                            size: response.size,
+                            tmp_name: response.path
+                        })
+                        // console.log(response)
+                    }).catch((err) => {
+                        //   this.setState({ spinner: false })
+                        // Oops, something went wrong. Check that the filename is correct and
+                        // inspect err to get more details.
+                        console.log(err)
+                    });
+
+                // this.props.setImage({
+                //     uri: response.uri,
+                //     type: response.type,
+                //     name: response.fileName
+                // })
             }
         });
     }

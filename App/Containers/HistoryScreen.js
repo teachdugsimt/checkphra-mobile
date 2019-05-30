@@ -76,15 +76,15 @@ class HistoryScreen extends Component {
     console.log('_______________________ HISTORY SCREEN _________________________________')
     // newProps.getProfile()
 
-    if (newProps.data_question && newProps.history && newProps.data_question.id && newProps.history[0]) {
-      if (newProps.data_question.id != newProps.history[0].id) {
-        newProps.getHistory(1)
-        newProps.getProfile()
-        return {
-          data_history: newProps.history
-        }
-      }
-    }
+    // if (newProps.data_question && newProps.history && newProps.data_question.id && newProps.history[0]) {
+    //   if (newProps.data_question.id != newProps.history[0].id) {
+    //     newProps.getHistory(1)
+    //     newProps.getProfile()
+    //     return {
+    //       data_history: newProps.history
+    //     }
+    //   }
+    // }
 
     if(newProps.data_question && newProps.data_question != null){
       if(newProps.data_question != PrevState.data_question){

@@ -191,7 +191,9 @@ class Promotion extends Component {
           renderItem={this._renderItem}
         />
         <PopupDialog
-          dialogTitle={<DialogTitle title={I18n.t('selectPayment')} titleTextStyle={{ fontSize: 18 }} />}
+          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+            fontSize: 18, fontWeight: 'bold'
+          }}>{I18n.t('selectPayment')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           dialogAnimation={slideAnimation}
           width={0.7}

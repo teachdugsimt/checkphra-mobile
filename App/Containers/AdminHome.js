@@ -261,7 +261,7 @@ class AdminHome extends Component {
 
                             <TouchableOpacity onPress={() => this._pressList(item)} style={{ justifyContent: 'center', alignItems: 'center' }}>
                                 <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
-                                    <Icon2 name={item.logo} size={40} />
+                                    <Icon2 name={item.logo} size={62} />
                                     <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
                                         {item.name}</Text>
                                 </View>

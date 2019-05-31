@@ -18,13 +18,11 @@ import * as RNIap from 'react-native-iap';
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
-import RealtimeActions from '../Redux/RealtimeRedux'
 import QuestionActions from '../Redux/QuestionRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
 import ChatActions from '../Redux/ChatRedux'
 import styles from './Styles/HomeScreenStyle'
 import GridView from "react-native-super-grid";
-import firebase from "react-native-firebase"
 // import Reactotron from 'reactotron-react-native'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
@@ -34,118 +32,70 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 let count = 1
-let count2 = 10
 class AdminContactUser extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-
-      list: null,
-      timestamp: null,
-      message: null,
-      loading: null,
-      // _isMounted: null,
-    }
-    // this.adminContact = firebase.database().ref('messages/adminchat/' + this.props.user_id);
-    this.tmpMessages = firebase.database().ref('tmp_admin_messages/')
+  _renderItem = ({ item, index }) => {
+    let date = moment.unix(item.updated_at).format("DD MMM YYYY (HH:mm)")
+    return (
+      <TouchableOpacity style={{ height: 100, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', alignItems: 'center' }}
+        onPress={() => this._goToChat(item)}>
+        {item.is_new == true && < View
+          style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 2.5, right: 2.5, zIndex: 1 }}></View>}
+        <View style={{ margin: 7.5 }}>
+          {item.profile && item.profile.image ? <Image source={{ uri: "https://s3-ap-southeast-1.amazonaws.com/core-profile/images/" + item.profile.image }} style={{ height: 75, width: 75, borderRadius: 10 }} /> :
+            (item.profile && item.profile.facebook_id) ? <Image source={{ uri: 'https://graph.facebook.com/' + item.profile.facebook_id + '/picture?width=500&height=500' }} style={{ height: 75, width: 75, borderRadius: 10 }} /> :
+              (!item.profile.facebook_id && !item.profile.image && <Image source={Images.user} style={{ height: 75, width: 75, borderRadius: 10 }} />)}
+        </View>
+        <View>
+          <Text style={{ padding: 10, color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 18 }}>{item.profile && item.profile.fullname ? item.profile.fullname : (item.profile.email ? item.profile.email : "CheckPhraUser")}</Text>
+          <Text style={{ padding: 10, color: Colors.brownTextTran, fontSize: 14 }}>{date}</Text>
+        </View>
+      </TouchableOpacity >
+    )
   }
 
-  getListUser = () => {
-    this.setState({ loading: true })
-    this.tmpMessages.limitToLast(10).on('value', list => {
-      if (list.val()) {
-        this.props.setListUser(Object.values(list._value))
-        this.setState({ loading: false })
-        console.log(Object.values(list._value))
-        console.log('**************** HERE LIST USER ********************************')
-      } else {
-        this.setState({ loading: false })
-      }
-    })
-  }
-
-  getListUser2 = () => {
-    this.setState({ loading: true })
-    count2 = count2 + 10
-    this.tmpMessages.limitToLast(count2).on('value', list => {
-      if (list.val()) {
-        this.props.setListUser(Object.values(list._value))
-        this.setState({ loading: false })
-        console.log(Object.values(list._value))
-        console.log('**************** HERE LIST USER 22222 ********************************')
-      } else {
-        this.setState({ loading: false })
-      }
-    })
+  static getDerivedStateFromProps(newProps, prevState) {
+    // Reactotron.warn(newProps)
+    // Reactotron.warn(prevState)
   }
 
   _goToChat = (item) => {
-    this.props.setTmpAdminData(item)
+    this.props.setDataGroupChat(item)
     this.props.navigation.navigate('chat3')
   }
 
   componentDidMount() {
-    count2 = 10
-    this.getListUser()
+    count = 1
+    this.props.getMyMessageFromOther(count)
   }
 
   componentWillUnmount() {
-    count2 = 10
+    this.props.clearDataListUser()
+    count = 1
   }
-
-  _renderItem = ({ item, index }) => {
-    let date = moment(item.createdAt).format("DD MMM YYYY (HH:mm)")
-
-    return (
-      <TouchableOpacity style={{ height: 85, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
-        onPress={() => this._goToChat(item)}>
-        <View style={{ flexDirection: 'row' }}>
-          {item.avatar && <Image source={{ uri: item.avatar }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
-          {/* {item.owner_profile.fb_id == null && item.owner_profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.owner_profile.image }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
-          {item.owner_profile && item.owner_profile.fb_id == null && !item.owner_profile.image && <Image source={Images.user} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />} */}
-          {item.avatar == "-" && <Image source={Images.user} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
-
-          <View style={{ justifyContent: 'center' }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 5 }}>
-              {item.name && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 14, width: width / 2.2 }} numberOfLines={1}>{item.name ? item.name : (item.email ? item.email : "Check Phra User")}</Text>}
-              <Text style={{ color: Colors.brownTextTran, fontSize: 12 }}>{date}</Text>
-            </View>
-            <Text style={{ marginHorizontal: 5, width: width - 95 }} numberOfLines={1}>{item.last_message}</Text>
-
-
-          </View>
-        </View>
-      </TouchableOpacity>
-    )
-  }
-
-  // _reload = () => {
-  //   count = 1
-  //   this.props.getMyMessageFromOther(count)
-  // }
 
   _reload = () => {
-    // count2 = 10
-    // this.getListUser2()
+    count = 1
+    this.props.getMyMessageFromOther(count)
   }
 
-  // _onScrollEndList = () => {
-  //   console.log('END LIST AGAIN')
-  //   if (this.props.data_myMessageFromOther && this.props.data_myMessageFromOther.length >= 10 && (this.props.request7 == false || this.props.request7 == null)) {
-  //     count++
-  //     this.props.getMyMessageFromOther(count)
-  //   }
-  // }
-
   _onScrollEndList = () => {
-    this.getListUser2()
+    console.log('END LIST AGAIN')
+    if (this.props.data_myMessageFromOther && this.props.data_myMessageFromOther.length >= 10 && (this.props.request7 == false || this.props.request7 == null)) {
+      count++
+      this.props.getMyMessageFromOther(count)
+    }
   }
 
   render() {
     I18n.locale = this.props.language
-
-    console.log('****************** Admin Contact User1 *********************')
+    // console.log(this.props.data_amulet)
+    // Reactotron.display({
+    //   name: "List User Contact",
+    //   preview: "in render",
+    //   value: this.props.data_myMessageFromOther,
+    // })
+    // console.log('***************************************')
     return (
       <LinearGradient
         colors={["#FF9933", "#FFCC33"]} style={{ flex: 1 }}
@@ -160,12 +110,12 @@ class AdminContactUser extends Component {
         <FlatList
           refreshControl={
             <RefreshControl
-              refreshing={this.state.loading}
+              refreshing={this.props.request7 == true}
               onRefresh={this._reload}
             />
           }
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
-          data={this.props.data_listuser}
+          data={this.props.data_myMessageFromOther}
           renderItem={this._renderItem}
           onEndReached={this._onScrollEndList}
           onEndReachedThreshold={0.25}
@@ -178,7 +128,7 @@ class AdminContactUser extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.auth.language,
-    profile: state.question.profile,
+    // profile: state.question.profile,
     // request_profile: state.question.request_profile,
     // data_amulet: state.question.amuletType,   // data request type amulet
     // request_type: state.question.request_type,  // request type
@@ -186,7 +136,6 @@ const mapStateToProps = (state) => {
 
     request7: state.chat.request3,  // request for get data my real amulet message from other person ( Chat Solo )
     data_myMessageFromOther: state.chat.data_listUser,  // data for store my message from other person ( Chat Solo )
-    data_listuser: state.realtime.data_listuser, /// store data list user contacct to admin
   }
 }
 
@@ -197,9 +146,6 @@ const mapDispatchToProps = (dispatch) => {
     getMyMessageFromOther: (page) => dispatch(ChatActions.getListUserContact(page)),
     setDataGroupChat: (data) => dispatch(ChatActions.setGroupChatAdmin(data)),
     clearDataListUser: () => dispatch(ChatActions.clearDataListUser()),
-
-    setListUser: (data) => dispatch(RealtimeActions.setListUser(data)),
-    setTmpAdminData: (data) => dispatch(RealtimeActions.setTmpAdminData(data)),
   }
 }
 

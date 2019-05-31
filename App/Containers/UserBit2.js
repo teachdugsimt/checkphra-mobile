@@ -330,13 +330,14 @@ class UserBit2 extends Component {
           height: width * 95.7 / 100
         }} resizeMode='contain' />
 
-        <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
+        <View style={{ flex: 0.37, paddingTop: 10 }}>
           <ImageViewer
             saveToLocalByLongPress={false}
             imageUrls={img2}
-            backgroundColor={'lightgrey'}
+            backgroundColor={'transparents'}
+            onChange={index => this.setState({ index })}
             onClick={(e) => {
-              console.log('Show modal')
+              console.log('--------------------Show modal----------------------')
               this.setState({ modalVisible: true })
             }}
             index={this.state.index}
@@ -514,14 +515,14 @@ class UserBit2 extends Component {
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                   <View style={{ width: '40%', height: 45, marginLeft: 10 }}>
                     <RoundedButton
-                      style={{  }}
+                      style={{}}
                       title={I18n.t('bid2')}
                       onPress={this._onPressButton}
                     />
                   </View>
                   {this.props.data.status == 'interested' && <View style={{ width: '40%', height: 45, marginLeft: 10 }}>
                     <RoundedButton
-                      style={{  }}
+                      style={{}}
                       title={I18n.t('cancelHire')}
                       onPress={this._onPressCancel}
                     />

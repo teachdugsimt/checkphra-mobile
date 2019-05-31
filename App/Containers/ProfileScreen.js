@@ -213,7 +213,7 @@ class ProfileScreen extends Component {
     this.props.setLanguage('en')
     this.popupDialog.dismiss()
   }
-  
+
   render() {
     // let data = []
     // console.log(this.props.profile)
@@ -277,18 +277,32 @@ class ProfileScreen extends Component {
             </View>
             {/* <Text style={{ marginTop: 5, color: 'orange' }}>Check Phra Account</Text> */}
 
-            <View style={{ flexDirection: 'row', marginTop: 5 }}>
+            <View style={{ flexDirection: 'column', marginTop: 5 }}>
+              <View style={{ flexDirection: 'row' }}>
+                <Icon
+                  name="mail"
+                  size={18}
+                  color={Colors.brownText}
+                  style={{ marginRight: 10 }}
+                  onPress={() => { }}
+                />
+                {this.props.profile &&
+                  <Text> {this.props.profile.email}</Text>
+                }
+              </View>
 
-              <Icon
-                name="mail"
-                size={18}
-                color={Colors.brownText}
-                style={{ marginRight: 10 }}
-                onPress={() => { }}
-              />
-              {this.props.profile &&
-                <Text> {this.props.profile.email}</Text>
-              }
+              {this.props.profile && this.props.profile.store && this.props.profile.store.store_name && <View style={{ flexDirection: 'row' }}>
+                <Icon
+                  name="shop"
+                  size={18}
+                  color={Colors.brownText}
+                  style={{ marginRight: 10 }}
+                  onPress={() => { }}
+                />
+                {this.props.profile &&
+                  <Text>{this.props.profile.store.store_name}</Text>
+                }
+              </View>}
 
             </View>
 
@@ -325,7 +339,9 @@ class ProfileScreen extends Component {
 
         {/* ************* CHANGE NAME ZONE ************* */}
         <PopupDialog
-          dialogTitle={<DialogTitle title={I18n.t('changeName')} titleTextStyle={{ fontSize: 18 }} />}
+          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+            fontSize: 18, fontWeight: 'bold'
+          }}>{I18n.t('changeName')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
           dialogAnimation={slideAnimation}
           width={0.7}
@@ -491,7 +507,9 @@ class ProfileScreen extends Component {
 
 
         <PopupDialog
-          dialogTitle={<DialogTitle title={I18n.t('selectLanguage')} titleTextStyle={{ fontSize: 18 }} />}
+          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+            fontSize: 18, fontWeight: 'bold'
+          }}>{I18n.t('selectLanguage')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           dialogAnimation={slideAnimation}
           width={0.7}

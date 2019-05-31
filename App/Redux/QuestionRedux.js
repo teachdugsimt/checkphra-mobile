@@ -68,6 +68,7 @@ const { Types, Creators } = createActions({
 
   clearAmuletChecked: ['id'],
   editTypeAmulet: ['data'],
+  pushDataAddQuestion: ['data'],
 })
 
 export const QuestionTypes = Types
@@ -115,6 +116,19 @@ export const QuestionSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const pushDataAddQuestion = (state, { data }) => {
+  console.log(data)
+  console.log('++++++++++++++ DATA ADD QUESTION ++++++++++++++++++')
+  let tmp = JSON.parse(JSON.stringify(state.data))
+  if (tmp && tmp != null) {
+    tmp.splice(0, 0, data)
+    // console.log(tmp, "++++++++++++++++++++++++ TMP ADTER PUSH ++++++++++++++++++++++++++++")
+    return state.merge({ history: tmp })
+  } else {
+    return;
+  }
+}
 
 export const editTypeAmulet = (state, { data }) => {
   console.log(data)
@@ -492,4 +506,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.UPDATE_READ_HISTORY]: updateReadHistory,
   [Types.CLEAR_AMULET_CHECKED]: clearAmuletChecked,
   [Types.EDIT_TYPE_AMULET]: editTypeAmulet,
+  [Types.PUSH_DATA_ADD_QUESTION]: pushDataAddQuestion,
 })

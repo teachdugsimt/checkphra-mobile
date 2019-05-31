@@ -59,7 +59,7 @@ class MarketListShop2 extends Component {
 
     _goToChatTheirAmulet = (item) => {
         this.props.setTheirAmuletData(item)
-        this.props.navigation.navigate('chatTheirAmulet')
+        this.props.navigation.navigate('chatTheirAmulet2')
     }
 
     // _renderItem = ({ item, index }) => {

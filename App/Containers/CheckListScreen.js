@@ -297,7 +297,7 @@ class CheckListScreen extends Component {
       else if (e.name == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
         name = e.name
       }
-      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ'|| e.name == "ไม่ระบุประเภท") {
+      else if (e.name == 'อื่นๆ หรือ ไม่ทราบ' || e.name == "ไม่ระบุประเภท") {
         name = I18n.t('otherOrUnknown')
       } else {
         name = e.name
@@ -309,7 +309,6 @@ class CheckListScreen extends Component {
         "image": null
       })
     })
-
     return item
   }
   static getDerivedStateFromProps(newProps, prevState) {
@@ -574,8 +573,12 @@ class CheckListScreen extends Component {
             }
             else if (item.type == 'หลวงพ่อหลิว') {
               name = I18n.t('LuangPhorLhew')
-            } else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+            } 
+            else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
               name = I18n.t("newGroup1")
+            }
+            else if (item.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+              name = item.type
             }
             else {
               name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
@@ -599,23 +602,23 @@ class CheckListScreen extends Component {
                       <TouchableOpacity style={{ backgroundColor: 'orange', borderRadius: 15 }} onPress={() => this._pressEdit(item.id)}>
                         <Text style={{
                           fontFamily: 'Prompt-SemiBold',
-                          fontSize: 17,
+                          fontSize: 14,
                           color: Colors.brownText,
                           marginVertical: 2.5,
-                          marginHorizontal: 10,
+                          marginHorizontal: 7.5,
                           // margin: 20
                         }}>{name}</Text>
                       </TouchableOpacity>
                       <Text style={{
                         fontFamily: 'Prompt-SemiBold',
-                        fontSize: 17,
+                        fontSize: 14,
                         color: Colors.brownText,
                         // margin: 20
                       }}> ( {item.id} )</Text>
                     </View>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
-                      fontSize: 13,
+                      fontSize: 12,
                       color: Colors.brownText,
                       // margin: 20
                     }}>{item.name ? item.name : item.email}</Text>

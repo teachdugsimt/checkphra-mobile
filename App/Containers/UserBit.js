@@ -271,7 +271,7 @@ class UserBit extends Component {
             }
             else if (item.answer.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
               name = item.answer.type
-            } 
+            }
             else if (item.answer.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
               name = item.answer.type
             }
@@ -294,7 +294,7 @@ class UserBit extends Component {
 
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
-                      fontSize: 17,
+                      fontSize: 14,
                       color: Colors.brownText,
                       // margin: 20
                     }}>{name}</Text>
@@ -317,7 +317,7 @@ class UserBit extends Component {
                   <View style={{ width: width / 2.7, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
-                      fontSize: 15,
+                      fontSize: 14,
                       color: 'white',
                       margin: 20,
                       paddingHorizontal: 20,

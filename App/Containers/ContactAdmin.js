@@ -19,10 +19,10 @@ import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
 import QuestionActions from '../Redux/QuestionRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
-import RealtimeActions from '../Redux/RealtimeRedux'
 import ChatActions from '../Redux/ChatRedux'
-import { GiftedChat } from 'react-native-gifted-chat';
-import firebase, { messaging } from 'react-native-firebase';
+import styles from './Styles/HomeScreenStyle'
+import GridView from "react-native-super-grid";
+import { messaging } from 'react-native-firebase';
 import VersatileActions from '../Redux/VersatileRedux'
 I18n.fallbacks = true;
 // I18n.currentLocale('th');
@@ -31,7 +31,7 @@ const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
 });
 let { width, height } = Dimensions.get('window')
-let count = 10
+let count = 1
 let check = true
 class ContactAdmin extends Component {
     constructor(props) {
@@ -44,93 +44,23 @@ class ContactAdmin extends Component {
             img: null,
             mlist: null,
             tlist: null,
-
-            list: null,
-            timestamp: null,
-            message: null,
-            tmp_messages: null
-            // _isMounted: null,
-        }
-        // this.adminContact = firebase.database().ref('messages/adminchat/' + this.props.user_id);
-        this.adminContact = firebase.database().ref('messages/adminchat/' + this.props.user_id + "/");
-        this.tmpMessages = firebase.database().ref('tmp_admin_messages/' + this.props.user_id)
-    }
-
-    static getDerivedStateFromProps(newProps, prevState) {
-
-        if (newProps.data_messageAdmin && newProps.data_messageAdmin != null) {
-            if (prevState.tmp_messages != newProps.data_messageAdmin) {
-                return {
-                    tmp_messages: newProps.data_messageAdmin
-                }
-            }
-        }
-
-        return {
-
         }
     }
-    getMessage = () => {
-        this.adminContact.limitToLast(10).on('value', messages => {
-            if (messages.val()) {
-                this.props.setMessage(Object.values(messages._value))
-                console.log(Object.values(messages._value))
-            }
-            console.log('-------------------- FRUCK HERE ------------------')
-        })
-    }
-
-    getMessage2 = () => {
-        count = count + 10
-        this.adminContact.limitToLast(count).on('value', messages => {
-            if (messages.val()) {
-                this.props.setMessage(Object.values(messages._value))
-                console.log(Object.values(messages._value))
-            }
-            console.log('-------------------- FRUCK HERE222 ------------------')
-        })
-    }
-
-    handleChange = (event) => {
-        this.setState({
-            message: event.target.value,
-            timestamp: new Date().getTime()
-        });
-    }
-
-    handleSend = (message) => {
-        console.log('-------------------- SEND MESSAGE ZONE ------------------------')
-        if (message) {
-            let newItem = {
-                _id: message[0]._id,
-                text: message[0].text,
-                createdAt: message[0].createdAt,
-                user: {
-                    _id: message[0].user._id,
-                    name: message[0].user.name,
-                    avatar: message[0].user.avatar,
-                    email: message[0].user.email,
-                    fb_id: message[0].user.fb_id,
-                },
-            }
-            this.adminContact.push(newItem)
-            let tmp_item = {
-                user_id: message[0].user._id,
-                name: message[0].user.name,
-                avatar: message[0].user.avatar,
-                email: message[0].user.email,
-                fb_id: message[0].user.fb_id,
-                last_message: message[0].text,
-                createdAt: message[0].createdAt,
-            }
-            this.tmpMessages.set(tmp_item)
-        }
-    }
-
 
     static getDerivedStateFromProps(newProps, prevState) {
         console.log(newProps)
         console.log(prevState)
+
+        // 1. ถ้ามีการส่งข้อความ ให้เก็บอาเรย์ response จากตั้ม ไว้ที่ เสตท message_list แล้วก้ เอาข้อความอันล่าสุด จาก response มาเก็บไว้ที่อาเรย์
+        // tmp ใน เสตท
+
+        if (newProps.data_sendMessageTheirAmulet && newProps.data_sendMessageTheirAmulet != null && prevState.mlist != newProps.data_sendMessageTheirAmulet) {
+            console.log(newProps.data_sendMessageTheirAmulet)
+            newProps.editTheirAmuletMessage(newProps.data_sendMessageTheirAmulet)
+            return {
+                mlist: newProps.data_sendMessageTheirAmulet
+            }
+        }
 
         return {
             // mlist: message_list,
@@ -139,14 +69,57 @@ class ContactAdmin extends Component {
         }
     }
 
+    _sendMessage = () => {
+        if (this.state.text) {
+            console.log('send message complete')
+            console.log(this.state.text)
+            this.props.sendMessageTheirAmulet(this.state.text)
+            this.setState({ text: null })
+        }
+    }
+
+
+
+
+
     componentDidMount() {
-        count = 10
-        this.getMessage()
+        count = 1
+        // if (this.props.data_sendMessageTheirAmulet && this.props.data_sendMessageTheirAmulet != null) {
+        this.props.getMessageTheirAmulet(count)
+        // }
+
+
+        // let img = []
+        // this.props.data_their.images.map(e => {
+        //     img.push({ url: 'https://s3-ap-southeast-1.amazonaws.com/checkphra/images/' + e })
+        // })
+        // this.setState({ img })
     }
 
     componentWillUnmount() {
-        count = 10
+        count = 1
+        this.props.clearTheirAmuletMessage()
+        this.props.getVersatile()
     }
+
+    // ********************* OLD SCHOOL *************************** //
+    // _reload = () => {  // reload เพื่อดูข้อความเก่า
+    //     // count = 1
+    //     // this.props.getMessageTheirAmulet(count)
+    //     if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+    //         count++
+    //         this.props.getMessageTheirAmulet(count)
+    //     }
+    // }
+
+    // _onScrollEndList = () => {  // เลื่อนลงสุดเพื่อดูข้อความใหม่
+    //     console.log('END LIST AGAIN')
+    //     if (this.props.data_messageTheirAmulet && this.props.data_messageTheirAmulet.length >= 2 && (this.props.request3 == false || this.props.request3 == null)) {
+    //         count++
+    //         this.props.getMessageTheirAmulet(count)
+    //     }
+    // }
+    // ********************* OLD SCHOOL *************************** //
 
     // ************************ NEW SCHOOL ************************** //
     _reload = () => {  // reload เพื่อดูข้อความเก่า
@@ -166,6 +139,31 @@ class ContactAdmin extends Component {
         }
     }
     // ************************ NEW SCHOOL ************************** //
+
+    // _chatOwnerAmulet = () => {
+    //     this.props.navigation.navigate("chatTheirAmuletOwner")
+    // }
+
+    // _showPicture = () => {
+    //     this.setState({ modalVisible: true })
+    //     this.popupDialog.show()
+    // }
+
+    _goToURL = (item) => {
+        // const url = 'm.me/316834699141900'
+        // const url = 'https://www.messenger.com/t/' + item    // pc , mobile
+        const url = 'https://m.me?app_scoped_user_id=' + item
+        // const url = 'https://m.me/316834699141900' // pc , mobile can't use
+        console.log(url)
+        Linking.canOpenURL(url).then(supported => {
+            if (supported) {
+                Linking.openURL(url);
+            } else {
+                console.log('Don\'t know how to open URI: ' + url);
+            }
+        });
+
+    }
 
     _renderItem = ({ item, index }) => {
         return (
@@ -193,11 +191,13 @@ class ContactAdmin extends Component {
         )
     }
 
+
+
     render() {
         I18n.locale = this.props.language
-        console.log(count)
         // console.log(this.props.data_amulet)
         // console.log(this.props.data_their)
+        console.log(count)
         console.log('--------------------- Contact Admin -------------------------')
         return (
             <LinearGradient
@@ -210,23 +210,45 @@ class ContactAdmin extends Component {
                     height: width * 95.7 / 100
                 }} resizeMode='contain' />
 
-                <GiftedChat
-                    showUserAvatar={false}
-                    user={{
-                        _id: this.props.user_id,
-                        name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
-                        avatar: this.props.profile && this.props.profile.image ? "https://s3-ap-southeast-1.amazonaws.com/core-profile/images/" + this.props.profile.image : (this.props.profile && this.props.profile.fb_id ? 'https://graph.facebook.com/' + this.props.profile.fb_id + "/picture?width=500&height=500" : "-"),
-                        email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
-                        fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+                {/* ++++++++++++++++++++++++++++++++++++ MESSENGER ZONE ++++++++++++++++++++++++++++++++++++ */}
+
+                <View style={{ marginTop: 5 }}></View>
+                <FlatList
+                    data={this.props.data_messageTheirAmulet}
+                    renderItem={this._renderItem}
+                    ref={(list) => this.myFaltList = list}
+                    onContentSizeChange={() => {
+                        if (this.myFaltList.props.data && this.props.data_sendMessageTheirAmulet)
+                            this.myFaltList.scrollToEnd()
                     }}
-                    messages={this.props.data_messageAdmin ? this.props.data_messageAdmin : []}
-                    onSend={message => {
-                        this.handleChange
-                        this.handleSend(message)
-                    }}
-                    loadEarlier={true}
-                    onLoadEarlier={this.getMessage2}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.request3 == true}
+                            onRefresh={this._reload}
+                        />
+                    }
+                    onEndReached={this._onScrollEndList}
+                    onEndReachedThreshold={0.1}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                 />
+                <View style={{ marginBottom: 10 }}>
+                </View>
+                {/*++++++++++++++++++++++++++++++++++++ MESSENGER ZONE ++++++++++++++++++++++++++++++++++++*/}
+
+                <View style={{ height: 35, width: '100%' }}>
+                    <TextInput style={{ width: '100%', position: 'absolute', bottom: 0, left: 0, backgroundColor: '#fff5', height: 40 }}
+                        value={this.state.text} onChangeText={(text) => this.setState({ text })} />
+                </View>
+
+
+                <TouchableOpacity style={{ position: 'absolute', right: 5, bottom: 10 }} onPress={this._sendMessage}>
+                    <Icon2 name={'arrow-right'} size={22} style={{}} />
+                </TouchableOpacity>
+
+                <Spinner
+                    visible={this.props.request2}
+                    textContent={'Loading...'}
+                    textStyle={{ color: '#fff' }} />
             </LinearGradient>
         )
     }
@@ -236,7 +258,6 @@ const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
         user_id: state.auth.user_id,
-        profile: state.question.profile,
 
         // data_their: state.showroom.data_their,  // data set to this page (ChatTheirAmulet)
 
@@ -245,8 +266,6 @@ const mapStateToProps = (state) => {
 
         request3: state.chat.request2,  // request for get message of this room
         data_messageTheirAmulet: state.chat.data_message, // request for get message of this room
-
-        data_messageAdmin: state.realtime.data_messageAdmin,  // store data message of admin
     }
 }
 
@@ -257,7 +276,6 @@ const mapDispatchToProps = (dispatch) => {
         clearTheirAmuletMessage: () => dispatch(ChatActions.clearCacheGetData()),
         editTheirAmuletMessage: (data) => dispatch(ChatActions.editDataMessage(data)), // edit array
         getVersatile: () => dispatch(VersatileActions.getNormalData()),
-        setMessage: (data) => dispatch(RealtimeActions.setAdminMessage(data)),
     }
 }
 

@@ -249,33 +249,33 @@ class Webboard2 extends Component {
         </View>
       )
     } else {
-    return (
-      <View style={styles.commentContainer} onPress={() => this._goToBoard(item)}>
-        <View style={styles.commentContainer2}>
-          <View style={styles.commentTopRow}>
-            <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
-              <Text style={[styles.nameText, { color: item.profile && item.profile.display_name ? "red" : Colors.brownTextTran }]}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
-            </TouchableOpacity>
-            <Text style={styles.dateText} >{date}</Text>
-          </View>
-
-          <View style={styles.row2View}>
-            <Text style={styles.commentText}>{item.text}</Text>
-          </View>
-
-          <View style={styles.row3View}>
-            {/* <TouchableOpacity style={styles.answerView}><Text>คำตอบ()</Text></TouchableOpacity> */}
-            <View style={styles.likeView}>
-              <TouchableOpacity style={styles.likeTouch} onPress={() => this._likeComment(item)}><Icon2 name={'thumbs-o-up'} size={20} />
-                <Text style={styles.numLikeText}>{item.like}</Text></TouchableOpacity>
-              <TouchableOpacity style={styles.likeTouch2} onPress={() => this._dislikeComment(item)}><Icon2 name={'thumbs-o-down'} size={20} />
-                <Text style={styles.numLikeText2}>{item.dislike}</Text></TouchableOpacity>
+      return (
+        <View style={styles.commentContainer} onPress={() => this._goToBoard(item)}>
+          <View style={styles.commentContainer2}>
+            <View style={styles.commentTopRow}>
+              <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
+                <Text style={[styles.nameText, { color: item.profile && item.profile.display_name ? "red" : Colors.brownTextTran }]}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+              </TouchableOpacity>
+              <Text style={styles.dateText} >{date}</Text>
             </View>
-          </View>
 
+            <View style={styles.row2View}>
+              <Text style={styles.commentText}>{item.text}</Text>
+            </View>
+
+            <View style={styles.row3View}>
+              {/* <TouchableOpacity style={styles.answerView}><Text>คำตอบ()</Text></TouchableOpacity> */}
+              <View style={styles.likeView}>
+                <TouchableOpacity style={styles.likeTouch} onPress={() => this._likeComment(item)}><Icon2 name={'thumbs-o-up'} size={20} />
+                  <Text style={styles.numLikeText}>{item.like}</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.likeTouch2} onPress={() => this._dislikeComment(item)}><Icon2 name={'thumbs-o-down'} size={20} />
+                  <Text style={styles.numLikeText2}>{item.dislike}</Text></TouchableOpacity>
+              </View>
+            </View>
+
+          </View>
         </View>
-      </View>
-    )
+      )
     }
   }
 
@@ -304,7 +304,7 @@ class Webboard2 extends Component {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container} >
         <Image source={Images.watermarkbg} style={styles.mainBackground} resizeMode='contain' />
-        {/* <View style={styles.topicViewRender}>
+        {!this.props.data_comment || (this.props.data_comment && this.props.data_comment.length == 0) && <View style={styles.topicViewRender}>
           <View style={styles.commentContainer2}>
 
             <View style={styles.topRow}>
@@ -332,7 +332,7 @@ class Webboard2 extends Component {
             </View>
 
           </View>
-        </View> */}
+        </View>}
 
 
 
@@ -348,7 +348,7 @@ class Webboard2 extends Component {
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
           onEndReached={this._onScrollEndList.bind(this)}
           onEndReachedThreshold={0.3} />
-      
+
 
         <PopupDialog
           dialogTitle={<View style={styles.popupHead}><Text style={styles.popupTextHead}>{I18n.t('webBoard')}</Text></View>}

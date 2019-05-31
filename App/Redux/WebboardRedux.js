@@ -229,11 +229,12 @@ export const editLikeData = (state, { data }) => {
 }
 
 export const editDataComment = (state, { data }) => {
+  console.log(data)
   let tmp = JSON.parse(JSON.stringify(state.data_comment))
-  if (tmp && tmp != null && tmp.comments && tmp.comments != null && tmp.comments.length > 0) {
-    tmp.comments.push(data)
+  if (tmp && tmp != null) {
+    tmp.push(data)
   } else {
-    tmp.comments.push(data)
+    tmp.push(data)
   }
   console.log(tmp)
   console.log('+++++++++++++++ TMP AFTER ADD COMMENT ++++++++++++++++')

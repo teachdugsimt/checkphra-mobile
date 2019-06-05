@@ -262,3 +262,56 @@ export function* verifyStoreRequest(api, { shop_id, status }) {
     alert(I18n.t('failureTransaction'))
   }
 }
+
+export function* getDetailAmuletCheckedRequest(api, { qid }) {
+  const data = {
+    qid
+  }
+  console.log(data)
+  console.log('=================== DATA getDetailAmuletChecked =======================')
+  const response = yield call(api.getDetailAmuletChecked, data)
+  console.log(response)
+  console.log('================== RESPONSE getDetailAmuletChecked ========================')
+  if (response.ok) {
+    yield put(ExpertActions.getDetailAmuletCheckedSuc(response.data))
+  } else {
+    yield put(ExpertActions.getDetailAmuletCheckedFail())
+  }
+
+}
+
+export function* getListExpertBidRequest(api) {
+  const aut = yield select(auth)
+  const data = {
+    user_id: aut.user_id
+  }
+  const response = yield call(api.getListExpertBid, data)
+  console.log(response)
+  console.log('=================== RESPONSE getListExpertBid =====================')
+  if (response.ok) {
+    yield put(ExpertActions.getListExpertBidSuc(response.data))
+  } else {
+    yield put(ExpertActions.getListExpertBidFail())
+  }
+}
+
+export function* getListDetailExpertBidRequest(api, { page }) {
+  const aut = yield select(auth)
+  const exp = yield select(expert)
+  const data = {
+    user_id: aut.user_id,
+    page_number: page,
+    proposer_uid: exp.tmp_proposer.proposer
+  }
+  console.log(data)
+  console.log('=================== DATA getListDetailExpertBid =====================')
+  const response = yield call(api.getDetailExpertBid, data)
+  console.log(response)
+  console.log('=================== RESPONSE getListDetailExpertBid ======================')
+
+  if(response.ok){
+    yield put(ExpertActions.getListDetailExpertBidSuc(response.data))
+  } else {
+    yield put(ExpertActions.getListDetailExpertBidFail())
+  }
+}

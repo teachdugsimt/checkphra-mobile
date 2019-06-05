@@ -43,6 +43,7 @@ import ContactAdmin from '../Containers/ContactAdmin'
 import AdminHome from '../Containers/AdminHome'
 import AdminContactUser from '../Containers/AdminContactUser'
 import AdminContactUser2 from '../Containers/AdminContactUser2'
+import AnswerOfExpert2 from '../Containers/AnswerOfExpert2'
 import UserContactOwner from '../Containers/UserContactOwner'
 import UserContactOwner2 from '../Containers/UserContactOwner2'
 import Webboard from '../Containers/Webboard'
@@ -68,6 +69,9 @@ import ChatTheirAmulet2 from '../Containers/ChatTheirAmulet2'
 import ChatTheirAmuletOwner2 from '../Containers/ChatTheirAmuletOwner2'
 import ListMyContact from '../Containers/ListMyContact'
 import ListMyContact2 from '../Containers/ListMyContact2'
+import ListExpert from '../Containers/ListExpertBid/ListExpert'
+import ListExpert2 from '../Containers/ListExpertBid/ListExpert2'
+import ListExpert3 from '../Containers/ListExpertBid/ListExpert3'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -874,6 +878,24 @@ const AdminHomeStack = StackNavigator({
       title: I18n.t('chat')
     }
   },
+  listExpert: {
+    screen: ListExpert,
+    navigationOptions: {
+      title: I18n.t('listExpert')
+    }
+  },
+  listExpert2: {
+    screen: ListExpert2,
+    navigationOptions: {
+      title: I18n.t('listExpert')
+    }
+  },
+  listExpert3: {
+    screen: ListExpert3,
+    navigationOptions: {
+      title: I18n.t('listExpert')
+    }
+  },
   // chatRoomMyAmulet: {
   //   screen: ChatRoomMyAmulet,
   //   navigationOptions: {
@@ -1206,9 +1228,41 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
     tabBarPosition: "bottom"
   })
 
+  const AnswerExpertStack = StackNavigator({ // **********************FOR ADMIN *************************
+    answerExpert1: {
+      screen: AnswerOfAdmin,
+      navigationOptions: {
+        title: I18n.t('answer')
+      }
+    },
+    answerExpert2: {
+      screen: AnswerOfExpert2,
+      navigationOptions: {
+        title: I18n.t('answer')
+      }
+    }
+  }, 
+  {
+      transitionConfig: getSlideFromRightTransition,
+      navigationOptions: ({ navigation }) => ({
+        headerTintColor: Colors.headerTitleColor,
+        headerBackTitle: I18n.t('Back'),
+        tabBarLabel: I18n.t('edit'),
+        headerStyle: {
+          backgroundColor: Colors.tabBar,
+        },
+        headerTitleStyle: {
+          color: 'white',
+          fontFamily: 'Prompt-Regular'
+        },
+      })
+    })
+
 const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *************************
   checklist: CheckListStack,
   // pub: PublishStack,
+  answerExpert: AnswerExpertStack,
+  bidExpert: BitStack,
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({
@@ -1225,6 +1279,12 @@ const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *****
         }
         if (routeName == "pub") {
           iconName = `newspaper-o${focused ? "" : ""}`;
+        }
+        if (routeName == "answerExpert") {
+          iconName = `folder-open${focused ? "" : ""}`;
+        }
+        if (routeName == "bidExpert") {
+          iconName = `exchange${focused ? "" : ""}`;
         }
         return <Icon2 name={iconName} size={25} color={tintColor} />;
       },

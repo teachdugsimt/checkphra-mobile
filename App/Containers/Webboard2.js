@@ -75,7 +75,7 @@ class Webboard2 extends Component {
     this.props.getComment()
     count = 1
     check = true
-    this.setState({ tmp_comment: this.props.data_comment })
+    // this.setState({ tmp_comment: this.props.data_comment })
     this.props.editRedDotData(this.props.data_webboard)
   }
 

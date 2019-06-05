@@ -65,7 +65,9 @@ class CheckListScreen extends Component {
     moment.locale('th')
     this.props.getHistory(1)
     this.props.getAmuletType()
-    // this.props.getProfile()
+    if (!this.props.profile || this.props.profile == null) {
+      this.props.getProfile()
+    }
     // this.getDeviceToken()
   }
 
@@ -573,7 +575,7 @@ class CheckListScreen extends Component {
             }
             else if (item.type == 'หลวงพ่อหลิว') {
               name = I18n.t('LuangPhorLhew')
-            } 
+            }
             else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
               name = I18n.t("newGroup1")
             }
@@ -654,6 +656,7 @@ const mapStateToProps = (state) => {
   return {
     history: state.question.history,
     answer: state.question.answer,
+    profile: state.question.profile,
     request2: state.question.request2,  // get history
     images: state.question.images,
     data_amulet: state.question.amuletType,

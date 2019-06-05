@@ -36,7 +36,8 @@ import {
 } from './PaymentSagas'
 import {
   expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
-  getAutoText55, editTypeQuestion, getListShop, verifyStoreRequest
+  getAutoText55, editTypeQuestion, getListShop, verifyStoreRequest, getDetailAmuletCheckedRequest,
+  getListExpertBidRequest, getListDetailExpertBidRequest
 } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
@@ -189,8 +190,9 @@ export default function* root() {
     takeLatest(PaymentTypes.APPLE_HISTORY, appleHistoryRequest, promotionApi),
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
-
-
+    takeLatest(ExpertTypes.GET_DETAIL_AMULET_CHECKED, getDetailAmuletCheckedRequest, question2Api),
+    takeLatest(ExpertTypes.GET_LIST_EXPERT_BID, getListExpertBidRequest, question2Api),
+    takeLatest(ExpertTypes.GET_LIST_DETAIL_EXPERT_BID, getListDetailExpertBidRequest, question2Api),
 
 
   ])

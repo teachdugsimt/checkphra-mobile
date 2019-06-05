@@ -312,7 +312,7 @@ class AnswerScreen extends Component {
           <ImageViewer
             saveToLocalByLongPress={false}
             imageUrls={this.state.img2}
-            backgroundColor={'transparents'}
+            backgroundColor={'transparent'}
             onChange={index => this.setState({ index })}
             onClick={(e) => {
               console.log('Show modal')

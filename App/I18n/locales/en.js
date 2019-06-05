@@ -342,6 +342,10 @@ export default {
   east: "East",
   south: "South",  
 
+  listExpert: "List of Expert",
+  countExpertBid: "count : ",
+  expert: "Expert",
+
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',
   พระกรุ: 'Phra Kru',

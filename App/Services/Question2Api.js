@@ -73,6 +73,7 @@ const create = (baseURL = b) => {
   const editGroupQuestion = (data) => api.post('v2/type/update-type', data)
   const getAnswerGroup = (data) => api.get('v2/answer/sort-by-answer', data)
   const answerAdmin = (data) => api.get('v2/answer/sort-by-answer', data)  // new Edition
+  const getDetailAmuletChecked = (data) => api.get('v2/answer/detail', data)
 
   //**** CERTIFICATE ZONE */
   const addDetailCertificate = (data) => api.post('v2/permit/add', data)
@@ -117,6 +118,10 @@ const create = (baseURL = b) => {
   // ***************************** Versatile Zone **************************** //
   const getVersatile = (data) => api.get('v2/versatile/list', data)
 
+  // ***************************** ADMIN ZONE ***************************** //
+  const getListExpertBid = (data) => api.get('v2/trading/expert-list', data)
+  const getDetailExpertBid = (data) => api.get('v2/trading/expert-trading-list', data)
+
   return {
     // a list of the API functions from step 2
     addQuestion2,
@@ -129,6 +134,7 @@ const create = (baseURL = b) => {
     editGroupQuestion,
     getAnswerGroup,
     answerAdmin,
+    getDetailAmuletChecked,
 
     addDetailCertificate,
     getListCerFromUser,
@@ -148,6 +154,8 @@ const create = (baseURL = b) => {
     getText,
 
     getVersatile,
+    getListExpertBid,
+    getDetailExpertBid,
   }
 }
 

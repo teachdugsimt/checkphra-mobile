@@ -345,6 +345,7 @@ export default {
   listExpert: "List of Expert",
   countExpertBid: "count : ",
   expert: "Expert",
+  inputPrice: 'please input price',
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

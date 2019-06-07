@@ -71,6 +71,21 @@ class MarketListShop extends Component {
                     {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
                         <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
                     </View>}
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </View>}
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </View>}
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </View>}
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </View>}
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </View>}
                 </ScrollView>
 
                 <View style={{ flex: 0.6, marginHorizontal: 7.5 }}>

@@ -15,6 +15,7 @@ import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dia
 import I18n from '../I18n/i18n';
 import { getLanguages } from 'react-native-i18n';
 import RoundedButton from "../Components/RoundedButton";
+import ImageResizer from 'react-native-image-resizer';
 import {
   AccessToken, LoginManager,
   GraphRequest,
@@ -90,21 +91,76 @@ class ProfileScreen extends Component {
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-        this.props.setImg({
-          uri: response.uri,
-          type: response.type,
-          name: response.fileName
-        })
-        this.setState({
-          avatarSource: source
-        });
 
-        this.props.changeProfile(null, null, {
-          uri: response.uri,
-          type: response.type,
-          name: response.fileName
-        })
+
+        ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 100, 0, null)
+          .then((response) => {
+            // response.uri is the URI of the new image that can now be displayed, uploaded...
+            // response.path is the path of the new image
+            // response.name is the name of the new image with the extension
+            // response.size is the size of the new image
+            // console.log(response)
+            //   this.setState({ spinner: false })
+            // this.props.setImages(this.props.id, {
+            //     uri: response.uri,
+            //     type: 'image/jpeg',
+            //     // name: response.fileName,
+            //     name: response.name,
+            //     // size: response.fileSize,
+            //     size: response.size,
+            //     tmp_name: response.path
+            // })
+            this.setState({
+              avatarSource: source
+            });
+            this.props.setImg({
+              uri: response.uri,
+              type: 'image/jpeg',
+              // name: response.fileName,
+              name: response.name,
+              // size: response.fileSize,
+              size: response.size,
+              tmp_name: response.path
+            })
+
+            this.props.changeProfile(null, null, {
+              uri: response.uri,
+              type: 'image/jpeg',
+              // name: response.fileName,
+              name: response.name,
+              // size: response.fileSize,
+              size: response.size,
+              tmp_name: response.path
+            })
+            // this.props.getProfile()
+
+
+            // console.log(response)
+          }).catch((err) => {
+            //   this.setState({ spinner: false })
+            // Oops, something went wrong. Check that the filename is correct and
+            // inspect err to get more details.
+            console.log(err)
+          });
+
+
+
         this.props.getProfile()
+        // this.props.setImg({
+        //   uri: response.uri,
+        //   type: response.type,
+        //   name: response.fileName
+        // })
+        // this.setState({
+        //   avatarSource: source
+        // });
+
+        // this.props.changeProfile(null, null, {
+        //   uri: response.uri,
+        //   type: response.type,
+        //   name: response.fileName
+        // })
+        // this.props.getProfile()
       }
     });
   }

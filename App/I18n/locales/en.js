@@ -347,6 +347,8 @@ export default {
   expert: "Expert",
   inputPrice: 'please input price',
 
+  noneAmuletOnStore: 'None amulet in store',
+
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',
   พระกรุ: 'Phra Kru',

@@ -126,10 +126,10 @@ class ChatTheirAmulet2 extends Component {
 
     listenMessages2 = () => {
         count2 = count2 + 10
-        
+
         this.messageRef.limitToLast(count2).on('value', message => {
             if (message.val()) {
-               
+
                 if (this._isMounted === true) {
                     this.setState({
                         list: Object.values(message.val()),
@@ -452,7 +452,7 @@ class ChatTheirAmulet2 extends Component {
                 <GiftedChat
                     user={{
                         _id: this.props.user_id,
-                        name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                        name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
                         avatar: this.props.profile && this.props.profile.image ? "https://s3-ap-southeast-1.amazonaws.com/core-profile/images/" + this.props.profile.image : (this.props.profile && this.props.profile.fb_id ? 'https://graph.facebook.com/' + this.props.profile.fb_id + "/picture?width=500&height=500" : "-"),
                         email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
                         fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",

@@ -115,7 +115,7 @@ class ListExpert2 extends Component {
     
       _onScrollEndList = () => {
         console.log('END LIST AGAIN')
-        if (this.props.data_getListDetailExpertBid && this.props.data_getListDetailExpertBid.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
+        if (this.props.data_getListDetailExpertBid && this.props.data_getListDetailExpertBid.length >= 10 && (this.props.request_getListDetailExpertBid == false || this.props.request_getListDetailExpertBid == null)) {
           count++
           this.props.getListDetailExpertBid(count)
         }

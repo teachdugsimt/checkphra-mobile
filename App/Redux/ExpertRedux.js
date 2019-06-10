@@ -160,7 +160,23 @@ export const ExpertSelectors = {
 export const setDataExpertBid = (state, { data }) => state.merge({ tmp_biddetail: data })
 
 export const getListDetailExpertBid = state => state.merge({ request_getListDetailExpertBid: true })
-export const getListDetailExpertBidSuc = (state, { data }) => state.merge({ request_getListDetailExpertBid: false, data_getListDetailExpertBid: data })
+export const getListDetailExpertBidSuc = (state, { data }) => {
+  let tmp
+  if (state.data_getListDetailExpertBid && state.data_getListDetailExpertBid != null && state.data_getListDetailExpertBid.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = JSON.parse(JSON.stringify(state.data_getListDetailExpertBid))
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  return state.merge({ request_getListDetailExpertBid: false, data_getListDetailExpertBid: tmp })
+}
 export const getListDetailExpertBidFail = state => state.merge({ request_getListDetailExpertBid: false })
 
 export const setDataProposer = (state, { data }) => state.merge({ tmp_proposer: data })

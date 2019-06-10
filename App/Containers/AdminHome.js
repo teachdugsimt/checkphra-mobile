@@ -36,6 +36,7 @@ class AdminHome extends Component {
       dataProifle: null,
       language: '',
     }
+    this.profile = firebase.database().ref('profile/' + this.props.user_id)
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -260,6 +261,14 @@ class AdminHome extends Component {
           itemDimension={width / 2.5}
           items={this.state.list_user ? this.state.list_user : []}
           renderItem={item => {
+            if (this.props.profile)
+              this.profile.set({
+                uid: this.props.user_id ? this.props.user_id : "-",
+                name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
+                fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+                image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-"
+              })
             return (
 
               <TouchableOpacity onPress={() => this._pressList(item)} style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -314,6 +323,7 @@ class AdminHome extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.auth.language,
+    user_id: state.auth.user_id,
     profile: state.question.profile,
     request_profile: state.question.request_profile,
     data_versatile: state.versatile.data_versatile

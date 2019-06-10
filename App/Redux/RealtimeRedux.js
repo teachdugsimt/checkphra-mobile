@@ -20,7 +20,7 @@ const { Types, Creators } = createActions({
   setTmpListMyContact: ['data'],
   setListMyContact2: ['data'],
 
-  setAdminMessage: ['data'],  // for user save message from admin
+  setAdminMessage: ['data', 'id'],  // for user save message from admin
 
   setListUser: ['data'],  // for admin get list user
 
@@ -78,10 +78,15 @@ export const setListUser = (state, { data }) => {
   return state.merge({ data_listuser: data })
 }
 
-export const setAdminMessage = (state, { data }) => {
+export const setAdminMessage = (state, { data, id }) => {
   data.sort(function (a, b) {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
+  data.forEach((e, i) => {
+    if(e.user._id != id){
+      e.user.avatar = "https://sv1.picz.in.th/images/2019/06/11/19Sk9k.png"
+    }
+  })
   return state.merge({ data_messageAdmin: data })
 }
 

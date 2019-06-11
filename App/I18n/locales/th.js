@@ -348,6 +348,7 @@ export default {
   countExpertBid: "จำนวนพระที่บิท : ",
   expert: "เซียนพระ",
   inputPrice: 'กรุณาใส่ราคาพระ',
+  countExpertChecked: 'จำนวนพระที่ตรวจ : ',
 
   noneAmuletOnStore: 'ไม่มีพระในร้านค้า',
 

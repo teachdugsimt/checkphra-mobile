@@ -72,6 +72,9 @@ import ListMyContact2 from '../Containers/ListMyContact2'
 import ListExpert from '../Containers/ListExpertBid/ListExpert'
 import ListExpert2 from '../Containers/ListExpertBid/ListExpert2'
 import ListExpert3 from '../Containers/ListExpertBid/ListExpert3'
+import ListExpertChecked from '../Containers/ListExpertCheck/ListExpertChecked'
+import ListExpertChecked2 from '../Containers/ListExpertCheck/ListExpertChecked2'
+// import ListExpertChecked3 from '../Containers/ListExpertCheck/ListExpertChecked3'
 
 import Banking from '../Containers/Payment/Banking'
 import Promptpay from '../Containers/Payment/Promptpay'
@@ -896,6 +899,24 @@ const AdminHomeStack = StackNavigator({
       title: I18n.t('listExpert')
     }
   },
+  listExpertChecked: {
+    screen: ListExpertChecked,
+    navigationOptions: {
+      title: I18n.t('listExpert')
+    }
+  },
+  listExpertChecked2: {
+    screen: ListExpertChecked2,
+    navigationOptions: {
+      title: I18n.t('listExpert')
+    }
+  },
+  // listExpertChecked3: {
+  //   screen: ListExpertChecked3,
+  //   navigationOptions: {
+  //     title: I18n.t('listExpert')
+  //   }
+  // },
   // chatRoomMyAmulet: {
   //   screen: ChatRoomMyAmulet,
   //   navigationOptions: {

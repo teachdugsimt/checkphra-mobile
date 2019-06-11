@@ -37,7 +37,7 @@ import {
 import {
   expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
   getAutoText55, editTypeQuestion, getListShop, verifyStoreRequest, getDetailAmuletCheckedRequest,
-  getListExpertBidRequest, getListDetailExpertBidRequest
+  getListExpertBidRequest, getListDetailExpertBidRequest, getListExpertCheckedRequest
 } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
@@ -92,6 +92,7 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    takeLatest(ExpertTypes.GET_LIST_EXPERT_CHECKED, getListExpertCheckedRequest, question2Api),
     takeLatest(ShowRoomTypes.GET_MESSAGE_OTHER_CONTACT_MY_AMULET, getMessageOtherContactMyAmuletRequest, coreDiscussApi),
     takeLatest(VersatileTypes.GET_NORMAL_DATA, getNormalDataRequest, question2Api),
 

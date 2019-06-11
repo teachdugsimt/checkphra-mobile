@@ -21,19 +21,19 @@ const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
 });
 let { width, height } = Dimensions.get('window')
-class ListExpert extends Component {
+class ListExpertChecked extends Component {
 
     componentDidMount() {
-        this.props.getListExpertBid()
+        this.props.getListExpertChecked()
     }
 
     _reload = () => {
-        this.props.getListExpertBid()
+        this.props.getListExpertChecked()
     }
 
     _pressList = (item) => {
-        this.props.setDataProposer(item)
-        this.props.navigation.navigate('listExpert2')
+        // this.props.setDataProposer(item)
+        // this.props.navigation.navigate('listExpert2')
     }
 
     _renderItem = ({ item, index }) => {
@@ -42,16 +42,12 @@ class ListExpert extends Component {
                 {item.profile && item.profile.image && <Image source={{ uri: item.profile.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
                 {item.profile && !item.profile.image && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
             </View>
-            <View style={{ marginTop: 10, marginBottom: 7.5, justifyContent: 'center' }}>
+            <View style={{ marginVertical: 10, marginHorizontal: 10, marginLeft: 10, justifyContent: 'center' }}>
                 <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 16 }}>{item.profile && item.profile.name ? item.profile.name : 'Expert Account'}</Text>
-                <Text>{I18n.t("countExpertBid") + item.count}</Text>
-                {/* <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={{}}>
-                        <Text style={{ borderRadius: 12, paddingVertical: 2.5, paddingHorizontal: 8.5, backgroundColor: 'orange' }}>{I18n.t("countExpertChecked")}</Text>
-                    </TouchableOpacity>
-                </View> */}
+                <Text>{I18n.t("countExpertChecked") + (item.count ? item.count : "0")}</Text>
             </View>
-        </TouchableOpacity >)
+        </TouchableOpacity>)
+
     }
 
     render() {
@@ -79,8 +75,8 @@ const mapStateToProps = (state) => {
         profile: state.question.profile,
         request_profile: state.question.request_profile,
         data_versatile: state.versatile.data_versatile,
-        data_getListExpertBid: state.expert.data_getListExpertBid,
-        request_getListExpertBid: state.expert.request_getListExpertBid,
+        data_getListExpertBid: state.expert.data_getListExpertChecked,
+        request_getListExpertBid: state.expert.request_getListExpertChecked,
     }
 }
 
@@ -89,9 +85,10 @@ const mapDispatchToProps = (dispatch) => {
         getProfile: () => dispatch(QuestionActions.getProfile()),
         getNormalData: () => dispatch(VersatileActions.getNormalData()),
         saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
-        getListExpertBid: () => dispatch(ExpertActions.getListExpertBid()),
-        setDataProposer: (data) => dispatch(ExpertActions.setDataProposer(data)),
+        getListExpertChecked: (date) => dispatch(ExpertActions.getListExpertChecked(date)),
+        // getListExpertBid: () => dispatch(ExpertActions.getListExpertBid()),
+        // setDataProposer: (data) => dispatch(ExpertActions.setDataProposer(data)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListExpert)
+export default connect(mapStateToProps, mapDispatchToProps)(ListExpertChecked)

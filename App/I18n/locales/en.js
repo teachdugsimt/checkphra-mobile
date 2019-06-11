@@ -347,6 +347,7 @@ export default {
   countExpertBid: "count : ",
   expert: "Expert",
   inputPrice: 'please input price',
+  countExpertChecked: 'count checked : ',
 
   noneAmuletOnStore: 'None amulet in store',
 

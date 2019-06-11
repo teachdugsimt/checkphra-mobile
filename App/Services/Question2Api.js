@@ -121,6 +121,7 @@ const create = (baseURL = b) => {
   // ***************************** ADMIN ZONE ***************************** //
   const getListExpertBid = (data) => api.get('v2/trading/expert-list', data)
   const getDetailExpertBid = (data) => api.get('v2/trading/expert-trading-list', data)
+  const getListExpertChecked =  (data) => api.get('v3/answer-statistic/inspection-list', data)
 
   return {
     // a list of the API functions from step 2
@@ -156,6 +157,7 @@ const create = (baseURL = b) => {
     getVersatile,
     getListExpertBid,
     getDetailExpertBid,
+    getListExpertChecked,
   }
 }
 

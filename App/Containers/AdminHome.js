@@ -87,7 +87,8 @@ class AdminHome extends Component {
     } else if (item.id == 4) {
       this.props.navigation.navigate('marketHome')
     } else if (item.id == 5) {
-      this.props.navigation.navigate('listExpert')
+      // this.props.navigation.navigate('listExpert')
+      this.popupDialog2.show()
     }
   }
 
@@ -309,10 +310,39 @@ class AdminHome extends Component {
               <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('userContact')}</Text>
             </TouchableOpacity>
 
-
-
           </View>
 
+        </PopupDialog>
+
+        <PopupDialog
+          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+            fontSize: 18, fontWeight: 'bold'
+          }}>{I18n.t('editType')}</Text></View>}
+          ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width / 1.05}
+          height={height / 3}
+          // height={150}
+          onDismissed={() => { this.setState({}) }}
+        >
+
+          <View style={{ flex: 1 }}>
+
+            <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginHorizontal: 10, flex: 1, height: '100%' }} onPress={() => {
+              this.props.navigation.navigate("listExpert")
+              this.popupDialog2.dismiss()
+            }}>
+              <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('countExpertBid').slice(0, I18n.t("countExpertBid").length - 3)}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: '100%' }} onPress={() => {
+              this.props.navigation.navigate("listExpertChecked")
+              this.popupDialog2.dismiss()
+            }}>
+              <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('countExpertChecked').slice(0, I18n.t('countExpertChecked').length - 3)}</Text>
+            </TouchableOpacity>
+
+          </View>
         </PopupDialog>
 
       </LinearGradient>

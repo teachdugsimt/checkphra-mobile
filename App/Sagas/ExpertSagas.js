@@ -315,3 +315,39 @@ export function* getListDetailExpertBidRequest(api, { page }) {
     yield put(ExpertActions.getListDetailExpertBidFail())
   }
 }
+
+export function* getListExpertCheckedRequest(api){
+  const aut = yield select(auth)
+
+  const data = {
+    user_id: aut.user_id,
+    date: null,
+  }
+
+  const response = yield call(api.getListExpertChecked, data)
+  console.log(response)
+  console.log('======================= RESPONSE getListExpertChecked =======================')
+  if(response.ok){
+    yield put(ExpertActions.getListExpertCheckedSuc(response.data))
+  } else {
+    yield put(ExpertActions.getListExpertCheckedFail())
+  }
+}
+
+
+// export function* getListDetailExpertCheckedRequest(api, {page}){
+//   const aut = yield select(auth)
+//   const data = {
+//     user_id: aut.user_id,
+//     page_number: page
+//   }
+
+//   const response = yield call(api)
+//   console.log(response)
+//   console.log('======================= RESPONSE getListDetailExpertChecked =======================')
+//   if(response.ok){
+//     yield call(ExpertActions.getListDetailExpertCheckedSuc(response.data))
+//   } else {
+//     yield call(ExpertActions.getListDetailExpertCheckedFail())
+//   }
+// }

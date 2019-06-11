@@ -40,6 +40,7 @@ class AnswerOfAdmin extends Component {
       color2: 'orange',
       color3: 'orange',
       color4: 'orange',
+      color5: 'orange',
     }
   }
 
@@ -118,7 +119,7 @@ class AnswerOfAdmin extends Component {
   componentWillUnmount() {
     count = 1
     this.props.setTypeAnswer(1)
-    this.setState({ color1: 'lightgrey', color2: 'orange', color3: 'orange', color4: 'orange' })
+    this.setState({ color1: 'lightgrey', color2: 'orange', color3: 'orange', color4: 'orange', color5: 'orange' })
   }
 
   onRefresh = () => {
@@ -220,6 +221,14 @@ class AnswerOfAdmin extends Component {
     this.props.getAnswer(count)
   }
 
+  _pressList5 = () => {
+    this.setState({ color5: 'lightgrey', color2: 'orange', color3: 'orange', color1: 'orange', color4: 'orange' })
+    this.props.clearDataAnswer()
+    this.props.setTypeAnswer(22)
+    count = 1
+    this.props.getAnswer(count)
+  }
+
   render() {
     I18n.locale = this.props.language
     // let data = this.props.data_answer ? JSON.parse(JSON.stringify(this.props.data_answer)) : null
@@ -312,6 +321,11 @@ class AnswerOfAdmin extends Component {
               <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color4, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList4}>
                 {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('fakePhra')}</Text> */}
                 <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 17, marginTop: 7.5 }}>{I18n.t('fakePhra')}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color5, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList5}>
+                {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('fakePhra')}</Text> */}
+                <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 17, marginTop: 7.5 }}>{I18n.t('noneAnswerAmulet')}</Text>
               </TouchableOpacity>
             </ScrollView>
           </View>}

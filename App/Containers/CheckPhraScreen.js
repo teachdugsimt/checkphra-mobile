@@ -559,7 +559,7 @@ class CheckPhraScreen extends Component {
                                   answer3: 'ไม่ออกผล',
                                 })
                               }}
-                              disabled={!this.state.editing}
+                              // disabled={!this.state.editing}
                               isChecked={this.state.checkNone3}
                               rightText={I18n.t('noneAnswer')}
                               rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
@@ -616,7 +616,7 @@ class CheckPhraScreen extends Component {
                       interested: !this.state.interested
                     })
                   }}
-                  disabled={(this.state.checkFalse || this.state.checkNone1)}
+                  disabled={this.state.checkFalse}
                   isChecked={this.state.interested}
                   rightText={I18n.t('leasing')}
                   rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}

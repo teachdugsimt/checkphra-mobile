@@ -87,6 +87,7 @@ export default {
   realPhraOld: 'Real retro amulet',
   fakePhra: 'Fake amulet',
   realPhranowhere: 'Real amulet unknow place',
+  noneAnswerAmulet: 'None Answer',
   reason: 'Reason',
   checkBy: 'Check by',
   inputReason: 'Please input your reason',

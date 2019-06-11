@@ -104,6 +104,7 @@ export default {
   realPhraOld: 'พระแท้ย้อนยุค',
   fakePhra: 'พระไม่แท้',
   realPhranowhere: 'พระแท้ไม่รู้ที่',
+  noneAnswerAmulet: 'ไม่ออกผล',
   sureBan: "คุณต้องการแบนพระองค์นี้ ?",
 
   reason: 'เหตุผล',

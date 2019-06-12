@@ -44,6 +44,7 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'Prompt-SemiBold',
         color: Colors.brownTextTran,
+        width: "80%",
     },
     topicView: {
         width: width - 20,

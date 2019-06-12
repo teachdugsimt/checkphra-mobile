@@ -104,6 +104,7 @@ export default {
   realPhraOld: 'พระแท้ย้อนยุค',
   fakePhra: 'พระไม่แท้',
   realPhranowhere: 'พระแท้ไม่รู้ที่',
+  noneAnswerAmulet: 'ไม่ออกผล',
   sureBan: "คุณต้องการแบนพระองค์นี้ ?",
 
   reason: 'เหตุผล',
@@ -342,6 +343,13 @@ export default {
   central: "ภาคกลาง",
   east: "ภาคตะวันออก",
   south: "ภาคใต้",  
+
+  listExpert: "รายชื่อเซียนพระ",
+  countExpertBid: "จำนวนพระที่บิท : ",
+  expert: "เซียนพระ",
+  inputPrice: 'กรุณาใส่ราคาพระ',
+
+  noneAmuletOnStore: 'ไม่มีพระในร้านค้า',
 
   หลวงปู่ทวด: 'หลวงปู่ทวด',
   หลวงปู่หมุน: 'หลวงปู่หมุน',

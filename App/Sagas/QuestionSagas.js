@@ -76,11 +76,12 @@ export function* addQuestion(api) {
     yield put(QuestionActions.clearForm())
     yield put(QuestionActions.clearImage())
   } else {
-    console.log(q.questions)
-    console.log('SAGA Q')
+    // console.log(q.questions)
+    // console.log('SAGA Q')
 
-    const response = yield call(api.addQuestion, q.images, q.questions, q.amuletID, a.user_id)
+    const response = yield call(api.addQuestion2, q.images, q.questions, q.amuletID, a.user_id)
     console.log(response)
+    console.log('========================= ADD QUESTION RESPONSE ======================')
 
     // success?
     if (response.ok) {
@@ -94,6 +95,7 @@ export function* addQuestion(api) {
       //   // { cancelable: false }
       // )
       yield put(QuestionActions.addQuestionSuccess(response.data))
+      // yield put(QuestionActions.pushDataAddQuestion(response.data))
       yield put(QuestionActions.clearForm())
       yield put(QuestionActions.clearImage())
 
@@ -185,7 +187,7 @@ export function* getProfile(api) {
 
   const response = yield call(api.getProfile, data)
   console.log(response)
-
+  console.log('===================== GET PROFILE ========================')
   // success?
   if (response.ok) {
     yield put(QuestionActions.getProfileSuccess(response.data))

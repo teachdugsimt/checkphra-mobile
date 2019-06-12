@@ -65,7 +65,9 @@ class CheckListScreen extends Component {
     moment.locale('th')
     this.props.getHistory(1)
     this.props.getAmuletType()
-    // this.props.getProfile()
+    if (!this.props.profile || this.props.profile == null) {
+      this.props.getProfile()
+    }
     // this.getDeviceToken()
   }
 
@@ -309,7 +311,6 @@ class CheckListScreen extends Component {
         "image": null
       })
     })
-
     return item
   }
   static getDerivedStateFromProps(newProps, prevState) {
@@ -318,15 +319,15 @@ class CheckListScreen extends Component {
     console.log(prevState)
 
 
-    if (newProps.data_answer != null) {
-      if (newProps.request1 == false || newProps.request1 == true) {
-        let tmp = newProps.history.find(e => e.id == newProps.data_answer.q_id)
-        if (tmp && tmp != undefined && newProps.data_answer.q_id == tmp.id) {
-          newProps.getHistory(1)
-          plist = newProps.history
-        }
-      }
-    }
+    // if (newProps.data_answer != null) {
+    //   if (newProps.request1 == false || newProps.request1 == true) {
+    //     let tmp = newProps.history.find(e => e.id == newProps.data_answer.q_id)
+    //     if (tmp && tmp != undefined && newProps.data_answer.q_id == tmp.id) {
+    //       newProps.getHistory(1)
+    //       plist = newProps.history
+    //     }
+    //   }
+    // }
 
 
 
@@ -354,10 +355,10 @@ class CheckListScreen extends Component {
       // }
     }
 
-    if (newProps.data_edit && newProps.data_edit != null && newProps.data_edit != undefined) {
-      newProps.getHistory(1)
-      newProps.clearEditData()
-    }
+    // if (newProps.data_edit && newProps.data_edit != null && newProps.data_edit != undefined) {
+    //   newProps.getHistory(1)
+    //   newProps.clearEditData()
+    // }
 
     return {
       // fetch: checkRequest,
@@ -574,8 +575,12 @@ class CheckListScreen extends Component {
             }
             else if (item.type == 'หลวงพ่อหลิว') {
               name = I18n.t('LuangPhorLhew')
-            } else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+            }
+            else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
               name = I18n.t("newGroup1")
+            }
+            else if (item.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+              name = item.type
             }
             else {
               name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
@@ -599,23 +604,23 @@ class CheckListScreen extends Component {
                       <TouchableOpacity style={{ backgroundColor: 'orange', borderRadius: 15 }} onPress={() => this._pressEdit(item.id)}>
                         <Text style={{
                           fontFamily: 'Prompt-SemiBold',
-                          fontSize: 17,
+                          fontSize: 14,
                           color: Colors.brownText,
                           marginVertical: 2.5,
-                          marginHorizontal: 10,
+                          marginHorizontal: 7.5,
                           // margin: 20
                         }}>{name}</Text>
                       </TouchableOpacity>
                       <Text style={{
                         fontFamily: 'Prompt-SemiBold',
-                        fontSize: 17,
+                        fontSize: 14,
                         color: Colors.brownText,
                         // margin: 20
                       }}> ( {item.id} )</Text>
                     </View>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
-                      fontSize: 13,
+                      fontSize: 12,
                       color: Colors.brownText,
                       // margin: 20
                     }}>{item.name ? item.name : item.email}</Text>
@@ -651,6 +656,7 @@ const mapStateToProps = (state) => {
   return {
     history: state.question.history,
     answer: state.question.answer,
+    profile: state.question.profile,
     request2: state.question.request2,  // get history
     images: state.question.images,
     data_amulet: state.question.amuletType,

@@ -15,7 +15,7 @@ const { Types, Creators } = createActions({
   getListMeFailure: null,
 
 
-  getComment: null,
+  getComment: ['page_number'],
   getCommentSuccess: ['data'],
   getCommentFailure: null,
 
@@ -47,6 +47,7 @@ const { Types, Creators } = createActions({
 
   clearListMyAll: null,
   clearTmp: null,
+  clearDataLike: null,
 })
 
 export const WebboardTypes = Types
@@ -87,6 +88,8 @@ export const WebboardSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const clearDataLike = state => state.merge({ data_like: null })
 
 export const clearTmp = state => state.merge({ tmp_all: null, tmp_my: null })
 
@@ -189,32 +192,49 @@ export const updateMyBoard = (state, { id, updated_at, status }) => {
 export const setMyBoard = (state, { data }) => state.merge({ tmp_my: data })
 export const setAllBoard = (state, { data }) => state.merge({ tmp_all: data })
 
+// export const editLikeData2 = (state, { data }) => {
+//   let tmp = JSON.parse(JSON.stringify(state.data_comment))
+//   let tmp2 = tmp
+//   tmp.comments.map((e, i) => {
+//     if (e.id == data.id) {
+//       tmp2.comments[i] = data
+//     }
+//   })
+//   return state.merge({ data_comment: tmp2 })
+// }
 export const editLikeData2 = (state, { data }) => {
   let tmp = JSON.parse(JSON.stringify(state.data_comment))
   let tmp2 = tmp
-  tmp.comments.map((e, i) => {
-    if (e.id == data.id) {
-      tmp2.comments[i] = data
-    }
-  })
+  if (tmp && tmp != null)
+    tmp.map((e, i) => {
+      if (e.id == data.id) {
+        tmp2[i] = data
+      }
+    })
+  // console.log(tmp2)
+  // console.log(" +++++++++++++++++++ TMP AFTER LIKE ++++++++++++++++++++++")
   return state.merge({ data_comment: tmp2 })
 }
 
 export const editLikeData = (state, { data }) => {
-  let tmp = JSON.parse(JSON.stringify(state.data_comment))
-  let tmp2 = JSON.parse(JSON.stringify(state.data_webboard))
-  tmp2.like = data.like
-  tmp2.dislike = data.dislike
-  tmp = data
-  return state.merge({ data_comment: tmp, data_webboard: tmp2 })
+  // let tmp = JSON.parse(JSON.stringify(state.data_comment))
+  // let tmp2 = JSON.parse(JSON.stringify(state.data_webboard))
+  // tmp2.like = data.like
+  // tmp2.dislike = data.dislike
+  // tmp = data
+  // return state.merge({ data_comment: tmp, data_webboard: tmp2 })
+  // console.log(data)
+  // console.log('++++++++++++++++++ LIKE POST ++++++++++++++++++++++++++')
+  return state.merge({ data_webboard: data })
 }
 
 export const editDataComment = (state, { data }) => {
+  console.log(data)
   let tmp = JSON.parse(JSON.stringify(state.data_comment))
-  if (tmp && tmp != null && tmp.comments && tmp.comments != null && tmp.comments.length > 0) {
-    tmp.comments.push(data)
+  if (tmp && tmp != null) {
+    tmp.push(data)
   } else {
-    tmp.comments.push(data)
+    tmp.push(data)
   }
   console.log(tmp)
   console.log('+++++++++++++++ TMP AFTER ADD COMMENT ++++++++++++++++')
@@ -238,7 +258,55 @@ export const addPostSuccess = (state, { data }) => {
 export const addPostFailure = state => state.merge({ request3: false })
 
 export const getComment = state => state.merge({ request2: true })
-export const getCommentSuccess = (state, { data }) => state.merge({ data_comment: data })
+// export const getCommentSuccess = (state, { data }) => state.merge({ data_comment: data })
+export const getCommentSuccess = (state, { data }) => {
+  console.log(data)
+  console.log("+++++++++++++++++++++ DATA COMMENT ++++++++++++++++++++++++++++++")
+  // let tmp = JSON.parse(JSON.stringify(state.data_comment))
+  // if (tmp && tmp != null) {
+  //   data.map((e, i) => {
+  //     tmp.map((el, index) => {
+  //       if (e.id == el.id && e != el) {
+  //         if ((e.like != el.like) || (e.dislike != el.dislike)) {
+  //           console.log('++++ edit like/dislike comment ++++')
+  //           tmp.splice(index, 1, e)
+  //         }
+  //       } else if (el.find(c => c.id == e.id) == undefined) {
+  //         console.log('++++ add new comment ++++')
+  //         tmp.splice(tmp.length, 0, e)
+  //       } 
+  //       // else if () {
+
+  //       // }
+  //     })
+  //   })
+  // } else {
+  //   tmp = data
+  // }
+
+  let tmp
+  if (state.data_comment && state.data_comment != null && state.data_comment.length > 0) {
+    tmp = JSON.parse(JSON.stringify(state.data_comment))
+
+    data.map((e, i) => {
+      tmp.map((c, index) => {
+        if (e.id == c.id && e != c) {  // 1. id เหมือนกัน แต่ข้อมูลข้างในต่างกัน
+          tmp.splice(index, 1, e)  // แทนที่ช่องนั้นด้วยข้อมูลใหม่คือ e
+        } else if (tmp.find(b => b.id == e.id) == undefined) {  // 2. ถ้าเป็นไอดีใหม่ ให้เพิ่มไปช่องบนสุด
+          tmp.splice(tmp.length, 0, e)
+        } else if (e.id == c.id && e == c) {
+          console.log('SAME VALUE')
+        }
+      })
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+  console.log(tmp)
+  console.log("+++++++++++++++++++++++++ TMP AFTER EDIT +++++++++++++++++++++++++++++++")
+  return state.merge({ data_comment: tmp, request2: false })
+}
 export const getCommentFailure = state => state.merge({ request2: false })
 // request the data from an api
 export const getListAll = state => state.merge({ request: true })
@@ -404,4 +472,5 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.CLEAR_LIST_MY_ALL]: clearListMyAll,
   [Types.CLEAR_TMP]: clearTmp,
+  [Types.CLEAR_DATA_LIKE]: clearDataLike,
 })

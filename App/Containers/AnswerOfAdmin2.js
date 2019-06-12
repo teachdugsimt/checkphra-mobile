@@ -121,38 +121,43 @@ class AnswerOfAdmin2 extends Component {
   }
 
   componentDidMount() {
-    this.props.data.answer.map((e, i) => {
-      if (this.props.data.argument) {
-        this.setState({ answer4: this.props.data.argument })
-      }
-      if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
-        if (e.result == 'ไม่ออกผล' || e.result == '' || e.result == "" || !e.result) {
-          this.setState({ checkans1: true })
-        } else {
-          if (e.result == 'พระแท้ย้อนยุค') {
-            this.setState({ checkTrue1: false, checkTrue2: true, checkTrue3: false, checkFalse: false })
-          } else if (e.result == 'พระแท้') {
-            this.setState({ checkTrue1: true, checkTrue2: false, checkTrue3: false, checkFalse: false })
-          } else if (e.result == 'พระไม่แท้') {
-            this.setState({ checkTrue1: false, checkTrue2: false, checkTrue3: false, checkFalse: true })
-          } else if (e.result == 'พระแท้ไม่รู้ที่') {
-            this.setState({ checkTrue1: false, checkTrue2: false, checkTrue3: true, checkFalse: false })
+    if (this.props.profile && this.props.profile.role == "admin") {
+      this.props.data.answer.map((e, i) => {
+        if (this.props.data.argument) {
+          this.setState({ answer4: this.props.data.argument })
+        }
+        if (e.question == 'พระแท้ / ไม่แท้' || e.question == 'พระแท้/ไม่แท้') {
+          if (e.result == 'ไม่ออกผล' || e.result == '' || e.result == "" || !e.result) {
+            this.setState({ checkans1: true })
+          } else {
+            if (e.result == 'พระแท้ย้อนยุค') {
+              this.setState({ checkTrue1: false, checkTrue2: true, checkTrue3: false, checkFalse: false })
+            } else if (e.result == 'พระแท้') {
+              this.setState({ checkTrue1: true, checkTrue2: false, checkTrue3: false, checkFalse: false })
+            } else if (e.result == 'พระไม่แท้') {
+              this.setState({ checkTrue1: false, checkTrue2: false, checkTrue3: false, checkFalse: true })
+            } else if (e.result == 'พระแท้ไม่รู้ที่') {
+              this.setState({ checkTrue1: false, checkTrue2: false, checkTrue3: true, checkFalse: false })
+            }
+          }
+        } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
+          if (e.result == 'ไม่ออกผล') {
+            this.setState({ checkans2: false, answer2: 'ไม่ออกผล' })
+          } else {
+            this.setState({ answer2: e.result })
+          }
+        } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ / ชื่อวัด') {
+          if (e.result == 'ไม่ออกผล') {
+            this.setState({ checkans3: false, answer3: 'ไม่ออกผล' })
+          } else {
+            this.setState({ answer3: e.result })
           }
         }
-      } else if (e.question == 'ราคาประเมินเช่าพระเครื่อง' || e.question == 'ประเมินราคาพระ') {
-        if (e.result == 'ไม่ออกผล') {
-          this.setState({ checkans2: false, answer2: 'ไม่ออกผล' })
-        } else {
-          this.setState({ answer2: e.result })
-        }
-      } else if (e.question == 'ชื่อหลวงพ่อ / ชื่อวัด / ปี พ.ศ. ที่สร้าง' || e.question == 'ชื่อหลวงพ่อ / ชื่อวัด') {
-        if (e.result == 'ไม่ออกผล') {
-          this.setState({ checkans3: false, answer3: 'ไม่ออกผล' })
-        } else {
-          this.setState({ answer3: e.result })
-        }
-      }
-    })
+      })
+    } else if(this.props.profile && this.props.profile.role == "expert"){
+      console.log(this.props.data_getDetailAmuletChecked)
+      console.log('--------------------------HERE DETAIL------------------------')
+    }
 
   }
   _onPressButton2 = () => {
@@ -207,11 +212,12 @@ class AnswerOfAdmin2 extends Component {
           width: width,
           height: width * 95.7 / 100
         }} resizeMode='contain' />
-        <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
+        <View style={{ flex: 0.37, paddingTop: 10 }}>
           <ImageViewer
             saveToLocalByLongPress={false}
             imageUrls={img2}
-            backgroundColor={'lightgrey'}
+            backgroundColor={'transparent'}
+            onChange={index => this.setState({ index })}
             onClick={(e) => {
               console.log('Show modal')
               this.setState({ modalVisible: true })
@@ -412,8 +418,10 @@ class AnswerOfAdmin2 extends Component {
 const mapStateToProps = (state) => {
   return {
     data: state.expert.answer_detail,
+    profile: state.question.profile,
     language: state.auth.language,
     request: state.expert.fetch5,
+    data_getDetailAmuletChecked: state.expert.data_getDetailAmuletChecked,
   }
 }
 

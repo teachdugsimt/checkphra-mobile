@@ -87,6 +87,7 @@ export default {
   realPhraOld: 'Real retro amulet',
   fakePhra: 'Fake amulet',
   realPhranowhere: 'Real amulet unknow place',
+  noneAnswerAmulet: 'None Answer',
   reason: 'Reason',
   checkBy: 'Check by',
   inputReason: 'Please input your reason',
@@ -341,6 +342,13 @@ export default {
   central: "Central",
   east: "East",
   south: "South",  
+
+  listExpert: "List of Expert",
+  countExpertBid: "count : ",
+  expert: "Expert",
+  inputPrice: 'please input price',
+
+  noneAmuletOnStore: 'None amulet in store',
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

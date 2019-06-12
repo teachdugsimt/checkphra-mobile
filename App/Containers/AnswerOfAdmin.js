@@ -40,6 +40,7 @@ class AnswerOfAdmin extends Component {
       color2: 'orange',
       color3: 'orange',
       color4: 'orange',
+      color5: 'orange',
     }
   }
 
@@ -60,12 +61,24 @@ class AnswerOfAdmin extends Component {
     let tmp = null
     let full_data = []
 
-    if (newProps.data_answer && prevState.answerData && prevState.answerData != newProps.data_answer) {
-      if (newProps.data_answer.length > 0) {
+    // if (newProps.data_answer && prevState.answerData && prevState.answerData != newProps.data_answer) {
+    //   if (newProps.data_answer.length > 0) {
+    //     newProps.data_answer.map(e => {
+    //       full_data.push({
+    //         qid: e.q_id,
+    //         bid_status: !e.bid_status ? 'can' : 'not',
+    //       })
+    //     })
+    //     newProps.setFullData2(full_data)
+    //   }
+    // }
+
+    if (newProps.data_answer && newProps.data_answer != null) {
+      if (prevState.answerData != newProps.data_answer && newProps.data_answer.length > 0) {
         newProps.data_answer.map(e => {
           full_data.push({
             qid: e.q_id,
-            bid_status: !e.bid_status && (e.answer[0].result == 'พระแท้ไม่รู้ที่' || e.answer[0].result == 'พระแท้' || e.answer[0].result == 'พระแท้ย้อนยุค') ? 'can' : 'not',
+            bid_status: !e.bid_status ? 'can' : 'not',
           })
         })
         newProps.setFullData2(full_data)
@@ -106,7 +119,7 @@ class AnswerOfAdmin extends Component {
   componentWillUnmount() {
     count = 1
     this.props.setTypeAnswer(1)
-    this.setState({ color1: 'lightgrey', color2: 'orange', color3: 'orange', color4: 'orange' })
+    this.setState({ color1: 'lightgrey', color2: 'orange', color3: 'orange', color4: 'orange', color5: 'orange' })
   }
 
   onRefresh = () => {
@@ -208,6 +221,14 @@ class AnswerOfAdmin extends Component {
     this.props.getAnswer(count)
   }
 
+  _pressList5 = () => {
+    this.setState({ color5: 'lightgrey', color2: 'orange', color3: 'orange', color1: 'orange', color4: 'orange' })
+    this.props.clearDataAnswer()
+    this.props.setTypeAnswer(22)
+    count = 1
+    this.props.getAnswer(count)
+  }
+
   render() {
     I18n.locale = this.props.language
     // let data = this.props.data_answer ? JSON.parse(JSON.stringify(this.props.data_answer)) : null
@@ -301,6 +322,11 @@ class AnswerOfAdmin extends Component {
                 {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('fakePhra')}</Text> */}
                 <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 17, marginTop: 7.5 }}>{I18n.t('fakePhra')}</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity style={{ backgroundColor: Colors.milk, borderTopWidth: 5, borderTopColor: this.state.color5, borderRightWidth: 1, borderRightColor: 'orange' }} onPress={this._pressList5}>
+                {/* <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('fakePhra')}</Text> */}
+                <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: Colors.brownTextTran, marginHorizontal: 17, marginTop: 7.5 }}>{I18n.t('noneAnswerAmulet')}</Text>
+              </TouchableOpacity>
             </ScrollView>
           </View>}
 
@@ -364,8 +390,13 @@ class AnswerOfAdmin extends Component {
             if (this.props.full_data2 != null && this.props.full_data2.length > 0)
               return (
                 <TouchableOpacity onPress={() => {
-                  this.props.setAnswerDetail(item)
-                  this.props.navigation.navigate('detail')
+                  if (this.props.profile && this.props.profile.role == "admin") {
+                    this.props.setAnswerDetail(item)
+                    this.props.navigation.navigate('detail')
+                  } else if (this.props.profile && this.props.profile.role == "expert") {
+                    this.props.getDetailAmuletChecked(item.q_id)
+                    this.props.navigation.navigate('answerExpert2')
+                  }
                 }
                 }>
                   <View style={{ height: 80, backgroundColor: '#ffffffdd', marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -374,7 +405,7 @@ class AnswerOfAdmin extends Component {
 
                       <Text style={{
                         fontFamily: 'Prompt-SemiBold',
-                        fontSize: 18,
+                        fontSize: 14,
                         color: Colors.brownText,
                         // margin: 20
                       }}>{name}</Text>
@@ -393,13 +424,13 @@ class AnswerOfAdmin extends Component {
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 0.35, height: 80 }}>
 
-                      {item && tmp && tmp.bid_status && tmp.bid_status == 'can' && !item.bid_status && (item.answer[0].result == 'พระแท้ไม่รู้ที่' || item.answer[0].result == 'พระแท้ย้อนยุค' || item.answer[0].result == 'พระแท้') && <TouchableOpacity style={{
+                      {item && tmp && tmp.bid_status && tmp.bid_status == 'can' && !item.bid_status && <TouchableOpacity style={{
                         backgroundColor: 'green',
                         height: 30, borderRadius: 15, width: '85%', marginVertical: 5, justifyContent: 'center'
                       }} onPress={() => this._pressBit(item)}>
                         <Text style={{
                           fontFamily: 'Prompt-SemiBold',
-                          fontSize: 15, color: 'white', alignSelf: 'center'
+                          fontSize: 14, color: 'white', alignSelf: 'center'
                         }}>{I18n.t('bid2')}</Text>
                       </TouchableOpacity>}
 
@@ -435,6 +466,7 @@ class AnswerOfAdmin extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.auth.language,
+    profile: state.question.profile,
     request2: state.expert.fetch4, //get answer admin
     request3: state.expert.fetch5, // send answer
     data_answer: state.expert.data_answer,
@@ -456,6 +488,7 @@ const mapDispatchToProps = (dispatch) => {
     wantBuy: (qid, interest) => dispatch(TradingActions.wantBuy(qid, interest)),
     setTypeAnswer: (data) => dispatch(ExpertActions.setTypeAnswer(data)),
     clearDataAnswer: () => dispatch(ExpertActions.clearDataAnswer()),
+    getDetailAmuletChecked: (qid) => dispatch(ExpertActions.getDetailAmuletChecked(qid)),
     // setAnswer: (pack, q_id, argument, interested) => dispatch(ExpertActions.expertRequest(pack, q_id, argument, interested))
   }
 }

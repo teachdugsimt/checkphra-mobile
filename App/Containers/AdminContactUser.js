@@ -101,7 +101,7 @@ class AdminContactUser extends Component {
       <TouchableOpacity style={{ height: 85, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
         onPress={() => this._goToChat(item)}>
         <View style={{ flexDirection: 'row' }}>
-          {item.avatar && <Image source={{ uri: item.avatar }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+          {item.avatar && item.avatar != "-" && <Image source={{ uri: item.avatar }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
           {/* {item.owner_profile.fb_id == null && item.owner_profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.owner_profile.image }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
           {item.owner_profile && item.owner_profile.fb_id == null && !item.owner_profile.image && <Image source={Images.user} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />} */}
           {item.avatar == "-" && <Image source={Images.user} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
@@ -126,7 +126,8 @@ class AdminContactUser extends Component {
   // }
 
   _reload = () => {
-    // count2 = 10
+    count2 = 10
+    this.getListUser()
     // this.getListUser2()
   }
 

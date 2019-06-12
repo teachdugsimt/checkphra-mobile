@@ -161,7 +161,7 @@ export function* getMessageOtherContactMyAmuletRequest(api, { page }) {   // 22 
   const aut = yield select(auth)
   const their = yield select(idDataAmulet)  // data_their
   // const dgroup = yield select(dataChat)
- const sho = yield select(show)
+  const sho = yield select(show)
   const data = {
     user_id: aut.user_id,
     discuss_id: sho.discuss_id,
@@ -279,13 +279,16 @@ export function* getListMyBoard555(api, { page }) {
   }
 }
 
-export function* getCommentRequest(api) {
+export function* getCommentRequest(api, { page_number }) {
   const web = yield select(webboard)
   const aut = yield select(auth)
   const data = {
     user_id: aut.user_id,
-    post_id: web.data_webboard.id
+    post_id: web.data_webboard.id,
+    page_number
   }
+  console.log(data)
+  console.log('=================== GET COMMENT DATA ========================')
   const response = yield call(api.getComment, data)
   console.log(response)
   console.log('================== GET COMMENT ===================')

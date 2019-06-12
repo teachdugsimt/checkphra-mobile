@@ -330,11 +330,12 @@ class CheckPhraScreen extends Component {
             </ScrollView>
           </PopupDialog>
 
-          <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
+          <View style={{ flex: 0.37, paddingTop: 10 }}>
             <ImageViewer
               saveToLocalByLongPress={false}
               imageUrls={img2}
-              backgroundColor={'lightgrey'}
+              backgroundColor={'transparent'}
+              onChange={index => this.setState({ index })}
               onClick={(e) => {
                 console.log('Show modal')
                 this.setState({ modalVisible: true })
@@ -558,7 +559,7 @@ class CheckPhraScreen extends Component {
                                   answer3: 'ไม่ออกผล',
                                 })
                               }}
-                              disabled={!this.state.editing}
+                              // disabled={!this.state.editing}
                               isChecked={this.state.checkNone3}
                               rightText={I18n.t('noneAnswer')}
                               rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
@@ -615,7 +616,7 @@ class CheckPhraScreen extends Component {
                       interested: !this.state.interested
                     })
                   }}
-                  disabled={(this.state.checkFalse || this.state.checkNone1)}
+                  disabled={this.state.checkFalse}
                   isChecked={this.state.interested}
                   rightText={I18n.t('leasing')}
                   rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}

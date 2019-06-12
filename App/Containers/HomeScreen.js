@@ -581,7 +581,7 @@ class HomeScreen extends Component {
                     <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
                       {item.id == 4 && this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.find(b => b.is_new == true) != undefined && <View
                         style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
-                      <Icon2 name={item.logo} size={40} />
+                      <Icon2 name={item.logo} size={62} />
                       <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
                         {item.name}</Text>
                     </View>
@@ -596,7 +596,7 @@ class HomeScreen extends Component {
                 if (this.props.profile) {
                   this.profile.set({
                     uid: this.props.user_id,
-                    name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                    name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
                     email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
                     fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
                     image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-"
@@ -614,7 +614,7 @@ class HomeScreen extends Component {
                     {item.id == 3 && this.props.data_versatile && this.props.data_versatile != null && this.props.data_versatile.is_new_contact_officer == true && <View
                       style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 2.5, right: 2.5, zIndex: 1 }}></View>}
                     <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
-                      <Icon2 name={item.logo} size={40} />
+                      <Icon2 name={item.logo} size={62} />
                       <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
                         {item.name}</Text>
                     </View>

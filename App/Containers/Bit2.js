@@ -104,23 +104,26 @@ class Bit2 extends Component {
   }
 
   _onPressButton = () => {
-
-    Alert.alert(
-      'Check Phra',
-      I18n.t('checkBid') + " ( " + this.commaSeparateNumber(this.state.price2) + " ฿ )",
-      [
-        {
-          text: I18n.t('ok'), onPress: () => {
-            if (this.state.price2) {
-              this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
-            } else {
-              alert(I18n.t('checkData'))
+    if (this.state.price2 && this.state.price2 != null) {
+      Alert.alert(
+        'Check Phra',
+        I18n.t('checkBid') + " ( " + this.commaSeparateNumber(this.state.price2) + " ฿ )",
+        [
+          {
+            text: I18n.t('ok'), onPress: () => {
+              if (this.state.price2) {
+                this.props.trading(this.props.data.qid, this.state.price + " " + this.commaSeparateNumber(this.state.price2))
+              } else {
+                alert(I18n.t('checkData'))
+              }
             }
-          }
-        },
-        { text: I18n.t('cancel'), onPress: () => { } }
-      ]
-    )
+          },
+          { text: I18n.t('cancel'), onPress: () => { } }
+        ]
+      )
+    } else {
+      alert(I18n.t("inputPrice"))
+    }
   }
 
   componentWillMount() {
@@ -209,11 +212,12 @@ class Bit2 extends Component {
           width: width,
           height: width * 95.7 / 100
         }} resizeMode='contain' />
-        <View style={{ flex: 0.37, borderBottomColor: Colors.brownText, borderBottomWidth: 1 }}>
+        <View style={{ flex: 0.37, paddingTop: 10 }}>
           <ImageViewer
             saveToLocalByLongPress={false}
             imageUrls={img2}
-            backgroundColor={'lightgrey'}
+            backgroundColor={'transparent'}
+            onChange={index => this.setState({ index })}
             onClick={(e) => {
               console.log('Show modal')
               this.setState({ modalVisible: true })

@@ -73,7 +73,7 @@ class ContactAdmin extends Component {
     getMessage = () => {
         this.adminContact.limitToLast(10).on('value', messages => {
             if (messages.val()) {
-                this.props.setMessage(Object.values(messages._value))
+                this.props.setMessage(Object.values(messages._value), this.props.user_id)
                 console.log(Object.values(messages._value))
             }
             console.log('-------------------- FRUCK HERE ------------------')
@@ -84,7 +84,7 @@ class ContactAdmin extends Component {
         count = count + 10
         this.adminContact.limitToLast(count).on('value', messages => {
             if (messages.val()) {
-                this.props.setMessage(Object.values(messages._value))
+                this.props.setMessage(Object.values(messages._value), this.props.user_id)
                 console.log(Object.values(messages._value))
             }
             console.log('-------------------- FRUCK HERE222 ------------------')
@@ -211,10 +211,10 @@ class ContactAdmin extends Component {
                 }} resizeMode='contain' />
 
                 <GiftedChat
-                    showUserAvatar={false}
+                    // showUserAvatar={false}
                     user={{
                         _id: this.props.user_id,
-                        name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                        name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
                         avatar: this.props.profile && this.props.profile.image ? "https://s3-ap-southeast-1.amazonaws.com/core-profile/images/" + this.props.profile.image : (this.props.profile && this.props.profile.fb_id ? 'https://graph.facebook.com/' + this.props.profile.fb_id + "/picture?width=500&height=500" : "-"),
                         email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
                         fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
@@ -226,6 +226,19 @@ class ContactAdmin extends Component {
                     }}
                     loadEarlier={true}
                     onLoadEarlier={this.getMessage2}
+                    renderMessageImage={(image) => {
+                        console.log(image)
+                        console.log('______ RENDER IMAGE ______________________________')
+                    }}
+                    imageProps={<Image source={Images.userAccount} style={{ height: 50, width: 50, borderRadius: 25 }} />}
+                    // imageProps={Images.userAccount}
+                    renderCustomView={(item, index) => {
+                        console.log(item)
+                        console.log("-------------- RENDER VIEW BUBBLE ----------------------------")
+                        // return (
+                        //     <Image source={Images.userAccount} style={{ height: 50, width: 50, borderRadius: 25 }} />
+                        // )
+                    }}
                 />
             </LinearGradient>
         )
@@ -257,7 +270,7 @@ const mapDispatchToProps = (dispatch) => {
         clearTheirAmuletMessage: () => dispatch(ChatActions.clearCacheGetData()),
         editTheirAmuletMessage: (data) => dispatch(ChatActions.editDataMessage(data)), // edit array
         getVersatile: () => dispatch(VersatileActions.getNormalData()),
-        setMessage: (data) => dispatch(RealtimeActions.setAdminMessage(data)),
+        setMessage: (data, id) => dispatch(RealtimeActions.setAdminMessage(data, id)),
     }
 }
 

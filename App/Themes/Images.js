@@ -46,6 +46,7 @@ const images = {
   pin: require('../Images/pin.png'),
   chat: require('../Images/chat.png'),
   logoCheckphra: require('../Images/logo-checkphra.jpg'),
+  iconApp: require('../Images/playstore-icon.png'),
 }
 
 export default images

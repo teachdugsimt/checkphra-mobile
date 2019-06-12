@@ -46,6 +46,26 @@ const create = (baseURL = b) => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
+  const addQuestion2 = (images, questions, amuletID, user_id) => {
+
+    let body = new FormData()
+    images.forEach((element, i) => {
+      body.append('files[' + i + ']', element)
+    });
+    body.append('type', amuletID)
+    body.append('user_id', user_id)
+
+    questions.forEach((element, i) => {
+      body.append('question[' + i + ']', element)
+    })
+    // body.append('question', questions)
+
+    // console.log(body)
+    // console.log('HERE ADD QUESTION BODY')
+    // api.setHeaders({ 'Content-Type': 'multipart/form-data' })
+    return api.post('v2/question/add', body, { headers: { 'Content-Type': 'multipart/form-data' } })
+  }
+
   const getHistory = (data) => api.get('v2/question/list', data)
   const getAnswer = (data) => api.get('v2/answer/detail', data)
   const getAmuletType = (data) => api.get('v3/type/list', data)
@@ -53,6 +73,7 @@ const create = (baseURL = b) => {
   const editGroupQuestion = (data) => api.post('v2/type/update-type', data)
   const getAnswerGroup = (data) => api.get('v2/answer/sort-by-answer', data)
   const answerAdmin = (data) => api.get('v2/answer/sort-by-answer', data)  // new Edition
+  const getDetailAmuletChecked = (data) => api.get('v2/answer/detail', data)
 
   //**** CERTIFICATE ZONE */
   const addDetailCertificate = (data) => api.post('v2/permit/add', data)
@@ -97,8 +118,13 @@ const create = (baseURL = b) => {
   // ***************************** Versatile Zone **************************** //
   const getVersatile = (data) => api.get('v2/versatile/list', data)
 
+  // ***************************** ADMIN ZONE ***************************** //
+  const getListExpertBid = (data) => api.get('v2/trading/expert-list', data)
+  const getDetailExpertBid = (data) => api.get('v2/trading/expert-trading-list', data)
+
   return {
     // a list of the API functions from step 2
+    addQuestion2,
     sharedAnswer,
     getHistory,  // new
     getAnswer, // new
@@ -108,6 +134,7 @@ const create = (baseURL = b) => {
     editGroupQuestion,
     getAnswerGroup,
     answerAdmin,
+    getDetailAmuletChecked,
 
     addDetailCertificate,
     getListCerFromUser,
@@ -127,6 +154,8 @@ const create = (baseURL = b) => {
     getText,
 
     getVersatile,
+    getListExpertBid,
+    getDetailExpertBid,
   }
 }
 

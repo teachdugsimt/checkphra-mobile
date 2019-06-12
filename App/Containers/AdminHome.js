@@ -36,6 +36,7 @@ class AdminHome extends Component {
       dataProifle: null,
       language: '',
     }
+    this.profile = firebase.database().ref('profile/' + this.props.user_id)
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -56,7 +57,8 @@ class AdminHome extends Component {
     const list_user = [{ name: I18n.t('pendingList'), id: 1, logo: 'th-list' },
     { name: I18n.t('editAnswer'), id: 2, logo: 'pencil-square-o' },
     { name: I18n.t('commu'), id: 3, logo: 'wechat' },
-    { name: I18n.t('market'), id: 4, logo: 'cart-plus' }]
+    { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
+    { name: I18n.t('listExpert'), id: 5, logo: 'file-text-o' }]
 
     if (newProps.language != prevState.language) {
       newProps.getProfile()
@@ -84,6 +86,8 @@ class AdminHome extends Component {
       this.popupDialog.show()
     } else if (item.id == 4) {
       this.props.navigation.navigate('marketHome')
+    } else if (item.id == 5) {
+      this.props.navigation.navigate('listExpert')
     }
   }
 
@@ -253,43 +257,51 @@ class AdminHome extends Component {
                     renderItem={this._renderItem}
                 /> */}
 
-                <GridView
-                    itemDimension={width / 2.5}
-                    items={this.state.list_user ? this.state.list_user : []}
-                    renderItem={item => {
-                        return (
+        <GridView
+          itemDimension={width / 2.5}
+          items={this.state.list_user ? this.state.list_user : []}
+          renderItem={item => {
+            if (this.props.profile)
+              this.profile.set({
+                uid: this.props.user_id ? this.props.user_id : "-",
+                name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
+                fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+                image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-"
+              })
+            return (
 
-                            <TouchableOpacity onPress={() => this._pressList(item)} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
-                                    <Icon2 name={item.logo} size={40} />
-                                    <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
-                                        {item.name}</Text>
-                                </View>
-                                {item.id == 1 && this.props.data_versatile && this.props.data_versatile.new_question && <View style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'red', borderRadius: 16, borderColor: 'white', borderWidth: 1, height: 32, justifyContent: 'center' }}><Text style={{ color: 'white', fontFamily: 'Prompt-Semibold', fontSize: 14, padding: 7.5, paddingHorizontal: 16, textAlign: 'center', textAlignVertical: 'center' }}>{this.props.data_versatile.new_question}</Text></View>}
-                            </TouchableOpacity>
-                        );
-                    }}
-                />
+              <TouchableOpacity onPress={() => this._pressList(item)} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
+                  <Icon2 name={item.logo} size={62} />
+                  <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
+                    {item.name}</Text>
+                </View>
+                {item.id == 1 && this.props.data_versatile && this.props.data_versatile.new_question && <View style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'red', borderRadius: 16, borderColor: 'white', borderWidth: 1, height: 32, justifyContent: 'center' }}><Text style={{ color: 'white', fontFamily: 'Prompt-Semibold', fontSize: 14, padding: 7.5, paddingHorizontal: 16, textAlign: 'center', textAlignVertical: 'center' }}>{this.props.data_versatile.new_question}</Text></View>}
+              </TouchableOpacity>
+            );
+          }}
+        />
 
-                <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
-                        fontSize: 18, fontWeight: 'bold'
-                    }}>{I18n.t('editType')}</Text></View>}
-                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-                    dialogAnimation={slideAnimation}
-                    width={width / 1.05}
-                    height={height / 3}
-                    // height={150}
-                    onDismissed={() => { this.setState({}) }}
-                >
+        <PopupDialog
+          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+            fontSize: 18, fontWeight: 'bold'
+          }}>{I18n.t('editType')}</Text></View>}
+          ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width / 1.05}
+          height={height / 3}
+          // height={150}
+          onDismissed={() => { this.setState({}) }}
+        >
 
-                    <View style={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
 
-                        <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginHorizontal: 10, flex: 1, height: '100%' }} onPress={this._webBoard}>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
-                        </TouchableOpacity>
+            <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginHorizontal: 10, flex: 1, height: '100%' }} onPress={this._webBoard}>
+              <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
+            </TouchableOpacity>
 
-                        {/* <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._editAnswer}>
+            {/* <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._editAnswer}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('chat')}</Text>
                                 </TouchableOpacity> */}
 
@@ -311,6 +323,7 @@ class AdminHome extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.auth.language,
+    user_id: state.auth.user_id,
     profile: state.question.profile,
     request_profile: state.question.request_profile,
     data_versatile: state.versatile.data_versatile

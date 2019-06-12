@@ -25,7 +25,8 @@ class HistoryScreen extends Component {
     this.state = {
       refreshing: false,
       fetch: null,
-      data_history: null
+      data_history: null,
+      data_question: null
     }
   }
 
@@ -72,38 +73,25 @@ class HistoryScreen extends Component {
     let hlist = newProps.history
     console.log(newProps)
     console.log(PrevState)
+    console.log('_______________________ HISTORY SCREEN _________________________________')
     // newProps.getProfile()
 
-    // **************  newProps.data_slip.id != data_history.id  ***********//  not sure
-    // if (newProps.data_question != null){
-    //   let tmp = newProps.history.find(e=> e.id == newProps.data_question.id)
-    //   console.log(tmp)
-    //   console.log('HERE TMP DATA HISTORY SCREEN')
-    //   if(tmp && tmp != undefined && newProps.data_question.id == tmp.id){
-    //     newProps.getHistory()
+    // if (newProps.data_question && newProps.history && newProps.data_question.id && newProps.history[0]) {
+    //   if (newProps.data_question.id != newProps.history[0].id) {
+    //     newProps.getHistory(1)
+    //     newProps.getProfile()
     //     return {
     //       data_history: newProps.history
     //     }
     //   }
     // }
-    // *********************************************************************//
 
-    // data_question
-    //beta algorithm test version
-    // if (newProps.request_question == false && newProps.data_question != null) {
-    //   newProps.getHistory(1)
-    //   newProps.getProfile()
-    //   return {
-    //     data_history: newProps.history
-    //   }
-    // }
-
-    if (newProps.data_question && newProps.history && newProps.data_question.id && newProps.history[0]) {
-      if (newProps.data_question.id != newProps.history[0].id) {
+    if(newProps.data_question && newProps.data_question != null){
+      if(newProps.data_question != PrevState.data_question){
+        console.log('--------------------- NEW AMULET UPLOAD ---------------------------------------------------------------------------0--00000000000000000000')
         newProps.getHistory(1)
-        newProps.getProfile()
         return {
-          data_history: newProps.history
+          data_question: newProps.data_question
         }
       }
     }
@@ -213,7 +201,7 @@ class HistoryScreen extends Component {
                     <View style={{ flex: 1, padding: 10 }}>
                       <Text style={{
                         fontFamily: 'Prompt-SemiBold',
-                        fontSize: 18,
+                        fontSize: 14,
                         color: Colors.brownText,
                         // margin: 20
                       }}>{name}</Text>
@@ -234,7 +222,7 @@ class HistoryScreen extends Component {
                     </View>
                     <Text style={{
                       fontFamily: 'Prompt-SemiBold',
-                      fontSize: 15,
+                      fontSize: 14,
                       color: 'white',
                       marginVertical: 20,
                       marginLeft: 20,

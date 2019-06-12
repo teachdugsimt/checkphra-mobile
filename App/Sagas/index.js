@@ -36,7 +36,8 @@ import {
 } from './PaymentSagas'
 import {
   expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
-  getAutoText55, editTypeQuestion, getListShop, verifyStoreRequest
+  getAutoText55, editTypeQuestion, getListShop, verifyStoreRequest, getDetailAmuletCheckedRequest,
+  getListExpertBidRequest, getListDetailExpertBidRequest
 } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
@@ -161,7 +162,7 @@ export default function* root() {
     takeLatest(QuestionTypes.GET_AMULET_TYPE, getAmuletType, question2Api),  // new api v2
     takeLatest(QuestionTypes.GET_QUESTION_TYPE, getQuestionType, question2Api), // new api v2
     takeLatest(ExpertTypes.EDIT_GROUP, editTypeQuestion, question2Api),
-    takeLatest(QuestionTypes.ADD_QUESTION, addQuestion, questionApi),
+    takeLatest(QuestionTypes.ADD_QUESTION, addQuestion, question2Api),
     takeLatest(QuestionTypes.GET_HISTORY, getHistory, question2Api),  // edit new 2019
     takeLatest(QuestionTypes.GET_ANSWER, getAnswer, question2Api), // edit new 2019
     takeLatest(QuestionTypes.GET_PROFILE, getProfile, questionApi),
@@ -189,8 +190,9 @@ export default function* root() {
     takeLatest(PaymentTypes.APPLE_HISTORY, appleHistoryRequest, promotionApi),
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
-
-
+    takeLatest(ExpertTypes.GET_DETAIL_AMULET_CHECKED, getDetailAmuletCheckedRequest, question2Api),
+    takeLatest(ExpertTypes.GET_LIST_EXPERT_BID, getListExpertBidRequest, question2Api),
+    takeLatest(ExpertTypes.GET_LIST_DETAIL_EXPERT_BID, getListDetailExpertBidRequest, question2Api),
 
 
   ])

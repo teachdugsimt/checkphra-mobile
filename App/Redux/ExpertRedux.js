@@ -62,6 +62,10 @@ const { Types, Creators } = createActions({
   verifyStoreSuccess: ['data'],
   verifyStoreFailure: null,
 
+  getDetailAmuletChecked: ['qid'],
+  getDetailAmuletCheckedSuc: ['data'],
+  getDetailAmuletCheckedFail: null,
+
   clearVerifyStore: null,
   clearSendAnswer: null,
   clearGetAnswer: null,
@@ -70,6 +74,18 @@ const { Types, Creators } = createActions({
   clearDataAnswer: null,
 
   editListBankPayment: ['data'],
+
+  getListExpertBid: null,
+  getListExpertBidSuc: ['data'],
+  getListExpertBidFail: null,
+
+  setDataProposer: ['data'],
+
+  getListDetailExpertBid: ['page'],
+  getListDetailExpertBidSuc: ['data'],
+  getListDetailExpertBidFail: null,
+
+  setDataExpertBid: ['data'],
 })
 
 export const ExpertTypes = Types
@@ -110,7 +126,7 @@ export const INITIAL_STATE = Immutable({
   data_text: null,
 
   fetch8: null,  // for edit type of question
-  data_group: null,
+  data_group: null,  // for store edit type data
 
   data_storetmp: null,  // store tmp data to verify shop2
 
@@ -120,8 +136,18 @@ export const INITIAL_STATE = Immutable({
   fetch10: null,  // request for get list verify store
   data_listStore: null,  // store list shop for verify
 
-  type_answer: 1
+  type_answer: 1,
 
+  request_getDetailAmuletChecked: null,  // request detail amulet checked 
+  data_getDetailAmuletChecked: null,
+
+  request_getListExpertBid: null,  // request for get list expert biid price amulet
+  data_getListExpertBid: null,
+
+  tmp_proposer: null,  // store data expert profile
+  request_getListDetailExpertBid: null,  // request get list of expert bid  what amulet
+  data_getListDetailExpertBid: null,
+  tmp_biddetail: null,  // store detail bid of expert
 })
 
 /* ------------- Selectors ------------- */
@@ -131,6 +157,38 @@ export const ExpertSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+export const setDataExpertBid = (state, { data }) => state.merge({ tmp_biddetail: data })
+
+export const getListDetailExpertBid = state => state.merge({ request_getListDetailExpertBid: true })
+export const getListDetailExpertBidSuc = (state, { data }) => {
+  let tmp
+  if (state.data_getListDetailExpertBid && state.data_getListDetailExpertBid != null && state.data_getListDetailExpertBid.length > 0) {
+    // data.forEach(e => tmp.push(e))
+    tmp = JSON.parse(JSON.stringify(state.data_getListDetailExpertBid))
+    data.forEach(e => {
+      if (tmp.find(b => b.id == e.id)) {
+        console.log('SAME VALUE')
+      } else { tmp.push(e) }
+    })
+    // main algorithm
+  } else {
+    tmp = data
+  }
+
+  return state.merge({ request_getListDetailExpertBid: false, data_getListDetailExpertBid: tmp })
+}
+export const getListDetailExpertBidFail = state => state.merge({ request_getListDetailExpertBid: false })
+
+export const setDataProposer = (state, { data }) => state.merge({ tmp_proposer: data })
+
+export const getListExpertBid = state => state.merge({ request_getListExpertBid: true })
+export const getListExpertBidSuc = (state, { data }) => state.merge({ request_getListExpertBid: false, data_getListExpertBid: data })
+export const getListExpertBidFail = state => state.merge({ request_getListExpertBid: false })
+
+export const getDetailAmuletChecked = state => state.merge({ request_getDetailAmuletChecked: true })
+export const getDetailAmuletCheckedSuc = (state, { data }) => state.merge({ request_getDetailAmuletChecked: false, data_getDetailAmuletChecked: data })
+export const getDetailAmuletCheckedFail = state => state.merge({ request_getDetailAmuletChecked: false })
+
 export const editListBankPayment = (state, { data }) => {
   let tmp = JSON.parse(JSON.stringify(state.data_verify))
   // console.log(data)
@@ -360,4 +418,19 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_TYPE_ANSWER]: setTypeAnswer,
   [Types.CLEAR_DATA_ANSWER]: clearDataAnswer,
   [Types.EDIT_LIST_BANK_PAYMENT]: editListBankPayment,
+
+  [Types.GET_DETAIL_AMULET_CHECKED]: getDetailAmuletChecked,
+  [Types.GET_DETAIL_AMULET_CHECKED_SUC]: getDetailAmuletCheckedSuc,
+  [Types.GET_DETAIL_AMULET_CHECKED_FAIL]: getDetailAmuletCheckedFail,
+
+  [Types.GET_LIST_EXPERT_BID]: getListExpertBid,
+  [Types.GET_LIST_EXPERT_BID_SUC]: getListExpertBidSuc,
+  [Types.GET_LIST_EXPERT_BID_FAIL]: getListExpertBidFail,
+
+  [Types.SET_DATA_PROPOSER]: setDataProposer,
+
+  [Types.GET_LIST_DETAIL_EXPERT_BID]: getListDetailExpertBid,
+  [Types.GET_LIST_DETAIL_EXPERT_BID_SUC]: getListDetailExpertBidSuc,
+  [Types.GET_LIST_DETAIL_EXPERT_BID_FAIL]: getListDetailExpertBidFail,
+  [Types.SET_DATA_EXPERT_BID]: setDataExpertBid,
 })

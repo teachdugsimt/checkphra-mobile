@@ -59,7 +59,7 @@ class MarketListShop2 extends Component {
 
     _goToChatTheirAmulet = (item) => {
         this.props.setTheirAmuletData(item)
-        this.props.navigation.navigate('chatTheirAmulet')
+        this.props.navigation.navigate('chatTheirAmulet2')
     }
 
     // _renderItem = ({ item, index }) => {
@@ -214,7 +214,7 @@ class MarketListShop2 extends Component {
                             onRefresh={this._reload}
                         />
                     }
-                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
+                    ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('noneAmuletOnStore')}</Text>}
                     data={this.props.data_amuletstore ? this.props.data_amuletstore : []}
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}

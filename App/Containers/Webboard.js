@@ -314,8 +314,9 @@ class Webboard extends Component {
                     <View style={styles.eachList2}>
                         {/* picture */}
                         <View style={styles.imageView}>
-                            {item.profile && item.profile.image != null && item.profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.profile.image }} style={styles.eachListImage} />}
-                            {item.profile && item.profile.fb_id != null && item.profile.fb_id && <Image source={{ uri: 'https://graph.facebook.com/' + item.profile.fb_id + '/picture' }} style={styles.eachListImage} />}
+                            {item.profile && item.profile.fb_id == null && item.profile.image != null && item.profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.profile.image }} style={styles.eachListImage} />}
+                            {item.profile && item.profile.fb_id != null && <Image source={{ uri: "https://graph.facebook.com/" + item.profile.fb_id + "/picture" }} style={styles.eachListImage} />}
+                            {item.profile && item.profile.fb_id == null && item.profile.image == null && <Image source={Images.user} style={styles.eachListImage} />}
                             {(item.profile == null) && <Image source={Images.user} style={styles.eachListImage} />}
                         </View>
                         <View style={styles.nameView}>

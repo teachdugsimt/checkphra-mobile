@@ -309,25 +309,25 @@ export function* getListDetailExpertBidRequest(api, { page }) {
   console.log(response)
   console.log('=================== RESPONSE getListDetailExpertBid ======================')
 
-  if(response.ok){
+  if (response.ok) {
     yield put(ExpertActions.getListDetailExpertBidSuc(response.data))
   } else {
     yield put(ExpertActions.getListDetailExpertBidFail())
   }
 }
 
-export function* getListExpertCheckedRequest(api){
+export function* getListExpertCheckedRequest(api, { date }) {
   const aut = yield select(auth)
 
   const data = {
     user_id: aut.user_id,
-    date: null,
+    date,
   }
 
   const response = yield call(api.getListExpertChecked, data)
   console.log(response)
   console.log('======================= RESPONSE getListExpertChecked =======================')
-  if(response.ok){
+  if (response.ok) {
     yield put(ExpertActions.getListExpertCheckedSuc(response.data))
   } else {
     yield put(ExpertActions.getListExpertCheckedFail())

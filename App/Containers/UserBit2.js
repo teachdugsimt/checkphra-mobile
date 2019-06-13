@@ -687,7 +687,7 @@ class UserBit2 extends Component {
             </View>
 
             <Spinner
-              visible={(this.props.request1 || this.props.request2)}
+              visible={this.props.request1}
               textContent={'Loading...'}
               textStyle={{ color: '#fff' }}
             />

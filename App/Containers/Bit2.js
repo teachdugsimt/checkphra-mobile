@@ -375,7 +375,7 @@ class Bit2 extends Component {
 
 
             <Spinner
-              visible={(this.props.request1 || this.props.request2)}
+              visible={this.props.request1}
               textContent={'Loading...'}
               textStyle={{ color: '#fff' }}
             />

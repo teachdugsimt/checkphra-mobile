@@ -85,7 +85,7 @@ const { Types, Creators } = createActions({
   getListDetailExpertBidSuc: ['data'],
   getListDetailExpertBidFail: null,
 
-  getListExpertChecked: null,
+  getListExpertChecked: ['date'],
   getListExpertCheckedSuc: ['data'],
   getListExpertCheckedFail: null,
 
@@ -173,7 +173,7 @@ export const ExpertSelectors = {
 /* ------------- Reducers ------------- */
 
 export const getListDetailExpertChecked = (state) => state.merge({ request_getListDetailExpertChecked: true })
-export const getListDetailExpertCheckedSuc = (state, {data}) => {
+export const getListDetailExpertCheckedSuc = (state, { data }) => {
   let tmp
   if (state.data_getListDetailExpertChecked && state.data_getListDetailExpertChecked != null && state.data_getListDetailExpertChecked.length > 0) {
     // data.forEach(e => tmp.push(e))

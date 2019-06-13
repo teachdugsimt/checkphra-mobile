@@ -342,14 +342,15 @@ export default {
   north_east: "ภาคอีสาน",
   central: "ภาคกลาง",
   east: "ภาคตะวันออก",
-  south: "ภาคใต้",  
+  south: "ภาคใต้",
 
   listExpert: "รายชื่อเซียนพระ",
   countExpertBid: "จำนวนพระที่บิท : ",
   expert: "เซียนพระ",
   inputPrice: 'กรุณาใส่ราคาพระ',
   countExpertChecked: 'จำนวนพระที่ตรวจ : ',
-
+  accountBan: 'ไอดีคุณถูกระงับการใช้งาน!!',
+  // resonBan: 'คุณถูกแบนเนื่องจาก : ',
   noneAmuletOnStore: 'ไม่มีพระในร้านค้า',
 
   หลวงปู่ทวด: 'หลวงปู่ทวด',

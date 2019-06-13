@@ -39,8 +39,9 @@ class ListExpert extends Component {
     _renderItem = ({ item, index }) => {
         return (<TouchableOpacity style={{ flexDirection: 'row', height: 70, width: "100%", alignItems: 'center', backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1.5 }} onPress={() => this._pressList(item)}>
             <View style={{ width: 50, height: 50, margin: 10 }}>
-                {item.profile && item.profile.image && <Image source={{ uri: item.profile.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
-                {item.profile && !item.profile.image && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
+                {item.profile && item.profile.img_full_link && <Image source={{ uri: item.profile.img_full_link }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
+                {item.profile && !item.profile.img_full_link && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
+                {!item.profile && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
             </View>
             <View style={{ marginTop: 10, marginBottom: 7.5, justifyContent: 'center' }}>
                 <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 16 }}>{item.profile && item.profile.name ? item.profile.name : 'Expert Account'}</Text>

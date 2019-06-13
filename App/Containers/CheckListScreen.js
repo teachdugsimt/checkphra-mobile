@@ -582,6 +582,12 @@ class CheckListScreen extends Component {
             else if (item.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
               name = item.type
             }
+            else if (item.type == "พระเครื่องจังหวัดนครปฐม") {
+              name = item.type
+            }
+            else if (item.type == "ปราจีนบุรี นครนายก สระแก้ว") {
+              name = item.type
+            }
             else {
               name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
             }

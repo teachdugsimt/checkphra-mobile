@@ -21,7 +21,6 @@ import {
   GraphRequest,
   GraphRequestManager
 } from 'react-native-fbsdk';
-
 // import ImagePicker from 'react-native-image-picker'
 I18n.fallbacks = true;
 // I18n.currentLocale();
@@ -191,6 +190,9 @@ class ProfileScreen extends Component {
   }
 
   componentDidMount() {
+    if (this.props.data_versatile && this.props.data_versatile.ban == true) {
+      this.popupDialogBan.show()
+    }
     this.props.getProfile()
   }
 
@@ -589,7 +591,28 @@ class ProfileScreen extends Component {
           </View>
         </PopupDialog>
 
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialogBan = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width}
+          height={height - 30}
+          onDismissed={() => { }}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 22, fontFamily: 'Prompt-SemiBold', color: 'red' }}>{I18n.t("accountBan")}</Text>
+            <TouchableOpacity style={{ backgroundColor: 'orange', height: 50, borderRadius: 12, marginTop: 10 }} onPress={() => {
+              this.props.signout()
+              this.props.signout2()
+              this.props.clearAll()
+              this.props.clearTmp()
+              this.clearFacebook()
+              this.props.navigation.navigate('Auth')
+            }}>
+              <Text style={{ fontFamily: 'Promp-SemiBold', fontSize: 22, color: Colors.brownText, padding: 7.5 }}>Log out now !!</Text>
+            </TouchableOpacity>
+          </View>
 
+        </PopupDialog>
 
 
       </LinearGradient>
@@ -605,6 +628,7 @@ const mapStateToProps = state => {
     pic: state.auth.picProfile,
     token: state.auth.user_id,
     pic: state.auth.picProfile,
+    data_versatile: state.versatile.data_versatile,  // store versatile data
   };
 };
 

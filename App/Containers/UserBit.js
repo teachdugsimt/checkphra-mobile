@@ -189,7 +189,7 @@ class UserBit extends Component {
 
   _onScrollEndList = () => {
     console.log('END LIST AGAIN')
-    if (this.props.data_answer && this.props.data_answer.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
+    if (this.props.data_answer && this.props.data_answer.length >= 20 && (this.props.request2 == false || this.props.request2 == null)) {
       count++
       this.props.getAnswer(count)
     }
@@ -197,6 +197,8 @@ class UserBit extends Component {
 
   render() {
     I18n.locale = this.props.language
+    console.log(this.props.data_answer)
+    console.log('****************** USER BIT SCCREEN *************************************')
     // let data = this.props.data_answer ? JSON.parse(JSON.stringify(this.props.data_answer)) : null
     return (
       <LinearGradient
@@ -380,8 +382,8 @@ const mapStateToProps = (state) => {
     // request3: state.expert.fetch5, // send answer
     // data_answer: state.expert.data_answer,
     // data_updateAnswer: state.expert.data_updateAnswer,
-    data_answer: state.trading.data_tradelist,
-    request2: state.trading.request2,
+    data_answer: state.trading.data_tradelist2,
+    request2: state.trading.request12,
     data_versatile: state.versatile.data_versatile,  // store versatile data
   }
 }
@@ -396,7 +398,7 @@ const mapDispatchToProps = (dispatch) => {
     // setAnswerDetail: (data) => dispatch(ExpertActions.setAnswerDetail(data)),
 
     setData: (data) => dispatch(TradingActions.setData(data)),
-    getAnswer: (page) => dispatch(TradingActions.listTrading(page)),
+    getAnswer: (page) => dispatch(TradingActions.listTradingu(page)),
     sendMessage: (text) => dispatch(TradingActions.sendMessage(text)),
   }
 }

@@ -93,6 +93,8 @@ const { Types, Creators } = createActions({
   getListDetailExpertCheckedSuc: ['data'],
   getListDetailExpertCheckedFail: null,
 
+  clearListDetailExpertBid: null,
+
   setDataExpertBid: ['data'],
 })
 
@@ -172,6 +174,8 @@ export const ExpertSelectors = {
 
 /* ------------- Reducers ------------- */
 
+export const clearListDetailExpertBid = state => state.merge({ data_getListDetailExpertBid: null })
+
 export const getListDetailExpertChecked = (state) => state.merge({ request_getListDetailExpertChecked: true })
 export const getListDetailExpertCheckedSuc = (state, { data }) => {
   let tmp
@@ -199,17 +203,41 @@ export const getListExpertCheckedFail = state => state.merge({ request_getListEx
 export const setDataExpertBid = (state, { data }) => state.merge({ tmp_biddetail: data })
 
 export const getListDetailExpertBid = state => state.merge({ request_getListDetailExpertBid: true })
+// export const getListDetailExpertBidSuc = (state, { data }) => {
+//   let tmp
+//   if (state.data_getListDetailExpertBid && state.data_getListDetailExpertBid != null && state.data_getListDetailExpertBid.length > 0) {
+//     // data.forEach(e => tmp.push(e))
+//     tmp = JSON.parse(JSON.stringify(state.data_getListDetailExpertBid))
+//     data.forEach(e => {
+//       if (tmp.find(b => b.id == e.id)) {
+//         console.log('SAME VALUE')
+//       } else { tmp.push(e) }
+//     })
+//     // main algorithm
+//   } else {
+//     tmp = data
+//   }
+
+//   return state.merge({ request_getListDetailExpertBid: false, data_getListDetailExpertBid: tmp })
+// }
 export const getListDetailExpertBidSuc = (state, { data }) => {
   let tmp
   if (state.data_getListDetailExpertBid && state.data_getListDetailExpertBid != null && state.data_getListDetailExpertBid.length > 0) {
     // data.forEach(e => tmp.push(e))
     tmp = JSON.parse(JSON.stringify(state.data_getListDetailExpertBid))
-    data.forEach(e => {
-      if (tmp.find(b => b.id == e.id)) {
-        console.log('SAME VALUE')
-      } else { tmp.push(e) }
+    
+    data.map((e, i) => {
+      tmp.map((c, index) => {
+        if (e.id == c.id && e != c) {  // 1. id เหมือนกัน แต่ข้อมูลข้างในต่างกัน
+          tmp.splice(index, 1, e)  // แทนที่ช่องนั้นด้วยข้อมูลใหม่คือ e
+        } else if (tmp.find(b => b.id == e.id) == undefined) {  // 2. ถ้าเป็นไอดีใหม่ ให้เพิ่มไปช่องบนสุด
+          tmp.splice(0, 0, e)
+        } else if (e.id == c.id && e == c) {
+          console.log('SAME VALUE')
+        }
+      })
     })
-    // main algorithm
+
   } else {
     tmp = data
   }
@@ -481,7 +509,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_LIST_DETAIL_EXPERT_CHECKED_SUC]: getListDetailExpertCheckedSuc,
   [Types.GET_LIST_DETAIL_EXPERT_CHECKED_FAIL]: getListDetailExpertCheckedFail,
 
-  // [Types.]: ,
+  [Types.CLEAR_LIST_DETAIL_EXPERT_BID]: clearListDetailExpertBid,
   // [Types.]: ,
   // [Types.]: ,
 

@@ -74,6 +74,8 @@ import ListExpert2 from '../Containers/ListExpertBid/ListExpert2'
 import ListExpert3 from '../Containers/ListExpertBid/ListExpert3'
 import ListExpertChecked from '../Containers/ListExpertCheck/ListExpertChecked'
 import ListExpertChecked2 from '../Containers/ListExpertCheck/ListExpertChecked2'
+import BidExpert from '../Containers/BidExpert'
+import BidExpert2 from '../Containers/BidExpert2'
 // import ListExpertChecked3 from '../Containers/ListExpertCheck/ListExpertChecked3'
 
 import Banking from '../Containers/Payment/Banking'
@@ -881,6 +883,18 @@ const AdminHomeStack = StackNavigator({
       title: I18n.t('chat')
     }
   },
+  bit: {
+    screen: Bit,
+    navigationOptions: {
+      title: I18n.t('bitPrice2')
+    }
+  },
+  bit2: {
+    screen: Bit2,
+    navigationOptions: {
+      title: I18n.t('bitPrice2')
+    }
+  },
   listExpert: {
     screen: ListExpert,
     navigationOptions: {
@@ -1192,7 +1206,7 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
   // answeradmin: AdminAnswerStack,
   // pub: PublishStack,
   shop: SubmitShopStack,
-  bit: BitStack,
+  // bit: BitStack,
   // verify: VerifyStack,
   money: MoneyStack,
   profile: ProfileStack,
@@ -1249,41 +1263,70 @@ const AdminStack = TabNavigator({  // *************** MAIN ADMIN ***************
     tabBarPosition: "bottom"
   })
 
-  const AnswerExpertStack = StackNavigator({ // **********************FOR ADMIN *************************
-    answerExpert1: {
-      screen: AnswerOfAdmin,
-      navigationOptions: {
-        title: I18n.t('answer')
-      }
-    },
-    answerExpert2: {
-      screen: AnswerOfExpert2,
-      navigationOptions: {
-        title: I18n.t('answer')
-      }
+const AnswerExpertStack = StackNavigator({ // **********************FOR ADMIN *************************
+  answerExpert1: {
+    screen: AnswerOfAdmin,
+    navigationOptions: {
+      title: I18n.t('answer')
     }
-  }, 
+  },
+  answerExpert2: {
+    screen: AnswerOfExpert2,
+    navigationOptions: {
+      title: I18n.t('answer')
+    }
+  }
+},
   {
-      transitionConfig: getSlideFromRightTransition,
-      navigationOptions: ({ navigation }) => ({
-        headerTintColor: Colors.headerTitleColor,
-        headerBackTitle: I18n.t('Back'),
-        tabBarLabel: I18n.t('edit'),
-        headerStyle: {
-          backgroundColor: Colors.tabBar,
-        },
-        headerTitleStyle: {
-          color: 'white',
-          fontFamily: 'Prompt-Regular'
-        },
-      })
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
+      tabBarLabel: I18n.t('edit'),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
     })
+  })
+
+const BitExpertStack = StackNavigator({ // **********************FOR ADMIN *************************
+  bitexpert: {
+    screen: BidExpert,
+    navigationOptions: {
+      title: I18n.t('bitPrice2')
+    }
+  },
+  bitexpert2: {
+    screen: BidExpert2,
+    navigationOptions: {
+      title: I18n.t('bitPrice2')
+    }
+  }
+}, {
+    transitionConfig: getSlideFromRightTransition,
+    navigationOptions: ({ navigation }) => ({
+      headerTintColor: Colors.headerTitleColor,
+      headerBackTitle: I18n.t('Back'),
+      tabBarLabel: I18n.t('bitPrice2'),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontFamily: 'Prompt-Regular'
+      },
+    })
+  })
 
 const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *************************
   checklist: CheckListStack,
   // pub: PublishStack,
   answerExpert: AnswerExpertStack,
-  bidExpert: BitStack,
+  bidExpert: BitExpertStack,
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({

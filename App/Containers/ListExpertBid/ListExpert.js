@@ -32,8 +32,13 @@ class ListExpert extends Component {
     }
 
     _pressList = (item) => {
-        this.props.setDataProposer(item)
-        this.props.navigation.navigate('listExpert2')
+        if(item.proposer == this.props.user_id){
+            this.props.setDataProposer(item)
+            this.props.navigation.navigate('bit')
+        } else {
+            this.props.setDataProposer(item)
+            this.props.navigation.navigate('listExpert2')
+        }
     }
 
     _renderItem = ({ item, index }) => {
@@ -77,6 +82,7 @@ class ListExpert extends Component {
 const mapStateToProps = (state) => {
     return {
         language: state.auth.language,
+        user_id: state.auth.user_id,
         profile: state.question.profile,
         request_profile: state.question.request_profile,
         data_versatile: state.versatile.data_versatile,

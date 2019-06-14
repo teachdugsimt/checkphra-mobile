@@ -29,6 +29,8 @@ export function* expertRequest(api, { pack, q_id, argument, interested, permit }
   // console.log(pack)
   // console.log(q_id)
   // console.log('SAGAS')
+  console.log(pack)
+  console.log('===================== DATA PACK ANSWER =====================')
   const response = yield call(api.addAnswer, pack, q_id, aut.user_id, argument, interested, permit)
   console.log(response)
   console.log('==================== SEND ANSWER =========================')

@@ -386,7 +386,7 @@ export function* followGroupAmuletRequest(api, { type_id }) {
   console.log('=============== FOLLOW GROUP AMULET =================')
 
   if (response.ok) {
-    alert(I18n.t('succ'))
+    // alert(I18n.t('succ'))
     yield put(MarketActions.followGroupAmuletSuccess(response.data))
   } else {
     if (response.data.message == 'You must follow at least 3 types of amulets') {

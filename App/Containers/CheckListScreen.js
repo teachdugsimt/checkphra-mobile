@@ -385,7 +385,7 @@ class CheckListScreen extends Component {
   }
 
   _pressEdit = (item) => {
-    if (this.props.profile && this.props.profile.role == 'admin') {
+    if (this.props.profile && (this.props.profile.role == 'admin' || this.props.profile.role == "expert")) {
       this.popupDialog.show()
       this.setState({ tmp_qid: item })
     } else {

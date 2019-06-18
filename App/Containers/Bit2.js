@@ -53,8 +53,21 @@ class Bit2 extends Component {
       price: null,
       price2: null,
       bidData: null,
+
+      tmp_answer: null,
     }
   }
+
+  // static navigationOptions = ({ navigation }) => {
+  //   const params = navigation.state.params || {};
+  //   return {
+  //     headerRight: (
+  //       <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10, marginRight: 7.5 }} onPress={params.showDialog}>
+  //         <Icon2 name={'info'} size={20} style={{ paddingLeft: 5 }} />
+  //       </TouchableOpacity>
+  //     )
+  //   };
+  // };
 
   static navigationOptions = ({ navigation }) => {
     // console.log(navigation)
@@ -128,6 +141,11 @@ class Bit2 extends Component {
 
   componentWillMount() {
     this.setState({ spinner: false })
+  }
+
+  showDialog = () => {
+    // this.props.getProvince()
+    // this.popupDialogProvince.show()
   }
 
   componentDidMount() {

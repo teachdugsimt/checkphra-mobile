@@ -102,8 +102,8 @@ android {
         applicationId "com.infiltech.checkphra"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 39
-        versionName "3.3.2"
+        versionCode 40
+        versionName "3.3.3"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -193,6 +193,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:16.0.1"
     // implementation "com.google.android.gms:play-services-base:15.0.1"
     // implementation "com.google.android.gms:play-services-base:15.0.0"
+    // implementation "com.google.firebase:firebase-firestore:19.0.0"
     implementation "com.google.firebase:firebase-core:16.0.8"
     // implementation "com.google.firebase:firebase-core:15.0.1"
     implementation "com.google.firebase:firebase-auth:16.2.1"

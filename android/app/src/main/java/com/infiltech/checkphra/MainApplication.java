@@ -26,6 +26,7 @@ import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage; // <-- Add this line
+// import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -90,6 +91,7 @@ public class MainApplication extends Application implements ReactApplication {
           new ReactNativeConfigPackage(), //
           // new ReactNativeI18n(),
           new VectorIconsPackage(),
+          // new RNFirebaseFirestorePackage(),
           new RNFirebaseDatabasePackage());
     }
 

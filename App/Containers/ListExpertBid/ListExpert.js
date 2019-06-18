@@ -22,7 +22,9 @@ const slideAnimation = new SlideAnimation({
 });
 let { width, height } = Dimensions.get('window')
 class ListExpert extends Component {
-
+    state = {
+        tmp_item: null,
+    }
     componentDidMount() {
         this.props.getListExpertBid()
     }
@@ -32,9 +34,13 @@ class ListExpert extends Component {
     }
 
     _pressList = (item) => {
-        if(item.proposer == this.props.user_id){
+        if (item.proposer == this.props.user_id) {
             this.props.setDataProposer(item)
-            this.props.navigation.navigate('bit')
+            if (this.props.profile && this.props.profile.role == "admin")
+                this.props.navigation.navigate('bit')
+            else if (this.props.profile && this.props.profile.role == "expert")
+                this.props.navigation.navigate("bitexpert")
+
         } else {
             this.props.setDataProposer(item)
             this.props.navigation.navigate('listExpert2')
@@ -48,7 +54,7 @@ class ListExpert extends Component {
                 {item.profile && !item.profile.img_full_link && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
                 {!item.profile && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
             </View>
-            <View style={{ marginTop: 10, marginBottom: 7.5, justifyContent: 'center' }}>
+            <View style={{ marginTop: 10, marginBottom: 7.5, justifyContent: 'center', width: width / 1.75 }}>
                 <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 16 }}>{item.profile && item.profile.name ? item.profile.name : 'Expert Account'}</Text>
                 <Text>{I18n.t("countExpertBid") + item.count}</Text>
                 {/* <View style={{ flexDirection: 'row' }}>
@@ -57,14 +63,26 @@ class ListExpert extends Component {
                     </TouchableOpacity>
                 </View> */}
             </View>
+{/* 
+            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', marginLeft: 10 }} onPress={this._showPopup(item.group)}>
+                <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 14, color: 'white', paddingHorizontal: 20, paddingTop: 2.5, borderRadius: 15, height: 30, backgroundColor: 'lightgrey', textAlignVertical: 'center' }}>Group</Text>
+            </TouchableOpacity> */}
+
         </TouchableOpacity >)
     }
+
+    // _showPopup = (item) => {
+    //     console.log(item,"********************** ITEM *************************************")
+    //     this.setState({ tmp_item: item })
+    //     this.popupDialog2.show()
+    // }
 
     render() {
 
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
+
                 <FlatList
                     refreshControl={<RefreshControl
                         refreshing={this.props.request_getListExpertBid == true}
@@ -102,3 +120,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListExpert)
+
+
+

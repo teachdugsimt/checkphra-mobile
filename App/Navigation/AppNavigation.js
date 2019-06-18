@@ -76,6 +76,7 @@ import ListExpertChecked from '../Containers/ListExpertCheck/ListExpertChecked'
 import ListExpertChecked2 from '../Containers/ListExpertCheck/ListExpertChecked2'
 import BidExpert from '../Containers/BidExpert'
 import BidExpert2 from '../Containers/BidExpert2'
+import ExpertHome from '../Containers/ExpertHome'
 // import ListExpertChecked3 from '../Containers/ListExpertCheck/ListExpertChecked3'
 
 import Banking from '../Containers/Payment/Banking'
@@ -960,7 +961,13 @@ const AdminHomeStack = StackNavigator({
     })
   })
 
-const CheckListStack = StackNavigator({ // **********************FOR EXPERT & ADMIN *************************
+const ExpertHomeStack = StackNavigator({ // **********************FOR EXPERT ONLY!! *************************
+  expertHome: {
+    screen: ExpertHome,
+    navigationOptions: {
+      title: I18n.t('home')
+    }
+  },
   check: {
     screen: CheckListScreen,
     navigationOptions: {
@@ -972,7 +979,173 @@ const CheckListStack = StackNavigator({ // **********************FOR EXPERT & AD
     navigationOptions: {
       title: I18n.t('pending')
     }
-  }
+  },
+
+  // BIT EXPERT
+  bitexpert: {
+    screen: BidExpert,
+    navigationOptions: {
+      title: I18n.t('bitPrice2')
+    }
+  },
+  bitexpert2: {
+    screen: BidExpert2,
+    navigationOptions: {
+      title: I18n.t('bitPrice2')
+    }
+  },
+
+  // EDIT ANSWER
+  answerExpert1: {
+    screen: AnswerOfAdmin,
+    navigationOptions: {
+      title: I18n.t('answer')
+    }
+  },
+  answerExpert2: {
+    screen: AnswerOfExpert2,
+    navigationOptions: {
+      title: I18n.t('answer')
+    }
+  },
+
+  // LIST STATISTIC
+  listExpert: {
+    screen: ListExpert,
+    navigationOptions: {
+      title: I18n.t('listExpert')
+    }
+  },
+  listExpert2: {
+    screen: ListExpert2,
+    navigationOptions: {
+      title: I18n.t('listExpert')
+    }
+  },
+  listExpert3: {
+    screen: ListExpert3,
+    navigationOptions: {
+      title: I18n.t('listExpert')
+    }
+  },
+  listExpertChecked: {
+    screen: ListExpertChecked,
+    navigationOptions: {
+      title: I18n.t('listExpert')
+    }
+  },
+  listExpertChecked2: {
+    screen: ListExpertChecked2,
+    navigationOptions: {
+      title: I18n.t('listExpert')
+    }
+  },
+
+  // USER PROBLEM
+  chat2: {
+    screen: AdminContactUser,
+    navigationOptions: {
+      title: I18n.t('userContact')
+    }
+  },
+  chat3: {
+    screen: AdminContactUser2,
+    navigationOptions: {
+      title: I18n.t('userContact')
+    }
+  },
+
+  // MARKET && WEBBOARD
+  web1: {
+    screen: Webboard,
+    navigationOptions: {
+      title: I18n.t('webBoard')
+    }
+  },
+  web2: {
+    screen: Webboard2,
+    navigationOptions: {
+      title: I18n.t('webBoard')
+    }
+  },
+  marketHome: {
+    screen: MarketHome,
+    navigationOptions: {
+      title: I18n.t("market")
+    }
+  },
+  marketListArea1: {
+    screen: MarketHomeList1,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketUpload1: {
+    screen: MarketUpload1,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketUpload2: {
+    screen: MarketUpload2,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketUpload2n1: {
+    screen: MarketUpload2n1,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketStore: {
+    screen: MarketOpenstore,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketMylistAmulet: {
+    screen: MarketMyAmulet,
+    navigationOptions: {
+      title: I18n.t('myShop')
+    }
+  },
+  marketSelectType: {
+    screen: MarketSelectType,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketListShop: {
+    screen: MarketListShop,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketListShop2: {
+    screen: MarketListShop2,
+    navigationOptions: {
+      title: I18n.t('market')
+    }
+  },
+  marketSearch1: {
+    screen: MarketSearch1,
+    navigationOptions: {
+      title: I18n.t('searchResult')
+    }
+  },
+  chatTheirAmulet: {
+    screen: ChatTheirAmulet,
+    navigationOptions: {
+      title: I18n.t('chat')
+    }
+  },
+  chatTheirAmuletOwner: {
+    screen: ChatTheirAmuletOwner,
+    navigationOptions: {
+      title: I18n.t('chat')
+    }
+  },
 }, {
     transitionConfig: getSlideFromRightTransition,
     navigationOptions: ({ navigation }) => ({
@@ -1323,10 +1496,10 @@ const BitExpertStack = StackNavigator({ // **********************FOR ADMIN *****
   })
 
 const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *************************
-  checklist: CheckListStack,
+  checklist: ExpertHomeStack, // EXPERT home stack
   // pub: PublishStack,
-  answerExpert: AnswerExpertStack,
-  bidExpert: BitExpertStack,
+  // answerExpert: AnswerExpertStack,
+  // bidExpert: BitExpertStack,
   profile: ProfileStack,
 }, {
     navigationOptions: ({ navigation }) => ({

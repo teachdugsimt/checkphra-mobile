@@ -90,47 +90,47 @@ class AdminContactUser extends Component {
     count2 = 10
     this.getListUser()
 
-    let testTmp = firebase.database().ref('tmp_admin_messages/')
+    // let testTmp = firebase.database().ref('tmp_admin_messages/')
 
-    const tmpMessages2 = firebase.database().ref('tmp_admin_messages/').orderByChild('createdAt').on('value', list => {
-      if (list.val()) {
-        console.log(Object.values(list._value))
-        console.log('**************** ORDER BY CHILD ***************************---************************')
-      }
-    })
+    // const tmpMessages2 = firebase.database().ref('tmp_admin_messages/').orderByChild('createdAt').on('value', list => {
+    //   if (list.val()) {
+    //     console.log(Object.values(list._value))
+    //     console.log('**************** ORDER BY CHILD ***************************---************************')
+    //   }
+    // })
 
-    const tmpMessages3 = firebase.database().ref('tmp_admin_messages/').on('value', list => {
-      if (list.val()) {
-        let data = []
-        list.forEach((e, i) => {
-          // console.log(Object.values(e))
-          // testTmp.child(Object.values(e)[0]).orderByKey('createdAt').on('value', list2 => { // FAILED
-          // testTmp.child(Object.values(e)[0]).orderByChild('createdAt').on('value', list2 => { // FAILED
-          // testTmp.child(Object.values(e)[0]).orderByValue('createdAt').on('value', list2 => { // FAILED
-          testTmp.child(Object.values(e)[0]).orderByPriority('createdAt').on('value', list2 => { // FAILED
-            console.log(list2._value)
-            data.push(list2._value)
-          })
-        })
-        console.log(data)
-        console.log(Object.values(list._value))
-        console.log('**************** ORDER BY KEY ***************************---************************')
-      }
-    })
+    // const tmpMessages3 = firebase.database().ref('tmp_admin_messages/').on('value', list => {
+    //   if (list.val()) {
+    //     let data = []
+    //     list.forEach((e, i) => {
+    //       // console.log(Object.values(e))
+    //       // testTmp.child(Object.values(e)[0]).orderByKey('createdAt').on('value', list2 => { // FAILED
+    //       // testTmp.child(Object.values(e)[0]).orderByChild('createdAt').on('value', list2 => { // FAILED
+    //       // testTmp.child(Object.values(e)[0]).orderByValue('createdAt').on('value', list2 => { // FAILED
+    //       testTmp.child(Object.values(e)[0]).orderByPriority('createdAt').on('value', list2 => { // FAILED
+    //         console.log(list2._value)
+    //         data.push(list2._value)
+    //       })
+    //     })
+    //     console.log(data)
+    //     console.log(Object.values(list._value))
+    //     console.log('**************** ORDER BY KEY ***************************---************************')
+    //   }
+    // })
 
-    const tmpMessages4 = firebase.database().ref('tmp_admin_messages/').orderByValue('createdAt').on('value', list => {
-      if (list.val()) {
-        console.log(Object.values(list._value))
-        console.log('**************** ORDER BY VALUE ***************************---************************')
-      }
-    })
+    // const tmpMessages4 = firebase.database().ref('tmp_admin_messages/').orderByValue('createdAt').on('value', list => {
+    //   if (list.val()) {
+    //     console.log(Object.values(list._value))
+    //     console.log('**************** ORDER BY VALUE ***************************---************************')
+    //   }
+    // })
 
-    const tmpMessages5 = firebase.database().ref('tmp_admin_messages/').orderByPriority('createdAt').on('value', list => {
-      if (list.val()) {
-        console.log(Object.values(list._value))
-        console.log('**************** ORDER BY PRIORITY ***************************---************************')
-      }
-    })
+    // const tmpMessages5 = firebase.database().ref('tmp_admin_messages/').orderByPriority('createdAt').on('value', list => {
+    //   if (list.val()) {
+    //     console.log(Object.values(list._value))
+    //     console.log('**************** ORDER BY PRIORITY ***************************---************************')
+    //   }
+    // })
 
 
     // this.tmpMessages.orderByValue('createdAt').on('value', list => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
   ScrollView, Text, View, TouchableOpacity, Dimensions, AsyncStorage,
-  TextInput, Linking, ImageBackground, Image, Platform, Alert
+  TextInput, Linking, ImageBackground, Image, Platform, Alert, AppState
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -27,6 +27,7 @@ const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
 });
 let { width, height } = Dimensions.get('window')
+let check_status = true
 class AdminHome extends Component {
 
   constructor(props) {
@@ -35,8 +36,10 @@ class AdminHome extends Component {
       list_user: null,
       dataProifle: null,
       language: '',
+      appState: AppState.currentState,
     }
     this.profile = firebase.database().ref('profile/' + this.props.user_id)
+    this.status = firebase.database().ref('status_manager/' + this.props.user_id)
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -123,7 +126,49 @@ class AdminHome extends Component {
     this.props.getProfile()
   }
 
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log(prevProps, prevState)
+    console.log(this.state.appState)
+
+    if (prevState.appState != this.state.appState) {
+      this.status.set({
+        uid: this.props.user_id ? this.props.user_id : "-",
+        name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+        email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
+        fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+        image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-",
+        status: this.state.appState,
+      })
+      console.log("******************* STATUS CHANGE ******************************")
+    }
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
+      console.log('*********************App has come to the foreground!***************************');
+    }
+    this.setState({ appState: nextAppState });
+  };
+
+  componentWillUnmount() {
+    console.log('************************ EXIST APP *******************************')
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
   componentDidMount() {
+    AppState.addEventListener('change', this._handleAppStateChange);
+    this.status.set({
+      uid: this.props.user_id ? this.props.user_id : "-",
+      name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+      email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
+      fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+      image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-",
+      status: this.state.appState,
+  })
     this.props.getNormalData()
     this.props.getProfile()
     this.getDeviceToken()

@@ -351,6 +351,7 @@ export default {
   accountBan: 'Your account has been banned !!',
   // resonBan: 'reason : ',
   noneAmuletOnStore: 'None amulet in store',
+  detail: "Detail",
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

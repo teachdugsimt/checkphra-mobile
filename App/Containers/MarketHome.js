@@ -165,10 +165,10 @@ class MarketHome extends Component {
       this.props.requestAllTypeAmulet()
     }
 
-    if (this.props.profile && !this.props.profile.my_follow && this.props.profile.role != "admin") {
+    if (this.props.profile && !this.props.profile.my_follow && this.props.profile.role != "admin" && this.props.profile.role != "expert") {
       this.popupDialogFix.show()
     }
-    else if (this.props.profile && this.props.profile.my_follow && this.props.profile.role != "admin") {
+    else if (this.props.profile && this.props.profile.my_follow && this.props.profile.role != "admin" && this.props.profile.role != "expert") {
       if (this.props.profile.my_follow.length < 3) {
         this.popupDialogFix.show()
       }
@@ -612,6 +612,12 @@ class MarketHome extends Component {
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
         /> */}
+
+         <Spinner
+          visible={(this.props.request || ((this.props.request5 || (this.props.request15 || this.props.request4))))}
+          textContent={'Loading...'}
+          textStyle={{ color: '#fff' }}
+        />
 
       </LinearGradient >
     )

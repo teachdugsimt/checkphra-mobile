@@ -329,6 +329,8 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
+    // this.ref = firebase.firestore().collection('checkphra');
+    // this.ref.add("value04")
     this.props.checkVersion()  // check new version end method in sagas
     this.props.getVersatile()
     this.props.getProfile()   // get profile
@@ -554,7 +556,11 @@ class HomeScreen extends Component {
         <ScrollView>
           <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.8, width: width - 20, flexDirection: 'row' }}>
 
-            <Swiper style={{}} showsButtons={false} autoplay={true}>
+            <Swiper style={{}} showsButtons={false} autoplay={true}
+            // dotStyle={{ marginTop: 10, marginBottom: -10 }}
+            // activeDotStyle={{ marginTop: 10, marginBottom: -10 }}
+            paginationStyle={{ marginBottom: -20 }}
+            >
               {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 && this.state.autoPlay == true ?
                 this.state.kawsod.map((e, i) => {
                   return (
@@ -607,6 +613,7 @@ class HomeScreen extends Component {
             {this.state.list_user && this.state.list_user.map((item, index) => {
               if (index == 2 || index == 3) {
                 if (this.props.profile) {
+                  // console.log('------------------------------- SET ONLINE ----------------------------------------------')
                   this.profile.set({
                     uid: this.props.user_id,
                     name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
@@ -700,9 +707,9 @@ class HomeScreen extends Component {
             <ScrollView style={{ flex: 1 }}>
               {/* <View style={{ flex: 1 }}> */}
               <Text style={{ marginTop: 10, marginHorizontal: 5, fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, }}>{this.state.tmp_publish ? this.state.tmp_publish.topic : ''}</Text>
-              {this.state.tmp_publish && this.state.tmp_publish.image_link && <Image source={{ uri: this.state.tmp_publish ? this.state.tmp_publish.image_link : "" }} style={{ height: 160, marginTop: 10, borderRadius: 5, marginHorizontal: 5 }} />}
+              {this.state.tmp_publish && (this.state.tmp_publish.image_link != null || this.state.tmp_publish.image_link != "") && <Image source={{ uri: this.state.tmp_publish ? this.state.tmp_publish.image_link : "" }} style={{ height: 160, marginTop: 10, borderRadius: 5, marginHorizontal: 5 }} />}
               <Text style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, marginHorizontal: 5 }}>{this.state.tmp_publish ? this.state.tmp_publish.content : ""}</Text>
-              {this.state.tmp_publish && this.state.tmp_publish.link && <TouchableOpacity onPress={() => this._pressLink(this.state.tmp_publish.link)} style={{ marginVertical: 10, }}><Text style={{ fontWeight: 'bold', color: Colors.brownText, marginHorizontal: 5 }}>{this.state.tmp_publish ? this.state.tmp_publish.link : ""}</Text></TouchableOpacity>}
+              {this.state.tmp_publish && (this.state.tmp_publish.link != null || this.state.tmp_publish.link != "") && <TouchableOpacity onPress={() => this._pressLink(this.state.tmp_publish.link)} style={{ marginVertical: 10, }}><Text style={{ fontWeight: 'bold', color: Colors.brownText, marginHorizontal: 5 }}>{this.state.tmp_publish ? this.state.tmp_publish.link : ""}</Text></TouchableOpacity>}
               {/* </View> */}
             </ScrollView>
           </View>

@@ -347,7 +347,14 @@ export const getListAllSuccess = (state, { data }) => {
           }
         }
         else if (tmp.find(c => c.id == e.id) == undefined) {  // 2. add new post into first array
-          tmp.splice(0, 0, e)
+          // tmp.splice(0, 0, e)
+          // WE MUST CHECK UPDATED AT OF EACh POST
+          if(e.updated_at && e.updated_at > tmp[0].updated_at){
+            tmp.splice(0, 0, e)  // update 12/06/2019 !!
+          } else {
+            tmp.splice(tmp.length, 0, e)  // update 12/06/2019 !!
+          }
+          // tmp.splice(tmp.length, 0, e)  // update 12/06/2019 !!
         }
         else if (e.id == b.id && e == b) { // 3. id new data == id old data , data in new arr == data in old arr
           console.log('SAME VALUE')
@@ -359,6 +366,9 @@ export const getListAllSuccess = (state, { data }) => {
     tmp = data
   }
 
+  // data.sort(function (a, b) {
+  //   return new Date(a.updated_at) - new Date(b.updated_at);
+  // });
   // tmp.sort(function (a, b) {
   //   return b.id - a.id;
   // })
@@ -405,7 +415,9 @@ export const getListMeSuccess = (state, { data }) => {
           }
         }
         else if (tmp.find(c => c.id == e.id) == undefined) {  // 2. add new post into first array
-          tmp.splice(0, 0, e)
+          // tmp.splice(0, 0, e)
+          // WE MUST CHECK UPDATED AT OF EACh POST
+          tmp.splice(tmp.length, 0, e)  // update 12/06/2019 !!
         }
         else if (e.id == b.id && e == b) { // 3. id new data == id old data , data in new arr == data in old arr
           console.log('SAME VALUE')

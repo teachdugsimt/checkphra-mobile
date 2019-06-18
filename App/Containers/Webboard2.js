@@ -225,9 +225,9 @@ class Webboard2 extends Component {
             <View style={styles.commentContainer2}>
               <View style={styles.commentTopRow}>
                 <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
-                  <Text style={[styles.nameText, { color: item.profile && item.profile.display_name ? "red" : Colors.brownTextTran }]}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                  <Text style={[styles.nameText, { color: item.profile && item.profile.display_name ? "red" : Colors.brownTextTran, width: width / 1.8 }]} numberOfLines={1}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
                 </TouchableOpacity>
-                <Text style={styles.dateText} >{date}</Text>
+                <Text style={[styles.dateText, { marginRight: 10 }]} >{date}</Text>
               </View>
 
               <View style={styles.row2View}>
@@ -254,9 +254,9 @@ class Webboard2 extends Component {
           <View style={styles.commentContainer2}>
             <View style={styles.commentTopRow}>
               <TouchableOpacity onPress={() => this.tagname(item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User')}>
-                <Text style={[styles.nameText, { color: item.profile && item.profile.display_name ? "red" : Colors.brownTextTran }]}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
+                <Text style={[styles.nameText, { color: item.profile && item.profile.display_name ? "red" : Colors.brownTextTran, width: width / 1.8 }]} numberOfLines={1}>{item.profile && item.profile.display_name ? item.profile.display_name : item.profile && item.profile.firstname ? (item.profile.firstname + " " + (item.profile.lastname ? item.profile.lastname : "")) : 'CheckPhra User'}</Text>
               </TouchableOpacity>
-              <Text style={styles.dateText} >{date}</Text>
+              <Text style={[styles.dateText, { marginRight: 10 }]}>{date}</Text>
             </View>
 
             <View style={styles.row2View}>
@@ -274,7 +274,7 @@ class Webboard2 extends Component {
             </View>
 
           </View>
-        </View>
+        </View >
       )
     }
   }

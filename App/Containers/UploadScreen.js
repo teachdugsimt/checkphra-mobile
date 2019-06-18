@@ -491,7 +491,8 @@ class UploadScreen extends Component {
                     style={{
                       color: Colors.brownText,
                       fontFamily: "Prompt-Regular",
-                      fontSize: item.id == 1124 || item.id == 10 ? 12 : 16,
+                      // fontSize: item.id == 1124 || item.id == 10 ? 12 : 16,
+                      fontSize: item.name.length > 26 ? 12 : (item.name.length < 18 ? 16 : 14),
                       alignSelf: "center",
                       textAlign: 'center'
                     }}

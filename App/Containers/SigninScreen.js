@@ -224,6 +224,8 @@ class SigninScreen extends Component {
       // }
 
       console.log(currentUserJson.uid)
+      console.log(currentUserJson)
+      console.log('-------------------------  CURRENT USER JSON ------------------------------')
       this.props.setUserId(currentUserJson.uid)
       this.props.signinWithCredential(currentUserJson)
 

@@ -186,6 +186,12 @@ class AnswerOfAdmin extends Component {
     else if (item == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
       name = item
     }
+    else if (item == "พระเครื่องจังหวัดนครปฐม") {
+      name = item
+    }
+    else if (item == "ปราจีนบุรี นครนายก สระแก้ว") {
+      name = item
+    }
     else {
       name = (item == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท') ? I18n.t('otherOrUnknown') : I18n.t(item)
     }
@@ -381,6 +387,12 @@ class AnswerOfAdmin extends Component {
               name = item.type
             }
             else if (item.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+              name = item.type
+            }
+            else if (item.type == "พระเครื่องจังหวัดนครปฐม") {
+              name = item.type
+            }
+            else if (item.type == "ปราจีนบุรี นครนายก สระแก้ว") {
               name = item.type
             }
             else {

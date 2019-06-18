@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, View, Image, TouchableOpacity, Dimensions, TextInput, Alert } from 'react-native'
+import { ScrollView, Text, View, Image, TouchableOpacity, Dimensions, TextInput, Alert, } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 // Add Actions - replace 'Your' with whatever your reducer is called :)

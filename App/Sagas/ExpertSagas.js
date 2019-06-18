@@ -29,6 +29,8 @@ export function* expertRequest(api, { pack, q_id, argument, interested, permit }
   // console.log(pack)
   // console.log(q_id)
   // console.log('SAGAS')
+  console.log(pack)
+  console.log('===================== DATA PACK ANSWER =====================')
   const response = yield call(api.addAnswer, pack, q_id, aut.user_id, argument, interested, permit)
   console.log(response)
   console.log('==================== SEND ANSWER =========================')
@@ -309,9 +311,45 @@ export function* getListDetailExpertBidRequest(api, { page }) {
   console.log(response)
   console.log('=================== RESPONSE getListDetailExpertBid ======================')
 
-  if(response.ok){
+  if (response.ok) {
     yield put(ExpertActions.getListDetailExpertBidSuc(response.data))
   } else {
     yield put(ExpertActions.getListDetailExpertBidFail())
   }
 }
+
+export function* getListExpertCheckedRequest(api, { date }) {
+  const aut = yield select(auth)
+
+  const data = {
+    user_id: aut.user_id,
+    date,
+  }
+
+  const response = yield call(api.getListExpertChecked, data)
+  console.log(response)
+  console.log('======================= RESPONSE getListExpertChecked =======================')
+  if (response.ok) {
+    yield put(ExpertActions.getListExpertCheckedSuc(response.data))
+  } else {
+    yield put(ExpertActions.getListExpertCheckedFail())
+  }
+}
+
+
+// export function* getListDetailExpertCheckedRequest(api, {page}){
+//   const aut = yield select(auth)
+//   const data = {
+//     user_id: aut.user_id,
+//     page_number: page
+//   }
+
+//   const response = yield call(api)
+//   console.log(response)
+//   console.log('======================= RESPONSE getListDetailExpertChecked =======================')
+//   if(response.ok){
+//     yield call(ExpertActions.getListDetailExpertCheckedSuc(response.data))
+//   } else {
+//     yield call(ExpertActions.getListDetailExpertCheckedFail())
+//   }
+// }

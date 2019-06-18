@@ -146,7 +146,8 @@ export default StyleSheet.create({
         marginTop: 5
     },
     commentTopRow: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     iconView: {
         position: 'absolute',

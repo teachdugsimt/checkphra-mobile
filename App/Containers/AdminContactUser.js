@@ -49,6 +49,7 @@ class AdminContactUser extends Component {
     }
     // this.adminContact = firebase.database().ref('messages/adminchat/' + this.props.user_id);
     this.tmpMessages = firebase.database().ref('tmp_admin_messages/')
+
   }
 
   getListUser = () => {
@@ -88,6 +89,61 @@ class AdminContactUser extends Component {
   componentDidMount() {
     count2 = 10
     this.getListUser()
+
+    // let testTmp = firebase.database().ref('tmp_admin_messages/')
+
+    // const tmpMessages2 = firebase.database().ref('tmp_admin_messages/').orderByChild('createdAt').on('value', list => {
+    //   if (list.val()) {
+    //     console.log(Object.values(list._value))
+    //     console.log('**************** ORDER BY CHILD ***************************---************************')
+    //   }
+    // })
+
+    // const tmpMessages3 = firebase.database().ref('tmp_admin_messages/').on('value', list => {
+    //   if (list.val()) {
+    //     let data = []
+    //     list.forEach((e, i) => {
+    //       // console.log(Object.values(e))
+    //       // testTmp.child(Object.values(e)[0]).orderByKey('createdAt').on('value', list2 => { // FAILED
+    //       // testTmp.child(Object.values(e)[0]).orderByChild('createdAt').on('value', list2 => { // FAILED
+    //       // testTmp.child(Object.values(e)[0]).orderByValue('createdAt').on('value', list2 => { // FAILED
+    //       testTmp.child(Object.values(e)[0]).orderByPriority('createdAt').on('value', list2 => { // FAILED
+    //         console.log(list2._value)
+    //         data.push(list2._value)
+    //       })
+    //     })
+    //     console.log(data)
+    //     console.log(Object.values(list._value))
+    //     console.log('**************** ORDER BY KEY ***************************---************************')
+    //   }
+    // })
+
+    // const tmpMessages4 = firebase.database().ref('tmp_admin_messages/').orderByValue('createdAt').on('value', list => {
+    //   if (list.val()) {
+    //     console.log(Object.values(list._value))
+    //     console.log('**************** ORDER BY VALUE ***************************---************************')
+    //   }
+    // })
+
+    // const tmpMessages5 = firebase.database().ref('tmp_admin_messages/').orderByPriority('createdAt').on('value', list => {
+    //   if (list.val()) {
+    //     console.log(Object.values(list._value))
+    //     console.log('**************** ORDER BY PRIORITY ***************************---************************')
+    //   }
+    // })
+
+
+    // this.tmpMessages.orderByValue('createdAt').on('value', list => {
+    //   if (list.val()) {
+    //     console.log(Object.values(list._value))
+    //     console.log('**************** HERE LIST TESTERR ***************************---************************')
+    //   } else {
+    //     console.log(list)
+    //     console.log('***************** DON"T HAVE DATA *******************************************************')
+    //   }
+    // })
+
+
   }
 
   componentWillUnmount() {
@@ -96,19 +152,17 @@ class AdminContactUser extends Component {
 
   _renderItem = ({ item, index }) => {
     let date = moment(item.createdAt).format("DD MMM YYYY (HH:mm)")
-
     return (
       <TouchableOpacity style={{ height: 85, backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}
         onPress={() => this._goToChat(item)}>
         <View style={{ flexDirection: 'row' }}>
-          {item.avatar && item.avatar != "-" && <Image source={{ uri: item.avatar }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
-          {/* {item.owner_profile.fb_id == null && item.owner_profile.image && <Image source={{ uri: 'https://s3-ap-southeast-1.amazonaws.com/core-profile/images/' + item.owner_profile.image }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
-          {item.owner_profile && item.owner_profile.fb_id == null && !item.owner_profile.image && <Image source={Images.user} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />} */}
-          {item.avatar == "-" && <Image source={Images.user} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+          {item.fb_id != "-" && <Image source={{ uri: "https://graph.facebook.com/" + item.fb_id + "/picture" }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+          {item.fb_id == "-" && item.avatar != "-" && <Image source={{ uri: item.avatar }} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
+          {item.avatar == "-" && item.fb_id == "-" && <Image source={Images.user} style={{ width: 65, height: 65, borderRadius: 10, margin: 10, alignSelf: 'center' }} />}
 
           <View style={{ justifyContent: 'center' }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 5 }}>
-              {item.name && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 14, width: width / 2.2 }} numberOfLines={1}>{item.name ? item.name : (item.email ? item.email : "Check Phra User")}</Text>}
+              {item.name && <Text style={{ color: Colors.brownTextTran, fontFamily: 'Prompt-SemiBold', fontSize: 14, width: width / 2.2 }} numberOfLines={1}>{item.name != "-" ? item.name : (item.email != "-" ? item.email : "Check Phra User")}</Text>}
               <Text style={{ color: Colors.brownTextTran, fontSize: 12 }}>{date}</Text>
             </View>
             <Text style={{ marginHorizontal: 5, width: width - 95 }} numberOfLines={1}>{item.last_message}</Text>
@@ -140,7 +194,9 @@ class AdminContactUser extends Component {
   // }
 
   _onScrollEndList = () => {
-    this.getListUser2()
+    if (this.state.loading == false) {
+      this.getListUser2()
+    }
   }
 
   render() {

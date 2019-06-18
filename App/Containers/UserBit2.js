@@ -334,7 +334,7 @@ class UserBit2 extends Component {
           <ImageViewer
             saveToLocalByLongPress={false}
             imageUrls={img2}
-            backgroundColor={'transparents'}
+            backgroundColor={'transparent'}
             onChange={index => this.setState({ index })}
             onClick={(e) => {
               console.log('--------------------Show modal----------------------')
@@ -687,7 +687,7 @@ class UserBit2 extends Component {
             </View>
 
             <Spinner
-              visible={(this.props.request1 || this.props.request2)}
+              visible={this.props.request1}
               textContent={'Loading...'}
               textStyle={{ color: '#fff' }}
             />
@@ -714,7 +714,7 @@ const mapStateToProps = (state) => {
     request2: state.trading.request,   // trading/detail
     data_status: state.trading.data_status,  // after sell or cancel phra we get this data
     data_shared: state.trading.data_shared,  // after share we get this data
-    data_list: state.trading.data_tradelist,
+    data_list: state.trading.data_tradelist2,
 
   }
 }
@@ -725,7 +725,7 @@ const mapDispatchToProps = (dispatch) => {
     //   getAnswer: (qid) => dispatch(QuestionActions.getAnswer(qid)),
     //   deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
     //   setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
-    getAnswer: (page) => dispatch(TradingActions.listTrading(page)),
+    getAnswer: (page) => dispatch(TradingActions.listTradingu(page)),
     setData: (data) => dispatch(TradingActions.setData(data)),
     trading: (qid, message) => dispatch(TradingActions.tradingRequest(qid, message)),
     update: (qid, status) => dispatch(TradingActions.updateStatus(qid, status)),

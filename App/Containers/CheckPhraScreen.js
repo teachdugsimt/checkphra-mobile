@@ -212,7 +212,7 @@ class CheckPhraScreen extends Component {
       [
         {
           text: I18n.t('ok'), onPress: () => {
-            this.props.setAnswer(pack, this.props.data.id, this.state.answer4)
+            this.props.setAnswer(pack, this.props.data.id, this.state.answer4, this.state.interested)
             this.setState({
               answer_other: null,
               answer1: null,

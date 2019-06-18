@@ -138,7 +138,7 @@ class AdminContactUser2 extends Component {
   render() {
     I18n.locale = this.props.language
     // console.log(this.props.data_amulet)
-
+    console.log(this.props.profile)
     console.log('--------------------- Contact Admin22 -------------------------')
     return (
       <LinearGradient

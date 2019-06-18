@@ -5,7 +5,6 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import RootContainer from './RootContainer'
 import createStore from '../Redux'
-
 // import { Notification, NotificationOpen } from 'react-native-firebase';
 import HuaweiProtectedApps from 'react-native-huawei-protected-apps';
 
@@ -24,7 +23,12 @@ const store = createStore()
 
 class App extends Component {
 
+  // state = {
+  //   appState: AppState.currentState,
+  // };
+
   componentDidMount() {
+    // AppState.addEventListener('change', this._handleAppStateChange);
     // if (Platform.OS === 'android') {   // A11
     //   Linking.getInitialURL().then(url => {
     //     this.navigate(url);
@@ -122,15 +126,21 @@ class App extends Component {
   //   this.notificationOpenedListener();
   // }
 
-
+  // _handleAppStateChange = (nextAppState) => {
+    // if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+    //   console.log('**********************App has come to the foreground!*****************************');
+    // }
+    // this.setState({ appState: nextAppState });
+  // };
 
   //Remove listeners allocated in createNotificationListeners()
-  componentWillUnmount() {
+  // componentWillUnmount() {
+    // AppState.removeEventListener('change', this._handleAppStateChange);
+    // console.log('************************ CLOSE APP ********************************************************************')
     // Linking.removeEventListener('url', this.handleOpenURL);  // B22
     // this.notificationListener();
     // this.notificationOpenedListener();
-  }
-
+  // }
 
 
   render() {
@@ -143,6 +153,4 @@ class App extends Component {
 }
 
 // allow reactotron overlay for fast design in dev mode
-export default DebugConfig.useReactotron
-  ? console.tron.overlay(App)
-  : App
+export default DebugConfig.useReactotron ? console.tron.overlay(App) : App

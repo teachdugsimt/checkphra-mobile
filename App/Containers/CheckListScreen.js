@@ -385,7 +385,7 @@ class CheckListScreen extends Component {
   }
 
   _pressEdit = (item) => {
-    if (this.props.profile && this.props.profile.role == 'admin') {
+    if (this.props.profile && (this.props.profile.role == 'admin' || this.props.profile.role == "expert")) {
       this.popupDialog.show()
       this.setState({ tmp_qid: item })
     } else {
@@ -580,6 +580,12 @@ class CheckListScreen extends Component {
               name = I18n.t("newGroup1")
             }
             else if (item.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+              name = item.type
+            }
+            else if (item.type == "พระเครื่องจังหวัดนครปฐม") {
+              name = item.type
+            }
+            else if (item.type == "ปราจีนบุรี นครนายก สระแก้ว") {
               name = item.type
             }
             else {

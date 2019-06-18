@@ -347,8 +347,11 @@ export default {
   countExpertBid: "count : ",
   expert: "Expert",
   inputPrice: 'please input price',
-
+  countExpertChecked: 'count checked : ',
+  accountBan: 'Your account has been banned !!',
+  // resonBan: 'reason : ',
   noneAmuletOnStore: 'None amulet in store',
+  detail: "Detail",
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

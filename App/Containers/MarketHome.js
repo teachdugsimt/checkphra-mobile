@@ -2,7 +2,8 @@
 import React, { Component } from 'react'
 import {
   ScrollView, Text, View, TouchableOpacity, Dimensions,
-  TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Alert
+  TextInput, FlatList, RefreshControl, ImageBackground, Image, Platform, Alert,
+  ActivityIndicator
 } from 'react-native'
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
@@ -49,6 +50,7 @@ class MarketHome extends Component {
       tmp_profile: null,
       tmp_province: null,
       check_follow: null,
+      tmp_idfollow: null,
     }
   }
 
@@ -163,10 +165,10 @@ class MarketHome extends Component {
       this.props.requestAllTypeAmulet()
     }
 
-    if (this.props.profile && !this.props.profile.my_follow && this.props.profile.role != "admin") {
+    if (this.props.profile && !this.props.profile.my_follow && this.props.profile.role != "admin" && this.props.profile.role != "expert") {
       this.popupDialogFix.show()
-    } 
-    else if (this.props.profile && this.props.profile.my_follow && this.props.profile.role != "admin") {
+    }
+    else if (this.props.profile && this.props.profile.my_follow && this.props.profile.role != "admin" && this.props.profile.role != "expert") {
       if (this.props.profile.my_follow.length < 3) {
         this.popupDialogFix.show()
       }
@@ -250,6 +252,14 @@ class MarketHome extends Component {
     }
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log(prevProps)
+  //   console.log(prevState)
+  //   if (this.state.tmp_idfollow && !prevProps.request_profile && !prevProps.request14) {
+  //     this.setState({ tmp_idfollow: null })
+  //   }
+  // }
+
   render() {
     // console.log(this.props.profile)
     console.log(this.state.tmp_profile)
@@ -264,7 +274,12 @@ class MarketHome extends Component {
     // }
     // console.log()
 
-
+    let color = '#ffffff00'
+    let status_button = false
+    if ((this.props.request14 || this.props.request_profile) && this.props.tmp_followGroup != null) {
+      status_button = true
+      color = '#ffffffff'
+    }
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
         <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
@@ -413,12 +428,18 @@ class MarketHome extends Component {
                     <Text style={{ alignSelf: 'center', fontSize: 15, color: Colors.brownText, marginTop: 10 }}>{e.name}</Text>
                     <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
 
-                    <TouchableOpacity style={{ position: 'absolute', left: 0, top: -1.5 }} onPress={() => this.props.followGroupAmulet(e.id)}>
+                    {status_button == false && <TouchableOpacity style={{ position: 'absolute', left: 0, top: -1.5 }} onPress={() => {
+                      this.props.setTmpFollowGroup(e.id)
+                      this.props.followGroupAmulet(e.id)
+                    }}>
                       {/* <Icon2 name={icon_use} size={20} color={color_use} /> */}
                       <Text style={{ borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, backgroundColor: color_use, color: "white", fontSize: 12 }}>{icon_use}</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                     {this.props.profile && this.props.profile.my_follow != null && this.props.profile.my_follow.find(b => b.type_id == e.id && b.is_new == true) != undefined && <View
                       style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: -0.25, right: 0 }}></View>}
+                    {this.props.tmp_followGroup && this.props.tmp_followGroup == e.id && <View style={{ justifyContent: 'center', position: 'absolute', top: 1, left: 1, zIndex: 0 }}>
+                      <ActivityIndicator animating={true} size="small" color={color} />
+                    </View>}
                   </TouchableOpacity>)
 
               }
@@ -471,14 +492,20 @@ class MarketHome extends Component {
                   }}>
                     <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold', marginTop: 10 }}>{e.name}</Text>
                     <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
-                    <TouchableOpacity style={{ position: 'absolute', left: 0, top: -1.5 }} onPress={() => {
+                    {status_button == false && <TouchableOpacity style={{ position: 'absolute', left: 0, top: -1.5 }} onPress={() => {
+                      this.props.setTmpFollowGroup(e.id)
                       this.props.followGroupAmulet(e.id)
                     }}>
                       {/* <Icon2 name={icon_use} size={20} color={color_use} /> */}
                       <Text style={{ borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, backgroundColor: color_use, color: "white", fontSize: 12 }}>{icon_use}</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                     {this.props.profile && this.props.profile.my_follow != null && this.props.profile.my_follow.find(b => b.type_id == e.id && b.is_new == true) != undefined && <View
                       style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: -0.25, right: 0 }}></View>}
+
+                    {this.props.tmp_followGroup && this.props.tmp_followGroup == e.id && <View style={{ justifyContent: 'center', position: 'absolute', top: 1, left: 1, zIndex: 0 }}>
+                      <ActivityIndicator animating={true} size="small" color={color} />
+                    </View>}
+
                   </TouchableOpacity>
                 )
               }
@@ -531,12 +558,18 @@ class MarketHome extends Component {
                   }}>
                     <Text style={{ alignSelf: 'center', textAlignVertical: 'center', fontFamily: 'Prompt-SemiBold', marginTop: 10 }}>{e.name}</Text>
                     <Text style={{ alignSelf: 'center', fontSize: 14, color: Colors.brownText }}>{"( " + e.follow + " " + I18n.t('follow') + " )"}</Text>
-                    <TouchableOpacity style={{ position: 'absolute', right: 0, top: -1.5 }} onPress={() => {
+                    {status_button == false && <TouchableOpacity style={{ position: 'absolute', right: 0, top: -1.5 }} onPress={() => {
+                      this.props.setTmpFollowGroup(e.id)
                       this.props.followGroupAmulet(e.id)
                     }}>
                       {/* <Icon2 name={icon_use} size={20} color={color_use} /> */}
                       <Text style={{ borderRadius: 10, paddingVertical: 2.5, paddingHorizontal: 7.5, backgroundColor: color_use, color: "white", fontSize: 12 }}>{icon_use}</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
+
+                    {this.props.tmp_followGroup && this.props.tmp_followGroup == e.id && <View style={{ justifyContent: 'center', position: 'absolute', top: 1, right: 1, zIndex: 0 }}>
+                      <ActivityIndicator animating={true} size="small" color={color} />
+                    </View>}
+
                   </View>
                 )
               }
@@ -574,8 +607,14 @@ class MarketHome extends Component {
         </PopupDialog>
 
 
-        <Spinner
+        {/* <Spinner
           visible={(this.props.request || (this.props.request_profile || (this.props.request5 || (this.props.request15 || this.props.request4))))}
+          textContent={'Loading...'}
+          textStyle={{ color: '#fff' }}
+        /> */}
+
+         <Spinner
+          visible={(this.props.request || ((this.props.request5 || (this.props.request15 || this.props.request4))))}
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
         />
@@ -604,6 +643,7 @@ const mapStateToProps = (state) => {
     request7: state.market.request7,  // get province in each region
     data_region: state.market.data_region,  // store province n each region
 
+    request14: state.market.request14, // for folow group amulet 
     data_follow: state.market.data_follow, // store follow group amulet
     // data_areaAmulet_store: state.market.data_areaAmulet_store,  // store last amulet id from list area/group amulet
 
@@ -614,6 +654,8 @@ const mapStateToProps = (state) => {
 
     request4: state.market.request4,  // request get province
     province: state.market.province,  // store province
+
+    tmp_followGroup: state.market.tmp_followGroup, // for smallest spinner
   }
 }
 
@@ -644,6 +686,9 @@ const mapDispatchToProps = (dispatch) => {
 
     getProvince: () => dispatch(MarketActions.getProvince()),
     setJangwad: (id, name) => dispatch(MarketActions.setJangwad(id, name)),
+
+    setTmpFollowGroup: (data) => dispatch(MarketActions.setTmpFollowGroup(data)),
+    clearTmpFollowGroup: () => dispatch(MarketActions.clearTmpFollowGroup()),
   }
 }
 

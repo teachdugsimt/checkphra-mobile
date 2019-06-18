@@ -53,8 +53,21 @@ class Bit2 extends Component {
       price: null,
       price2: null,
       bidData: null,
+
+      tmp_answer: null,
     }
   }
+
+  // static navigationOptions = ({ navigation }) => {
+  //   const params = navigation.state.params || {};
+  //   return {
+  //     headerRight: (
+  //       <TouchableOpacity style={{ backgroundColor: Colors.milk, borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10, marginRight: 7.5 }} onPress={params.showDialog}>
+  //         <Icon2 name={'info'} size={20} style={{ paddingLeft: 5 }} />
+  //       </TouchableOpacity>
+  //     )
+  //   };
+  // };
 
   static navigationOptions = ({ navigation }) => {
     // console.log(navigation)
@@ -128,6 +141,11 @@ class Bit2 extends Component {
 
   componentWillMount() {
     this.setState({ spinner: false })
+  }
+
+  showDialog = () => {
+    // this.props.getProvince()
+    // this.popupDialogProvince.show()
   }
 
   componentDidMount() {
@@ -375,7 +393,7 @@ class Bit2 extends Component {
 
 
             <Spinner
-              visible={(this.props.request1 || this.props.request2)}
+              visible={this.props.request1}
               textContent={'Loading...'}
               textStyle={{ color: '#fff' }}
             />
@@ -396,6 +414,7 @@ const mapStateToProps = (state) => {
     language: state.auth.language,
     request: state.expert.fetch5,
     data: state.trading.data_answer,  // pass value from flatlist set to Bit 2
+    // data: state.expert.tmp_biddetail,
     data_bid: state.trading.data,  // data trading/add or data _bid
     data_detail: state.trading.data_detail,  // data when get detail by use bid id
     request1: state.trading.fetching,  // trading/add
@@ -411,7 +430,8 @@ const mapDispatchToProps = (dispatch) => {
     //   deleteQuestion: (qid) => dispatch(QuestionActions.deleteQuestion(qid)),
     //   setDataPhra: (data) => dispatch(ExpertActions.setDataPhra(data)),
     // updateAnswer: (pack, q_id) => dispatch(ExpertActions.updateAnswer(pack, q_id)),
-    getAnswer: (page) => dispatch(ExpertActions.answerList(page)),
+    // getAnswer: (page) => dispatch(ExpertActions.answerList(page)),
+    getAnswer: (page) => dispatch(TradingActions.listTrading(page)),
     setData: (data) => dispatch(TradingActions.setData(data)),
     trading: (qid, message) => dispatch(TradingActions.tradingRequest(qid, message)),
     update: (qid, status) => dispatch(TradingActions.updateStatus(qid, status)),

@@ -35,8 +35,6 @@ const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
 });
 let { width, height } = Dimensions.get('window')
-const deviceWidth = Dimensions.get('window').width
-const deviceHeight = Dimensions.get('window').height
 const FIXED_BAR_WIDTH = 200
 const BAR_SPACE = 5
 let check = true
@@ -73,6 +71,7 @@ class HomeScreen extends Component {
       tmp_email: null,
       tmp_password: null,
       tmp_name: "User test001",
+      tmp_versatile: null,
     }
     this.profile = firebase.database().ref('profile/' + this.props.user_id)
   }
@@ -209,6 +208,20 @@ class HomeScreen extends Component {
       dataProifle: profile,
       list_user,
       language: newProps.language,
+      tmp_versatile: newProps.data_versatile
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevProps)
+    console.log(prevState)
+    console.log('---------------------- COMPONENT DID UPDATE --------------------------------------')
+    if (prevState.tmp_versatile && prevState.tmp_versatile != null) {
+      if (prevState.tmp_versatile.ban == true) {
+        this.popupDialogBan.show()
+      } else {
+        this.popupDialogBan.dismiss()
+      }
     }
   }
 
@@ -316,6 +329,8 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
+    // this.ref = firebase.firestore().collection('checkphra');
+    // this.ref.add("value04")
     this.props.checkVersion()  // check new version end method in sagas
     this.props.getVersatile()
     this.props.getProfile()   // get profile
@@ -541,7 +556,11 @@ class HomeScreen extends Component {
         <ScrollView>
           <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.8, width: width - 20, flexDirection: 'row' }}>
 
-            <Swiper style={{}} showsButtons={false} autoplay={true}>
+            <Swiper style={{}} showsButtons={false} autoplay={true}
+            // dotStyle={{ marginTop: 10, marginBottom: -10 }}
+            // activeDotStyle={{ marginTop: 10, marginBottom: -10 }}
+            paginationStyle={{ marginBottom: -20 }}
+            >
               {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 && this.state.autoPlay == true ?
                 this.state.kawsod.map((e, i) => {
                   return (
@@ -594,6 +613,7 @@ class HomeScreen extends Component {
             {this.state.list_user && this.state.list_user.map((item, index) => {
               if (index == 2 || index == 3) {
                 if (this.props.profile) {
+                  // console.log('------------------------------- SET ONLINE ----------------------------------------------')
                   this.profile.set({
                     uid: this.props.user_id,
                     name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
@@ -601,6 +621,7 @@ class HomeScreen extends Component {
                     fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
                     image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-"
                   })
+
                 }
                 return (
                   <TouchableOpacity onPress={() => {
@@ -686,11 +707,24 @@ class HomeScreen extends Component {
             <ScrollView style={{ flex: 1 }}>
               {/* <View style={{ flex: 1 }}> */}
               <Text style={{ marginTop: 10, marginHorizontal: 5, fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, }}>{this.state.tmp_publish ? this.state.tmp_publish.topic : ''}</Text>
-              {this.state.tmp_publish && this.state.tmp_publish.image_link && <Image source={{ uri: this.state.tmp_publish ? this.state.tmp_publish.image_link : "" }} style={{ height: 160, marginTop: 10, borderRadius: 5, marginHorizontal: 5 }} />}
+              {this.state.tmp_publish && (this.state.tmp_publish.image_link != null || this.state.tmp_publish.image_link != "") && <Image source={{ uri: this.state.tmp_publish ? this.state.tmp_publish.image_link : "" }} style={{ height: 160, marginTop: 10, borderRadius: 5, marginHorizontal: 5 }} />}
               <Text style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, marginHorizontal: 5 }}>{this.state.tmp_publish ? this.state.tmp_publish.content : ""}</Text>
-              {this.state.tmp_publish && this.state.tmp_publish.link && <TouchableOpacity onPress={() => this._pressLink(this.state.tmp_publish.link)} style={{ marginVertical: 10, }}><Text style={{ fontWeight: 'bold', color: Colors.brownText, marginHorizontal: 5 }}>{this.state.tmp_publish ? this.state.tmp_publish.link : ""}</Text></TouchableOpacity>}
+              {this.state.tmp_publish && (this.state.tmp_publish.link != null || this.state.tmp_publish.link != "") && <TouchableOpacity onPress={() => this._pressLink(this.state.tmp_publish.link)} style={{ marginVertical: 10, }}><Text style={{ fontWeight: 'bold', color: Colors.brownText, marginHorizontal: 5 }}>{this.state.tmp_publish ? this.state.tmp_publish.link : ""}</Text></TouchableOpacity>}
               {/* </View> */}
             </ScrollView>
+          </View>
+
+        </PopupDialog>
+
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialogBan = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width}
+          height={height - 30}
+          onDismissed={() => { }}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 22, fontFamily: 'Prompt-SemiBold', color: 'red' }}>{I18n.t("accountBan")}</Text>
           </View>
 
         </PopupDialog>

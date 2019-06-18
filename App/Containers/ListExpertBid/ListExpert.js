@@ -63,22 +63,23 @@ class ListExpert extends Component {
                     </TouchableOpacity>
                 </View> */}
             </View>
-{/* 
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', marginLeft: 10 }} onPress={this._showPopup(item.group)}>
+
+            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', marginLeft: 10 }} onPress={() => this._showPopup(item)}>
                 <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 14, color: 'white', paddingHorizontal: 20, paddingTop: 2.5, borderRadius: 15, height: 30, backgroundColor: 'lightgrey', textAlignVertical: 'center' }}>Group</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
 
         </TouchableOpacity >)
     }
 
-    // _showPopup = (item) => {
-    //     console.log(item,"********************** ITEM *************************************")
-    //     this.setState({ tmp_item: item })
-    //     this.popupDialog2.show()
-    // }
+    _showPopup = (item) => {
+        // console.log(item.group, "********************** ITEM *************************************")
+        this.setState({ tmp_item: item })
+        this.popupDialog2.show()
+    }
 
     render() {
-
+        console.log(this.state.tmp_item)
+        console.log('------------------------------ LIST EXPERT SCREEn -------------------------------------------')
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
                 <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
@@ -92,7 +93,35 @@ class ListExpert extends Component {
                     renderItem={this._renderItem}
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
                 />
-            </LinearGradient>
+
+                <PopupDialog
+                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                        fontSize: 18, fontWeight: 'bold'
+                    }}>{I18n.t('detail')}</Text></View>}
+                    ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    width={width / 1.05}
+                    height={height / 2}
+                    // height={150}
+                    onDismissed={() => { this.setState({}) }}
+                >
+                    <ScrollView style={{ flex: 1 }}>
+                        {this.state.tmp_item && this.state.tmp_item.group && this.state.tmp_item.group == "Check Phra Admin" ?
+                            <View style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: (height / 2) - 30 }}>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.bloodOrange }}>Check Phra Admin</Text>
+                            </View> : this.state.tmp_item && this.state.tmp_item.group && this.state.tmp_item.group != "Check Phra Admin" && this.state.tmp_item.group.map((e, i) => {
+                                return (
+                                    // <View key={"main" + i} style={{ flex: 1 }}>
+                                    <View key={"sub" + i} style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: this.state.tmp_item.group.length <= 3 ? 110 : 60 }} >
+                                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{e.name}</Text>
+                                    </View>
+                                    // </View>
+                                )
+                            })}
+                    </ScrollView>
+                </PopupDialog>
+
+            </LinearGradient >
         )
     }
 }

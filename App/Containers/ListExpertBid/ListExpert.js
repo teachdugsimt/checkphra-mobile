@@ -114,7 +114,7 @@ class ListExpert extends Component {
                 {!item.profile && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
             </View>
             <View style={{ marginTop: 10, marginBottom: 7.5, justifyContent: 'center', width: width / 1.75 }}>
-                <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 16 }}>{item.profile && item.profile.name ? item.profile.name : 'Expert Account'}</Text>
+                <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 16, width: width / 2.1 }} numberOfLines={1}>{item.profile && item.profile.name ? item.profile.name : 'Expert Account'}</Text>
                 <Text>{I18n.t("countExpertBid") + item.count}</Text>
             </View>
 

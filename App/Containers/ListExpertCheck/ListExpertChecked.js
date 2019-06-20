@@ -88,7 +88,7 @@ class ListExpertChecked extends Component {
                 {!item.profile && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
             </View>
             <View style={{ marginVertical: 10, marginHorizontal: 10, marginLeft: 10, justifyContent: 'center', width: width / 2 }}>
-                <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 16 }}>{item.profile && item.profile.name ? item.profile.name : 'Expert Account'}</Text>
+                <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 16, width: width / 2.1 }} numberOfLines={1}>{item.profile && item.profile.name ? item.profile.name : 'Expert Account'}</Text>
                 <Text>{I18n.t("countExpertChecked") + (item.count ? item.count : "0")}</Text>
             </View>
 

@@ -21,15 +21,56 @@ const slideAnimation = new SlideAnimation({
     slideFrom: 'bottom',
 });
 let { width, height } = Dimensions.get('window')
+// let count = 1
 class ListExpert extends Component {
-    state = {
-        tmp_item: null,
+    constructor(props) {
+        super(props)
+        this.state = {
+            tmp_item: null,
+            loading: false,
+        }
+        this.status = firebase.database().ref('status_manager/')
     }
+
+    // getListContact2 = () => {
+    //     this.setState({ loading: true })
+    //     count2 = count2 + 10
+    //     this.myContactList.limitToLast(count2).on('value', data => {
+    //         // console.log(data) // raw data
+    //         if (data.val()) {
+    //             // console.log(Object.values(data))  // confuse data, spread data
+    //             console.log(Object.values(data._value)) //  normal data
+    //             // console.log(Object.values(data.val())) // normal data same!!
+    //             this.props.setListMyContact(Object.values(data._value))
+    //             this.setState({ loading: false })
+    //         } else {
+    //             this.setState({ loading: false })
+    //         }
+    //         console.log('----------------- HERE DATA LIST MESSAGE --------------------')
+    //     })
+    // }
+
+    getStatusManager = () => {
+        this.setState({ loading: true })
+        this.status.on('value', data => {
+            if (data.val()) {
+                console.log(Object.values(data._value)) //  normal data
+                console.log('*************** FROM FIREBASE ****************************************')
+                this.props.setStatusManager(Object.values(data._value))
+                this.setState({ loading: false })
+            } else {
+                this.setState({ loading: false })
+            }
+        })
+    }
+
     componentDidMount() {
+        this.getStatusManager()
         this.props.getListExpertBid()
     }
 
     _reload = () => {
+        this.getStatusManager()
         this.props.getListExpertBid()
     }
 
@@ -48,6 +89,24 @@ class ListExpert extends Component {
     }
 
     _renderItem = ({ item, index }) => {
+        let color = "lightgrey"
+        let tmp
+        if (this.props.status_manager && this.props.status_manager != undefined && this.props.status_manager != null) {
+            tmp = this.props.status_manager.find(e => e.uid == item.proposer)
+
+            if (tmp && tmp != null && tmp != undefined && tmp.status == 'active') {
+                color = "#58D68D"
+            }
+            else if (tmp && tmp != null && tmp != undefined && tmp.status == 'exit') {
+                color = "lightgrey"
+            }
+            else if (tmp && tmp != null && tmp != undefined && tmp.status == 'background') {
+                color = "lightgrey"
+            }
+            else {
+                color = 'lightgrey'
+            }
+        }
         return (<TouchableOpacity style={{ flexDirection: 'row', height: 70, width: "100%", alignItems: 'center', backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1.5 }} onPress={() => this._pressList(item)}>
             <View style={{ width: 50, height: 50, margin: 10 }}>
                 {item.profile && item.profile.img_full_link && <Image source={{ uri: item.profile.img_full_link }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
@@ -57,15 +116,10 @@ class ListExpert extends Component {
             <View style={{ marginTop: 10, marginBottom: 7.5, justifyContent: 'center', width: width / 1.75 }}>
                 <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 16 }}>{item.profile && item.profile.name ? item.profile.name : 'Expert Account'}</Text>
                 <Text>{I18n.t("countExpertBid") + item.count}</Text>
-                {/* <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={{}}>
-                        <Text style={{ borderRadius: 12, paddingVertical: 2.5, paddingHorizontal: 8.5, backgroundColor: 'orange' }}>{I18n.t("countExpertChecked")}</Text>
-                    </TouchableOpacity>
-                </View> */}
             </View>
 
             <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', marginLeft: 10 }} onPress={() => this._showPopup(item)}>
-                <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 14, color: 'white', paddingHorizontal: 20, paddingTop: 2.5, borderRadius: 15, height: 30, backgroundColor: 'lightgrey', textAlignVertical: 'center' }}>Group</Text>
+                <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 14, color: 'white', paddingHorizontal: 20, paddingTop: 2.5, borderRadius: 15, height: 30, backgroundColor: color, textAlignVertical: 'center' }}>Group</Text>
             </TouchableOpacity>
 
         </TouchableOpacity >)
@@ -78,7 +132,8 @@ class ListExpert extends Component {
     }
 
     render() {
-        console.log(this.state.tmp_item)
+        // console.log(this.state.tmp_item)
+        console.log(this.props.status_manager)
         console.log('------------------------------ LIST EXPERT SCREEn -------------------------------------------')
         return (
             <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
@@ -107,12 +162,12 @@ class ListExpert extends Component {
                 >
                     <ScrollView style={{ flex: 1 }}>
                         {this.state.tmp_item && this.state.tmp_item.group && this.state.tmp_item.group == "Check Phra Admin" ?
-                            <View style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: (height / 2) - 30 }}>
+                            <View style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: (height / 2) - 40 }}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.bloodOrange }}>Check Phra Admin</Text>
                             </View> : this.state.tmp_item && this.state.tmp_item.group && this.state.tmp_item.group != "Check Phra Admin" && this.state.tmp_item.group.map((e, i) => {
                                 return (
                                     // <View key={"main" + i} style={{ flex: 1 }}>
-                                    <View key={"sub" + i} style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: this.state.tmp_item.group.length <= 3 ? 110 : 60 }} >
+                                    <View key={"sub" + i} style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: i == this.state.tmp_item.group.length - 1 ? 10 : 0, marginHorizontal: 10, flex: 1, height: this.state.tmp_item.group.length <= 3 ? ((height / 2) / this.state.tmp_item.group.length) - ((this.state.tmp_item.group.length + 1) * 10) : 60 }} >
                                         <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{e.name}</Text>
                                     </View>
                                     // </View>
@@ -135,6 +190,7 @@ const mapStateToProps = (state) => {
         data_versatile: state.versatile.data_versatile,
         data_getListExpertBid: state.expert.data_getListExpertBid,
         request_getListExpertBid: state.expert.request_getListExpertBid,
+        status_manager: state.expert.status_manager,
     }
 }
 
@@ -145,6 +201,7 @@ const mapDispatchToProps = (dispatch) => {
         saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
         getListExpertBid: () => dispatch(ExpertActions.getListExpertBid()),
         setDataProposer: (data) => dispatch(ExpertActions.setDataProposer(data)),
+        setStatusManager: (data) => dispatch(ExpertActions.setStatusManager(data)),
     }
 }
 

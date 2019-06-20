@@ -27,16 +27,33 @@ class ListExpertChecked extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            date: moment(new Date()).subtract(1, 'days').format("YYYY-MM-DD")
+            date: moment(new Date()).subtract(1, 'days').format("YYYY-MM-DD"),
+            loading: false,
         }
+        this.status = firebase.database().ref('status_manager/')
     }
 
+    getStatusManager = () => {
+        this.setState({ loading: true })
+        this.status.on('value', data => {
+            if (data.val()) {
+                console.log(Object.values(data._value)) //  normal data
+                console.log('*************** FROM FIREBASE ****************************************')
+                this.props.setStatusManager(Object.values(data._value))
+                this.setState({ loading: false })
+            } else {
+                this.setState({ loading: false })
+            }
+        })
+    }
 
     componentDidMount() {
+        this.getStatusManager()
         this.props.getListExpertChecked(moment(new Date()).subtract(1, 'days').format("YYYY-MM-DD"))
     }
 
     _reload = () => {
+        this.getStatusManager()
         this.props.getListExpertChecked(this.state.date)
     }
 
@@ -46,6 +63,24 @@ class ListExpertChecked extends Component {
     }
 
     _renderItem = ({ item, index }) => {
+        let color = "lightgrey"
+        let tmp
+        if (this.props.status_manager && this.props.status_manager != undefined && this.props.status_manager != null) {
+            tmp = this.props.status_manager.find(e => e.uid == item.user_id)
+
+            if (tmp && tmp != null && tmp != undefined && tmp.status == 'active') {
+                color = "#58D68D"
+            }
+            else if (tmp && tmp != null && tmp != undefined && tmp.status == 'exit') {
+                color = "lightgrey"
+            }
+            else if (tmp && tmp != null && tmp != undefined && tmp.status == 'background') {
+                color = "lightgrey"
+            }
+            else {
+                color = 'lightgrey'
+            }
+        }
         return (<TouchableOpacity style={{ flexDirection: 'row', height: 70, width: "100%", alignItems: 'center', backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1.5 }} onPress={() => this._pressList(item)}>
             <View style={{ width: 50, height: 50, margin: 10 }}>
                 {item.profile && item.profile.img_full_link && <Image source={{ uri: item.profile.img_full_link }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
@@ -58,7 +93,7 @@ class ListExpertChecked extends Component {
             </View>
 
             <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', marginLeft: 10 }} onPress={() => this._showPopup(item)}>
-                <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 14, color: 'white', paddingHorizontal: 20, paddingTop: 2.5, borderRadius: 15, height: 30, backgroundColor: 'lightgrey', textAlignVertical: 'center' }}>Group</Text>
+                <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 14, color: 'white', paddingHorizontal: 20, paddingTop: 2.5, borderRadius: 15, height: 30, backgroundColor: color, textAlignVertical: 'center' }}>Group</Text>
             </TouchableOpacity>
         </TouchableOpacity>)
 
@@ -72,7 +107,8 @@ class ListExpertChecked extends Component {
 
     render() {
         console.log(this.state.date)
-        console.log('--------------------- EXPERT CHECKED -----------------------------')
+        console.log(this.props.status_manager)
+        console.log('--------------------- LIST EXPERT CHECKED -----------------------------')
         // let date = moment(new Date()).format().slice(0, 10)
         let date = moment(new Date()).format("YYYY-MM-DD") // can!!
         // let date = moment(new Date()).format("YYYY MM DD") // can!!
@@ -95,12 +131,12 @@ class ListExpertChecked extends Component {
                 >
                     <ScrollView style={{ flex: 1 }}>
                         {this.state.tmp_item && this.state.tmp_item.group && this.state.tmp_item.group == "Check Phra Admin" ?
-                            <View style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: (height / 2) - 30 }}>
+                            <View style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: (height / 2) - 40 }}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.bloodOrange }}>Check Phra Admin</Text>
                             </View> : this.state.tmp_item && this.state.tmp_item.group && this.state.tmp_item.group != "Check Phra Admin" && this.state.tmp_item.group.map((e, i) => {
                                 return (
                                     // <View key={"main" + i} style={{ flex: 1 }}>
-                                    <View key={"sub" + i} style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: this.state.tmp_item.group.length <= 3 ? 110 : 60 }} >
+                                    <View key={"sub" + i} style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: i == this.state.tmp_item.group.length - 1 ? 10 : 0, marginHorizontal: 10, flex: 1, height: this.state.tmp_item.group.length <= 3 ? ((height / 2) / this.state.tmp_item.group.length) - ((this.state.tmp_item.group.length + 1) * 10) : 60 }} >
                                         <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{e.name}</Text>
                                     </View>
                                     // </View>
@@ -167,6 +203,7 @@ const mapStateToProps = (state) => {
         data_versatile: state.versatile.data_versatile,
         data_getListExpertBid: state.expert.data_getListExpertChecked,
         request_getListExpertBid: state.expert.request_getListExpertChecked,
+        status_manager: state.expert.status_manager,
     }
 }
 
@@ -176,6 +213,7 @@ const mapDispatchToProps = (dispatch) => {
         getNormalData: () => dispatch(VersatileActions.getNormalData()),
         saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
         getListExpertChecked: (date) => dispatch(ExpertActions.getListExpertChecked(date)),
+        setStatusManager: (data) => dispatch(ExpertActions.setStatusManager(data)),
         // getListExpertBid: () => dispatch(ExpertActions.getListExpertBid()),
         // setDataProposer: (data) => dispatch(ExpertActions.setDataProposer(data)),
     }

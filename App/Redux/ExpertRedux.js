@@ -95,6 +95,7 @@ const { Types, Creators } = createActions({
 
   clearListDetailExpertBid: null,
 
+  setStatusManager: ['data'],
   setDataExpertBid: ['data'],
 })
 
@@ -164,6 +165,8 @@ export const INITIAL_STATE = Immutable({
 
   request_getListDetailExpertChecked: null,  // request for get list count expert checked amulet ?
   data_getListDetailExpertChecked: null,
+
+  status_manager: null, // store status manager
 })
 
 /* ------------- Selectors ------------- */
@@ -173,6 +176,8 @@ export const ExpertSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const setStatusManager = (state, { data }) => state.merge({ status_manager: data })
 
 export const clearListDetailExpertBid = state => state.merge({ data_getListDetailExpertBid: null })
 
@@ -225,7 +230,7 @@ export const getListDetailExpertBidSuc = (state, { data }) => {
   if (state.data_getListDetailExpertBid && state.data_getListDetailExpertBid != null && state.data_getListDetailExpertBid.length > 0) {
     // data.forEach(e => tmp.push(e))
     tmp = JSON.parse(JSON.stringify(state.data_getListDetailExpertBid))
-    
+
     data.map((e, i) => {
       tmp.map((c, index) => {
         if (e.id == c.id && e != c) {  // 1. id เหมือนกัน แต่ข้อมูลข้างในต่างกัน
@@ -510,7 +515,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_LIST_DETAIL_EXPERT_CHECKED_FAIL]: getListDetailExpertCheckedFail,
 
   [Types.CLEAR_LIST_DETAIL_EXPERT_BID]: clearListDetailExpertBid,
-  // [Types.]: ,
+  [Types.SET_STATUS_MANAGER]: setStatusManager,
   // [Types.]: ,
 
   // [Types.]: ,

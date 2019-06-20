@@ -68,7 +68,10 @@ class ExpertHome extends Component {
         }
 
         let profile = newProps.profile
-        if (newProps.profile && newProps.profile != null) {
+        if (newProps.profile && newProps.profile != null && prevState.dataProifle != newProps.profile) {
+            let a = JSON.parse(JSON.stringify(newProps.profile))
+            a['user_id'] = newProps.user_id
+            newProps.setProfileBeforeSignout(a)
             profile = newProps.profile
         }
 
@@ -153,20 +156,25 @@ class ExpertHome extends Component {
     };
 
     componentWillUnmount() {
+        // console.log(this.state.dataProifle)  // lost from signout
+        console.log(this.props.tmp_profile)  // this is real !!
+        console.log('----------------------- PROFILE BEFORE CLOSE -------------------------')
+        // console.log(this.props.profile)  // lost from signout
+        this.status.set({
+            uid: this.props.tmp_profile ? this.props.tmp_profile.user_id : "-",
+            name: this.props.tmp_profile && this.props.tmp_profile.firstname ? (this.props.tmp_profile.firstname + " " + (this.props.tmp_profile.lastname ? this.props.tmp_profile.lastname : "")) : "-",
+            email: this.props.tmp_profile && this.props.tmp_profile.email ? this.props.tmp_profile.email : "-",
+            fb_id: this.props.tmp_profile && this.props.tmp_profile.fb_id ? this.props.tmp_profile.fb_id : "-",
+            image: this.props.tmp_profile && this.props.tmp_profile.image ? this.props.tmp_profile.image : "-",
+            status: 'exit',
+        })
         console.log('************************ EXIST APP *******************************')
+        this.props.clearTmpProfile()
         AppState.removeEventListener('change', this._handleAppStateChange);
     }
 
     componentDidMount() {
         AppState.addEventListener('change', this._handleAppStateChange);
-        this.status.set({
-            uid: this.props.user_id ? this.props.user_id : "-",
-            name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
-            email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
-            fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
-            image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-",
-            status: this.state.appState,
-        })
         this.props.getNormalData()
         this.props.getProfile()
         this.getDeviceToken()
@@ -305,7 +313,16 @@ class ExpertHome extends Component {
                     itemDimension={width / 2.5}
                     items={this.state.list_user ? this.state.list_user : []}
                     renderItem={item => {
-                        if (this.props.profile)
+                        if (this.props.profile) {
+                            this.status.set({
+                                uid: this.props.user_id ? this.props.user_id : "-",
+                                name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                                email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
+                                fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+                                image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-",
+                                status: this.state.appState,
+                            })
+
                             this.profile.set({
                                 uid: this.props.user_id ? this.props.user_id : "-",
                                 name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
@@ -313,6 +330,7 @@ class ExpertHome extends Component {
                                 fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
                                 image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-"
                             })
+                        }
                         return (
 
                             <TouchableOpacity onPress={() => this._pressList(item)} style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -399,7 +417,8 @@ const mapStateToProps = (state) => {
         user_id: state.auth.user_id,
         profile: state.question.profile,
         request_profile: state.question.request_profile,
-        data_versatile: state.versatile.data_versatile
+        data_versatile: state.versatile.data_versatile,
+        tmp_profile: state.versatile.tmp_profile,
     }
 }
 
@@ -408,6 +427,8 @@ const mapDispatchToProps = (dispatch) => {
         getProfile: () => dispatch(QuestionActions.getProfile()),
         getNormalData: () => dispatch(VersatileActions.getNormalData()),
         saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
+        setProfileBeforeSignout: (data) => dispatch(VersatileActions.setProfileBeforeSignout(data)),
+        clearTmpProfile: () => dispatch(VersatileActions.clearTmpProfile()),
     }
 }
 

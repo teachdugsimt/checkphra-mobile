@@ -68,7 +68,10 @@ class AdminHome extends Component {
     }
 
     let profile = newProps.profile
-    if (newProps.profile && newProps.profile != null) {
+    if (newProps.profile && newProps.profile != null && prevState.dataProifle != newProps.profile) {
+      let a = JSON.parse(JSON.stringify(newProps.profile))
+      a['user_id'] = newProps.user_id
+      newProps.setProfileBeforeSignout(a)
       profile = newProps.profile
     }
 
@@ -130,7 +133,6 @@ class AdminHome extends Component {
   componentDidUpdate(prevProps, prevState) {
     // console.log(prevProps, prevState)
     console.log(this.state.appState)
-
     if (prevState.appState != this.state.appState) {
       this.status.set({
         uid: this.props.user_id ? this.props.user_id : "-",
@@ -142,6 +144,7 @@ class AdminHome extends Component {
       })
       console.log("******************* STATUS CHANGE ******************************")
     }
+
   }
 
   _handleAppStateChange = (nextAppState) => {
@@ -150,25 +153,33 @@ class AdminHome extends Component {
       nextAppState === 'active'
     ) {
       console.log('*********************App has come to the foreground!***************************');
+    } else {
+      console.log('----INACTIVE----')
     }
     this.setState({ appState: nextAppState });
   };
 
   componentWillUnmount() {
+
+    // console.log(this.state.dataProifle)  // lost from signout
+    console.log(this.props.tmp_profile)  // this is real !!
+    console.log('----------------------- PROFILE BEFORE CLOSE -------------------------')
+    // console.log(this.props.profile)  // lost from signout
+    this.status.set({
+      uid: this.props.tmp_profile ? this.props.tmp_profile.user_id : "-",
+      name: this.props.tmp_profile && this.props.tmp_profile.firstname ? (this.props.tmp_profile.firstname + " " + (this.props.tmp_profile.lastname ? this.props.tmp_profile.lastname : "")) : "-",
+      email: this.props.tmp_profile && this.props.tmp_profile.email ? this.props.tmp_profile.email : "-",
+      fb_id: this.props.tmp_profile && this.props.tmp_profile.fb_id ? this.props.tmp_profile.fb_id : "-",
+      image: this.props.tmp_profile && this.props.tmp_profile.image ? this.props.tmp_profile.image : "-",
+      status: 'exit'
+    })
+    this.props.clearTmpProfile()
     console.log('************************ EXIST APP *******************************')
     AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
-    this.status.set({
-      uid: this.props.user_id ? this.props.user_id : "-",
-      name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
-      email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
-      fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
-      image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-",
-      status: this.state.appState,
-  })
     this.props.getNormalData()
     this.props.getProfile()
     this.getDeviceToken()
@@ -291,73 +302,7 @@ class AdminHome extends Component {
     return (
       <LinearGradient colors={["#FF9933", "#FFCC33"]} style={styles.container}>
         <Image source={Images.watermarkbg} style={styles.imageBackground} resizeMode='contain' />
-        {/* <FlatList
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.props.request_profile == true}
-                            onRefresh={this._reload}
-                        />
-                    }
-                    ListEmptyComponent={() => <Text style={styles.textEmptyData}>{I18n.t('nonePromotion')}</Text>}
-                    data={this.state.list_user ? this.state.list_user : []}
-                    renderItem={this._renderItem}
-                /> */}
 
-        <GridView
-          itemDimension={width / 2.5}
-          items={this.state.list_user ? this.state.list_user : []}
-          renderItem={item => {
-            if (this.props.profile)
-              this.profile.set({
-                uid: this.props.user_id ? this.props.user_id : "-",
-                name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
-                email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
-                fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
-                image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-"
-              })
-            return (
-
-              <TouchableOpacity onPress={() => this._pressList(item)} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
-                  <Icon2 name={item.logo} size={62} />
-                  <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
-                    {item.name}</Text>
-                </View>
-                {item.id == 1 && this.props.data_versatile && this.props.data_versatile.new_question && <View style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'red', borderRadius: 16, borderColor: 'white', borderWidth: 1, height: 32, justifyContent: 'center' }}><Text style={{ color: 'white', fontFamily: 'Prompt-Semibold', fontSize: 14, padding: 7.5, paddingHorizontal: 16, textAlign: 'center', textAlignVertical: 'center' }}>{this.props.data_versatile.new_question}</Text></View>}
-              </TouchableOpacity>
-            );
-          }}
-        />
-
-        <PopupDialog
-          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
-            fontSize: 18, fontWeight: 'bold'
-          }}>{I18n.t('editType')}</Text></View>}
-          ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-          dialogAnimation={slideAnimation}
-          width={width / 1.05}
-          height={height / 3}
-          // height={150}
-          onDismissed={() => { this.setState({}) }}
-        >
-
-          <View style={{ flex: 1 }}>
-
-            <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginHorizontal: 10, flex: 1, height: '100%' }} onPress={this._webBoard}>
-              <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
-            </TouchableOpacity>
-
-            {/* <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._editAnswer}>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('chat')}</Text>
-                                </TouchableOpacity> */}
-
-            <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: '100%' }} onPress={this._userContact}>
-              <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('userContact')}</Text>
-            </TouchableOpacity>
-
-          </View>
-
-        </PopupDialog>
 
         <PopupDialog
           dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
@@ -390,7 +335,87 @@ class AdminHome extends Component {
           </View>
         </PopupDialog>
 
-      </LinearGradient>
+
+        < PopupDialog
+          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+            fontSize: 18, fontWeight: 'bold'
+          }}>{I18n.t('editType')}</Text></View>}
+          ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width / 1.05}
+          height={height / 3}
+          // height={150}
+          onDismissed={() => { this.setState({}) }}
+        >
+
+          <View style={{ flex: 1 }}>
+
+            <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginHorizontal: 10, flex: 1, height: '100%' }} onPress={this._webBoard}>
+              <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
+            </TouchableOpacity>
+
+            {/* <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, height: 70, marginHorizontal: 10 }} onPress={this._editAnswer}>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('chat')}</Text>
+                                </TouchableOpacity> */}
+
+            <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: '100%' }} onPress={this._userContact}>
+              <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('userContact')}</Text>
+            </TouchableOpacity>
+
+          </View>
+
+        </PopupDialog >
+
+        {/* <FlatList
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.request_profile == true}
+                            onRefresh={this._reload}
+                        />
+                    }
+                    ListEmptyComponent={() => <Text style={styles.textEmptyData}>{I18n.t('nonePromotion')}</Text>}
+                    data={this.state.list_user ? this.state.list_user : []}
+                    renderItem={this._renderItem}
+                /> */}
+
+        <GridView
+          itemDimension={width / 2.5}
+          items={this.state.list_user ? this.state.list_user : []}
+          renderItem={item => {
+            if (this.props.profile) {
+              this.status.set({
+                uid: this.props.user_id ? this.props.user_id : "-",
+                name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
+                fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+                image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-",
+                status: this.state.appState,
+              })
+
+              this.profile.set({
+                uid: this.props.user_id ? this.props.user_id : "-",
+                name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
+                fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+                image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-"
+              })
+            }
+            return (
+
+              <TouchableOpacity onPress={() => this._pressList(item)} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
+                  <Icon2 name={item.logo} size={62} />
+                  <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
+                    {item.name}</Text>
+                </View>
+                {item.id == 1 && this.props.data_versatile && this.props.data_versatile.new_question && <View style={{ position: 'absolute', top: 2, right: 2, backgroundColor: 'red', borderRadius: 16, borderColor: 'white', borderWidth: 1, height: 32, justifyContent: 'center' }}><Text style={{ color: 'white', fontFamily: 'Prompt-Semibold', fontSize: 14, padding: 7.5, paddingHorizontal: 16, textAlign: 'center', textAlignVertical: 'center' }}>{this.props.data_versatile.new_question}</Text></View>}
+              </TouchableOpacity>
+            )
+          }
+          }
+        />
+
+      </LinearGradient >
     )
   }
 }
@@ -401,7 +426,9 @@ const mapStateToProps = (state) => {
     user_id: state.auth.user_id,
     profile: state.question.profile,
     request_profile: state.question.request_profile,
-    data_versatile: state.versatile.data_versatile
+    data_versatile: state.versatile.data_versatile,
+    // data_tmpprofile: state.versatile.tmp_profile,
+    tmp_profile: state.versatile.tmp_profile,
   }
 }
 
@@ -410,6 +437,8 @@ const mapDispatchToProps = (dispatch) => {
     getProfile: () => dispatch(QuestionActions.getProfile()),
     getNormalData: () => dispatch(VersatileActions.getNormalData()),
     saveDeviceToken: (token) => dispatch(AuthActions.saveDeviceToken(token)),
+    setProfileBeforeSignout: (data) => dispatch(VersatileActions.setProfileBeforeSignout(data)),
+    clearTmpProfile: () => dispatch(VersatileActions.clearTmpProfile())
   }
 }
 

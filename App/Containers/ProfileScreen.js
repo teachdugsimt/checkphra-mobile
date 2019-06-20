@@ -10,6 +10,7 @@ import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon3 from "react-native-vector-icons/FontAwesome";
 import Icon4 from "react-native-vector-icons/MaterialIcons"
+import firebase from 'react-native-firebase';
 import { Colors, Images } from "../Themes";
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import I18n from '../I18n/i18n';
@@ -61,7 +62,9 @@ class ProfileScreen extends Component {
       point: null,
       name: null,
       name2: null,
+      loading: false,
     }
+    this.status = firebase.database().ref('status_manager/' + this.props.user_id)
   }
 
   _changeName = () => {
@@ -215,6 +218,17 @@ class ProfileScreen extends Component {
       [
         {
           text: I18n.t('ok'), onPress: () => {
+            console.log(this.props.profile, '******************* SIGNOUT SCREEN **************************')
+            if (this.props.profile && this.props.profile.role != "user") {
+              this.status.set({
+                uid: this.props.user_id ? this.props.user_id : "-",
+                name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
+                fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+                image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-",
+                status: "exit",
+              })
+            }
             this.props.signout()
             this.props.signout2()
             this.props.clearAll()
@@ -623,6 +637,7 @@ class ProfileScreen extends Component {
 const mapStateToProps = state => {
   return {
     profile: state.question.profile,
+    user_id: state.auth.user_id,
     language: state.auth.language,
     coin: state.auth.coin,
     pic: state.auth.picProfile,

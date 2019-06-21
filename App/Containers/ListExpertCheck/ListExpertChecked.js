@@ -62,6 +62,22 @@ class ListExpertChecked extends Component {
         // this.props.navigation.navigate('listExpert2')
     }
 
+    showViewGroup = (item, index) => {
+
+        // this.setState({ showView: true, tmp_item: item, index })
+        if (this.state.index && this.state.index == index) {
+            this.setState((prevState, prevProps) => ({
+                showView: !prevState.showView
+            }))
+        } else {
+            this.setState({ showView: true, tmp_item: item, index })
+        }
+
+        // this.setState((prevState, prevProps) => ({
+        //     showView: !prevState.showView, index, tmp_item: item
+        // }))
+    }
+
     _renderItem = ({ item, index }) => {
         let color = "lightgrey"
         let tmp
@@ -81,21 +97,40 @@ class ListExpertChecked extends Component {
                 color = 'lightgrey'
             }
         }
-        return (<TouchableOpacity style={{ flexDirection: 'row', height: 70, width: "100%", alignItems: 'center', backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1.5 }} onPress={() => this._pressList(item)}>
-            <View style={{ width: 50, height: 50, margin: 10 }}>
-                {item.profile && item.profile.img_full_link && <Image source={{ uri: item.profile.img_full_link }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
-                {item.profile && !item.profile.img_full_link && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
-                {!item.profile && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
-            </View>
-            <View style={{ marginVertical: 10, marginHorizontal: 10, marginLeft: 10, justifyContent: 'center', width: width / 2 }}>
-                <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 16, width: width / 2.1 }} numberOfLines={1}>{item.profile && item.profile.name ? item.profile.name : 'Expert Account'}</Text>
-                <Text>{I18n.t("countExpertChecked") + (item.count ? item.count : "0")}</Text>
-            </View>
+        return (<View>
+            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', height: 70, width: "100%", alignItems: 'center', backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1.5 }} onPress={() => this._pressList(item)}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ width: 50, height: 50, margin: 10 }}>
+                        {item.profile && item.profile.img_full_link && <Image source={{ uri: item.profile.img_full_link }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
+                        {item.profile && !item.profile.img_full_link && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
+                        {!item.profile && <Image source={Images.user} style={{ width: 50, height: 50, borderRadius: 25 }} />}
+                    </View>
+                    <View style={{ marginVertical: 10, marginHorizontal: 10, marginLeft: 10, justifyContent: 'center', width: width / 2 }}>
+                        <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 16, width: width / 2.1 }} numberOfLines={1}>{item.profile && item.profile.name ? item.profile.name : 'Expert Account'}</Text>
+                        <Text>{I18n.t("countExpertChecked") + (item.count ? item.count : "0")}</Text>
+                    </View>
+                </View>
 
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', marginLeft: 10 }} onPress={() => this._showPopup(item)}>
+                {/* <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', marginLeft: 10 }} onPress={() => this._showPopup(item)}>
                 <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 14, color: 'white', paddingHorizontal: 20, paddingTop: 2.5, borderRadius: 15, height: 30, backgroundColor: color, textAlignVertical: 'center' }}>Group</Text>
+            </TouchableOpacity> */}
+                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', width: width / 7.5, height: "100%" }} onPress={() => this.showViewGroup(item, index)}>
+                    <View style={{ width: 15, height: 15, borderRadius: 7.5, backgroundColor: color, borderWidth: 1, borderColor: 'white', alignSelf: 'center' }}></View>
+                </TouchableOpacity>
             </TouchableOpacity>
-        </TouchableOpacity>)
+            {this.state.showView && this.state.index == index && <View style={{ flex: 1, backgroundColor: Colors.milk }}>
+                {this.state.tmp_item && this.state.tmp_item.group && this.state.tmp_item.group == "Check Phra Admin" ?
+                    <View style={{ backgroundColor: 'lightgrey', borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginVertical: 10, marginHorizontal: 10, flex: 1, height: 40 }}>
+                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.bloodOrange, alignSelf: 'center' }} numberOfLines={1}>Check Phra Admin</Text>
+                    </View> : this.state.tmp_item && this.state.tmp_item.group && this.state.tmp_item.group != "Check Phra Admin" && this.state.tmp_item.group.map((e, i) => {
+                        return (
+                            <View key={"sub" + i} style={{ backgroundColor: 'lightgrey', borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: i == this.state.tmp_item.group.length - 1 ? 10 : 0, marginHorizontal: 10, flex: 1, height: 40 }} >
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran, alignSelf: 'center' }} numberOfLines={1}>{e.name}</Text>
+                            </View>
+                        )
+                    })}
+            </View>}
+        </View>)
 
     }
 

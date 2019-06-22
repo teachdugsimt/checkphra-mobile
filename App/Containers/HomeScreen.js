@@ -23,6 +23,8 @@ import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
 import Swiper from 'react-native-swiper';
+import PopupReward from '../Components/PopupReward';
+
 // import Reactotron from 'reactotron-react-native'
 // import {
 //   AdMobRewarded,
@@ -73,6 +75,7 @@ class HomeScreen extends Component {
       tmp_email: null,
       tmp_password: null,
       tmp_name: "User test001",
+      popupRewardShow: false
     }
     this.profile = firebase.database().ref('profile/' + this.props.user_id)
   }
@@ -94,7 +97,7 @@ class HomeScreen extends Component {
       // { name: I18n.t('showAmuletReal'), id: 2 },
       { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
       { name: I18n.t('commu'), id: 3, logo: 'wechat' },
-      { name: "Share +20 coins", id: 5, logo: 'facebook-square' }
+      { name: I18n.t('freecoins'), id: 5, logo: 'gift' }
     ]
 
     if (newProps.language != prevState.language) {
@@ -223,25 +226,48 @@ class HomeScreen extends Component {
       this.props.navigation.navigate('marketHome')
       // this.props.navigation.navigate("empty")
     } else if (item.id == 5) {
-      this.shareLinkWithShareDialog()
+      // this.shareLinkWithShareDialog()
+      // this.popupReward.show()
       // this.seeVideo()
+      this.setState({
+        popupRewardShow: true
+      })
     }
   }
 
-  // seeVideo() {
-  //   // Display a rewarded ad
-  //   AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
-  //   AdMobRewarded.requestAd().then((err) => {
-  //     // console.log('get ads success')
-  //     console.log(err)
-  //     // AdMobRewarded.showAd()
-  //   })
-  //     .catch((err) => {
-  //       console.log(err.message)
-  //     });
+  seeVideo() {
+
+    const advert = firebase.admob().rewarded('ca-app-pub-6098541041978088/8954119651');
+
+    const AdRequest = firebase.admob.AdRequest;
+    const request = new AdRequest();
+    // request.addKeyword('amulet');
 
 
-  // }
+    // Load the advert with our AdRequest
+    advert.loadAd(request.build());
+
+    advert.on('onAdLoaded', () => {
+      console.log('Advert ready to show.');
+      advert.show()
+    });
+
+    advert.on('onRewarded', (event) => {
+      console.log('The user watched the entire video and will now be rewarded!', event);
+
+    });
+    //   // Display a rewarded ad
+    //   AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
+    //   AdMobRewarded.requestAd().then((err) => {
+    //     // console.log('get ads success')
+    //     console.log(err)
+    //     // AdMobRewarded.showAd()
+    //   })
+    //     .catch((err) => {
+    //       console.log(err.message)
+    //     });
+
+  }
 
   async shareLinkWithShareDialog() {
     var tmp = this;
@@ -630,10 +656,17 @@ class HomeScreen extends Component {
 
         </ScrollView>
 
+        <PopupReward
+          show={this.state.popupRewardShow}
+          onPressShare={() => this.shareLinkWithShareDialog()}
+          onPressVideo={() => this.seeVideo()}
+          onDismissed={() => this.setState({ popupRewardShow: false })}
+        />
+
         <PopupDialog
-          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+          dialogTitle={<View style={styles.popupHeader}><Text style={{
             fontSize: 18, fontWeight: 'bold'
-          }}>{I18n.t('editType')}</Text></View>}
+          }}>{I18n.t('selectChat')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           dialogAnimation={slideAnimation}
           width={width / 1.2}

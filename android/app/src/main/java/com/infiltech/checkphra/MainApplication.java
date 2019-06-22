@@ -1,14 +1,14 @@
 package com.infiltech.checkphra;
 
 import android.app.Application;
+// import android.support.multidex.MultiDexApplication;
 
 import com.facebook.react.ReactApplication;
 
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.imagepicker.ImagePickerPackage;
-import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
-import io.invertase.firebase.RNFirebasePackage;
+// import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.smarkets.paypal.RNPaypalPackage;
@@ -26,6 +26,8 @@ import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage; // <-- Add this line
+import io.invertase.firebase.admob.RNFirebaseAdMobPackage; // <-- Add this line
+import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage; // <-- Add this line
 
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -44,10 +46,12 @@ import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+// import com.crashlytics.android.Crashlytics;
+// import io.fabric.sdk.android.Fabric;
 
 public class MainApplication extends Application implements ReactApplication {
+  // public class MainApplication extends MultiDexApplication implements
+  // ReactApplication {
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
@@ -86,11 +90,13 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebaseAuthPackage(), //
           new RNFirebaseMessagingPackage(), //
           new RNFirebaseNotificationsPackage(), //
-          new LinearGradientPackage(), //
+          new RNFirebaseAdMobPackage(), //
+          new RNFirebaseDatabasePackage(), //
+          new RNFirebaseCrashlyticsPackage(), //
           new ReactNativeConfigPackage(), //
+          new LinearGradientPackage(), //
           // new ReactNativeI18n(),
-          new VectorIconsPackage(),
-          new RNFirebaseDatabasePackage());
+          new VectorIconsPackage()); //
     }
 
     @Override
@@ -107,7 +113,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    Fabric.with(this, new Crashlytics());
+    // Fabric.with(this, new Crashlytics());
     AppEventsLogger.activateApp(this);
     SoLoader.init(this, /* native exopackage */ false);
   }

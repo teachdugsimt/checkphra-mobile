@@ -67,7 +67,7 @@
   }
 }
 
-- (void)setMedia:(NSArray *)media
+- (void)setMedia:(NSArray<id<FBSDKShareMedia>> *)media
 {
   [FBSDKShareUtility assertCollection:media ofClassStrings:@[NSStringFromClass([FBSDKSharePhoto class]), NSStringFromClass([FBSDKShareVideo class])] name:@"media"];
   if (![FBSDKInternalUtility object:_media isEqualToObject:media]) {
@@ -76,12 +76,6 @@
 }
 
 #pragma mark - FBSDKSharingContent
-
-- (void)addToParameters:(NSMutableDictionary<NSString *, id> *)parameters
-          bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
-{
-  // FBSDKShareMediaContent is currently available via the Share extension only (thus no parameterization implemented at this time)
-}
 
 - (NSDictionary<NSString *, id> *)addParameters:(NSDictionary<NSString *, id> *)existingParameters
                                   bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
@@ -147,14 +141,14 @@
 - (NSUInteger)hash
 {
   NSUInteger subhashes[] = {
-    [_contentURL hash],
-    [_hashtag hash],
-    [_peopleIDs hash],
-    [_media hash],
-    [_placeID hash],
-    [_ref hash],
-    [_pageID hash],
-    [_shareUUID hash],
+    _contentURL.hash,
+    _hashtag.hash,
+    _peopleIDs.hash,
+    _media.hash,
+    _placeID.hash,
+    _ref.hash,
+    _pageID.hash,
+    _shareUUID.hash,
   };
   return [FBSDKMath hashWithIntegerArray:subhashes count:sizeof(subhashes) / sizeof(subhashes[0])];
 }
@@ -190,7 +184,7 @@
   return YES;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
   if ((self = [self init])) {
     _contentURL = [decoder decodeObjectOfClass:[NSURL class] forKey:FBSDK_SHARE_MEDIA_CONTENT_CONTENT_URL_KEY];

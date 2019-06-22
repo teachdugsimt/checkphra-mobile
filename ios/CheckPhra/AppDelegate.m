@@ -27,6 +27,7 @@
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
   [FIRApp configure];
+  [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
   [RNFirebaseNotifications configure];
   

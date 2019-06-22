@@ -319,6 +319,7 @@ export default {
   wantAddSlot: 'คุณต้องการเพิ่มช่องลงพระ ?',
   use10Coins: 'ใช้ 10 เหรียญในการเพิ่มช่องลงพระ',
   follow: 'ติดตาม',
+  selectChat: 'ติดต่อสื่อสาร',
 
   amuletNorth: 'พระในภาคเหนือ',
   amuletCentralWest: 'พระในภาคกลาง+ตะวันตก',
@@ -388,5 +389,8 @@ export default {
   failureTransaction: 'ทำรายการล้มเหลว กรุณาลองอีกครั้ง',
   succ: 'สำเร็จ!!',
   fail: 'ล้มเหลว!!',
-  news: 'ข่าวสาร'
+  news: 'ข่าวสาร',
+
+  freecoins: 'รับเหรียญฟรี',
+  rewards: 'รับเหรียญฟรี'
 }

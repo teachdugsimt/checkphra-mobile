@@ -295,7 +295,7 @@ class HomeScreen extends Component {
         console.log(result)
         console.log('HERE RESULT')
         if (result.isCancelled) {
-          alert('Share operation was cancelled');
+          // alert('Share operation was cancelled');
         } else {
           if (check == true) {  // can & basic method
             check = false

@@ -10,17 +10,18 @@ import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon3 from "react-native-vector-icons/FontAwesome";
 import Icon4 from "react-native-vector-icons/MaterialIcons"
+import firebase from 'react-native-firebase';
 import { Colors, Images } from "../Themes";
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import I18n from '../I18n/i18n';
 import { getLanguages } from 'react-native-i18n';
 import RoundedButton from "../Components/RoundedButton";
+import ImageResizer from 'react-native-image-resizer';
 import {
   AccessToken, LoginManager,
   GraphRequest,
   GraphRequestManager
 } from 'react-native-fbsdk';
-
 // import ImagePicker from 'react-native-image-picker'
 I18n.fallbacks = true;
 // I18n.currentLocale();
@@ -61,7 +62,9 @@ class ProfileScreen extends Component {
       point: null,
       name: null,
       name2: null,
+      loading: false,
     }
+    this.status = firebase.database().ref('status_manager/' + this.props.user_id)
   }
 
   _changeName = () => {
@@ -90,21 +93,76 @@ class ProfileScreen extends Component {
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-        this.props.setImg({
-          uri: response.uri,
-          type: response.type,
-          name: response.fileName
-        })
-        this.setState({
-          avatarSource: source
-        });
 
-        this.props.changeProfile(null, null, {
-          uri: response.uri,
-          type: response.type,
-          name: response.fileName
-        })
+
+        ImageResizer.createResizedImage(response.uri, 1024, 1024, 'JPEG', 100, 0, null)
+          .then((response) => {
+            // response.uri is the URI of the new image that can now be displayed, uploaded...
+            // response.path is the path of the new image
+            // response.name is the name of the new image with the extension
+            // response.size is the size of the new image
+            // console.log(response)
+            //   this.setState({ spinner: false })
+            // this.props.setImages(this.props.id, {
+            //     uri: response.uri,
+            //     type: 'image/jpeg',
+            //     // name: response.fileName,
+            //     name: response.name,
+            //     // size: response.fileSize,
+            //     size: response.size,
+            //     tmp_name: response.path
+            // })
+            this.setState({
+              avatarSource: source
+            });
+            this.props.setImg({
+              uri: response.uri,
+              type: 'image/jpeg',
+              // name: response.fileName,
+              name: response.name,
+              // size: response.fileSize,
+              size: response.size,
+              tmp_name: response.path
+            })
+
+            this.props.changeProfile(null, null, {
+              uri: response.uri,
+              type: 'image/jpeg',
+              // name: response.fileName,
+              name: response.name,
+              // size: response.fileSize,
+              size: response.size,
+              tmp_name: response.path
+            })
+            // this.props.getProfile()
+
+
+            // console.log(response)
+          }).catch((err) => {
+            //   this.setState({ spinner: false })
+            // Oops, something went wrong. Check that the filename is correct and
+            // inspect err to get more details.
+            console.log(err)
+          });
+
+
+
         this.props.getProfile()
+        // this.props.setImg({
+        //   uri: response.uri,
+        //   type: response.type,
+        //   name: response.fileName
+        // })
+        // this.setState({
+        //   avatarSource: source
+        // });
+
+        // this.props.changeProfile(null, null, {
+        //   uri: response.uri,
+        //   type: response.type,
+        //   name: response.fileName
+        // })
+        // this.props.getProfile()
       }
     });
   }
@@ -135,6 +193,9 @@ class ProfileScreen extends Component {
   }
 
   componentDidMount() {
+    if (this.props.data_versatile && this.props.data_versatile.ban == true) {
+      this.popupDialogBan.show()
+    }
     this.props.getProfile()
   }
 
@@ -157,6 +218,17 @@ class ProfileScreen extends Component {
       [
         {
           text: I18n.t('ok'), onPress: () => {
+            console.log(this.props.profile, '******************* SIGNOUT SCREEN **************************')
+            if (this.props.profile && this.props.profile.role != "user") {
+              this.status.set({
+                uid: this.props.user_id ? this.props.user_id : "-",
+                name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
+                fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
+                image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-",
+                status: "exit",
+              })
+            }
             this.props.signout()
             this.props.signout2()
             this.props.clearAll()
@@ -533,7 +605,28 @@ class ProfileScreen extends Component {
           </View>
         </PopupDialog>
 
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialogBan = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width}
+          height={height - 30}
+          onDismissed={() => { }}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 22, fontFamily: 'Prompt-SemiBold', color: 'red' }}>{I18n.t("accountBan")}</Text>
+            <TouchableOpacity style={{ backgroundColor: 'orange', height: 50, borderRadius: 12, marginTop: 10 }} onPress={() => {
+              this.props.signout()
+              this.props.signout2()
+              this.props.clearAll()
+              this.props.clearTmp()
+              this.clearFacebook()
+              this.props.navigation.navigate('Auth')
+            }}>
+              <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 22, color: Colors.brownText, padding: 7.5 }}>Log out now !!</Text>
+            </TouchableOpacity>
+          </View>
 
+        </PopupDialog>
 
 
       </LinearGradient>
@@ -544,11 +637,13 @@ class ProfileScreen extends Component {
 const mapStateToProps = state => {
   return {
     profile: state.question.profile,
+    user_id: state.auth.user_id,
     language: state.auth.language,
     coin: state.auth.coin,
     pic: state.auth.picProfile,
     token: state.auth.user_id,
     pic: state.auth.picProfile,
+    data_versatile: state.versatile.data_versatile,  // store versatile data
   };
 };
 

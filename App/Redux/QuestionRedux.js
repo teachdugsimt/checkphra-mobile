@@ -146,12 +146,17 @@ export const editTypeAmulet = (state, { data }) => {
 }
 
 export const clearAmuletChecked = (state, data) => {
+  // console.log(data)
+  // console.log('+++++++++++++++++++ DATA COME TO REDUX ++++++++++++++++++++++++')
   let tmp = JSON.parse(JSON.stringify(state.history))
   tmp.map((e, i) => {
     if (e.id == data.id.q_id) {
       tmp.splice(i, 1)
     }
   })
+  // console.log(tmp)
+  // console.log('++++++++++++ TMP AFTER SPLICE HISTORY +++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+
   return state.merge({ history: tmp })
 }
 

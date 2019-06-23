@@ -113,10 +113,10 @@ class SigninScreen extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps)
-    console.log(prevState)
-    console.log('แอบมองเธออยู่นะจ๊ะ ')
-    console.log('+++++++++++++++++++++++++++ SIGNIN PAGE ++++++++++++++++++++++++++++')
+    // console.log(nextProps)
+    // console.log(prevState)
+    // console.log('แอบมองเธออยู่นะจ๊ะ ')
+    // console.log('+++++++++++++++++++++++++++ SIGNIN PAGE ++++++++++++++++++++++++++++')
     // Reactotron.display({
     //   name: "newProps",
     //   preview: "Signin Screen",
@@ -175,8 +175,59 @@ class SigninScreen extends Component {
     console.log(result)
   }
 
-  fbLogin = async () => {
+  fbLogin = () => {
     try {
+
+      LoginManager.logInWithPermissions(["public_profile", 'email']).then(
+        (result) => {
+          if (result.isCancelled) {
+            console.log("Login cancelled");
+          } else {
+            console.log(
+              "Login success with permissions: " +
+              result.grantedPermissions.toString()
+            );
+
+            this.setState({ spinner: true })
+
+            // get the access token
+            AccessToken.getCurrentAccessToken().then(data => {
+              if (!data) {
+                throw new Error('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
+              }
+
+              const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+              console.log(credential)
+              // login with credential
+              firebase.auth().signInWithCredential(credential).then(currentUser => {
+                console.log(currentUser)
+
+                this.setState({ spinner: false })
+                const currentUserJson = currentUser.user.toJSON()
+
+                this.props.setUserId(currentUserJson.uid)
+                this.props.signinWithCredential(currentUserJson)
+              });
+
+
+
+            });
+            // console.log(data)
+
+
+            // create a new firebase credential with the token
+            // this.FBGraphRequest('id, email, link', this.graphRequestSuccess)
+
+
+          }
+        },
+        (error) => {
+          this.setState({ spinner: false })
+          console.log("Login fail with error: " + error);
+        }
+      );
+
+      /*
 
       const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
       console.log(result)
@@ -224,8 +275,10 @@ class SigninScreen extends Component {
       // }
 
       console.log(currentUserJson.uid)
+      console.log(currentUserJson)
+      console.log('-------------------------  CURRENT USER JSON ------------------------------')
       this.props.setUserId(currentUserJson.uid)
-      this.props.signinWithCredential(currentUserJson)
+      this.props.signinWithCredential(currentUserJson) */
 
     } catch (e) {
       this.setState({ spinner: false })

@@ -104,6 +104,7 @@ export default {
   realPhraOld: 'พระแท้ย้อนยุค',
   fakePhra: 'พระไม่แท้',
   realPhranowhere: 'พระแท้ไม่รู้ที่',
+  noneAnswerAmulet: 'ไม่ออกผล',
   sureBan: "คุณต้องการแบนพระองค์นี้ ?",
 
   reason: 'เหตุผล',
@@ -318,6 +319,7 @@ export default {
   wantAddSlot: 'คุณต้องการเพิ่มช่องลงพระ ?',
   use10Coins: 'ใช้ 10 เหรียญในการเพิ่มช่องลงพระ',
   follow: 'ติดตาม',
+  selectChat: 'ติดต่อสื่อสาร',
 
   amuletNorth: 'พระในภาคเหนือ',
   amuletCentralWest: 'พระในภาคกลาง+ตะวันตก',
@@ -341,7 +343,17 @@ export default {
   north_east: "ภาคอีสาน",
   central: "ภาคกลาง",
   east: "ภาคตะวันออก",
-  south: "ภาคใต้",  
+  south: "ภาคใต้",
+
+  listExpert: "รายชื่อเซียนพระ",
+  countExpertBid: "จำนวนพระที่บิท : ",
+  expert: "เซียนพระ",
+  inputPrice: 'กรุณาใส่ราคาพระ',
+  countExpertChecked: 'จำนวนพระที่ตรวจ : ',
+  accountBan: 'ไอดีคุณถูกระงับการใช้งาน!!',
+  // resonBan: 'คุณถูกแบนเนื่องจาก : ',
+  noneAmuletOnStore: 'ไม่มีพระในร้านค้า',
+  detail: "รายละเอียด",
 
   หลวงปู่ทวด: 'หลวงปู่ทวด',
   หลวงปู่หมุน: 'หลวงปู่หมุน',
@@ -377,5 +389,8 @@ export default {
   failureTransaction: 'ทำรายการล้มเหลว กรุณาลองอีกครั้ง',
   succ: 'สำเร็จ!!',
   fail: 'ล้มเหลว!!',
-  news: 'ข่าวสาร'
+  news: 'ข่าวสาร',
+
+  freecoins: 'รับเหรียญฟรี',
+  rewards: 'รับเหรียญฟรี'
 }

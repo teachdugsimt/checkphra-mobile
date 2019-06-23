@@ -130,6 +130,9 @@ const { Types, Creators } = createActions({
   setTypeName: ['name'],
   setStoreName: ['data'],
   setJangwad: ['id', 'name'],
+
+  setTmpFollowGroup: ['id'],
+  clearTmpFollowGroup: null,
 })
 
 export const MarketTypes = Types
@@ -220,6 +223,8 @@ export const INITIAL_STATE = Immutable({
   jangwad_id: null,  // set province id 11/04/2562 !!
   jangwad_name: null, // set province name
   tmp_store: null,
+
+  tmp_followGroup: null, // for spinner smallest
 })
 
 /* ------------- Selectors ------------- */
@@ -231,6 +236,11 @@ export const MarketSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const setTmpFollowGroup = (state, data) => {
+  return state.merge({ tmp_followGroup: data.id })
+}
+export const clearTmpFollowGroup = state => state.merge({ tmp_followGroup: null })
 
 export const setTmpTypeAmulet = (state, data) => {
   return state.merge({ tmp_typeID: data.t_id })
@@ -680,4 +690,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_JANGWAD]: setJangwad,
   [Types.SET_STORE_NAME]: setStoreName,
   [Types.SET_TMP_TYPE_AMULET]: setTmpTypeAmulet,
+
+  [Types.SET_TMP_FOLLOW_GROUP]: setTmpFollowGroup,
+  [Types.CLEAR_TMP_FOLLOW_GROUP]:clearTmpFollowGroup,
 })

@@ -33,6 +33,8 @@ const images = {
   coin1: require('../Images/coin1.png'),
   coin2: require('../Images/coin2.jpg'),
   coin3: require('../Images/coin3.jpg'),
+  coin4: require('../Images/coin4.jpg'),
+  coin5: require('../Images/coin5.jpg'),
   nonePic: require('../Images/none_1.png'),
   fb: require('../Images/fb_icon.png'),
   card3: require('../Images/card3.png'),
@@ -46,6 +48,7 @@ const images = {
   pin: require('../Images/pin.png'),
   chat: require('../Images/chat.png'),
   logoCheckphra: require('../Images/logo-checkphra.jpg'),
+  iconApp: require('../Images/playstore-icon.png'),
 }
 
 export default images

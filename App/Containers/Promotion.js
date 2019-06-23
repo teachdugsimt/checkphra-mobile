@@ -115,8 +115,12 @@ class Promotion extends Component {
       img = Images.coin2
     } else if (item.point > 149 && item.point < 300) {
       img = Images.coin1
-    } else if (item.point > 299) {
+    } else if (item.point > 299 && item.point < 1200) {
       img = Images.coin3
+    } else if (item.point > 1199 && item.point < 2700){
+      img = Images.coin5
+    } else if(item.point > 2699){
+      img = Images.coin4
     }
     console.log(img)
     return (
@@ -131,7 +135,7 @@ class Promotion extends Component {
               }} />
             </View>
 
-            <View style={{  }}>
+            <View style={{}}>
               <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: width / 2.85 }}>
                 <Text style={{ fontWeight: 'bold', color: 'orange', fontSize: 24, marginTop: 15 }}>{item.point}</Text>
                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 15, color: Colors.brownText }}> {I18n.t('coin')}</Text>
@@ -150,6 +154,9 @@ class Promotion extends Component {
   }
 
   componentDidMount() {
+    if (this.props.data_versatile && this.props.data_versatile.ban == true) {
+      this.popupDialogBan.show()
+    }
     if (Platform.OS == 'ios') {
       // console.log(Platform.OS)
       // console.log('------ PLATFORM-------')
@@ -239,6 +246,18 @@ class Promotion extends Component {
             </TouchableOpacity>
           </View>
         </PopupDialog>
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialogBan = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width}
+          height={height - 30}
+          onDismissed={() => { }}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 22, fontFamily: 'Prompt-SemiBold', color: 'red' }}>{I18n.t("accountBan")}</Text>
+          </View>
+
+        </PopupDialog>
       </LinearGradient>
     )
   }
@@ -250,6 +269,7 @@ const mapStateToProps = (state) => {
     fetching: state.promotion.fetching,
     profile: state.question.profile,
     language: state.auth.language,
+    data_versatile: state.versatile.data_versatile,  // store versatile data
   }
 }
 

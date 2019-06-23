@@ -13,11 +13,15 @@ import Icon2 from "react-native-vector-icons/FontAwesome";
 // import I18n, { getLanguages } from 'react-native-i18n';
 
 import I18n from '../I18n/i18n';
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+const slideAnimation = new SlideAnimation({
+  slideFrom: 'bottom',
+});
 I18n.fallbacks = true;
 // I18n.currentLocale();
 // I18n.locale = "th";
 let count = 1
-let { width } = Dimensions.get('window')
+let { width, height } = Dimensions.get('window')
 let check = false
 class HistoryScreen extends Component {
   constructor(props) {
@@ -42,6 +46,9 @@ class HistoryScreen extends Component {
   componentDidMount() {
     // getLanguages().then(languages => {
     // console.log(languages); // ['en-US', 'en']
+    if (this.props.data_versatile && this.props.data_versatile.ban == true) {
+      this.popupDialogBan.show()
+    }
     moment.locale('th')
     // });
     count = 1
@@ -86,8 +93,8 @@ class HistoryScreen extends Component {
     //   }
     // }
 
-    if(newProps.data_question && newProps.data_question != null){
-      if(newProps.data_question != PrevState.data_question){
+    if (newProps.data_question && newProps.data_question != null) {
+      if (newProps.data_question != PrevState.data_question) {
         console.log('--------------------- NEW AMULET UPLOAD ---------------------------------------------------------------------------0--00000000000000000000')
         newProps.getHistory(1)
         return {
@@ -175,6 +182,12 @@ class HistoryScreen extends Component {
               name = item.type
             }
             else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
+              name = item.type
+            }
+            else if (item.type == "พระเครื่องจังหวัดนครปฐม") {
+              name = item.type
+            }
+            else if (item.type == "ปราจีนบุรี นครนายก สระแก้ว") {
               name = item.type
             }
             else if (item.type == "อื่นๆ หรือ ไม่ทราบ" || item.type == "ไม่ระบุประเภท") {
@@ -268,6 +281,18 @@ class HistoryScreen extends Component {
           }}
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
         />
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialogBan = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width}
+          height={height - 30}
+          onDismissed={() => { }}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 22, fontFamily: 'Prompt-SemiBold', color: 'red' }}>{I18n.t("accountBan")}</Text>
+          </View>
+
+        </PopupDialog>
       </LinearGradient>
 
     )
@@ -284,6 +309,7 @@ const mapStateToProps = (state) => {
     request_question: state.question.request,   // request add question
     data_question: state.question.data_question,  // data when add question complete
     language: state.auth.language,
+    data_versatile: state.versatile.data_versatile,  // store versatile data
     // access_id: state.auth.user_id,
 
   }

@@ -36,12 +36,13 @@ import {
 } from './PaymentSagas'
 import {
   expertRequest, getProfileRequest, acceptRequest, getAnswerAdmin, updateAnswer, cancelPoint,
-  getAutoText55, editTypeQuestion, getListShop, verifyStoreRequest
+  getAutoText55, editTypeQuestion, getListShop, verifyStoreRequest, getDetailAmuletCheckedRequest,
+  getListExpertBidRequest, getListDetailExpertBidRequest, getListExpertCheckedRequest
 } from './ExpertSagas'
 import {
   getTrading, getDetail, getListTrade, updateAmulet, sendMessage555, sharedLeasing555,
   getListLeasing, getPriceallday, wantToBuy, addDetailCertificateRequest, getListCerfromUserRequest,
-  activeCerRequest
+  activeCerRequest, getListTrade2
 } from './TradingSagas'
 
 import {
@@ -91,6 +92,7 @@ export default function* root() {
 
     // some sagas receive extra parameters in addition to an action
     // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+    takeLatest(ExpertTypes.GET_LIST_EXPERT_CHECKED, getListExpertCheckedRequest, question2Api),
     takeLatest(ShowRoomTypes.GET_MESSAGE_OTHER_CONTACT_MY_AMULET, getMessageOtherContactMyAmuletRequest, coreDiscussApi),
     takeLatest(VersatileTypes.GET_NORMAL_DATA, getNormalDataRequest, question2Api),
 
@@ -140,7 +142,9 @@ export default function* root() {
     takeLatest(TradingTypes.ADD_DETAIL_CERTIFICATE, addDetailCertificateRequest, question2Api),
     takeLatest(TradingTypes.GET_LIST_CER_FROM_USER, getListCerfromUserRequest, question2Api),
     takeLatest(TradingTypes.GET_DETAIL, getDetail, tradeApi),
-    takeLatest(TradingTypes.LIST_TRADING, getListTrade, tradeApi),
+    // takeLatest(TradingTypes.LIST_TRADING, getListTrade, tradeApi),
+    takeLatest(TradingTypes.LIST_TRADINGU, getListTrade2, tradeApi),
+    takeLatest(TradingTypes.LIST_TRADING, getListTrade, question2Api),
     takeLatest(TradingTypes.UPDATE_STATUS, updateAmulet, tradeApi),
     takeLatest(TradingTypes.SEND_MESSAGE, sendMessage555, faceApi),
     takeLatest(TradingTypes.SHARED_LEASING, sharedLeasing555, tradeApi),
@@ -189,8 +193,9 @@ export default function* root() {
     takeLatest(PaymentTypes.APPLE_HISTORY, appleHistoryRequest, promotionApi),
 
     takeLatest(VersionTypes.GET_VERSION, getVersion, versionApi),
-
-
+    takeLatest(ExpertTypes.GET_DETAIL_AMULET_CHECKED, getDetailAmuletCheckedRequest, question2Api),
+    takeLatest(ExpertTypes.GET_LIST_EXPERT_BID, getListExpertBidRequest, question2Api),
+    takeLatest(ExpertTypes.GET_LIST_DETAIL_EXPERT_BID, getListDetailExpertBidRequest, question2Api),
 
 
   ])

@@ -13,7 +13,11 @@ const { Types, Creators } = createActions({
   getNormalDataSuccess: ['data'],
   getNormalDataFailure: null,
 
+  // setProfileTemp: ['data'],
+  setProfileBeforeSignout: ['data'],
+
   setTempPublish: ['data'],
+  clearTmpProfile: null,
   addPublish: ['data'],
   editRedDotPublish: ['data'],
   deletePublish: ['data'],
@@ -34,6 +38,7 @@ export const INITIAL_STATE = Immutable({
   data_versatile: null,  // store versatile data
 
   tmp_publish: null,  // store temp publish
+  tmp_profile: null,  // set tmp profile
 })
 
 /* ------------- Selectors ------------- */
@@ -45,6 +50,12 @@ export const VersatileSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
+
+export const clearTmpProfile = state => state.merge({ tmp_profile: null })
+export const setProfileBeforeSignout = (state, { data }) => {
+  return state.merge({ tmp_profile: data })
+}
+
 export const deletePublish = (state, { data }) => {
   let tmp = JSON.parse(JSON.stringify(state.tmp_publish))
   if (tmp && tmp != null) {
@@ -117,6 +128,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.VERSATILE_SUCCESS]: success,
   [Types.VERSATILE_FAILURE]: failure,
 
+  [Types.SET_PROFILE_BEFORE_SIGNOUT]: setProfileBeforeSignout,
+
   [Types.GET_NORMAL_DATA]: getNormalData,
   [Types.GET_NORMAL_DATA_SUCCESS]: getNormalDataSuccess,
   [Types.GET_NORMAL_DATA_FAILURE]: getNormalDataFailure,
@@ -125,4 +138,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ADD_PUBLISH]: addPublish,
   [Types.EDIT_RED_DOT_PUBLISH]: editRedDotPublish,
   [Types.DELETE_PUBLISH]: deletePublish,
+
+  [Types.CLEAR_TMP_PROFILE]: clearTmpProfile,
 })

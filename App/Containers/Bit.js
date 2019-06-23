@@ -205,6 +205,12 @@ class Bit extends Component {
             else if (item.answer.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
               name = item.answer.type
             }
+            else if (item.answer.type == "พระเครื่องจังหวัดนครปฐม") {
+              name = item.answer.type
+            }
+            else if (item.answer.type == "ปราจีนบุรี นครนายก สระแก้ว") {
+              name = item.answer.type
+            }
             else {
               name = (item.answer.type == 'อื่นๆ หรือ ไม่ทราบ'||item.answer.type == 'ไม่ระบุประเภท') ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
             }

@@ -13,10 +13,14 @@ import ExpertActions from '../Redux/ExpertRedux'
 // Styles
 import styles from './Styles/CheckListScreenStyle'
 import I18n from '../I18n/i18n';
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+const slideAnimation = new SlideAnimation({
+  slideFrom: 'bottom',
+});
 I18n.fallbacks = true;
 // I18n.currentLocale();
 import { MessageDialog } from 'react-native-fbsdk'
-const { width } = Dimensions.get('window')
+let { width, height } = Dimensions.get('window')
 let check = true
 let count = 1
 
@@ -167,6 +171,9 @@ class UserBit extends Component {
   // }
 
   componentDidMount() {
+    if (this.props.data_versatile && this.props.data_versatile.ban == true) {
+      this.popupDialogBan.show()
+    }
     count = 1
     this.props.getAnswer(count)
   }
@@ -182,7 +189,7 @@ class UserBit extends Component {
 
   _onScrollEndList = () => {
     console.log('END LIST AGAIN')
-    if (this.props.data_answer && this.props.data_answer.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
+    if (this.props.data_answer && this.props.data_answer.length >= 20 && (this.props.request2 == false || this.props.request2 == null)) {
       count++
       this.props.getAnswer(count)
     }
@@ -190,6 +197,8 @@ class UserBit extends Component {
 
   render() {
     I18n.locale = this.props.language
+    console.log(this.props.data_answer)
+    console.log('****************** USER BIT SCCREEN *************************************')
     // let data = this.props.data_answer ? JSON.parse(JSON.stringify(this.props.data_answer)) : null
     return (
       <LinearGradient
@@ -275,6 +284,12 @@ class UserBit extends Component {
             else if (item.answer.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
               name = item.answer.type
             }
+            else if (item.answer.type == "พระเครื่องจังหวัดนครปฐม") {
+              name = item.answer.type
+            }
+            else if (item.answer.type == "ปราจีนบุรี นครนายก สระแก้ว") {
+              name = item.answer.type
+            }
             else {
               name = item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
             }
@@ -342,6 +357,19 @@ class UserBit extends Component {
           onEndReachedThreshold={1.2}
         />
 
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialogBan = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width}
+          height={height - 30}
+          onDismissed={() => { }}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 22, fontFamily: 'Prompt-SemiBold', color: 'red' }}>{I18n.t("accountBan")}</Text>
+          </View>
+
+        </PopupDialog>
+
       </LinearGradient>
     )
   }
@@ -354,8 +382,9 @@ const mapStateToProps = (state) => {
     // request3: state.expert.fetch5, // send answer
     // data_answer: state.expert.data_answer,
     // data_updateAnswer: state.expert.data_updateAnswer,
-    data_answer: state.trading.data_tradelist,
-    request2: state.trading.request2,
+    data_answer: state.trading.data_tradelist2,
+    request2: state.trading.request12,
+    data_versatile: state.versatile.data_versatile,  // store versatile data
   }
 }
 
@@ -369,7 +398,7 @@ const mapDispatchToProps = (dispatch) => {
     // setAnswerDetail: (data) => dispatch(ExpertActions.setAnswerDetail(data)),
 
     setData: (data) => dispatch(TradingActions.setData(data)),
-    getAnswer: (page) => dispatch(TradingActions.listTrading(page)),
+    getAnswer: (page) => dispatch(TradingActions.listTradingu(page)),
     sendMessage: (text) => dispatch(TradingActions.sendMessage(text)),
   }
 }

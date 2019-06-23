@@ -44,6 +44,7 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'Prompt-SemiBold',
         color: Colors.brownTextTran,
+        width: "80%",
     },
     topicView: {
         width: width - 20,
@@ -145,7 +146,8 @@ export default StyleSheet.create({
         marginTop: 5
     },
     commentTopRow: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     iconView: {
         position: 'absolute',

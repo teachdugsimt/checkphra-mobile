@@ -15,6 +15,7 @@ import TradingActions, { sendMessage } from '../Redux/TradingRedux'
 // import { TradingSelectors } from '../Redux/TradingRedux'
 import I18n from '../I18n/i18n';
 I18n.fallbacks = true;
+const expert = state => state.expert
 const auth = state => state.auth
 I18n.locale = auth.language
 
@@ -61,15 +62,16 @@ export function* getDetail(api, { id }) {
 }
 
 export function* getListTrade(api, { page }) {
-
+  const exp = yield select(expert)
   const aut = yield select(auth)
   if (page == 1) {
     const data = {
       user_id: aut.user_id,
-      page_number: page
+      page_number: page,
+      proposer_uid: exp.tmp_proposer.proposer
     }
 
-    const response = yield call(api.getListTrade, data)
+    const response = yield call(api.getDetailExpertBid, data) //getDetailExpertBid
     console.log(response)
     console.log('****************GET LIST TRADE*******************')
     if (response.ok) {
@@ -81,15 +83,49 @@ export function* getListTrade(api, { page }) {
   } else {
     const data = {
       user_id: aut.user_id,
-      page_number: page
+      page_number: page,
+      proposer_uid: exp.tmp_proposer.proposer
     }
-    const response = yield call(api.getListTrade, data)
+    const response = yield call(api.getDetailExpertBid, data) //getDetailExpertBid
     console.log(response)
     console.log('****************GET LIST TRADE*******************')
     if (response.ok) {
       yield put(TradingActions.listTradingSuccess2(response.data))
     } else {
       yield put(TradingActions.listTradingFailure2())
+    }
+  }
+}
+
+export function* getListTrade2(api, { page }) {
+  const aut = yield select(auth)
+  if (page == 1) {
+    const data = {
+      user_id: aut.user_id,
+      page_number: page,
+    }
+
+    const response = yield call(api.getListTrade, data) //getDetailExpertBid
+    console.log(response)
+    console.log('=========================GET LIST TRADE USER !! =========================***')
+    if (response.ok) {
+      yield put(TradingActions.listTradingSuccessu(response.data))
+    } else {
+      yield put(TradingActions.listTradingFailureu())
+    }
+
+  } else {
+    const data = {
+      user_id: aut.user_id,
+      page_number: page,
+    }
+    const response = yield call(api.getListTrade, data) //getDetailExpertBid
+    console.log(response)
+    console.log('=========================GET LIST TRADE USER !! =========================***')
+    if (response.ok) {
+      yield put(TradingActions.listTradingSuccessu2(response.data))
+    } else {
+      yield put(TradingActions.listTradingFailureu2())
     }
   }
 }

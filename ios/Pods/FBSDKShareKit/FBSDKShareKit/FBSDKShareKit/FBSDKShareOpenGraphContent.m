@@ -68,25 +68,19 @@
 
 #pragma mark - FBSDKSharingContent
 
-- (void)addToParameters:(NSMutableDictionary<NSString *, id> *)parameters
-          bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
-{
-  [parameters addEntriesFromDictionary:[self addParameters:parameters bridgeOptions:bridgeOptions]];
-}
-
 - (NSDictionary<NSString *, id> *)addParameters:(NSDictionary<NSString *, id> *)existingParameters
                                   bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
 {
   NSMutableDictionary<NSString *, id> *updatedParameters = [NSMutableDictionary dictionaryWithDictionary:existingParameters];
 
   NSString *previewPropertyName = [FBSDKShareUtility getOpenGraphNameAndNamespaceFromFullName:_previewPropertyName namespace:nil];
-  [FBSDKInternalUtility dictionary:updatedParameters
-                         setObject:previewPropertyName
-                            forKey:@"previewPropertyName"];
-  [FBSDKInternalUtility dictionary:updatedParameters setObject:_action.actionType forKey:@"actionType"];
-  [FBSDKInternalUtility dictionary:updatedParameters
-                         setObject:[FBSDKShareUtility convertOpenGraphValueContainer:_action requireNamespace:NO]
-                            forKey:@"action"];
+  [FBSDKBasicUtility dictionary:updatedParameters
+                      setObject:previewPropertyName
+                         forKey:@"previewPropertyName"];
+  [FBSDKBasicUtility dictionary:updatedParameters setObject:_action.actionType forKey:@"actionType"];
+  [FBSDKBasicUtility dictionary:updatedParameters
+                      setObject:[FBSDKShareUtility convertOpenGraphValueContainer:_action requireNamespace:NO]
+                         forKey:@"action"];
 
   return updatedParameters;
 }
@@ -105,15 +99,15 @@
 - (NSUInteger)hash
 {
   NSUInteger subhashes[] = {
-    [_action hash],
-    [_contentURL hash],
-    [_hashtag hash],
-    [_peopleIDs hash],
-    [_placeID hash],
-    [_previewPropertyName hash],
-    [_ref hash],
-    [_pageID hash],
-    [_shareUUID hash],
+    _action.hash,
+    _contentURL.hash,
+    _hashtag.hash,
+    _peopleIDs.hash,
+    _placeID.hash,
+    _previewPropertyName.hash,
+    _ref.hash,
+    _pageID.hash,
+    _shareUUID.hash,
   };
   return [FBSDKMath hashWithIntegerArray:subhashes count:sizeof(subhashes) / sizeof(subhashes[0])];
 }
@@ -150,7 +144,7 @@
   return YES;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
   if ((self = [super init])) {
     _action = [decoder decodeObjectOfClass:[FBSDKShareOpenGraphAction class]

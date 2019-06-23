@@ -60,7 +60,7 @@ class MarketListShop extends Component {
         return (
             <TouchableOpacity style={{ height: 160, marginTop: 10, marginHorizontal: 15, borderRadius: 10, backgroundColor: Colors.milk }} onPress={() => this._gotoShop(item, index)}>
                 <ScrollView style={{ flex: 1 }} horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {item.images && item.images.map((e, i) => {
+                    {item.images_thumbs && item.images_thumbs.map((e, i) => {
                         return (
                             <TouchableOpacity style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} onPress={() => this._showImg(item, i)}>
                                 <Image source={{ uri: e }} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
@@ -68,6 +68,21 @@ class MarketListShop extends Component {
                         )
                     })}
 
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </View>}
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </View>}
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </View>}
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </View>}
+                    {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
+                        <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
+                    </View>}
                     {item.images == null && <View style={{ paddingVertical: 5, paddingHorizontal: 5, width: 100, height: '100%' }} >
                         <Image source={Images.nonePic} style={{ width: '100%', height: '100%', borderRadius: 7.5 }} />
                     </View>}

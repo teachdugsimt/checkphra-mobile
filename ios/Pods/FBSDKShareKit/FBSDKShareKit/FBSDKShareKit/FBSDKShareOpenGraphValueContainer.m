@@ -28,7 +28,7 @@
 
 @implementation FBSDKShareOpenGraphValueContainer
 {
-  NSMutableDictionary *_properties;
+  NSMutableDictionary<NSString *, id> *_properties;
 }
 
 #pragma mark - Object Lifecycle
@@ -53,7 +53,7 @@
   return [self _valueOfClass:[NSArray class] forKey:key];
 }
 
-- (void)enumerateKeysAndObjectsUsingBlock:(void (^)(NSString *key, id object, BOOL *stop))block
+- (void)enumerateKeysAndObjectsUsingBlock:(FBSDKEnumerationBlock)block
 {
   [_properties enumerateKeysAndObjectsUsingBlock:block];
 }
@@ -83,7 +83,7 @@
   return [self _valueForKey:key];
 }
 
-- (void)parseProperties:(NSDictionary *)properties
+- (void)parseProperties:(NSDictionary<NSString *, id> *)properties
 {
   [FBSDKShareUtility assertOpenGraphValues:properties requireKeyNamespace:[self requireKeyNamespace]];
   [_properties addEntriesFromDictionary:[FBSDKShareUtility convertOpenGraphValues:properties]];
@@ -145,7 +145,7 @@
 
 #pragma mark - Internal Methods
 
-- (NSDictionary *)allProperties
+- (NSDictionary<NSString *, id> *)allProperties
 {
   return _properties;
 }
@@ -159,7 +159,7 @@
 
 - (NSUInteger)hash
 {
-  return [_properties hash];
+  return _properties.hash;
 }
 
 - (BOOL)isEqual:(id)object
@@ -185,7 +185,7 @@
   return YES;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
   if ((self = [self init])) {
     NSSet *classes = [NSSet setWithObjects:
@@ -196,7 +196,7 @@
                       nil];
     NSDictionary *properties = [decoder decodeObjectOfClasses:classes
                                                        forKey:FBSDK_SHARE_OPEN_GRAPH_VALUE_CONTAINER_PROPERTIES_KEY];
-    if ([properties count]) {
+    if (properties.count) {
       [self parseProperties:properties];
     }
   }

@@ -25,6 +25,12 @@ const { Types, Creators } = createActions({
   listTradingSuccess2: ['data'],
   listTradingFailure2: null,
 
+  listTradingu: ['page'],
+  listTradingSuccessu: ['data'],
+  listTradingFailureu: null,
+  listTradingSuccessu2: ['data'],
+  listTradingFailureu2: null,
+
   updateStatus: ['qid', 'status'],
   updateSuccess: ['data'],
   updateFailure: null,
@@ -93,6 +99,9 @@ export const INITIAL_STATE = Immutable({
   request2: null,  // request list of trading
   data_tradelist: null,  // data from list of trading
 
+  request12: null,  // request list of trading for USER !!
+  data_tradelist2: null,  // data from list of trading for USER !!
+
   request3: null,  // request update status amulet 
   data_status: null,  // data update status
 
@@ -131,6 +140,24 @@ export const TradingSelectors = {
 }
 
 /* ------------- Reducers ------------- */
+
+export const listTradingu = state => state.merge({ request12: true })
+export const listTradingSuccessu = (state, { data }) => state.merge({ request12: false, data_tradelist2: data })
+export const listTradingFailureu = (state) => state.merge({ request12: false })
+export const listTradingSuccessu2 = (state, { data }) => {
+  let tmp = [...state.data_tradelist2]
+  data.forEach(e => {
+    if (tmp.find(b => b.id == e.id)) {
+      console.log('SAME VALUE')
+    } else { tmp.push(e) }
+  })
+  // tmp.sort(function (a, b) {  // (b.id - a.id;) id มากไปน้อย 
+  //   return b.id - a.id;       // (a.id - b.id;) id น้อยไปมาก 
+  // })
+  return state.merge({ data_tradelist2: tmp, request12: false })
+}
+export const listTradingFailureu2 = state => state.merge({ request12: false })
+
 export const clearDataActiveCer = state => state.merge({ data_activeCer: null })
 export const clearDataCer = state => state.merge({ data_certificate: null })
 export const clearDataBid = state => state.merge({ data: [] })
@@ -236,8 +263,7 @@ export const success = (state, action) => {
 }
 
 // Something went wrong somewhere.
-export const failure = state =>
-  state.merge({ fetching: false })
+export const failure = state => state.merge({ fetching: false })
 
 
 export const setData = (state, { data }) => {
@@ -316,6 +342,12 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.LIST_TRADING_FAILURE]: listTradingFailure,
   [Types.LIST_TRADING_SUCCESS2]: listTradingSuccess2,
   [Types.LIST_TRADING_FAILURE2]: listTradingFailure2,
+
+  [Types.LIST_TRADINGU]: listTradingu,
+  [Types.LIST_TRADING_SUCCESSU]: listTradingSuccessu,
+  [Types.LIST_TRADING_FAILUREU]: listTradingFailureu,
+  [Types.LIST_TRADING_SUCCESSU2]: listTradingSuccessu2,
+  [Types.LIST_TRADING_FAILUREU2]: listTradingFailureu2,
 
   [Types.UPDATE_STATUS]: updateStatus,
   [Types.UPDATE_SUCCESS]: updateSuccess,

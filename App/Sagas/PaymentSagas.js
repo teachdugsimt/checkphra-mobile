@@ -153,9 +153,10 @@ export function* paypalRequest55(api) {
     package_id: id
   }
   console.log(data)
+  console.log('==================== PAYPAL DATA =========================================')
   const response = yield call(api.paypal, data)
   console.log(response)
-  console.log('********** PAYPAL API *************')
+  console.log('============================= PAYPAL API =============================')
   if(response.ok){
     alert(I18n.t('successTransaction'))
     yield put(PaymentActions.paypalSuccess(response.data))

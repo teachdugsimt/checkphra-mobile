@@ -23,6 +23,8 @@ import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
 import Swiper from 'react-native-swiper';
+import PopupReward from '../Components/PopupReward';
+
 // import Reactotron from 'reactotron-react-native'
 // import {
 //   AdMobRewarded,
@@ -35,8 +37,6 @@ const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
 });
 let { width, height } = Dimensions.get('window')
-const deviceWidth = Dimensions.get('window').width
-const deviceHeight = Dimensions.get('window').height
 const FIXED_BAR_WIDTH = 200
 const BAR_SPACE = 5
 let check = true
@@ -73,6 +73,8 @@ class HomeScreen extends Component {
       tmp_email: null,
       tmp_password: null,
       tmp_name: "User test001",
+      tmp_versatile: null,
+      popupRewardShow: false
     }
     this.profile = firebase.database().ref('profile/' + this.props.user_id)
   }
@@ -94,7 +96,7 @@ class HomeScreen extends Component {
       // { name: I18n.t('showAmuletReal'), id: 2 },
       { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
       { name: I18n.t('commu'), id: 3, logo: 'wechat' },
-      { name: "Share +20 coins", id: 5, logo: 'facebook-square' }
+      { name: I18n.t('freecoins'), id: 5, logo: 'gift' }
     ]
 
     if (newProps.language != prevState.language) {
@@ -209,6 +211,20 @@ class HomeScreen extends Component {
       dataProifle: profile,
       list_user,
       language: newProps.language,
+      tmp_versatile: newProps.data_versatile
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevProps)
+    console.log(prevState)
+    console.log('---------------------- COMPONENT DID UPDATE --------------------------------------')
+    if (prevState.tmp_versatile && prevState.tmp_versatile != null) {
+      if (prevState.tmp_versatile.ban == true) {
+        this.popupDialogBan.show()
+      } else {
+        this.popupDialogBan.dismiss()
+      }
     }
   }
 
@@ -220,28 +236,51 @@ class HomeScreen extends Component {
     } else if (item.id == 3) {
       this.popupDialog.show()
     } else if (item.id == 4) {
-      // this.props.navigation.navigate('marketHome')
-      this.props.navigation.navigate("empty")
+      this.props.navigation.navigate('marketHome')
+      // this.props.navigation.navigate("empty")
     } else if (item.id == 5) {
-      this.shareLinkWithShareDialog()
+      // this.shareLinkWithShareDialog()
+      // this.popupReward.show()
       // this.seeVideo()
+      this.setState({
+        popupRewardShow: true
+      })
     }
   }
 
-  // seeVideo() {
-  //   // Display a rewarded ad
-  //   AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
-  //   AdMobRewarded.requestAd().then((err) => {
-  //     // console.log('get ads success')
-  //     console.log(err)
-  //     // AdMobRewarded.showAd()
-  //   })
-  //     .catch((err) => {
-  //       console.log(err.message)
-  //     });
+  seeVideo() {
+
+    const advert = firebase.admob().rewarded('ca-app-pub-6098541041978088/8954119651');
+
+    const AdRequest = firebase.admob.AdRequest;
+    const request = new AdRequest();
+    // request.addKeyword('amulet');
 
 
-  // }
+    // Load the advert with our AdRequest
+    advert.loadAd(request.build());
+
+    advert.on('onAdLoaded', () => {
+      console.log('Advert ready to show.');
+      advert.show()
+    });
+
+    advert.on('onRewarded', (event) => {
+      console.log('The user watched the entire video and will now be rewarded!', event);
+
+    });
+    //   // Display a rewarded ad
+    //   AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
+    //   AdMobRewarded.requestAd().then((err) => {
+    //     // console.log('get ads success')
+    //     console.log(err)
+    //     // AdMobRewarded.showAd()
+    //   })
+    //     .catch((err) => {
+    //       console.log(err.message)
+    //     });
+
+  }
 
   async shareLinkWithShareDialog() {
     var tmp = this;
@@ -256,7 +295,7 @@ class HomeScreen extends Component {
         console.log(result)
         console.log('HERE RESULT')
         if (result.isCancelled) {
-          alert('Share operation was cancelled');
+          // alert('Share operation was cancelled');
         } else {
           if (check == true) {  // can & basic method
             check = false
@@ -316,6 +355,8 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
+    // this.ref = firebase.firestore().collection('checkphra');
+    // this.ref.add("value04")
     this.props.checkVersion()  // check new version end method in sagas
     this.props.getVersatile()
     this.props.getProfile()   // get profile
@@ -541,7 +582,11 @@ class HomeScreen extends Component {
         <ScrollView>
           <View style={{ marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.milk, borderRadius: 10, height: height / 2.8, width: width - 20, flexDirection: 'row' }}>
 
-            <Swiper style={{}} showsButtons={false} autoplay={true}>
+            <Swiper style={{}} showsButtons={false} autoplay={true}
+              // dotStyle={{ marginTop: 10, marginBottom: -10 }}
+              // activeDotStyle={{ marginTop: 10, marginBottom: -10 }}
+              paginationStyle={{ marginBottom: -20 }}
+            >
               {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 && this.state.autoPlay == true ?
                 this.state.kawsod.map((e, i) => {
                   return (
@@ -581,7 +626,7 @@ class HomeScreen extends Component {
                     <View style={{ height: 130, width: '100%', backgroundColor: Colors.milk, justifyContent: "center", alignItems: 'center', borderRadius: 8, padding: 10 }}>
                       {item.id == 4 && this.props.profile && this.props.profile.my_follow && this.props.profile.my_follow.find(b => b.is_new == true) != undefined && <View
                         style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>}
-                      <Icon2 name={item.logo} size={62}/>
+                      <Icon2 name={item.logo} size={62} />
                       <Text style={{ color: Colors.brownTextTran, fontFamily: "Prompt-SemiBold", fontSize: 18, paddingTop: 5, marginHorizontal: 7.5 }} >
                         {item.name}</Text>
                     </View>
@@ -594,13 +639,15 @@ class HomeScreen extends Component {
             {this.state.list_user && this.state.list_user.map((item, index) => {
               if (index == 2 || index == 3) {
                 if (this.props.profile) {
+                  // console.log('------------------------------- SET ONLINE ----------------------------------------------')
                   this.profile.set({
                     uid: this.props.user_id,
-                    name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
+                    name: this.props.profile && this.props.profile.firstname ? (this.props.profile.firstname + " " + (this.props.profile.lastname ? this.props.profile.lastname : "")) : "-",
                     email: this.props.profile && this.props.profile.email ? this.props.profile.email : "-",
                     fb_id: this.props.profile && this.props.profile.fb_id ? this.props.profile.fb_id : "-",
                     image: this.props.profile && this.props.profile.image ? this.props.profile.image : "-"
                   })
+
                 }
                 return (
                   <TouchableOpacity onPress={() => {
@@ -630,10 +677,17 @@ class HomeScreen extends Component {
 
         </ScrollView>
 
+        <PopupReward
+          show={this.state.popupRewardShow}
+          onPressShare={() => this.shareLinkWithShareDialog()}
+          onPressVideo={() => this.seeVideo()}
+          onDismissed={() => this.setState({ popupRewardShow: false })}
+        />
+
         <PopupDialog
-          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+          dialogTitle={<View style={styles.popupHeader}><Text style={{
             fontSize: 18, fontWeight: 'bold'
-          }}>{I18n.t('editType')}</Text></View>}
+          }}>{I18n.t('selectChat')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           dialogAnimation={slideAnimation}
           width={width / 1.2}
@@ -650,9 +704,9 @@ class HomeScreen extends Component {
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('webBoard')}</Text>
               </TouchableOpacity>
 
-              {/* <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, flex: 1, marginHorizontal: 10 }} onPress={this._ownerAmulet}>
+              <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10, flex: 1, marginHorizontal: 10 }} onPress={this._ownerAmulet}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran }}>{I18n.t('contactOwnerAmulet')}</Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
 
               <TouchableOpacity style={{ backgroundColor: 'lightgrey', borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginVertical: 10, flex: 1, marginHorizontal: 10 }} onPress={this._contactAdmin}>
                 {this.props.data_versatile && this.props.data_versatile != null && this.props.data_versatile.is_new_contact_officer == true && <View
@@ -686,11 +740,24 @@ class HomeScreen extends Component {
             <ScrollView style={{ flex: 1 }}>
               {/* <View style={{ flex: 1 }}> */}
               <Text style={{ marginTop: 10, marginHorizontal: 5, fontFamily: 'Prompt-SemiBold', color: Colors.brownText, fontSize: 16, }}>{this.state.tmp_publish ? this.state.tmp_publish.topic : ''}</Text>
-              {this.state.tmp_publish && this.state.tmp_publish.image_link && <Image source={{ uri: this.state.tmp_publish ? this.state.tmp_publish.image_link : "" }} style={{ height: 160, marginTop: 10, borderRadius: 5, marginHorizontal: 5 }} />}
+              {this.state.tmp_publish && (this.state.tmp_publish.image_link != null || this.state.tmp_publish.image_link != "") && <Image source={{ uri: this.state.tmp_publish ? this.state.tmp_publish.image_link : "" }} style={{ height: 160, marginTop: 10, borderRadius: 5, marginHorizontal: 5 }} />}
               <Text style={{ fontSize: 14, color: Colors.brownTextTran, marginTop: 10, marginHorizontal: 5 }}>{this.state.tmp_publish ? this.state.tmp_publish.content : ""}</Text>
-              {this.state.tmp_publish && this.state.tmp_publish.link && <TouchableOpacity onPress={() => this._pressLink(this.state.tmp_publish.link)} style={{ marginVertical: 10, }}><Text style={{ fontWeight: 'bold', color: Colors.brownText, marginHorizontal: 5 }}>{this.state.tmp_publish ? this.state.tmp_publish.link : ""}</Text></TouchableOpacity>}
+              {this.state.tmp_publish && (this.state.tmp_publish.link != null || this.state.tmp_publish.link != "") && <TouchableOpacity onPress={() => this._pressLink(this.state.tmp_publish.link)} style={{ marginVertical: 10, }}><Text style={{ fontWeight: 'bold', color: Colors.brownText, marginHorizontal: 5 }}>{this.state.tmp_publish ? this.state.tmp_publish.link : ""}</Text></TouchableOpacity>}
               {/* </View> */}
             </ScrollView>
+          </View>
+
+        </PopupDialog>
+
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialogBan = popupDialog; }}
+          dialogAnimation={slideAnimation}
+          width={width}
+          height={height - 30}
+          onDismissed={() => { }}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 22, fontFamily: 'Prompt-SemiBold', color: 'red' }}>{I18n.t("accountBan")}</Text>
           </View>
 
         </PopupDialog>

@@ -6,17 +6,24 @@ target 'CheckPhra' do
   # use_frameworks!
 
   # Pods for CheckPhra
-  pod 'Firebase/Core', '~> 5.9.0'
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+  pod 'Firebase/Core', '~> 6.2.0'
   pod 'Firebase/Auth'
-  pod 'Firebase/Messaging', '~> 5.9.0'
+  pod 'Firebase/Database', '~> 6.2.0'
+  pod 'Firebase/Messaging', '~> 6.2.0'
+  pod 'Firebase/AdMob', '~> 6.2.0'
+  pod 'Fabric', '~> 1.10.1'
+  pod 'Crashlytics', '~> 3.13.1'
   pod 'FBSDKLoginKit'
 
+  pod 'GoogleUtilities', '6.2.0'
+  pod 'GoogleAppMeasurement', '6.0.1'
   #target 'CheckPhra-tvOSTests' do
   #  inherit! :search_paths
   #  # Pods for testing
   #end
 
-  # pod 'RNI18n', :path => '../node_modules/react-native-i18n'
+  pod 'RNI18n', :path => '../node_modules/react-native-i18n'
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
       'Core',
       'CxxBridge',
@@ -31,17 +38,19 @@ target 'CheckPhra' do
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
   pod 'react-native-image-resizer', :path => '../node_modules/react-native-image-resizer'
-  pod 'GoogleAppMeasurement', '~> 5.2.0'
-  
+#  pod 'GoogleAppMeasurement', '~> 5.2.0'
+
   pod 'RNIap', :path => '../node_modules/react-native-iap'
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   target 'CheckPhraTests' do
     inherit! :search_paths
     # Pods for testing
   end
-  
+
   post_install do |installer|
       installer.pods_project.targets.each do |target|
           if target.name == "React"

@@ -65,7 +65,9 @@ class CheckListScreen extends Component {
     moment.locale('th')
     this.props.getHistory(1)
     this.props.getAmuletType()
-    // this.props.getProfile()
+    if (!this.props.profile || this.props.profile == null) {
+      this.props.getProfile()
+    }
     // this.getDeviceToken()
   }
 
@@ -383,7 +385,7 @@ class CheckListScreen extends Component {
   }
 
   _pressEdit = (item) => {
-    if (this.props.profile && this.props.profile.role == 'admin') {
+    if (this.props.profile && (this.props.profile.role == 'admin' || this.props.profile.role == "expert")) {
       this.popupDialog.show()
       this.setState({ tmp_qid: item })
     } else {
@@ -573,11 +575,17 @@ class CheckListScreen extends Component {
             }
             else if (item.type == 'หลวงพ่อหลิว') {
               name = I18n.t('LuangPhorLhew')
-            } 
+            }
             else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
               name = I18n.t("newGroup1")
             }
             else if (item.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
+              name = item.type
+            }
+            else if (item.type == "พระเครื่องจังหวัดนครปฐม") {
+              name = item.type
+            }
+            else if (item.type == "ปราจีนบุรี นครนายก สระแก้ว") {
               name = item.type
             }
             else {
@@ -654,6 +662,7 @@ const mapStateToProps = (state) => {
   return {
     history: state.question.history,
     answer: state.question.answer,
+    profile: state.question.profile,
     request2: state.question.request2,  // get history
     images: state.question.images,
     data_amulet: state.question.amuletType,

@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 import com.android.build.OutputFile
 
 /**
@@ -95,15 +96,15 @@ def enableProguardInReleaseBuilds = false
 // com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "com.infiltech.checkphra"
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 42
-        versionName "3.3.5"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 43
+        versionName "3.3.6"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -132,6 +133,7 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+            // multiDexKeepFile file('multidex-config.txt')
         }
     }
     // applicationVariants are e.g. debug, release
@@ -149,13 +151,14 @@ android {
     }
 }
 
-apply plugin: 'io.fabric'
+// apply plugin: 'io.fabric'
 
-repositories {
-  maven { url 'https://maven.fabric.io/public' }
-}
+// repositories {
+//   maven { url 'https://maven.fabric.io/public' }
+// }
 
 dependencies {
+    // compile project(':react-native-admob')
     // compile project(':react-native-admob')
     // compile project(':react-native-vector-icons')
     // compile project(':react-native-linear-gradient')
@@ -163,12 +166,12 @@ dependencies {
     // compile project(':react-native-i18n')
     // compile project(':react-native-firebase')
     // compile project(':react-native-fbsdk')
-    compile project(':react-native-config')
-    compile project(':react-native-paypal')
-    compile project(':react-native-huawei-protected-apps')
-    compile project(':react-native-device-info')
-    compile project(':react-native-iap')
-    compile project(':react-native-image-resizer')
+    implementation project(':react-native-config')
+    implementation project(':react-native-paypal')
+    implementation project(':react-native-huawei-protected-apps')
+    implementation project(':react-native-device-info')
+    implementation project(':react-native-iap')
+    implementation project(':react-native-image-resizer')
 
     implementation project(':react-native-image-picker')
     implementation (project(':react-native-fbsdk')) {
@@ -186,33 +189,44 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     // implementation "com.android.support:appcompat-v7:23.0.1"
     implementation "com.android.support:appcompat-v7:27.0.2"
+
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    implementation "com.braintreepayments.api:braintree:2.17.0"
+    // implementation "com.braintreepayments.api:braintree:2.17.0"
 
-    implementation "com.google.android.gms:play-services-base:16.0.1"
+    // implementation "com.google.android.gms:play-services-base:16.0.1"
+    implementation "com.google.android.gms:play-services-base:16.1.0"
+    // implementation "com.google.android.gms:play-services-ads:17.2.0"
     // implementation "com.google.android.gms:play-services-base:15.0.1"
     // implementation "com.google.android.gms:play-services-base:15.0.0"
+    implementation "com.google.firebase:firebase-core:16.0.9"
     // implementation "com.google.firebase:firebase-firestore:19.0.0"
-    implementation "com.google.firebase:firebase-core:16.0.8"
-    // implementation "com.google.firebase:firebase-core:15.0.1"
-    implementation "com.google.firebase:firebase-auth:16.2.1"
+    // implementation "com.google.firebase:firebase-core:17.0.0"
+    // implementation "com.google.firebase:firebase-auth:16.2.1"
+    implementation "com.google.firebase:firebase-auth:17.0.0"
+    // implementation "com.google.firebase:firebase-ads:17.0.0"
     // implementation "com.google.firebase:firebase-auth:15.0.1"
     // implementation "com.google.firebase:firebase-messaging:17.3.2"
-    implementation "com.google.firebase:firebase-messaging:17.6.0"
-    implementation "com.google.firebase:firebase-database:16.1.0"
+    // implementation "com.google.firebase:firebase-messaging:17.6.0"
+    implementation "com.google.firebase:firebase-messaging:18.0.0"
+    // implementation "com.google.firebase:firebase-database:16.1.0"
+    implementation "com.google.firebase:firebase-database:17.0.0"
 
-    // implementation 'com.android.support:multidex:1.0.3'
+    // implementation "com.android.support:appcompat-v7:28.0.0-alpha1"
+    // implementation 'com.android.support:design:28.0.0-alpha1'
+    // implementation 'com.android.support:support-v4:28.0.0-alpha1'
+    // implementation files('libs/support-v4-28.0.0-alpha1.jar')
+    implementation 'com.android.support:multidex:1.0.3'
     // implementation 'com.android.support:design:27.1.0'
 
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // <-- Add this line if you wish to use badge on Android
     implementation ('com.facebook.android:facebook-android-sdk:4.34.0', {
         // exclude group: 'com.google.android.gms'
     })
-    implementation 'com.google.android.gms:play-services-ads:12.0.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
-        transitive = true;
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
+        transitive = true
     }
+    // implementation 'com.google.android.gms:play-services-ads:12.0.0'
 
 }
 

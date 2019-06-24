@@ -1,8 +1,11 @@
 import { StyleSheet } from 'react-native'
-import { Colors, Metrics } from '../../Themes/'
+import { Colors, Metrics, ApplicationStyles } from '../../Themes/'
 import { Dimensions } from 'react-native'
+
 let { width, height } = Dimensions.get('window')
+
 export default StyleSheet.create({
+
   container: {
     flex: 1,
   },
@@ -96,4 +99,7 @@ export default StyleSheet.create({
     right: 15,
     bottom: 10,
   },
+  popupHeader: {
+    ...ApplicationStyles.popupHeader
+  }
 })

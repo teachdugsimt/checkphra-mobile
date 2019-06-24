@@ -8,8 +8,10 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+
     <application
       android:name=".MainApplication"
+
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
@@ -35,10 +37,10 @@
         </intent-filter>
         <!-- add 24/04/2019 -->
       </activity>
-      <meta-data
+      <!-- <meta-data
           android:name="io.fabric.ApiKey"
           android:value="7c5f130721fe01984c60c8704a54331d1c7cfb6d"
-      />
+      /> -->
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
       <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
@@ -55,8 +57,14 @@
 
       <meta-data android:name="com.facebook.sdk.ApplicationId"
         android:value="@string/facebook_app_id"/>
-      <meta-data android:name="com.google.android.gms.ads.com.infiltech.checkphra"
-        android:value="ca-app-pub-3195623586470373~8055302739"/>
+      <meta-data
+        android:name="com.google.android.gms.ads.com.infiltech.checkphra"
+        android:value="ca-app-pub-6098541041978088~6123888289"
+        />
+        <!-- android:value="ca-app-pub-3195623586470373~8055302739" -->
+      <!-- <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"
+        android:value="YOUR_ADMOB_APP_ID"/> -->
+      <!-- <uses-library android:name="org.apache.http.legacy" android:required="false"/> -->
 
       <activity android:name="com.facebook.FacebookActivity"
         android:configChanges=
@@ -72,6 +80,10 @@
             <data android:scheme="@string/fb_login_protocol_scheme" />
         </intent-filter>
       </activity>
+
+      <!-- <activity
+        android:name="com.google.ads.AdActivity"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" /> -->
 
     </application>
 

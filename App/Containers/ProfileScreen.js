@@ -622,7 +622,7 @@ class ProfileScreen extends Component {
               this.clearFacebook()
               this.props.navigation.navigate('Auth')
             }}>
-              <Text style={{ fontFamily: 'Promp-SemiBold', fontSize: 22, color: Colors.brownText, padding: 7.5 }}>Log out now !!</Text>
+              <Text style={{ fontFamily: 'Prompt-SemiBold', fontSize: 22, color: Colors.brownText, padding: 7.5 }}>Log out now !!</Text>
             </TouchableOpacity>
           </View>
 

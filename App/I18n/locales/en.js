@@ -317,6 +317,7 @@ export default {
   wantAddSlot: 'Do you want to add slot?',
   use10Coins: 'use 10 coins for add slot.',
   follow: 'follow',
+  selectChat: 'Discussion',
 
   amuletNorth: 'Amulet in North',
   amuletCentralWest: 'Amulet in Central and West',
@@ -341,7 +342,7 @@ export default {
   north_east: "North East",
   central: "Central",
   east: "East",
-  south: "South",  
+  south: "South",
 
   listExpert: "List of Expert",
   countExpertBid: "count : ",
@@ -387,5 +388,8 @@ export default {
   failureTransaction: 'Transaction Failure',
   succ: 'Successful!!',
   fail: 'Failure!!',
-  news: 'News'
+  news: 'News',
+
+  freecoins: 'Free coins',
+  rewards: 'Rewards'
 }

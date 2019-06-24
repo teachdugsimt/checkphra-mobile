@@ -24,6 +24,7 @@ export const reducers = combineReducers({
   market: require('./MarketRedux').reducer,
   versatile: require('./VersatileRedux').reducer,
   realtime: require('./RealtimeRedux').reducer,
+  point: require('./PointRedux').reducer,
 })
 
 export default () => {

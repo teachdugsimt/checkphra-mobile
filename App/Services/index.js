@@ -10,4 +10,9 @@ import Webboard from './WebboardApi'
 import Market from './MarketApi'
 import CoreRead from './CoreReadApi'
 import CoreDiscuss from './CoreDiscussApi'
-export default { Auth, Question, Promotion, Trade, Face, Version, Question2, Showroom, Webboard, Market,CoreRead, CoreDiscuss }
+import Point from './PointApi'
+export default {
+  Auth, Question, Promotion, Trade, Face, Version,
+  Question2, Showroom, Webboard, Market, CoreRead,
+  CoreDiscuss, Point
+}

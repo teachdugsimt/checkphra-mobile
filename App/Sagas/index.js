@@ -19,6 +19,7 @@ import { ChatTypes } from '../Redux/ChatRedux'
 import { WebboardTypes } from '../Redux/WebboardRedux'
 import { MarketTypes } from '../Redux/MarketRedux'
 import { VersatileTypes } from '../Redux/VersatileRedux'
+import { PointTypes } from '../Redux/PointRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -63,6 +64,7 @@ import {
 import { contactAdmin, getMessageAdmin, getListUserForAdmin } from './ChatSagas'
 import { getVersion } from './VersionSagas'
 import { getNormalDataRequest } from './VersatileSagas'
+import { addReward } from './PointSagas'
 
 // import { getListAllBoard, getListMeBoard } from './WebboardSagas'
 // import { getListAllBoard555 } from './WebboardSagas'
@@ -82,6 +84,7 @@ const question2Api = API.Question2.create()
 const marketApi = API.Market.create()
 const coreReadApi = API.CoreRead.create()
 const coreDiscussApi = API.CoreDiscuss.create()
+const pointApi = API.Point.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -197,6 +200,6 @@ export default function* root() {
     takeLatest(ExpertTypes.GET_LIST_EXPERT_BID, getListExpertBidRequest, question2Api),
     takeLatest(ExpertTypes.GET_LIST_DETAIL_EXPERT_BID, getListDetailExpertBidRequest, question2Api),
 
-
+    takeLatest(PointTypes.ADD_REWARD, addReward, pointApi)
   ])
 }

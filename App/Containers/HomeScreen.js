@@ -19,6 +19,7 @@ import VersionActions from '../Redux/VersionRedux'
 import PromotionActions from '../Redux/PromotionRedux'
 import WebboardActions from '../Redux/WebboardRedux'
 import VersatileActions from '../Redux/VersatileRedux'
+import PointActions from '../Redux/PointRedux'
 import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
@@ -267,7 +268,7 @@ class HomeScreen extends Component {
 
     advert.on('onRewarded', (event) => {
       console.log('The user watched the entire video and will now be rewarded!', event);
-
+      this.props.addReward()
     });
     //   // Display a rewarded ad
     //   AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
@@ -291,7 +292,7 @@ class HomeScreen extends Component {
         }
       }
     ).then(
-      function (result) {
+      (result) => {
         console.log(result)
         console.log('HERE RESULT')
         if (result.isCancelled) {
@@ -299,10 +300,13 @@ class HomeScreen extends Component {
         } else {
           if (check == true) {  // can & basic method
             check = false
-            alert(I18n.t('sharedSuccess2'))
+            // alert(I18n.t('sharedSuccess2'))
           } else if (check == false) {
-            alert(I18n.t('sharedSuccess2'))
+            // alert(I18n.t('sharedSuccess2'))
           }
+          console.log('share success')
+
+          this.props.sharedAnswer("qid")
         }
       },
       function (error) {
@@ -618,7 +622,7 @@ class HomeScreen extends Component {
                   <TouchableOpacity onPress={() => {
                     if (item.id == 5) {
                       this._pressList(item)
-                      this.props.sharedAnswer("qid")
+                      // this.props.sharedAnswer("qid")
                     } else {
                       this._pressList(item)
                     }
@@ -653,7 +657,7 @@ class HomeScreen extends Component {
                   <TouchableOpacity onPress={() => {
                     if (item.id == 5) {
                       this._pressList(item)
-                      this.props.sharedAnswer("qid")
+                      // this.props.sharedAnswer("qid")
                     } else {
                       this._pressList(item)
                     }
@@ -826,6 +830,8 @@ const mapDispatchToProps = (dispatch) => {
     addPublish: (data) => dispatch(VersatileActions.addPublish(data)),
     editRedDotPublish: (data) => dispatch(VersatileActions.editRedDotPublish(data)),
     deletePublish: (data) => dispatch(VersatileActions.deletePublish(data)),
+
+    addReward: () => dispatch(PointActions.addReward())
   }
 }
 

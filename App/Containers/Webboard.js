@@ -221,7 +221,7 @@ class Webboard extends Component {
 
     _goToBoard = (item) => {
         this.props.setWebboard(item)
-        if (this.props.profile.role == 'admin' || this.props.profile.role == "expert") {
+        if (this.props.profile && (this.props.profile.role == 'admin' || this.props.profile.role == "expert")) {
             console.log('You are admin')
             this.props.navigation.navigate('web2')
         } else {

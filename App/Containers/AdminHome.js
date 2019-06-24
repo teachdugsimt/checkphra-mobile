@@ -61,7 +61,9 @@ class AdminHome extends Component {
     { name: I18n.t('editAnswer'), id: 2, logo: 'pencil-square-o' },
     { name: I18n.t('commu'), id: 3, logo: 'wechat' },
     { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
-    { name: I18n.t('listExpert'), id: 5, logo: 'file-text-o' }]
+    { name: I18n.t('listExpert'), id: 5, logo: 'file-text-o' },
+    // { name: "Add Coin", id: 6, logo: 'dollar' }
+  ]
 
     if (newProps.language != prevState.language) {
       newProps.getProfile()
@@ -95,6 +97,8 @@ class AdminHome extends Component {
     } else if (item.id == 5) {
       // this.props.navigation.navigate('listExpert')
       this.popupDialog2.show()
+    } else if (item.id == 6) {
+      this.props.navigation.navigate("AddCoins")
     }
   }
 

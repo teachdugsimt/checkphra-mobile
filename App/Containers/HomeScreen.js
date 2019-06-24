@@ -249,37 +249,40 @@ class HomeScreen extends Component {
   }
 
   seeVideo() {
+    if (Platform.OS === 'android') {   // A11
+      alert(I18n.t('noneService'))
+    } else {
 
-    const advert = firebase.admob().rewarded('ca-app-pub-6098541041978088/8954119651');
+      const advert = firebase.admob().rewarded('ca-app-pub-6098541041978088/8954119651');
 
-    const AdRequest = firebase.admob.AdRequest;
-    const request = new AdRequest();
-    // request.addKeyword('amulet');
+      const AdRequest = firebase.admob.AdRequest;
+      const request = new AdRequest();
+      // request.addKeyword('amulet');
 
 
-    // Load the advert with our AdRequest
-    advert.loadAd(request.build());
+      // Load the advert with our AdRequest
+      advert.loadAd(request.build());
 
-    advert.on('onAdLoaded', () => {
-      console.log('Advert ready to show.');
-      advert.show()
-    });
+      advert.on('onAdLoaded', () => {
+        console.log('Advert ready to show.');
+        advert.show()
+      });
 
-    advert.on('onRewarded', (event) => {
-      console.log('The user watched the entire video and will now be rewarded!', event);
+      advert.on('onRewarded', (event) => {
+        console.log('The user watched the entire video and will now be rewarded!', event);
 
-    });
-    //   // Display a rewarded ad
-    //   AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
-    //   AdMobRewarded.requestAd().then((err) => {
-    //     // console.log('get ads success')
-    //     console.log(err)
-    //     // AdMobRewarded.showAd()
-    //   })
-    //     .catch((err) => {
-    //       console.log(err.message)
-    //     });
-
+      });
+      //   // Display a rewarded ad
+      //   AdMobRewarded.setAdUnitID('ca-app-pub-3195623586470373/3142242629');
+      //   AdMobRewarded.requestAd().then((err) => {
+      //     // console.log('get ads success')
+      //     console.log(err)
+      //     // AdMobRewarded.showAd()
+      //   })
+      //     .catch((err) => {
+      //       console.log(err.message)
+      //     });
+    }
   }
 
   async shareLinkWithShareDialog() {
@@ -298,9 +301,11 @@ class HomeScreen extends Component {
           // alert('Share operation was cancelled');
         } else {
           if (check == true) {  // can & basic method
+            console.log(result, 'FUCKKKKKKKKKKKKKKKK 1111111111111111111111111')
             check = false
             alert(I18n.t('sharedSuccess2'))
           } else if (check == false) {
+            console.log(result, 'FUCKKKKKKKKKKKKKKKK 22222222222222222222222222')
             alert(I18n.t('sharedSuccess2'))
           }
         }

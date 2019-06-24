@@ -77,6 +77,7 @@ import ListExpertChecked2 from '../Containers/ListExpertCheck/ListExpertChecked2
 import BidExpert from '../Containers/BidExpert'
 import BidExpert2 from '../Containers/BidExpert2'
 import ExpertHome from '../Containers/ExpertHome'
+import AddCoins from '../Containers/AddCoins'
 // import ListExpertChecked3 from '../Containers/ListExpertCheck/ListExpertChecked3'
 
 import Banking from '../Containers/Payment/Banking'
@@ -938,6 +939,12 @@ const AdminHomeStack = StackNavigator({
       title: I18n.t('listExpert')
     }
   },
+  AddCoins: {
+    screen: AddCoins,
+    navigationOptions: {
+      title: I18n.t("addCoin")
+    }
+  }
   // listExpertChecked3: {
   //   screen: ListExpertChecked3,
   //   navigationOptions: {

@@ -17,6 +17,7 @@ import 'moment/locale/th'
 import * as RNIap from 'react-native-iap';
 //cc-mastercard, cc-visa, cc-paypal, money, credit-card-alt
 import I18n from '../I18n/i18n';
+import { ApplicationStyles } from '../Themes'
 import Spinner from 'react-native-loading-spinner-overlay';
 import MarketActions from '../Redux/MarketRedux'
 import ShowRoomActions from '../Redux/ShowRoomRedux'
@@ -268,7 +269,7 @@ class MarketHomeList1 extends Component {
                     onEndReachedThreshold={1.2} />
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>{I18n.t('menu')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}

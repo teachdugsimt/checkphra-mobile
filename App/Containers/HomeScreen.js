@@ -722,7 +722,7 @@ class HomeScreen extends Component {
         </PopupDialog>
 
         <PopupDialog
-          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+          dialogTitle={<View style={styles.popupHeader}><Text style={{
             fontSize: 18, fontWeight: 'bold'
           }}>{I18n.t('publish')}</Text>
             <TouchableOpacity style={{ position: "absolute", top: 5, right: 5 }} onPress={() => this.popupDialog2.dismiss()}>

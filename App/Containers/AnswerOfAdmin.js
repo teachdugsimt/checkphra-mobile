@@ -7,7 +7,7 @@ import QuestionActions from '../Redux/QuestionRedux'
 import moment from 'moment'
 import 'moment/locale/th'
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
-import { Colors, Images } from '../Themes';
+import { Colors, Images, ApplicationStyles } from '../Themes';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
 import TradingActions from '../Redux/TradingRedux'
@@ -250,7 +250,7 @@ class AnswerOfAdmin extends Component {
         }} resizeMode='contain' />
 
         <PopupDialog
-          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+          dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
             fontSize: 18, fontWeight: 'bold'
           }}>{I18n.t('interest')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}

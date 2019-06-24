@@ -355,6 +355,11 @@ export default {
   noneAmuletOnStore: 'ไม่มีพระในร้านค้า',
   detail: "รายละเอียด",
 
+  sharedFB: "แชร์ Facebook",
+  seeAdvertise: 'ดูโฆษณา',
+  getFree20: "รับ 20 เหรียญ",
+  getFree5: 'รับ 5 เหรียญ',
+
   หลวงปู่ทวด: 'หลวงปู่ทวด',
   หลวงปู่หมุน: 'หลวงปู่หมุน',
   พระกรุ: 'พระกรุ',

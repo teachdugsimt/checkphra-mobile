@@ -884,6 +884,18 @@ const AdminHomeStack = StackNavigator({
       title: I18n.t('chat')
     }
   },
+  chatTheirAmulet2: {
+    screen: ChatTheirAmulet2,
+    navigationOptions: {
+      title: I18n.t('chat')
+    }
+  },
+  chatTheirAmuletOwner2: {
+    screen: ChatTheirAmuletOwner2,
+    navigationOptions: {
+      title: I18n.t('chat')
+    }
+  },
   bit: {
     screen: Bit,
     navigationOptions: {
@@ -1142,6 +1154,18 @@ const ExpertHomeStack = StackNavigator({ // **********************FOR EXPERT ONL
   },
   chatTheirAmuletOwner: {
     screen: ChatTheirAmuletOwner,
+    navigationOptions: {
+      title: I18n.t('chat')
+    }
+  },
+  chatTheirAmulet2: {
+    screen: ChatTheirAmulet2,
+    navigationOptions: {
+      title: I18n.t('chat')
+    }
+  },
+  chatTheirAmuletOwner2: {
+    screen: ChatTheirAmuletOwner2,
     navigationOptions: {
       title: I18n.t('chat')
     }

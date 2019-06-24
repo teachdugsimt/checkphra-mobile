@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RoundedButton from '../Components/RoundedButton'
-import { Colors, Images } from '../Themes';
+import { Colors, Images, ApplicationStyles } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import moment from 'moment'
@@ -351,7 +351,7 @@ class Webboard2 extends Component {
 
 
         <PopupDialog
-          dialogTitle={<View style={styles.popupHead}><Text style={styles.popupTextHead}>{I18n.t('webBoard')}</Text></View>}
+          dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={styles.popupTextHead}>{I18n.t('webBoard')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           dialogAnimation={slideAnimation}
           width={width / 1.05}

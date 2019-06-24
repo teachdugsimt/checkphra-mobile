@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RoundedButton from '../Components/RoundedButton'
-import { Colors, Images } from '../Themes';
+import { Colors, Images, ApplicationStyles } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import Icon3 from "react-native-vector-icons/Ionicons"
@@ -326,7 +326,7 @@ class MarketMyAmulet extends Component {
                 </Modal>
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>{I18n.t('menu')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
@@ -348,7 +348,7 @@ class MarketMyAmulet extends Component {
                 </PopupDialog>
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>{I18n.t('detailShop')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog3 = popupDialog; }}
@@ -378,7 +378,7 @@ class MarketMyAmulet extends Component {
                 </PopupDialog>
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>{I18n.t("zone2")}</Text></View>}
                     ref={(popupDialog) => { this.popupDialogZone = popupDialog; }}
@@ -409,7 +409,7 @@ class MarketMyAmulet extends Component {
                 </PopupDialog>
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>{I18n.t("typeAmuletMarket")}</Text></View>}
                     ref={(popupDialog) => { this.popupDialogType1 = popupDialog; }}
@@ -445,7 +445,7 @@ class MarketMyAmulet extends Component {
                 </PopupDialog>
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>{I18n.t("typeAmuletMarket2")}</Text></View>}
                     ref={(popupDialog) => { this.popupDialogNormal1 = popupDialog; }}
@@ -480,7 +480,7 @@ class MarketMyAmulet extends Component {
                 </PopupDialog>
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>{I18n.t('menu')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog4 = popupDialog; }}

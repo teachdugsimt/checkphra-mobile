@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 import RoundedButton from '../Components/RoundedButton'
-import { Colors, Images } from '../Themes';
+import { Colors, Images, ApplicationStyles } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import * as RNIap from 'react-native-iap';

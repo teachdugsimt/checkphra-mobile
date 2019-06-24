@@ -50,14 +50,14 @@ export default class PopupReward extends Component {
         <View style={{ flex: 1, flexDirection: 'row', padding: 10 }}>
           <TouchableOpacity style={{ flex: 1, borderRadius: 5, justifyContent: 'center', alignItems: 'center' }} onPress={this.props.onPressShare}>
             <Icon name="facebook-square" size={50} color={'#3c5a99'} />
-            <Text style={{ fontSize: 20 }}>แชร์ facebook</Text>
-            <Text style={{ color: 'orange' }}>รับ 20 เหรียญ</Text>
+            <Text style={{ fontSize: 20 }}>{I18n.t('sharedFB')}</Text>
+            <Text style={{ color: 'orange' }}>{I18n.t('getFree20')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={{ flex: 1, borderRadius: 5, justifyContent: 'center', alignItems: 'center' }} onPress={this.props.onPressVideo}>
             <Icon2 name="local-movies" size={55} color={'#8b4513'} />
-            <Text style={{ fontSize: 20 }}>ดูโฆษณา</Text>
-            <Text style={{ color: 'orange' }}>รับ 5 เหรียญ</Text>
+            <Text style={{ fontSize: 20 }}>{I18n.t('seeAdvertise')}</Text>
+            <Text style={{ color: 'orange' }}>{I18n.t('getFree5')}</Text>
           </TouchableOpacity>
         </View>
       </PopupDialog>

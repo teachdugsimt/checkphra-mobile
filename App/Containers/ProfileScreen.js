@@ -11,7 +11,7 @@ import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon3 from "react-native-vector-icons/FontAwesome";
 import Icon4 from "react-native-vector-icons/MaterialIcons"
 import firebase from 'react-native-firebase';
-import { Colors, Images } from "../Themes";
+import { Colors, Images, ApplicationStyles } from "../Themes";
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import I18n from '../I18n/i18n';
 import { getLanguages } from 'react-native-i18n';
@@ -411,7 +411,7 @@ class ProfileScreen extends Component {
 
         {/* ************* CHANGE NAME ZONE ************* */}
         <PopupDialog
-          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+          dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
             fontSize: 18, fontWeight: 'bold'
           }}>{I18n.t('changeName')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
@@ -579,7 +579,7 @@ class ProfileScreen extends Component {
 
 
         <PopupDialog
-          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+          dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
             fontSize: 18, fontWeight: 'bold'
           }}>{I18n.t('selectLanguage')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}

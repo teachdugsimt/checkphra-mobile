@@ -3,7 +3,7 @@ import { ScrollView, Text, View, TouchableOpacity, Dimensions, TextInput, FlatLi
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 import RoundedButton from '../Components/RoundedButton'
-import { Colors, Images } from '../Themes';
+import { Colors, Images, ApplicationStyles } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import PromotionActions from '../Redux/PromotionRedux'
 import Icon2 from "react-native-vector-icons/FontAwesome";
@@ -198,7 +198,7 @@ class Promotion extends Component {
           renderItem={this._renderItem}
         />
         <PopupDialog
-          dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+          dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
             fontSize: 18, fontWeight: 'bold'
           }}>{I18n.t('selectPayment')}</Text></View>}
           ref={(popupDialog) => { this.popupDialog = popupDialog; }}

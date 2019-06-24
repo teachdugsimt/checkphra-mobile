@@ -353,6 +353,11 @@ export default {
   // resonBan: 'reason : ',
   noneAmuletOnStore: 'None amulet in store',
   detail: "Detail",
+  
+  sharedFB: "Shared Facebook",
+  seeAdvertise: 'See Advertise',
+  getFree20: "get 20 coins",
+  getFree5: 'get 5 coins',
 
   หลวงปู่ทวด: 'Luangpu Tuad',
   หลวงปู่หมุน: 'Luangpu Moon',

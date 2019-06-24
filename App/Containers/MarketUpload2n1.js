@@ -7,7 +7,7 @@ import {
 import { connect } from 'react-redux'
 import LinearGradient from "react-native-linear-gradient";
 import RoundedButton from '../Components/RoundedButton'
-import { Colors, Images } from '../Themes';
+import { Colors, Images, ApplicationStyles } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import * as RNIap from 'react-native-iap';
@@ -171,7 +171,7 @@ class MarketUpload2n1 extends Component {
                 }} resizeMode='contain' />
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>Select Amulet Region</Text></View>}
                     ref={(popupDialog) => { this.popupDialog = popupDialog; }}
@@ -199,7 +199,7 @@ class MarketUpload2n1 extends Component {
                 </PopupDialog>
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>Select Amulet Type</Text></View>}
                     ref={(popupDialog) => { this.popupDialog2 = popupDialog; }}
@@ -234,7 +234,7 @@ class MarketUpload2n1 extends Component {
                 </PopupDialog>
 
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>Select Region</Text></View>}
                     ref={(popupDialog) => { this.popupDialog3 = popupDialog; }}

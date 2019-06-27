@@ -253,13 +253,13 @@ class MarketOpenstore extends Component {
                                 justifyContent: 'center', alignItems: 'center', borderWidth: 3,
                                 borderColor: Colors.brownTextTran, borderRadius: 10, margin: 5, overflow: 'hidden', height: 150, width: 150
                             }}>
-                                <Image source={this.state.avatarSource && this.props.image ? this.state.avatarSource : ''} style={{ width: '80%', height: '80%', marginTop: 8, marginHorizontal: 10 }} />
+                                {this.state.avatarSource && this.props.image && <Image source={this.state.avatarSource && this.props.image ? this.state.avatarSource : ''} style={{ width: '80%', height: '80%', marginTop: 8, marginHorizontal: 10 }} />}
                                 {!this.props.image && <Icon3
                                     name="camera"
                                     size={40}
                                     color={Colors.brownTextTran}
                                 />}
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                                     <Text style={{
                                         fontFamily: 'Prompt-SemiBold', fontSize: 12, color: Colors.brownText,
                                     }}>{I18n.t('idcard')}</Text>
@@ -282,13 +282,13 @@ class MarketOpenstore extends Component {
                                 justifyContent: 'center', alignItems: 'center', borderWidth: 3,
                                 borderColor: Colors.brownTextTran, borderRadius: 10, margin: 5, overflow: 'hidden', height: 150, width: 150
                             }}>
-                                <Image source={this.state.avatarSource2 && this.props.image2 ? this.state.avatarSource2 : ''} style={{ width: '80%', height: '80%', marginTop: 8, marginHorizontal: 10 }} />
+                                {this.state.avatarSource2 && this.props.image2 && <Image source={this.state.avatarSource2 && this.props.image2 ? this.state.avatarSource2 : ''} style={{ width: '80%', height: '80%', marginTop: 8, marginHorizontal: 10 }} />}
                                 {!this.props.image2 && <Icon3
                                     name="camera"
                                     size={40}
                                     color={Colors.brownTextTran}
                                 />}
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                                     <Text style={{
                                         fontFamily: 'Prompt-SemiBold', fontSize: 12, color: Colors.brownText,
                                     }}>{I18n.t("idcard2")}</Text>

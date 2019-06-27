@@ -453,10 +453,13 @@ class CheckPhraScreen extends Component {
                         style={{ flex: 1, marginLeft: 15 }}
                         onClick={() => {
                           this.setState({
+                            checkNone3: true,
+                            editans3: true,
                             checkTrue3: !this.state.checkTrue3,
                             checkTrue1: false,
                             checkTrue2: false,
                             checkFalse: false,
+                            answer3: 'ไม่ออกผล',
                             editing: true,
                           })
                         }}
@@ -569,7 +572,7 @@ class CheckPhraScreen extends Component {
                           </View>
 
                           <TextInput value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} />
+                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3 == true && this.state.checkNone3 == true ? false : this.state.checkNone3 == false ? true : false} />
                         </View>
                       }
 
@@ -587,7 +590,7 @@ class CheckPhraScreen extends Component {
                                   answer3: 'ไม่ออกผล',
                                 })
                               }}
-                              disabled={!this.state.editing}
+                              // disabled={!this.state.editing}
                               isChecked={this.state.checkNone3}
                               rightText={I18n.t('noneAnswer')}
                               rightTextStyle={{ color: Colors.brownText, fontWeight: 'bold', fontSize: 14 }}
@@ -596,7 +599,7 @@ class CheckPhraScreen extends Component {
                           </View>
                           {/* disable question 3 */}
                           <TextInput value={this.state.answer3} placeholder={I18n.t('answerText')} style={{ marginHorizontal: 15 }}
-                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3} />
+                            onChangeText={(text) => this.setState({ answer3: text })} editable={this.state.editans3 == true && this.state.checkNone3 == true ? false : this.state.checkNone3 == false ? true : false} />
                         </View>
                       }
 

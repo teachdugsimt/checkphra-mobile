@@ -1182,7 +1182,7 @@ const ExpertHomeStack = StackNavigator({ // **********************FOR EXPERT ONL
     navigationOptions: ({ navigation }) => ({
       headerTintColor: Colors.headerTitleColor,
       headerBackTitle: I18n.t('Back'),
-      tabBarLabel: I18n.t('pendingList'),
+      tabBarLabel: I18n.t('home'),
       headerStyle: {
         backgroundColor: Colors.tabBar,
       },
@@ -1540,7 +1540,7 @@ const ExpertStack = TabNavigator({  // *************** MAIN EXPERT & ADMIN *****
         const { routeName } = navigation.state;
         let iconName;
         if (routeName == "checklist") {
-          iconName = `list-ul${focused ? "" : ""}`;
+          iconName = `home${focused ? "" : ""}`;
         }
         if (routeName == "profile") {
           iconName = `user-circle${focused ? "" : "-o"}`;

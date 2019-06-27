@@ -62,8 +62,8 @@ class AdminHome extends Component {
     { name: I18n.t('commu'), id: 3, logo: 'wechat' },
     { name: I18n.t('market'), id: 4, logo: 'cart-plus' },
     { name: I18n.t('listExpert'), id: 5, logo: 'file-text-o' },
-    // { name: "Add Coin", id: 6, logo: 'dollar' }
-  ]
+      // { name: "Add Coin", id: 6, logo: 'dollar' }
+    ]
 
     if (newProps.language != prevState.language) {
       newProps.getProfile()
@@ -340,7 +340,7 @@ class AdminHome extends Component {
         </PopupDialog>
 
 
-        < PopupDialog
+        <PopupDialog
           dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
             fontSize: 18, fontWeight: 'bold'
           }}>{I18n.t('editType')}</Text></View>}
@@ -368,7 +368,7 @@ class AdminHome extends Component {
 
           </View>
 
-        </PopupDialog >
+        </PopupDialog>
 
         {/* <FlatList
                     refreshControl={

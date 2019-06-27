@@ -9,7 +9,7 @@ import LinearGradient from "react-native-linear-gradient";
 import moment from 'moment'
 import 'moment/locale/th'
 import RoundedButton2 from "../Components/RoundedButton2";
-import { Colors, Images, Metrics } from '../Themes';
+import { Colors, Images, ApplicationStyles } from '../Themes';
 import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon3 from "react-native-vector-icons/FontAwesome";
 import ExpertActions from '../Redux/ExpertRedux'
@@ -229,7 +229,7 @@ class VerifyPoint extends Component {
                     onEndReachedThreshold={1.2}
                 />
                 <PopupDialog
-                    dialogTitle={<View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 15, borderRadius: 8, borderBottomWidth: 1, backgroundColor: 'orange' }}><Text style={{
+                    dialogTitle={<View style={{ ...ApplicationStyles.popupHeader }}><Text style={{
                         fontSize: 18, fontWeight: 'bold'
                     }}>{I18n.t('reason')}</Text></View>}
                     ref={(popupDialog) => { this.popupDialog = popupDialog; }}

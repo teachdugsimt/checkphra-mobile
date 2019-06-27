@@ -21,7 +21,8 @@ buildscript {
     dependencies {
         // classpath 'com.android.tools.build:gradle:2.2.3'
         // classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.3.2' // old 3.3.2 => 25-Jun-2019
+        // classpath 'com.android.tools.build:gradle:3.2.1' // new 3.2.1 => 25-Jun-2019
         // classpath 'com.android.tools.build:gradle:3.2.1'  // new 3.2.1 => 21/03/2019
         // classpath 'com.google.gms:google-services:4.0.1'  // new 4.2.0 => 25/03/2019
         classpath 'com.google.gms:google-services:4.2.0'
@@ -30,6 +31,17 @@ buildscript {
         // classpath 'com.google.gms:google-services:3.2.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+    }
+}
+
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion 28
+                buildToolsVersion "28.0.3"
+            }
+        }
     }
 }
 
@@ -45,5 +57,3 @@ allprojects {
         }
     }
 }
-
-

@@ -9,7 +9,7 @@ import { Colors, Images } from '../Themes';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import Icon2 from "react-native-vector-icons/FontAwesome";
 // import { Card } from 'react-native-elements'
-import { LoginButton, ShareDialog, ShareButton, ShareApi } from 'react-native-fbsdk';
+import { ShareDialog } from 'react-native-fbsdk';
 import GridView, { SectionGrid } from "react-native-super-grid";
 import I18n from '../I18n/i18n';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -772,11 +772,11 @@ class HomeScreen extends Component {
 
         </PopupDialog>
 
-        {/* <Spinner
+        <Spinner
           visible={((this.props.request_profile || this.props.request_promotionlogin))}
           textContent={'Loading...'}
           textStyle={{ color: '#fff' }}
-        /> */}
+        />
       </LinearGradient>
     )
   }

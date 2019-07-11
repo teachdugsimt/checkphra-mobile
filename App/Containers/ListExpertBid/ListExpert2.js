@@ -117,7 +117,7 @@ class ListExpert2 extends Component {
 
   _onScrollEndList = () => {
     console.log('END LIST AGAIN')
-    if (this.props.data_getListDetailExpertBid && this.props.data_getListDetailExpertBid.length >= 20 && (this.props.request_getListDetailExpertBid == false || this.props.request_getListDetailExpertBid == null)) {
+    if (this.props.data_getListDetailExpertBid && this.props.data_getListDetailExpertBid.length >= 10 && (this.props.request_getListDetailExpertBid == false || this.props.request_getListDetailExpertBid == null)) {
       count++
       this.props.getListDetailExpertBid(count)
     }
@@ -144,7 +144,7 @@ class ListExpert2 extends Component {
           }
           data={this.props.data_getListDetailExpertBid && this.props.data_getListDetailExpertBid.length > 0 && JSON.parse(JSON.stringify(this.props.data_getListDetailExpertBid))}
           // data={data}
-          renderItem={({ item }) => {
+          renderItem={({ item, index }) => {
             let date = moment.unix(item.created_at).format("DD MMM YYYY (HH:mm)")
             // let status = 'รอตรวจ'
             let dice = null
@@ -175,6 +175,66 @@ class ListExpert2 extends Component {
             if (item.answer.type == '100 ปี พ.ศ.2515') {
               name = I18n.t('year100era2515')
             }
+            if (item.answer.type == 'เบญจภาคี') {
+              name = I18n.t('benjapakee')
+            }
+            else if (item.answer.type == 'พระสมเด็จ') {
+              name = I18n.t('phraSomdej')
+            }
+            else if (item.answer.type == 'นางพญา') {
+              name = I18n.t('phraNangPaya')
+            }
+            else if (item.answer.type == 'พระคง') {
+              name = I18n.t('phraKhong')
+            }
+            else if (item.answer.type == 'พระรอด') {
+              name = I18n.t('phraRod')
+            }
+            else if (item.answer.type == 'พระผงสุพรรณ') {
+              name = I18n.t('phraPhongSuphan')
+            }
+            else if (item.answer.type == 'พระซุ้มกอ') {
+              name = I18n.t('phraSoomkor')
+            }
+            else if (item.answer.type == 'พระกำแพงเม็ดขนุน') {
+              name = I18n.t('phraKampaengMedKanun')
+            }
+            else if (item.answer.type == 'หลวงปู่ทวด') {
+              name = I18n.t('luangPuTuad')
+            }
+            else if (item.answer.type == 'หลวงปู่หมุน') {
+              name = I18n.t('luangPuMoon')
+            }
+            else if (item.answer.type == 'พระกรุ') {
+              name = I18n.t('phraKru')
+            }
+            else if (item.answer.type == 'เหรียญปั้ม') {
+              name = I18n.t('pumpCoin')
+            }
+            else if (item.answer.type == 'เหรียญหล่อ') {
+              name = I18n.t('castingCoin')
+            }
+            else if (item.answer.type == 'พระผง') {
+              name = I18n.t('phraPhong')
+            }
+            else if (item.answer.type == 'พระกริ่ง') {
+              name = I18n.t('phraKring')
+            }
+            else if (item.answer.type == 'พระปิดตา') {
+              name = I18n.t('phraPidta')
+            }
+            else if (item.answer.type == 'เครื่องราง') {
+              name = I18n.t('amulet')
+            }
+            else if (item.answer.type == 'พระบูชา') {
+              name = I18n.t('phraBucha')
+            }
+            else if (item.answer.type == 'พระวัดประสาทบุญญาวาส') {
+              name = I18n.t('phraWadPhrasatBunyawat')
+            }
+            else if (item.answer.type == 'พระวัดระฆัง') {
+              name = I18n.t('phraWadRakung')
+            }
             else if (item.answer.type == '108 ปี พ.ศ.2523') {
               name = I18n.t('year108era2523')
             }
@@ -203,7 +263,7 @@ class ListExpert2 extends Component {
               name = I18n.t('LuangPhorLhew')
             }
             else if (item.answer.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
-              name = item.answer.type
+              name = I18n.t("newGroup1")
             }
             else if (item.answer.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
               name = item.answer.type
@@ -214,18 +274,21 @@ class ListExpert2 extends Component {
             else if (item.answer.type == "ปราจีนบุรี นครนายก สระแก้ว") {
               name = item.answer.type
             }
+            else if (item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท') {
+              name = I18n.t('otherOrUnknown')
+            }
             else {
-              name = (item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' || item.answer.type == 'ไม่ระบุประเภท') ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
+              name = item.answer.type
             }
 
             return (
-              <TouchableOpacity onPress={() => {
+              <TouchableOpacity key={'list' + index} onPress={() => {
                 // if (item.is_proposer == true) {
                 //   this.props.setData2(item)
                 //   this.props.navigation.navigate('bit2')
                 // } else {
-                  this.props.setData(item)
-                  this.props.navigation.navigate('listExpert3')
+                this.props.setData(item)
+                this.props.navigation.navigate('listExpert3')
                 // }
               }
               }>
@@ -280,7 +343,7 @@ class ListExpert2 extends Component {
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
           onEndReached={this._onScrollEndList}
           // onEndReachedThreshold={0.025}
-          onEndReachedThreshold={1.2}
+          onEndReachedThreshold={0.5}
         />
 
       </LinearGradient>

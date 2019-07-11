@@ -374,7 +374,7 @@ class CheckListScreen extends Component {
     // console.log(this.props.request2)  // request2 is change => true / false
     // console.log(count)
 
-    if (this.props.history && this.props.history.length >= 10 && this.props.request2 == false) {
+    if (this.props.history && this.props.history.length >= 10 && (this.props.request2 == false || this.props.request2 == null)) {
       count++
       console.log('LOAD')
       // console.log(this.props.checkHistory)
@@ -523,7 +523,7 @@ class CheckListScreen extends Component {
           onEndReached={this._onScrollEndList2}
           rightChevron={true}
           // onEndReachedThreshold={0.025}
-          onEndReachedThreshold={1.2}
+          onEndReachedThreshold={0.5}
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
         />}
 
@@ -548,6 +548,66 @@ class CheckListScreen extends Component {
 
             if (item.type == '100 ปี พ.ศ.2515') {
               name = I18n.t('year100era2515')
+            }
+            if (item.type == 'เบญจภาคี') {
+              name = I18n.t('benjapakee')
+            }
+            else if (item.type == 'พระสมเด็จ') {
+              name = I18n.t('phraSomdej')
+            }
+            else if (item.type == 'นางพญา') {
+              name = I18n.t('phraNangPaya')
+            }
+            else if (item.type == 'พระคง') {
+              name = I18n.t('phraKhong')
+            }
+            else if (item.type == 'พระรอด') {
+              name = I18n.t('phraRod')
+            }
+            else if (item.type == 'พระผงสุพรรณ') {
+              name = I18n.t('phraPhongSuphan')
+            }
+            else if (item.type == 'พระซุ้มกอ') {
+              name = I18n.t('phraSoomkor')
+            }
+            else if (item.type == 'พระกำแพงเม็ดขนุน') {
+              name = I18n.t('phraKampaengMedKanun')
+            }
+            else if (item.type == 'หลวงปู่ทวด') {
+              name = I18n.t('luangPuTuad')
+            }
+            else if (item.type == 'หลวงปู่หมุน') {
+              name = I18n.t('luangPuMoon')
+            }
+            else if (item.type == 'พระกรุ') {
+              name = I18n.t('phraKru')
+            }
+            else if (item.type == 'เหรียญปั้ม') {
+              name = I18n.t('pumpCoin')
+            }
+            else if (item.type == 'เหรียญหล่อ') {
+              name = I18n.t('castingCoin')
+            }
+            else if (item.type == 'พระผง') {
+              name = I18n.t('phraPhong')
+            }
+            else if (item.type == 'พระกริ่ง') {
+              name = I18n.t('phraKring')
+            }
+            else if (item.type == 'พระปิดตา') {
+              name = I18n.t('phraPidta')
+            }
+            else if (item.type == 'เครื่องราง') {
+              name = I18n.t('amulet')
+            }
+            else if (item.type == 'พระบูชา') {
+              name = I18n.t('phraBucha')
+            }
+            else if (item.type == 'พระวัดประสาทบุญญาวาส') {
+              name = I18n.t('phraWadPhrasatBunyawat')
+            }
+            else if (item.type == 'พระวัดระฆัง') {
+              name = I18n.t('phraWadRakung')
             }
             else if (item.type == '108 ปี พ.ศ.2523') {
               name = I18n.t('year108era2523')
@@ -588,8 +648,11 @@ class CheckListScreen extends Component {
             else if (item.type == "ปราจีนบุรี นครนายก สระแก้ว") {
               name = item.type
             }
+            else if (item.type == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท') {
+              name = I18n.t('otherOrUnknown')
+            }
             else {
-              name = item.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.type)
+              name = item.type
             }
 
             return (
@@ -645,7 +708,7 @@ class CheckListScreen extends Component {
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
           onEndReached={this._onScrollEndList}
           // onEndReachedThreshold={1}  // 0.025 low but good
-          onEndReachedThreshold={1.2}
+          onEndReachedThreshold={0.5}
         />}
         {/* <Spinner
           visible={this.props.request2}

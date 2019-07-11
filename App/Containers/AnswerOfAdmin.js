@@ -153,6 +153,66 @@ class AnswerOfAdmin extends Component {
     if (item == '100 ปี พ.ศ.2515') {
       name = I18n.t('year100era2515')
     }
+    if (item == 'เบญจภาคี') {
+      name = I18n.t('benjapakee')
+    }
+    else if (item == 'พระสมเด็จ') {
+      name = I18n.t('phraSomdej')
+    }
+    else if (item == 'นางพญา') {
+      name = I18n.t('phraNangPaya')
+    }
+    else if (item == 'พระคง') {
+      name = I18n.t('phraKhong')
+    }
+    else if (item == 'พระรอด') {
+      name = I18n.t('phraRod')
+    }
+    else if (item == 'พระผงสุพรรณ') {
+      name = I18n.t('phraPhongSuphan')
+    }
+    else if (item == 'พระซุ้มกอ') {
+      name = I18n.t('phraSoomkor')
+    }
+    else if (item == 'พระกำแพงเม็ดขนุน') {
+      name = I18n.t('phraKampaengMedKanun')
+    }
+    else if (item == 'หลวงปู่ทวด') {
+      name = I18n.t('luangPuTuad')
+    }
+    else if (item == 'หลวงปู่หมุน') {
+      name = I18n.t('luangPuMoon')
+    }
+    else if (item == 'พระกรุ') {
+      name = I18n.t('phraKru')
+    }
+    else if (item == 'เหรียญปั้ม') {
+      name = I18n.t('pumpCoin')
+    }
+    else if (item == 'เหรียญหล่อ') {
+      name = I18n.t('castingCoin')
+    }
+    else if (item == 'พระผง') {
+      name = I18n.t('phraPhong')
+    }
+    else if (item == 'พระกริ่ง') {
+      name = I18n.t('phraKring')
+    }
+    else if (item == 'พระปิดตา') {
+      name = I18n.t('phraPidta')
+    }
+    else if (item == 'เครื่องราง') {
+      name = I18n.t('amulet')
+    }
+    else if (item == 'พระบูชา') {
+      name = I18n.t('phraBucha')
+    }
+    else if (item == 'พระวัดประสาทบุญญาวาส') {
+      name = I18n.t('phraWadPhrasatBunyawat')
+    }
+    else if (item == 'พระวัดระฆัง') {
+      name = I18n.t('phraWadRakung')
+    }
     else if (item == '108 ปี พ.ศ.2523') {
       name = I18n.t('year108era2523')
     }
@@ -181,7 +241,7 @@ class AnswerOfAdmin extends Component {
       name = I18n.t('LuangPhorLhew')
     }
     else if (item == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
-      name = item
+      name = I18n.t("newGroup1")
     }
     else if (item == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
       name = item
@@ -192,8 +252,11 @@ class AnswerOfAdmin extends Component {
     else if (item == "ปราจีนบุรี นครนายก สระแก้ว") {
       name = item
     }
+    else if (item == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท') {
+      name = I18n.t('otherOrUnknown')
+    }
     else {
-      name = (item == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท') ? I18n.t('otherOrUnknown') : I18n.t(item)
+      name = item
     }
     return name
   }
@@ -356,6 +419,66 @@ class AnswerOfAdmin extends Component {
             if (item.type == '100 ปี พ.ศ.2515') {
               name = I18n.t('year100era2515')
             }
+            if (item.type == 'เบญจภาคี') {
+              name = I18n.t('benjapakee')
+            }
+            else if (item.type == 'พระสมเด็จ') {
+              name = I18n.t('phraSomdej')
+            }
+            else if (item.type == 'นางพญา') {
+              name = I18n.t('phraNangPaya')
+            }
+            else if (item.type == 'พระคง') {
+              name = I18n.t('phraKhong')
+            }
+            else if (item.type == 'พระรอด') {
+              name = I18n.t('phraRod')
+            }
+            else if (item.type == 'พระผงสุพรรณ') {
+              name = I18n.t('phraPhongSuphan')
+            }
+            else if (item.type == 'พระซุ้มกอ') {
+              name = I18n.t('phraSoomkor')
+            }
+            else if (item.type == 'พระกำแพงเม็ดขนุน') {
+              name = I18n.t('phraKampaengMedKanun')
+            }
+            else if (item.type == 'หลวงปู่ทวด') {
+              name = I18n.t('luangPuTuad')
+            }
+            else if (item.type == 'หลวงปู่หมุน') {
+              name = I18n.t('luangPuMoon')
+            }
+            else if (item.type == 'พระกรุ') {
+              name = I18n.t('phraKru')
+            }
+            else if (item.type == 'เหรียญปั้ม') {
+              name = I18n.t('pumpCoin')
+            }
+            else if (item.type == 'เหรียญหล่อ') {
+              name = I18n.t('castingCoin')
+            }
+            else if (item.type == 'พระผง') {
+              name = I18n.t('phraPhong')
+            }
+            else if (item.type == 'พระกริ่ง') {
+              name = I18n.t('phraKring')
+            }
+            else if (item.type == 'พระปิดตา') {
+              name = I18n.t('phraPidta')
+            }
+            else if (item.type == 'เครื่องราง') {
+              name = I18n.t('amulet')
+            }
+            else if (item.type == 'พระบูชา') {
+              name = I18n.t('phraBucha')
+            }
+            else if (item.type == 'พระวัดประสาทบุญญาวาส') {
+              name = I18n.t('phraWadPhrasatBunyawat')
+            }
+            else if (item.type == 'พระวัดระฆัง') {
+              name = I18n.t('phraWadRakung')
+            }
             else if (item.type == '108 ปี พ.ศ.2523') {
               name = I18n.t('year108era2523')
             }
@@ -384,7 +507,7 @@ class AnswerOfAdmin extends Component {
               name = I18n.t('LuangPhorLhew')
             }
             else if (item.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
-              name = item.type
+              name = I18n.t("newGroup1")
             }
             else if (item.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
               name = item.type
@@ -395,8 +518,11 @@ class AnswerOfAdmin extends Component {
             else if (item.type == "ปราจีนบุรี นครนายก สระแก้ว") {
               name = item.type
             }
+            else if (item.type == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท') {
+              name = I18n.t('otherOrUnknown')
+            }
             else {
-              name = item.type == ('อื่นๆ หรือ ไม่ทราบ' || item.type == 'ไม่ระบุประเภท') ? I18n.t('otherOrUnknown') : I18n.t(item.type)
+              name = item.type
             }
 
             if (this.props.full_data2 != null && this.props.full_data2.length > 0)
@@ -465,7 +591,7 @@ class AnswerOfAdmin extends Component {
           ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}
           onEndReached={this._onScrollEndList}
           // onEndReachedThreshold={0.025}
-          onEndReachedThreshold={1.2}
+          onEndReachedThreshold={0.5}
         />
 
 

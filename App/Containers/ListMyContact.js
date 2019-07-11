@@ -121,7 +121,9 @@ class ListMyContact extends Component {
     // }
 
     _onScrollEndList = () => {
-        this.getListContact2()
+        if (this.props.data_listMyContact && this.props.data_listMyContact.length >= 10 && this.state.loading == false) {
+            this.getListContact2()
+        }
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
@@ -176,7 +178,7 @@ class ListMyContact extends Component {
                 {/* <Icon2 name={'chevron-right'} size={30} style={{ alignSelf: 'center', position: 'absolute', right: 10 }} /> */}
                 {/* {item.is_new == true && <View
                     style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>} */}
-                
+
             </TouchableOpacity>
 
         )

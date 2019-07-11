@@ -24,8 +24,7 @@ import styles from './Styles/HomeScreenStyle'
 import moment from 'moment'
 import firebase from 'react-native-firebase';
 import Swiper from 'react-native-swiper';
-import PopupReward from '../Components/PopupReward';
-
+import PopupReward from '../Components/PopupReward'
 // import Reactotron from 'reactotron-react-native'
 // import {
 //   AdMobRewarded,
@@ -101,7 +100,7 @@ class HomeScreen extends Component {
     ]
 
     if (newProps.language != prevState.language) {
-      newProps.getProfile()
+      // newProps.getProfile()
     }
 
     let profile = newProps.profile
@@ -600,7 +599,7 @@ class HomeScreen extends Component {
               {this.state.kawsod && this.state.kawsod != null && this.state.kawsod.length > 0 && this.state.autoPlay == true ?
                 this.state.kawsod.map((e, i) => {
                   return (
-                    <TouchableOpacity style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
+                    <TouchableOpacity key={"publish" + i} style={{ flexDirection: 'row', margin: 10, flex: 1 }} onPress={() => this._showPublish(e)}>
                       {/* {this.props.tmp_publish != undefined && this.props.tmp_publish != null && this.props.tmp_publish.find(b => b.status == false) != undefined && <View
                         style={{ width: 11, height: 11, backgroundColor: 'red', borderRadius: 5.5, borderColor: 'white', borderWidth: 1, position: 'absolute', top: 0, right: -0.2 }}></View>} */}
                       <View style={{ flex: 1 }}>
@@ -625,7 +624,7 @@ class HomeScreen extends Component {
             {this.state.list_user && this.state.list_user.map((item, index) => {
               if (index == 0 || index == 1)
                 return (
-                  <TouchableOpacity onPress={() => {
+                  <TouchableOpacity key={"main-button" + index} onPress={() => {
                     if (item.id == 5) {
                       this._pressList(item)
                       // this.props.sharedAnswer("qid")
@@ -660,7 +659,7 @@ class HomeScreen extends Component {
 
                 }
                 return (
-                  <TouchableOpacity onPress={() => {
+                  <TouchableOpacity key={"main-button2" + index} onPress={() => {
                     if (item.id == 5) {
                       this._pressList(item)
                       // this.props.sharedAnswer("qid")

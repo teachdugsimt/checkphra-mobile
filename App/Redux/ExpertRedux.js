@@ -236,7 +236,8 @@ export const getListDetailExpertBidSuc = (state, { data }) => {
         if (e.id == c.id && e != c) {  // 1. id เหมือนกัน แต่ข้อมูลข้างในต่างกัน
           tmp.splice(index, 1, e)  // แทนที่ช่องนั้นด้วยข้อมูลใหม่คือ e
         } else if (tmp.find(b => b.id == e.id) == undefined) {  // 2. ถ้าเป็นไอดีใหม่ ให้เพิ่มไปช่องบนสุด
-          tmp.splice(0, 0, e)
+          // tmp.splice(0, 0, e)
+          tmp.push(e)
         } else if (e.id == c.id && e == c) {
           console.log('SAME VALUE')
         }

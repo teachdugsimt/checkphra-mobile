@@ -21,10 +21,12 @@ buildscript {
     dependencies {
         // classpath 'com.android.tools.build:gradle:2.2.3'
         // classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath 'com.android.tools.build:gradle:3.3.2' // old 3.3.2 => 25-Jun-2019
+        classpath 'com.android.tools.build:gradle:3.3.2' // old 3.3.2 => 25-Jun-2019 
         // classpath 'com.android.tools.build:gradle:3.2.1' // new 3.2.1 => 25-Jun-2019
         // classpath 'com.android.tools.build:gradle:3.2.1'  // new 3.2.1 => 21/03/2019
         // classpath 'com.google.gms:google-services:4.0.1'  // new 4.2.0 => 25/03/2019
+        // classpath 'com.android.tools.build:gradle:3.3.2' // old 3.3.2 => 02-Jul-2019
+        // classpath 'com.android.tools.build:gradle:3.4.0' // new 3.3.2 => 02-Jul-2019
         classpath 'com.google.gms:google-services:4.2.0'
         classpath 'io.fabric.tools:gradle:1.28.1'
         // classpath 'com.android.tools.build:gradle:3.1.2'

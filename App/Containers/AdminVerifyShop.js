@@ -108,8 +108,6 @@ class AdminVerifyShop extends Component {
         }
     }
 
-
-
     render() {
         I18n.locale = this.props.language
         // console.log(this.state.verifyData)
@@ -133,7 +131,8 @@ class AdminVerifyShop extends Component {
                     renderItem={this._renderItem}
                     onEndReached={this._onScrollEndList}
                     // onEndReachedThreshold={0.025}
-                    onEndReachedThreshold={1.0}
+                    onEndReachedThreshold={0.5}
+                    // keyExtractor={(item, index) => "Mlist" + index}
                 />
 
             </LinearGradient>

@@ -66,7 +66,7 @@ class AdminHome extends Component {
     ]
 
     if (newProps.language != prevState.language) {
-      newProps.getProfile()
+      // newProps.getProfile()
     }
 
     let profile = newProps.profile
@@ -385,7 +385,7 @@ class AdminHome extends Component {
         <GridView
           itemDimension={width / 2.5}
           items={this.state.list_user ? this.state.list_user : []}
-          renderItem={item => {
+          renderItem={(item, index) => {
             if (this.props.profile) {
               this.status.set({
                 uid: this.props.user_id ? this.props.user_id : "-",

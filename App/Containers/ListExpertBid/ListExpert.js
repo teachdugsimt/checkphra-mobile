@@ -124,7 +124,7 @@ class ListExpert extends Component {
                 color = 'lightgrey'
             }
         }
-        return (<View><TouchableOpacity style={{ flexDirection: 'row', height: 70, width: "100%", justifyContent: 'space-between', alignItems: 'center', backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1.5 }} onPress={() => this._pressList(item, index)}>
+        return (<View key={'main' + index}><TouchableOpacity style={{ flexDirection: 'row', height: 70, width: "100%", justifyContent: 'space-between', alignItems: 'center', backgroundColor: Colors.milk, borderBottomColor: 'orange', borderBottomWidth: 1.5 }} onPress={() => this._pressList(item, index)}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ width: 50, height: 50, margin: 10 }}>
                     {item.profile && item.profile.img_full_link && <Image source={{ uri: item.profile.img_full_link }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
@@ -151,7 +151,7 @@ class ListExpert extends Component {
                         <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.bloodOrange, alignSelf: 'center' }} numberOfLines={1}>Check Phra Admin</Text>
                     </View> : this.state.tmp_item && this.state.tmp_item.group && this.state.tmp_item.group != "Check Phra Admin" && this.state.tmp_item.group.map((e, i) => {
                         return (
-                            <View key={"sub" + i} style={{ backgroundColor: 'lightgrey', borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: i == this.state.tmp_item.group.length - 1 ? 10 : 0, marginHorizontal: 10, flex: 1, height: 40 }} >
+                            <View key={"group" + i} style={{ backgroundColor: 'lightgrey', borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginTop: 10, marginBottom: i == this.state.tmp_item.group.length - 1 ? 10 : 0, marginHorizontal: 10, flex: 1, height: 40 }} >
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: Colors.brownTextTran, alignSelf: 'center' }} numberOfLines={1}>{e.name}</Text>
                             </View>
                         )
@@ -178,7 +178,7 @@ class ListExpert extends Component {
                         refreshing={this.props.request_getListExpertBid == true}
                         onRefresh={this._reload.bind(this)}
                     />}
-                    keyExtractor={(index, _) => index + ''}
+                    // keyExtractor={(index, _) => index + 'each_sub'}
                     data={this.props.data_getListExpertBid}
                     renderItem={this._renderItem}
                     ListEmptyComponent={() => <Text style={{ marginTop: 50, alignSelf: 'center', fontSize: 20, color: '#aaa' }}>{I18n.t('nonePending')}</Text>}

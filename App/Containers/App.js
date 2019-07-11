@@ -1,5 +1,5 @@
 import '../Config'
-import { Linking, Platform } from 'react-native'
+import { Linking, Platform, AppRegistry } from 'react-native'
 import DebugConfig from '../Config/DebugConfig'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'

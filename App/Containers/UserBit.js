@@ -251,6 +251,66 @@ class UserBit extends Component {
             if (item.answer.type == '100 ปี พ.ศ.2515') {
               name = I18n.t('year100era2515')
             }
+            if (item.answer.type == 'เบญจภาคี') {
+              name = I18n.t('benjapakee')
+            }
+            else if (item.answer.type == 'พระสมเด็จ') {
+              name = I18n.t('phraSomdej')
+            }
+            else if (item.answer.type == 'นางพญา') {
+              name = I18n.t('phraNangPaya')
+            }
+            else if (item.answer.type == 'พระคง') {
+              name = I18n.t('phraKhong')
+            }
+            else if (item.answer.type == 'พระรอด') {
+              name = I18n.t('phraRod')
+            }
+            else if (item.answer.type == 'พระผงสุพรรณ') {
+              name = I18n.t('phraPhongSuphan')
+            }
+            else if (item.answer.type == 'พระซุ้มกอ') {
+              name = I18n.t('phraSoomkor')
+            }
+            else if (item.answer.type == 'พระกำแพงเม็ดขนุน') {
+              name = I18n.t('phraKampaengMedKanun')
+            }
+            else if (item.answer.type == 'หลวงปู่ทวด') {
+              name = I18n.t('luangPuTuad')
+            }
+            else if (item.answer.type == 'หลวงปู่หมุน') {
+              name = I18n.t('luangPuMoon')
+            }
+            else if (item.answer.type == 'พระกรุ') {
+              name = I18n.t('phraKru')
+            }
+            else if (item.answer.type == 'เหรียญปั้ม') {
+              name = I18n.t('pumpCoin')
+            }
+            else if (item.answer.type == 'เหรียญหล่อ') {
+              name = I18n.t('castingCoin')
+            }
+            else if (item.answer.type == 'พระผง') {
+              name = I18n.t('phraPhong')
+            }
+            else if (item.answer.type == 'พระกริ่ง') {
+              name = I18n.t('phraKring')
+            }
+            else if (item.answer.type == 'พระปิดตา') {
+              name = I18n.t('phraPidta')
+            }
+            else if (item.answer.type == 'เครื่องราง') {
+              name = I18n.t('amulet')
+            }
+            else if (item.answer.type == 'พระบูชา') {
+              name = I18n.t('phraBucha')
+            }
+            else if (item.answer.type == 'พระวัดประสาทบุญญาวาส') {
+              name = I18n.t('phraWadPhrasatBunyawat')
+            }
+            else if (item.answer.type == 'พระวัดระฆัง') {
+              name = I18n.t('phraWadRakung')
+            }
             else if (item.answer.type == '108 ปี พ.ศ.2523') {
               name = I18n.t('year108era2523')
             }
@@ -279,7 +339,7 @@ class UserBit extends Component {
               name = I18n.t('LuangPhorLhew')
             }
             else if (item.answer.type == "หลวงปู่หมุน, หลวงปู่โต๊ะ, เจ้าคุณนร") {
-              name = item.answer.type
+              name = I18n.t("newGroup1")
             }
             else if (item.answer.type == "ภาคตะวันตก สมุทรสงคราม, กาญจนบุรี, ราชบุรี, เพชรบุรี") {
               name = item.answer.type
@@ -290,10 +350,12 @@ class UserBit extends Component {
             else if (item.answer.type == "ปราจีนบุรี นครนายก สระแก้ว") {
               name = item.answer.type
             }
-            else {
-              name = item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' ? I18n.t('otherOrUnknown') : I18n.t(item.answer.type)
+            else if (item.answer.type == 'อื่นๆ หรือ ไม่ทราบ' || item == 'ไม่ระบุประเภท') {
+              name = I18n.t('otherOrUnknown')
             }
-
+            else {
+              name = item.answer.type
+            }
             return (
               <TouchableOpacity onPress={() => {
                 // this.props.setAnswerDetail(item)

@@ -69,7 +69,7 @@ class CardVerifyPoint extends Component {
 
         return (
             <TouchableOpacity style={{ height: 60 }} onPress={() => this._PressList(item, index)}>
-                <View key={index} style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
+                <View style={{ flexDirection: 'row', backgroundColor: 'white', borderBottomColor: 'lightgrey', borderBottomWidth: 1, height: 65 }}>
                     <View style={{ justifyContent: 'center' }}>
                         <Image source={Images.card3} style={{ width: 25, height: 25, marginLeft: 10 }} />
                     </View>
